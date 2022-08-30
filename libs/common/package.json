@@ -1,0 +1,25 @@
+{
+  "name": "@diut/common",
+  "version": "0.0.0",
+  "description": "Common constants, enums, types and utils shared in this project",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "nest build -p tsconfig.json"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.182"
+  }
+}

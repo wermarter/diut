@@ -1,0 +1,24 @@
+{
+  "name": "diut",
+  "version": "1.0.0",
+  "description": "thesis project",
+  "repository": "https://github.com/wermarter/diut",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "workspaces": [
+    "libs/common",
+    "apps/access-server"
+  ],
+  "devDependencies": {
+    "lerna": "^5.4.3",
+    "nx": "^14.5.7"
+  },
+  "scripts": {
+    "dev": "lerna run --stream build && lerna run start:dev --scope @diut/access-server",
+    "build": "lerna run --stream build"
+  }
+}
