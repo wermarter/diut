@@ -1,7 +1,7 @@
-import { IsBoolean, IsOptional } from 'class-validator'
+import { IsOptional, IsString } from 'class-validator'
 
 export class LogConfig {
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  console = true
+  level = 'info'
 }

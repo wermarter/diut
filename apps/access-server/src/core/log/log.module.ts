@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common'
+import { Module, RequestMethod } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { WinstonModule } from 'nest-winston'
+import { LoggerModule } from 'nestjs-pino'
 
-import { buildTransportArray } from './log.transport'
+import { buildPinoHttpOptions } from './log.service'
 
 @Module({
   imports: [
-    WinstonModule.forRootAsync({
+    LoggerModule.forRootAsync({
       inject: [ConfigService],
-      useFactory(config: ConfigService) {
+      useFactory: (configService: ConfigService) => {
         return {
-          transports: buildTransportArray(config),
+          pinoHttp: buildPinoHttpOptions(configService),
         }
       },
     }),

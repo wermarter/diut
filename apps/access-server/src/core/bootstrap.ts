@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 import { LoggerService } from '@nestjs/common'
+import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 
 import { HttpServerConfig } from './http-server/http-server.config'
 import { validateConfig } from './config/validate-config'
@@ -10,12 +10,17 @@ import { validateConfig } from './config/validate-config'
 const SWAGGER_ENDPOINT = 'docs'
 
 export async function bootstrap(rootModule: any) {
-  const app = await NestFactory.create(rootModule, { bufferLogs: true })
+  const app = await NestFactory.create(rootModule, {
+    bufferLogs: true,
+  })
 
-  const logger: LoggerService = app.get(WINSTON_MODULE_NEST_PROVIDER)
+  app.useGlobalInterceptors(new LoggerErrorInterceptor())
+
+  const logger: LoggerService = app.get(Logger)
   const config = app.get(ConfigService)
 
   app.useLogger(logger)
+  app.flushLogs()
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
     config.get('http-server')
@@ -33,7 +38,7 @@ export async function bootstrap(rootModule: any) {
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, swaggerDocument)
 
-  const PORT = httpServerConfig.port || 3000
+  const PORT = httpServerConfig.port
   await app.listen(PORT)
-  logger.log(`HTTP server listenning on port ${PORT}`)
+  logger.log(`HTTP server listenning on port ${PORT}`, 'Bootstrap')
 }
