@@ -7,6 +7,7 @@ import { loadConfig } from './load-config'
     NestConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: true,
+      cache: true,
       load: [loadConfig],
     }),
   ],

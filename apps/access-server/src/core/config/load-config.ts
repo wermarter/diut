@@ -1,25 +1,29 @@
-import { flattenKeys } from '@diut/common'
 import { readFileSync } from 'fs'
 import { get, set, snakeCase } from 'lodash'
+import * as yaml from 'js-yaml'
 
-export const JSON_CONFIG_FILENAME = 'config.json'
+import { flattenKeys, NodeEnv } from '@diut/common'
+import { join } from 'path'
+
+export const APP_CONFIG_FILENAME = '../../config.yml'
 export const PACKAGE_CONFIG_FILENAME = 'package.json'
 
-export const loadConfig = () => {
-  let configObj: object
-  try {
-    configObj = JSON.parse(readFileSync(JSON_CONFIG_FILENAME, 'utf-8'))
-  } catch (e) {
-    console.error(e)
-    configObj = {}
-  }
+interface AppConfig {
+  package: Record<string, unknown>
+  env: NodeEnv
+}
+
+export const loadConfig = async (): Promise<AppConfig> => {
+  const configObj = yaml.load(
+    readFileSync(join(__dirname, APP_CONFIG_FILENAME), 'utf-8')
+  ) as Record<string, unknown>
 
   const paths = flattenKeys(configObj, null)
 
   for (const path of paths) {
     const envKey = snakeCase(path).toUpperCase()
 
-    // Prioritize ENV vars over config.json
+    // Prioritize ENV vars over config.yml
     set(configObj, path, process.env[envKey] ?? get(configObj, path))
   }
 
@@ -29,7 +33,7 @@ export const loadConfig = () => {
 
   return {
     ...configObj,
-    env: process.env['NODE_ENV'] || 'development',
+    env: (process.env['NODE_ENV'] as NodeEnv) || NodeEnv.Development,
     package: packageConfigObj,
   }
 }
