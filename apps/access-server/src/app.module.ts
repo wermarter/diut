@@ -1,22 +1,10 @@
 import { Module } from '@nestjs/common'
-import { CoreModule } from './core'
-import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose'
-import { ConfigService } from '@nestjs/config'
-import { AppController } from './app.controller'
+
+import { coreModules } from './core'
+import { clientModules } from './clients'
+import { resourceModules } from './resources'
 
 @Module({
-  imports: [
-    CoreModule,
-    MongooseModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService): MongooseModuleFactoryOptions => {
-        const uri = config.get('mongo.uri')
-        return {
-          uri,
-        }
-      },
-    }),
-  ],
-  controllers: [AppController],
+  imports: [...coreModules, ...clientModules, ...resourceModules],
 })
 export class AppModule {}

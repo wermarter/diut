@@ -4,7 +4,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { LoggerService } from '@nestjs/common'
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 
-import { HttpServerConfig } from './http-server/http-server.config'
+import {
+  HttpServerConfig,
+  HTTP_SERVER_CONFIG_NAME,
+} from './http-server/http-server.config'
 import { validateConfig } from './config/validate-config'
 
 const SWAGGER_ENDPOINT = 'docs'
@@ -23,7 +26,7 @@ export async function bootstrap(rootModule: any) {
   app.flushLogs()
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
-    config.get('http-server')
+    config.get(HTTP_SERVER_CONFIG_NAME)
   )
 
   const packageConfig = config.get('package') || {}
@@ -40,5 +43,8 @@ export async function bootstrap(rootModule: any) {
 
   const PORT = httpServerConfig.port
   await app.listen(PORT)
-  logger.log(`HTTP server listenning on port ${PORT}`, 'Bootstrap')
+  logger.log(
+    `App started on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,
+    'Bootstrap'
+  )
 }
