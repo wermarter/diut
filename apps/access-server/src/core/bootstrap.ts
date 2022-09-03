@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { LoggerService } from '@nestjs/common'
+import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 
 import {
@@ -18,6 +18,11 @@ export async function bootstrap(rootModule: any) {
   })
 
   app.useGlobalInterceptors(new LoggerErrorInterceptor())
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true, // convert to DTO to class instance for applying default value
+    })
+  )
 
   const logger: LoggerService = app.get(Logger)
   const config = app.get(ConfigService)
@@ -44,7 +49,7 @@ export async function bootstrap(rootModule: any) {
   const PORT = httpServerConfig.port
   await app.listen(PORT)
   logger.log(
-    `App started on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,
+    `Documentation on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,
     'Bootstrap'
   )
 }

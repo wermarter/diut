@@ -3,7 +3,6 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "assets": [{ "include": "./config.yml" }],
-    "watchAssets": true
+    "assets": [{ "include": "./config.yml" }]
   }
 }

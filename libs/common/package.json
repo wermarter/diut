@@ -17,7 +17,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@nestjs/swagger": "^6.1.0",
+    "class-validator": "^0.13.2",
+    "lodash": "^4.17.21",
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
