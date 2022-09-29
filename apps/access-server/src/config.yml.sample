@@ -1,0 +1,14 @@
+# This YAML config must be kept along with the code
+# It will be used for default values + inferring ENV variables' structure
+
+# Config with YAML instead of JSON enables commenting :)
+
+httpServer:
+  port: 9050
+
+log:
+  level: debug
+
+mongo:
+  uri: mongodb+srv://<user>:<password>@<something>.mongodb.net/<db_name>?retryWrites=true&w=majority
+  retryAttempts: 3

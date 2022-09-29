@@ -1,7 +1,11 @@
-import { NestFactory } from '@nestjs/core'
+import { NestFactory, Reflector } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { LoggerService, ValidationPipe } from '@nestjs/common'
+import {
+  ClassSerializerInterceptor,
+  LoggerService,
+  ValidationPipe,
+} from '@nestjs/common'
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 
 import {
@@ -10,14 +14,18 @@ import {
 } from './http-server/http-server.config'
 import { validateConfig } from './config/validate-config'
 
-const SWAGGER_ENDPOINT = 'docs'
+const API_PREFIX = 'api'
+const SWAGGER_ENDPOINT = API_PREFIX + '/docs'
 
 export async function bootstrap(rootModule: any) {
   const app = await NestFactory.create(rootModule, {
     bufferLogs: true,
   })
 
+  app.setGlobalPrefix(API_PREFIX) // use nginx to direct /api/* to this server instead of static serving html
+
   app.useGlobalInterceptors(new LoggerErrorInterceptor())
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // convert to DTO to class instance for applying default value
@@ -44,7 +52,12 @@ export async function bootstrap(rootModule: any) {
     .build()
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
-  SwaggerModule.setup(SWAGGER_ENDPOINT, app, swaggerDocument)
+  SwaggerModule.setup(SWAGGER_ENDPOINT, app, swaggerDocument, {
+    swaggerOptions: {
+      docExpansion: 'list',
+      filter: true,
+    },
+  })
 
   const PORT = httpServerConfig.port
   await app.listen(PORT)

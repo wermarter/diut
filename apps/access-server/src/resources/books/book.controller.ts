@@ -1,11 +1,15 @@
-import { CreateBookDto, UpdateBookDto } from '@diut/common'
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { ApiCreatedResponse } from '@nestjs/swagger'
 
+import { AppController } from 'src/common'
 import { BookService } from './book.service'
+import {
+  CreateBookRequestDto,
+  CreateBookResponseDto,
+  UpdateBookDto,
+} from './dtos'
 
-@ApiTags('Book')
-@Controller('books')
+@AppController({ baseName: 'books' })
 export class BookController {
   constructor(private bookService: BookService) {}
 
@@ -15,11 +19,12 @@ export class BookController {
   }
 
   @Post()
-  createBook(@Body() dto: CreateBookDto) {
+  @ApiCreatedResponse({ type: CreateBookResponseDto })
+  createBook(@Body() dto: CreateBookRequestDto) {
     return this.bookService.create(dto)
   }
 
-  @Put(':id')
+  @Patch(':id')
   updateBookById(@Param('id') id: string, @Body() dto: UpdateBookDto) {
     return this.bookService.updateById(id, dto)
   }

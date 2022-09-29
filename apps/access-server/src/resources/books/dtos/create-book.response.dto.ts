@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsInt, IsString, Min, MinLength } from 'class-validator'
-import { BookGenre } from './book.enum'
+import { BookGenre } from '@diut/common'
 
-export class CreateBookDto {
+export class CreateBookResponseDto {
   @ApiProperty({
     default: 'RandomBookname',
   })

@@ -1,14 +1,14 @@
 import { BookGenre } from '@diut/common'
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Prop, Schema } from '@nestjs/mongoose'
 
-import { baseSchemaOptions } from 'src/clients/mongo'
-import { BOOK_COLLECTION } from 'src/common'
+import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
+import { COLLECTION } from 'src/common'
 
 @Schema({
   ...baseSchemaOptions,
-  collection: BOOK_COLLECTION,
+  collection: COLLECTION.BOOK,
 })
-export class Book {
+export class Book extends BaseSchema {
   @Prop()
   name: string
 
@@ -21,5 +21,3 @@ export class Book {
   @Prop()
   stock: number
 }
-
-export const bookSchema = SchemaFactory.createForClass(Book)

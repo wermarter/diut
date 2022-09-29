@@ -11,7 +11,8 @@
   },
   "workspaces": [
     "libs/common",
-    "apps/access-server"
+    "apps/access-server",
+    "apps/web-app"
   ],
   "devDependencies": {
     "lerna": "^5.4.3",
@@ -19,6 +20,7 @@
   },
   "scripts": {
     "be": "lerna run start --scope @diut/access-server",
-    "common": "lerna run build --scope @diut/common"
+    "common": "lerna run build --scope @diut/common",
+    "fe": "lerna run dev --scope @diut/web-app"
   }
 }

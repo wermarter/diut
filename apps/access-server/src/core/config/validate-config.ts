@@ -1,5 +1,6 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer'
 import { validateSync } from 'class-validator'
+
 import { ConfigurationException } from './config.exception'
 
 export function validateConfig<T>(configClass: ClassConstructor<T>) {

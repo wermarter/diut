@@ -1,7 +1,6 @@
 import { readFileSync } from 'fs'
 import { get, set, snakeCase } from 'lodash'
-import * as yaml from 'js-yaml'
-
+import { load } from 'js-yaml'
 import { flattenKeys, NodeEnv } from '@diut/common'
 import { join } from 'path'
 
@@ -14,7 +13,7 @@ interface AppConfig {
 }
 
 export const loadConfig = async (): Promise<AppConfig> => {
-  const configObj = yaml.load(
+  const configObj = load(
     readFileSync(join(__dirname, APP_CONFIG_FILENAME), 'utf-8')
   ) as Record<string, unknown>
 
