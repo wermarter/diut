@@ -1,75 +1,119 @@
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
+import { Alert, IconButton, InputAdornment, Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { useForm } from 'react-hook-form'
 
 import fullLogo from 'src/assets/images/full-logo.png'
 import { useTypedDispatch } from 'src/core'
 import { userLogin } from '../../slice'
-import { Alert } from '@mui/material'
-import { useState } from 'react'
+import { formDefaultValues, formResolver, FormSchema } from './validation'
+import { FormTextField } from 'src/common/form-elements/FormTextField'
 
 interface LoginPageProps {
   reason?: string
 }
 
+const TextField = FormTextField<FormSchema>
+
 export function LoginPage({ reason }: LoginPageProps) {
   const navigate = useNavigate()
   const dispatch = useTypedDispatch()
-  const [helperText, setHelperText] = useState(reason)
+  const [contextText, setContextText] = useState(reason)
+  const [showPassword, setShowPassword] = useState(false)
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { isSubmitting },
+  } = useForm<FormSchema>({
+    resolver: formResolver,
+    defaultValues: formDefaultValues,
+  })
 
-  const handleLogin = (username: string, password: string) => {
-    dispatch(userLogin({ username, password }))
-    const wrongCredentials = !username
-    if (wrongCredentials) {
-      setHelperText('Vui lòng kiểm tra lại thông tin.')
-    } else {
-      navigate('../example')
+  const handleLogin = async ({ username, password }: FormSchema) => {
+    try {
+      const response = await dispatch(
+        userLogin({ username, password })
+      ).unwrap()
+      const isSuccess = Boolean(response?.accessToken)
+
+      if (isSuccess) {
+        navigate('../example')
+      } else {
+        setError('password', { message: 'Sai mật khẩu' })
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        setContextText(e.message)
+      }
     }
+  }
+
+  const handleToggleShowPassword = () => {
+    setShowPassword((current) => !current)
   }
 
   return (
     <Box
       sx={{
-        marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
     >
-      <img src={fullLogo} style={{ maxWidth: '50%' }} />
+      <img
+        src={fullLogo}
+        style={{ maxWidth: '50%', marginTop: '24px', marginBottom: '24px' }}
+      />
       <Box
         component="form"
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleLogin('oke', 'conde')
-        }}
+        onSubmit={handleSubmit(handleLogin)}
         noValidate
-        sx={{ mt: 1, maxWidth: '350px' }}
+        sx={{ maxWidth: '350px' }}
       >
         <TextField
-          margin="normal"
+          name="username"
+          control={control}
+          margin="dense"
           fullWidth
           label="Tên đăng nhập"
           autoComplete="username"
           autoFocus
         />
         <TextField
-          margin="normal"
+          name="password"
+          control={control}
+          margin="dense"
           fullWidth
           label="Mật khẩu"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           autoComplete="current-password"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleToggleShowPassword}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
-        <Button
+        <LoadingButton
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 1, mb: 3 }}
+          disabled={isSubmitting}
+          loading={isSubmitting}
         >
           Đăng nhập
-        </Button>
-        {helperText && <Alert color={'secondary' as any}>{helperText}</Alert>}
+        </LoadingButton>
+        {contextText && <Alert color={'secondary' as any}>{contextText}</Alert>}
       </Box>
     </Box>
   )

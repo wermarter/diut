@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import fullLogo from 'src/assets/images/full-logo.png'
@@ -18,6 +19,7 @@ interface AppDrawerProps {
 
 export function AppDrawer({ drawerWidth }: AppDrawerProps) {
   const navigate = useNavigate()
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1)
 
   return (
     <Drawer
@@ -41,17 +43,27 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
         }}
       />
       <Divider sx={{ my: 1 }} />
-      <List>
+      <List
+        sx={{
+          '&& .Mui-selected, && .Mui-selected:hover': {
+            bgcolor: 'primary.main',
+            '&, & .MuiListItemIcon-root': {
+              color: 'white',
+            },
+          },
+        }}
+      >
         {drawerItems.map((item, index) =>
           !item.isDivider ? (
             <ListItem
               key={index}
               disablePadding
               onClick={() => {
+                setSelectedIndex(index)
                 navigate(item.link)
               }}
             >
-              <ListItemButton>
+              <ListItemButton selected={index === selectedIndex}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
