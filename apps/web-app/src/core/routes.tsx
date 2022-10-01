@@ -1,10 +1,12 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
+import { AppPermission } from 'src/common/types'
 import { MainLayout } from 'src/common/layout/MainLayout'
+import { CustomRouteObject } from 'src/common/utils'
 import { LoginPage } from 'src/modules/auth'
 import { TestContentPage } from 'src/modules/example'
 
-export const appRouter = createBrowserRouter([
+export const appRoutes: CustomRouteObject[] = [
   {
     index: true,
     element: <Navigate to="example" />,
@@ -38,6 +40,7 @@ export const appRouter = createBrowserRouter([
       {
         path: '2',
         element: <TestContentPage someText="This is page 2" />,
+        permission: AppPermission.Overview,
         loader: async () => {
           return new Promise((resolve) => {
             setTimeout(() => resolve({}), 1000)
@@ -46,4 +49,4 @@ export const appRouter = createBrowserRouter([
       },
     ],
   },
-])
+]

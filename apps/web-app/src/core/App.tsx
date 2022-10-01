@@ -1,9 +1,10 @@
 import { Box, CircularProgress } from '@mui/material'
 import { Provider as ReduxProvider } from 'react-redux'
-import { RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { appRouter } from './router'
+import { parseRoutes } from 'src/common/utils'
+import { appRoutes } from './routes'
 import { appPersistor, appStore } from './store'
 
 const LoadingPage = () => {
@@ -21,6 +22,8 @@ const LoadingPage = () => {
     </Box>
   )
 }
+
+const appRouter = createBrowserRouter(parseRoutes(appRoutes))
 
 export function App() {
   return (

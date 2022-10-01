@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import _ from 'lodash-es'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
+import { AppPermission } from 'src/common/types'
 import { RootState } from 'src/core'
 
 interface AuthState {
   name?: string
   accessToken?: string
+  permissions?: AppPermission[]
 }
 
 const initialState: AuthState = {}
@@ -72,3 +75,8 @@ export const authReducer = persistReducer(
 )
 
 export const selectUserName = (state: RootState) => state.auth.name
+export const selectAccessToken = (state: RootState) => state.auth.accessToken
+export const selectIsAuthenticated = (state: RootState) =>
+  !_.isNil(state.auth.accessToken)
+export const selectUserPermissions = (state: RootState) =>
+  state.auth.permissions

@@ -10,7 +10,7 @@ import {
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import fullLogo from 'src/assets/images/full-logo.png'
+import { fullLogo } from 'src/assets/images'
 import { drawerItems } from './drawer-items'
 
 interface AppDrawerProps {
