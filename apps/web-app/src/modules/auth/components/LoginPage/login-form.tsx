@@ -39,9 +39,7 @@ export function LoginForm({ reason }: LoginPageProps) {
       ).unwrap()
       const isSuccess = Boolean(response?.accessToken)
 
-      if (isSuccess) {
-        navigate('../example', { state: {} })
-      } else {
+      if (!isSuccess) {
         setError('password', { message: 'Sai mật khẩu' })
       }
     } catch (e) {

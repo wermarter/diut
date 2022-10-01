@@ -47,7 +47,7 @@ export const userLogin = createAsyncThunk(
             name: username,
             accessToken: 'supersecrettoken',
           }),
-        2000
+        1000
       )
     })
   }

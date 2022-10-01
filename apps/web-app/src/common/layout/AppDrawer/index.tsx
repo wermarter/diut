@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { fullLogo } from 'src/assets/images'
-import { drawerItems } from './drawer-items'
+import { drawerItems } from 'src/core/drawer-items'
 
 interface AppDrawerProps {
   drawerWidth: number
