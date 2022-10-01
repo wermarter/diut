@@ -27,7 +27,7 @@ export function parseRoutes(routes: CustomRouteObject[]): RouteObject[] {
         )
       }
 
-      if (!_.isNil(permission)) {
+      if (permission !== undefined) {
         customElement = (
           <AuthorizationCheck permission={permission}>
             {customElement}
@@ -36,7 +36,7 @@ export function parseRoutes(routes: CustomRouteObject[]): RouteObject[] {
       }
 
       let customChildren: RouteObject[] = []
-      if (!_.isNil(children) && _.isArray(children)) {
+      if (children !== undefined && Array.isArray(children)) {
         customChildren = parseRoutes(children)
       }
 

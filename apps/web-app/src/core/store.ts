@@ -46,6 +46,7 @@ const unauthenticatedMiddleware: Middleware =
 
 export const rootReducer: Reducer<RootState> = (state, action) => {
   if (action.type === RESET_STORE_STATE) {
+    localStorage.clear()
     state = {} as RootState
   }
 

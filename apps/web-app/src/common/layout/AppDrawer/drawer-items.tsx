@@ -29,10 +29,15 @@ export const drawerItems: DrawerItemType[] = [
     link: '2',
   },
   {
+    icon: <InboxIcon />,
+    text: 'Item 3',
+    link: '3',
+  },
+  {
     isDivider: true,
   },
   {
-    icon: <InboxIcon />,
+    icon: <MailIcon />,
     text: 'Last item',
     link: '',
   },

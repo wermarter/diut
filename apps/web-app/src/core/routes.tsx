@@ -5,6 +5,7 @@ import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
 import { LoginPage } from 'src/modules/auth'
 import { TestContentPage } from 'src/modules/example'
+import { ErrorPage } from 'src/common/layout/ErrorPage'
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -18,6 +19,8 @@ export const appRoutes: CustomRouteObject[] = [
   {
     path: 'example',
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
+    isAuthenticated: true,
     children: [
       {
         index: true,
@@ -32,9 +35,7 @@ export const appRoutes: CustomRouteObject[] = [
         path: '1',
         element: <TestContentPage someText="This is page 1" />,
         loader: async () => {
-          return new Promise((resolve) => {
-            setTimeout(() => resolve({}), 1000)
-          })
+          throw Error('random shiet')
         },
       },
       {
@@ -45,6 +46,13 @@ export const appRoutes: CustomRouteObject[] = [
           return new Promise((resolve) => {
             setTimeout(() => resolve({}), 1000)
           })
+        },
+      },
+      {
+        path: '3',
+        element: <TestContentPage someText="This is page 3" />,
+        loader: () => {
+          throw 'super_weird'
         },
       },
     ],

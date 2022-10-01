@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { Navigate, useNavigate, useNavigation } from 'react-router-dom'
 
-import { useTypedDispatch, useTypedSelector } from 'src/core'
+import { resetStoreState, useTypedDispatch, useTypedSelector } from 'src/core'
 import { selectUserName, userLogin } from 'src/modules/auth/slice'
 
 interface AppBarProps {
@@ -38,7 +38,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
 
   const handleLogout = () => {
     handleClose()
-    navigate('/login')
+    dispatch(resetStoreState())
   }
 
   return (
