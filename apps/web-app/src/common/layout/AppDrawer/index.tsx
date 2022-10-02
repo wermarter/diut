@@ -79,7 +79,9 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
         {drawerItems.map((group, index) => (
           <>
             {index > 0 && <Divider sx={{ my: 1 }} />}
-            {group.title && <ListSubheader>{group.title}</ListSubheader>}
+            <ListSubheader component="div" inset>
+              {group.title}
+            </ListSubheader>
             {group.children.map((item) => (
               <ListItem
                 key={item.label}
