@@ -1,17 +1,13 @@
 import { Button, Typography } from '@mui/material'
-import { useNavigate, useRouteError } from 'react-router-dom'
+import { useRouteError } from 'react-router-dom'
 
 import { AppException } from 'src/common/utils'
 import { ErrorLayout } from './error-layout'
 
 export function AppExceptionPage() {
   const exception = useRouteError() as AppException
-  const navigate = useNavigate()
 
-  if (
-    exception.redirectTo !== undefined &&
-    exception.redirectLabel !== undefined
-  ) {
+  if (exception.action !== undefined && exception.actionLabel !== undefined) {
     return (
       <ErrorLayout>
         <Typography variant="subtitle1">
@@ -22,11 +18,9 @@ export function AppExceptionPage() {
           variant="outlined"
           color="secondary"
           sx={{ my: 3 }}
-          onClick={() => {
-            navigate(exception.redirectTo!)
-          }}
+          onClick={() => exception.action!()}
         >
-          {exception.redirectLabel}
+          {exception.actionLabel}
         </Button>
       </ErrorLayout>
     )

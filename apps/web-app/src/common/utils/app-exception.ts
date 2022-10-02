@@ -1,17 +1,17 @@
 interface IAppException {
   message: string
-  redirectTo?: string
-  redirectLabel?: string
+  actionLabel?: string
+  action?: Function
 }
 
 export class AppException extends Error {
-  public redirectTo?: string
-  public redirectLabel?: string
+  public actionLabel?: string
+  public action?: Function
 
-  constructor({ message, redirectTo, redirectLabel }: IAppException) {
+  constructor({ message, actionLabel, action }: IAppException) {
     super(message)
 
-    this.redirectTo = redirectTo
-    this.redirectLabel = redirectLabel
+    this.actionLabel = actionLabel
+    this.action = action
   }
 }

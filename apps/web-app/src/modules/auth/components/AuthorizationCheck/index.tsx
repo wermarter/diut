@@ -1,5 +1,4 @@
 import { PropsWithChildren, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { AppPermission } from 'src/common/types'
 import { UnauthorizedException } from '../../exceptions'
@@ -14,12 +13,15 @@ export function AuthorizationCheck({
   permission,
 }: AuthorizationCheckProps) {
   const isPermitted = useCheckPermission(permission)
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (!isPermitted) {
       throw new UnauthorizedException({
         message: 'Bạn không có quyền truy cập trang này.',
+        actionLabel: 'Yêu cầu cấp quyền',
+        action: () => {
+          alert('Cấp quyền hộ cái :)')
+        },
       })
     }
   }, [isPermitted])
