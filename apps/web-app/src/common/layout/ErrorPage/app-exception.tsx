@@ -19,6 +19,7 @@ export function AppExceptionPage() {
           color="secondary"
           sx={{ my: 3 }}
           onClick={() => exception.action!()}
+          size="small"
         >
           {exception.actionLabel}
         </Button>
