@@ -2,7 +2,7 @@ import { PropsWithChildren, useEffect } from 'react'
 
 import { AppPermission } from 'src/common/types'
 import { UnauthorizedException } from '../../exceptions'
-import { useCheckPermission } from '../../hooks'
+import { useCheckPermission } from '../../utils'
 
 export type AuthorizationCheckProps = PropsWithChildren<{
   permission: AppPermission

@@ -11,7 +11,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { Navigate, useNavigate, useNavigation } from 'react-router-dom'
+import { useNavigation } from 'react-router-dom'
 
 import { resetStoreState, useTypedDispatch, useTypedSelector } from 'src/core'
 import { selectUserName, userLogin } from 'src/modules/auth/slice'
@@ -24,7 +24,6 @@ export function AppBar({ drawerWidth }: AppBarProps) {
   const dispatch = useTypedDispatch()
   const name = useTypedSelector(selectUserName)
   const navigation = useNavigation()
-  const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
@@ -45,6 +44,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
     <MuiAppBar
       position="fixed"
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+      elevation={0}
     >
       <Toolbar variant="dense">
         <Typography

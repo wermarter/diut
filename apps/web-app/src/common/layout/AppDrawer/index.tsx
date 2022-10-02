@@ -1,4 +1,5 @@
 import {
+  Box,
   Divider,
   Drawer,
   List,
@@ -6,12 +7,14 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
 } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { fullLogo } from 'src/assets/images'
-import { drawerItems } from 'src/core/drawer-items'
+import { MenuItem } from 'src/core'
+import { useDrawerItems } from './hooks'
 
 interface AppDrawerProps {
   drawerWidth: number
@@ -19,7 +22,8 @@ interface AppDrawerProps {
 
 export function AppDrawer({ drawerWidth }: AppDrawerProps) {
   const navigate = useNavigate()
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1)
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
+  const drawerItems = useDrawerItems()
 
   return (
     <Drawer
@@ -33,16 +37,34 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
       }}
       variant="permanent"
       anchor="left"
+      PaperProps={{
+        sx: {
+          borderColor: 'primary.main',
+        },
+      }}
     >
-      <img
-        src={fullLogo}
-        width={`${drawerWidth}px`}
-        style={{ padding: '4px', cursor: 'pointer' }}
-        onClick={() => {
-          navigate('/')
+      <Box
+        sx={{
+          position: 'sticky',
+          backgroundColor: 'background.paper',
+          zIndex: 'appBar',
+          top: 0,
+          left: 0,
         }}
-      />
-      <Divider sx={{ my: 1 }} />
+      >
+        <img
+          src={fullLogo}
+          width={`${drawerWidth}px`}
+          style={{
+            padding: '4px',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            navigate('/')
+          }}
+        />
+        <Divider sx={{ my: 1, borderColor: 'primary.main' }} />
+      </Box>
       <List
         sx={{
           '&& .Mui-selected, && .Mui-selected:hover': {
@@ -51,27 +73,32 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
               color: 'white',
             },
           },
+          'overflow-y': 'scroll',
         }}
       >
-        {drawerItems.map((item, index) =>
-          !item.isDivider ? (
-            <ListItem
-              key={index}
-              disablePadding
-              onClick={() => {
-                setSelectedIndex(index)
-                navigate(item.link)
-              }}
-            >
-              <ListItemButton selected={index === selectedIndex}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
-          ) : (
-            <Divider key={index} sx={{ my: 1 }} />
-          )
-        )}
+        {drawerItems.map((group, index) => (
+          <>
+            {index > 0 && <Divider sx={{ my: 1 }} />}
+            {group.title && <ListSubheader>{group.title}</ListSubheader>}
+            {group.children.map((item) => (
+              <ListItem
+                key={item.label}
+                disablePadding
+                onClick={() => {
+                  setSelectedItem(item)
+                  navigate(item.destination)
+                }}
+              >
+                <ListItemButton
+                  selected={selectedItem?.destination === item.destination}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.label} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </>
+        ))}
       </List>
     </Drawer>
   )

@@ -1,44 +1,52 @@
-import React from 'react'
+import { ReactElement } from 'react'
+import { To } from 'react-router-dom'
 import { Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material'
 
-interface DrawerDivider {
-  isDivider: true
+import { AppPermission } from 'src/common/types'
 
-  nextSectionTitle?: string
+export interface MenuItem {
+  icon: ReactElement
+  label: string
+  destination: To
+  permission?: AppPermission
 }
 
-interface DrawerItem {
-  isDivider?: false
-
-  icon: React.ReactElement
-  text: string
-  link: string
+export interface DrawerItem {
+  title: string
+  permission?: AppPermission
+  children: MenuItem[]
 }
 
-type DrawerItemType = DrawerItem | DrawerDivider
-
-export const drawerItems: DrawerItemType[] = [
+export const drawerItems: DrawerItem[] = [
   {
-    icon: <InboxIcon />,
-    text: 'Item 1',
-    link: '1',
+    title: '#1',
+    children: [
+      {
+        icon: <InboxIcon />,
+        label: 'Item 1',
+        destination: '1',
+      },
+      {
+        icon: <MailIcon />,
+        permission: AppPermission.Overview,
+        label: 'Item 2',
+        destination: '2',
+      },
+      {
+        icon: <InboxIcon />,
+        label: 'Item 3',
+        destination: '3',
+      },
+    ],
   },
   {
-    icon: <MailIcon />,
-    text: 'Item 2',
-    link: '2',
-  },
-  {
-    icon: <InboxIcon />,
-    text: 'Item 3',
-    link: '3',
-  },
-  {
-    isDivider: true,
-  },
-  {
-    icon: <MailIcon />,
-    text: 'Last item',
-    link: '',
+    title: '#2',
+    children: [
+      {
+        icon: <MailIcon />,
+        label: 'Last item',
+        destination: '',
+      },
+    ],
   },
 ]

@@ -78,4 +78,4 @@ export const selectAccessToken = (state: RootState) => state.auth.accessToken
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.accessToken !== undefined
 export const selectUserPermissions = (state: RootState) =>
-  state.auth.permissions
+  state.auth.permissions ?? []

@@ -22,7 +22,9 @@ export function ErrorLayout({ children }: ErrorLayoutProps) {
         justifyContent: 'center',
       }}
     >
-      <Typography variant="h3">⚠️ Đã xảy ra lỗi ⚠️</Typography>
+      <Typography variant="h2" component="h1">
+        Đã xảy ra lỗi !
+      </Typography>
       <Button sx={{ my: 3 }} variant="contained" onClick={handleNavigateHome}>
         Quay về trang chủ
       </Button>
