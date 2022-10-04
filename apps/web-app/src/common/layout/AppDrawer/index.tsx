@@ -9,7 +9,7 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { fullLogo } from 'src/assets/images'
@@ -73,11 +73,11 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
               color: 'white',
             },
           },
-          'overflow-y': 'scroll',
+          overflowY: 'scroll',
         }}
       >
         {drawerItems.map((group, index) => (
-          <>
+          <Fragment key={group.title}>
             {index > 0 && <Divider sx={{ my: 1 }} />}
             <ListSubheader component="div" inset>
               {group.title}
@@ -91,15 +91,13 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
                   navigate(item.destination)
                 }}
               >
-                <ListItemButton
-                  selected={selectedItem?.destination === item.destination}
-                >
+                <ListItemButton selected={selectedItem?.label === item.label}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.label} />
                 </ListItemButton>
               </ListItem>
             ))}
-          </>
+          </Fragment>
         ))}
       </List>
     </Drawer>

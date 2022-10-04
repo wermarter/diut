@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { AppPermission } from 'src/common/types'
-import { RootState } from 'src/core'
+import { appStore, RootState } from 'src/core'
 
 interface AuthState {
   name?: string
@@ -21,6 +21,7 @@ interface UserCredentials {
 interface UserLoginPayload {
   name: string
   accessToken: string
+  permissions: AppPermission[]
 }
 
 export const userLogin = createAsyncThunk(
@@ -46,6 +47,7 @@ export const userLogin = createAsyncThunk(
           resolve({
             name: username,
             accessToken: 'supersecrettoken',
+            permissions: [AppPermission.Overview],
           }),
         1000
       )
@@ -61,6 +63,7 @@ export const authSlice = createSlice({
     builder.addCase(userLogin.fulfilled, (state, { payload }) => {
       state.name = payload.name
       state.accessToken = payload.accessToken
+      state.permissions = payload.permissions
     })
   },
 })

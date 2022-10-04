@@ -1,23 +1,19 @@
-import { Navigate } from 'react-router-dom'
-
 import { AppPermission } from 'src/common/types'
 import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
-import { LoginPage } from 'src/modules/auth'
+import { loadLoginPage, LoginPage } from 'src/modules/auth'
 import { TestContentPage } from 'src/modules/example'
 import { ErrorPage } from 'src/common/layout/ErrorPage'
 
 export const appRoutes: CustomRouteObject[] = [
   {
-    index: true,
-    element: <Navigate to="example" />,
-  },
-  {
     path: 'login',
     element: <LoginPage />,
+    errorElement: <ErrorPage />,
+    loader: loadLoginPage,
   },
   {
-    path: 'example',
+    path: '/',
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     isAuthenticated: true,
@@ -35,24 +31,32 @@ export const appRoutes: CustomRouteObject[] = [
         path: '1',
         element: <TestContentPage someText="This is page 1" />,
         loader: async () => {
-          throw Error('random shiet')
+          await new Promise((r) =>
+            setTimeout(() => {
+              console.log('second log')
+              r({})
+            })
+          )
         },
       },
       {
         path: '2',
         element: <TestContentPage someText="This is page 2" />,
-        permission: AppPermission.Overview,
         loader: async () => {
           return new Promise((resolve) => {
-            setTimeout(() => resolve({}), 1000)
+            setTimeout(() => {
+              console.log('ối, load mất r')
+              resolve({})
+            }, 1000)
           })
         },
       },
       {
         path: '3',
         element: <TestContentPage someText="This is page 3" />,
+        permission: AppPermission.Weird,
         loader: () => {
-          throw 'super_weird'
+          // throw 'super_weird'
         },
       },
     ],

@@ -1,23 +1,25 @@
 import { PropsWithChildren, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
+import { AppNavigate } from 'src/common/utils'
 import { useTypedSelector } from 'src/core'
-import { selectIsAuthenticated } from '../../slice'
+import { selectIsAuthenticated } from '../slice'
 
 export type AuthenticationCheckProps = PropsWithChildren
 
 export function AuthenticationCheck({ children }: AuthenticationCheckProps) {
-  const navigate = useNavigate()
   const location = useLocation()
   const isAuthenticated = useTypedSelector(selectIsAuthenticated)
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login', {
+      throw new AppNavigate({
+        to: '/login',
         state: {
           from: location.pathname,
           reason: 'Vui lòng đăng nhập để truy cập vào hệ thống.',
         },
+        replace: true,
       })
     }
   }, [isAuthenticated])

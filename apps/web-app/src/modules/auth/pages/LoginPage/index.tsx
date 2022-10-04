@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { LoaderFunction, useLocation, useNavigate } from 'react-router-dom'
 
 import { useTypedSelector } from 'src/core'
 import { selectIsAuthenticated } from '../../slice'
@@ -12,9 +12,11 @@ export function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(location.state?.from ?? '/')
+      navigate(location.state?.from ?? '/', { replace: true })
     }
   }, [isAuthenticated])
 
   return <LoginForm reason={location.state?.reason} />
 }
+
+export { loadLoginPage } from './loader'

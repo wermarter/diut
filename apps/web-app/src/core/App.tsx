@@ -23,13 +23,24 @@ const LoadingPage = () => {
   )
 }
 
-const appRouter = createBrowserRouter(parseRoutes(appRoutes))
-
 export function App() {
   return (
     <ReduxProvider store={appStore}>
-      <PersistGate persistor={appPersistor} loading={<LoadingPage />}>
-        <RouterProvider router={appRouter} fallbackElement={<LoadingPage />} />
+      <PersistGate persistor={appPersistor}>
+        {(bootstrapped) => {
+          if (!bootstrapped) {
+            return <LoadingPage />
+          }
+
+          // Lạy cụ đừng loaderFunction, đợi thằng Redux Persist Provider giúp em...
+          const appRouter = createBrowserRouter(parseRoutes(appRoutes))
+          return (
+            <RouterProvider
+              router={appRouter}
+              fallbackElement={<LoadingPage />}
+            />
+          )
+        }}
       </PersistGate>
     </ReduxProvider>
   )

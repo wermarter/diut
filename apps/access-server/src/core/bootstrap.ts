@@ -17,7 +17,7 @@ import { validateConfig } from './config/validate-config'
 const API_PREFIX = 'api'
 const SWAGGER_ENDPOINT = API_PREFIX + '/docs'
 
-export async function bootstrap(rootModule: any) {
+export async function bootstrap(rootModule: unknown) {
   const app = await NestFactory.create(rootModule, {
     bufferLogs: true,
   })

@@ -1,6 +1,6 @@
 import { AppPermission } from 'src/common/types'
-import { useTypedSelector } from 'src/core'
-import { selectUserPermissions } from './slice'
+import { appStore, useTypedSelector } from 'src/core'
+import { selectUserPermissions } from '../slice'
 
 export function checkPermission(
   userPermissions: AppPermission[],
@@ -15,6 +15,12 @@ export function checkPermission(
 
 export function useCheckPermission(requestedPermission: AppPermission) {
   const userPermissions = useTypedSelector(selectUserPermissions)
+
+  return checkPermission(userPermissions, requestedPermission)
+}
+
+export function checkPermissionSync(requestedPermission: AppPermission) {
+  const userPermissions = selectUserPermissions(appStore.getState())
 
   return checkPermission(userPermissions, requestedPermission)
 }

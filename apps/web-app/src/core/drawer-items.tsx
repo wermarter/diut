@@ -47,6 +47,26 @@ export const drawerItems: DrawerItem[] = [
         label: 'Last item',
         destination: '',
       },
+      {
+        icon: <MailIcon />,
+        label: 'Last item 1',
+        destination: '',
+      },
+      {
+        icon: <MailIcon />,
+        label: 'Last item 2',
+        destination: '',
+      },
+      {
+        icon: <MailIcon />,
+        label: 'Last item 3',
+        destination: '',
+      },
+      {
+        icon: <MailIcon />,
+        label: 'Last item 4',
+        destination: '',
+      },
     ],
   },
 ]

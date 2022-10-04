@@ -156,7 +156,7 @@ export abstract class BaseMongoService<Entity> {
   }
 
   public async bulkUpsert(
-    docs: any[],
+    docs: unknown[],
     upsert?: {
       conditions?: Array<string>
       operator?: string
