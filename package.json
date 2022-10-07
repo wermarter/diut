@@ -19,7 +19,7 @@
     "nx": "^14.5.7"
   },
   "scripts": {
-    "be": "lerna run start --scope @diut/access-server",
+    "be": "lerna run start:dev --scope @diut/access-server",
     "common": "lerna run build --scope @diut/common",
     "fe": "lerna run dev --scope @diut/web-app"
   }

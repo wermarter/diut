@@ -1,11 +1,7 @@
-import { NestFactory, Reflector } from '@nestjs/core'
+import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import {
-  ClassSerializerInterceptor,
-  LoggerService,
-  ValidationPipe,
-} from '@nestjs/common'
+import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 
 import {
@@ -25,7 +21,6 @@ export async function bootstrap(rootModule: unknown) {
   app.setGlobalPrefix(API_PREFIX) // use nginx to direct /api/* to this server instead of static serving html
 
   app.useGlobalInterceptors(new LoggerErrorInterceptor())
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // convert to DTO to class instance for applying default value
@@ -65,4 +60,6 @@ export async function bootstrap(rootModule: unknown) {
     `Documentation on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,
     'Bootstrap'
   )
+
+  return app
 }

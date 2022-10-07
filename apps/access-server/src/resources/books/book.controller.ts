@@ -1,7 +1,15 @@
-import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import {
+  Body,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  RequestMethod,
+} from '@nestjs/common'
 import { ApiCreatedResponse } from '@nestjs/swagger'
 
-import { AppController } from 'src/common'
+import { AppController, AppRoute } from 'src/common'
 import { BookService } from './book.service'
 import {
   CreateBookRequestDto,
@@ -9,7 +17,7 @@ import {
   UpdateBookDto,
 } from './dtos'
 
-@AppController({ baseName: 'books' })
+@AppController({ basePath: 'books' })
 export class BookController {
   constructor(private bookService: BookService) {}
 
@@ -18,8 +26,12 @@ export class BookController {
     return this.bookService.find()
   }
 
-  @Post()
-  @ApiCreatedResponse({ type: CreateBookResponseDto })
+  // @Post()
+  // @ApiCreatedResponse({ type: CreateBookResponseDto })
+  @AppRoute({
+    method: RequestMethod.POST,
+    responses: [{ type: CreateBookResponseDto }],
+  })
   createBook(@Body() dto: CreateBookRequestDto) {
     return this.bookService.create(dto)
   }
