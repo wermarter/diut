@@ -1,8 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { BaseMongoService } from 'src/clients/mongo'
 
+import { BaseMongoService } from 'src/clients/mongo'
 import { Book } from './book.schema'
 
 @Injectable()

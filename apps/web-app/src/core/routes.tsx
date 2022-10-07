@@ -16,6 +16,9 @@ export const appRoutes: CustomRouteObject[] = [
     path: '/',
     element: <MainLayout />,
     errorElement: <ErrorPage />,
+    loader: () => {
+      console.log('root loader')
+    },
     isAuthenticated: true,
     children: [
       {
@@ -55,9 +58,44 @@ export const appRoutes: CustomRouteObject[] = [
         path: '3',
         element: <TestContentPage someText="This is page 3" />,
         permission: AppPermission.Weird,
+        loader: () => {},
+      },
+      {
+        path: '4',
+        element: <TestContentPage someText="This is page 4" />,
+        loader: () => {},
+      },
+      {
+        path: 'test',
+        element: <TestContentPage someText="This is Test page" />,
+        // permission: AppPermission.Weird,
         loader: () => {
-          // throw 'super_weird'
+          console.log('test loader')
+          throw 'dfdfdfs'
         },
+        children: [
+          {
+            path: 't1',
+            // permission: AppPermission.Overview,
+            loader: async () => {
+              console.log('test/1 loader')
+              return new Promise((resolve) => {
+                setTimeout(() => {
+                  console.log('test/1 loaded')
+                  resolve({})
+                }, 1000)
+              })
+            },
+            children: [
+              {
+                path: 't2',
+                loader: () => {
+                  console.log('test/1/2 loader')
+                },
+              },
+            ],
+          },
+        ],
       },
     ],
   },

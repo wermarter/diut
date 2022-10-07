@@ -4,9 +4,10 @@ import { RouteObject } from 'react-router-dom'
 import { AppPermission } from 'src/common/types'
 import {
   AuthenticationCheck,
-  authenticationLoader,
-  authorizationLoader,
+  authenticationInjector,
+  authorizationInjector,
 } from 'src/modules/auth'
+import { combineInjectors, RouteInjectors, makeInjector } from './inject-loader'
 
 export type CustomRouteObject = Omit<RouteObject, 'children'> & {
   children?: CustomRouteObject[]
@@ -14,7 +15,10 @@ export type CustomRouteObject = Omit<RouteObject, 'children'> & {
   isAuthenticated?: boolean
 }
 
-export function parseRoutes(routes: CustomRouteObject[]): RouteObject[] {
+export function parseRoutes(
+  routes: CustomRouteObject[],
+  authInjectors?: RouteInjectors
+): RouteObject[] {
   return routes.map(
     ({
       isAuthenticated,
@@ -24,7 +28,7 @@ export function parseRoutes(routes: CustomRouteObject[]): RouteObject[] {
       element,
       ...otherRouteProps
     }) => {
-      // Element wrapper
+      // Route element wrappers
       let customElement = _.clone(element)
       if (isAuthenticated) {
         customElement = (
@@ -32,19 +36,24 @@ export function parseRoutes(routes: CustomRouteObject[]): RouteObject[] {
         )
       }
 
-      // Loader wrapper
-      let customLoader = loader
-      if (permission !== undefined) {
-        customLoader = authorizationLoader(permission, customLoader)
-      }
+      // Route injectors
+      const injectors = _.clone(authInjectors) ?? []
       if (isAuthenticated) {
-        customLoader = authenticationLoader(customLoader)
+        injectors.push(makeInjector(authenticationInjector, {}))
       }
+      if (permission !== undefined) {
+        injectors.push(
+          makeInjector(authorizationInjector, {
+            requestedPermission: permission,
+          })
+        )
+      }
+      const customLoader = combineInjectors(loader ?? (() => {}), injectors)
 
-      // Children wrapper
+      // Recursive call for children
       let customChildren: RouteObject[] = []
       if (children !== undefined && Array.isArray(children)) {
-        customChildren = parseRoutes(children)
+        customChildren = parseRoutes(children, injectors)
       }
 
       return {

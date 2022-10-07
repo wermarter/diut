@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { LoaderFunction, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useTypedSelector } from 'src/core'
 import { selectIsAuthenticated } from '../../slice'
