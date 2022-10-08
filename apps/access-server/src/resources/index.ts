@@ -1,4 +1,3 @@
-import { BookModule } from './books'
-import { UserModule } from './users'
+import { PatientTypeModule } from './patient-types'
 
-export const resourceModules = [BookModule, UserModule]
+export const resourceModules = [PatientTypeModule]

@@ -8,6 +8,6 @@ export class UserController {
 
   @AppRoute(userRoutes.searchUsers)
   searchUsers() {
-    return this.userService.search()
+    return this.userService.search('<%= testParam %>')
   }
 }

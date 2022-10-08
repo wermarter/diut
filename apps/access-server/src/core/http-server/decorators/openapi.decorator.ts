@@ -1,4 +1,4 @@
-import { applyDecorators } from '@nestjs/common'
+import { applyDecorators, HttpStatus } from '@nestjs/common'
 import { ApiResponse, ApiResponseMetadata } from '@nestjs/swagger'
 
 export interface AppOpenApiOptions {
@@ -12,8 +12,13 @@ export const AppOpenApi = ({ responses }: AppOpenApiOptions) => {
   //   unauthenticated, unauthorized
   // ])
 
-  responses?.forEach((responseOptions) => {
-    decorators.push(ApiResponse(responseOptions))
+  responses?.forEach(({ status, ...responseOptions }) => {
+    decorators.push(
+      ApiResponse({
+        ...responseOptions,
+        status: status ?? HttpStatus.OK,
+      })
+    )
   })
 
   return applyDecorators(...decorators)
