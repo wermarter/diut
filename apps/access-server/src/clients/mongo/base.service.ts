@@ -9,7 +9,9 @@ import {
 } from 'mongoose'
 import { pick, isNil } from 'lodash'
 
-export abstract class BaseMongoService<Entity> {
+import { BaseSchema } from './mongo.common'
+
+export abstract class BaseMongoService<Entity extends BaseSchema> {
   constructor(protected model: Model<Entity>, protected logger: Logger) {}
 
   public async findById(id: string): Promise<Entity> {
@@ -69,7 +71,7 @@ export abstract class BaseMongoService<Entity> {
     })
   }
 
-  public async find(options?: {
+  public async search(options?: {
     offset?: number
     limit?: number
     filter?: FilterQuery<Entity>

@@ -6,16 +6,17 @@ import {
   Post,
   Delete,
   Patch,
-  HttpStatus,
-  HttpCode,
 } from '@nestjs/common'
+import { ClassConstructor } from 'class-transformer'
 
-import { ResponseDecorator, ResponseOptions } from './response.decorator'
+import { AppOpenApi, AppOpenApiOptions } from './openapi.decorator'
+import { Serialize } from './serialize.decorator'
 
 export interface AppRouteOptions {
   path?: string
   method?: RequestMethod
-  responses?: ResponseOptions[]
+  serialize?: ClassConstructor<unknown>
+  openApi?: AppOpenApiOptions
 }
 
 const methodDecorator = {
@@ -29,13 +30,18 @@ const methodDecorator = {
 export function AppRoute({
   path = '/',
   method = RequestMethod.GET,
-  responses = [],
+  openApi,
+  serialize,
 }: AppRouteOptions) {
   const decorators: MethodDecorator[] = [methodDecorator[method](path)]
 
-  responses.forEach((responseOptions) => {
-    decorators.push(ResponseDecorator(responseOptions))
-  })
+  if (openApi !== undefined) {
+    decorators.push(AppOpenApi(openApi))
+  }
+
+  if (serialize !== undefined) {
+    decorators.push(Serialize(serialize))
+  }
 
   return applyDecorators(...decorators)
 }

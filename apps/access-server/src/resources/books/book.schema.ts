@@ -2,7 +2,7 @@ import { BookGenre } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
-import { COLLECTION } from 'src/common'
+import { COLLECTION } from 'src/common/collections'
 
 @Schema({
   ...baseSchemaOptions,

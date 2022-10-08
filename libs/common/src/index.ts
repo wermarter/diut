@@ -1,6 +1,5 @@
 export * from './resources'
 
-export * from './common.constant'
-export * from './common.enum'
-export * from './common.type'
-export * from './common.util'
+export * from './constant'
+export * from './enum'
+export * from './utils'
