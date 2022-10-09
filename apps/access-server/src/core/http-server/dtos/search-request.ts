@@ -6,6 +6,7 @@ export class SearchRequestDto<Entity> {
   @ApiProperty({
     default: 1,
     required: false,
+    type: 'number',
   })
   @IsOptional()
   @IsNumber()
@@ -15,6 +16,7 @@ export class SearchRequestDto<Entity> {
   @ApiProperty({
     default: 10,
     required: false,
+    type: 'number',
   })
   @IsOptional()
   @IsNumber()

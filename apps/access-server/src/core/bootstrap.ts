@@ -46,12 +46,33 @@ export async function bootstrap(rootModule: unknown) {
     .setVersion(packageConfig.version)
     .build()
 
-  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig, {
+    operationIdFactory: (controllerKey: string, methodKey: string) =>
+      `${controllerKey.slice(0, -10)}_${methodKey}`, // Remove "Controller" suffix
+  })
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, swaggerDocument, {
     swaggerOptions: {
       docExpansion: 'list',
       filter: true,
     },
+    customCss: `
+      #swagger-ui {
+        max-width: 800px;
+        margin: auto;
+      }
+      .topbar {
+        display: none;
+      }
+      .swagger-ui .info {
+        margin: 30px 0;
+      }
+      .swagger-ui .opblock .opblock-summary .view-line-link {
+        transition: none;
+      }
+      #swagger-ui > section > div.swagger-ui > div:nth-child(2) > div:nth-child(4) {
+        display: none
+      }
+    `,
   })
 
   const PORT = httpServerConfig.port
