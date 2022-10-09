@@ -1,1 +1,1 @@
-export * from './books'
+export * from './patients'

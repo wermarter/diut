@@ -1,13 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { ClassConstructor, Expose, Type } from 'class-transformer'
 
-export function PaginatedDto<ItemType extends ClassConstructor<unknown>>(
+export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
   ItemClass: ItemType
 ) {
   abstract class PaginationDtoClass {
     @Expose()
     @ApiProperty()
     total: number
+
+    @Expose()
+    @ApiProperty()
+    offset: number
+
+    @Expose()
+    @ApiProperty()
+    limit: number
 
     @Expose()
     @ApiProperty({
@@ -20,6 +28,8 @@ export function PaginatedDto<ItemType extends ClassConstructor<unknown>>(
 
   return PaginationDtoClass as ClassConstructor<{
     total: number
+    offset: number
+    limit: number
     items: ItemType[]
   }>
 }

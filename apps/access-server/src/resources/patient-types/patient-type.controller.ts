@@ -2,6 +2,7 @@ import { Body, Param } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { CreatePatientTypeRequestDto } from './dtos/create-patient-type.request.dto'
+import { SearchPatientTypeRequestDto } from './dtos/search-patient-type.request.dto'
 import { UpdatePatientTypeRequestDto } from './dtos/update-patient-type.request.dto'
 import { patientTypeRoutes } from './patient-type.routes'
 import { PatientTypeService } from './patient-type.service'
@@ -11,8 +12,8 @@ export class PatientTypeController {
   constructor(private patientTypeService: PatientTypeService) {}
 
   @AppRoute(patientTypeRoutes.search)
-  search() {
-    return this.patientTypeService.search()
+  search(@Body() body: SearchPatientTypeRequestDto) {
+    return this.patientTypeService.search(body)
   }
 
   @AppRoute(patientTypeRoutes.create)

@@ -1,6 +1,6 @@
-import { PaginatedDto } from 'src/core'
+import { PaginatedResponse } from 'src/core'
 import { PatientTypeResponseDto } from './patient-type.response.dto'
 
-export class SearchPatientTypeResponseDto extends PaginatedDto(
+export class SearchPatientTypeResponseDto extends PaginatedResponse(
   PatientTypeResponseDto
 ) {}

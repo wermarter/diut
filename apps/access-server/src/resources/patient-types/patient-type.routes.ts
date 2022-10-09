@@ -10,6 +10,9 @@ export const patientTypeRoutes = {
   },
 
   search: <AppRouteOptions>{
+    path: 'search',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
     serialize: SearchPatientTypeResponseDto,
     openApi: {
       responses: [

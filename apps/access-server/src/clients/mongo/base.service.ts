@@ -75,16 +75,13 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     offset?: number
     limit?: number
     filter?: FilterQuery<Entity>
-    sort?: string | { [key: string]: SortOrder | { $meta: 'textScore' } }
+    sort?: { [key: string]: SortOrder | { $meta: 'textScore' } }
     selectedFields?: Array<string>
     populates?: Array<{
       collection: string
       fields?: Array<string>
     }>
-  }): Promise<{
-    total: number
-    items: Entity[]
-  }> {
+  }) {
     const { offset, limit, filter, sort, selectedFields, populates } =
       options ?? {}
 
@@ -113,6 +110,8 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
 
     return {
       total,
+      offset,
+      limit,
       items: items.map((item) => item.toObject<Entity>()) ?? [],
     }
   }

@@ -6,6 +6,8 @@ import {
   Post,
   Delete,
   Patch,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common'
 import { ClassConstructor } from 'class-transformer'
 
@@ -15,6 +17,7 @@ import { Serialize } from './serialize.decorator'
 export interface AppRouteOptions {
   path?: string
   method?: RequestMethod
+  code?: HttpStatus
   serialize?: ClassConstructor<unknown>
   openApi?: AppOpenApiOptions
 }
@@ -30,10 +33,15 @@ const methodDecorator = {
 export function AppRoute({
   path = '/',
   method = RequestMethod.GET,
+  code,
   openApi,
   serialize,
 }: AppRouteOptions) {
   const decorators: MethodDecorator[] = [methodDecorator[method](path)]
+
+  if (code !== undefined) {
+    decorators.push(HttpCode(code))
+  }
 
   if (openApi !== undefined) {
     decorators.push(AppOpenApi(openApi))
