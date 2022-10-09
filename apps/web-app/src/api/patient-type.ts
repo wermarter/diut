@@ -1,4 +1,4 @@
-import { emptySplitApi as api } from './emptyApi'
+import { emptySplitApi as api } from './slice'
 export const addTagTypes = ['patient-types'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
@@ -59,7 +59,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as superApi }
+export { injectedRtkApi as enhancedApi }
 export type PatientTypeSearchApiResponse =
   /** status 200  */ SearchPatientTypeResponseDto
 export type PatientTypeSearchApiArg = {

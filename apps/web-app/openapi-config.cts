@@ -1,25 +1,20 @@
-import type {
-  ConfigFile,
-  OperationDefinition,
-} from '@rtk-query/codegen-openapi/lib/types'
+import type { ConfigFile } from '@rtk-query/codegen-openapi'
 
 const config: ConfigFile = {
   schemaFile: 'http://localhost:9050/api/docs-json',
-  apiFile: './src/store/emptyApi.ts',
+  apiFile: './src/api/slice.ts',
   apiImport: 'emptySplitApi',
-  outputFile: './src/store/superApi.ts',
-  exportName: 'superApi',
-  filterEndpoints: ((
-    operationName: string,
-    operationDefinition: OperationDefinition
-  ) => {
-    const controllerName =
-      operationDefinition?.operation?.operationId?.split('_')[0] ?? 'Default'
-    console.dir(controllerName)
-    return controllerName !== 'Prometheus'
-  }) as any,
   hooks: true,
   tag: true,
+
+  outputFiles: {
+    './src/api/prometheus.ts': {
+      filterEndpoints: [/prometheus/i],
+    },
+    './src/api/patient-type.ts': {
+      filterEndpoints: [/patienttype/i],
+    },
+  },
 }
 
 export default config

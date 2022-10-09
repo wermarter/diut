@@ -21,6 +21,7 @@
   "scripts": {
     "be": "lerna run start:dev --scope @diut/access-server",
     "common": "lerna run build --scope @diut/common",
-    "fe": "lerna run dev --scope @diut/web-app"
+    "fe": "lerna run dev --scope @diut/web-app",
+    "postinstall": "lerna run build --scope @diut/common"
   }
 }

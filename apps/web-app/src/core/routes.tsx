@@ -5,6 +5,8 @@ import { loadLoginPage, LoginPage } from 'src/modules/auth'
 import { TestContentPage } from 'src/modules/example'
 import { ErrorPage } from 'src/common/layout/ErrorPage'
 
+// TODO: Code Splitting please!! React.lazy()
+
 export const appRoutes: CustomRouteObject[] = [
   {
     path: 'login',
