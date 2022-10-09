@@ -1,0 +1,2 @@
+export { <%= singlePascal %>Module } from './<%= singleKebab %>.module'
+export { <%= singlePascal %>Service } from './<%= singleKebab %>.service'

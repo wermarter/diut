@@ -1,0 +1,41 @@
+import { Body, Param } from '@nestjs/common'
+
+import { AppController, AppRoute } from 'src/core'
+import { Create<%= singlePascal %>RequestDto } from './dtos/create-<%= singleKebab %>.request.dto'
+import { Search<%= singlePascal %>RequestDto } from './dtos/search-<%= singleKebab %>.request.dto'
+import { Update<%= singlePascal %>RequestDto } from './dtos/update-<%= singleKebab %>.request.dto'
+import { <%= singleCamel %>Routes } from './<%= singleKebab %>.routes'
+import { <%= singlePascal %>Service } from './<%= singleKebab %>.service'
+
+@AppController(<%= singleCamel %>Routes.controller)
+export class <%= singlePascal %>Controller {
+  constructor(private <%= singleCamel %>Service: <%= singlePascal %>Service) {}
+
+  @AppRoute(<%= singleCamel %>Routes.search)
+  search(@Body() body: Search<%= singlePascal %>RequestDto) {
+    return this.<%= singleCamel %>Service.search(body)
+  }
+
+  @AppRoute(<%= singleCamel %>Routes.create)
+  create(@Body() body: Create<%= singlePascal %>RequestDto) {
+    return this.<%= singleCamel %>Service.create(body)
+  }
+
+  @AppRoute(<%= singleCamel %>Routes.updateById)
+  updateById(
+    @Param('id') id: string,
+    @Body() body: Update<%= singlePascal %>RequestDto
+  ) {
+    return this.<%= singleCamel %>Service.updateById(id, body)
+  }
+
+  @AppRoute(<%= singleCamel %>Routes.findById)
+  findById(@Param('id') id: string) {
+    return this.<%= singleCamel %>Service.findById(id)
+  }
+
+  @AppRoute(<%= singleCamel %>Routes.deleteById)
+  deleteById(@Param('id') id: string) {
+    return this.<%= singleCamel %>Service.deleteById(id)
+  }
+}

@@ -1,0 +1,77 @@
+import { HttpStatus, RequestMethod } from '@nestjs/common'
+
+import { AppControllerOptions, AppRouteOptions } from 'src/core'
+import { Search<%= singlePascal %>ResponseDto } from './dtos/search-<%= singleKebab %>.response.dto'
+import { <%= singlePascal %>ResponseDto } from './dtos/<%= singleKebab %>.response.dto'
+
+export const <%= singleCamel %>Routes = {
+  controller: <AppControllerOptions>{
+    basePath: '<%= pluralKebab %>',
+  },
+
+  search: <AppRouteOptions>{
+    path: 'search',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+    serialize: Search<%= singlePascal %>ResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: Search<%= singlePascal %>ResponseDto,
+        },
+      ],
+    },
+  },
+
+  create: <AppRouteOptions>{
+    method: RequestMethod.POST,
+    serialize: <%= singlePascal %>ResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: <%= singlePascal %>ResponseDto,
+          status: HttpStatus.CREATED,
+        },
+      ],
+    },
+  },
+
+  updateById: <AppRouteOptions>{
+    path: ':id',
+    method: RequestMethod.PATCH,
+    serialize: <%= singlePascal %>ResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: <%= singlePascal %>ResponseDto,
+        },
+      ],
+    },
+  },
+
+  findById: <AppRouteOptions>{
+    path: ':id',
+    method: RequestMethod.GET,
+    serialize: <%= singlePascal %>ResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: <%= singlePascal %>ResponseDto,
+        },
+      ],
+    },
+  },
+
+  deleteById: <AppRouteOptions>{
+    path: ':id',
+    method: RequestMethod.DELETE,
+    serialize: <%= singlePascal %>ResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: <%= singlePascal %>ResponseDto,
+        },
+      ],
+    },
+  },
+}
