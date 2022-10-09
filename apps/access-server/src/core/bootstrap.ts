@@ -76,6 +76,7 @@ export async function bootstrap(rootModule: unknown) {
   })
 
   const PORT = httpServerConfig.port
+  app.enableCors()
   await app.listen(PORT)
   logger.log(
     `Documentation on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,

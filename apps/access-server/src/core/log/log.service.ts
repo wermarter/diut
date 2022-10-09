@@ -20,7 +20,8 @@ export function buildPinoOptions(configService: ConfigService): Params {
           options: {
             colorize: true,
             crlf: true,
-            ignore: 'version,pid,hostname,context',
+            ignore:
+              'version,pid,hostname,context,req.headers,res.headers,req.remoteAddress,req.remotePort,req.id',
             messageFormat: '[{context}] {msg}',
             translateTime: 'SYS:HH:MM:ss',
           },
@@ -33,7 +34,7 @@ export function buildPinoOptions(configService: ConfigService): Params {
       level: logConfig.level,
       name: configService.get('package').name.replace(PROJECT_PREFIX, ''),
       base: { version: packageConfig.version },
-      autoLogging: false,
+      autoLogging: !isProduction,
       ...devConfig,
     },
   }

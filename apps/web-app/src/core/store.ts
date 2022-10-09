@@ -1,12 +1,7 @@
-import {
-  combineReducers,
-  configureStore,
-  createAction,
-  isRejectedWithValue,
-} from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import type { Reducer, Middleware } from 'redux'
+import type { Reducer } from 'redux'
 import {
   persistStore,
   FLUSH,
@@ -16,33 +11,19 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist'
-import { layoutReducer, layoutSlice } from 'src/common/layout/slice'
 
+import { apiSlice } from 'src/api/slice'
+import { layoutReducer, layoutSlice } from 'src/common/layout/slice'
 import { authReducer, authSlice } from 'src/modules/auth'
+import { RESET_STORE_STATE, unauthenticatedMiddleware } from './reset'
 
 const reducers = {
+  [apiSlice.reducerPath]: apiSlice.reducer,
   [authSlice.name]: authReducer,
   [layoutSlice.name]: layoutReducer,
 }
 
 const combinedReducer = combineReducers<typeof reducers>(reducers)
-
-// Reset store state on user logout or token expiration
-export const RESET_STORE_STATE = 'resetStoreState'
-export const resetStoreState = createAction(RESET_STORE_STATE, () => {
-  return { payload: null }
-})
-
-const unauthenticatedMiddleware: Middleware =
-  ({ dispatch }) =>
-  (next) =>
-  (action) => {
-    if (isRejectedWithValue(action) && action.payload.status === 401) {
-      dispatch(resetStoreState())
-    }
-
-    return next(action)
-  }
 
 export const rootReducer: Reducer<RootState> = (state, action) => {
   if (action.type === RESET_STORE_STATE) {
@@ -60,7 +41,7 @@ export const appStore = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([unauthenticatedMiddleware]),
+    }).concat([unauthenticatedMiddleware, apiSlice.middleware]),
 })
 
 // allow API slice refetchOnReconnect

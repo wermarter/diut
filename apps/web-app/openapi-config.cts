@@ -1,20 +1,41 @@
 import type { ConfigFile } from '@rtk-query/codegen-openapi'
+import { camelCase, kebabCase, upperFirst } from 'lodash'
+
+const ENDPOINTS = [
+  'user',
+  'patient',
+  'patient type',
+  'doctor',
+  'test category',
+  'test',
+  'test element',
+  'sample',
+  'test result',
+  'test element result',
+]
+const outputFiles = {}
+
+ENDPOINTS.map((name) => {
+  const kebabName = kebabCase(name)
+  const pascalName = upperFirst(camelCase(name))
+
+  outputFiles[`./src/api/${kebabName}.ts`] = {
+    filterEndpoints: (_, operationDefinition) => {
+      const operationId: string =
+        operationDefinition?.operation?.operationId ?? ''
+
+      return operationId.startsWith(`${pascalName}_`)
+    },
+  }
+})
 
 const config: ConfigFile = {
   schemaFile: 'http://localhost:9050/api/docs-json',
   apiFile: './src/api/slice.ts',
-  apiImport: 'emptySplitApi',
-  hooks: true,
+  apiImport: 'apiSlice',
+  hooks: { lazyQueries: true, mutations: true, queries: true },
   tag: true,
-
-  outputFiles: {
-    './src/api/prometheus.ts': {
-      filterEndpoints: [/prometheus/i],
-    },
-    './src/api/patient-type.ts': {
-      filterEndpoints: [/patienttype/i],
-    },
-  },
+  outputFiles,
 }
 
 export default config

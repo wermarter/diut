@@ -1,13 +1,31 @@
 import { Typography, Box } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { usePatientTypeSearchMutation } from 'src/api/patient-type'
 
 interface TestContentPageProps {
   someText: string
 }
 
 export function TestContentPage({ someText }: TestContentPageProps) {
+  const [triggerSearch, { data, isLoading }] = usePatientTypeSearchMutation({
+    fixedCacheKey: 'PatientTypeSearch',
+  })
+  const [text, setText] = useState('')
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setText(JSON.stringify(data))
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    triggerSearch({ searchPatientTypeRequestDto: {} })
+  }, [])
+
   return (
     <Box>
       <Typography paragraph>{someText}</Typography>
+      <Typography paragraph>{text}</Typography>
       <Typography paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus

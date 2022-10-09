@@ -1,4 +1,4 @@
-import { emptySplitApi as api } from './slice'
+import { apiSlice as api } from './slice'
 export const addTagTypes = ['patient-types'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
@@ -115,5 +115,6 @@ export const {
   usePatientTypeCreateMutation,
   usePatientTypeUpdateByIdMutation,
   usePatientTypeFindByIdQuery,
+  useLazyPatientTypeFindByIdQuery,
   usePatientTypeDeleteByIdMutation,
 } = injectedRtkApi
