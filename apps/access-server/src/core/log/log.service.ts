@@ -21,7 +21,7 @@ export function buildPinoOptions(configService: ConfigService): Params {
             colorize: true,
             crlf: true,
             ignore:
-              'version,pid,hostname,context,req.headers,res.headers,req.remoteAddress,req.remotePort,req.id',
+              'version,pid,hostname,context,req.headers,res.headers,req.remoteAddress,req.remotePort,req.id,req.params',
             messageFormat: '[{context}] {msg}',
             translateTime: 'SYS:HH:MM:ss',
           },

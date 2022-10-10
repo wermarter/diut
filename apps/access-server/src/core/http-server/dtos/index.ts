@@ -1,2 +1,2 @@
 export * from './paginated-response'
-export * from './base-response'
+export * from './search-request'

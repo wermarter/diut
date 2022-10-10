@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
-import { BaseResponseDto } from 'src/core'
+import { BaseResourceResponseDto } from 'src/clients/mongo'
 
-export class <%= singlePascal %>ResponseDto extends BaseResponseDto {
+export class <%= singlePascal %>ResponseDto extends BaseResourceResponseDto {
   @Expose()
   @ApiProperty({
     example: 'sometext',
