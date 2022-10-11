@@ -1,5 +1,5 @@
 import { PaginatedResponse } from 'src/core'
-import { <%= singlePascal %>ResponseDto } from './<%= singleKebab %>.response.dto'
+import { <%= singlePascal %>ResponseDto } from './<%= singleKebab %>.response-dto'
 
 export class Search<%= singlePascal %>ResponseDto extends PaginatedResponse(
   <%= singlePascal %>ResponseDto

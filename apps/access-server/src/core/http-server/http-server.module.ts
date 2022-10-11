@@ -10,5 +10,6 @@ class HealthController {
 
 @Module({
   controllers: [HealthController],
+  providers: [],
 })
-export class HealthModule {}
+export class HttpServerModule {}

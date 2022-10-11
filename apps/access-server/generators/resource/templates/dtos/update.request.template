@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger'
 
-import { Create<%= singlePascal %>RequestDto } from './create-<%= singleKebab %>.request.dto'
+import { Create<%= singlePascal %>RequestDto } from './create-<%= singleKebab %>.request-dto'
 
 export class Update<%= singlePascal %>RequestDto extends PartialType(
   Create<%= singlePascal %>RequestDto

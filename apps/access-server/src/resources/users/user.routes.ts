@@ -1,23 +1,23 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
-import { SearchPatientTypeResponseDto } from './dtos/search-patient-type.response-dto'
-import { PatientTypeResponseDto } from './dtos/patient-type.response-dto'
+import { SearchUserResponseDto } from './dtos/search-user.response-dto'
+import { UserResponseDto } from './dtos/user.response-dto'
 
-export const patientTypeRoutes = {
+export const userRoutes = {
   controller: <AppControllerOptions>{
-    basePath: 'patient-types',
+    basePath: 'users',
   },
 
   search: <AppRouteOptions>{
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: SearchPatientTypeResponseDto,
+    serialize: SearchUserResponseDto,
     openApi: {
       responses: [
         {
-          type: SearchPatientTypeResponseDto,
+          type: SearchUserResponseDto,
         },
       ],
     },
@@ -25,11 +25,11 @@ export const patientTypeRoutes = {
 
   create: <AppRouteOptions>{
     method: RequestMethod.POST,
-    serialize: PatientTypeResponseDto,
+    serialize: UserResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: UserResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -39,11 +39,11 @@ export const patientTypeRoutes = {
   updateById: <AppRouteOptions>{
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: PatientTypeResponseDto,
+    serialize: UserResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: UserResponseDto,
         },
       ],
     },
@@ -52,11 +52,11 @@ export const patientTypeRoutes = {
   findById: <AppRouteOptions>{
     path: ':id',
     method: RequestMethod.GET,
-    serialize: PatientTypeResponseDto,
+    serialize: UserResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: UserResponseDto,
         },
       ],
     },
@@ -65,11 +65,11 @@ export const patientTypeRoutes = {
   deleteById: <AppRouteOptions>{
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: PatientTypeResponseDto,
+    serialize: UserResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: UserResponseDto,
         },
       ],
     },

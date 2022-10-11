@@ -1,8 +1,8 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
-import { Search<%= singlePascal %>ResponseDto } from './dtos/search-<%= singleKebab %>.response.dto'
-import { <%= singlePascal %>ResponseDto } from './dtos/<%= singleKebab %>.response.dto'
+import { Search<%= singlePascal %>ResponseDto } from './dtos/search-<%= singleKebab %>.response-dto'
+import { <%= singlePascal %>ResponseDto } from './dtos/<%= singleKebab %>.response-dto'
 
 export const <%= singleCamel %>Routes = {
   controller: <AppControllerOptions>{

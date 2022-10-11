@@ -1,6 +1,4 @@
-export * from './http-server.config'
-export * from './decorators'
 export * from './dtos'
-export * from './health.module'
-
-// TODO: implements decorator for a healthz endpoint
+export * from './decorators'
+export * from './http-server.config'
+export * from './http-server.module'

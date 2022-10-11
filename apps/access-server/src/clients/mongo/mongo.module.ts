@@ -17,14 +17,17 @@ import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
         const config = validateConfig(MongoConfig)(
           configService.get(MONGO_CONFIG_NAME)
         )
-
         const isProduction = configService.get('env') === NodeEnv.Production
-        if (!isProduction) {
-          const logger = new Logger(MongoModule.name)
-          mongoose.set('debug', (coll, method, query, doc, options) => {
-            logger.debug({ coll, method, query, doc, options })
-          })
-        }
+
+        const logger = new Logger(MongoModule.name)
+        mongoose.set('debug', (coll, method, query, doc, options) => {
+          if (!isProduction && method === 'createIndex') {
+            return
+          }
+          logger.debug({ coll, method, query, doc, options })
+        })
+
+        mongoose.set('autoIndex', !isProduction)
 
         return {
           uri: config.uri,

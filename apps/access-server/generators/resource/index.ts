@@ -79,18 +79,18 @@ generate('service.template', `${names.singleKebab}.service.ts`)
 
 generate(
   'dtos/create.request.template',
-  `dtos/create-${names.singleKebab}.request.dto.ts`
+  `dtos/create-${names.singleKebab}.request-dto.ts`
 )
 generate(
   'dtos/search.request.template',
-  `dtos/search-${names.singleKebab}.request.dto.ts`
+  `dtos/search-${names.singleKebab}.request-dto.ts`
 )
 generate(
   'dtos/search.response.template',
-  `dtos/search-${names.singleKebab}.response.dto.ts`
+  `dtos/search-${names.singleKebab}.response-dto.ts`
 )
 generate(
   'dtos/update.request.template',
-  `dtos/update-${names.singleKebab}.request.dto.ts`
+  `dtos/update-${names.singleKebab}.request-dto.ts`
 )
-generate('dtos/response.template', `dtos/${names.singleKebab}.response.dto.ts`)
+generate('dtos/response.template', `dtos/${names.singleKebab}.response-dto.ts`)

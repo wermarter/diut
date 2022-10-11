@@ -2,9 +2,9 @@ import { Body, Logger, Param } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'
-import { Create<%= singlePascal %>RequestDto } from './dtos/create-<%= singleKebab %>.request.dto'
-import { Search<%= singlePascal %>RequestDto } from './dtos/search-<%= singleKebab %>.request.dto'
-import { Update<%= singlePascal %>RequestDto } from './dtos/update-<%= singleKebab %>.request.dto'
+import { Create<%= singlePascal %>RequestDto } from './dtos/create-<%= singleKebab %>.request-dto'
+import { Search<%= singlePascal %>RequestDto } from './dtos/search-<%= singleKebab %>.request-dto'
+import { Update<%= singlePascal %>RequestDto } from './dtos/update-<%= singleKebab %>.request-dto'
 import { <%= singleCamel %>Routes } from './<%= singleKebab %>.routes'
 import { <%= singlePascal %>Service } from './<%= singleKebab %>.service'
 

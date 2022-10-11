@@ -12,3 +12,7 @@ log:
 mongo:
   uri: mongodb+srv://<user>:<password>@<something>.mongodb.net/<db_name>?retryWrites=true&w=majority
   retryAttempts: 3
+
+auth:
+  secret: not_so_secret
+  expiresIn: 16h

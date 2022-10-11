@@ -71,7 +71,7 @@ export async function bootstrap(rootModule: unknown) {
         margin: 30px 0;
       }
       .swagger-ui .opblock .opblock-summary .view-line-link {
-        transition: none;
+        display: none;
       }
       #swagger-ui > section > div.swagger-ui > div:nth-child(2) > div:nth-child(4) {
         display: none
