@@ -1,4 +1,4 @@
-import { Options } from 'pino-http'
+import { AutoLoggingOptions, Options } from 'pino-http'
 import { ConfigService } from '@nestjs/config'
 import { NodeEnv, PROJECT_PREFIX } from '@diut/common'
 import { Params } from 'nestjs-pino'
@@ -21,7 +21,7 @@ export function buildPinoOptions(configService: ConfigService): Params {
             colorize: true,
             crlf: true,
             ignore:
-              'version,pid,hostname,context,req.headers,res.headers,req.remoteAddress,req.remotePort,req.id,req.params',
+              'version,pid,hostname,context,req.headers,res.headers,req.remoteAddress,req.remotePort,req.params,req.query',
             messageFormat: '[{context}] {msg}',
             translateTime: 'SYS:HH:MM:ss',
           },
@@ -34,7 +34,11 @@ export function buildPinoOptions(configService: ConfigService): Params {
       level: logConfig.level,
       name: configService.get('package').name.replace(PROJECT_PREFIX, ''),
       base: { version: packageConfig.version },
-      autoLogging: !isProduction,
+      autoLogging: <AutoLoggingOptions>{
+        ignore: (req, res) => {
+          return res?.statusCode !== 200
+        },
+      },
       ...devConfig,
     },
   }

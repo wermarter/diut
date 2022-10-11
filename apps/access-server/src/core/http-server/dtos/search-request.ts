@@ -34,7 +34,7 @@ export class SearchRequestDto<Entity> {
 
   @ApiProperty({
     example: {
-      $and: [{ age: 18 }, { gender: 1 }],
+      $and: [{ someField: 18 }, { randomField: 'will be ignored' }],
     },
     description: 'mongoose FilterQuery',
     required: false,
