@@ -1,10 +1,10 @@
 import { Request } from 'express'
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 
-import { LOCAL_STRATEGY_KEY } from '../auth.common'
+import { LOCAL_STRATEGY_KEY, LoginExceptionMsg } from '../auth.common'
 import { UserService } from 'src/resources/users'
 import { LoginRequestDto } from '../dtos/login.request-dto'
 import { validateDto } from 'src/core'
@@ -25,12 +25,12 @@ export class LocalStrategy extends PassportStrategy(
 
     const user = await this.userService.findOne({ filter: { username } })
     if (!user) {
-      throw new UnauthorizedException('USERNAME_NOT_EXIST')
+      throw new BadRequestException(LoginExceptionMsg.USERNAME_NOT_EXIST)
     }
 
     const isCorrect = await argon2.verify(user.password, password)
     if (!isCorrect) {
-      throw new UnauthorizedException('WRONG_PASSWORD')
+      throw new BadRequestException(LoginExceptionMsg.WRONG_PASSWORD)
     }
 
     return user

@@ -5,9 +5,12 @@ import { COLLECTION } from 'src/common/collections'
 
 @Schema({
   ...baseSchemaOptions,
-  collection: COLLECTION.<%= singleUpper %>,
+  collection: COLLECTION.DOCTOR,
 })
-export class <%= singlePascal %> extends BaseSchema {
+export class Doctor extends BaseSchema {
+  @Prop({ required: true })
+  title: string
+
   @Prop({ required: true })
   name: string
 }

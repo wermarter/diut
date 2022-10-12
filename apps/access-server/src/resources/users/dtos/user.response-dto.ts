@@ -4,6 +4,8 @@ import { Expose } from 'class-transformer'
 
 import { BaseResourceResponseDto } from 'src/clients/mongo'
 import { AppPermission } from 'src/common/app-permission'
+import { BadRequestDto } from 'src/core'
+import { UserExceptionMsg } from '../user.common'
 
 export class UserResponseDto extends BaseResourceResponseDto {
   @Expose()
@@ -40,4 +42,11 @@ export class UserResponseDto extends BaseResourceResponseDto {
     isArray: true,
   })
   permissions: AppPermission[]
+}
+
+export class UserBadRequestDto extends BadRequestDto {
+  @ApiProperty({
+    enum: UserExceptionMsg,
+  })
+  message: UserExceptionMsg
 }

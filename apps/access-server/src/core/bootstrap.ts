@@ -48,6 +48,7 @@ export async function bootstrap(rootModule: unknown) {
     .setTitle(packageConfig.name)
     .setDescription(packageConfig.description)
     .setVersion(packageConfig.version)
+    .addBearerAuth()
     .build()
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig, {
@@ -73,7 +74,7 @@ export async function bootstrap(rootModule: unknown) {
       .swagger-ui .opblock .opblock-summary .view-line-link {
         display: none;
       }
-      #swagger-ui > section > div.swagger-ui > div:nth-child(2) > div:nth-child(4) {
+      #swagger-ui > section > div.swagger-ui > div:nth-child(2) > div:last-child {
         display: none
       }
     `,

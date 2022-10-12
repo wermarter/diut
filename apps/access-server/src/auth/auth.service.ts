@@ -15,11 +15,11 @@ export class AuthService {
       roles: user.roles,
       permissions: user.permissions,
     }
-    const accessToken = await this.jwtService.signAsync(payload)
+    const generatedAccessToken = await this.jwtService.signAsync(payload)
 
     return {
       ...user,
-      accessToken,
+      generatedAccessToken,
     }
   }
 }

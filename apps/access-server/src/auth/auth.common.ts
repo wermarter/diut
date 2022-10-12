@@ -1,7 +1,16 @@
 import { Role } from '@diut/common'
-import { createParamDecorator, ExecutionContext } from '@nestjs/common'
+import {
+  createParamDecorator,
+  ExecutionContext,
+  SetMetadata,
+} from '@nestjs/common'
 
 import { AppPermission } from 'src/common/app-permission'
+
+export enum LoginExceptionMsg {
+  USERNAME_NOT_EXIST = 'USERNAME_NOT_EXIST',
+  WRONG_PASSWORD = 'WRONG_PASSWORD',
+}
 
 export interface AuthTokenPayload {
   sub: string // UserId
@@ -9,11 +18,8 @@ export interface AuthTokenPayload {
   permissions: AppPermission[]
 }
 
-export const LOCAL_STRATEGY_KEY = 'local'
-export const JWT_STRATEGY_KEY = 'jwt'
-
-export const ROLES_KEY = 'roles'
-export const IS_PUBLIC_KEY = 'isPublic'
+export const LOCAL_STRATEGY_KEY = 'auth.local'
+export const JWT_STRATEGY_KEY = 'auth.jwt'
 
 export const ReqUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
@@ -21,3 +27,6 @@ export const ReqUser = createParamDecorator(
     return request.user
   }
 )
+
+export const ROLES_KEY = 'auth.roles'
+export const Roles = (roles: Role[]) => SetMetadata(ROLES_KEY, roles)

@@ -1,16 +1,24 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common'
-import { ApiResponse, ApiResponseMetadata } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiResponse,
+  ApiResponseMetadata,
+} from '@nestjs/swagger'
 
 export interface AppOpenApiOptions {
+  isPublic?: boolean
   responses?: ApiResponseMetadata[]
 }
 
-export const AppOpenApi = ({ responses }: AppOpenApiOptions) => {
+export const AppOpenApi = ({
+  isPublic = false,
+  responses,
+}: AppOpenApiOptions) => {
   const decorators: MethodDecorator[] = []
 
-  // responses.push([
-  //   unauthenticated, unauthorized
-  // ])
+  if (!isPublic) {
+    decorators.push(ApiBearerAuth())
+  }
 
   responses?.forEach(({ status, ...responseOptions }) => {
     decorators.push(

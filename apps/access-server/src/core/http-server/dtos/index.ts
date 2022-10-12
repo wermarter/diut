@@ -1,3 +1,5 @@
 export * from './paginated-response'
 export * from './search-request'
 export * from './validate-dto'
+export * from './exception-response'
+export * from './bad-request-dto'

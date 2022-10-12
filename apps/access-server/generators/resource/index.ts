@@ -94,3 +94,12 @@ generate(
   `dtos/update-${names.singleKebab}.request-dto.ts`
 )
 generate('dtos/response.template', `dtos/${names.singleKebab}.response-dto.ts`)
+
+console.log('--------------------------------------------------')
+
+console.log(`${resourcePath}/${names.singleKebab}.schema.ts`)
+console.log(`${resourcePath}/dtos/create-${names.singleKebab}.request-dto.ts`)
+console.log(`${resourcePath}/dtos/${names.singleKebab}.response-dto.ts`)
+
+console.log('--------------------------------------------------')
+console.log(`${resourcePath}/index.ts`)

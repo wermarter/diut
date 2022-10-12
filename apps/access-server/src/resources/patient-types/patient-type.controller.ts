@@ -1,4 +1,4 @@
-import { Body, Logger, Param, UseGuards } from '@nestjs/common'
+import { Body, Logger, Param } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'
@@ -7,9 +7,7 @@ import { SearchPatientTypeRequestDto } from './dtos/search-patient-type.request-
 import { UpdatePatientTypeRequestDto } from './dtos/update-patient-type.request-dto'
 import { patientTypeRoutes } from './patient-type.routes'
 import { PatientTypeService } from './patient-type.service'
-import { JwtAuthGuard } from 'src/auth'
 
-@UseGuards(JwtAuthGuard)
 @AppController(patientTypeRoutes.controller)
 export class PatientTypeController {
   private logger: Logger

@@ -10,7 +10,7 @@ import { COLLECTION } from 'src/common/collections'
   collection: COLLECTION.USER,
 })
 export class User extends BaseSchema {
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true, unique: true })
   username: string
 
   @Prop({ required: true })

@@ -5,7 +5,7 @@ export enum COLLECTION {
   BOOK = 'books',
   USER = 'users',
   PATIENT = 'patients',
-  DOCTOR = 'doctor',
+  DOCTOR = 'doctors',
   TEST_CATEGORY = 'test_categories',
   TEST = 'tests',
   TEST_ELEMENT = 'test_elements',
