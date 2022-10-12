@@ -1,9 +1,8 @@
-import { Role } from '@diut/common'
+import { Role, AppPermission } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
 import { BaseResourceResponseDto } from 'src/clients/mongo'
-import { AppPermission } from 'src/common/app-permission'
 import { BadRequestDto } from 'src/core'
 import { UserExceptionMsg } from '../user.common'
 

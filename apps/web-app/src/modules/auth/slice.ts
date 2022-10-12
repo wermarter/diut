@@ -1,9 +1,9 @@
+import { AppPermission, Role } from '@diut/common'
 import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { enhancedApi as authApi } from 'src/api/auth'
-import { AppPermission, Role } from 'src/common/types'
 import { RootState } from 'src/core'
 
 interface AuthState {

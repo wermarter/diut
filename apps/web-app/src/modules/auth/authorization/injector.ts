@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
+import { AppPermission } from '@diut/common'
 
-import { AppPermission } from 'src/common/types'
 import { checkPermissionSync } from './utils'
 import { UnauthorizedException } from './exceptions'
 import { InjectorFunction } from 'src/common/utils'

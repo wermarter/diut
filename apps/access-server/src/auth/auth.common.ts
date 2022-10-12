@@ -1,11 +1,9 @@
-import { Role } from '@diut/common'
+import { Role, AppPermission } from '@diut/common'
 import {
   createParamDecorator,
   ExecutionContext,
   SetMetadata,
 } from '@nestjs/common'
-
-import { AppPermission } from 'src/common/app-permission'
 
 export enum LoginExceptionMsg {
   USERNAME_NOT_EXIST = 'USERNAME_NOT_EXIST',

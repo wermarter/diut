@@ -1,8 +1,7 @@
 import { ReactElement } from 'react'
 import { To } from 'react-router-dom'
 import { Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material'
-
-import { AppPermission } from 'src/common/types'
+import { AppPermission } from '@diut/common'
 
 export interface MenuItem {
   icon: ReactElement

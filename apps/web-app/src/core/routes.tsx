@@ -1,4 +1,5 @@
-import { AppPermission } from 'src/common/types'
+import { AppPermission } from '@diut/common'
+
 import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
 import { loadLoginPage, LoginPage } from 'src/modules/auth'

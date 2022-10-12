@@ -1,8 +1,7 @@
-import { Role } from '@diut/common'
+import { Role, AppPermission } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
-import { AppPermission } from 'src/common/app-permission'
 import { COLLECTION } from 'src/common/collections'
 
 @Schema({

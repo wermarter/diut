@@ -1,7 +1,6 @@
-import { Role } from '@diut/common'
+import { Role, AppPermission } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { AppPermission } from 'src/common/app-permission'
 
 export class CreateUserRequestDto {
   @ApiProperty({

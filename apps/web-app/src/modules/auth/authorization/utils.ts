@@ -1,4 +1,5 @@
-import { AppPermission } from 'src/common/types'
+import { AppPermission } from '@diut/common'
+
 import { appStore, useTypedSelector } from 'src/core'
 import { selectUserPermissions } from '../slice'
 

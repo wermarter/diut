@@ -1,6 +1,7 @@
 import { Alert, AlertTitle } from '@mui/material'
 import { useRouteError } from 'react-router-dom'
 
+import { appConfig } from 'src/core'
 import { ErrorLayout } from './error-layout'
 
 export function UnknownExceptionPage() {
@@ -9,7 +10,9 @@ export function UnknownExceptionPage() {
   return (
     <ErrorLayout>
       <Alert icon={false} severity="error">
-        <AlertTitle>{exception.constructor.name}</AlertTitle>
+        {!appConfig.isProduction && (
+          <AlertTitle>{exception.constructor.name}</AlertTitle>
+        )}
         {exception.message}
       </Alert>
     </ErrorLayout>

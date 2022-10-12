@@ -2,6 +2,7 @@ import { Alert, AlertTitle, Button } from '@mui/material'
 import { useRouteError } from 'react-router-dom'
 
 import { AppException } from 'src/common/utils'
+import { appConfig } from 'src/core'
 import { ErrorLayout } from './error-layout'
 
 export function AppExceptionPage() {
@@ -11,7 +12,9 @@ export function AppExceptionPage() {
     return (
       <ErrorLayout>
         <Alert icon={false} severity="error">
-          <AlertTitle>{exception.constructor.name}</AlertTitle>
+          {!appConfig.isProduction && (
+            <AlertTitle>{exception.constructor.name}</AlertTitle>
+          )}
           {exception.message}
         </Alert>
         <Button
@@ -30,7 +33,9 @@ export function AppExceptionPage() {
   return (
     <ErrorLayout>
       <Alert icon={false} severity="error">
-        <AlertTitle>{exception.constructor.name}</AlertTitle>
+        {!appConfig.isProduction && (
+          <AlertTitle>{exception.constructor.name}</AlertTitle>
+        )}
         {exception.message}
       </Alert>
     </ErrorLayout>
