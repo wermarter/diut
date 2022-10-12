@@ -14,7 +14,7 @@ import {
 import { useNavigation } from 'react-router-dom'
 
 import { resetStoreState, useTypedDispatch, useTypedSelector } from 'src/core'
-import { selectUserName, userLogin } from 'src/modules/auth/slice'
+import { selectUserName } from 'src/modules/auth/slice'
 
 interface AppBarProps {
   drawerWidth: number
@@ -47,15 +47,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
       elevation={0}
     >
       <Toolbar variant="dense">
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          onClick={() => {
-            dispatch(userLogin({ username: 'dudey', password: 'conlaumoinoi' }))
-          }}
-          sx={{ flexGrow: 1 }}
-        >
+        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           Xin chào, {name}.
         </Typography>
         <div>

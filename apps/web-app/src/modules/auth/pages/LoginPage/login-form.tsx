@@ -1,15 +1,13 @@
 import { Alert, IconButton, InputAdornment, Box } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 
 import { fullLogo } from 'src/assets/images'
-import { useTypedDispatch } from 'src/core'
-import { userLogin } from '../../slice'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { FormTextField, FormContainer } from 'src/common/form-elements'
+import { LoginBadRequestDto, useAuthLoginMutation } from 'src/api/auth'
 
 interface LoginPageProps {
   reason?: string
@@ -18,10 +16,10 @@ interface LoginPageProps {
 const TextField = FormTextField<FormSchema>
 
 export function LoginForm({ reason }: LoginPageProps) {
-  const dispatch = useTypedDispatch()
-  const navigate = useNavigate()
   const [contextText, setContextText] = useState(reason)
   const [showPassword, setShowPassword] = useState(false)
+  const [login, { error }] = useAuthLoginMutation()
+
   const {
     control,
     handleSubmit,
@@ -32,22 +30,28 @@ export function LoginForm({ reason }: LoginPageProps) {
     defaultValues: formDefaultValues,
   })
 
-  const handleLogin = async ({ username, password }: FormSchema) => {
-    try {
-      const response = await dispatch(
-        userLogin({ username, password })
-      ).unwrap()
-      const isSuccess = Boolean(response?.accessToken)
-
-      if (!isSuccess) {
-        setError('password', { message: 'Sai mật khẩu' })
+  useEffect(() => {
+    const response = (error as any)?.data as LoginBadRequestDto
+    if (response?.message?.length > 0) {
+      const { message } = response
+      if (message === 'USERNAME_NOT_EXIST') {
+        setError(
+          'username',
+          { message: 'Sai tên đăng nhập' },
+          { shouldFocus: true }
+        )
+        return
       }
-    } catch (e) {
-      if (e instanceof Error) {
-        setContextText(e.message)
+      if (message === 'WRONG_PASSWORD') {
+        setError('password', { message: 'Sai mật khẩu' }, { shouldFocus: true })
+        return
       }
+      setContextText(message)
     }
-  }
+  }, [error])
+
+  const handleLogin = async ({ username, password }: FormSchema) =>
+    login({ loginRequestDto: { username, password } })
 
   const handleToggleShowPassword = () => {
     setShowPassword((current) => !current)
