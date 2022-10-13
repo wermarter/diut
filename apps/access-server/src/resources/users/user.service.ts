@@ -1,3 +1,4 @@
+import { UserExceptionMsg } from '@diut/common'
 import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, QueryOptions, UpdateQuery } from 'mongoose'
@@ -5,7 +6,6 @@ import * as argon2 from 'argon2'
 
 import { BaseMongoService } from 'src/clients/mongo'
 import { User } from './user.schema'
-import { UserExceptionMsg } from './user.common'
 
 @Injectable()
 export class UserService extends BaseMongoService<User> {

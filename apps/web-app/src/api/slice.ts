@@ -5,8 +5,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 
 import { appConfig } from 'src/core/config'
-import { resetStoreState } from 'src/core/reset'
-import { selectAccessToken } from 'src/modules/auth'
+import { selectAccessToken, userLogout } from 'src/modules/auth'
 
 const authorizedBaseQuery = fetchBaseQuery({
   baseUrl: appConfig.apiBaseUrl,
@@ -29,7 +28,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
     // await api.dispatch(adminLogin())
     // // retry the initial query
     // result = await authorizedBaseQuery(args, api, extraOptions)
-    api.dispatch(resetStoreState())
+    api.dispatch(userLogout())
   }
   return result
 }

@@ -2,7 +2,7 @@ import type { ConfigFile } from '@rtk-query/codegen-openapi'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
 
 const ENDPOINTS = [
-  'auth',
+  // 'auth',
   'user',
   'patient',
   'patient type',

@@ -1,10 +1,11 @@
+import { LoginExceptionMsg } from '@diut/common'
 import { Request } from 'express'
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 
-import { LOCAL_STRATEGY_KEY, LoginExceptionMsg } from '../auth.common'
+import { LOCAL_STRATEGY_KEY } from '../auth.common'
 import { UserService } from 'src/resources/users'
 import { LoginRequestDto } from '../dtos/login.request-dto'
 import { validateDto } from 'src/core'

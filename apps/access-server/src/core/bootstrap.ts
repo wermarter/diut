@@ -57,7 +57,7 @@ export async function bootstrap(rootModule: unknown) {
   })
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, swaggerDocument, {
     swaggerOptions: {
-      docExpansion: 'list',
+      docExpansion: 'none',
       filter: true,
     },
     customCss: `

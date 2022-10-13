@@ -6,13 +6,7 @@ import { BaseResourceResponseDto } from 'src/clients/mongo'
 export class DoctorResponseDto extends BaseResourceResponseDto {
   @Expose()
   @ApiProperty({
-    example: 'BS.',
-  })
-  title: string
-
-  @Expose()
-  @ApiProperty({
-    example: 'Lê Văn A',
+    example: 'BS. Lê Văn A',
   })
   name: string
 }

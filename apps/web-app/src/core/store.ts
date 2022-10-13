@@ -14,8 +14,12 @@ import {
 
 import { apiSlice } from 'src/api/slice'
 import { layoutReducer, layoutSlice } from 'src/common/layout/slice'
-import { authReducer, authSlice } from 'src/modules/auth'
-import { RESET_STORE_STATE, unauthenticatedMiddleware } from './reset'
+import {
+  authReducer,
+  authSlice,
+  unauthenticatedMiddleware,
+  USER_LOGOUT,
+} from 'src/modules/auth'
 
 const reducers = {
   [apiSlice.reducerPath]: apiSlice.reducer,
@@ -26,9 +30,9 @@ const reducers = {
 const combinedReducer = combineReducers<typeof reducers>(reducers)
 
 export const rootReducer: Reducer<RootState> = (state, action) => {
-  if (action.type === RESET_STORE_STATE) {
+  if (action.type === USER_LOGOUT) {
     localStorage.clear()
-    state = {} as RootState
+    location.reload()
   }
 
   return combinedReducer(state, action)

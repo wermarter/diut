@@ -1,9 +1,9 @@
+import { LoginExceptionMsg } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
 import { BadRequestDto } from 'src/core'
 import { UserResponseDto } from 'src/resources/users/dtos/user.response-dto'
-import { LoginExceptionMsg } from '../auth.common'
 
 export class LoginResponseDto extends UserResponseDto {
   @Expose()

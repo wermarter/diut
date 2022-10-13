@@ -1,4 +1,5 @@
-import { Body, Logger, Param } from '@nestjs/common'
+import { Role } from '@diut/common'
+import { Body, Logger, Param, UnauthorizedException } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'
@@ -7,6 +8,7 @@ import { SearchUserRequestDto } from './dtos/search-user.request-dto'
 import { UpdateUserRequestDto } from './dtos/update-user.request-dto'
 import { userRoutes } from './user.routes'
 import { UserService } from './user.service'
+import { AuthTokenPayload, ReqUser } from 'src/auth/auth.common'
 
 @AppController(userRoutes.controller)
 export class UserController {
@@ -27,11 +29,23 @@ export class UserController {
   }
 
   @AppRoute(userRoutes.updateById)
-  updateById(
+  async updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateUserRequestDto
+    @Body() body: UpdateUserRequestDto,
+    @ReqUser() user: AuthTokenPayload
   ) {
-    return this.userService.updateById(id, body)
+    const isAdmin = user.roles.includes(Role.Admin)
+
+    const targetUser = await this.userService.findById(id)
+    const isOwnUser = targetUser?._id?.toString() === user.sub
+
+    if (isOwnUser || isAdmin) {
+      return this.userService.updateById(id, body)
+    } else {
+      throw new UnauthorizedException(
+        'You can only modify your own information'
+      )
+    }
   }
 
   @AppRoute(userRoutes.findById)

@@ -9,8 +9,5 @@ import { COLLECTION } from 'src/common/collections'
 })
 export class Doctor extends BaseSchema {
   @Prop({ required: true })
-  title: string
-
-  @Prop({ required: true })
   name: string
 }

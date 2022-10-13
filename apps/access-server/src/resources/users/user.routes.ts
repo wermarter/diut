@@ -27,7 +27,6 @@ export const userRoutes = {
 
   create: <AppRouteOptions>{
     roles: [Role.Admin],
-    isPublic: true,
     method: RequestMethod.POST,
     serialize: UserResponseDto,
     openApi: {

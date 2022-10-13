@@ -5,11 +5,6 @@ import {
   SetMetadata,
 } from '@nestjs/common'
 
-export enum LoginExceptionMsg {
-  USERNAME_NOT_EXIST = 'USERNAME_NOT_EXIST',
-  WRONG_PASSWORD = 'WRONG_PASSWORD',
-}
-
 export interface AuthTokenPayload {
   sub: string // UserId
   roles: Role[]

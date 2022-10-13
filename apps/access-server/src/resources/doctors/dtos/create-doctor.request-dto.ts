@@ -3,14 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator'
 
 export class CreateDoctorRequestDto {
   @ApiProperty({
-    example: 'BS.',
-  })
-  @IsString()
-  @IsNotEmpty()
-  title: string
-
-  @ApiProperty({
-    example: 'Lê Văn A',
+    example: 'BS. Lê Văn A',
   })
   @IsString()
   @IsNotEmpty()

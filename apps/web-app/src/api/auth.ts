@@ -1,3 +1,4 @@
+import { AppPermission, LoginExceptionMsg, Role } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['auth'] as const
 const injectedRtkApi = api
@@ -17,7 +18,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as authApi }
 export type AuthLoginApiResponse = /** status 200  */ LoginResponseDto
 export type AuthLoginApiArg = {
   loginRequestDto: LoginRequestDto
@@ -29,14 +30,14 @@ export type LoginResponseDto = {
   username: string
   name: string
   phoneNumber?: string
-  roles: ('admin' | 'user')[]
-  permissions: ('overview' | 'weird')[]
+  roles: Role[]
+  permissions: AppPermission[]
   generatedAccessToken: string
 }
 export type LoginBadRequestDto = {
   statusCode: number
   error: string
-  message: 'USERNAME_NOT_EXIST' | 'WRONG_PASSWORD'
+  message: LoginExceptionMsg
 }
 export type LoginRequestDto = {
   username: string
