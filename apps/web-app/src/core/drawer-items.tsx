@@ -1,70 +1,103 @@
 import { ReactElement } from 'react'
 import { To } from 'react-router-dom'
-import { Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material'
-import { AppPermission } from '@diut/common'
+import { Permission } from '@diut/common'
+import AccountBoxIcon from '@mui/icons-material/AccountBoxOutlined'
+import HomeIcon from '@mui/icons-material/HomeOutlined'
+import VaccinesIcon from '@mui/icons-material/VaccinesOutlined'
+import BiotechIcon from '@mui/icons-material/BiotechOutlined'
+import WorkspacesIcon from '@mui/icons-material/WorkspacesOutlined'
+import WorkIcon from '@mui/icons-material/WorkOutline'
+import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccountsOutlined'
+import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
+import GradingIcon from '@mui/icons-material/Grading'
 
 export interface MenuItem {
   icon: ReactElement
   label: string
   destination: To
-  permission?: AppPermission
+  permission?: Permission
 }
 
 export interface DrawerItem {
   title: string
-  permission?: AppPermission
+  permission?: Permission
   children: MenuItem[]
 }
 
 export const drawerItems: DrawerItem[] = [
   {
-    title: '#1',
+    title: '',
     children: [
       {
-        icon: <InboxIcon />,
-        label: 'Item 1',
-        destination: '1',
-      },
-      {
-        icon: <MailIcon />,
-        permission: AppPermission.Overview,
-        label: 'Item 2',
-        destination: '2',
-      },
-      {
-        icon: <InboxIcon />,
-        label: 'Item 3',
-        destination: '3',
+        icon: <HomeIcon />,
+        label: 'Trang chủ',
+        destination: '/',
       },
     ],
   },
   {
-    title: '#2',
+    title: 'Quản lý hệ thống',
     children: [
       {
-        icon: <MailIcon />,
-        label: 'Last item',
-        destination: '',
+        icon: <ManageAccountsIcon />,
+        label: 'Người dùng',
+        destination: 'users',
+        permission: Permission.ManageUser,
       },
       {
-        icon: <MailIcon />,
-        label: 'Last item 1',
-        destination: '',
+        icon: <AccountBoxIcon />,
+        label: 'Bác sĩ',
+        destination: 'doctors',
+        permission: Permission.ManageDoctor,
+      },
+
+      {
+        icon: <WorkIcon />,
+        label: 'Đối tượng XN',
+        destination: 'tests',
+        permission: Permission.ManageTest,
       },
       {
-        icon: <MailIcon />,
-        label: 'Last item 2',
-        destination: '',
+        icon: <WorkspacesIcon />,
+        label: 'Nhóm XN',
+        destination: 'test-categories',
+        permission: Permission.ManageTestCategory,
       },
       {
-        icon: <MailIcon />,
-        label: 'Last item 3',
-        destination: '',
+        icon: <BiotechIcon />,
+        label: 'Tên XN',
+        destination: 'tests',
+        permission: Permission.ManageTest,
       },
       {
-        icon: <MailIcon />,
-        label: 'Last item 4',
-        destination: '',
+        icon: <BloodtypeIcon />,
+        label: 'Thành phần XN',
+        destination: 'test-elements',
+        permission: Permission.ManageTestElement,
+      },
+    ],
+  },
+  {
+    title: 'Thông tin',
+    children: [
+      {
+        icon: <AirlineSeatReclineNormalIcon />,
+        label: 'Bệnh nhân',
+        destination: 'patients',
+        permission: Permission.ManagePatient,
+      },
+      {
+        icon: <VaccinesIcon />,
+        label: 'Mẫu XN',
+        destination: 'samples',
+        permission: Permission.ManageSample,
+      },
+      {
+        icon: <GradingIcon />,
+        label: 'Kết quả XN',
+        destination: 'test-results',
+        permission: Permission.ManageTestResult,
       },
     ],
   },

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AccountCircle, FolderShared, Logout } from '@mui/icons-material'
+import { AccountCircle, Lock, Logout } from '@mui/icons-material'
 import {
   AppBar as MuiAppBar,
   IconButton,
@@ -78,9 +78,9 @@ export function AppBar({ drawerWidth }: AppBarProps) {
           >
             <MenuItem onClick={handleClose}>
               <ListItemIcon>
-                <FolderShared />
+                <Lock />
               </ListItemIcon>
-              <ListItemText>Thông tin</ListItemText>
+              <ListItemText>Đổi mật khẩu</ListItemText>
             </MenuItem>
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>

@@ -1,4 +1,4 @@
-import { Role, AppPermission } from '@diut/common'
+import { Role, Permission } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
@@ -42,10 +42,10 @@ export class CreateUserRequestDto {
   roles: Role[]
 
   @ApiProperty({
-    example: [AppPermission.Overview],
-    enum: AppPermission,
+    example: [Permission.ManageDoctor],
+    enum: Permission,
     isArray: true,
   })
-  @IsEnum(AppPermission, { each: true })
-  permissions: AppPermission[]
+  @IsEnum(Permission, { each: true })
+  permissions: Permission[]
 }

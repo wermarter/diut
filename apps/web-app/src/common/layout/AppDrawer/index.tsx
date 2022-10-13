@@ -22,8 +22,8 @@ interface AppDrawerProps {
 
 export function AppDrawer({ drawerWidth }: AppDrawerProps) {
   const navigate = useNavigate()
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
   const drawerItems = useDrawerItems()
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
 
   return (
     <Drawer
@@ -40,6 +40,7 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
       PaperProps={{
         sx: {
           borderColor: 'primary.main',
+          overflowX: 'hidden',
         },
       }}
     >
@@ -57,10 +58,6 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
           width={`${drawerWidth}px`}
           style={{
             padding: '4px',
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            navigate('/')
           }}
         />
         <Divider sx={{ my: 1, borderColor: 'primary.main' }} />
@@ -79,7 +76,7 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
         {drawerItems.map((group, index) => (
           <Fragment key={group.title}>
             {index > 0 && <Divider sx={{ my: 1 }} />}
-            <ListSubheader component="div" inset>
+            <ListSubheader disableSticky component="div" inset>
               {group.title}
             </ListSubheader>
             {group.children.map((item) => (

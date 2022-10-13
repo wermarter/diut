@@ -1,4 +1,4 @@
-import { AppPermission, Role } from '@diut/common'
+import { Permission, Role } from '@diut/common'
 import {
   createAction,
   createSlice,
@@ -15,7 +15,7 @@ interface AuthState {
   name?: string
   accessToken?: string
   roles?: Role[]
-  permissions?: AppPermission[]
+  permissions?: Permission[]
 }
 
 // Reset store state on user logout or token expiration

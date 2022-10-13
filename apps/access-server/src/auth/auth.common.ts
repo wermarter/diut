@@ -1,4 +1,4 @@
-import { Role, AppPermission } from '@diut/common'
+import { Role, Permission } from '@diut/common'
 import {
   createParamDecorator,
   ExecutionContext,
@@ -8,7 +8,7 @@ import {
 export interface AuthTokenPayload {
   sub: string // UserId
   roles: Role[]
-  permissions: AppPermission[]
+  permissions: Permission[]
 }
 
 export const LOCAL_STRATEGY_KEY = 'auth.local'

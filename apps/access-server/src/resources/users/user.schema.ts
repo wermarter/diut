@@ -1,4 +1,4 @@
-import { Role, AppPermission } from '@diut/common'
+import { Role, Permission } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
@@ -28,8 +28,8 @@ export class User extends BaseSchema {
   roles: Role[]
 
   @Prop({
-    type: [{ enum: AppPermission, type: String }],
+    type: [{ enum: Permission, type: String }],
     required: true,
   })
-  permissions: AppPermission[]
+  permissions: Permission[]
 }

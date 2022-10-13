@@ -1,4 +1,4 @@
-import { Role, AppPermission, UserExceptionMsg } from '@diut/common'
+import { Role, Permission, UserExceptionMsg } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
@@ -35,11 +35,11 @@ export class UserResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
-    example: [AppPermission.Overview],
-    enum: AppPermission,
+    example: [Permission.ManageDoctor],
+    enum: Permission,
     isArray: true,
   })
-  permissions: AppPermission[]
+  permissions: Permission[]
 }
 
 export class UserBadRequestDto extends BadRequestDto {

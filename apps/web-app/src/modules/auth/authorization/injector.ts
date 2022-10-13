@@ -1,12 +1,12 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import { AppPermission } from '@diut/common'
+import { Permission } from '@diut/common'
 
 import { checkPermissionSync } from './utils'
 import { UnauthorizedException } from './exceptions'
 import { InjectorFunction } from 'src/common/utils'
 
 export const authorizationInjector: InjectorFunction<{
-  requestedPermission: AppPermission
+  requestedPermission: Permission
 }> = (args: LoaderFunctionArgs, { requestedPermission }) => {
   if (!checkPermissionSync(requestedPermission)) {
     throw new UnauthorizedException({

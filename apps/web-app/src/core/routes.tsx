@@ -1,10 +1,11 @@
-import { AppPermission } from '@diut/common'
+import { Permission } from '@diut/common'
 
 import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
 import { loadLoginPage, LoginPage } from 'src/modules/auth'
-import { TestContentPage } from 'src/modules/example'
 import { ErrorPage } from 'src/common/layout/ErrorPage'
+import { DataGridDemo } from 'src/modules/test-grid'
+import { HomePage } from 'src/modules/homepage'
 
 // TODO: Code Splitting please!! React.lazy()
 
@@ -19,86 +20,51 @@ export const appRoutes: CustomRouteObject[] = [
     path: '/',
     element: <MainLayout />,
     errorElement: <ErrorPage />,
-    loader: () => {
-      console.log('root loader')
-    },
     isAuthenticated: true,
     children: [
       {
         index: true,
-        element: <TestContentPage someText="This is index page" />,
-        loader: async () => {
-          return new Promise((resolve) => {
-            setTimeout(() => resolve({}), 1000)
-          })
-        },
+        element: <HomePage />,
       },
       {
-        path: '1',
-        element: <TestContentPage someText="This is page 1" />,
-        loader: async () => {
-          await new Promise((r) =>
-            setTimeout(() => {
-              console.log('second log')
-              r({})
-            })
-          )
-        },
+        path: 'users',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
       },
       {
-        path: '2',
-        element: <TestContentPage someText="This is page 2" />,
-        loader: async () => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              console.log('ối, load mất r')
-              resolve({})
-            }, 1000)
-          })
-        },
+        path: 'doctors',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
       },
       {
-        path: '3',
-        element: <TestContentPage someText="This is page 3" />,
-        permission: AppPermission.Weird,
-        loader: () => {},
+        path: 'test-categories',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
       },
       {
-        path: '4',
-        element: <TestContentPage someText="This is page 4" />,
-        loader: () => {},
+        path: 'tests',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
       },
       {
-        path: 'test',
-        element: <TestContentPage someText="This is Test page" />,
-        // permission: AppPermission.Weird,
-        loader: () => {
-          console.log('test loader')
-          throw 'dfdfdfs'
-        },
-        children: [
-          {
-            path: 't1',
-            // permission: AppPermission.Overview,
-            loader: async () => {
-              console.log('test/1 loader')
-              return new Promise((resolve) => {
-                setTimeout(() => {
-                  console.log('test/1 loaded')
-                  resolve({})
-                }, 1000)
-              })
-            },
-            children: [
-              {
-                path: 't2',
-                loader: () => {
-                  console.log('test/1/2 loader')
-                },
-              },
-            ],
-          },
-        ],
+        path: 'test-elements',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
+      },
+      {
+        path: 'patients',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
+      },
+      {
+        path: 'samples',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
+      },
+      {
+        path: 'test-results',
+        permission: Permission.ManageDoctor,
+        element: <DataGridDemo />,
       },
     ],
   },

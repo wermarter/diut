@@ -1,4 +1,4 @@
-import { AppPermission, Role } from '@diut/common'
+import { Permission, Role } from '@diut/common'
 
 import { appStore, useTypedSelector } from 'src/core'
 import { selectUserPermissions, selectUserRoles } from '../slice'
@@ -8,8 +8,8 @@ export function isAdmin(userRoles: Role[]) {
 }
 
 export function checkPermission(
-  userPermissions: AppPermission[],
-  requestedPermission: AppPermission,
+  userPermissions: Permission[],
+  requestedPermission: Permission,
   userRoles?: Role[]
 ) {
   if (userRoles && isAdmin(userRoles)) {
@@ -23,14 +23,14 @@ export function checkPermission(
   )
 }
 
-export function useCheckPermission(requestedPermission: AppPermission) {
+export function useCheckPermission(requestedPermission: Permission) {
   const userPermissions = useTypedSelector(selectUserPermissions)
   const userRoles = useTypedSelector(selectUserRoles)
 
   return checkPermission(userPermissions, requestedPermission, userRoles)
 }
 
-export function checkPermissionSync(requestedPermission: AppPermission) {
+export function checkPermissionSync(requestedPermission: Permission) {
   const userPermissions = selectUserPermissions(appStore.getState())
   const userRoles = selectUserRoles(appStore.getState())
 

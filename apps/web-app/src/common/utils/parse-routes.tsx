@@ -4,7 +4,7 @@ import {
   NonIndexRouteObject,
   RouteObject,
 } from 'react-router-dom'
-import { AppPermission } from '@diut/common'
+import { Permission } from '@diut/common'
 
 import {
   AuthenticationCheck,
@@ -14,7 +14,7 @@ import {
 import { combineInjectors, RouteInjectors, makeInjector } from './inject-loader'
 
 export type AdditionalRouteProps = {
-  permission?: AppPermission
+  permission?: Permission
   isAuthenticated?: boolean
 }
 
