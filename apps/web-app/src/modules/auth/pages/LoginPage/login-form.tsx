@@ -1,6 +1,7 @@
 import { Alert, IconButton, InputAdornment, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useForm } from 'react-hook-form'
 

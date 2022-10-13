@@ -88,7 +88,10 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
                   navigate(item.destination)
                 }}
               >
-                <ListItemButton selected={selectedItem?.label === item.label}>
+                <ListItemButton
+                  disableRipple
+                  selected={selectedItem?.label === item.label}
+                >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.label} />
                 </ListItemButton>

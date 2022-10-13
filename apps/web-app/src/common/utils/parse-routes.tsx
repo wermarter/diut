@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import _ from 'lodash-es'
 import {
   IndexRouteObject,
@@ -12,6 +13,7 @@ import {
   authorizationInjector,
 } from 'src/modules/auth'
 import { combineInjectors, RouteInjectors, makeInjector } from './inject-loader'
+import { LoadingPage } from '../layout/LoadingPage'
 
 export type AdditionalRouteProps = {
   permission?: Permission
@@ -42,6 +44,9 @@ export function parseRoutes(
     if (isAuthenticated) {
       customElement = <AuthenticationCheck>{customElement}</AuthenticationCheck>
     }
+    customElement = (
+      <Suspense fallback={<LoadingPage />}>{customElement}</Suspense>
+    )
 
     // Route injectors
     const injectors = _.clone(authInjectors) ?? []

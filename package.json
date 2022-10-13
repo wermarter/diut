@@ -19,9 +19,10 @@
     "nx": "^14.5.7"
   },
   "scripts": {
-    "be": "lerna run start:dev --scope @diut/access-server",
-    "common": "lerna run build --scope @diut/common",
+    "be": "lerna run dev --scope @diut/access-server",
+    "common": "lerna run dev --scope @diut/common",
     "fe": "lerna run dev --scope @diut/web-app",
+    "dev": "lerna run --parallel dev",
     "postinstall": "lerna run build --scope @diut/common"
   }
 }

@@ -1,4 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
+import type {} from '@mui/x-data-grid/themeAugmentation'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 

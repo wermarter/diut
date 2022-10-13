@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { AccountCircle, Lock, Logout } from '@mui/icons-material'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import Lock from '@mui/icons-material/Lock'
+import Logout from '@mui/icons-material/Logout'
 import {
   AppBar as MuiAppBar,
   IconButton,

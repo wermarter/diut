@@ -1,6 +1,6 @@
 # Project Diut
 
-## How to install
+## How to run
 
 Prepare your own MongoDB instance for [free](https://www.mongodb.com/atlas/database)
 
@@ -12,20 +12,14 @@ Install NodeJS 18 (recommend [nvm](https://github.com/nvm-sh/nvm))
 
 `cd diut/ && yarn` to install all dependencies in this Yarn workspace
 
-## What to run
+Backend configs in `apps/access-server/config.yml`
 
-## Backend
+Frontend configs in `apps/web-app/.env`
 
-`yarn be` to start NestJS server in "--watch" mode, config in `apps/access-server/config.yml`
+`yarn dev` to start everything!
+
+## Tooling
 
 `cd apps/access-server && yarn g:resource "new resource" "new resources"` to generate `new-resource` in `src/resources`
 
-## Frontend
-
-`yarn fe` to start ViteJS dev server with configs from `apps/web-app/.env`
-
-`cd apps/web-app && yarn g:rtk` to generate API from backend openAPI spec, configs in `apps/web-app/openapi-config.cts`
-
-## Lib common
-
-`yarn common` to update `@diut/common` package in backend services
+`cd apps/web-app && yarn g:rtk` to generate API from backend openAPI spec with configs in `apps/web-app/openapi-config.cts`

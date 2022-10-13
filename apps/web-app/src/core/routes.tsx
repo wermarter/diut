@@ -1,3 +1,4 @@
+import React from 'react'
 import { Permission } from '@diut/common'
 
 import { MainLayout } from 'src/common/layout/MainLayout'
@@ -7,7 +8,7 @@ import { ErrorPage } from 'src/common/layout/ErrorPage'
 import { DataGridDemo } from 'src/modules/test-grid'
 import { HomePage } from 'src/modules/homepage'
 
-// TODO: Code Splitting please!! React.lazy()
+const DoctorRoute = React.lazy(() => import('src/modules/doctor'))
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -34,7 +35,7 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: 'doctors',
         permission: Permission.ManageDoctor,
-        element: <DataGridDemo />,
+        element: <DoctorRoute />,
       },
       {
         path: 'test-categories',
