@@ -1,44 +1,36 @@
-import Box from '@mui/material/Box'
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid'
+import { Button, Stack } from '@mui/material'
 import { useEffect } from 'react'
-import { DoctorResponseDto, useDoctorSearchMutation } from 'src/api/doctor'
 
-const columns: GridColDef<DoctorResponseDto>[] = [
-  {
-    field: 'name',
-    headerName: 'Tên',
-    sortable: false,
-    width: 200,
-  },
-]
+import { useDoctorSearchMutation } from 'src/api/doctor'
+import { DoctorTable } from './components/DoctorTable'
 
 export function ManageDoctorPage() {
-  const [searchDoctors, { isUninitialized, data }] = useDoctorSearchMutation()
+  const [searchDoctors, { data, isLoading }] = useDoctorSearchMutation()
   useEffect(() => {
-    if (isUninitialized) searchDoctors({ searchDoctorRequestDto: {} })
+    searchDoctors({ searchDoctorRequestDto: {} })
   }, [])
 
   return (
-    data?.items!?.length > 0 && (
-      <Box sx={{ width: '100%' }}>
-        <DataGrid
-          rows={data?.items!}
-          columns={columns}
-          autoHeight
-          pageSize={10}
-          rowsPerPageOptions={[5, 10]}
-          checkboxSelection
-          getRowId={(item) => {
-            return item._id
-          }}
-          disableSelectionOnClick
-          experimentalFeatures={{ newEditingApi: true }}
-          components={{ Toolbar: GridToolbar }}
-          componentsProps={{
-            toolbar: { showQuickFilter: true },
-          }}
-        />
-      </Box>
-    )
+    <>
+      <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+        <Button
+          variant="outlined"
+          onClick={() => searchDoctors({ searchDoctorRequestDto: {} })}
+        >
+          Refresh
+        </Button>
+        <Button>Update a row</Button>
+        <Button>Update all rows</Button>
+        <Button>Delete a row</Button>
+        <Button>Add a row</Button>
+      </Stack>
+      <DoctorTable
+        items={data?.items ?? []}
+        isLoading={isLoading}
+        onUpdate={(...props: any) => {
+          console.log({ props })
+        }}
+      />
+    </>
   )
 }

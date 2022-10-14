@@ -5,7 +5,6 @@ import Logout from '@mui/icons-material/Logout'
 import {
   AppBar as MuiAppBar,
   IconButton,
-  LinearProgress,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -17,6 +16,7 @@ import { useNavigation } from 'react-router-dom'
 
 import { useTypedDispatch, useTypedSelector } from 'src/core'
 import { selectUserName, userLogout } from 'src/modules/auth/slice'
+import { ProgressBar } from 'src/common/components'
 
 interface AppBarProps {
   drawerWidth: number
@@ -93,7 +93,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
           </Menu>
         </div>
       </Toolbar>
-      {navigation.state !== 'idle' && <LinearProgress color="secondary" />}
+      {navigation.state !== 'idle' && <ProgressBar />}
     </MuiAppBar>
   )
 }

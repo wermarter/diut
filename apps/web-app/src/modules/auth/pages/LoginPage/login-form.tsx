@@ -1,3 +1,4 @@
+import { LoginExceptionMsg } from '@diut/common'
 import { Alert, IconButton, InputAdornment, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
@@ -35,7 +36,7 @@ export function LoginForm({ reason }: LoginPageProps) {
     const response = (error as any)?.data as LoginBadRequestDto
     if (response?.message?.length > 0) {
       const { message } = response
-      if (message === 'USERNAME_NOT_EXIST') {
+      if (message === LoginExceptionMsg.USERNAME_NOT_EXIST) {
         setError(
           'username',
           { message: 'Sai tên đăng nhập' },
@@ -43,7 +44,7 @@ export function LoginForm({ reason }: LoginPageProps) {
         )
         return
       }
-      if (message === 'WRONG_PASSWORD') {
+      if (message === LoginExceptionMsg.WRONG_PASSWORD) {
         setError('password', { message: 'Sai mật khẩu' }, { shouldFocus: true })
         return
       }
