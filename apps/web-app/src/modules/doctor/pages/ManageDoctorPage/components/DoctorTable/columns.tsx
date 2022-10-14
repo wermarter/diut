@@ -13,26 +13,26 @@ export const doctorColumns: GridColumns<DoctorResponseDto> = [
     sortable: false,
     editable: true,
   },
-  {
-    field: 'actions',
-    type: 'actions',
-    width: 80,
-    getActions: (params) => [
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        // onClick={deleteUser(params.id)}
-      />,
-      <GridActionsCellItem
-        icon={<SecurityIcon />}
-        label="Toggle Admin"
-        showInMenu
-      />,
-      <GridActionsCellItem
-        icon={<FileCopyIcon />}
-        label="Duplicate User"
-        showInMenu
-      />,
-    ],
-  },
+  // {
+  //   field: 'actions',
+  //   type: 'actions',
+  //   width: 80,
+  //   getActions: (params) => [
+  //     <GridActionsCellItem
+  //       icon={<DeleteIcon />}
+  //       label="Delete"
+  //       // onClick={deleteUser(params.id)}
+  //     />,
+  //     <GridActionsCellItem
+  //       icon={<SecurityIcon />}
+  //       label="Toggle Admin"
+  //       showInMenu
+  //     />,
+  //     <GridActionsCellItem
+  //       icon={<FileCopyIcon />}
+  //       label="Duplicate User"
+  //       showInMenu
+  //     />,
+  //   ],
+  // },
 ]

@@ -6,16 +6,14 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      doctorSearch: build.mutation<DoctorSearchApiResponse, DoctorSearchApiArg>(
-        {
-          query: (queryArg) => ({
-            url: `/api/doctors/search`,
-            method: 'POST',
-            body: queryArg.searchDoctorRequestDto,
-          }),
-          invalidatesTags: ['doctors'],
-        }
-      ),
+      doctorSearch: build.query<DoctorSearchApiResponse, DoctorSearchApiArg>({
+        query: (queryArg) => ({
+          url: `/api/doctors/search`,
+          method: 'POST',
+          body: queryArg.searchDoctorRequestDto,
+        }),
+        providesTags: ['doctors'],
+      }),
       doctorCreate: build.mutation<DoctorCreateApiResponse, DoctorCreateApiArg>(
         {
           query: (queryArg) => ({
@@ -57,7 +55,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as authApi }
 export type DoctorSearchApiResponse = /** status 200  */ SearchDoctorResponseDto
 export type DoctorSearchApiArg = {
   searchDoctorRequestDto: SearchDoctorRequestDto
@@ -83,7 +81,6 @@ export type DoctorResponseDto = {
   _id: string
   createdAt: string
   updatedAt: string
-  title: string
   name: string
 }
 export type SearchDoctorResponseDto = {
@@ -99,15 +96,14 @@ export type SearchDoctorRequestDto = {
   filter?: object
 }
 export type CreateDoctorRequestDto = {
-  title: string
   name: string
 }
 export type UpdateDoctorRequestDto = {
-  title?: string
   name?: string
 }
 export const {
-  useDoctorSearchMutation,
+  useDoctorSearchQuery,
+  useLazyDoctorSearchQuery,
   useDoctorCreateMutation,
   useDoctorUpdateByIdMutation,
   useDoctorFindByIdQuery,

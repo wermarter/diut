@@ -10,7 +10,6 @@ import {
   GridRowsProp,
   GridRowModesModel,
   GridRowModes,
-  DataGrid,
   GridColumns,
   GridRowParams,
   MuiEvent,
@@ -26,6 +25,7 @@ import {
   randomUpdatedDate,
   randomId,
 } from '@mui/x-data-grid-generator'
+import { DataTable } from 'src/common/components/DataTable'
 
 const initialRows: GridRowsProp = [
   {
@@ -218,8 +218,9 @@ export function DataGridDemo() {
         },
       }}
     >
-      <DataGrid
+      <DataTable
         rows={rows}
+        getRowId={(item) => item.id}
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
@@ -234,6 +235,7 @@ export function DataGridDemo() {
           toolbar: { setRows, setRowModesModel },
         }}
         experimentalFeatures={{ newEditingApi: true }}
+        cellOutline
       />
     </Box>
   )

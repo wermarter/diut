@@ -16,6 +16,7 @@ export type DataTableProps<R extends GridValidRowModel> = DataGridProps<R> &
 export function DataTable<R extends GridValidRowModel>({
   cellOutline = false,
   sx,
+  components,
   ...otherDataGridProps
 }: DataTableProps<R>) {
   return (
@@ -27,10 +28,6 @@ export function DataTable<R extends GridValidRowModel>({
       getRowId={(item) => {
         return item._id
       }}
-      components={{
-        LoadingOverlay: ProgressBar,
-        NoRowsOverlay: EmptyRowsOverlay,
-      }}
       experimentalFeatures={{ newEditingApi: true, columnGrouping: true }}
       sx={[
         {
@@ -38,14 +35,28 @@ export function DataTable<R extends GridValidRowModel>({
             outline: 'none !important',
           },
         },
-        !cellOutline && {
-          '.MuiDataGrid-cell:focus-within': {
-            outline: 'none !important',
-          },
-        },
+        !cellOutline
+          ? {
+              '.MuiDataGrid-cell:focus-within': {
+                outline: 'none !important',
+              },
+            }
+          : (theme) => ({
+              '.MuiDataGrid-cell:focus-within': {
+                outlineColor: `${theme.palette.secondary.main} !important`,
+              },
+            }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+      components={Object.assign(
+        {},
+        {
+          LoadingOverlay: ProgressBar,
+          NoRowsOverlay: EmptyRowsOverlay,
+        },
+        components
+      )}
       {...otherDataGridProps}
     />
   )

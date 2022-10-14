@@ -1,20 +1,59 @@
-import { DoctorResponseDto } from 'src/api/doctor'
-import { DataTable } from 'src/common/components/DataTable'
+import {
+  useDoctorCreateMutation,
+  useDoctorDeleteByIdMutation,
+  useDoctorSearchQuery,
+  useDoctorUpdateByIdMutation,
+  useLazyDoctorSearchQuery,
+} from 'src/api/doctor'
+import { CrudTable } from 'src/common/components/CrudTable'
 import { doctorColumns } from './columns'
 
-interface DoctorTableProps {
-  items: DoctorResponseDto[]
-  isLoading: boolean
-  onUpdate: Function
-}
+export function DoctorTable() {
+  const { data, isFetching } = useDoctorSearchQuery({
+    searchDoctorRequestDto: { sort: { createdAt: -1 } },
+  })
+  const [searchDoctors, { isFetching: isSearching }] =
+    useLazyDoctorSearchQuery()
 
-export function DoctorTable({ items, isLoading, onUpdate }: DoctorTableProps) {
+  const [createDoctor, { isLoading: isCreating }] = useDoctorCreateMutation()
+  const [updateDoctor, { isLoading: isUpdating }] =
+    useDoctorUpdateByIdMutation()
+  const [deleteDoctor, { isLoading: isDeleting }] =
+    useDoctorDeleteByIdMutation()
+
   return (
-    <DataTable
-      rows={items}
-      columns={doctorColumns}
-      loading={isLoading}
-      editMode="row"
+    <CrudTable
+      items={data?.items ?? []}
+      itemIdField="_id"
+      isLoading={
+        isFetching || isCreating || isUpdating || isDeleting || isSearching
+      }
+      fieldColumns={doctorColumns}
+      onItemCreate={async (item) => {
+        await createDoctor({
+          createDoctorRequestDto: {
+            name: item.name,
+          },
+        })
+      }}
+      onItemUpdate={async (newItem, oldItem) => {
+        await updateDoctor({
+          id: newItem._id,
+          updateDoctorRequestDto: {
+            name: newItem.name,
+          },
+        })
+      }}
+      onItemDelete={async (item) => {
+        await deleteDoctor({
+          id: item._id,
+        })
+      }}
+      onRefresh={async () => {
+        await searchDoctors({
+          searchDoctorRequestDto: { sort: { createdAt: -1 } },
+        })
+      }}
     />
   )
 }

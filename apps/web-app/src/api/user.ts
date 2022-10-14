@@ -1,3 +1,4 @@
+import { Permission, Role } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['users'] as const
 const injectedRtkApi = api
@@ -50,7 +51,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as userApi }
 export type UserSearchApiResponse = /** status 200  */ SearchUserResponseDto
 export type UserSearchApiArg = {
   searchUserRequestDto: SearchUserRequestDto
@@ -79,8 +80,8 @@ export type UserResponseDto = {
   username: string
   name: string
   phoneNumber?: string
-  roles: ('admin' | 'user')[]
-  permissions: ('overview' | 'weird')[]
+  roles: Role[]
+  permissions: Permission[]
 }
 export type SearchUserResponseDto = {
   total: number
@@ -104,16 +105,16 @@ export type CreateUserRequestDto = {
   name: string
   password: string
   phoneNumber?: string
-  roles: ('admin' | 'user')[]
-  permissions: ('overview' | 'weird')[]
+  roles: Role[]
+  permissions: Permission[]
 }
 export type UpdateUserRequestDto = {
   username?: string
   name?: string
   password?: string
   phoneNumber?: string
-  roles?: ('admin' | 'user')[]
-  permissions?: ('overview' | 'weird')[]
+  roles?: Role[]
+  permissions?: Permission[]
 }
 export const {
   useUserSearchMutation,

@@ -3,10 +3,10 @@ import { camelCase, kebabCase, upperFirst } from 'lodash'
 
 const ENDPOINTS = [
   // 'auth',
-  'user',
+  // 'user',
   'patient',
   'patient type',
-  'doctor',
+  // 'doctor',
   'test category',
   'test',
   'test element',
