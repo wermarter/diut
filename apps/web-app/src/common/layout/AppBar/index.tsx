@@ -17,6 +17,7 @@ import { useNavigation } from 'react-router-dom'
 import { useTypedDispatch, useTypedSelector } from 'src/core'
 import { selectUserName, userLogout } from 'src/modules/auth/slice'
 import { ProgressBar } from 'src/common/components'
+import { ChangePassword } from './components/ChangePassword'
 
 interface AppBarProps {
   drawerWidth: number
@@ -28,6 +29,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
   const navigation = useNavigation()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [openChangePassword, setOpenChangePassword] = React.useState(false)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -42,6 +44,11 @@ export function AppBar({ drawerWidth }: AppBarProps) {
     dispatch(userLogout())
   }
 
+  const handleChangePassword = () => {
+    handleClose()
+    setOpenChangePassword(true)
+  }
+
   return (
     <MuiAppBar
       position="fixed"
@@ -54,14 +61,13 @@ export function AppBar({ drawerWidth }: AppBarProps) {
         </Typography>
         <div>
           <IconButton
-            size="large"
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
             color="inherit"
           >
-            <AccountCircle fontSize="large" />
+            <AccountCircle />
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -78,7 +84,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleChangePassword}>
               <ListItemIcon>
                 <Lock />
               </ListItemIcon>
@@ -94,6 +100,12 @@ export function AppBar({ drawerWidth }: AppBarProps) {
         </div>
       </Toolbar>
       {navigation.state !== 'idle' && <ProgressBar />}
+      <ChangePassword
+        open={openChangePassword}
+        onClose={() => {
+          setOpenChangePassword(false)
+        }}
+      />
     </MuiAppBar>
   )
 }

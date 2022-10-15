@@ -24,4 +24,15 @@ export const userColumns: GridColumns<UserResponseDto> = [
     sortable: false,
     editable: true,
   },
+  {
+    field: 'permissionSummary',
+    headerName: 'Phân quyền',
+    width: 120,
+    sortable: false,
+    editable: false,
+    type: 'number',
+    valueGetter({ row }) {
+      return row.permissions?.length ?? 0
+    },
+  },
 ]

@@ -17,8 +17,8 @@ const appTheme = createTheme(
         light: '#00798c',
       },
       secondary: {
-        main: '#f27815',
-        light: '#f27815',
+        main: '#E27a1d',
+        light: '#E27a1d',
       },
     },
   },

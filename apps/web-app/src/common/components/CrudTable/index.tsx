@@ -169,11 +169,6 @@ export function CrudTable<R extends GridValidRowModel>({
               color="primary"
               disabled={isLoading}
             />,
-            <GridActionsCellItem
-              label="Xoá"
-              onClick={handleDeleteClick(row)}
-              showInMenu
-            />,
             ...customRowActions.map(({ label, action }) => {
               return (
                 <GridActionsCellItem
@@ -183,6 +178,11 @@ export function CrudTable<R extends GridValidRowModel>({
                 />
               )
             }),
+            <GridActionsCellItem
+              label="Xoá"
+              onClick={handleDeleteClick(row)}
+              showInMenu
+            />,
           ]
         },
       },
@@ -190,47 +190,45 @@ export function CrudTable<R extends GridValidRowModel>({
   }, [rowModesModel, isLoading])
 
   return (
-    <>
-      <DataTable
-        rows={rows}
-        getRowId={(item) => {
-          return item[itemIdField]
-        }}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-        onRowEditStart={handleRowEditStart}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        components={{
-          Toolbar: CrudToolbar,
-        }}
-        componentsProps={{
-          toolbar: {
-            setRows,
-            setRowModesModel,
-            itemIdField,
-            onRefresh,
-            isLoading,
-            firstField: columns?.[0]?.field,
-          },
-          pagination: {
-            showFirstButton: true,
-            showLastButton: true,
-          },
-        }}
-        experimentalFeatures={{ newEditingApi: true }}
-        cellOutline
-        loading={isLoading}
-        paginationMode="server"
-        rowsPerPageOptions={[5, 10, 20]}
-        rowCount={rowCount}
-        page={page}
-        onPageChange={onPageChange}
-        pageSize={pageSize}
-        onPageSizeChange={onPageSizeChange}
-      />
-    </>
+    <DataTable
+      rows={rows}
+      getRowId={(item) => {
+        return item[itemIdField]
+      }}
+      columns={columns}
+      editMode="row"
+      rowModesModel={rowModesModel}
+      onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+      onRowEditStart={handleRowEditStart}
+      onRowEditStop={handleRowEditStop}
+      processRowUpdate={processRowUpdate}
+      components={{
+        Toolbar: CrudToolbar,
+      }}
+      componentsProps={{
+        toolbar: {
+          setRows,
+          setRowModesModel,
+          itemIdField,
+          onRefresh,
+          isLoading,
+          firstField: columns?.[0]?.field,
+        },
+        pagination: {
+          showFirstButton: true,
+          showLastButton: true,
+        },
+      }}
+      experimentalFeatures={{ newEditingApi: true }}
+      cellOutline
+      loading={isLoading}
+      paginationMode="server"
+      rowsPerPageOptions={[5, 10, 20]}
+      rowCount={rowCount}
+      page={page}
+      onPageChange={onPageChange}
+      pageSize={pageSize}
+      onPageSizeChange={onPageSizeChange}
+    />
   )
 }

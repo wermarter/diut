@@ -12,6 +12,7 @@ import { authApi } from 'src/api/auth'
 import { RootState } from 'src/core'
 
 interface AuthState {
+  id?: string
   name?: string
   accessToken?: string
   roles?: Role[]
@@ -45,6 +46,7 @@ export const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.authLogin.matchFulfilled,
       (state, { payload }) => {
+        state.id = payload?._id
         state.name = payload?.name
         state.accessToken = payload?.generatedAccessToken
         state.roles = payload?.roles
@@ -62,6 +64,7 @@ export const authReducer = persistReducer(
   authSlice.reducer
 )
 
+export const selectUserId = (state: RootState) => state.auth.id
 export const selectUserName = (state: RootState) => state.auth.name
 export const selectAccessToken = (state: RootState) => state.auth.accessToken
 export const selectIsAuthenticated = (state: RootState) =>
