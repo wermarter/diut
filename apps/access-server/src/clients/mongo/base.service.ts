@@ -91,8 +91,8 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
       query.sort(sort)
     }
 
-    if (offset) {
-      query.skip((offset - 1) * limit)
+    if (offset !== undefined) {
+      query.skip(offset * limit)
       query.limit(limit)
     }
 

@@ -13,8 +13,8 @@ export class UserService extends BaseMongoService<User> {
     super(model, new Logger(UserService.name))
   }
 
-  private async presaveUser(data: Partial<User>) {
-    if (await this.exists({ username: data.username })) {
+  private async presaveUser(data: Partial<User>, isNew = true) {
+    if (isNew && (await this.exists({ username: data.username }))) {
       throw new BadRequestException(UserExceptionMsg.USERNAME_EXISTED)
     }
 
@@ -44,7 +44,7 @@ export class UserService extends BaseMongoService<User> {
   ) {
     return super.updateById(
       id,
-      await this.presaveUser(data as unknown),
+      await this.presaveUser(data as unknown, false),
       options
     )
   }

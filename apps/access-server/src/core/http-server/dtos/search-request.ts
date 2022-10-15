@@ -4,14 +4,14 @@ import { FilterQuery, SortOrder } from 'mongoose'
 
 export class SearchRequestDto<Entity> {
   @ApiProperty({
-    default: 1,
+    default: 0,
     required: false,
     type: 'number',
   })
   @IsOptional()
   @IsNumber()
-  @Min(1)
-  offset = 1
+  @Min(0)
+  offset = 0
 
   @ApiProperty({
     default: 10,

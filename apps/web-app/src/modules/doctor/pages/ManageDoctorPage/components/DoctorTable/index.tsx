@@ -6,14 +6,17 @@ import {
   useLazyDoctorSearchQuery,
 } from 'src/api/doctor'
 import { CrudTable } from 'src/common/components/CrudTable'
+import { useCrudPagination } from 'src/common/hooks'
+import { LoadingPage } from 'src/common/layout/LoadingPage'
 import { doctorColumns } from './columns'
 
 export function DoctorTable() {
+  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+
   const { data, isFetching } = useDoctorSearchQuery({
-    searchDoctorRequestDto: { sort: { createdAt: -1 } },
+    searchDoctorRequestDto: filterObj,
   })
-  const [searchDoctors, { isFetching: isSearching }] =
-    useLazyDoctorSearchQuery()
+  const [searchDoctors] = useLazyDoctorSearchQuery()
 
   const [createDoctor, { isLoading: isCreating }] = useDoctorCreateMutation()
   const [updateDoctor, { isLoading: isUpdating }] =
@@ -21,14 +24,17 @@ export function DoctorTable() {
   const [deleteDoctor, { isLoading: isDeleting }] =
     useDoctorDeleteByIdMutation()
 
-  return (
+  return data?.items !== undefined ? (
     <CrudTable
-      items={data?.items ?? []}
+      items={data?.items}
       itemIdField="_id"
-      isLoading={
-        isFetching || isCreating || isUpdating || isDeleting || isSearching
-      }
+      isLoading={isFetching || isCreating || isUpdating || isDeleting}
       fieldColumns={doctorColumns}
+      rowCount={data?.total!}
+      page={data?.offset!}
+      pageSize={data?.limit!}
+      onPageChange={onPageChange}
+      onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
         await createDoctor({
           createDoctorRequestDto: {
@@ -50,10 +56,10 @@ export function DoctorTable() {
         })
       }}
       onRefresh={async () => {
-        await searchDoctors({
-          searchDoctorRequestDto: { sort: { createdAt: -1 } },
-        })
+        await searchDoctors({ searchDoctorRequestDto: filterObj })
       }}
     />
+  ) : (
+    <LoadingPage />
   )
 }

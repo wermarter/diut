@@ -1,1 +1,1 @@
-export const NO_HOOK = true
+export { useCrudPagination } from './pagination'

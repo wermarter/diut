@@ -9,6 +9,7 @@ import { DataGridDemo } from 'src/modules/test-grid'
 import { HomePage } from 'src/modules/homepage'
 
 const DoctorRoute = React.lazy(() => import('src/modules/doctor'))
+const UserRoute = React.lazy(() => import('src/modules/user'))
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -29,8 +30,8 @@ export const appRoutes: CustomRouteObject[] = [
       },
       {
         path: 'users',
-        permission: Permission.ManageDoctor,
-        element: <DataGridDemo />,
+        permission: Permission.ManageUser,
+        element: <UserRoute />,
       },
       {
         path: 'doctors',
@@ -39,32 +40,32 @@ export const appRoutes: CustomRouteObject[] = [
       },
       {
         path: 'test-categories',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManageTestCategory,
         element: <DataGridDemo />,
       },
       {
         path: 'tests',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManageTest,
         element: <DataGridDemo />,
       },
       {
         path: 'test-elements',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManageTestElement,
         element: <DataGridDemo />,
       },
       {
         path: 'patients',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManagePatient,
         element: <DataGridDemo />,
       },
       {
         path: 'samples',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManageSample,
         element: <DataGridDemo />,
       },
       {
         path: 'test-results',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManageTestResult,
         element: <DataGridDemo />,
       },
     ],

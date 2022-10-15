@@ -1,6 +1,5 @@
 import * as React from 'react'
 import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Close'
 import {
@@ -13,10 +12,16 @@ import {
   GridActionsCellItem,
   GridEventListener,
   GridValidRowModel,
+  GridCallbackDetails,
 } from '@mui/x-data-grid'
 
 import { DataTable } from '../DataTable'
 import { CrudToolbar, NEW_ID_VALUE } from './components/CrudToolbar'
+
+interface CustomRowAction<R extends GridValidRowModel> {
+  label: string
+  action: (item: R) => void
+}
 
 interface CrudTableProps<R extends GridValidRowModel> {
   items: GridRowsProp<R>
@@ -27,6 +32,17 @@ interface CrudTableProps<R extends GridValidRowModel> {
   onItemDelete: (item: R) => Promise<void> | void
   onRefresh: () => Promise<void> | void
   isLoading: boolean
+
+  rowCount: number
+  page: number
+  onPageChange: (page: number, details: GridCallbackDetails<any>) => void
+  onPageSizeChange: (
+    pageSize: number,
+    details: GridCallbackDetails<any>
+  ) => void
+  pageSize: number
+
+  customRowActions?: CustomRowAction<R>[]
 }
 
 export function CrudTable<R extends GridValidRowModel>({
@@ -38,6 +54,14 @@ export function CrudTable<R extends GridValidRowModel>({
   onItemDelete,
   onRefresh,
   isLoading,
+
+  rowCount,
+  page,
+  onPageChange,
+  onPageSizeChange,
+  pageSize,
+
+  customRowActions = [],
 }: CrudTableProps<R>) {
   const [rows, setRows] = React.useState<GridRowsProp<R>>([])
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
@@ -124,15 +148,14 @@ export function CrudTable<R extends GridValidRowModel>({
               <GridActionsCellItem
                 icon={<SaveIcon />}
                 label="Save"
+                color="primary"
                 onClick={handleSaveClick(row)}
                 disabled={isLoading}
               />,
               <GridActionsCellItem
                 icon={<CancelIcon />}
                 label="Cancel"
-                className="textPrimary"
                 onClick={handleCancelClick(row)}
-                color="inherit"
                 disabled={isLoading}
               />,
             ]
@@ -142,18 +165,24 @@ export function CrudTable<R extends GridValidRowModel>({
             <GridActionsCellItem
               icon={<EditIcon />}
               label="Edit"
-              className="textPrimary"
               onClick={handleEditClick(row)}
-              color="inherit"
+              color="primary"
               disabled={isLoading}
             />,
             <GridActionsCellItem
-              icon={<DeleteIcon />}
-              label="Delete"
+              label="Xoá"
               onClick={handleDeleteClick(row)}
-              color="inherit"
-              disabled={isLoading}
+              showInMenu
             />,
+            ...customRowActions.map(({ label, action }) => {
+              return (
+                <GridActionsCellItem
+                  label={label}
+                  onClick={() => action(row)}
+                  showInMenu
+                />
+              )
+            }),
           ]
         },
       },
@@ -161,34 +190,47 @@ export function CrudTable<R extends GridValidRowModel>({
   }, [rowModesModel, isLoading])
 
   return (
-    <DataTable
-      rows={rows}
-      getRowId={(item) => {
-        return item[itemIdField]
-      }}
-      columns={columns}
-      editMode="row"
-      rowModesModel={rowModesModel}
-      onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-      onRowEditStart={handleRowEditStart}
-      onRowEditStop={handleRowEditStop}
-      processRowUpdate={processRowUpdate}
-      components={{
-        Toolbar: CrudToolbar,
-      }}
-      componentsProps={{
-        toolbar: {
-          setRows,
-          setRowModesModel,
-          itemIdField,
-          onRefresh,
-          isLoading,
-          firstField: columns?.[0]?.field,
-        },
-      }}
-      experimentalFeatures={{ newEditingApi: true }}
-      cellOutline
-      loading={isLoading}
-    />
+    <>
+      <DataTable
+        rows={rows}
+        getRowId={(item) => {
+          return item[itemIdField]
+        }}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+        onRowEditStart={handleRowEditStart}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        components={{
+          Toolbar: CrudToolbar,
+        }}
+        componentsProps={{
+          toolbar: {
+            setRows,
+            setRowModesModel,
+            itemIdField,
+            onRefresh,
+            isLoading,
+            firstField: columns?.[0]?.field,
+          },
+          pagination: {
+            showFirstButton: true,
+            showLastButton: true,
+          },
+        }}
+        experimentalFeatures={{ newEditingApi: true }}
+        cellOutline
+        loading={isLoading}
+        paginationMode="server"
+        rowsPerPageOptions={[5, 10, 20]}
+        rowCount={rowCount}
+        page={page}
+        onPageChange={onPageChange}
+        pageSize={pageSize}
+        onPageSizeChange={onPageSizeChange}
+      />
+    </>
   )
 }

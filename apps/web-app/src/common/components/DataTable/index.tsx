@@ -24,11 +24,6 @@ export function DataTable<R extends GridValidRowModel>({
       autoHeight
       disableColumnMenu
       disableSelectionOnClick
-      rowsPerPageOptions={[10, 50, 100]}
-      getRowId={(item) => {
-        return item._id
-      }}
-      experimentalFeatures={{ newEditingApi: true, columnGrouping: true }}
       sx={[
         {
           '.MuiDataGrid-columnHeader:focus-within': {

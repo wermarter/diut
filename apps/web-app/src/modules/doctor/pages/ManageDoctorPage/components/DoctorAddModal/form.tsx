@@ -1,3 +1,0 @@
-export function DoctorAddForm() {
-  return <></>
-}

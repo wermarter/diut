@@ -1,4 +1,4 @@
-import { Permission, Role } from '@diut/common'
+import { Permission, Role, UserExceptionMsg } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['users'] as const
 const injectedRtkApi = api
@@ -7,13 +7,13 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      userSearch: build.mutation<UserSearchApiResponse, UserSearchApiArg>({
+      userSearch: build.query<UserSearchApiResponse, UserSearchApiArg>({
         query: (queryArg) => ({
           url: `/api/users/search`,
           method: 'POST',
           body: queryArg.searchUserRequestDto,
         }),
-        invalidatesTags: ['users'],
+        providesTags: ['users'],
       }),
       userCreate: build.mutation<UserCreateApiResponse, UserCreateApiArg>({
         query: (queryArg) => ({
@@ -98,7 +98,7 @@ export type SearchUserRequestDto = {
 export type UserBadRequestDto = {
   statusCode: number
   error: string
-  message: 'USERNAME_EXISTED'
+  message: UserExceptionMsg
 }
 export type CreateUserRequestDto = {
   username: string
@@ -117,7 +117,8 @@ export type UpdateUserRequestDto = {
   permissions?: Permission[]
 }
 export const {
-  useUserSearchMutation,
+  useUserSearchQuery,
+  useLazyUserSearchQuery,
   useUserCreateMutation,
   useUserUpdateByIdMutation,
   useUserFindByIdQuery,

@@ -6,7 +6,7 @@ export function ManageDoctorPage() {
   return (
     <>
       <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-        <Typography variant="h5">Quản lý danh sách Bác sĩ</Typography>
+        <Typography variant="h5">Danh sách Bác sĩ</Typography>
       </Stack>
       <DoctorTable />
     </>
