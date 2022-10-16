@@ -38,7 +38,9 @@ const names = {
 }
 
 const templatePath = './generators/resource/templates'
-const resourcePath = `./src/resources/${names.pluralKebab}`
+const resourceRoot = './src/resources'
+
+const resourcePath = `${resourceRoot}/${names.pluralKebab}`
 const dtoPath = `${resourcePath}/dtos`
 
 if (existsSync(resourcePath)) {
@@ -100,6 +102,6 @@ console.log('--------------------------------------------------')
 console.log(`${resourcePath}/${names.singleKebab}.schema.ts`)
 console.log(`${resourcePath}/dtos/create-${names.singleKebab}.request-dto.ts`)
 console.log(`${resourcePath}/dtos/${names.singleKebab}.response-dto.ts`)
+console.log(`${resourceRoot}/index.ts`)
 
 console.log('--------------------------------------------------')
-console.log(`${resourcePath}/index.ts`)

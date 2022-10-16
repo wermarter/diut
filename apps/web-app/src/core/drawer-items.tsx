@@ -51,11 +51,10 @@ export const drawerItems: DrawerItem[] = [
         destination: 'doctors',
         permission: Permission.ManageCore,
       },
-
       {
         icon: <WorkIcon />,
         label: 'Đối tượng XN',
-        destination: 'tests',
+        destination: 'patient-types',
         permission: Permission.ManageCore,
       },
       {

@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import { toast } from 'react-toastify'
 
 import { authApi } from 'src/api/auth'
 import { RootState } from 'src/core'
@@ -30,14 +31,32 @@ export const authMiddleware: Middleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    if (isRejectedWithValue(action) && action?.payload?.status === 401) {
-      dispatch(userLogout())
-    }
+    if (isRejectedWithValue(action)) {
+      const { status, data } = action?.payload ?? {}
 
-    if (isRejectedWithValue(action) && action?.payload?.status === 403) {
-      throw new UnauthorizedException({
-        message: 'Bạn không có quyền truy cập tài nguyên này.',
-      })
+      if (status === 401) {
+        dispatch(userLogout())
+      }
+
+      if (status === 403) {
+        toast.error('Bạn không có quyền truy cập tài nguyên này.')
+      }
+
+      if (status === 400) {
+        const { message } = data ?? {}
+
+        if (message?.[0]?.length > 1) {
+          // class-validator exception
+          toast.error(message[0])
+        } else {
+          // custom bad request message
+          toast.error(message)
+        }
+      }
+
+      if (status === 500) {
+        toast.error('Lỗi hệ thống')
+      }
     }
 
     return next(action)

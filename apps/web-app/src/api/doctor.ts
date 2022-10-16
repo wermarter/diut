@@ -55,7 +55,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as authApi }
+export { injectedRtkApi as doctorApi }
 export type DoctorSearchApiResponse = /** status 200  */ SearchDoctorResponseDto
 export type DoctorSearchApiArg = {
   searchDoctorRequestDto: SearchDoctorRequestDto

@@ -5,9 +5,12 @@ import { COLLECTION } from 'src/common/collections'
 
 @Schema({
   ...baseSchemaOptions,
-  collection: COLLECTION.PATIENT_TYPE,
+  collection: COLLECTION.TEST_CATEGORY,
 })
-export class PatientType extends BaseSchema {
+export class TestCategory extends BaseSchema {
   @Prop({ required: true })
   name: string
+
+  @Prop({ required: true })
+  leftRightIndex: number
 }

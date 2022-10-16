@@ -6,7 +6,7 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      patientTypeSearch: build.mutation<
+      patientTypeSearch: build.query<
         PatientTypeSearchApiResponse,
         PatientTypeSearchApiArg
       >({
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.searchPatientTypeRequestDto,
         }),
-        invalidatesTags: ['patient-types'],
+        providesTags: ['patient-types'],
       }),
       patientTypeCreate: build.mutation<
         PatientTypeCreateApiResponse,
@@ -59,7 +59,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as patientTypeApi }
 export type PatientTypeSearchApiResponse =
   /** status 200  */ SearchPatientTypeResponseDto
 export type PatientTypeSearchApiArg = {
@@ -111,7 +111,8 @@ export type UpdatePatientTypeRequestDto = {
   name?: string
 }
 export const {
-  usePatientTypeSearchMutation,
+  usePatientTypeSearchQuery,
+  useLazyPatientTypeSearchQuery,
   usePatientTypeCreateMutation,
   usePatientTypeUpdateByIdMutation,
   usePatientTypeFindByIdQuery,

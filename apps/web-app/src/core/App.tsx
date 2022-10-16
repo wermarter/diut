@@ -1,6 +1,8 @@
 import { Provider as ReduxProvider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { LoadingPage } from 'src/common/layout/LoadingPage'
 import { parseRoutes } from 'src/common/utils'
@@ -26,6 +28,17 @@ export function App() {
           )
         }}
       </PersistGate>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
     </ReduxProvider>
   )
 }

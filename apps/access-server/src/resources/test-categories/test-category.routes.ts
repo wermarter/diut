@@ -2,23 +2,23 @@ import { Role } from '@diut/common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
-import { SearchDoctorResponseDto } from './dtos/search-doctor.response-dto'
-import { DoctorResponseDto } from './dtos/doctor.response-dto'
+import { SearchTestCategoryResponseDto } from './dtos/search-test-category.response-dto'
+import { TestCategoryResponseDto } from './dtos/test-category.response-dto'
 
-export const doctorRoutes = {
+export const testCategoryRoutes = {
   controller: <AppControllerOptions>{
-    basePath: 'doctors',
+    basePath: 'test-categories',
   },
 
   search: <AppRouteOptions>{
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: SearchDoctorResponseDto,
+    serialize: SearchTestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: SearchDoctorResponseDto,
+          type: SearchTestCategoryResponseDto,
         },
       ],
     },
@@ -27,11 +27,11 @@ export const doctorRoutes = {
   create: <AppRouteOptions>{
     roles: [Role.Admin],
     method: RequestMethod.POST,
-    serialize: DoctorResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: DoctorResponseDto,
+          type: TestCategoryResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -42,11 +42,11 @@ export const doctorRoutes = {
     roles: [Role.Admin],
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: DoctorResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: DoctorResponseDto,
+          type: TestCategoryResponseDto,
         },
       ],
     },
@@ -55,11 +55,11 @@ export const doctorRoutes = {
   findById: <AppRouteOptions>{
     path: ':id',
     method: RequestMethod.GET,
-    serialize: DoctorResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: DoctorResponseDto,
+          type: TestCategoryResponseDto,
         },
       ],
     },
@@ -69,11 +69,11 @@ export const doctorRoutes = {
     roles: [Role.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: DoctorResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: DoctorResponseDto,
+          type: TestCategoryResponseDto,
         },
       ],
     },

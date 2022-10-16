@@ -51,7 +51,7 @@ export function UserTable() {
               roles: item?.roles ?? [],
               permissions: item?.permissions ?? [],
             },
-          })
+          }).unwrap()
         }}
         onItemUpdate={async (newItem, oldItem) => {
           await updateUser({
@@ -63,17 +63,17 @@ export function UserTable() {
               permissions: newItem.permissions,
               roles: newItem.roles,
             },
-          })
+          }).unwrap()
         }}
         onItemDelete={async (item) => {
           await deleteUser({
             id: item._id,
-          })
+          }).unwrap()
         }}
         onRefresh={async () => {
           await searchUsers({
             searchUserRequestDto: filterObj,
-          })
+          }).unwrap()
         }}
         customRowActions={[
           {

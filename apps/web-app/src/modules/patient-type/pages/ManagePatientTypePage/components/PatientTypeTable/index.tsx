@@ -1,63 +1,66 @@
 import { Skeleton } from '@mui/material'
 
 import {
-  useDoctorCreateMutation,
-  useDoctorDeleteByIdMutation,
-  useDoctorSearchQuery,
-  useDoctorUpdateByIdMutation,
-  useLazyDoctorSearchQuery,
-} from 'src/api/doctor'
+  usePatientTypeCreateMutation,
+  usePatientTypeDeleteByIdMutation,
+  usePatientTypeSearchQuery,
+  usePatientTypeUpdateByIdMutation,
+  useLazyPatientTypeSearchQuery,
+} from 'src/api/patient-type'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
-import { doctorColumns } from './columns'
+import { patientTypeColumns } from './columns'
 
-export function DoctorTable() {
+export function PatientTypeTable() {
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
 
-  const { data, isFetching } = useDoctorSearchQuery({
-    searchDoctorRequestDto: filterObj,
+  const { data, isFetching } = usePatientTypeSearchQuery({
+    searchPatientTypeRequestDto: filterObj,
   })
-  const [searchDoctors] = useLazyDoctorSearchQuery()
+  const [searchPatientTypes] = useLazyPatientTypeSearchQuery()
 
-  const [createDoctor, { isLoading: isCreating }] = useDoctorCreateMutation()
-  const [updateDoctor, { isLoading: isUpdating }] =
-    useDoctorUpdateByIdMutation()
-  const [deleteDoctor, { isLoading: isDeleting }] =
-    useDoctorDeleteByIdMutation()
+  const [createPatientType, { isLoading: isCreating }] =
+    usePatientTypeCreateMutation()
+  const [updatePatientType, { isLoading: isUpdating }] =
+    usePatientTypeUpdateByIdMutation()
+  const [deletePatientType, { isLoading: isDeleting }] =
+    usePatientTypeDeleteByIdMutation()
 
   return data?.items !== undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
       isLoading={isFetching || isCreating || isUpdating || isDeleting}
-      fieldColumns={doctorColumns}
+      fieldColumns={patientTypeColumns}
       rowCount={data?.total!}
       page={data?.offset!}
       pageSize={data?.limit!}
       onPageChange={onPageChange}
       onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
-        await createDoctor({
-          createDoctorRequestDto: {
+        await createPatientType({
+          createPatientTypeRequestDto: {
             name: item.name,
           },
         }).unwrap()
       }}
       onItemUpdate={async (newItem, oldItem) => {
-        await updateDoctor({
+        await updatePatientType({
           id: newItem._id,
-          updateDoctorRequestDto: {
+          updatePatientTypeRequestDto: {
             name: newItem.name,
           },
         }).unwrap()
       }}
       onItemDelete={async (item) => {
-        await deleteDoctor({
+        await deletePatientType({
           id: item._id,
         }).unwrap()
       }}
       onRefresh={async () => {
-        await searchDoctors({ searchDoctorRequestDto: filterObj }).unwrap()
+        await searchPatientTypes({
+          searchPatientTypeRequestDto: filterObj,
+        }).unwrap()
       }}
     />
   ) : (
