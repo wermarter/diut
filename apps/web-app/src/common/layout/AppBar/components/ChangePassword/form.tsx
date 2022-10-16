@@ -68,7 +68,7 @@ export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
         control={control}
         margin="dense"
         fullWidth
-        label="Lặp lại mật khẩu"
+        label="Nhắc lại mật khẩu"
         type={showConfirmPassword ? 'text' : 'password'}
         autoComplete="new-password"
         InputProps={{

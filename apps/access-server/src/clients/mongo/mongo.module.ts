@@ -7,6 +7,15 @@ import mongoose from 'mongoose'
 import { validateConfig } from 'src/core/config/validate-config'
 import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
 
+function patchEmitter(emitter: any) {
+  var oldEmit = emitter.emit
+  emitter.emit = function () {
+    var emitArgs = arguments
+    console.log({ emitArgs })
+    oldEmit.apply(emitter, arguments)
+  }
+}
+
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -32,6 +41,16 @@ import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
         return {
           uri: config.uri,
           retryAttempts: config.retryAttempts,
+          connectionFactory: (connection, name) => {
+            const client = connection.client
+            // patchEmitter(connection.client)
+
+            client.on('serverHeartbeatFailed', () => {
+              logger.warn('MongoDB Connection failed')
+            })
+
+            return connection
+          },
         }
       },
     }),

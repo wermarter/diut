@@ -42,7 +42,7 @@ export class CreateUserRequestDto {
   roles: Role[]
 
   @ApiProperty({
-    example: [Permission.ManageDoctor],
+    example: [Permission.ManageCore],
     enum: Permission,
     isArray: true,
   })

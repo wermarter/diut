@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage'
 
 import { authApi } from 'src/api/auth'
 import { RootState } from 'src/core'
+import { UnauthorizedException } from './authorization'
 
 interface AuthState {
   id?: string
@@ -25,12 +26,18 @@ export const userLogout = createAction(USER_LOGOUT, () => {
   return { payload: null }
 })
 
-export const unauthenticatedMiddleware: Middleware =
+export const authMiddleware: Middleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
     if (isRejectedWithValue(action) && action?.payload?.status === 401) {
       dispatch(userLogout())
+    }
+
+    if (isRejectedWithValue(action) && action?.payload?.status === 403) {
+      throw new UnauthorizedException({
+        message: 'Bạn không có quyền truy cập tài nguyên này.',
+      })
     }
 
     return next(action)

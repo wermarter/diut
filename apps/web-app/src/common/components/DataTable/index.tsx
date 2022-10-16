@@ -23,24 +23,17 @@ export function DataTable<R extends GridValidRowModel>({
     <DataGrid
       autoHeight
       disableColumnMenu
-      disableSelectionOnClick
       sx={[
         {
           '.MuiDataGrid-columnHeader:focus-within': {
             outline: 'none !important',
           },
         },
-        !cellOutline
-          ? {
-              '.MuiDataGrid-cell:focus-within': {
-                outline: 'none !important',
-              },
-            }
-          : (theme) => ({
-              '.MuiDataGrid-cell:focus-within': {
-                outlineColor: `${theme.palette.secondary.main} !important`,
-              },
-            }),
+        !cellOutline && {
+          '.MuiDataGrid-cell:focus-within': {
+            outline: 'none !important',
+          },
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       localeText={viVN.components.MuiDataGrid.defaultProps.localeText}

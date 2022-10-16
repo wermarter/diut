@@ -26,7 +26,7 @@ const StyledGridOverlay = styled('div')(({ theme }) => ({
 
 export function EmptyRowsOverlay() {
   return (
-    <StyledGridOverlay>
+    <StyledGridOverlay sx={{ mt: 1 }}>
       <svg
         width="120"
         height="100"
@@ -66,7 +66,7 @@ export function EmptyRowsOverlay() {
           </g>
         </g>
       </svg>
-      <Box sx={{ mt: 1 }}>Không có dữ liệu</Box>
+      <Box sx={{ mt: 1, mb: 2 }}>Không có dữ liệu</Box>
     </StyledGridOverlay>
   )
 }

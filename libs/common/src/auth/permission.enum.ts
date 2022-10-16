@@ -1,10 +1,5 @@
 export enum Permission {
-  ManageUser = 'ManageUser',
-  ManageDoctor = 'ManageDoctor',
-  ManagePatientType = 'ManagePatientType',
-  ManageTest = 'ManageTest',
-  ManageTestCategory = 'ManageTestCategory',
-  ManageTestElement = 'ManageTestElement',
+  ManageCore = 'ManageCore',
   //
   ManagePatient = 'ManagePatient',
   ManageSample = 'ManageSample',

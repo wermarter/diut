@@ -17,7 +17,7 @@ import { layoutReducer, layoutSlice } from 'src/common/layout/slice'
 import {
   authReducer,
   authSlice,
-  unauthenticatedMiddleware,
+  authMiddleware,
   USER_LOGOUT,
 } from 'src/modules/auth'
 
@@ -45,7 +45,7 @@ export const appStore = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([unauthenticatedMiddleware, apiSlice.middleware]),
+    }).concat([authMiddleware, apiSlice.middleware]),
 })
 
 // allow API slice refetchOnReconnect

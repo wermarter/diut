@@ -1,3 +1,5 @@
+import { Skeleton } from '@mui/material'
+
 import {
   useDoctorCreateMutation,
   useDoctorDeleteByIdMutation,
@@ -7,7 +9,6 @@ import {
 } from 'src/api/doctor'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
-import { LoadingPage } from 'src/common/layout/LoadingPage'
 import { doctorColumns } from './columns'
 
 export function DoctorTable() {
@@ -60,6 +61,6 @@ export function DoctorTable() {
       }}
     />
   ) : (
-    <LoadingPage />
+    <Skeleton variant="rectangular" width="100%" height="300px" />
   )
 }

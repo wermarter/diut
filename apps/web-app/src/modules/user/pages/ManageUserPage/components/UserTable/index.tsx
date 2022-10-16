@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { Role } from '@diut/common'
+import { Skeleton } from '@mui/material'
 
 import {
   useUserCreateMutation,
@@ -7,13 +7,10 @@ import {
   useUserSearchQuery,
   useUserUpdateByIdMutation,
   useLazyUserSearchQuery,
-  UserResponseDto,
 } from 'src/api/user'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { userColumns } from './columns'
-import { LoadingPage } from 'src/common/layout/LoadingPage'
 import { useCrudPagination } from 'src/common/hooks'
-import { SideAction } from 'src/common/components/SideAction'
 
 const USER_DEFAULT_PASSWORD = 'password'
 
@@ -28,10 +25,6 @@ export function UserTable() {
   const [createUser, { isLoading: isCreating }] = useUserCreateMutation()
   const [updateUser, { isLoading: isUpdating }] = useUserUpdateByIdMutation()
   const [deleteUser, { isLoading: isDeleting }] = useUserDeleteByIdMutation()
-
-  const [selectedUser, setSelectedUser] =
-    React.useState<UserResponseDto | null>(null)
-  const permissionOpen = Boolean(selectedUser)
 
   return data?.items !== undefined ? (
     <>
@@ -64,6 +57,7 @@ export function UserTable() {
               name: newItem.name,
               username: newItem.username,
               phoneNumber: newItem.phoneNumber,
+              permissions: newItem.permissions,
             },
           })
         }}
@@ -74,27 +68,12 @@ export function UserTable() {
         }}
         onRefresh={async () => {
           await searchUsers({
-            searchUserRequestDto: { sort: { createdAt: -1 } },
+            searchUserRequestDto: filterObj,
           })
-        }}
-        customRowActions={[
-          {
-            label: 'Phân quyền',
-            action(item) {
-              setSelectedUser(item)
-            },
-          },
-        ]}
-      />
-      <SideAction
-        title="Phân quyền"
-        open={permissionOpen}
-        onClose={() => {
-          setSelectedUser(null)
         }}
       />
     </>
   ) : (
-    <LoadingPage />
+    <Skeleton variant="rectangular" width="100%" height="300px" />
   )
 }

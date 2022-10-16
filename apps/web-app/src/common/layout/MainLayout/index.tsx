@@ -13,7 +13,7 @@ export function MainLayout() {
       <AppDrawer drawerWidth={drawerWidth} />
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        sx={{ flexGrow: 1, bgcolor: 'background.default', px: 3, py: 1 }}
       >
         <Toolbar />
         <Outlet />

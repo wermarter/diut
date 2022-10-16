@@ -30,27 +30,27 @@ export const appRoutes: CustomRouteObject[] = [
       },
       {
         path: 'users',
-        permission: Permission.ManageUser,
+        permission: Permission.ManageCore,
         element: <UserRoute />,
       },
       {
         path: 'doctors',
-        permission: Permission.ManageDoctor,
+        permission: Permission.ManageCore,
         element: <DoctorRoute />,
       },
       {
         path: 'test-categories',
-        permission: Permission.ManageTestCategory,
+        permission: Permission.ManageCore,
         element: <DataGridDemo />,
       },
       {
         path: 'tests',
-        permission: Permission.ManageTest,
+        permission: Permission.ManageCore,
         element: <DataGridDemo />,
       },
       {
         path: 'test-elements',
-        permission: Permission.ManageTestElement,
+        permission: Permission.ManageCore,
         element: <DataGridDemo />,
       },
       {
