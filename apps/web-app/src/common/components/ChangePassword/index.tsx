@@ -10,16 +10,19 @@ import { ChangePasswordForm } from './form'
 interface ChangePasswordProps {
   open: boolean
   onClose: Function
+  userId?: string
 }
 
-export function ChangePassword({ open, onClose }: ChangePasswordProps) {
+export function ChangePassword({ open, onClose, userId }: ChangePasswordProps) {
   const [showMessage, setShowMessage] = React.useState('')
   const [updateUser, { isLoading }] = useUserUpdateByIdMutation()
-  const userId = useTypedSelector(selectUserId)
+  const currentUserId = useTypedSelector(selectUserId)
+
+  const targetId = userId ?? currentUserId!
 
   const handleChangePassword = async (newPassword: string) => {
     return updateUser({
-      id: userId!,
+      id: targetId,
       updateUserRequestDto: { password: newPassword },
     }).then(() => {
       setShowMessage('Thay đổi thành công!')

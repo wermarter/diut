@@ -1,4 +1,4 @@
-import { Role } from '@diut/common'
+import * as React from 'react'
 import { Skeleton } from '@mui/material'
 
 import {
@@ -11,6 +11,7 @@ import {
 import { CrudTable } from 'src/common/components/CrudTable'
 import { userColumns } from './columns'
 import { useCrudPagination } from 'src/common/hooks'
+import { ChangePassword } from 'src/common/components/ChangePassword'
 
 const USER_DEFAULT_PASSWORD = 'password'
 
@@ -25,6 +26,8 @@ export function UserTable() {
   const [createUser, { isLoading: isCreating }] = useUserCreateMutation()
   const [updateUser, { isLoading: isUpdating }] = useUserUpdateByIdMutation()
   const [deleteUser, { isLoading: isDeleting }] = useUserDeleteByIdMutation()
+
+  const [openChangePassword, setOpenChangePassword] = React.useState('')
 
   return data?.items !== undefined ? (
     <>
@@ -45,8 +48,8 @@ export function UserTable() {
               username: item.username,
               password: USER_DEFAULT_PASSWORD,
               phoneNumber: item.phoneNumber,
-              roles: [Role.User],
-              permissions: [],
+              roles: item?.roles ?? [],
+              permissions: item?.permissions ?? [],
             },
           })
         }}
@@ -58,6 +61,7 @@ export function UserTable() {
               username: newItem.username,
               phoneNumber: newItem.phoneNumber,
               permissions: newItem.permissions,
+              roles: newItem.roles,
             },
           })
         }}
@@ -70,6 +74,21 @@ export function UserTable() {
           await searchUsers({
             searchUserRequestDto: filterObj,
           })
+        }}
+        customRowActions={[
+          {
+            label: 'Đổi mật khẩu',
+            action: (item) => {
+              setOpenChangePassword(item._id)
+            },
+          },
+        ]}
+      />
+      <ChangePassword
+        open={Boolean(openChangePassword)}
+        userId={openChangePassword}
+        onClose={() => {
+          setOpenChangePassword('')
         }}
       />
     </>

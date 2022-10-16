@@ -16,8 +16,8 @@ import { useNavigation } from 'react-router-dom'
 
 import { useTypedDispatch, useTypedSelector } from 'src/core'
 import { selectUserName, userLogout } from 'src/modules/auth/slice'
-import { ProgressBar } from 'src/common/components'
-import { ChangePassword } from './components/ChangePassword'
+import { ProgressBar } from 'src/common/components/ProgressBar'
+import { ChangePassword } from 'src/common/components/ChangePassword'
 
 interface AppBarProps {
   drawerWidth: number
