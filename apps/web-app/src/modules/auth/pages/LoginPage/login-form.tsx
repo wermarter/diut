@@ -5,6 +5,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import { fullLogo } from 'src/assets/images'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
@@ -37,6 +38,7 @@ export function LoginForm({ reason }: LoginPageProps) {
     if (response?.message?.length > 0) {
       const { message } = response
       if (message === LoginExceptionMsg.USERNAME_NOT_EXIST) {
+        toast.dismiss()
         setError(
           'username',
           { message: 'Sai tên đăng nhập' },
@@ -45,6 +47,7 @@ export function LoginForm({ reason }: LoginPageProps) {
         return
       }
       if (message === LoginExceptionMsg.WRONG_PASSWORD) {
+        toast.dismiss()
         setError('password', { message: 'Sai mật khẩu' }, { shouldFocus: true })
         return
       }

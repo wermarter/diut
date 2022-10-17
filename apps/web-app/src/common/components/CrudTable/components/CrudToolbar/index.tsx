@@ -1,12 +1,5 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material'
+import * as React from 'react'
+import { Box, Button } from '@mui/material'
 import {
   GridRowModes,
   GridRowModesModel,
@@ -26,6 +19,7 @@ interface CrudToolbarProps<R extends GridValidRowModel> {
   firstField: string
   onRefresh: () => Promise<void> | void
   isLoading: boolean
+  TopRightComponent: React.ReactNode
 }
 
 export const NEW_ID_VALUE = 'NEW_ID_VALUE'
@@ -37,6 +31,7 @@ export function CrudToolbar<R extends GridValidRowModel>({
   firstField,
   onRefresh,
   isLoading,
+  TopRightComponent,
 }: CrudToolbarProps<R>) {
   const handleAddNew = () => {
     setRows((oldRows) => {
@@ -81,20 +76,7 @@ export function CrudToolbar<R extends GridValidRowModel>({
           Thêm
         </Button>
       </Box>
-      <Box sx={{ m: 1 }}>
-        <FormControl fullWidth size="small" sx={{ minWidth: '100px' }}>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      <Box sx={{ m: 1 }}>{TopRightComponent}</Box>
     </GridToolbarContainer>
   )
 }

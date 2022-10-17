@@ -1,5 +1,7 @@
 import { Box, Toolbar } from '@mui/material'
 import { Outlet } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { AppBar } from '../AppBar'
 import { AppDrawer } from '../AppDrawer'
@@ -18,6 +20,17 @@ export function MainLayout() {
         <Toolbar />
         <Outlet />
       </Box>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+      />
     </Box>
   )
 }

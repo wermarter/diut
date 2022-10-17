@@ -42,6 +42,7 @@ interface CrudTableProps<R extends GridValidRowModel> {
   ) => void
   pageSize: number
 
+  TopRightComponent?: React.ReactNode
   customRowActions?: CustomRowAction<R>[]
 }
 
@@ -61,6 +62,7 @@ export function CrudTable<R extends GridValidRowModel>({
   onPageSizeChange,
   pageSize,
 
+  TopRightComponent,
   customRowActions = [],
 }: CrudTableProps<R>) {
   const [rows, setRows] = React.useState<GridRowsProp<R>>([])
@@ -208,6 +210,7 @@ export function CrudTable<R extends GridValidRowModel>({
       }}
       componentsProps={{
         toolbar: {
+          TopRightComponent,
           setRows,
           setRowModesModel,
           itemIdField,

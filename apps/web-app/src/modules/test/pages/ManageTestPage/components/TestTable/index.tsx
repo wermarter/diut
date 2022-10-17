@@ -1,4 +1,10 @@
-import { Skeleton } from '@mui/material'
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Skeleton,
+} from '@mui/material'
 
 import {
   useTestCreateMutation,
@@ -12,6 +18,8 @@ import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
 import { useTestColumns } from './columns'
 
+const ALL_CATEGORIES = 'ALL_CATEGORIES'
+
 export function TestTable() {
   const { data: categoryRes, isFetching: isLoadingTestCategories } =
     useTestCategorySearchQuery({
@@ -23,7 +31,8 @@ export function TestTable() {
   const testCategories = categoryRes?.items ?? []
   const columns = useTestColumns(testCategories)
 
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination()
 
   const { data, isFetching } = useTestSearchQuery({
     searchTestRequestDto: filterObj,
@@ -78,6 +87,44 @@ export function TestTable() {
           searchTestRequestDto: filterObj,
         }).unwrap()
       }}
+      TopRightComponent={
+        <FormControl fullWidth size="small" sx={{ minWidth: '300px' }}>
+          <InputLabel>Nhóm xét nghiệm</InputLabel>
+          <Select
+            label="Nhóm xét nghiệm"
+            defaultValue={ALL_CATEGORIES}
+            onChange={({ target }) => {
+              const categoryId = target?.value
+              if (categoryId !== ALL_CATEGORIES) {
+                setFilterObj((filterObj) => ({
+                  ...filterObj,
+                  offset: 0,
+                  filter: {
+                    ...filterObj.filter,
+                    category: categoryId,
+                  },
+                }))
+              } else {
+                setFilterObj((filterObj) => ({
+                  ...filterObj,
+                  offset: 0,
+                  filter: {
+                    ...filterObj.filter,
+                    category: undefined,
+                  },
+                }))
+              }
+            }}
+          >
+            <MenuItem value={ALL_CATEGORIES}>Tất cả</MenuItem>
+            {testCategories.map((category) => (
+              <MenuItem key={category._id} value={category._id}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      }
     />
   ) : (
     <Skeleton variant="rounded" width="100%" height="400px" />
