@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose'
-import { Schema as MongooseSchema } from 'mongoose'
+import { Schema as MongooseSchema, Types } from 'mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
@@ -14,7 +14,7 @@ export class TestElement extends BaseSchema {
   name: string
 
   @Prop({
-    type: MongooseSchema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: Test.name,
     index: true,
     required: true,

@@ -1,5 +1,5 @@
 import { apiSlice as api } from './slice'
-export const addTagTypes = ['test-elements'] as const
+export const addTagTypes = ['test-elements', 'tests'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.searchTestElementRequestDto,
         }),
-        providesTags: ['test-elements'],
+        providesTags: ['test-elements', 'tests'],
       }),
       testElementCreate: build.mutation<
         TestElementCreateApiResponse,
