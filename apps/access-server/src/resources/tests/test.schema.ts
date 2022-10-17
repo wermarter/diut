@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose'
-import { Types } from 'mongoose'
+import { Schema as MongooseSchema } from 'mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
@@ -11,7 +11,7 @@ import { TestCategory } from '../test-categories'
 })
 export class Test extends BaseSchema {
   @Prop({
-    type: Types.ObjectId,
+    type: MongooseSchema.Types.ObjectId,
     ref: TestCategory.name,
     index: true,
     required: true,

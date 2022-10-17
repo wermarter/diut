@@ -11,6 +11,7 @@ import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatRecline
 import ManageAccountsIcon from '@mui/icons-material/ManageAccountsOutlined'
 import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
 import GradingIcon from '@mui/icons-material/Grading'
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation'
 
 export interface MenuItem {
   icon: ReactElement
@@ -55,6 +56,12 @@ export const drawerItems: DrawerItem[] = [
         icon: <WorkIcon />,
         label: 'Đối tượng XN',
         destination: 'patient-types',
+        permission: Permission.ManageCore,
+      },
+      {
+        icon: <MedicalInformationIcon />,
+        label: 'Chỉ định',
+        destination: 'indications',
         permission: Permission.ManageCore,
       },
       {

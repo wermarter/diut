@@ -13,6 +13,7 @@ const UserRoute = React.lazy(() => import('src/modules/user'))
 const PatientTypeRoute = React.lazy(() => import('src/modules/patient-type'))
 const TestCategoryRoute = React.lazy(() => import('src/modules/test-category'))
 const TestRoute = React.lazy(() => import('src/modules/test'))
+const IndicationRoute = React.lazy(() => import('src/modules/indication'))
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -45,6 +46,11 @@ export const appRoutes: CustomRouteObject[] = [
         path: 'patient-types',
         permission: Permission.ManageCore,
         element: <PatientTypeRoute />,
+      },
+      {
+        path: 'indications',
+        permission: Permission.ManageCore,
+        element: <IndicationRoute />,
       },
       {
         path: 'test-categories',
