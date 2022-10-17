@@ -53,13 +53,29 @@ export class BaseSchema {
   updatedAt: Date
 }
 
-export function importCollection(SchemaClass: ClassConstructor<unknown>) {
-  return MongooseModule.forFeature([
-    {
-      name: SchemaClass.name,
-      schema: SchemaFactory.createForClass(SchemaClass),
-    },
-  ])
+export function importCollection(
+  SchemaClass: ClassConstructor<unknown>,
+  useAutopopulate = false
+) {
+  if (useAutopopulate === true) {
+    return MongooseModule.forFeatureAsync([
+      {
+        name: SchemaClass.name,
+        useFactory: () => {
+          const schema = SchemaFactory.createForClass(SchemaClass)
+          schema.plugin(require('mongoose-autopopulate'))
+          return schema
+        },
+      },
+    ])
+  } else {
+    return MongooseModule.forFeature([
+      {
+        name: SchemaClass.name,
+        schema: SchemaFactory.createForClass(SchemaClass),
+      },
+    ])
+  }
 }
 
 @Injectable()

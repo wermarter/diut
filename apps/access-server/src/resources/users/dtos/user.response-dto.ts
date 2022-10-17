@@ -29,6 +29,7 @@ export class UserResponseDto extends BaseResourceResponseDto {
   @ApiProperty({
     example: [Role.User],
     enum: Role,
+    enumName: 'Role',
     isArray: true,
   })
   roles: Role[]
@@ -37,6 +38,7 @@ export class UserResponseDto extends BaseResourceResponseDto {
   @ApiProperty({
     example: [Permission.ManageCore],
     enum: Permission,
+    enumName: 'Permission',
     isArray: true,
   })
   permissions: Permission[]
@@ -45,6 +47,7 @@ export class UserResponseDto extends BaseResourceResponseDto {
 export class UserBadRequestDto extends BadRequestDto {
   @ApiProperty({
     enum: UserExceptionMsg,
+    enumName: 'UserExceptionMsg',
   })
   message: UserExceptionMsg
 }

@@ -36,7 +36,7 @@ function patchEmitter(emitter: any) {
           logger.debug({ coll, method, query, doc, options })
         })
 
-        mongoose.set('autoIndex', !isProduction)
+        mongoose.set('autoIndex', false)
 
         return {
           uri: config.uri,
@@ -45,8 +45,8 @@ function patchEmitter(emitter: any) {
             const client = connection.client
             // patchEmitter(connection.client)
 
-            client.on('serverHeartbeatFailed', () => {
-              logger.warn('MongoDB Connection failed')
+            client.on('serverHeartbeatFailed', ({ connectionId }) => {
+              logger.warn(`MongoDB Connection failed: ${connectionId}`)
             })
 
             return connection
