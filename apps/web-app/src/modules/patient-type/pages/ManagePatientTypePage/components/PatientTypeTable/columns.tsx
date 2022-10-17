@@ -7,6 +7,7 @@ export const patientTypeColumns: GridColumns<PatientTypeResponseDto> = [
     field: 'name',
     headerName: 'Tên',
     flex: 1,
+    minWidth: 300,
     sortable: false,
     editable: true,
   },

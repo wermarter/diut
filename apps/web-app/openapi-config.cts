@@ -8,7 +8,7 @@ const ENDPOINTS = [
   // 'patient type',
   // 'doctor',
   // 'test category',
-  'test',
+  // 'test',
   'test element',
   'sample',
   'test result',

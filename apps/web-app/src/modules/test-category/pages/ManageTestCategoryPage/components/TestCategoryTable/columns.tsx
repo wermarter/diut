@@ -5,8 +5,9 @@ import { TestCategoryResponseDto } from 'src/api/test-category'
 export const testCategoryColumns: GridColumns<TestCategoryResponseDto> = [
   {
     field: 'name',
-    headerName: 'Tên',
+    headerName: 'Tên nhóm',
     flex: 1,
+    minWidth: 300,
     sortable: false,
     editable: true,
   },

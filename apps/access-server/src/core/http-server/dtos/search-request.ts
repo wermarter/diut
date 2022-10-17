@@ -11,7 +11,7 @@ export class SearchRequestDto<Entity> {
   @IsOptional()
   @IsNumber()
   @Min(0)
-  offset = 0
+  offset: number
 
   @ApiProperty({
     default: 10,

@@ -10,6 +10,7 @@ export type SearchRequestDto = {
 export const useCrudPagination = (
   defaultFilter: SearchRequestDto = {
     sort: { createdAt: -1 },
+    offset: 0,
   }
 ) => {
   const [filterObj, setFilterObj] =

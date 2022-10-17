@@ -1,4 +1,12 @@
-import { Button, ButtonGroup } from '@mui/material'
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material'
 import {
   GridRowModes,
   GridRowModesModel,
@@ -50,21 +58,43 @@ export function CrudToolbar<R extends GridValidRowModel>({
   }
 
   return (
-    <GridToolbarContainer>
-      <Button
-        sx={{ m: 1 }}
-        onClick={onRefresh}
-        color="primary"
-        variant="outlined"
-        disabled={isLoading}
-      >
-        <LoopIcon />
-      </Button>
-      <ButtonGroup color="primary" variant="outlined" disabled={isLoading}>
-        <Button startIcon={<AddIcon />} onClick={handleAddNew}>
+    <GridToolbarContainer
+      sx={{ display: 'flex', justifyContent: 'space-between' }}
+    >
+      <Box sx={{ m: 1 }}>
+        <Button
+          sx={{ mr: 1 }}
+          onClick={onRefresh}
+          color="primary"
+          variant="outlined"
+          disabled={isLoading}
+        >
+          <LoopIcon />
+        </Button>
+        <Button
+          startIcon={<AddIcon />}
+          onClick={handleAddNew}
+          color="primary"
+          variant="outlined"
+          disabled={isLoading}
+        >
           Thêm
         </Button>
-      </ButtonGroup>
+      </Box>
+      <Box sx={{ m: 1 }}>
+        <FormControl fullWidth size="small" sx={{ minWidth: '100px' }}>
+          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
     </GridToolbarContainer>
   )
 }

@@ -93,6 +93,6 @@ export function UserTable() {
       />
     </>
   ) : (
-    <Skeleton variant="rounded" width="100%" height="300px" />
+    <Skeleton variant="rounded" width="100%" height="400px" />
   )
 }

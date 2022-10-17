@@ -12,6 +12,7 @@ const DoctorRoute = React.lazy(() => import('src/modules/doctor'))
 const UserRoute = React.lazy(() => import('src/modules/user'))
 const PatientTypeRoute = React.lazy(() => import('src/modules/patient-type'))
 const TestCategoryRoute = React.lazy(() => import('src/modules/test-category'))
+const TestRoute = React.lazy(() => import('src/modules/test'))
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -53,7 +54,7 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: 'tests',
         permission: Permission.ManageCore,
-        element: <DataGridDemo />,
+        element: <TestRoute />,
       },
       {
         path: 'test-elements',
