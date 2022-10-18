@@ -38,7 +38,7 @@ const methodDecorator = {
 
 export function AppRoute({
   isPublic = false,
-  roles = [Role.User],
+  roles = [],
   path = '/',
   method = RequestMethod.GET,
   code,

@@ -32,7 +32,10 @@ export function TestTable() {
   const columns = useTestColumns(testCategories)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination()
+    useCrudPagination({
+      sort: { topBottomIndex: 1 },
+      offset: 0,
+    })
 
   const { data, isFetching } = useTestSearchQuery({
     searchTestRequestDto: filterObj,

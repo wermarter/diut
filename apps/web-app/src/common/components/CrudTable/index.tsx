@@ -71,7 +71,7 @@ export function CrudTable<R extends GridValidRowModel>({
   )
 
   React.useEffect(() => {
-    if (items?.length > 0) {
+    if (items?.length !== undefined) {
       setRows(items)
     }
   }, [items])

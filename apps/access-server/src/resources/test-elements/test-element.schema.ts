@@ -40,6 +40,7 @@ export class TestElement extends BaseSchema {
           min: number
           max: number
           normalValue: string
+          description: string
         }
       }
 

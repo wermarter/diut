@@ -1,7 +1,10 @@
+import { BioProductModule } from './bio-products'
 import { DoctorModule } from './doctors'
 import { IndicationModule } from './indications'
 import { PatientTypeModule } from './patient-types'
+import { SampleTypeModule } from './sample-types'
 import { TestCategoryModule } from './test-categories'
+import { TestComboModule } from './test-combos'
 import { TestElementModule } from './test-elements'
 import { TestModule } from './tests'
 import { UserModule } from './users'
@@ -14,4 +17,7 @@ export const resourceModules = [
   TestModule,
   TestElementModule,
   IndicationModule,
+  BioProductModule,
+  SampleTypeModule,
+  TestComboModule,
 ]

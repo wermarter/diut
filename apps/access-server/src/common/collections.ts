@@ -1,5 +1,4 @@
 export enum COLLECTION {
-  BOOK = 'books',
   USER = 'users',
   PATIENT = 'patients',
   DOCTOR = 'doctors',
@@ -11,4 +10,7 @@ export enum COLLECTION {
   SAMPLE = 'samples',
   TEST_RESULT = 'test_results',
   TEST_ELEMENT_RESULT = 'test_element_results',
+  BIO_PRODUCT = 'bio_products',
+  SAMPLE_TYPE = 'sample_types',
+  TEST_COMBO = 'test_combos',
 }

@@ -12,7 +12,10 @@ import { useCrudPagination } from 'src/common/hooks'
 import { testCategoryColumns } from './columns'
 
 export function TestCategoryTable() {
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
+    sort: { leftRightIndex: 1 },
+    offset: 0,
+  })
 
   const { data, isFetching } = useTestCategorySearchQuery({
     searchTestCategoryRequestDto: filterObj,

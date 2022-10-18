@@ -79,11 +79,19 @@ export type TestCategoryResponseDto = {
   name: string
   leftRightIndex: number
 }
+export type BioProductResponseDto = {
+  _id: string
+  createdAt: string
+  updatedAt: string
+  name: string
+  leftRightIndex: number
+}
 export type TestResponseDto = {
   _id: string
   createdAt: string
   updatedAt: string
   category: TestCategoryResponseDto
+  bioProduct?: BioProductResponseDto
   name: string
   topBottomIndex: number
 }
@@ -101,11 +109,13 @@ export type SearchTestRequestDto = {
 }
 export type CreateTestRequestDto = {
   category: string
+  bioProduct?: string
   name: string
   topBottomIndex: number
 }
 export type UpdateTestRequestDto = {
   category?: string
+  bioProduct?: string
   name?: string
   topBottomIndex?: number
 }

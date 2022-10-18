@@ -8,6 +8,14 @@ export function useTestElementColumns(
 ): GridColumns<TestElementResponseDto> {
   return [
     {
+      field: 'topBottomIndex',
+      headerName: 'Thứ tự',
+      type: 'number',
+      minWidth: 100,
+      sortable: false,
+      editable: true,
+    },
+    {
       field: 'test',
       headerName: 'Tên XN',
       type: 'singleSelect',
@@ -27,14 +35,6 @@ export function useTestElementColumns(
       headerName: 'Tên thành phần',
       minWidth: 300,
       flex: 1,
-      sortable: false,
-      editable: true,
-    },
-    {
-      field: 'topBottomIndex',
-      headerName: 'Thứ tự',
-      type: 'number',
-      minWidth: 100,
       sortable: false,
       editable: true,
     },

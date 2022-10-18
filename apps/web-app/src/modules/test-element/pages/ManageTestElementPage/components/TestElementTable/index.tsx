@@ -89,7 +89,10 @@ export function TestElementTable() {
   const columns = useTestElementColumns(tests)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination()
+    useCrudPagination({
+      sort: { topBottomIndex: 1 },
+      offset: 0,
+    })
 
   const { data, isFetching } = useTestElementSearchQuery({
     searchTestElementRequestDto: filterObj,

@@ -1,8 +1,9 @@
 import { Prop, Schema } from '@nestjs/mongoose'
-import { Schema as MongooseSchema, Types } from 'mongoose'
+import { Types } from 'mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
+import { BioProduct } from '../bio-products'
 import { TestCategory } from '../test-categories'
 
 @Schema({
@@ -18,6 +19,14 @@ export class Test extends BaseSchema {
     autopopulate: true,
   })
   category: string | TestCategory | null
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: BioProduct.name,
+    index: true,
+    autopopulate: true,
+  })
+  bioProduct?: string | BioProduct | null
 
   @Prop({ required: true })
   name: string
