@@ -1,10 +1,13 @@
 import { GridColumns } from '@mui/x-data-grid'
 
-import { TestResponseDto } from 'src/api/test'
+import { BioProductResponseDto, TestResponseDto } from 'src/api/test'
 import { TestCategoryResponseDto } from 'src/api/test-category'
 
+export const NO_BIOPRODUCT = 'NO_BIOPRODUCT'
+
 export function useTestColumns(
-  testCategories: TestCategoryResponseDto[]
+  testCategories: TestCategoryResponseDto[],
+  bioProducts: BioProductResponseDto[]
 ): GridColumns<TestResponseDto> {
   return [
     {
@@ -37,6 +40,23 @@ export function useTestColumns(
       flex: 1,
       sortable: false,
       editable: true,
+    },
+    {
+      field: 'bioProduct',
+      headerName: 'Sinh phẩm',
+      type: 'singleSelect',
+      minWidth: 200,
+      sortable: false,
+      editable: true,
+      valueOptions: [{ label: '-- không --', value: NO_BIOPRODUCT }].concat(
+        bioProducts?.map((item) => ({
+          value: item?.name,
+          label: item?.name,
+        }))
+      ),
+      valueGetter: ({ value }) => {
+        return value?.name ?? ''
+      },
     },
   ]
 }

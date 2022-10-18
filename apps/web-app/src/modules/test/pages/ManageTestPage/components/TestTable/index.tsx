@@ -5,6 +5,10 @@ import {
   Select,
   Skeleton,
 } from '@mui/material'
+import {
+  BioProductResponseDto,
+  useBioProductSearchQuery,
+} from 'src/api/bio-product'
 
 import {
   useTestCreateMutation,
@@ -16,9 +20,21 @@ import {
 import { useTestCategorySearchQuery } from 'src/api/test-category'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
-import { useTestColumns } from './columns'
+import { NO_BIOPRODUCT, useTestColumns } from './columns'
 
 const ALL_CATEGORIES = 'ALL_CATEGORIES'
+
+function setBioProductId(
+  bioProducts: BioProductResponseDto[],
+  bioProductId: string
+) {
+  if (bioProductId === NO_BIOPRODUCT) {
+    return null
+  }
+  return bioProducts.find(
+    (bioProduct) => bioProduct.name === (bioProductId as any)
+  )?._id!
+}
 
 export function TestTable() {
   const { data: categoryRes, isFetching: isLoadingTestCategories } =
@@ -28,8 +44,17 @@ export function TestTable() {
       },
     })
 
+  const { data: bioProductsRes, isFetching: isLoadingBioProducts } =
+    useBioProductSearchQuery({
+      searchBioProductRequestDto: {
+        sort: { leftRightIndex: 1 },
+      },
+    })
+
   const testCategories = categoryRes?.items ?? []
-  const columns = useTestColumns(testCategories)
+  const bioProducts = bioProductsRes?.items ?? []
+
+  const columns = useTestColumns(testCategories, bioProducts)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -46,7 +71,9 @@ export function TestTable() {
   const [updateTest, { isLoading: isUpdating }] = useTestUpdateByIdMutation()
   const [deleteTest, { isLoading: isDeleting }] = useTestDeleteByIdMutation()
 
-  return data?.items !== undefined && !isLoadingTestCategories ? (
+  return data?.items !== undefined &&
+    !isLoadingTestCategories &&
+    !isLoadingBioProducts ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -65,6 +92,7 @@ export function TestTable() {
             category: testCategories.find(
               (category) => category.name === (item.category as any)
             )?._id!,
+            bioProduct: setBioProductId(bioProducts, item.bioProduct as any)!,
           },
         }).unwrap()
       }}
@@ -77,6 +105,10 @@ export function TestTable() {
             category: testCategories.find(
               (category) => category.name === (newItem.category as any)
             )?._id,
+            bioProduct: setBioProductId(
+              bioProducts,
+              newItem.bioProduct as any
+            )!,
           },
         }).unwrap()
       }}

@@ -6,7 +6,7 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      sampleTypeSearch: build.mutation<
+      sampleTypeSearch: build.query<
         SampleTypeSearchApiResponse,
         SampleTypeSearchApiArg
       >({
@@ -59,7 +59,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as sampleTypeApi }
 export type SampleTypeSearchApiResponse =
   /** status 200  */ SearchSampleTypeResponseDto
 export type SampleTypeSearchApiArg = {
@@ -114,7 +114,8 @@ export type UpdateSampleTypeRequestDto = {
   leftRightIndex?: number
 }
 export const {
-  useSampleTypeSearchMutation,
+  useLazySampleTypeSearchQuery,
+  useSampleTypeSearchQuery,
   useSampleTypeCreateMutation,
   useSampleTypeUpdateByIdMutation,
   useSampleTypeFindByIdQuery,

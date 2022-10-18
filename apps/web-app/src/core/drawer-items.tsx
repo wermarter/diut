@@ -12,6 +12,9 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccountsOutlined'
 import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
 import GradingIcon from '@mui/icons-material/Grading'
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation'
+import CoronavirusIcon from '@mui/icons-material/Coronavirus'
+import BubbleChartIcon from '@mui/icons-material/BubbleChart'
+import Diversity2Icon from '@mui/icons-material/Diversity2'
 
 export interface MenuItem {
   icon: ReactElement
@@ -54,7 +57,7 @@ export const drawerItems: DrawerItem[] = [
       },
       {
         icon: <WorkIcon />,
-        label: 'Đối tượng XN',
+        label: 'Đối tượng',
         destination: 'patient-types',
         permission: Permission.ManageCore,
       },
@@ -65,6 +68,18 @@ export const drawerItems: DrawerItem[] = [
         permission: Permission.ManageCore,
       },
       {
+        icon: <CoronavirusIcon />,
+        label: 'Sinh phẩm',
+        destination: 'bio-products',
+        permission: Permission.ManageCore,
+      },
+      {
+        icon: <BubbleChartIcon />,
+        label: 'Loại mẫu',
+        destination: 'sample-types',
+        permission: Permission.ManageCore,
+      },
+      {
         icon: <WorkspacesIcon />,
         label: 'Nhóm XN',
         destination: 'test-categories',
@@ -72,7 +87,7 @@ export const drawerItems: DrawerItem[] = [
       },
       {
         icon: <BiotechIcon />,
-        label: 'Tên XN',
+        label: 'Tên xét nghiệm',
         destination: 'tests',
         permission: Permission.ManageCore,
       },
@@ -80,6 +95,12 @@ export const drawerItems: DrawerItem[] = [
         icon: <BloodtypeIcon />,
         label: 'Thành phần XN',
         destination: 'test-elements',
+        permission: Permission.ManageCore,
+      },
+      {
+        icon: <Diversity2Icon />,
+        label: 'Bộ Test',
+        destination: 'test-combos',
         permission: Permission.ManageCore,
       },
     ],

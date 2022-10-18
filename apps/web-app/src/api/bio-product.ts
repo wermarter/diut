@@ -6,7 +6,7 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      bioProductSearch: build.mutation<
+      bioProductSearch: build.query<
         BioProductSearchApiResponse,
         BioProductSearchApiArg
       >({
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.searchBioProductRequestDto,
         }),
-        invalidatesTags: ['bio-products'],
+        providesTags: ['bio-products'],
       }),
       bioProductCreate: build.mutation<
         BioProductCreateApiResponse,
@@ -59,7 +59,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as bioProductApi }
 export type BioProductSearchApiResponse =
   /** status 200  */ SearchBioProductResponseDto
 export type BioProductSearchApiArg = {
@@ -114,7 +114,8 @@ export type UpdateBioProductRequestDto = {
   leftRightIndex?: number
 }
 export const {
-  useBioProductSearchMutation,
+  useBioProductSearchQuery,
+  useLazyBioProductSearchQuery,
   useBioProductCreateMutation,
   useBioProductUpdateByIdMutation,
   useBioProductFindByIdQuery,

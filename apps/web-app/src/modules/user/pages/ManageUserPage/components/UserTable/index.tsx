@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Skeleton } from '@mui/material'
+import { Role } from '@diut/common'
 
 import {
   useUserCreateMutation,
@@ -48,7 +49,7 @@ export function UserTable() {
               username: item.username,
               password: USER_DEFAULT_PASSWORD,
               phoneNumber: item.phoneNumber,
-              roles: item?.roles ?? [],
+              roles: item?.roles ?? [Role.User],
               permissions: item?.permissions ?? [],
             },
           }).unwrap()
