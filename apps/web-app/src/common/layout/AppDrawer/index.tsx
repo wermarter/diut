@@ -73,13 +73,13 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
           overflowY: 'scroll',
         }}
       >
-        {drawerItems.map((group, index) => (
+        {drawerItems.map((group, groupIndex) => (
           <Fragment key={group.title}>
-            {index > 0 && <Divider sx={{ my: 1 }} />}
+            {groupIndex > 0 && <Divider sx={{ my: 1 }} />}
             <ListSubheader disableSticky component="div" inset>
               {group.title}
             </ListSubheader>
-            {group.children.map((item) => (
+            {group.children.map((item, itemIndex) => (
               <ListItem
                 key={item.label}
                 disablePadding

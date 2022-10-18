@@ -1,3 +1,4 @@
+import { PatientCategory } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['test-elements', 'tests'] as const
 const injectedRtkApi = api
@@ -93,13 +94,28 @@ export type TestCategoryResponseDto = {
   name: string
   leftRightIndex: number
 }
+export type BioProductResponseDto = {
+  _id: string
+  createdAt: string
+  updatedAt: string
+  name: string
+  leftRightIndex: number
+}
 export type TestResponseDto = {
   _id: string
   createdAt: string
   updatedAt: string
   category: TestCategoryResponseDto
+  bioProduct?: BioProductResponseDto
   name: string
   topBottomIndex: number
+}
+export type HighlightRuleDto = {
+  category: PatientCategory
+  min?: number
+  max?: number
+  normalValue?: string
+  description?: string
 }
 export type TestElementResponseDto = {
   _id: string
@@ -108,9 +124,8 @@ export type TestElementResponseDto = {
   name: string
   test: TestResponseDto
   topBottomIndex: number
-  highlightRule: object
+  highlightRules: HighlightRuleDto[]
   unit?: string
-  notice?: string
 }
 export type SearchTestElementResponseDto = {
   total: number
@@ -128,17 +143,15 @@ export type CreateTestElementRequestDto = {
   name: string
   test: string
   topBottomIndex: number
-  highlightRule: object
+  highlightRules: HighlightRuleDto[]
   unit?: string
-  notice?: string
 }
 export type UpdateTestElementRequestDto = {
   name?: string
   test?: string
   topBottomIndex?: number
-  highlightRule?: object
+  highlightRules?: HighlightRuleDto[]
   unit?: string
-  notice?: string
 }
 export const {
   useTestElementSearchQuery,

@@ -47,7 +47,7 @@ export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
         control={control}
         margin="dense"
         fullWidth
-        label="Mật khẩu"
+        label="Mật khẩu mới"
         type={showPassword ? 'text' : 'password'}
         autoComplete="new-password"
         InputProps={{

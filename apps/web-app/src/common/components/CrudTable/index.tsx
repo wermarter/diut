@@ -176,6 +176,7 @@ export function CrudTable<R extends GridValidRowModel>({
                 <GridActionsCellItem
                   label={label}
                   onClick={() => action(row)}
+                  disabled={isLoading}
                   showInMenu
                 />
               )
@@ -183,6 +184,7 @@ export function CrudTable<R extends GridValidRowModel>({
             <GridActionsCellItem
               label="Xoá"
               onClick={handleDeleteClick(row)}
+              disabled={isLoading}
               showInMenu
             />,
           ]

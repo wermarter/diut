@@ -29,15 +29,13 @@ export function ChangePassword({ open, onClose, userId }: ChangePasswordProps) {
   }
 
   return (
-    <>
-      <SideAction
-        open={open}
-        onClose={onClose}
-        title="Đổi mật khẩu"
-        disableClickOutside={isLoading}
-      >
-        <ChangePasswordForm onSubmit={handleChangePassword} />
-      </SideAction>
-    </>
+    <SideAction
+      open={open}
+      onClose={onClose}
+      title="Đổi mật khẩu"
+      disableClickOutside={isLoading}
+    >
+      <ChangePasswordForm onSubmit={handleChangePassword} />
+    </SideAction>
   )
 }

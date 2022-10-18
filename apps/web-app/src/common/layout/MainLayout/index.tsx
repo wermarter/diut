@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AppBar } from '../AppBar'
 import { AppDrawer } from '../AppDrawer'
 
-const drawerWidth = 240
+export const drawerWidth = 240
 
 export function MainLayout() {
   return (

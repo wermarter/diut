@@ -1,12 +1,17 @@
+import { PatientCategory } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
+import { Expose, Type } from 'class-transformer'
 import {
+  IsArray,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
-  IsObject,
   IsOptional,
   IsString,
   Min,
+  ValidateNested,
 } from 'class-validator'
+
 import { IsObjectId } from 'src/clients/mongo'
 
 export class CreateTestElementRequestDto {
@@ -31,10 +36,13 @@ export class CreateTestElementRequestDto {
   topBottomIndex: number
 
   @ApiProperty({
-    example: { any: { min: 0, max: 1, normalValue: 'positive' } },
+    type: () => HighlightRuleDto,
+    isArray: true,
   })
-  @IsObject()
-  highlightRule: object
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => HighlightRuleDto)
+  highlightRules: HighlightRuleDto[]
 
   @ApiProperty({
     example: '10^3/uL',
@@ -42,15 +50,51 @@ export class CreateTestElementRequestDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   unit?: string
+}
 
+export class HighlightRuleDto {
+  @Expose()
   @ApiProperty({
-    example: 'PR+NP >= 40%',
+    example: PatientCategory.Any,
+    enum: PatientCategory,
+  })
+  @IsEnum(PatientCategory)
+  category: PatientCategory
+
+  @Expose()
+  @ApiProperty({
+    example: 2,
+    required: false,
+  })
+  @IsOptional()
+  @IsNumber()
+  min?: number
+
+  @Expose()
+  @ApiProperty({
+    example: 10,
+    required: false,
+  })
+  @IsOptional()
+  @IsNumber()
+  max?: number
+
+  @Expose()
+  @ApiProperty({
+    example: 'Neg',
     required: false,
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  notice?: string
+  normalValue?: string
+
+  @Expose()
+  @ApiProperty({
+    example: '...',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  description?: string
 }

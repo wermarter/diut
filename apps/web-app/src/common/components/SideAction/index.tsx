@@ -8,12 +8,14 @@ import {
 } from '@mui/material'
 import { PropsWithChildren, useCallback } from 'react'
 
+import { drawerWidth } from 'src/common/layout/MainLayout'
+
 interface SideActionProps extends PropsWithChildren {
   title: string
   open: boolean
   onClose: Function
+  fullWidth?: boolean
   disableClickOutside?: boolean
-  minWidth?: string
   anchor?: DrawerProps['anchor']
 }
 
@@ -21,8 +23,8 @@ export function SideAction({
   title,
   open,
   onClose,
+  fullWidth = false,
   disableClickOutside = false,
-  minWidth = '30vw',
   children,
 }: SideActionProps) {
   const handleClose = useCallback(
@@ -42,7 +44,14 @@ export function SideAction({
       onClose={handleClose}
       ModalProps={{ disableEscapeKeyDown: true }}
     >
-      <Box sx={{ height: '100%', minWidth }}>
+      <Box
+        sx={{
+          height: '100%',
+          minWidth: '30vw',
+          maxWidth: `calc(100vw - ${drawerWidth}px)`,
+          width: fullWidth ? `calc(100vw - ${drawerWidth}px)` : undefined,
+        }}
+      >
         <AppBar position="sticky" elevation={0}>
           <Toolbar variant="dense">
             <Typography variant="h6">{title}</Typography>

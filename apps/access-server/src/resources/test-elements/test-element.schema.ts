@@ -1,5 +1,6 @@
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Schema as MongooseSchema, Types } from 'mongoose'
+import { PatientCategory } from '@diut/common'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
@@ -25,28 +26,15 @@ export class TestElement extends BaseSchema {
   @Prop({ required: true })
   topBottomIndex: number
 
-  @Prop({ required: true, type: MongooseSchema.Types.Mixed })
-  highlightRule:
-    | undefined
-    | any
-    | {
-        [patientCategory in
-          | 'any'
-          | 'boy'
-          | 'girl'
-          | 'man'
-          | 'woman'
-          | 'pregnant']: {
-          min: number
-          max: number
-          normalValue: string
-          description: string
-        }
-      }
+  @Prop({ required: true, type: [MongooseSchema.Types.Mixed] })
+  highlightRules: {
+    category: PatientCategory
+    min?: number
+    max?: number
+    normalValue?: string
+    description?: string
+  }[]
 
   @Prop()
   unit?: string
-
-  @Prop()
-  notice?: string
 }

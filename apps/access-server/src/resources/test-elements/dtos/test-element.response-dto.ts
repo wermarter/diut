@@ -3,6 +3,7 @@ import { Expose } from 'class-transformer'
 
 import { BaseResourceResponseDto } from 'src/clients/mongo'
 import { TestResponseDto } from 'src/resources/tests/dtos/test.response-dto'
+import { HighlightRuleDto } from './create-test-element.request-dto'
 
 export class TestElementResponseDto extends BaseResourceResponseDto {
   @Expose()
@@ -25,19 +26,15 @@ export class TestElementResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
-    example: { any: { min: 0, max: 1, normalValue: 'positive' } },
+    type: () => HighlightRuleDto,
+    isArray: true,
   })
-  highlightRule: object
+  highlightRules: HighlightRuleDto[]
 
+  @Expose()
   @ApiProperty({
     example: '10^3/uL',
     required: false,
   })
   unit?: string
-
-  @ApiProperty({
-    example: 'PR+NP >= 40%',
-    required: false,
-  })
-  notice?: string
 }
