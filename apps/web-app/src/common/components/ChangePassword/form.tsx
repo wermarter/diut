@@ -8,7 +8,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 
-const TextField = FormTextField<FormSchema>
+// prettier-ignore
+const TextField = FormTextField<FormSchema>;
 
 interface ChangePasswordFormProps {
   onSubmit: (newPassword: string) => Promise<unknown>

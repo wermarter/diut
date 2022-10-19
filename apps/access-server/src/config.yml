@@ -14,5 +14,5 @@ mongo:
   retryAttempts: 3
 
 auth:
-  secret: not_so_secret
+  jwtSecret: not_so_secret
   expiresIn: 16h
