@@ -1,9 +1,8 @@
 {
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "src/main.js",
-      "methods": ["GET", "POST", "PATCH", "DELETE"]
+  "functions": {
+    "main.js": {
+      "memory": 3008,
+      "maxDuration": 30
     }
-  ]
+  }
 }
