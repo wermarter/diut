@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Type } from 'class-transformer'
-import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
+import { IsNotEmpty, IsString } from 'class-validator'
 
 export class CreateTestComboRequestDto {
   @ApiProperty({
@@ -14,8 +13,6 @@ export class CreateTestComboRequestDto {
   @ApiProperty({
     example: ['634180269de1f07e47bbf494'],
   })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => String)
+  @IsString({ each: true })
   children: string[]
 }

@@ -11,7 +11,6 @@ import { toast } from 'react-toastify'
 
 import { authApi } from 'src/api/auth'
 import { RootState } from 'src/core'
-import { UnauthorizedException } from './authorization'
 
 interface AuthState {
   id?: string
@@ -47,7 +46,9 @@ export const authMiddleware: Middleware =
 
         if (message?.[0]?.length > 1) {
           // class-validator exception
-          toast.error(message[0])
+          message.forEach((msg: any) => {
+            toast.error(msg)
+          })
         } else {
           // custom bad request message
           toast.error(message)

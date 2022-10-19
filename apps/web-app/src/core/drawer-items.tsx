@@ -99,7 +99,7 @@ export const drawerItems: DrawerItem[] = [
       },
       {
         icon: <Diversity2Icon />,
-        label: 'Bộ Test',
+        label: 'Bộ xét nghiệm',
         destination: 'test-combos',
         permission: Permission.ManageCore,
       },

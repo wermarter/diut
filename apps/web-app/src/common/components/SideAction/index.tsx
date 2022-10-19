@@ -5,7 +5,9 @@ import {
   AppBar,
   Toolbar,
   DrawerProps,
+  IconButton,
 } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import { PropsWithChildren, useCallback } from 'react'
 
 import { drawerWidth } from 'src/common/layout/MainLayout'
@@ -42,7 +44,7 @@ export function SideAction({
       anchor="right"
       open={open}
       onClose={handleClose}
-      ModalProps={{ disableEscapeKeyDown: true }}
+      ModalProps={{ disableEscapeKeyDown: disableClickOutside }}
     >
       <Box
         sx={{
@@ -53,8 +55,21 @@ export function SideAction({
         }}
       >
         <AppBar position="sticky" elevation={0}>
-          <Toolbar variant="dense">
+          <Toolbar
+            variant="dense"
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Typography variant="h6">{title}</Typography>
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              disabled={disableClickOutside}
+              onClick={() => {
+                onClose()
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Box sx={{ m: 2 }}>{children}</Box>

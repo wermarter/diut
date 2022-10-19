@@ -29,7 +29,7 @@ interface CrudTableProps<R extends GridValidRowModel> {
   fieldColumns: GridColumns<R>
   onItemCreate: (item: R) => Promise<void> | void
   onItemUpdate: (newItem: R, oldItem: R) => Promise<void> | void
-  onItemDelete: (item: R) => Promise<void> | void
+  onItemDelete?: (item: R) => Promise<void> | void
   onRefresh?: () => Promise<void> | void
   isLoading?: boolean
 
@@ -108,7 +108,9 @@ export function CrudTable<R extends GridValidRowModel>({
   }
 
   const handleDeleteClick = (item: R) => () => {
-    onItemDelete(item)
+    if (onItemDelete !== undefined) {
+      if (confirm('Bạn có chắc chứ?')) onItemDelete(item)
+    }
   }
 
   const handleCancelClick = (item: R) => () => {
@@ -181,12 +183,16 @@ export function CrudTable<R extends GridValidRowModel>({
                 />
               )
             }),
-            <GridActionsCellItem
-              label="Xoá"
-              onClick={handleDeleteClick(row)}
-              disabled={isLoading}
-              showInMenu
-            />,
+            onItemDelete !== undefined ? (
+              <GridActionsCellItem
+                label="Xoá"
+                onClick={handleDeleteClick(row)}
+                disabled={isLoading}
+                showInMenu
+              />
+            ) : (
+              <></>
+            ),
           ]
         },
       },

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
-import { BaseResourceResponseDto } from 'src/clients/mongo'
+import { BaseResourceResponseDto, ExposeObjectId } from 'src/clients/mongo'
 
 export class TestComboResponseDto extends BaseResourceResponseDto {
   @Expose()
@@ -10,7 +10,7 @@ export class TestComboResponseDto extends BaseResourceResponseDto {
   })
   name: string
 
-  @Expose()
+  @ExposeObjectId()
   @ApiProperty({
     example: ['634180269de1f07e47bbf494'],
   })

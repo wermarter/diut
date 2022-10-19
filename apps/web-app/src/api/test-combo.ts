@@ -1,12 +1,12 @@
 import { apiSlice as api } from './slice'
-export const addTagTypes = ['test-combos'] as const
+export const addTagTypes = ['test-combos', 'tests'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      testComboSearch: build.mutation<
+      testComboSearch: build.query<
         TestComboSearchApiResponse,
         TestComboSearchApiArg
       >({
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.searchTestComboRequestDto,
         }),
-        invalidatesTags: ['test-combos'],
+        providesTags: ['test-combos', 'tests'],
       }),
       testComboCreate: build.mutation<
         TestComboCreateApiResponse,
@@ -59,7 +59,7 @@ const injectedRtkApi = api
     }),
     overrideExisting: false,
   })
-export { injectedRtkApi as enhancedApi }
+export { injectedRtkApi as testComboApi }
 export type TestComboSearchApiResponse =
   /** status 200  */ SearchTestComboResponseDto
 export type TestComboSearchApiArg = {
@@ -113,7 +113,8 @@ export type UpdateTestComboRequestDto = {
   children?: string[]
 }
 export const {
-  useTestComboSearchMutation,
+  useTestComboSearchQuery,
+  useLazyTestComboSearchQuery,
   useTestComboCreateMutation,
   useTestComboUpdateByIdMutation,
   useTestComboFindByIdQuery,

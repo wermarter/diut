@@ -23,5 +23,5 @@ export class TestCombo extends BaseSchema {
     index: true,
     required: true,
   })
-  test: string | Test[]
+  children: string[] | Test[]
 }

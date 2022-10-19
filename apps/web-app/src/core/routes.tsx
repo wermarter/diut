@@ -17,6 +17,7 @@ const TestElementRoute = React.lazy(() => import('src/modules/test-element'))
 const IndicationRoute = React.lazy(() => import('src/modules/indication'))
 const BioProductRoute = React.lazy(() => import('src/modules/bio-product'))
 const SampleTypeRoute = React.lazy(() => import('src/modules/sample-type'))
+const TestComboRoute = React.lazy(() => import('src/modules/test-combo'))
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -83,8 +84,9 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: 'test-combos',
         permission: Permission.ManageCore,
-        element: <DataGridDemo />,
+        element: <TestComboRoute />,
       },
+      // ------------------------------------------------
       {
         path: 'patients',
         permission: Permission.ManagePatient,
