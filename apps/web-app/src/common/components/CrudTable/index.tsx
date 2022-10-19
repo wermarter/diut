@@ -30,17 +30,17 @@ interface CrudTableProps<R extends GridValidRowModel> {
   onItemCreate: (item: R) => Promise<void> | void
   onItemUpdate: (newItem: R, oldItem: R) => Promise<void> | void
   onItemDelete: (item: R) => Promise<void> | void
-  onRefresh: () => Promise<void> | void
-  isLoading: boolean
+  onRefresh?: () => Promise<void> | void
+  isLoading?: boolean
 
-  rowCount: number
-  page: number
-  onPageChange: (page: number, details: GridCallbackDetails<any>) => void
-  onPageSizeChange: (
+  rowCount?: number
+  page?: number
+  onPageChange?: (page: number, details: GridCallbackDetails<any>) => void
+  pageSize?: number
+  onPageSizeChange?: (
     pageSize: number,
     details: GridCallbackDetails<any>
   ) => void
-  pageSize: number
 
   TopRightComponent?: React.ReactNode
   customRowActions?: CustomRowAction<R>[]
@@ -54,7 +54,7 @@ export function CrudTable<R extends GridValidRowModel>({
   onItemUpdate,
   onItemDelete,
   onRefresh,
-  isLoading,
+  isLoading = false,
 
   rowCount,
   page,
@@ -195,6 +195,7 @@ export function CrudTable<R extends GridValidRowModel>({
 
   return (
     <DataTable
+      sx={{ minWidth: '50vw' }}
       rows={rows}
       getRowId={(item) => {
         return item[itemIdField]
@@ -228,8 +229,8 @@ export function CrudTable<R extends GridValidRowModel>({
       experimentalFeatures={{ newEditingApi: true }}
       cellOutline
       loading={isLoading}
-      paginationMode="server"
-      rowsPerPageOptions={[5, 10, 20]}
+      rowsPerPageOptions={[5, 10, 20, 100]}
+      paginationMode={rowCount !== undefined ? 'server' : undefined}
       rowCount={rowCount}
       page={page}
       onPageChange={onPageChange}

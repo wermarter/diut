@@ -1,9 +1,8 @@
 import { PatientCategory } from '@diut/common'
-import { GridColumns, GridValueSetterParams } from '@mui/x-data-grid'
+import { GridColumns } from '@mui/x-data-grid'
 
 import { TestResponseDto } from 'src/api/test'
-import { HighlightRuleDto, TestElementResponseDto } from 'src/api/test-element'
-import { NEW_ID_VALUE } from 'src/common/components/CrudTable/components/CrudToolbar'
+import { TestElementResponseDto } from 'src/api/test-element'
 
 export const NO_MIN = -1
 export const NO_MAX = -1
@@ -60,7 +59,11 @@ export function useTestElementColumns(
 
         return rule.min
       },
-      valueSetter: simpleHighlightRuleSetter('min', NO_MIN),
+      valueFormatter: ({ value }) => {
+        if (value === NO_MIN) {
+          return ''
+        }
+      },
     },
     {
       field: 'anyMax',
@@ -77,7 +80,11 @@ export function useTestElementColumns(
 
         return rule.max
       },
-      valueSetter: simpleHighlightRuleSetter('max', NO_MAX),
+      valueFormatter: ({ value }) => {
+        if (value === NO_MAX) {
+          return ''
+        }
+      },
     },
     {
       field: 'anyNormal',
@@ -94,11 +101,15 @@ export function useTestElementColumns(
 
         return rule.normalValue
       },
-      valueSetter: simpleHighlightRuleSetter('normalValue', NO_NORMAL_VALUE),
+      valueFormatter: ({ value }) => {
+        if (value === NO_NORMAL_VALUE) {
+          return ''
+        }
+      },
     },
     {
       field: 'anyDescription',
-      headerName: 'Tham chiếu',
+      headerName: 'Mô tả',
       minWidth: 200,
       sortable: false,
       editable: true,
@@ -110,46 +121,11 @@ export function useTestElementColumns(
 
         return rule.description
       },
-      valueSetter: simpleHighlightRuleSetter('description', NO_DESCRIPTION),
+      valueFormatter: ({ value }) => {
+        if (value === NO_DESCRIPTION) {
+          return ''
+        }
+      },
     },
   ]
-}
-
-function simpleHighlightRuleSetter(
-  fieldName: keyof HighlightRuleDto,
-  emptyConst: any
-) {
-  return ({ value, row }: GridValueSetterParams<TestElementResponseDto>) => {
-    const originalRule = row.highlightRules?.[0] ?? {}
-
-    if (row._id === NEW_ID_VALUE && value === emptyConst) {
-      return row
-    }
-
-    if (row._id === NEW_ID_VALUE && value !== emptyConst) {
-      return {
-        ...row,
-        highlightRules: [
-          {
-            ...originalRule,
-            category: PatientCategory.Any,
-            [fieldName]: value,
-          },
-        ],
-      }
-    }
-    if (value === emptyConst || originalRule.category !== PatientCategory.Any) {
-      return row
-    }
-
-    return {
-      ...row,
-      highlightRules: [
-        {
-          ...originalRule,
-          [fieldName]: value,
-        },
-      ],
-    }
-  }
 }

@@ -17,7 +17,7 @@ interface CrudToolbarProps<R extends GridValidRowModel> {
   ) => void
   itemIdField: keyof R
   firstField: string
-  onRefresh: () => Promise<void> | void
+  onRefresh?: () => Promise<void> | void
   isLoading: boolean
   TopRightComponent: React.ReactNode
 }
@@ -57,15 +57,17 @@ export function CrudToolbar<R extends GridValidRowModel>({
       sx={{ display: 'flex', justifyContent: 'space-between' }}
     >
       <Box sx={{ m: 1 }}>
-        <Button
-          sx={{ mr: 1 }}
-          onClick={onRefresh}
-          color="primary"
-          variant="outlined"
-          disabled={isLoading}
-        >
-          <LoopIcon />
-        </Button>
+        {onRefresh !== undefined && (
+          <Button
+            sx={{ mr: 1 }}
+            onClick={onRefresh}
+            color="primary"
+            variant="outlined"
+            disabled={isLoading}
+          >
+            <LoopIcon />
+          </Button>
+        )}
         <Button
           startIcon={<AddIcon />}
           onClick={handleAddNew}

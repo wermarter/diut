@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.searchSampleTypeRequestDto,
         }),
-        invalidatesTags: ['sample-types'],
+        providesTags: ['sample-types'],
       }),
       sampleTypeCreate: build.mutation<
         SampleTypeCreateApiResponse,

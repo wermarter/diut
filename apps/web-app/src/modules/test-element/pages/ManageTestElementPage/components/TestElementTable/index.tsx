@@ -8,6 +8,7 @@ import {
   Skeleton,
 } from '@mui/material'
 import { toast } from 'react-toastify'
+import { PatientCategory } from '@diut/common'
 
 import {
   useTestElementCreateMutation,
@@ -16,11 +17,18 @@ import {
   useTestElementUpdateByIdMutation,
   useLazyTestElementSearchQuery,
   TestElementResponseDto,
+  HighlightRuleDto,
 } from 'src/api/test-element'
 import { useTestCategorySearchQuery } from 'src/api/test-category'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
-import { useTestElementColumns } from './columns'
+import {
+  NO_MIN,
+  NO_MAX,
+  NO_DESCRIPTION,
+  NO_NORMAL_VALUE,
+  useTestElementColumns,
+} from './columns'
 import { useLazyTestSearchQuery, useTestSearchQuery } from 'src/api/test'
 import { HighlightRuleEditor } from './HighlightRuleEditor'
 
@@ -132,7 +140,7 @@ export function TestElementTable() {
               topBottomIndex: item.topBottomIndex,
               test: tests.find((test) => test.name === (item.test as any))
                 ?._id!,
-              highlightRules: item.highlightRules ?? [],
+              highlightRules: processHighlightRules(item),
               unit: item.unit,
             },
           }).unwrap()
@@ -145,7 +153,7 @@ export function TestElementTable() {
               topBottomIndex: newItem.topBottomIndex,
               test: tests.find((test) => test.name === (newItem.test as any))
                 ?._id,
-              highlightRules: newItem.highlightRules,
+              highlightRules: processHighlightRules(newItem),
               unit: newItem.unit,
             },
           }).unwrap()
@@ -217,23 +225,57 @@ export function TestElementTable() {
           },
         ]}
       />
-      <HighlightRuleEditor
-        element={ruleRow!}
-        onClose={() => {
-          setRuleRow(null)
-        }}
-        onSubmit={(highlightRules) => {
-          updateTestElement({
-            id: ruleRow?._id!,
-            updateTestElementRequestDto: { highlightRules },
-          }).then(() => {
-            toast.success('Đặt tham chiếu thành công.')
-          })
-        }}
-        isSubmitting={isUpdating}
-      />
+      {ruleRow !== null && (
+        <HighlightRuleEditor
+          element={ruleRow}
+          onClose={() => {
+            setRuleRow(null)
+          }}
+          onSubmit={(highlightRules) => {
+            updateTestElement({
+              id: ruleRow?._id!,
+              updateTestElementRequestDto: { highlightRules },
+            }).then(() => {
+              toast.success('Đặt tham chiếu thành công.')
+            })
+          }}
+          isSubmitting={isUpdating}
+        />
+      )}
     </>
   ) : (
     <Skeleton variant="rounded" width="100%" height="400px" />
   )
+}
+
+function processHighlightRules(item: any): HighlightRuleDto[] {
+  const firstRule = item.highlightRules?.[0]
+
+  if (
+    firstRule?.category !== undefined &&
+    firstRule?.category !== PatientCategory.Any
+  ) {
+    return item.highlightRules
+  }
+
+  const { anyMin, anyMax, anyNormal, anyDescription } = item
+  const result: HighlightRuleDto = { category: PatientCategory.Any }
+
+  if (anyMin !== NO_MIN) {
+    result.min = anyMin
+  }
+
+  if (anyMax !== NO_MAX) {
+    result.max = anyMax
+  }
+
+  if (anyNormal !== NO_NORMAL_VALUE) {
+    result.normalValue = anyNormal
+  }
+
+  if (anyDescription !== NO_DESCRIPTION) {
+    result.description = anyDescription
+  }
+
+  return [result]
 }
