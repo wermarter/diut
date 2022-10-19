@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/main.js",
+      "methods": ["GET", "POST", "PATCH", "DELETE"]
+    }
+  ]
+}
