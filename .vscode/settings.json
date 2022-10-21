@@ -5,8 +5,8 @@
     "**/dist": true
   },
   "files.exclude": {
-    "**/node_modules": true
-    // "**/dist": true
+    "**/node_modules": true,
+    "**/dist": true
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
