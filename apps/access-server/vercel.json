@@ -2,10 +2,5 @@
   "installCommand": "yarn install",
   "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build",
   "outputDirectory": "dist",
-  "functions": {
-    "dist/main.js": {
-      "includeFiles": "dist/**/*"
-    }
-  },
   "rewrites": [{ "source": "/(.*)", "destination": "/main.js" }]
 }
