@@ -3,9 +3,9 @@
   "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build",
   "outputDirectory": "dist",
   "functions": {
-    "dist/index.js": {
+    "api/index.js": {
       "includeFiles": "dist/**"
     }
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "/dist/index.js" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
