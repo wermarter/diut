@@ -1,17 +1,5 @@
 {
   "installCommand": "yarn install",
   "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build",
-  "outputDirectory": "dist",
-  "builds": [
-    {
-      "src": "main.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "main.js"
-    }
-  ]
+  "outputDirectory": "dist"
 }
