@@ -1,6 +1,6 @@
 {
   "installCommand": "yarn install",
-  "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build && cp package.json dist/package.json",
+  "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build && cp package.json dist/core/config/package.json",
   "outputDirectory": "dist",
   "functions": {
     "api/index.js": {
