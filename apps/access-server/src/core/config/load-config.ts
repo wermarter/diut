@@ -6,6 +6,7 @@ import { join } from 'path'
 
 export const APP_CONFIG_FILENAME = '../../config.yml'
 export const PACKAGE_CONFIG_FILENAME = 'package.json'
+export const PACKAGE_CONFIG_FILENAME_PROD = '../../package.json'
 
 interface AppConfig {
   package: Record<string, unknown>
@@ -27,7 +28,12 @@ export const loadConfig = async (): Promise<AppConfig> => {
   }
 
   const packageConfigObj = JSON.parse(
-    readFileSync(PACKAGE_CONFIG_FILENAME, 'utf-8')
+    readFileSync(
+      (process.env['NODE_ENV'] as NodeEnv) === NodeEnv.Production
+        ? PACKAGE_CONFIG_FILENAME_PROD
+        : PACKAGE_CONFIG_FILENAME,
+      'utf-8'
+    )
   )
 
   return {
