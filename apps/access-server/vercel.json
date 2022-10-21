@@ -3,8 +3,8 @@
   "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build",
   "outputDirectory": "dist",
   "functions": {
-    "main.js": {
-      "maxDuration": 10
+    "dist/main.js": {
+      "includeFiles": "dist/**/*"
     }
   },
   "rewrites": [{ "source": "/(.*)", "destination": "/main.js" }]
