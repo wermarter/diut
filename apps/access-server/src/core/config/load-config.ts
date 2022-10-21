@@ -30,7 +30,7 @@ export const loadConfig = async (): Promise<AppConfig> => {
   const packageConfigObj = JSON.parse(
     readFileSync(
       (process.env['NODE_ENV'] as NodeEnv) === NodeEnv.Production
-        ? PACKAGE_CONFIG_FILENAME_PROD
+        ? join(__dirname, PACKAGE_CONFIG_FILENAME_PROD)
         : PACKAGE_CONFIG_FILENAME,
       'utf-8'
     )
