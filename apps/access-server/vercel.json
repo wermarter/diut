@@ -1,5 +1,11 @@
 {
   "installCommand": "yarn install",
   "buildCommand": "cd ../../libs/common && yarn build && cd ../../apps/access-server && yarn build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "functions": {
+    "main.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/main.js" }]
 }
