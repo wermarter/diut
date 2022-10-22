@@ -6,11 +6,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AppBar } from '../AppBar'
 import { AppDrawer } from '../AppDrawer'
 
-export const drawerWidth = 240
+export const drawerWidth = 220
 
 export function MainLayout() {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', minWidth: '800px' }}>
       <AppBar drawerWidth={drawerWidth} />
       <AppDrawer drawerWidth={drawerWidth} />
       <Box

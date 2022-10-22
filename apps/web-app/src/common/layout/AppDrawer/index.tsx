@@ -9,11 +9,10 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material'
-import { Fragment, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Fragment } from 'react'
+import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 
 import { fullLogo } from 'src/assets/images'
-import { MenuItem } from 'src/core'
 import { useDrawerItems } from './hooks'
 
 interface AppDrawerProps {
@@ -22,8 +21,8 @@ interface AppDrawerProps {
 
 export function AppDrawer({ drawerWidth }: AppDrawerProps) {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const drawerItems = useDrawerItems()
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
 
   return (
     <Drawer
@@ -79,18 +78,20 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
             <ListSubheader disableSticky component="div" inset>
               {group.title}
             </ListSubheader>
-            {group.children.map((item, itemIndex) => (
+            {group.children.map((item) => (
               <ListItem
                 key={item.label}
                 disablePadding
                 onClick={() => {
-                  setSelectedItem(item)
                   navigate(item.destination)
                 }}
               >
                 <ListItemButton
                   disableRipple
-                  selected={selectedItem?.label === item.label}
+                  selected={
+                    matchPath(item.destination as string, pathname)?.pattern
+                      .path === item.destination
+                  }
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.label} />
