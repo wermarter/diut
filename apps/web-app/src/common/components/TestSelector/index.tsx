@@ -86,7 +86,9 @@ export function TestSelector({
                   mx: 1,
                 }}
               >
-                <ListSubheader color="primary">{groupName}</ListSubheader>
+                <ListSubheader color="primary" disableSticky>
+                  {groupName}
+                </ListSubheader>
                 {groups[groupName].map((test) => {
                   return (
                     <ListItem key={test._id} disablePadding>
@@ -112,7 +114,7 @@ export function TestSelector({
       )}
       <Button
         fullWidth
-        sx={{ mt: 3 }}
+        sx={{ my: 3 }}
         variant="contained"
         color="primary"
         onClick={handleSubmit}
