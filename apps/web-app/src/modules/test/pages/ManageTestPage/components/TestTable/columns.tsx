@@ -11,14 +11,6 @@ export function useTestColumns(
 ): GridColumns<TestResponseDto> {
   return [
     {
-      field: 'topBottomIndex',
-      headerName: 'Thứ tự',
-      type: 'number',
-      minWidth: 100,
-      sortable: false,
-      editable: true,
-    },
-    {
       field: 'category',
       headerName: 'Nhóm XN',
       type: 'singleSelect',
@@ -32,6 +24,14 @@ export function useTestColumns(
       valueGetter: ({ value }) => {
         return value?.name ?? ''
       },
+    },
+    {
+      field: 'topBottomIndex',
+      headerName: 'Thứ tự',
+      type: 'number',
+      minWidth: 100,
+      sortable: false,
+      editable: true,
     },
     {
       field: 'name',

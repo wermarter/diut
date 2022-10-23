@@ -14,14 +14,6 @@ export function useTestElementColumns(
 ): GridColumns<TestElementResponseDto> {
   return [
     {
-      field: 'topBottomIndex',
-      headerName: 'Thứ tự',
-      type: 'number',
-      minWidth: 100,
-      sortable: false,
-      editable: true,
-    },
-    {
       field: 'test',
       headerName: 'Tên XN',
       type: 'singleSelect',
@@ -37,6 +29,14 @@ export function useTestElementColumns(
       },
     },
     {
+      field: 'topBottomIndex',
+      headerName: 'Thứ tự',
+      type: 'number',
+      minWidth: 100,
+      sortable: false,
+      editable: true,
+    },
+    {
       field: 'name',
       headerName: 'Tên thành phần',
       minWidth: 300,
@@ -45,10 +45,17 @@ export function useTestElementColumns(
       editable: true,
     },
     {
+      field: 'unit',
+      headerName: 'Đơn vị',
+      minWidth: 80,
+      sortable: false,
+      editable: true,
+    },
+    {
       field: 'anyMin',
       headerName: 'Min',
       type: 'number',
-      minWidth: 100,
+      minWidth: 80,
       sortable: false,
       editable: true,
       valueGetter: ({ row }) => {
@@ -69,7 +76,7 @@ export function useTestElementColumns(
       field: 'anyMax',
       headerName: 'Max',
       type: 'number',
-      minWidth: 100,
+      minWidth: 80,
       sortable: false,
       editable: true,
       valueGetter: ({ row }) => {
@@ -89,7 +96,7 @@ export function useTestElementColumns(
     {
       field: 'anyNormal',
       headerName: 'Bình thường',
-      minWidth: 120,
+      minWidth: 80,
       sortable: false,
       editable: true,
       valueGetter: ({ row }) => {
@@ -110,7 +117,7 @@ export function useTestElementColumns(
     {
       field: 'anyDescription',
       headerName: 'Mô tả',
-      minWidth: 200,
+      minWidth: 100,
       sortable: false,
       editable: true,
       valueGetter: ({ row }) => {
