@@ -1,4 +1,4 @@
-import { Permission, Role } from '@diut/common'
+import { Permission } from '@diut/common'
 import {
   createAction,
   createSlice,
@@ -16,7 +16,6 @@ interface AuthState {
   id?: string
   name?: string
   accessToken?: string
-  roles?: Role[]
   permissions?: Permission[]
 }
 
@@ -76,7 +75,6 @@ export const authSlice = createSlice({
         state.id = payload?._id
         state.name = payload?.name
         state.accessToken = payload?.generatedAccessToken
-        state.roles = payload?.roles
         state.permissions = payload?.permissions
       }
     )
@@ -98,4 +96,3 @@ export const selectIsAuthenticated = (state: RootState) =>
   state.auth.accessToken !== undefined
 export const selectUserPermissions = (state: RootState) =>
   state.auth.permissions ?? []
-export const selectUserRoles = (state: RootState) => state.auth.roles ?? []

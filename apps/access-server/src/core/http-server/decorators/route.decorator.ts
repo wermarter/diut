@@ -1,4 +1,4 @@
-import { Role } from '@diut/common'
+import { Permission } from '@diut/common'
 import {
   applyDecorators,
   Get,
@@ -13,14 +13,14 @@ import {
 } from '@nestjs/common'
 import { ClassConstructor } from 'class-transformer'
 
-import { Roles } from 'src/auth/auth.common'
-import { JwtAuthGuard, RoleAuthGuard } from 'src/auth/guards'
+import { Permissions } from 'src/auth/auth.common'
+import { JwtAuthGuard, PermissionsGuard } from 'src/auth/guards'
 import { AppOpenApi, AppOpenApiOptions } from './openapi.decorator'
 import { Serialize } from './serialize.decorator'
 
 export interface AppRouteOptions {
   isPublic?: boolean
-  roles?: Role[]
+  permissions?: Permission[]
   path?: string
   method?: RequestMethod
   code?: HttpStatus
@@ -38,7 +38,7 @@ const methodDecorator = {
 
 export function AppRoute({
   isPublic = false,
-  roles = [],
+  permissions = [],
   path = '/',
   method = RequestMethod.GET,
   code,
@@ -49,9 +49,9 @@ export function AppRoute({
 
   if (!isPublic) {
     decorators.push(UseGuards(JwtAuthGuard))
-    if (roles.length > 0) {
-      decorators.push(UseGuards(RoleAuthGuard))
-      decorators.push(Roles(roles))
+    if (permissions.length > 0) {
+      decorators.push(UseGuards(PermissionsGuard))
+      decorators.push(Permissions(permissions))
     }
   }
 

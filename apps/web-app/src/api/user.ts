@@ -1,4 +1,4 @@
-import { Permission, Role, UserExceptionMsg } from '@diut/common'
+import { Permission, UserExceptionMsg } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['users'] as const
 const injectedRtkApi = api
@@ -80,7 +80,6 @@ export type UserResponseDto = {
   username: string
   name: string
   phoneNumber?: string
-  roles: Role[]
   permissions: Permission[]
 }
 export type SearchUserResponseDto = {
@@ -105,7 +104,6 @@ export type CreateUserRequestDto = {
   name: string
   password: string
   phoneNumber?: string
-  roles: Role[]
   permissions: Permission[]
 }
 export type UpdateUserRequestDto = {
@@ -113,7 +111,6 @@ export type UpdateUserRequestDto = {
   name?: string
   password?: string
   phoneNumber?: string
-  roles?: Role[]
   permissions?: Permission[]
 }
 export const {

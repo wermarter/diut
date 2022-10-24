@@ -15,3 +15,7 @@ export const flattenKeys = (obj: object, currentpath: string) => {
 
   return paths
 }
+
+export const numericEnumArray = (targetEnum: object) => {
+  return Object.values(targetEnum).filter((elm) => !isNaN(Number(elm)))
+}

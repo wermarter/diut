@@ -1,4 +1,4 @@
-import { Role } from '@diut/common'
+import { Permission } from '@diut/common'
 import { Body, Logger, Param, UnauthorizedException } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
@@ -34,7 +34,7 @@ export class UserController {
     @Body() body: UpdateUserRequestDto,
     @ReqUser() user: AuthTokenPayload
   ) {
-    const isAdmin = user.roles.includes(Role.Admin)
+    const isAdmin = user.permissions.includes(Permission.ManageCore)
 
     const targetUser = await this.userService.findById(id)
     const isOwnUser = targetUser?._id?.toString() === user.sub

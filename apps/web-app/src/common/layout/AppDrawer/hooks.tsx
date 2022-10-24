@@ -1,19 +1,14 @@
 import { useTypedSelector, drawerItems, DrawerItem } from 'src/core'
-import {
-  checkPermission,
-  selectUserPermissions,
-  selectUserRoles,
-} from 'src/modules/auth'
+import { checkPermission, selectUserPermissions } from 'src/modules/auth'
 
 export function useDrawerItems() {
   const userPermissions = useTypedSelector(selectUserPermissions)
-  const userRoles = useTypedSelector(selectUserRoles)
 
   const result = drawerItems.map((group) => {
     // Group permission
     if (
       group.permission &&
-      !checkPermission(userPermissions, group.permission, userRoles)
+      !checkPermission(userPermissions, group.permission)
     ) {
       return null
     }
@@ -22,7 +17,7 @@ export function useDrawerItems() {
     let filteredChildren = group.children.filter((item) => {
       if (
         item.permission &&
-        !checkPermission(userPermissions, item.permission, userRoles)
+        !checkPermission(userPermissions, item.permission)
       ) {
         return false
       }

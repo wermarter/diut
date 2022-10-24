@@ -1,4 +1,4 @@
-import { Role, Permission } from '@diut/common'
+import { Permission } from '@diut/common'
 import {
   createParamDecorator,
   ExecutionContext,
@@ -7,7 +7,6 @@ import {
 
 export interface AuthTokenPayload {
   sub: string // UserId
-  roles: Role[]
   permissions: Permission[]
 }
 
@@ -21,5 +20,6 @@ export const ReqUser = createParamDecorator(
   }
 )
 
-export const ROLES_KEY = 'auth.roles'
-export const Roles = (roles: Role[]) => SetMetadata(ROLES_KEY, roles)
+export const PERMISSIONS_KEY = 'auth.permissions'
+export const Permissions = (permissions: Permission[]) =>
+  SetMetadata(PERMISSIONS_KEY, permissions)

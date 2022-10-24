@@ -12,7 +12,6 @@ export class AuthService {
   async login(user: User): Promise<LoginResponseDto> {
     const payload: AuthTokenPayload = {
       sub: user._id,
-      roles: user.roles,
       permissions: user.permissions,
     }
     const generatedAccessToken = await this.jwtService.signAsync(payload)

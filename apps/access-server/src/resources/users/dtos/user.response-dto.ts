@@ -1,6 +1,7 @@
-import { Role, Permission, UserExceptionMsg } from '@diut/common'
+import { Permission, UserExceptionMsg } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 import { BaseResourceResponseDto } from 'src/clients/mongo'
 import { BadRequestDto } from 'src/core'
@@ -10,12 +11,16 @@ export class UserResponseDto extends BaseResourceResponseDto {
   @ApiProperty({
     example: 'levana',
   })
+  @IsString()
+  @IsNotEmpty()
   username: string
 
   @Expose()
   @ApiProperty({
     example: 'Lê Văn A',
   })
+  @IsString()
+  @IsNotEmpty()
   name: string
 
   @Expose()
@@ -23,16 +28,10 @@ export class UserResponseDto extends BaseResourceResponseDto {
     example: '0330556666',
     required: false,
   })
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
   phoneNumber?: string
-
-  @Expose()
-  @ApiProperty({
-    example: [Role.User],
-    enum: Role,
-    enumName: 'Role',
-    isArray: true,
-  })
-  roles: Role[]
 
   @Expose()
   @ApiProperty({
@@ -41,6 +40,7 @@ export class UserResponseDto extends BaseResourceResponseDto {
     enumName: 'Permission',
     isArray: true,
   })
+  @IsEnum(Permission, { each: true })
   permissions: Permission[]
 }
 

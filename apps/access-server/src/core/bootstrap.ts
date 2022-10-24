@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { LoggerService, RequestMethod, ValidationPipe } from '@nestjs/common'
+import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger } from 'nestjs-pino'
 
 import {
@@ -18,12 +18,7 @@ export async function bootstrap(rootModule: unknown) {
     bufferLogs: true,
   })
 
-  app.setGlobalPrefix(API_PREFIX, {
-    exclude: [
-      { path: 'health', method: RequestMethod.GET },
-      { path: 'metrics', method: RequestMethod.GET },
-    ],
-  })
+  app.setGlobalPrefix(API_PREFIX)
 
   app.useGlobalPipes(
     new ValidationPipe({

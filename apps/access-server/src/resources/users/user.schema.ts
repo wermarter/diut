@@ -1,4 +1,4 @@
-import { Role, Permission } from '@diut/common'
+import { Permission } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
@@ -20,12 +20,6 @@ export class User extends BaseSchema {
 
   @Prop()
   phoneNumber?: string
-
-  @Prop({
-    type: [{ enum: Role, type: String }],
-    required: true,
-  })
-  roles: Role[]
 
   @Prop({
     type: [{ enum: Permission, type: String }],

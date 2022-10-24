@@ -41,7 +41,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     return !isNil((await this.model.exists(filter))?._id)
   }
 
-  public async create(data: Partial<Entity>): Promise<Entity> {
+  public async create(data: Omit<Entity, keyof BaseSchema>): Promise<Entity> {
     const item = await this.model.create(data)
 
     return item.toObject<Entity>()

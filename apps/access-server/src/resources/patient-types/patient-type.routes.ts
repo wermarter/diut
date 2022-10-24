@@ -1,4 +1,4 @@
-import { Role } from '@diut/common'
+import { Permission } from '@diut/common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
@@ -25,7 +25,7 @@ export const patientTypeRoutes = {
   },
 
   create: <AppRouteOptions>{
-    roles: [Role.Admin],
+    permissions: [Permission.ManageCore],
     method: RequestMethod.POST,
     serialize: PatientTypeResponseDto,
     openApi: {
@@ -39,7 +39,7 @@ export const patientTypeRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    roles: [Role.Admin],
+    permissions: [Permission.ManageCore],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: PatientTypeResponseDto,
@@ -66,7 +66,7 @@ export const patientTypeRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    roles: [Role.Admin],
+    permissions: [Permission.ManageCore],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: PatientTypeResponseDto,

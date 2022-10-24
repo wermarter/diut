@@ -1,4 +1,4 @@
-import { Permission, Role } from '@diut/common'
+import { Permission } from '@diut/common'
 import { GridColumns, GridValueSetterParams } from '@mui/x-data-grid'
 
 import { UserResponseDto } from 'src/api/user'
@@ -45,25 +45,9 @@ export const userColumns: GridColumns<UserResponseDto> = [
     editable: true,
     type: 'boolean',
     valueGetter: ({ row }) => {
-      return row.roles?.includes(Role.Admin) ?? false
+      return row.permissions?.includes(Permission.ManageCore) ?? false
     },
-    valueSetter: ({ value, row }) => {
-      const userPermissions = new Set(row.permissions)
-      const userRoles = new Set(row.roles)
-
-      if (value === true) {
-        userPermissions.add(Permission.ManageCore)
-        userRoles.add(Role.Admin)
-      } else {
-        userPermissions.delete(Permission.ManageCore)
-        userRoles.delete(Role.Admin)
-      }
-      return {
-        ...row,
-        permissions: Array.from(userPermissions),
-        roles: Array.from(userRoles),
-      }
-    },
+    valueSetter: permissionValueSetter(Permission.ManageCore),
   },
   {
     field: 'permissionManagePatient',

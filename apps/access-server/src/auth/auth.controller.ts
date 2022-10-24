@@ -18,6 +18,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @AppRoute(authRoutes.login)
   login(@ReqUser() user: User, @Body() body: LoginRequestDto) {
+    // body is validated in LocalAuthGuard
     return this.authService.login(user)
   }
 }

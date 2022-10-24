@@ -1,4 +1,4 @@
-import { Permission, LoginExceptionMsg, Role } from '@diut/common'
+import { Permission, LoginExceptionMsg } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['auth'] as const
 const injectedRtkApi = api
@@ -30,7 +30,6 @@ export type LoginResponseDto = {
   username: string
   name: string
   phoneNumber?: string
-  roles: Role[]
   permissions: Permission[]
   generatedAccessToken: string
 }
