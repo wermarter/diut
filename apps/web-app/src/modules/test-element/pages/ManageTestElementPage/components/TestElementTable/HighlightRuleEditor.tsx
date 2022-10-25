@@ -13,7 +13,7 @@ const patientCategories = {
   [PatientCategory.Girl]: 'Bé gái',
   [PatientCategory.Man]: 'Nam',
   [PatientCategory.Woman]: 'Nữ',
-  [PatientCategory.Pregnant]: 'Có thai',
+  [PatientCategory.Pregnant]: 'Thai phụ',
 }
 
 type HighlightRuleDtoWithId = HighlightRuleDto & {

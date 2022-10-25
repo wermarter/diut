@@ -13,8 +13,10 @@ import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
 import GradingIcon from '@mui/icons-material/Grading'
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation'
 import CoronavirusIcon from '@mui/icons-material/Coronavirus'
-import BubbleChartIcon from '@mui/icons-material/BubbleChart'
 import Diversity2Icon from '@mui/icons-material/Diversity2'
+import PrintIcon from '@mui/icons-material/Print'
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural'
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 
 export interface MenuItem {
   icon: ReactElement
@@ -37,6 +39,36 @@ export const drawerItems: DrawerItem[] = [
         icon: <HomeIcon />,
         label: 'Trang chủ',
         destination: '/',
+      },
+      {
+        icon: <AirlineSeatReclineNormalIcon />,
+        label: 'Nhập thông tin',
+        destination: 'info-input',
+        permission: Permission.ManageInfo,
+      },
+      {
+        icon: <FaceRetouchingNaturalIcon />,
+        label: 'Kiểm tra thông tin',
+        destination: 'info-edit',
+        permission: Permission.ManageInfo,
+      },
+      {
+        icon: <GradingIcon />,
+        label: 'Nhập kết quả',
+        destination: 'result-input',
+        permission: Permission.ManageResult,
+      },
+      {
+        icon: <AppRegistrationIcon />,
+        label: 'Bổ sung KQ',
+        destination: 'result-edit',
+        permission: Permission.ManageResult,
+      },
+      {
+        icon: <PrintIcon />,
+        label: 'In kết quả',
+        destination: 'result-print',
+        permission: Permission.ManageResult,
       },
     ],
   },
@@ -74,7 +106,7 @@ export const drawerItems: DrawerItem[] = [
         permission: Permission.ManageCore,
       },
       {
-        icon: <BubbleChartIcon />,
+        icon: <VaccinesIcon />,
         label: 'Loại mẫu',
         destination: 'sample-types',
         permission: Permission.ManageCore,
@@ -102,29 +134,6 @@ export const drawerItems: DrawerItem[] = [
         label: 'Bộ xét nghiệm',
         destination: 'test-combos',
         permission: Permission.ManageCore,
-      },
-    ],
-  },
-  {
-    title: 'Thông tin',
-    children: [
-      {
-        icon: <AirlineSeatReclineNormalIcon />,
-        label: 'Bệnh nhân',
-        destination: 'patients',
-        permission: Permission.ManagePatient,
-      },
-      {
-        icon: <VaccinesIcon />,
-        label: 'Mẫu XN',
-        destination: 'samples',
-        permission: Permission.ManageSample,
-      },
-      {
-        icon: <GradingIcon />,
-        label: 'Kết quả XN',
-        destination: 'test-results',
-        permission: Permission.ManageTestResult,
       },
     ],
   },

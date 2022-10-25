@@ -40,7 +40,7 @@ export const patientRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.Restricted],
+    permissions: [Permission.ManageInfo],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: PatientResponseDto,

@@ -33,7 +33,7 @@ function patchEmitter(emitter: any) {
           if (!isProduction && method === 'createIndex') {
             return
           }
-          logger.debug({ coll, method, query, doc, options })
+          // logger.debug({ coll, method, query, doc, options })
         })
 
         mongoose.set('autoIndex', false)

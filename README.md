@@ -44,3 +44,11 @@ Auto-generate frontend API code from backend openAPI spec with configs in `apps/
 cd apps/web-app
 yarn g:api
 ```
+
+## Database scripting with NestJS
+
+Should be run from `apps/access-server` with MongoDB's URI in `apps/access-server/.env`
+
+```bash
+cd apps/access-server && ./scripts/duplicate-test-element.ts
+```

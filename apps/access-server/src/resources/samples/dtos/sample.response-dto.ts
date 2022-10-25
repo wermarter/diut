@@ -98,6 +98,13 @@ export class SampleResponseDto extends BaseResourceResponseDto {
     example: false,
   })
   @IsBoolean()
+  infoCompleted: boolean
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
   sampleCompleted: boolean
 }
 

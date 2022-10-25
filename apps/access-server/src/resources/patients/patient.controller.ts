@@ -1,4 +1,4 @@
-import { Body, Logger, Param, Req } from '@nestjs/common'
+import { Body, Logger, Param } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'

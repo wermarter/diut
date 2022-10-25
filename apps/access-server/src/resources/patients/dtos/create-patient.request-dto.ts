@@ -1,14 +1,22 @@
 import { Gender, numericEnumArray } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator'
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator'
 
 export class CreatePatientRequestDto {
   @ApiProperty({
     example: '1220406272',
+    required: false,
   })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
-  externalId: string
+  externalId?: string
 
   @ApiProperty({
     example: 'Lê Văn A',
@@ -39,15 +47,19 @@ export class CreatePatientRequestDto {
 
   @ApiProperty({
     example: '0335330808',
+    required: false,
   })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
-  phoneNumber: string
+  phoneNumber?: string
 
   @ApiProperty({
     example: '301719666',
+    required: false,
   })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
-  SSN: string
+  SSN?: string
 }

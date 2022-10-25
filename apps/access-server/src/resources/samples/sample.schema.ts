@@ -95,5 +95,8 @@ export class Sample extends BaseSchema {
   resultBy: string[] | User[]
 
   @Prop({ required: true })
+  infoCompleted: boolean
+
+  @Prop({ required: true })
   sampleCompleted: boolean
 }

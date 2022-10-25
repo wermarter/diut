@@ -9,8 +9,8 @@ import { COLLECTION } from 'src/common/collections'
   collection: COLLECTION.PATIENT,
 })
 export class Patient extends BaseSchema {
-  @Prop({ required: true, index: 'text' })
-  externalId: string
+  @Prop()
+  externalId?: string
 
   @Prop({ required: true, index: 'text' })
   name: string
@@ -24,9 +24,9 @@ export class Patient extends BaseSchema {
   @Prop({ required: true })
   address: string
 
-  @Prop({ required: true })
-  phoneNumber: string
+  @Prop()
+  phoneNumber?: string
 
-  @Prop({ required: true })
-  SSN: string
+  @Prop()
+  SSN?: string
 }

@@ -27,17 +27,6 @@ export const userColumns: GridColumns<UserResponseDto> = [
     editable: true,
   },
   {
-    field: 'permissionSummary',
-    headerName: 'Phân quyền',
-    width: 100,
-    sortable: false,
-    editable: false,
-    type: 'number',
-    valueGetter: ({ row }) => {
-      return row.permissions?.length ?? 0
-    },
-  },
-  {
     field: 'permissionManageCore',
     headerName: 'Admin',
     width: 100,
@@ -50,40 +39,28 @@ export const userColumns: GridColumns<UserResponseDto> = [
     valueSetter: permissionValueSetter(Permission.ManageCore),
   },
   {
-    field: 'permissionManagePatient',
-    headerName: 'Bệnh nhân',
+    field: 'permissionManageInfo',
+    headerName: 'Hồ sơ',
     width: 100,
     sortable: false,
     editable: true,
     type: 'boolean',
     valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ManagePatient) ?? false
+      return row.permissions?.includes(Permission.ManageInfo) ?? false
     },
-    valueSetter: permissionValueSetter(Permission.ManagePatient),
+    valueSetter: permissionValueSetter(Permission.ManageInfo),
   },
   {
-    field: 'permissionManageSample',
-    headerName: 'Mẫu XN',
-    width: 100,
-    sortable: false,
-    editable: true,
-    type: 'boolean',
-    valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ManageSample) ?? false
-    },
-    valueSetter: permissionValueSetter(Permission.ManageSample),
-  },
-  {
-    field: 'permissionManageTestResult',
+    field: 'permissionManageResult',
     headerName: 'Kết quả',
     width: 100,
     sortable: false,
     editable: true,
     type: 'boolean',
     valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ManageTestResult) ?? false
+      return row.permissions?.includes(Permission.ManageResult) ?? false
     },
-    valueSetter: permissionValueSetter(Permission.ManageTestResult),
+    valueSetter: permissionValueSetter(Permission.ManageResult),
   },
 ]
 

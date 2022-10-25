@@ -88,19 +88,28 @@ export const appRoutes: CustomRouteObject[] = [
       },
       // ------------------------------------------------
       {
-        path: 'patients',
-        permission: Permission.ManagePatient,
-        element: <DataGridDemo />,
-      },
-
-      {
-        path: 'samples',
-        permission: Permission.ManageSample,
+        path: 'info-input',
+        permission: Permission.ManageInfo,
         element: <DataGridDemo />,
       },
       {
-        path: 'test-results',
-        permission: Permission.ManageTestResult,
+        path: 'info-edit',
+        permission: Permission.ManageInfo,
+        element: <DataGridDemo />,
+      },
+      {
+        path: 'result-input',
+        permission: Permission.ManageResult,
+        element: <DataGridDemo />,
+      },
+      {
+        path: 'result-edit',
+        permission: Permission.ManageResult,
+        element: <DataGridDemo />,
+      },
+      {
+        path: 'result-print',
+        permission: Permission.ManageResult,
         element: <DataGridDemo />,
       },
     ],

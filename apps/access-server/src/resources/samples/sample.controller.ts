@@ -38,15 +38,25 @@ export class SampleController {
       })),
       resultBy: [],
       sampleCompleted: false,
+      infoCompleted: false,
     })
   }
 
   @AppRoute(sampleRoutes.updateById)
-  updateById(
+  async updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateSampleRequestDto
+    @Body() body: UpdateSampleRequestDto,
+    @ReqUser() user: AuthTokenPayload
   ) {
-    return this.sampleService.updateById(id, body)
+    const { resultBy } = body
+    const userId = user.sub
+    if (resultBy?.length > 0) {
+      if (!resultBy.includes(userId)) {
+        resultBy.push(userId)
+      }
+    } else {
+      return this.sampleService.updateById(id, { ...body, resultBy: [userId] })
+    }
   }
 
   @AppRoute(sampleRoutes.findById)
