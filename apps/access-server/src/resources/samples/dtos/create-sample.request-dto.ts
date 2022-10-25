@@ -4,15 +4,12 @@ import {
   IsArray,
   IsDateString,
   IsNotEmpty,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator'
 
-import { DoctorResponseDto } from 'src/resources/doctors/dtos/doctor.response-dto'
-import { IndicationResponseDto } from 'src/resources/indications/dtos/indication.response-dto'
-import { PatientTypeResponseDto } from 'src/resources/patient-types/dtos/patient-type.response-dto'
-import { PatientResponseDto } from 'src/resources/patients/dtos/patient.response-dto'
-import { SampleTypeResponseDto } from 'src/resources/sample-types/dtos/sample-type.response-dto'
+import { IsObjectId } from 'src/clients/mongo'
 
 export class CreateSampleRequestDto {
   @ApiProperty({
@@ -23,41 +20,64 @@ export class CreateSampleRequestDto {
   sampleId: string
 
   @ApiProperty({
+    format: 'date-time',
     example: '2022-10-24T10:15:00Z',
   })
   @IsDateString()
   sampledAt: Date
 
   @ApiProperty({
-    type: () => PatientResponseDto,
+    example: '634180269de1f07e47bbf494',
   })
-  @Type(() => PatientResponseDto)
-  patient: PatientResponseDto
+  @IsObjectId()
+  patientId: string
 
   @ApiProperty({
-    type: () => DoctorResponseDto,
+    example: '634180269de1f07e47bbf494',
   })
-  @Type(() => DoctorResponseDto)
-  doctor: DoctorResponseDto
+  @IsObjectId()
+  doctorId: string
 
   @ApiProperty({
-    type: () => PatientTypeResponseDto,
+    example: '634180269de1f07e47bbf494',
   })
-  @Type(() => PatientTypeResponseDto)
-  patientType: PatientTypeResponseDto
+  @IsObjectId()
+  patientTypeId: string
 
   @ApiProperty({
-    type: () => IndicationResponseDto,
+    example: '634180269de1f07e47bbf494',
   })
-  @Type(() => IndicationResponseDto)
-  indication: IndicationResponseDto
+  @IsObjectId()
+  indicationId: string
 
   @ApiProperty({
-    type: () => SampleTypeResponseDto,
+    example: ['634180269de1f07e47bbf494'],
+  })
+  @IsString({ each: true })
+  sampleTypeIds: string[]
+
+  @ApiProperty({
+    type: () => SampleTestDto,
     isArray: true,
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => SampleTypeResponseDto)
-  sampleTypes: SampleTypeResponseDto[]
+  @Type(() => SampleTestDto)
+  tests: SampleTestDto[]
+}
+
+class SampleTestDto {
+  @ApiProperty({
+    example: '634180269de1f07e47bbf494',
+  })
+  @IsObjectId()
+  id: string
+
+  @ApiProperty({
+    example: 'CHIV Advia centaur',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  bioProductName?: string
 }

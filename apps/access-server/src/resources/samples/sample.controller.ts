@@ -7,8 +7,7 @@ import { SearchSampleRequestDto } from './dtos/search-sample.request-dto'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
 import { sampleRoutes } from './sample.routes'
 import { SampleService } from './sample.service'
-import { ReqUser } from 'src/auth'
-import { User } from '../users'
+import { AuthTokenPayload, ReqUser } from 'src/auth'
 
 @AppController(sampleRoutes.controller)
 export class SampleController {
@@ -24,13 +23,21 @@ export class SampleController {
   }
 
   @AppRoute(sampleRoutes.create)
-  create(@Body() body: CreateSampleRequestDto, @ReqUser() user: User) {
+  create(
+    @Body() body: CreateSampleRequestDto,
+    @ReqUser() user: AuthTokenPayload
+  ) {
     return this.sampleService.create({
       ...body,
-      createdBy: user._id,
-      results: [],
+      createdBy: user.sub,
+      results: body.tests.map((test) => ({
+        testId: test.id,
+        testCompleted: false,
+        bioProductName: test.bioProductName,
+        elements: [],
+      })),
       resultBy: [],
-      isCompleted: false,
+      sampleCompleted: false,
     })
   }
 
@@ -41,10 +48,6 @@ export class SampleController {
   ) {
     return this.sampleService.updateById(id, body)
   }
-
-  // update result
-
-  // synchronize info
 
   @AppRoute(sampleRoutes.findById)
   findById(@Param('id', ObjectIdPipe) id: string) {

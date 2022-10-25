@@ -1,14 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Expose } from 'class-transformer'
+import { Expose, Type } from 'class-transformer'
 import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   Min,
+  ValidateNested,
 } from 'class-validator'
 
-import { BaseResourceResponseDto, IsObjectId } from 'src/clients/mongo'
+import { BaseResourceResponseDto } from 'src/clients/mongo'
 import { BioProductResponseDto } from 'src/resources/bio-products/dtos/bio-product.response-dto'
 import { TestCategoryResponseDto } from 'src/resources/test-categories/dtos/test-category.response-dto'
 
@@ -17,7 +18,8 @@ export class TestResponseDto extends BaseResourceResponseDto {
   @ApiProperty({
     type: TestCategoryResponseDto,
   })
-  @IsObjectId()
+  @ValidateNested()
+  @Type(() => TestCategoryResponseDto)
   category: TestCategoryResponseDto
 
   @Expose()
@@ -26,7 +28,8 @@ export class TestResponseDto extends BaseResourceResponseDto {
     required: false,
   })
   @IsOptional()
-  @IsObjectId()
+  @ValidateNested()
+  @Type(() => BioProductResponseDto)
   bioProduct?: BioProductResponseDto
 
   @Expose()

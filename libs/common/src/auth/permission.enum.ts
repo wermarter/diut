@@ -1,7 +1,7 @@
 export enum Permission {
   ManageCore = 'ManageCore',
+  Restricted = 'Restricted',
   //
-  ManagePatient = 'ManagePatient',
-  ManageSample = 'ManageSample',
-  ManageTestResult = 'ManageTestResult',
+  ManageInfo = 'ManageInfo',
+  ManageResult = 'ManageResult',
 }

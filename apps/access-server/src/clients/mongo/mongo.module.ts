@@ -46,7 +46,9 @@ function patchEmitter(emitter: any) {
             // patchEmitter(connection.client)
 
             client.on('serverHeartbeatFailed', ({ connectionId }) => {
-              logger.warn(`MongoDB Connection failed: ${connectionId}`)
+              logger.warn(
+                `MongoDB heartbeat failed: ${connectionId}. Reconnecting...`
+              )
             })
 
             return connection

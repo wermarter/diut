@@ -31,55 +31,56 @@ export class Sample extends BaseSchema {
 
   @Prop({
     required: true,
-    type: MongooseSchema.Types.Mixed,
+    type: Types.ObjectId,
+    ref: Patient.name,
   })
-  patient: Patient
+  patientId: string | Patient
 
   @Prop({
     required: true,
-    type: MongooseSchema.Types.Mixed,
+    type: Types.ObjectId,
+    ref: Doctor.name,
   })
-  doctor: Doctor
+  doctorId: string | Doctor
 
   @Prop({
     required: true,
-    type: MongooseSchema.Types.Mixed,
+    type: Types.ObjectId,
+    ref: PatientType.name,
   })
-  patientType: PatientType
+  patientTypeId: string | PatientType
 
   @Prop({
     required: true,
-    type: MongooseSchema.Types.Mixed,
+    type: Types.ObjectId,
+    ref: Indication.name,
   })
-  indication: Indication
+  indicationId: string | Indication
 
   @Prop({
     required: true,
-    type: [MongooseSchema.Types.Mixed],
+    type: [
+      {
+        type: Types.ObjectId,
+        ref: SampleType.name,
+      },
+    ],
   })
-  sampleTypes: SampleType[]
+  sampleTypeIds: string[] | SampleType[]
 
   @Prop({ required: true, type: [MongooseSchema.Types.Mixed] })
-  results: {
-    id: string
-
-    testName: string
-    category: string
-    bioProduct: string
+  results: Array<{
+    testId: string
+    testCompleted: boolean
+    bioProductName?: string
     resultBy?: string
 
-    elements: {
+    elements: Array<{
       id: string
-
-      name: string
-      unit: string
-      description: string
-      normalValue?: string
-
       value: string
       isHighlighted: boolean
-    }[]
-  }[]
+    }>
+  }>
 
   @Prop({
     type: [
@@ -94,5 +95,5 @@ export class Sample extends BaseSchema {
   resultBy: string[] | User[]
 
   @Prop({ required: true })
-  isCompleted: boolean
+  sampleCompleted: boolean
 }

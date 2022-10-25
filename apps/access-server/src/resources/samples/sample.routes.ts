@@ -11,6 +11,7 @@ export const sampleRoutes = {
   },
 
   search: <AppRouteOptions>{
+    permissions: [Permission.ManageInfo, Permission.ManageResult],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -25,6 +26,7 @@ export const sampleRoutes = {
   },
 
   create: <AppRouteOptions>{
+    permissions: [Permission.ManageInfo],
     method: RequestMethod.POST,
     serialize: SampleResponseDto,
     openApi: {
@@ -38,7 +40,7 @@ export const sampleRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissions: [Permission.ManageInfo, Permission.ManageResult],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: SampleResponseDto,
@@ -52,6 +54,7 @@ export const sampleRoutes = {
   },
 
   findById: <AppRouteOptions>{
+    permissions: [Permission.ManageInfo, Permission.ManageResult],
     path: ':id',
     method: RequestMethod.GET,
     serialize: SampleResponseDto,
