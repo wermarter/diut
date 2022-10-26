@@ -92,7 +92,7 @@ export function TestComboTable() {
           updateTestCombo({
             id: selectedCombo?._id!,
             updateTestComboRequestDto: {
-              children: tests,
+              children: tests.map(({ _id }) => _id),
             },
           })
         }}

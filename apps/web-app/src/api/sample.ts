@@ -95,7 +95,8 @@ export type SampleResponseDto = {
   updatedAt: string
   sampleId: string
   sampledAt: string
-  createdBy: string
+  infoAt: string
+  infoBy: string
   patientId: string
   doctorId: string
   patientTypeId: string
@@ -125,6 +126,7 @@ export type SampleTestDto = {
 export type CreateSampleRequestDto = {
   sampleId: string
   sampledAt: string
+  infoAt: string
   patientId: string
   doctorId: string
   patientTypeId: string
@@ -135,6 +137,7 @@ export type CreateSampleRequestDto = {
 export type UpdateSampleRequestDto = {
   sampleId?: string
   sampledAt?: string
+  infoAt?: string
   patientId?: string
   doctorId?: string
   patientTypeId?: string

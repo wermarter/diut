@@ -19,6 +19,13 @@ const BioProductRoute = React.lazy(() => import('src/modules/bio-product'))
 const SampleTypeRoute = React.lazy(() => import('src/modules/sample-type'))
 const TestComboRoute = React.lazy(() => import('src/modules/test-combo'))
 
+const InfoInputRoute = React.lazy(
+  () => import('src/modules/sample-info/pages/InfoInputPage')
+)
+const InfoEditRoute = React.lazy(
+  () => import('src/modules/sample-info/pages/InfoEditPage')
+)
+
 export const appRoutes: CustomRouteObject[] = [
   {
     path: 'login',
@@ -90,12 +97,12 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: 'info-input',
         permission: Permission.ManageInfo,
-        element: <DataGridDemo />,
+        element: <InfoInputRoute />,
       },
       {
         path: 'info-edit',
         permission: Permission.ManageInfo,
-        element: <DataGridDemo />,
+        element: <InfoEditRoute />,
       },
       {
         path: 'result-input',

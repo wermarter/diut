@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   Box,
   Button,
+  ButtonGroup,
   List,
   ListItem,
   ListItemButton,
@@ -11,13 +12,15 @@ import {
 import { groupBy } from 'lodash-es'
 
 import { SideAction } from 'src/common/components/SideAction'
-import { useTestSearchQuery } from 'src/api/test'
+import { useTestSearchQuery, TestResponseDto } from 'src/api/test'
+import { useTestComboSearchQuery } from 'src/api/test-combo'
 
 interface TestSelectorProps {
   open: boolean
   onClose: Function
-  onSubmit: (selectedTest: string[]) => void
+  onSubmit: (selectedTest: TestResponseDto[]) => void
   previousState?: string[]
+  showCombos?: boolean
 }
 
 export function TestSelector({
@@ -25,12 +28,18 @@ export function TestSelector({
   onClose,
   onSubmit,
   previousState = [],
+  showCombos = false,
 }: TestSelectorProps) {
   const { data, isFetching } = useTestSearchQuery({
     searchTestRequestDto: {
       sort: { leftRightIndex: 1 },
     },
   })
+
+  const { data: combos, isFetching: isFetchingCombos } =
+    useTestComboSearchQuery({
+      searchTestComboRequestDto: { sort: { createdAt: -1 } },
+    })
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
 
@@ -51,7 +60,11 @@ export function TestSelector({
   })
 
   const handleSubmit = () => {
-    onSubmit(selectedIds)
+    onSubmit(
+      selectedIds.map((selectedId) => {
+        return data?.items.find(({ _id }) => _id === selectedId)!
+      })
+    )
     onClose()
   }
 
@@ -68,6 +81,40 @@ export function TestSelector({
 
   return (
     <SideAction fullWidth open={open} onClose={onClose} title="Chọn xét nghiệm">
+      <Box display={'flex'} sx={{ my: 2, justifyContent: 'space-between' }}>
+        <ButtonGroup>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSelectedIds([])
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Chọn ({selectedIds.length}) xét nghiệm
+          </Button>
+        </ButtonGroup>
+        {showCombos && !isFetchingCombos && (
+          <ButtonGroup color="secondary">
+            {combos?.items!.map((combo) => (
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setSelectedIds(combo.children)
+                }}
+              >
+                {combo.name}
+              </Button>
+            ))}
+          </ButtonGroup>
+        )}
+      </Box>
       {!isFetching && (
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           {categories.map((groupName) => {
@@ -112,15 +159,6 @@ export function TestSelector({
           })}
         </Box>
       )}
-      <Button
-        fullWidth
-        sx={{ my: 3 }}
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-      >
-        Chọn {selectedIds.length} xét nghiệm
-      </Button>
     </SideAction>
   )
 }

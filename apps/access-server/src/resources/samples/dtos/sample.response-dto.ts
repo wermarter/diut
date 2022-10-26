@@ -36,10 +36,18 @@ export class SampleResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
+    format: 'date-time',
+    example: '2022-10-24T10:15:00Z',
+  })
+  @IsDateString()
+  infoAt: Date
+
+  @Expose()
+  @ApiProperty({
     example: '634180269de1f07e47bbf494',
   })
   @IsObjectId()
-  createdBy: string
+  infoBy: string
 
   @ExposeObjectId()
   @ApiProperty({

@@ -10,7 +10,7 @@ export const formResolver = zodResolver(schema)
 
 export type FormSchema = z.infer<typeof schema>
 
-export const formDefaultValues: FormSchema = {
+export const formDefaultValues: Partial<FormSchema> = {
   username: '',
   password: '',
 }

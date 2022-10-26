@@ -21,13 +21,16 @@ export class Sample extends BaseSchema {
   @Prop({ required: true })
   sampledAt: Date
 
+  @Prop({ required: true })
+  infoAt: Date
+
   @Prop({
     type: Types.ObjectId,
     ref: User.name,
     index: true,
     required: true,
   })
-  createdBy: string | User
+  infoBy: string | User
 
   @Prop({
     required: true,

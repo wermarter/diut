@@ -29,7 +29,7 @@ export class SampleController {
   ) {
     return this.sampleService.create({
       ...body,
-      createdBy: user.sub,
+      infoBy: user.sub,
       results: body.tests.map((test) => ({
         testId: test.id,
         testCompleted: false,
