@@ -104,6 +104,7 @@ export function TestSelector({
           <ButtonGroup color="secondary">
             {combos?.items!.map((combo) => (
               <Button
+                key={combo._id}
                 variant="outlined"
                 onClick={() => {
                   setSelectedIds(combo.children)
@@ -147,6 +148,9 @@ export function TestSelector({
                         onClick={toggleSelected(test._id)}
                       >
                         <ListItemText
+                          primaryTypographyProps={{
+                            sx: { fontWeight: 'bold' },
+                          }}
                           primary={test.name}
                           secondary={test.bioProduct?.name}
                         />

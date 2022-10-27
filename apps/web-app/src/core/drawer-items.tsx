@@ -95,7 +95,7 @@ export const drawerItems: DrawerItem[] = [
       },
       {
         icon: <MedicalInformationIcon />,
-        label: 'Chỉ định',
+        label: 'Chẩn đoán',
         destination: 'indications',
         permission: Permission.ManageCore,
       },

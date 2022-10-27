@@ -4,9 +4,15 @@ import { Gender } from '@diut/common'
 
 const schema = z.object({
   externalId: z.string().optional(),
-  name: z.string().min(1, 'Không được để trống'),
-  gender: z.number(),
-  birthYear: z.number().nonnegative('Năm sinh không hợp lệ'),
+  name: z
+    .string({ required_error: 'Không được để trống' })
+    .min(2, 'Không được để trống'),
+  gender: z.nativeEnum(Gender),
+
+  birthYear: z
+    .number({ required_error: 'Không được để trống' })
+    .gt(1900, 'Năm sinh quá nhỏ')
+    .lte(new Date().getFullYear(), 'Năm sinh quá lớn'),
   address: z.string().min(1, 'Không được để trống'),
   phoneNumber: z.string().optional(),
   SSN: z.string().optional(),
@@ -29,6 +35,21 @@ export const formResolver = zodResolver(schema)
 export type FormSchema = z.infer<typeof schema>
 
 export const formDefaultValues: Partial<FormSchema> = {
-  gender: Gender.Male,
+  externalId: '',
+  name: '',
+  gender: Gender.Female,
+  birthYear: 1900,
   address: 'QUẬN 1 - HCM',
+  phoneNumber: '',
+  SSN: '',
+
+  patientTypeId: '',
+  indicationId: '',
+  doctorId: '',
+  sampleTypeIds: [] as any,
+  testIds: [] as any,
+
+  sampleId: '',
+  sampledAt: new Date(),
+  infoAt: new Date(),
 }
