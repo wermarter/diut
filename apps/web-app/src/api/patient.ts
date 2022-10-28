@@ -1,3 +1,4 @@
+import { Gender } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['patients'] as const
 const injectedRtkApi = api
@@ -27,6 +28,17 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['patients'],
       }),
+      patientUpsertOne: build.mutation<
+        PatientUpsertOneApiResponse,
+        PatientUpsertOneApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/patients`,
+          method: 'PUT',
+          body: queryArg.createPatientRequestDto,
+        }),
+        invalidatesTags: ['patients'],
+      }),
       patientUpdateById: build.mutation<
         PatientUpdateByIdApiResponse,
         PatientUpdateByIdApiArg
@@ -35,17 +47,6 @@ const injectedRtkApi = api
           url: `/api/patients/${queryArg.id}`,
           method: 'PATCH',
           body: queryArg.updatePatientRequestDto,
-        }),
-        invalidatesTags: ['patients'],
-      }),
-      patientUpsertById: build.mutation<
-        PatientUpsertByIdApiResponse,
-        PatientUpsertByIdApiArg
-      >({
-        query: (queryArg) => ({
-          url: `/api/patients/${queryArg.id}`,
-          method: 'PUT',
-          body: queryArg.createPatientRequestDto,
         }),
         invalidatesTags: ['patients'],
       }),
@@ -79,15 +80,14 @@ export type PatientCreateApiResponse = /** status 201  */ PatientResponseDto
 export type PatientCreateApiArg = {
   createPatientRequestDto: CreatePatientRequestDto
 }
+export type PatientUpsertOneApiResponse = /** status 200  */ PatientResponseDto
+export type PatientUpsertOneApiArg = {
+  createPatientRequestDto: CreatePatientRequestDto
+}
 export type PatientUpdateByIdApiResponse = /** status 200  */ PatientResponseDto
 export type PatientUpdateByIdApiArg = {
   id: string
   updatePatientRequestDto: UpdatePatientRequestDto
-}
-export type PatientUpsertByIdApiResponse = /** status 200  */ PatientResponseDto
-export type PatientUpsertByIdApiArg = {
-  id: string
-  createPatientRequestDto: CreatePatientRequestDto
 }
 export type PatientFindByIdApiResponse = /** status 200  */ PatientResponseDto
 export type PatientFindByIdApiArg = {
@@ -103,7 +103,7 @@ export type PatientResponseDto = {
   updatedAt: string
   externalId?: string
   name: string
-  gender: 0 | 1
+  gender: Gender
   birthYear: number
   address: string
   phoneNumber?: string
@@ -124,7 +124,7 @@ export type SearchPatientRequestDto = {
 export type CreatePatientRequestDto = {
   externalId?: string
   name: string
-  gender: 0 | 1
+  gender: Gender
   birthYear: number
   address: string
   phoneNumber?: string
@@ -133,7 +133,7 @@ export type CreatePatientRequestDto = {
 export type UpdatePatientRequestDto = {
   externalId?: string
   name?: string
-  gender?: 0 | 1
+  gender?: Gender
   birthYear?: number
   address?: string
   phoneNumber?: string
@@ -143,8 +143,8 @@ export const {
   useLazyPatientSearchQuery,
   usePatientSearchQuery,
   usePatientCreateMutation,
+  usePatientUpsertOneMutation,
   usePatientUpdateByIdMutation,
-  usePatientUpsertByIdMutation,
   usePatientFindByIdQuery,
   useLazyPatientFindByIdQuery,
   usePatientDeleteByIdMutation,

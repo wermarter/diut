@@ -3,6 +3,7 @@ import {
   FormHelperText,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
 } from '@mui/material'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
@@ -46,12 +47,12 @@ export function FormSelect<
 
         return (
           <FormControl fullWidth size="small" error={errorProps.error}>
-            <InputLabel>{label}</InputLabel>
+            <InputLabel shrink>{label}</InputLabel>
             <Select
               {...formFields}
               inputRef={ref}
               label={label}
-              inputProps={{}}
+              input={<OutlinedInput notched label={label} />}
             >
               {options.map((option) => (
                 <MenuItem

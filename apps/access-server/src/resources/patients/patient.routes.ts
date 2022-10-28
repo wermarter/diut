@@ -53,9 +53,8 @@ export const patientRoutes = {
     },
   },
 
-  upsertById: <AppRouteOptions>{
+  upsertOne: <AppRouteOptions>{
     permissions: [Permission.ManageInfo],
-    path: ':id',
     method: RequestMethod.PUT,
     serialize: PatientResponseDto,
     openApi: {

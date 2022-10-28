@@ -25,7 +25,7 @@ const schema = z.object({
   doctorId: z.string(),
 
   sampleTypeIds: z.array(z.string()).nonempty('Phải chọn một loại mẫu'),
-  testIds: z.array(
+  tests: z.array(
     z.object({ id: z.string(), bioProductName: z.string().optional() })
   ),
 
@@ -51,7 +51,7 @@ export const formDefaultValues: Partial<FormSchema> = {
   indicationId: '',
   doctorId: '',
   sampleTypeIds: [] as any,
-  testIds: [] as any,
+  tests: [] as any,
 
   sampleId: '',
 }
