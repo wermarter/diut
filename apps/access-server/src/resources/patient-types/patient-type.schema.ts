@@ -10,4 +10,7 @@ import { COLLECTION } from 'src/common/collections'
 export class PatientType extends BaseSchema {
   @Prop({ required: true })
   name: string
+
+  @Prop({ required: true })
+  index: number
 }

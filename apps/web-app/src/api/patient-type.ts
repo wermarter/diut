@@ -91,6 +91,7 @@ export type PatientTypeResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
+  index: number
 }
 export type SearchPatientTypeResponseDto = {
   total: number
@@ -106,9 +107,11 @@ export type SearchPatientTypeRequestDto = {
 }
 export type CreatePatientTypeRequestDto = {
   name: string
+  index: number
 }
 export type UpdatePatientTypeRequestDto = {
   name?: string
+  index?: number
 }
 export const {
   usePatientTypeSearchQuery,

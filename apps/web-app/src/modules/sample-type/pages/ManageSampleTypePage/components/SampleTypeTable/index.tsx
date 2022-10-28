@@ -13,7 +13,7 @@ import { sampleTypeColumns } from './columns'
 
 export function SampleTypeTable() {
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { leftRightIndex: 1 },
+    sort: { index: 1 },
     offset: 0,
   })
 
@@ -44,7 +44,7 @@ export function SampleTypeTable() {
         await createSampleType({
           createSampleTypeRequestDto: {
             name: item.name,
-            leftRightIndex: item.leftRightIndex,
+            index: item.index,
           },
         }).unwrap()
       }}
@@ -53,7 +53,7 @@ export function SampleTypeTable() {
           id: newItem._id,
           updateSampleTypeRequestDto: {
             name: newItem.name,
-            leftRightIndex: newItem.leftRightIndex,
+            index: newItem.index,
           },
         }).unwrap()
       }}

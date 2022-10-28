@@ -16,7 +16,7 @@ import { TestSelector } from 'src/common/components/TestSelector'
 
 export function TestComboTable() {
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { leftRightIndex: 1 },
+    sort: { index: 1 },
     offset: 0,
   })
 
@@ -51,6 +51,7 @@ export function TestComboTable() {
           await createTestCombo({
             createTestComboRequestDto: {
               name: item.name,
+              index: item.index,
               children: [],
             },
           }).unwrap()
@@ -60,6 +61,7 @@ export function TestComboTable() {
             id: newItem._id,
             updateTestComboRequestDto: {
               name: newItem.name,
+              index: newItem.index,
             },
           }).unwrap()
         }}

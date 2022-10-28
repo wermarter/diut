@@ -4,6 +4,14 @@ import { PatientTypeResponseDto } from 'src/api/patient-type'
 
 export const patientTypeColumns: GridColumns<PatientTypeResponseDto> = [
   {
+    field: 'index',
+    headerName: 'Thứ tự',
+    type: 'number',
+    minWidth: 100,
+    sortable: false,
+    editable: true,
+  },
+  {
     field: 'name',
     headerName: 'Tên',
     flex: 1,

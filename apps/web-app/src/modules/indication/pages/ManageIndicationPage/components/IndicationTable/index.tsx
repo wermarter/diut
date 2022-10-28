@@ -12,7 +12,10 @@ import { useCrudPagination } from 'src/common/hooks'
 import { indicationColumns } from './columns'
 
 export function IndicationTable() {
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
+    sort: { index: 1 },
+    offset: 0,
+  })
 
   const { data, isFetching } = useIndicationSearchQuery({
     searchIndicationRequestDto: filterObj,
@@ -41,6 +44,7 @@ export function IndicationTable() {
         await createIndication({
           createIndicationRequestDto: {
             name: item.name,
+            index: item.index,
           },
         }).unwrap()
       }}
@@ -49,6 +53,7 @@ export function IndicationTable() {
           id: newItem._id,
           updateIndicationRequestDto: {
             name: newItem.name,
+            index: newItem.index,
           },
         }).unwrap()
       }}

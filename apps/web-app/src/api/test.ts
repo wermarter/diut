@@ -77,14 +77,14 @@ export type TestCategoryResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type BioProductResponseDto = {
   _id: string
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type TestResponseDto = {
   _id: string
@@ -93,7 +93,7 @@ export type TestResponseDto = {
   category: TestCategoryResponseDto
   bioProduct?: BioProductResponseDto
   name: string
-  topBottomIndex: number
+  index: number
 }
 export type SearchTestResponseDto = {
   total: number
@@ -111,13 +111,13 @@ export type CreateTestRequestDto = {
   category: string
   bioProduct?: string
   name: string
-  topBottomIndex: number
+  index: number
 }
 export type UpdateTestRequestDto = {
   category?: string
   bioProduct?: string
   name?: string
-  topBottomIndex?: number
+  index?: number
 }
 export const {
   useTestSearchQuery,

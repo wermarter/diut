@@ -91,7 +91,7 @@ export type TestCategoryResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type SearchTestCategoryResponseDto = {
   total: number
@@ -107,11 +107,11 @@ export type SearchTestCategoryRequestDto = {
 }
 export type CreateTestCategoryRequestDto = {
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type UpdateTestCategoryRequestDto = {
   name?: string
-  leftRightIndex?: number
+  index?: number
 }
 export const {
   useTestCategorySearchQuery,

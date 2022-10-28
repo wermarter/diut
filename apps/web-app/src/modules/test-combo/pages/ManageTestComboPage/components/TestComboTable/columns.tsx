@@ -4,6 +4,14 @@ import { TestComboResponseDto } from 'src/api/test-combo'
 
 export const testComboColumns: GridColumns<TestComboResponseDto> = [
   {
+    field: 'index',
+    headerName: 'Thứ tự',
+    type: 'number',
+    minWidth: 100,
+    sortable: false,
+    editable: true,
+  },
+  {
     field: 'name',
     headerName: 'Tên',
     flex: 1,

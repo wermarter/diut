@@ -12,5 +12,5 @@ export class TestCategory extends BaseSchema {
   name: string
 
   @Prop({ required: true })
-  leftRightIndex: number
+  index: number
 }

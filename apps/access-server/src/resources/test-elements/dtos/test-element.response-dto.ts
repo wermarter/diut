@@ -36,7 +36,7 @@ export class TestElementResponseDto extends BaseResourceResponseDto {
   })
   @IsNumber()
   @Min(1)
-  topBottomIndex: number
+  index: number
 
   @Expose()
   @ApiProperty({

@@ -90,6 +90,7 @@ export type TestComboResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
+  index: number
   children: string[]
 }
 export type SearchTestComboResponseDto = {
@@ -106,10 +107,12 @@ export type SearchTestComboRequestDto = {
 }
 export type CreateTestComboRequestDto = {
   name: string
+  index: number
   children: string[]
 }
 export type UpdateTestComboRequestDto = {
   name?: string
+  index?: number
   children?: string[]
 }
 export const {

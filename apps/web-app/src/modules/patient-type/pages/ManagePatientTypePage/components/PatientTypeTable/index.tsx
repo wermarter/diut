@@ -12,7 +12,10 @@ import { useCrudPagination } from 'src/common/hooks'
 import { patientTypeColumns } from './columns'
 
 export function PatientTypeTable() {
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
+    sort: { index: 1 },
+    offset: 0,
+  })
 
   const { data, isFetching } = usePatientTypeSearchQuery({
     searchPatientTypeRequestDto: filterObj,
@@ -41,6 +44,7 @@ export function PatientTypeTable() {
         await createPatientType({
           createPatientTypeRequestDto: {
             name: item.name,
+            index: item.index,
           },
         }).unwrap()
       }}
@@ -49,6 +53,7 @@ export function PatientTypeTable() {
           id: newItem._id,
           updatePatientTypeRequestDto: {
             name: newItem.name,
+            index: newItem.index,
           },
         }).unwrap()
       }}

@@ -12,7 +12,10 @@ import { useCrudPagination } from 'src/common/hooks'
 import { doctorColumns } from './columns'
 
 export function DoctorTable() {
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
+    sort: { index: 1 },
+    offset: 0,
+  })
 
   const { data, isFetching } = useDoctorSearchQuery({
     searchDoctorRequestDto: filterObj,
@@ -40,6 +43,7 @@ export function DoctorTable() {
         await createDoctor({
           createDoctorRequestDto: {
             name: item.name,
+            index: item.index,
           },
         }).unwrap()
       }}
@@ -48,6 +52,7 @@ export function DoctorTable() {
           id: newItem._id,
           updateDoctorRequestDto: {
             name: newItem.name,
+            index: newItem.index,
           },
         }).unwrap()
       }}

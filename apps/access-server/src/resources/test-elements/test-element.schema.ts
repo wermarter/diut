@@ -24,7 +24,7 @@ export class TestElement extends BaseSchema {
   test: string | Test | null
 
   @Prop({ required: true })
-  topBottomIndex: number
+  index: number
 
   @Prop({ required: true, type: [MongooseSchema.Types.Mixed] })
   highlightRules: {

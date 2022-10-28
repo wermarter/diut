@@ -32,13 +32,13 @@ export function TestSelector({
 }: TestSelectorProps) {
   const { data, isFetching } = useTestSearchQuery({
     searchTestRequestDto: {
-      sort: { leftRightIndex: 1 },
+      sort: { index: 1 },
     },
   })
 
   const { data: combos, isFetching: isFetchingCombos } =
     useTestComboSearchQuery({
-      searchTestComboRequestDto: { sort: { createdAt: -1 } },
+      searchTestComboRequestDto: { sort: { index: 1 } },
     })
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
@@ -55,7 +55,7 @@ export function TestSelector({
 
   const categories: string[] = []
   const groups = groupBy(data?.items ?? [], (test) => {
-    categories[test?.category?.leftRightIndex] = test?.category?.name
+    categories[test?.category?.index] = test?.category?.name
     return test?.category?.name
   })
 

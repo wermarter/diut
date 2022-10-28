@@ -36,5 +36,5 @@ export class CreateTestRequestDto {
   })
   @IsNumber()
   @Min(1)
-  topBottomIndex: number
+  index: number
 }

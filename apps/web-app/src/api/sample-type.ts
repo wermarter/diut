@@ -91,7 +91,7 @@ export type SampleTypeResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type SearchSampleTypeResponseDto = {
   total: number
@@ -107,11 +107,11 @@ export type SearchSampleTypeRequestDto = {
 }
 export type CreateSampleTypeRequestDto = {
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type UpdateSampleTypeRequestDto = {
   name?: string
-  leftRightIndex?: number
+  index?: number
 }
 export const {
   useLazySampleTypeSearchQuery,

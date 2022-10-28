@@ -82,6 +82,7 @@ export type DoctorResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
+  index: number
 }
 export type SearchDoctorResponseDto = {
   total: number
@@ -97,9 +98,11 @@ export type SearchDoctorRequestDto = {
 }
 export type CreateDoctorRequestDto = {
   name: string
+  index: number
 }
 export type UpdateDoctorRequestDto = {
   name?: string
+  index?: number
 }
 export const {
   useDoctorSearchQuery,

@@ -29,7 +29,7 @@ export function useTestElementColumns(
       },
     },
     {
-      field: 'topBottomIndex',
+      field: 'index',
       headerName: 'Thứ tự',
       type: 'number',
       minWidth: 100,

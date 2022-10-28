@@ -13,7 +13,7 @@ import { bioProductColumns } from './columns'
 
 export function BioProductTable() {
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { leftRightIndex: 1 },
+    sort: { index: 1 },
     offset: 0,
   })
 
@@ -44,7 +44,7 @@ export function BioProductTable() {
         await createBioProduct({
           createBioProductRequestDto: {
             name: item.name,
-            leftRightIndex: item.leftRightIndex,
+            index: item.index,
           },
         }).unwrap()
       }}
@@ -53,7 +53,7 @@ export function BioProductTable() {
           id: newItem._id,
           updateBioProductRequestDto: {
             name: newItem.name,
-            leftRightIndex: newItem.leftRightIndex,
+            index: newItem.index,
           },
         }).unwrap()
       }}

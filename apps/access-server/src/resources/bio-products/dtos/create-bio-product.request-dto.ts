@@ -14,5 +14,5 @@ export class CreateBioProductRequestDto {
   })
   @IsNumber()
   @Min(1)
-  leftRightIndex: number
+  index: number
 }

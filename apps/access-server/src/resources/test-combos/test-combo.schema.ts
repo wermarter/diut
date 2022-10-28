@@ -13,6 +13,9 @@ export class TestCombo extends BaseSchema {
   @Prop({ required: true })
   name: string
 
+  @Prop({ required: true })
+  index: number
+
   @Prop({
     type: [
       {

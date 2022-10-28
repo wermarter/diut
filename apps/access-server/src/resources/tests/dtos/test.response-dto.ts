@@ -46,5 +46,5 @@ export class TestResponseDto extends BaseResourceResponseDto {
   })
   @IsNumber()
   @Min(1)
-  topBottomIndex: number
+  index: number
 }

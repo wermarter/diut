@@ -91,6 +91,7 @@ export type IndicationResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
+  index: number
 }
 export type SearchIndicationResponseDto = {
   total: number
@@ -106,9 +107,11 @@ export type SearchIndicationRequestDto = {
 }
 export type CreateIndicationRequestDto = {
   name: string
+  index: number
 }
 export type UpdateIndicationRequestDto = {
   name?: string
+  index?: number
 }
 export const {
   useIndicationSearchQuery,

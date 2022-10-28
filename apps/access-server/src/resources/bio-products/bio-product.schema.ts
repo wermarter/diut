@@ -12,5 +12,5 @@ export class BioProduct extends BaseSchema {
   name: string
 
   @Prop({ required: true })
-  leftRightIndex: number
+  index: number
 }

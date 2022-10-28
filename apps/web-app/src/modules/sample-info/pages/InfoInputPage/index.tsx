@@ -46,15 +46,15 @@ export default function InfoInputPage() {
 
   const { data: patientTypes, isFetching: isFetchingPatientTypes } =
     usePatientTypeSearchQuery({
-      searchPatientTypeRequestDto: { sort: { createdAt: -1 } },
+      searchPatientTypeRequestDto: { sort: { index: 1 } },
     })
   const { data: indications, isFetching: isFetchingIndications } =
     useIndicationSearchQuery({
-      searchIndicationRequestDto: { sort: { createdAt: -1 } },
+      searchIndicationRequestDto: { sort: { index: 1 } },
     })
   const { data: doctors, isFetching: isFetchingDoctors } = useDoctorSearchQuery(
     {
-      searchDoctorRequestDto: { sort: { createdAt: -1 } },
+      searchDoctorRequestDto: { sort: { index: 1 } },
     }
   )
   const birthYear = watch('birthYear')
@@ -70,10 +70,15 @@ export default function InfoInputPage() {
     }
   }, [birthYear])
 
+  useEffect(() => {
+    setValue('infoAt', new Date())
+    setValue('sampledAt', new Date())
+  }, [])
+
   const { data: sampleTypes, isFetching: isFetchingSampleTypes } =
     useSampleTypeSearchQuery({
       searchSampleTypeRequestDto: {
-        sort: { createdAt: -1 },
+        sort: { index: 1 },
       },
     })
 

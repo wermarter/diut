@@ -19,5 +19,5 @@ export class BioProductResponseDto extends BaseResourceResponseDto {
   })
   @IsNumber()
   @Min(1)
-  leftRightIndex: number
+  index: number
 }

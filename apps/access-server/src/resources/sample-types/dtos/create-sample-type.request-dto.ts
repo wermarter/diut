@@ -14,5 +14,5 @@ export class CreateSampleTypeRequestDto {
   })
   @IsNumber()
   @Min(1)
-  leftRightIndex: number
+  index: number
 }

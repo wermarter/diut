@@ -92,14 +92,14 @@ export type TestCategoryResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type BioProductResponseDto = {
   _id: string
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type TestResponseDto = {
   _id: string
@@ -108,7 +108,7 @@ export type TestResponseDto = {
   category: TestCategoryResponseDto
   bioProduct?: BioProductResponseDto
   name: string
-  topBottomIndex: number
+  index: number
 }
 export type HighlightRuleDto = {
   category: PatientCategory
@@ -123,7 +123,7 @@ export type TestElementResponseDto = {
   updatedAt: string
   name: string
   test: TestResponseDto
-  topBottomIndex: number
+  index: number
   highlightRules: HighlightRuleDto[]
   unit?: string
 }
@@ -142,14 +142,14 @@ export type SearchTestElementRequestDto = {
 export type CreateTestElementRequestDto = {
   name: string
   test: string
-  topBottomIndex: number
+  index: number
   highlightRules: HighlightRuleDto[]
   unit?: string
 }
 export type UpdateTestElementRequestDto = {
   name?: string
   test?: string
-  topBottomIndex?: number
+  index?: number
   highlightRules?: HighlightRuleDto[]
   unit?: string
 }

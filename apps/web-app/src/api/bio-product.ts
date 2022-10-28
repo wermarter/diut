@@ -91,7 +91,7 @@ export type BioProductResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type SearchBioProductResponseDto = {
   total: number
@@ -107,11 +107,11 @@ export type SearchBioProductRequestDto = {
 }
 export type CreateBioProductRequestDto = {
   name: string
-  leftRightIndex: number
+  index: number
 }
 export type UpdateBioProductRequestDto = {
   name?: string
-  leftRightIndex?: number
+  index?: number
 }
 export const {
   useBioProductSearchQuery,

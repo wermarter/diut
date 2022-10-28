@@ -40,14 +40,14 @@ export function TestTable() {
   const { data: categoryRes, isFetching: isLoadingTestCategories } =
     useTestCategorySearchQuery({
       searchTestCategoryRequestDto: {
-        sort: { leftRightIndex: 1 },
+        sort: { index: 1 },
       },
     })
 
   const { data: bioProductsRes, isFetching: isLoadingBioProducts } =
     useBioProductSearchQuery({
       searchBioProductRequestDto: {
-        sort: { leftRightIndex: 1 },
+        sort: { index: 1 },
       },
     })
 
@@ -58,7 +58,7 @@ export function TestTable() {
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
-      sort: { topBottomIndex: 1 },
+      sort: { index: 1 },
       offset: 0,
     })
 
@@ -88,7 +88,7 @@ export function TestTable() {
         await createTest({
           createTestRequestDto: {
             name: item.name,
-            topBottomIndex: item.topBottomIndex,
+            index: item.index,
             category: testCategories.find(
               (category) => category.name === (item.category as any)
             )?._id!,
@@ -101,7 +101,7 @@ export function TestTable() {
           id: newItem._id,
           updateTestRequestDto: {
             name: newItem.name,
-            topBottomIndex: newItem.topBottomIndex,
+            index: newItem.index,
             category: testCategories.find(
               (category) => category.name === (newItem.category as any)
             )?._id,

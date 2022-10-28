@@ -119,7 +119,7 @@ export const drawerItems: DrawerItem[] = [
       },
       {
         icon: <BiotechIcon />,
-        label: 'Tên xét nghiệm',
+        label: 'Tên XN',
         destination: 'tests',
         permission: Permission.ManageCore,
       },

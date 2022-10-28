@@ -43,7 +43,7 @@ export function TestElementTable() {
   const { data: categoryRes, isFetching: isLoadingTestCategories } =
     useTestCategorySearchQuery({
       searchTestCategoryRequestDto: {
-        sort: { leftRightIndex: 1 },
+        sort: { index: 1 },
       },
     })
 
@@ -55,7 +55,7 @@ export function TestElementTable() {
 
   const { data: testRes, isFetching: isLoadingTests } = useTestSearchQuery({
     searchTestRequestDto: {
-      sort: { topBottomIndex: 1 },
+      sort: { index: 1 },
     },
   })
   const [searchTest, { data: testLazyRes, isFetching: isLoadingLazyTest }] =
@@ -87,13 +87,13 @@ export function TestElementTable() {
     if (selectedCategoryId === ALL_CATEGORIES) {
       searchTest({
         searchTestRequestDto: {
-          sort: { topBottomIndex: 1 },
+          sort: { index: 1 },
         },
       })
     } else {
       searchTest({
         searchTestRequestDto: {
-          sort: { topBottomIndex: 1 },
+          sort: { index: 1 },
           filter: { category: selectedCategoryId },
         },
       })
@@ -105,7 +105,7 @@ export function TestElementTable() {
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
-      sort: { topBottomIndex: 1 },
+      sort: { index: 1 },
       offset: 0,
     })
 
@@ -137,7 +137,7 @@ export function TestElementTable() {
           await createTestElement({
             createTestElementRequestDto: {
               name: item.name,
-              topBottomIndex: item.topBottomIndex,
+              index: item.index,
               test: tests.find((test) => test.name === (item.test as any))
                 ?._id!,
               highlightRules: processHighlightRules(item),
@@ -150,7 +150,7 @@ export function TestElementTable() {
             id: newItem._id,
             updateTestElementRequestDto: {
               name: newItem.name,
-              topBottomIndex: newItem.topBottomIndex,
+              index: newItem.index,
               test: tests.find((test) => test.name === (newItem.test as any))
                 ?._id,
               highlightRules: processHighlightRules(newItem),

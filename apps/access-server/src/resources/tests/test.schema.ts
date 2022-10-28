@@ -32,5 +32,5 @@ export class Test extends BaseSchema {
   name: string
 
   @Prop({ required: true })
-  topBottomIndex: number
+  index: number
 }
