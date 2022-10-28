@@ -9,25 +9,29 @@ const schema = z.object({
     .min(2, 'Không được để trống'),
   gender: z.nativeEnum(Gender),
 
-  birthYear: z
-    .number({ required_error: 'Không được để trống' })
-    .gt(1900, 'Năm sinh quá nhỏ')
-    .lte(new Date().getFullYear(), 'Năm sinh quá lớn'),
+  birthYear: z.preprocess(
+    (value) => parseInt(value as string, 10),
+    z
+      .number({ required_error: 'Không được để trống' })
+      .gt(1900, 'Năm sinh quá nhỏ')
+      .lte(new Date().getFullYear(), 'Năm sinh quá lớn')
+  ),
   address: z.string().min(1, 'Không được để trống'),
   phoneNumber: z.string().optional(),
   SSN: z.string().optional(),
 
-  patientTypeId: z.string({ required_error: 'Không được để trống' }),
-  indicationId: z.string({ required_error: 'Không được để trống' }),
-  doctorId: z.string({ required_error: 'Không được để trống' }),
-  sampleTypeIds: z.array(z.string()).nonempty('Phải chọn một loại mẫu'),
-  testIds: z
-    .array(z.object({ id: z.string(), bioProductName: z.string().optional() }))
-    .nonempty('Phải chọn một xét nghiệm'),
+  patientTypeId: z.string(),
+  indicationId: z.string(),
+  doctorId: z.string(),
 
-  sampleId: z.string({ required_error: 'Không được để trống' }),
-  sampledAt: z.date({ required_error: 'Không được để trống' }),
-  infoAt: z.date({ required_error: 'Không được để trống' }),
+  sampleTypeIds: z.array(z.string()).nonempty('Phải chọn một loại mẫu'),
+  testIds: z.array(
+    z.object({ id: z.string(), bioProductName: z.string().optional() })
+  ),
+
+  sampleId: z.string().min(1, 'Không được để trống'),
+  sampledAt: z.date({ invalid_type_error: 'Không được để trống' }),
+  infoAt: z.date({ invalid_type_error: 'Không được để trống' }),
 })
 
 export const formResolver = zodResolver(schema)

@@ -8,17 +8,10 @@ import {
   RadioGroup,
   Radio,
   Paper,
-  InputLabel,
-  Select,
-  MenuItem,
-  Autocomplete,
-  TextField as MuiTextField,
-  Typography,
+  TextField,
 } from '@mui/material'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
-import { pick } from 'lodash-es'
 
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
@@ -27,8 +20,10 @@ import { usePatientTypeSearchQuery } from 'src/api/patient-type'
 import { useIndicationSearchQuery } from 'src/api/indication'
 import { useDoctorSearchQuery } from 'src/api/doctor'
 import { useSampleTypeSearchQuery } from 'src/api/sample-type'
+import { FormDateTimePicker } from 'src/common/form-elements/FormDateTimePicker'
+import { FormAutocomplete } from 'src/common/form-elements/FormAutocomplete'
+import { FormSelect } from 'src/common/form-elements/FormSelect'
 
-const TextField = FormTextField<FormSchema>
 const currentYear = new Date().getFullYear()
 
 export default function InfoInputPage() {
@@ -38,7 +33,7 @@ export default function InfoInputPage() {
     watch,
     setValue,
     getValues,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: formDefaultValues,
@@ -75,6 +70,24 @@ export default function InfoInputPage() {
     setValue('sampledAt', new Date())
   }, [])
 
+  useEffect(() => {
+    if (!isFetchingPatientTypes) {
+      setValue('patientTypeId', patientTypes?.items?.[0]?._id!)
+    }
+  }, [isFetchingPatientTypes])
+
+  useEffect(() => {
+    if (!isFetchingDoctors) {
+      setValue('doctorId', doctors?.items?.[0]?._id!)
+    }
+  }, [isFetchingDoctors])
+
+  useEffect(() => {
+    if (!isFetchingIndications) {
+      setValue('indicationId', indications?.items?.[0]?._id!)
+    }
+  }, [isFetchingIndications])
+
   const { data: sampleTypes, isFetching: isFetchingSampleTypes } =
     useSampleTypeSearchQuery({
       searchSampleTypeRequestDto: {
@@ -90,7 +103,7 @@ export default function InfoInputPage() {
         <Grid container spacing={2}>
           {/* ----------------------------- Row 1 ----------------------------- */}
           <Grid xs={2}>
-            <TextField
+            <FormTextField
               name="externalId"
               control={control}
               fullWidth
@@ -99,34 +112,25 @@ export default function InfoInputPage() {
             />
           </Grid>
           <Grid xs={4}>
-            <TextField name="name" control={control} fullWidth label="Họ tên" />
-          </Grid>
-          <Grid xs={3}>
-            <Controller
-              name="sampledAt"
+            <FormTextField
+              name="name"
               control={control}
-              render={({ field }) => (
-                <DateTimePicker
-                  {...field}
-                  dayOfWeekFormatter={(day) => `${day}`}
-                  label="TG lấy mẫu"
-                  renderInput={(params) => <MuiTextField {...params} />}
-                />
-              )}
+              fullWidth
+              label="Họ tên"
             />
           </Grid>
           <Grid xs={3}>
-            <Controller
-              name="infoAt"
+            <FormDateTimePicker
+              name="sampledAt"
+              label="TG lấy mẫu"
               control={control}
-              render={({ field }) => (
-                <DateTimePicker
-                  {...field}
-                  dayOfWeekFormatter={(day) => `${day}`}
-                  label="TG nhận mẫu"
-                  renderInput={(params) => <MuiTextField {...params} />}
-                />
-              )}
+            />
+          </Grid>
+          <Grid xs={3}>
+            <FormDateTimePicker
+              name="infoAt"
+              label="TG nhận mẫu"
+              control={control}
             />
           </Grid>
           {/* ----------------------------- Row 2 ----------------------------- */}
@@ -153,10 +157,9 @@ export default function InfoInputPage() {
             />
           </Grid>
           <Grid xs={2}>
-            <TextField
+            <FormTextField
               name="birthYear"
               type="number"
-              disableError
               size="small"
               control={control}
               fullWidth
@@ -164,7 +167,7 @@ export default function InfoInputPage() {
             />
           </Grid>
           <Grid xs={2}>
-            <MuiTextField
+            <TextField
               name="age"
               type="number"
               size="small"
@@ -179,7 +182,7 @@ export default function InfoInputPage() {
             />
           </Grid>
           <Grid xs={6}>
-            <TextField
+            <FormTextField
               name="address"
               size="small"
               control={control}
@@ -189,7 +192,7 @@ export default function InfoInputPage() {
           </Grid>
           {/* ----------------------------- Row 3 ----------------------------- */}
           <Grid xs={4}>
-            <TextField
+            <FormTextField
               name="sampleId"
               size="small"
               control={control}
@@ -198,7 +201,7 @@ export default function InfoInputPage() {
             />
           </Grid>
           <Grid xs={4}>
-            <TextField
+            <FormTextField
               name="phoneNumber"
               size="small"
               control={control}
@@ -207,7 +210,7 @@ export default function InfoInputPage() {
             />
           </Grid>
           <Grid xs={4}>
-            <TextField
+            <FormTextField
               name="SSN"
               control={control}
               size="small"
@@ -215,92 +218,42 @@ export default function InfoInputPage() {
               label="Số CMND/CCCD"
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={2} sx={{ my: 2 }}>
           {/* ----------------------------- Row 4 ----------------------------- */}
           <Grid xs={4}>
-            <Controller
-              name="patientTypeId"
-              control={control}
-              render={({ field }) => (
-                <FormControl
-                  {...field}
-                  fullWidth
-                  size="small"
-                  sx={{ minWidth: '300px' }}
-                >
-                  <InputLabel>Đối tượng</InputLabel>
-                  {!isFetchingPatientTypes && (
-                    <Select
-                      label="Đối tượng"
-                      defaultValue={patientTypes?.items?.[0]?._id}
-                    >
-                      {patientTypes?.items.map((patientType) => (
-                        <MenuItem value={patientType._id} key={patientType._id}>
-                          {patientType.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                </FormControl>
-              )}
-            />
+            {!isFetchingPatientTypes && (
+              <FormSelect
+                control={control}
+                name="patientTypeId"
+                label="Đối tượng"
+                options={patientTypes?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
+              />
+            )}
           </Grid>
           <Grid xs={4}>
-            <Controller
-              name="indicationId"
-              control={control}
-              render={({ field }) => (
-                <FormControl
-                  {...field}
-                  fullWidth
-                  size="small"
-                  sx={{ minWidth: '300px' }}
-                >
-                  <InputLabel>Chẩn đoán</InputLabel>
-                  {!isFetchingIndications && (
-                    <Select
-                      label="Chẩn đoán"
-                      defaultValue={indications?.items?.[0]?._id}
-                    >
-                      {indications?.items.map((indication) => (
-                        <MenuItem value={indication._id} key={indication._id}>
-                          {indication.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                </FormControl>
-              )}
-            />
+            {!isFetchingIndications && (
+              <FormSelect
+                control={control}
+                name="indicationId"
+                label="Chẩn đoán"
+                options={indications?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
+              />
+            )}
           </Grid>
           <Grid xs={4}>
-            <Controller
-              name="doctorId"
-              control={control}
-              render={({ field }) => (
-                <FormControl
-                  {...field}
-                  fullWidth
-                  size="small"
-                  sx={{ minWidth: '300px' }}
-                >
-                  <InputLabel>Bác sĩ</InputLabel>
-                  {!isFetchingDoctors && (
-                    <Select
-                      label="Bác sĩ"
-                      defaultValue={doctors?.items?.[0]?._id}
-                    >
-                      {doctors?.items.map((doctor) => (
-                        <MenuItem value={doctor._id} key={doctor._id}>
-                          {doctor.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                </FormControl>
-              )}
-            />
+            {!isFetchingDoctors && (
+              <FormSelect
+                control={control}
+                name="doctorId"
+                label="Bác sĩ"
+                options={doctors?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
+              />
+            )}
           </Grid>
           {/* ----------------------------- Row 5 ----------------------------- */}
           <Grid xs={2}>
@@ -309,7 +262,7 @@ export default function InfoInputPage() {
               onClick={() => {
                 setTestSelectorOpen(true)
               }}
-              color="secondary"
+              color="primary"
               variant="outlined"
               fullWidth
             >
@@ -318,43 +271,20 @@ export default function InfoInputPage() {
           </Grid>
           <Grid xs={10}>
             {!isFetchingSampleTypes && (
-              <Autocomplete
-                multiple
+              <FormAutocomplete
+                control={control}
+                name="sampleTypeIds"
                 options={sampleTypes?.items!}
                 getOptionLabel={(option) => option.name}
-                onChange={(event, value, reason) => {
-                  setValue(
-                    'sampleTypeIds',
-                    value.map(({ _id }) => _id) as any,
-                    {
-                      shouldTouch: true,
-                    }
-                  )
-                }}
-                defaultValue={[]}
-                filterSelectedOptions
-                renderInput={(params) => (
-                  <MuiTextField
-                    {...params}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    label="Loại mẫu"
-                  />
-                )}
+                getOptionValue={(option) => option._id}
+                label="Loại mẫu"
               />
             )}
           </Grid>
         </Grid>
-        <Typography color="error">
-          {Object.values(
-            pick(errors, ['birthYear', 'testIds', 'patientTypeIds'])
-          )
-            .filter((error) => error.type !== 'invalid_type')
-            .map((error) => error.message)
-            .join('. ')}
-        </Typography>
+        {/* ----------------------------- Submit ----------------------------- */}
         <LoadingButton
+          sx={{ mt: 2 }}
           type="submit"
           fullWidth
           variant="contained"
@@ -375,8 +305,7 @@ export default function InfoInputPage() {
             items.map((item) => ({
               bioProductName: item.bioProduct?.name,
               id: item._id,
-            })) as any,
-            { shouldTouch: true }
+            }))
           )
         }}
         showCombos
