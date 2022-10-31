@@ -50,7 +50,9 @@ export function FormAutocomplete<
             onChange={(event, value, reason) => {
               onChange(value.map(getOptionValue))
             }}
-            defaultValue={defaultValues?.[name]}
+            defaultValue={options.filter((option) =>
+              defaultValues?.[name]?.includes(getOptionValue(option))
+            )}
             filterSelectedOptions
             renderInput={(params) => (
               <MuiTextField

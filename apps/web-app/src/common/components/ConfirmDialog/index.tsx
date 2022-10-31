@@ -20,7 +20,13 @@ export function ConfirmDialog({
   title = 'Bạn có chắc chắn không?',
   content = '',
 }: ConfirmDialogProps) {
-  const handleClose = () => {
+  const handleClose = (
+    event: object,
+    reason: 'backdropClick' | 'escapeKeyDown'
+  ) => {
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+      return
+    }
     onClose()
   }
 
@@ -35,7 +41,14 @@ export function ConfirmDialog({
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" size="small" autoFocus onClick={handleClose}>
+        <Button
+          variant="outlined"
+          size="small"
+          autoFocus
+          onClick={() => {
+            onClose()
+          }}
+        >
           Bỏ qua
         </Button>
         <Button

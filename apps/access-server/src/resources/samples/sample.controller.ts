@@ -48,15 +48,47 @@ export class SampleController {
     @Body() body: UpdateSampleRequestDto,
     @ReqUser() user: AuthTokenPayload
   ) {
-    const { resultBy } = body
+    let { resultBy } = body
     const userId = user.sub
     if (resultBy?.length > 0) {
       if (!resultBy.includes(userId)) {
         resultBy.push(userId)
       }
     } else {
-      return this.sampleService.updateById(id, { ...body, resultBy: [userId] })
+      resultBy = [userId]
     }
+
+    let { results } = body
+    if (body.tests?.length > 0) {
+      if (body.results?.length > 0) {
+        const keptResults = body.results.filter(({ testId }) =>
+          body.tests.some(({ id }) => id === testId)
+        )
+        const newTests = body.tests
+          .filter(({ id }) => keptResults.some(({ testId }) => testId !== id))
+          .map(({ id, bioProductName }) => ({
+            testId: id,
+            testCompleted: false,
+            bioProductName: bioProductName,
+            elements: [],
+          }))
+
+        results = [...keptResults, ...newTests]
+      } else {
+        results = body.tests.map((test) => ({
+          testId: test.id,
+          testCompleted: false,
+          bioProductName: test.bioProductName,
+          elements: [],
+        }))
+      }
+    }
+
+    return this.sampleService.updateById(id, {
+      ...body,
+      results,
+      resultBy,
+    })
   }
 
   @AppRoute(sampleRoutes.findById)

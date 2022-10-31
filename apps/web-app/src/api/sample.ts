@@ -85,7 +85,7 @@ export type TestElementResultDto = {
 export type TestResultDto = {
   testId: string
   bioProductName?: string
-  resultBy: string
+  resultBy?: string
   testCompleted: boolean
   elements: TestElementResultDto[]
 }
@@ -102,7 +102,7 @@ export type SampleResponseDto = {
   patientTypeId: string
   indicationId: string
   sampleTypeIds: string[]
-  result: TestResultDto[]
+  results: TestResultDto[]
   resultBy: string[]
   infoCompleted: boolean
   sampleCompleted: boolean
@@ -121,7 +121,7 @@ export type SearchSampleRequestDto = {
 }
 export type SampleTestDto = {
   id: string
-  bioProductName?: string
+  bioProductName?: string | null
 }
 export type CreateSampleRequestDto = {
   sampleId: string
@@ -143,7 +143,8 @@ export type UpdateSampleRequestDto = {
   patientTypeId?: string
   indicationId?: string
   sampleTypeIds?: string[]
-  result?: TestResultDto[]
+  tests?: SampleTestDto[]
+  results?: TestResultDto[]
   infoCompleted?: boolean
   sampleCompleted?: boolean
 }

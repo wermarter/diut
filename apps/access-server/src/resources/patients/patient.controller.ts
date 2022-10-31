@@ -38,6 +38,7 @@ export class PatientController {
   async upsertOne(@Body() body: CreatePatientRequestDto) {
     return this.patientService.update({ externalId: body.externalId }, body, {
       upsert: true,
+      new: true,
     })
   }
 

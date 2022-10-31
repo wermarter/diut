@@ -17,6 +17,7 @@ import {
 
 import { DataTable } from '../DataTable'
 import { CrudToolbar, NEW_ID_VALUE } from './components/CrudToolbar'
+import { ConfirmDialog } from '../ConfirmDialog'
 
 interface CustomRowAction<R extends GridValidRowModel> {
   label: string
@@ -107,9 +108,11 @@ export function CrudTable<R extends GridValidRowModel>({
     })
   }
 
+  const [openDeleteItem, setOpenDeleteItem] = React.useState<R | null>(null)
+
   const handleDeleteClick = (item: R) => () => {
     if (onItemDelete !== undefined) {
-      if (confirm('Bạn có chắc chứ?')) onItemDelete(item)
+      setOpenDeleteItem(item)
     }
   }
 
@@ -200,48 +203,62 @@ export function CrudTable<R extends GridValidRowModel>({
   }, [rowModesModel, isLoading])
 
   return (
-    <DataTable
-      sx={{ minWidth: '50vw' }}
-      rows={rows}
-      getRowId={(item) => {
-        return item[itemIdField]
-      }}
-      columns={columns}
-      editMode="row"
-      rowModesModel={rowModesModel}
-      onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-      onRowEditStart={handleRowEditStart}
-      onRowEditStop={handleRowEditStop}
-      processRowUpdate={processRowUpdate}
-      onProcessRowUpdateError={() => {}}
-      components={{
-        Toolbar: CrudToolbar,
-      }}
-      componentsProps={{
-        toolbar: {
-          TopRightComponent,
-          setRows,
-          setRowModesModel,
-          itemIdField,
-          onRefresh,
-          isLoading,
-          firstField: columns?.[0]?.field,
-        },
-        pagination: {
-          showFirstButton: true,
-          showLastButton: true,
-        },
-      }}
-      experimentalFeatures={{ newEditingApi: true }}
-      cellOutline
-      loading={isLoading}
-      rowsPerPageOptions={[5, 10, 20, 100]}
-      paginationMode={rowCount !== undefined ? 'server' : undefined}
-      rowCount={rowCount}
-      page={page}
-      onPageChange={onPageChange}
-      pageSize={pageSize}
-      onPageSizeChange={onPageSizeChange}
-    />
+    <>
+      <DataTable
+        sx={{ minWidth: '50vw' }}
+        rows={rows}
+        getRowId={(item) => {
+          return item[itemIdField]
+        }}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+        onRowEditStart={handleRowEditStart}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={() => {}}
+        components={{
+          Toolbar: CrudToolbar,
+        }}
+        componentsProps={{
+          toolbar: {
+            TopRightComponent,
+            setRows,
+            setRowModesModel,
+            itemIdField,
+            onRefresh,
+            isLoading,
+            firstField: columns?.[0]?.field,
+          },
+          pagination: {
+            showFirstButton: true,
+            showLastButton: true,
+          },
+        }}
+        experimentalFeatures={{ newEditingApi: true }}
+        cellOutline
+        loading={isLoading}
+        rowsPerPageOptions={[5, 10, 20, 100]}
+        paginationMode={rowCount !== undefined ? 'server' : undefined}
+        rowCount={rowCount}
+        page={page}
+        onPageChange={onPageChange}
+        pageSize={pageSize}
+        onPageSizeChange={onPageSizeChange}
+      />
+      <ConfirmDialog
+        open={openDeleteItem !== null}
+        onClose={() => {
+          setOpenDeleteItem(null)
+        }}
+        onConfirm={() => {
+          if (openDeleteItem !== null && onItemDelete !== undefined) {
+            onItemDelete(openDeleteItem)
+          }
+          setOpenDeleteItem(null)
+        }}
+      />
+    </>
   )
 }

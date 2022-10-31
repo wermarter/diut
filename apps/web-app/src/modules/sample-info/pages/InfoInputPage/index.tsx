@@ -391,6 +391,12 @@ export default function InfoInputPage() {
             minWidth: 200,
           },
           {
+            field: 'birthYear',
+            headerName: 'Năm sinh',
+            sortable: false,
+            width: 100,
+          },
+          {
             field: 'gender',
             headerName: 'Giới tính',
             sortable: false,
@@ -401,12 +407,6 @@ export default function InfoInputPage() {
               }
               return 'Nữ'
             },
-          },
-          {
-            field: 'birthYear',
-            headerName: 'Năm sinh',
-            sortable: false,
-            width: 100,
           },
           {
             field: 'address',

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Permission } from '@diut/common'
+import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
@@ -7,6 +8,9 @@ import { loadLoginPage, LoginPage } from 'src/modules/auth'
 import { ErrorPage } from 'src/common/layout/ErrorPage'
 import { DataGridDemo } from 'src/modules/test-grid'
 import { HomePage } from 'src/modules/homepage'
+import { sampleApi } from 'src/api/sample'
+import { appStore } from './store'
+import { patientApi } from 'src/api/patient'
 
 const DoctorRoute = React.lazy(() => import('src/modules/doctor'))
 const UserRoute = React.lazy(() => import('src/modules/user'))
@@ -24,6 +28,9 @@ const InfoInputRoute = React.lazy(
 )
 const InfoEditRoute = React.lazy(
   () => import('src/modules/sample-info/pages/InfoEditPage')
+)
+const InfoConfirmRoute = React.lazy(
+  () => import('src/modules/sample-info/pages/InfoConfirmPage')
 )
 
 export const appRoutes: CustomRouteObject[] = [
@@ -95,14 +102,44 @@ export const appRoutes: CustomRouteObject[] = [
       },
       // ------------------------------------------------
       {
-        path: 'info-input',
+        path: 'info',
         permission: Permission.ManageInfo,
-        element: <InfoInputRoute />,
-      },
-      {
-        path: 'info-edit',
-        permission: Permission.ManageInfo,
-        element: <InfoEditRoute />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <InfoInputRoute />,
+          },
+          {
+            path: 'edit/:patientId/:sampleId',
+            element: <InfoEditRoute />,
+            loader: async ({ params }) => {
+              const { sampleId, patientId } = params
+              if (sampleId !== undefined && patientId !== undefined) {
+                return Promise.all([
+                  appStore
+                    .dispatch(
+                      sampleApi.endpoints.sampleFindById.initiate({
+                        id: sampleId,
+                      })
+                    )
+                    .unwrap(),
+                  appStore
+                    .dispatch(
+                      patientApi.endpoints.patientFindById.initiate({
+                        id: patientId,
+                      })
+                    )
+                    .unwrap(),
+                ])
+              }
+            },
+          },
+          {
+            path: 'confirm',
+            element: <InfoConfirmRoute />,
+          },
+        ],
       },
       {
         path: 'result-input',
@@ -110,7 +147,7 @@ export const appRoutes: CustomRouteObject[] = [
         element: <DataGridDemo />,
       },
       {
-        path: 'result-edit',
+        path: 'result-confirm',
         permission: Permission.ManageResult,
         element: <DataGridDemo />,
       },

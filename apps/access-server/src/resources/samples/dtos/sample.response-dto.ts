@@ -92,7 +92,7 @@ export class SampleResponseDto extends BaseResourceResponseDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TestResultDto)
-  result: TestResultDto[]
+  results: TestResultDto[]
 
   @ExposeObjectId()
   @ApiProperty({
@@ -136,9 +136,11 @@ export class TestResultDto {
   @Expose()
   @ApiProperty({
     example: '634180269de1f07e47bbf494',
+    required: false,
   })
+  @IsOptional()
   @IsObjectId()
-  resultBy: string
+  resultBy?: string
 
   @Expose()
   @ApiProperty({

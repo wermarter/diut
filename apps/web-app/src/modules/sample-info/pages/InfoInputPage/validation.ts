@@ -7,7 +7,10 @@ const schema = z.object({
   name: z
     .string({ required_error: 'Không được để trống' })
     .min(2, 'Không được để trống'),
-  gender: z.nativeEnum(Gender),
+  gender: z.preprocess(
+    (value) => parseInt(value as string, 10),
+    z.nativeEnum(Gender)
+  ),
 
   birthYear: z.preprocess(
     (value) => parseInt(value as string, 10),
@@ -26,7 +29,10 @@ const schema = z.object({
 
   sampleTypeIds: z.array(z.string()).nonempty('Phải chọn một loại mẫu'),
   tests: z.array(
-    z.object({ id: z.string(), bioProductName: z.string().optional() })
+    z.object({
+      id: z.string(),
+      bioProductName: z.string().nullable().optional(),
+    })
   ),
 
   sampleId: z.string().min(1, 'Không được để trống'),
