@@ -48,7 +48,7 @@ export default function InfoEditPage() {
     watch,
     setValue,
     getValues,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
@@ -62,8 +62,6 @@ export default function InfoEditPage() {
       ...patientInfo,
     },
   })
-
-  console.log(errors)
 
   const { data: patientTypes, isFetching: isFetchingPatientTypes } =
     usePatientTypeSearchQuery({
@@ -104,7 +102,16 @@ export default function InfoEditPage() {
   const [updatePatient] = usePatientUpdateByIdMutation()
 
   return (
-    <Box>
+    <>
+      <Button
+        sx={{ mb: 2 }}
+        variant="outlined"
+        onClick={() => {
+          navigate('/info/confirm')
+        }}
+      >
+        Quay về
+      </Button>
       <FormContainer
         onSubmit={handleSubmit((values) => {
           Object.keys(values).forEach(
@@ -344,6 +351,6 @@ export default function InfoEditPage() {
         }}
         showCombos
       />
-    </Box>
+    </>
   )
 }

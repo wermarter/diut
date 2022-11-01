@@ -10,7 +10,6 @@ import WorkIcon from '@mui/icons-material/WorkOutline'
 import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccountsOutlined'
 import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
-import GradingIcon from '@mui/icons-material/Grading'
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation'
 import CoronavirusIcon from '@mui/icons-material/Coronavirus'
 import Diversity2Icon from '@mui/icons-material/Diversity2'
@@ -55,19 +54,13 @@ export const drawerItems: DrawerItem[] = [
       {
         icon: <AppRegistrationIcon />,
         label: 'Nhập KQ',
-        destination: 'result-input',
-        permission: Permission.ManageResult,
-      },
-      {
-        icon: <GradingIcon />,
-        label: 'Xác nhận KQ',
-        destination: 'result-confirm',
+        destination: 'result',
         permission: Permission.ManageResult,
       },
       {
         icon: <PrintIcon />,
-        label: 'In kết quả',
-        destination: 'result-print',
+        label: 'In KQ',
+        destination: 'result/print-select',
         permission: Permission.ManageResult,
       },
     ],

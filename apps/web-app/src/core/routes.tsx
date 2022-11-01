@@ -6,7 +6,6 @@ import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
 import { loadLoginPage, LoginPage } from 'src/modules/auth'
 import { ErrorPage } from 'src/common/layout/ErrorPage'
-import { DataGridDemo } from 'src/modules/test-grid'
 import { HomePage } from 'src/modules/homepage'
 import { sampleApi } from 'src/api/sample'
 import { appStore } from './store'
@@ -31,6 +30,19 @@ const InfoEditRoute = React.lazy(
 )
 const InfoConfirmRoute = React.lazy(
   () => import('src/modules/sample-info/pages/InfoConfirmPage')
+)
+
+const EditResultRoute = React.lazy(
+  () => import('src/modules/sample-result/pages/EditResultPage')
+)
+const EditSelectRoute = React.lazy(
+  () => import('src/modules/sample-result/pages/EditSelectPage')
+)
+const PrintSelectRoute = React.lazy(
+  () => import('src/modules/sample-result/pages/PrintSelectPage')
+)
+const PrintResultRoute = React.lazy(
+  () => import('src/modules/sample-result/pages/PrintResultPage')
 )
 
 export const appRoutes: CustomRouteObject[] = [
@@ -142,19 +154,69 @@ export const appRoutes: CustomRouteObject[] = [
         ],
       },
       {
-        path: 'result-input',
+        path: 'result',
         permission: Permission.ManageResult,
-        element: <DataGridDemo />,
-      },
-      {
-        path: 'result-confirm',
-        permission: Permission.ManageResult,
-        element: <DataGridDemo />,
-      },
-      {
-        path: 'result-print',
-        permission: Permission.ManageResult,
-        element: <DataGridDemo />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <EditSelectRoute />,
+          },
+          {
+            path: 'edit/:patientId/:sampleId',
+            element: <EditResultRoute />,
+            loader: async ({ params }) => {
+              const { sampleId, patientId } = params
+              if (sampleId !== undefined && patientId !== undefined) {
+                return Promise.all([
+                  appStore
+                    .dispatch(
+                      sampleApi.endpoints.sampleFindById.initiate({
+                        id: sampleId,
+                      })
+                    )
+                    .unwrap(),
+                  appStore
+                    .dispatch(
+                      patientApi.endpoints.patientFindById.initiate({
+                        id: patientId,
+                      })
+                    )
+                    .unwrap(),
+                ])
+              }
+            },
+          },
+          {
+            path: 'print-select',
+            element: <PrintSelectRoute />,
+          },
+          {
+            path: 'print/:patientId/:sampleId',
+            element: <PrintResultRoute />,
+            loader: async ({ params }) => {
+              const { sampleId, patientId } = params
+              if (sampleId !== undefined && patientId !== undefined) {
+                return Promise.all([
+                  appStore
+                    .dispatch(
+                      sampleApi.endpoints.sampleFindById.initiate({
+                        id: sampleId,
+                      })
+                    )
+                    .unwrap(),
+                  appStore
+                    .dispatch(
+                      patientApi.endpoints.patientFindById.initiate({
+                        id: patientId,
+                      })
+                    )
+                    .unwrap(),
+                ])
+              }
+            },
+          },
+        ],
       },
     ],
   },

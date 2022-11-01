@@ -10,7 +10,11 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { BaseResourceResponseDto, IsObjectId } from 'src/clients/mongo'
+import {
+  BaseResourceResponseDto,
+  ExposeObjectId,
+  IsObjectId,
+} from 'src/clients/mongo'
 import { TestResponseDto } from 'src/resources/tests/dtos/test.response-dto'
 import { HighlightRuleDto } from './create-test-element.request-dto'
 
@@ -23,7 +27,7 @@ export class TestElementResponseDto extends BaseResourceResponseDto {
   @IsNotEmpty()
   name: string
 
-  @Expose()
+  @ExposeObjectId()
   @ApiProperty({
     type: TestResponseDto,
   })

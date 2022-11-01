@@ -32,7 +32,6 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "@mui/x-data-grid-generator": "^5.17.7",
     "@rtk-query/codegen-openapi": "^1.0.0",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",

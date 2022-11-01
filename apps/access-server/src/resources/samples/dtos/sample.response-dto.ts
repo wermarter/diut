@@ -42,7 +42,7 @@ export class SampleResponseDto extends BaseResourceResponseDto {
   @IsDateString()
   infoAt: Date
 
-  @Expose()
+  @ExposeObjectId()
   @ApiProperty({
     example: '634180269de1f07e47bbf494',
   })
@@ -133,7 +133,7 @@ export class TestResultDto {
   @IsString()
   bioProductName?: string
 
-  @Expose()
+  @ExposeObjectId()
   @ApiProperty({
     example: '634180269de1f07e47bbf494',
     required: false,
