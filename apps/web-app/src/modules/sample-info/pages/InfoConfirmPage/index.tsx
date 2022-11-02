@@ -179,38 +179,59 @@ export default function InfoConfirmPage() {
       columns={[
         {
           field: 'startActions',
+          headerName: 'Xác nhận',
           type: 'actions',
-          width: 50,
+          width: 100,
           cellClassName: 'actions',
           getActions: ({ row }) => [
             <GridActionsCellItem
-              icon={<EditIcon />}
-              label="Sửa"
-              onClick={handleEditClick(row)}
+              icon={<CheckIcon />}
+              label="Xác nhận"
+              color="primary"
+              onClick={handleConfirmClick(row)}
+              disabled={isConfirming}
             />,
           ],
         },
-        {
-          field: 'infoAt',
-          headerName: 'TG nhận mẫu',
-          width: 150,
-          sortable: false,
-          valueGetter: ({ value }) => {
-            return format(new Date(value), 'dd/MM/yyyy HH:mm')
-          },
-        },
+        // {
+        //   field: 'infoAt',
+        //   headerName: 'TG nhận mẫu',
+        //   width: 150,
+        //   sortable: false,
+        //   valueGetter: ({ value }) => {
+        //     return format(new Date(value), 'dd/MM/yyyy HH:mm')
+        //   },
+        // },
         {
           field: 'sampleId',
           headerName: 'ID XN',
           width: 120,
           sortable: false,
         },
+        // {
+        //   field: 'externalId',
+        //   headerName: 'ID PK',
+        //   sortable: false,
+        //   width: 120,
+        //   valueGetter: ({ row }) => patients[row.patientId]?.externalId,
+        // },
         {
-          field: 'externalId',
-          headerName: 'ID PK',
+          field: 'tests',
+          headerName: 'Chỉ định XN',
+          width: 300,
           sortable: false,
-          width: 120,
-          valueGetter: ({ row }) => patients[row.patientId]?.externalId,
+          renderCell: renderCellExpand,
+          valueGetter: ({ row }) => {
+            return row.results
+              .map(({ testId, bioProductName }) => {
+                if (bioProductName?.length! > 0) {
+                  return `${tests[testId]?.name}(${bioProductName})`
+                } else {
+                  return tests[testId]?.name
+                }
+              })
+              .join(', ')
+          },
         },
         {
           field: 'name',
@@ -253,24 +274,6 @@ export default function InfoConfirmPage() {
           width: 200,
           sortable: false,
           valueGetter: ({ row }) => patients[row.patientId]?.address,
-        },
-        {
-          field: 'tests',
-          headerName: 'Chỉ định XN',
-          width: 300,
-          sortable: false,
-          renderCell: renderCellExpand,
-          valueGetter: ({ row }) => {
-            return row.results
-              .map(({ testId, bioProductName }) => {
-                if (bioProductName?.length! > 0) {
-                  return `${tests[testId]?.name}(${bioProductName})`
-                } else {
-                  return tests[testId]?.name
-                }
-              })
-              .join(', ')
-          },
         },
         {
           field: 'doctor',
@@ -318,18 +321,16 @@ export default function InfoConfirmPage() {
         },
         {
           field: 'endActions',
-          headerName: 'Xác nhận',
+          headerName: 'Sửa TT',
           type: 'actions',
           width: 100,
           sortable: false,
           cellClassName: 'actions',
           getActions: ({ row }) => [
             <GridActionsCellItem
-              icon={<CheckIcon />}
-              label="Xác nhận"
-              color="primary"
-              onClick={handleConfirmClick(row)}
-              disabled={isConfirming}
+              icon={<EditIcon />}
+              label="Sửa"
+              onClick={handleEditClick(row)}
             />,
           ],
         },

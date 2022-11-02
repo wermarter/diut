@@ -1,8 +1,11 @@
+import { PatientCategory } from '@diut/common'
 import {
+  Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -17,10 +20,14 @@ import { PatientResponseDto } from 'src/api/patient'
 import { SampleResponseDto } from 'src/api/sample'
 import { TestResponseDto } from 'src/api/test'
 import {
+  HighlightRuleDto,
   TestElementResponseDto,
   useLazyTestElementSearchQuery,
 } from 'src/api/test-element'
+import { useLazyUserFindByIdQuery, UserResponseDto } from 'src/api/user'
 import { FormContainer } from 'src/common/form-elements'
+import { getPatientCategory } from '../../utils'
+import { checkHighlight, getTechnicalHint } from './utils'
 
 export default function EditResultPage() {
   const navigate = useNavigate()
@@ -30,26 +37,9 @@ export default function EditResultPage() {
     PatientResponseDto
   ]
 
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   watch,
-  //   setValue,
-  //   getValues,
-  //   formState: { isSubmitting },
-  // } = useForm<FormSchema>({
-  //   resolver: formResolver,
-  //   defaultValues: {
-  //     ...sampleInfo,
-  //     infoAt: new Date(sampleInfo.infoAt),
-  //     sampledAt: new Date(sampleInfo.sampledAt),
-  //     tests: sampleInfo.results.map(({ testId, bioProductName }) => ({
-  //       id: testId,
-  //       bioProductName,
-  //     })),
-  //     ...patientInfo,
-  //   },
-  // })
+  const patientCategory = useMemo(() => {
+    return getPatientCategory(patient, sample)
+  }, [sampleId])
 
   const [tests, setTests] = useState<{
     [id: string]: TestResponseDto & {
@@ -57,10 +47,40 @@ export default function EditResultPage() {
     }
   }>({})
 
+  const [testState, setTestState] = useState<{
+    [testId: string]: {
+      author: UserResponseDto
+      isLocked: boolean
+    }
+  }>({})
+
+  const [elementState, setElementState] = useState<{
+    [elementId: string]: {
+      checked: boolean
+      value: string
+    }
+  }>({})
+
+  const [users, setUsers] = useState<{
+    [userId: string]: UserResponseDto
+  }>({})
+
   const [searchTestElements] = useLazyTestElementSearchQuery()
+  const [getUserById] = useLazyUserFindByIdQuery()
 
   useEffect(() => {
-    sample.results.map(({ testId }) => {
+    sample.results.map(({ testId, resultBy }) => {
+      if (resultBy?.length! > 0) {
+        getUserById({ id: resultBy! }).then((res) => {
+          const user = res.data!
+
+          setUsers((cache) =>
+            Object.assign({}, cache, {
+              [user._id]: user,
+            })
+          )
+        })
+      }
       searchTestElements({
         searchTestElementRequestDto: {
           filter: {
@@ -71,10 +91,11 @@ export default function EditResultPage() {
         const elements = res.data?.items!
         const test = elements[0].test
 
-        setTests((cache) => ({
-          ...cache,
-          [test._id]: { ...test, elements },
-        }))
+        setTests((cache) =>
+          Object.assign({}, cache, {
+            [test._id]: { ...test, elements },
+          })
+        )
       })
     })
   }, [sampleId])
@@ -88,67 +109,177 @@ export default function EditResultPage() {
         }
         return a.index - b.index
       })
-      .map((res) => ({
-        ...res,
-        result: sample.results.find((result) => result.testId === res._id),
-      }))
-  }, [tests])
+      .map((res) => {
+        const result = sample.results.find(
+          (result) => result.testId === res._id
+        )
+
+        result?.elements?.forEach((element) => {
+          setElementState((formState) =>
+            Object.assign({}, formState, {
+              [element.id]: {
+                checked: element.isHighlighted,
+                value: element.value,
+              },
+            })
+          )
+        })
+
+        const userId = result?.resultBy
+        if (userId !== undefined) {
+          setTestState((testState) =>
+            Object.assign({}, testState, {
+              [result?.testId!]: {
+                authorName: users[userId],
+                isLocked: true,
+              },
+            })
+          )
+        }
+
+        return {
+          ...res,
+          result,
+        }
+      })
+  }, [tests, users])
 
   return (
     <>
-      <Button
-        sx={{ mb: 2 }}
-        variant="outlined"
-        onClick={() => {
-          navigate('/result')
-        }}
-      >
-        Quay về
-      </Button>
-      <Typography variant="h5">
-        Kết quả xét nghiệm ({sample.sampleId}) {patient.name}
-      </Typography>
+      <Box sx={{ display: 'flex' }}>
+        <Button
+          sx={{ mr: 2 }}
+          variant="outlined"
+          onClick={() => {
+            navigate('/result')
+          }}
+        >
+          Quay về
+        </Button>
+        <Typography variant="h5">
+          [{sample.sampleId}] {patient.name}
+        </Typography>
+      </Box>
       <FormContainer>
         {sortedTests.map((test) => {
+          const currentTestState = testState[test._id] ?? {}
+
           return (
-            <Card sx={{ my: 2 }} key={test._id} raised>
+            <Card
+              sx={{ my: 4, maxWidth: '700px', mx: 'auto' }}
+              key={test._id}
+              raised
+            >
               <CardHeader
                 title={test.name}
                 titleTypographyProps={{
-                  color: test.result?.testCompleted ? 'primary' : 'secondary',
+                  color: currentTestState.isLocked ? '#CCC' : 'primary',
                 }}
                 subheader={test.result?.bioProductName}
                 action={
-                  test.result?.testCompleted ? (
-                    <Button>Sửa</Button>
-                  ) : (
-                    <Button variant="outlined">Lưu</Button>
-                  )
+                  <Box sx={{ m: 1 }}>
+                    {currentTestState.isLocked ? (
+                      <Button
+                        onClick={() => {
+                          setTestState((cache) =>
+                            Object.assign({}, cache, {
+                              [test._id]: {
+                                isLocked: false,
+                              },
+                            })
+                          )
+                        }}
+                      >
+                        Unlock
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ color: 'white' }}
+                        onClick={() => {
+                          setTestState((cache) =>
+                            Object.assign({}, cache, {
+                              [test._id]: {
+                                isLocked: true,
+                                author: { name: 'ouch' },
+                              },
+                            })
+                          )
+                        }}
+                      >
+                        Lock
+                      </Button>
+                    )}
+                  </Box>
                 }
               />
               <CardContent>
                 <Table size="small">
                   <TableBody>
                     {test.elements.map((element) => {
+                      const state = elementState[element._id] ?? {}
+                      const highlightRule =
+                        element.highlightRules.find(
+                          ({ category }) => category === patientCategory
+                        ) ??
+                        element.highlightRules.find(
+                          ({ category }) => category === PatientCategory.Any
+                        ) ??
+                        ({} as HighlightRuleDto)
+
                       return (
                         <TableRow key={element._id}>
-                          <TableCell align="left" width="250px">
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              disabled={currentTestState.isLocked}
+                              disableRipple
+                              color="secondary"
+                              checked={state.checked ?? false}
+                              onChange={(e) => {
+                                setElementState((formState) =>
+                                  Object.assign({}, formState, {
+                                    [element._id]: {
+                                      checked: e.target.checked,
+                                      value: state.value,
+                                    },
+                                  })
+                                )
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell align="left" width="200px">
                             <Typography>{element.name}</Typography>
                           </TableCell>
                           <TableCell align="justify" width="200px">
                             <TextField
+                              disabled={currentTestState.isLocked}
                               fullWidth
                               variant="standard"
-                              defaultValue={
-                                test.result?.elements.find(
-                                  ({ id }) => id === element._id
-                                )?.value
-                              }
+                              value={state.value ?? ''}
+                              onChange={(e) => {
+                                const newValue = e.target.value
+                                const checked =
+                                  newValue.length > 0 &&
+                                  checkHighlight(highlightRule, newValue)
+
+                                setElementState((formState) =>
+                                  Object.assign({}, formState, {
+                                    [element._id]: {
+                                      checked: checked,
+                                      value: newValue,
+                                    },
+                                  })
+                                )
+                              }}
                             />
                           </TableCell>
-                          <TableCell align="left">
-                            <Typography>
-                              {element.highlightRules[0].description}
+                          <TableCell align="left" width="250px">
+                            <Typography sx={{ opacity: 0.7 }}>
+                              {getTechnicalHint(
+                                patientCategory,
+                                element.highlightRules
+                              )}
                             </Typography>
                           </TableCell>
                         </TableRow>

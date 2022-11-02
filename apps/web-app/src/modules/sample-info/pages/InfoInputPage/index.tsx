@@ -412,7 +412,13 @@ export default function InfoInputPage() {
             field: 'address',
             headerName: 'Địa chỉ',
             sortable: false,
-            width: 300,
+            width: 250,
+          },
+          {
+            field: 'phoneNumber',
+            headerName: 'SĐT',
+            sortable: false,
+            width: 200,
           },
         ]}
       />
