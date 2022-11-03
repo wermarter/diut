@@ -38,6 +38,12 @@ export function getTechnicalHint(
   if (min != undefined && max != undefined) {
     return `${categoryPrefix}${min} - ${max}`
   }
+  if (min != undefined) {
+    return `${categoryPrefix}min = ${min}`
+  }
+  if (max != undefined) {
+    return `${categoryPrefix}max = ${max}`
+  }
 
   return ''
 }
@@ -47,6 +53,14 @@ export function checkHighlight(highlightRule: HighlightRuleDto, value: string) {
 
   if (min != undefined && max != undefined) {
     return Number(value) < min || Number(value) > max
+  }
+
+  if (min != undefined) {
+    return Number(value) > min
+  }
+
+  if (max != undefined) {
+    return Number(value) < max
   }
 
   if (normalValue?.length! > 0) {

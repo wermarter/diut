@@ -129,17 +129,21 @@ export default function PrintSelectPage() {
       columns={[
         {
           field: 'startActions',
+          headerName: 'In',
           type: 'actions',
-          width: 50,
+          width: 100,
+          sortable: false,
           cellClassName: 'actions',
           getActions: ({ row }) => [
             <GridActionsCellItem
-              icon={<EditIcon />}
-              label="Sửa"
-              onClick={handleEditClick(row)}
+              icon={<PrintIcon />}
+              label="In"
+              color="primary"
+              onClick={handleConfirmClick(row)}
             />,
           ],
         },
+
         {
           field: 'infoAt',
           headerName: 'TG nhận mẫu',
@@ -181,42 +185,40 @@ export default function PrintSelectPage() {
               .join(', ')
           },
         },
-        {
-          field: 'sampledAt',
-          headerName: 'TG lấy mẫu',
-          width: 150,
-          sortable: false,
-          valueGetter: ({ value }) => {
-            return format(new Date(value), 'dd/MM/yyyy HH:mm')
-          },
-        },
-        {
-          field: 'sampleTypes',
-          headerName: 'Loại mẫu',
-          width: 300,
-          sortable: false,
-          renderCell: renderCellExpand,
-          valueGetter: ({ row }) => {
-            return row.sampleTypeIds
-              .map((sampleTypeId) => {
-                return sampleTypes[sampleTypeId]?.name
-              })
-              .join(', ')
-          },
-        },
+        // {
+        //   field: 'sampledAt',
+        //   headerName: 'TG lấy mẫu',
+        //   width: 150,
+        //   sortable: false,
+        //   valueGetter: ({ value }) => {
+        //     return format(new Date(value), 'dd/MM/yyyy HH:mm')
+        //   },
+        // },
+        // {
+        //   field: 'sampleTypes',
+        //   headerName: 'Loại mẫu',
+        //   width: 300,
+        //   sortable: false,
+        //   renderCell: renderCellExpand,
+        //   valueGetter: ({ row }) => {
+        //     return row.sampleTypeIds
+        //       .map((sampleTypeId) => {
+        //         return sampleTypes[sampleTypeId]?.name
+        //       })
+        //       .join(', ')
+        //   },
+        // },
         {
           field: 'endActions',
-          headerName: 'In',
+          headerName: 'Sửa KQ',
           type: 'actions',
           width: 100,
-          sortable: false,
           cellClassName: 'actions',
           getActions: ({ row }) => [
             <GridActionsCellItem
-              icon={<PrintIcon />}
-              label="In"
-              color="primary"
-              onClick={handleConfirmClick(row)}
+              icon={<EditIcon />}
+              label="Sửa"
+              onClick={handleEditClick(row)}
             />,
           ],
         },

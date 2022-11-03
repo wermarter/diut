@@ -123,8 +123,9 @@ export default function EditSelectPage() {
       columns={[
         {
           field: 'startActions',
+          headerName: 'Nhập KQ',
           type: 'actions',
-          width: 50,
+          width: 100,
           cellClassName: 'actions',
           getActions: ({ row }) => [
             <GridActionsCellItem

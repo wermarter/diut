@@ -15,9 +15,12 @@ import {
 } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import LockPersonIcon from '@mui/icons-material/LockPerson'
+import LockOpenIcon from '@mui/icons-material/LockOpen'
 
 import { PatientResponseDto } from 'src/api/patient'
-import { SampleResponseDto } from 'src/api/sample'
+import { SampleResponseDto, useSampleUpdateByIdMutation } from 'src/api/sample'
 import { TestResponseDto } from 'src/api/test'
 import {
   HighlightRuleDto,
@@ -26,10 +29,20 @@ import {
 } from 'src/api/test-element'
 import { useLazyUserFindByIdQuery, UserResponseDto } from 'src/api/user'
 import { FormContainer } from 'src/common/form-elements'
+import { useTypedSelector } from 'src/core'
+import {
+  selectUserId,
+  selectUserIsAdmin,
+  selectUserName,
+} from 'src/modules/auth'
 import { getPatientCategory } from '../../utils'
 import { checkHighlight, getTechnicalHint } from './utils'
 
 export default function EditResultPage() {
+  const userId = useTypedSelector(selectUserId)
+  const userName = useTypedSelector(selectUserName)
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
+
   const navigate = useNavigate()
   const { sampleId } = useParams()
   const [sample, patient] = useLoaderData() as [
@@ -126,16 +139,14 @@ export default function EditResultPage() {
         })
 
         const userId = result?.resultBy
-        if (userId !== undefined) {
-          setTestState((testState) =>
-            Object.assign({}, testState, {
-              [result?.testId!]: {
-                authorName: users[userId],
-                isLocked: true,
-              },
-            })
-          )
-        }
+        setTestState((testState) =>
+          Object.assign({}, testState, {
+            [result?.testId!]: {
+              author: userId && users[userId],
+              isLocked: result?.testCompleted ?? false,
+            },
+          })
+        )
 
         return {
           ...res,
@@ -144,11 +155,49 @@ export default function EditResultPage() {
       })
   }, [tests, users])
 
+  const [updateSample, { isLoading: isSubmitting }] =
+    useSampleUpdateByIdMutation()
+
+  const handleSubmit = () => {
+    const newResults = sample.results.map(
+      ({ testId, bioProductName, testCompleted, resultBy, elements }) => {
+        const test = testState[testId] ?? {}
+
+        return {
+          testId,
+          bioProductName,
+          testCompleted: test.isLocked ?? testCompleted,
+          resultBy: test.author?._id ?? resultBy,
+          elements: tests[testId].elements.map(({ _id: elementId }) => {
+            const { isHighlighted, value } =
+              elements.find(({ id }) => id === elementId) ?? {}
+            const element = elementState[elementId] ?? {}
+
+            return {
+              id: elementId,
+              isHighlighted: element.checked ?? isHighlighted ?? false,
+              value: element.value ?? value ?? '',
+            }
+          }),
+        }
+      }
+    )
+
+    updateSample({
+      id: sample._id,
+      updateSampleRequestDto: {
+        results: newResults,
+      },
+    }).then(() => {
+      toast.success('Lưu thành công')
+    })
+  }
+
   return (
     <>
       <Box sx={{ display: 'flex' }}>
         <Button
-          sx={{ mr: 2 }}
+          sx={{ mr: 1 }}
           variant="outlined"
           onClick={() => {
             navigate('/result')
@@ -156,8 +205,19 @@ export default function EditResultPage() {
         >
           Quay về
         </Button>
-        <Typography variant="h5">
-          [{sample.sampleId}] {patient.name}
+        <Button
+          sx={{ mr: 2 }}
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+        >
+          Lưu
+        </Button>
+        <Typography variant="h5" marginRight={1}>
+          {patient.name}
+        </Typography>
+        <Typography variant="h6" marginRight={1}>
+          ({sample.sampleId})
         </Typography>
       </Box>
       <FormContainer>
@@ -177,23 +237,34 @@ export default function EditResultPage() {
                 }}
                 subheader={test.result?.bioProductName}
                 action={
-                  <Box sx={{ m: 1 }}>
+                  <Box sx={{ m: 1, display: 'flex', alignItems: 'center' }}>
+                    {currentTestState.author != undefined && (
+                      <Typography sx={{ fontStyle: 'italic', mr: 2 }}>
+                        {currentTestState.author.name}
+                      </Typography>
+                    )}
                     {currentTestState.isLocked ? (
-                      <Button
-                        onClick={() => {
-                          setTestState((cache) =>
-                            Object.assign({}, cache, {
-                              [test._id]: {
-                                isLocked: false,
-                              },
-                            })
-                          )
-                        }}
-                      >
-                        Unlock
-                      </Button>
+                      (currentTestState.author?._id === userId ||
+                        userIsAdmin) && (
+                        <Button
+                          size="large"
+                          variant="outlined"
+                          onClick={() => {
+                            setTestState((cache) =>
+                              Object.assign({}, cache, {
+                                [test._id]: {
+                                  isLocked: false,
+                                },
+                              })
+                            )
+                          }}
+                        >
+                          <LockPersonIcon />
+                        </Button>
+                      )
                     ) : (
                       <Button
+                        size="large"
                         variant="contained"
                         color="secondary"
                         sx={{ color: 'white' }}
@@ -202,13 +273,13 @@ export default function EditResultPage() {
                             Object.assign({}, cache, {
                               [test._id]: {
                                 isLocked: true,
-                                author: { name: 'ouch' },
+                                author: { _id: userId, name: userName },
                               },
                             })
                           )
                         }}
                       >
-                        Lock
+                        <LockOpenIcon />
                       </Button>
                     )}
                   </Box>
@@ -249,7 +320,15 @@ export default function EditResultPage() {
                             />
                           </TableCell>
                           <TableCell align="left" width="200px">
-                            <Typography>{element.name}</Typography>
+                            <Typography
+                              sx={{
+                                color: currentTestState.isLocked
+                                  ? '#CCC'
+                                  : 'inherit',
+                              }}
+                            >
+                              {element.name}
+                            </Typography>
                           </TableCell>
                           <TableCell align="justify" width="200px">
                             <TextField

@@ -173,7 +173,6 @@ export class TestElementResultDto {
     example: 'Neg',
   })
   @IsString()
-  @IsNotEmpty()
   value: string
 
   @Expose()

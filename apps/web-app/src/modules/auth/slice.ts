@@ -96,3 +96,5 @@ export const selectIsAuthenticated = (state: RootState) =>
   state.auth.accessToken !== undefined
 export const selectUserPermissions = (state: RootState) =>
   state.auth.permissions ?? []
+export const selectUserIsAdmin = (state: RootState) =>
+  state.auth.permissions?.includes(Permission.ManageCore)
