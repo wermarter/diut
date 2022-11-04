@@ -4,7 +4,7 @@
 # Config with YAML instead of JSON enables commenting :)
 
 httpServer:
-  port: 9050
+  port: 5000
 
 log:
   level: debug
