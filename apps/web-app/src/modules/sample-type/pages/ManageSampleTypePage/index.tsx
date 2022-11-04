@@ -1,6 +1,6 @@
 import { SampleTypeTable } from './components/SampleTypeTable'
 
-export function ManageSampleTypePage() {
+export default function ManageSampleTypePage() {
   return (
     <>
       <SampleTypeTable />

@@ -1,6 +1,6 @@
 import { PatientTypeTable } from './components/PatientTypeTable'
 
-export function ManagePatientTypePage() {
+export default function ManagePatientTypePage() {
   return (
     <>
       <PatientTypeTable />

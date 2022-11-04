@@ -1,6 +1,6 @@
 import { BioProductTable } from './components/BioProductTable'
 
-export function ManageBioProductPage() {
+export default function ManageBioProductPage() {
   return (
     <>
       <BioProductTable />

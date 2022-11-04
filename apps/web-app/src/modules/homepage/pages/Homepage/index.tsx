@@ -1,6 +1,6 @@
 import { Typography, Box } from '@mui/material'
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <Box>
       <Typography paragraph>

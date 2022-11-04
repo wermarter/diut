@@ -1,6 +1,6 @@
 import { TestComboTable } from './components/TestComboTable'
 
-export function ManageTestComboPage() {
+export default function ManageTestComboPage() {
   return (
     <>
       <TestComboTable />

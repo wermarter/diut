@@ -1,6 +1,6 @@
 import { DoctorTable } from './components/DoctorTable'
 
-export function ManageDoctorPage() {
+export default function ManageDoctorPage() {
   return (
     <>
       <DoctorTable />

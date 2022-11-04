@@ -99,11 +99,10 @@ export default function PrintSelectPage() {
   }, [isFetchingSamples, JSON.stringify(filterObj)])
 
   const handleConfirmClick = (sample: SampleResponseDto) => () => {
-    alert(JSON.stringify(sample))
+    navigate('../print/' + sample.patientId + '/' + sample._id)
   }
 
-  const [updateSample, { isLoading: isConfirming }] =
-    useSampleUpdateByIdMutation()
+  const [updateSample, { isLoading: isEditing }] = useSampleUpdateByIdMutation()
 
   const handleEditClick = (sample: SampleResponseDto) => () => {
     updateSample({
@@ -119,6 +118,7 @@ export default function PrintSelectPage() {
   return (
     <DataTable
       rows={samples?.items || []}
+      getRowHeight={() => 'auto'}
       loading={
         isFetchingSamples ||
         isFetchingPatients ||
@@ -129,7 +129,7 @@ export default function PrintSelectPage() {
       columns={[
         {
           field: 'startActions',
-          headerName: 'In',
+          headerName: 'In KQ',
           type: 'actions',
           width: 100,
           sortable: false,
@@ -137,7 +137,7 @@ export default function PrintSelectPage() {
           getActions: ({ row }) => [
             <GridActionsCellItem
               icon={<PrintIcon />}
-              label="In"
+              label="In KQ"
               color="primary"
               onClick={handleConfirmClick(row)}
             />,
@@ -172,7 +172,7 @@ export default function PrintSelectPage() {
           headerName: 'Chỉ định XN',
           width: 300,
           sortable: false,
-          renderCell: renderCellExpand,
+          // renderCell: renderCellExpand,
           valueGetter: ({ row }) => {
             return row.results
               .map(({ testId, bioProductName }) => {
@@ -219,6 +219,7 @@ export default function PrintSelectPage() {
               icon={<EditIcon />}
               label="Sửa"
               onClick={handleEditClick(row)}
+              disabled={isEditing}
             />,
           ],
         },

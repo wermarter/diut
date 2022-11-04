@@ -4,53 +4,77 @@ import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
-import { loadLoginPage, LoginPage } from 'src/modules/auth'
-import { ErrorPage } from 'src/common/layout/ErrorPage'
-import { HomePage } from 'src/modules/homepage'
 import { sampleApi } from 'src/api/sample'
 import { appStore } from './store'
 import { patientApi } from 'src/api/patient'
+import LoginPage, { loginPageLoader } from 'src/modules/auth/pages/LoginPage'
+import { ErrorPage } from 'src/common/layout/ErrorPage'
+import HomePage from 'src/modules/homepage/pages/Homepage'
+import { infoEditPageLoader } from 'src/modules/sample-info/pages/InfoEditPage/loader'
+import { editResultPageLoader } from 'src/modules/sample-result/pages/EditResultPage/loader'
+import { printResultPageLoader } from 'src/modules/sample-result/pages/PrintResultPage/loader'
+import { infoInputPageLoader } from 'src/modules/sample-info/pages/InfoInputPage/loader'
 
-const DoctorRoute = React.lazy(() => import('src/modules/doctor'))
-const UserRoute = React.lazy(() => import('src/modules/user'))
-const PatientTypeRoute = React.lazy(() => import('src/modules/patient-type'))
-const TestCategoryRoute = React.lazy(() => import('src/modules/test-category'))
-const TestRoute = React.lazy(() => import('src/modules/test'))
-const TestElementRoute = React.lazy(() => import('src/modules/test-element'))
-const IndicationRoute = React.lazy(() => import('src/modules/indication'))
-const BioProductRoute = React.lazy(() => import('src/modules/bio-product'))
-const SampleTypeRoute = React.lazy(() => import('src/modules/sample-type'))
-const TestComboRoute = React.lazy(() => import('src/modules/test-combo'))
-
-const InfoInputRoute = React.lazy(
+//#region Lazy import pages
+const ManageDoctorPage = React.lazy(
+  () => import('src/modules/doctor/pages/ManageDoctorPage')
+)
+const ManageUserPage = React.lazy(
+  () => import('src/modules/user/pages/ManageUserPage')
+)
+const ManagePatientTypePage = React.lazy(
+  () => import('src/modules/patient-type/pages/ManagePatientTypePage')
+)
+const ManageTestCategoryPage = React.lazy(
+  () => import('src/modules/test-category/pages/ManageTestCategoryPage')
+)
+const ManageTestPage = React.lazy(
+  () => import('src/modules/test/pages/ManageTestPage')
+)
+const ManageTestElementPage = React.lazy(
+  () => import('src/modules/test-element/pages/ManageTestElementPage')
+)
+const ManageIndicationPage = React.lazy(
+  () => import('src/modules/indication/pages/ManageIndicationPage')
+)
+const ManageBioProductPage = React.lazy(
+  () => import('src/modules/bio-product/pages/ManageBioProductPage')
+)
+const ManageSampleTypePage = React.lazy(
+  () => import('src/modules/sample-type/pages/ManageSampleTypePage')
+)
+const ManageTestComboPage = React.lazy(
+  () => import('src/modules/test-combo/pages/ManageTestComboPage')
+)
+const InfoInputPage = React.lazy(
   () => import('src/modules/sample-info/pages/InfoInputPage')
 )
-const InfoEditRoute = React.lazy(
+const InfoEditPage = React.lazy(
   () => import('src/modules/sample-info/pages/InfoEditPage')
 )
-const InfoConfirmRoute = React.lazy(
+const InfoConfirmPage = React.lazy(
   () => import('src/modules/sample-info/pages/InfoConfirmPage')
 )
-
-const EditResultRoute = React.lazy(
+const EditResultPage = React.lazy(
   () => import('src/modules/sample-result/pages/EditResultPage')
 )
-const EditSelectRoute = React.lazy(
+const EditSelectPage = React.lazy(
   () => import('src/modules/sample-result/pages/EditSelectPage')
 )
-const PrintSelectRoute = React.lazy(
+const PrintSelectPage = React.lazy(
   () => import('src/modules/sample-result/pages/PrintSelectPage')
 )
-const PrintResultRoute = React.lazy(
+const PrintResultPage = React.lazy(
   () => import('src/modules/sample-result/pages/PrintResultPage')
 )
+//#endregion
 
 export const appRoutes: CustomRouteObject[] = [
   {
     path: 'login',
     element: <LoginPage />,
     errorElement: <ErrorPage />,
-    loader: loadLoginPage,
+    loader: loginPageLoader,
   },
   {
     path: '/',
@@ -63,56 +87,53 @@ export const appRoutes: CustomRouteObject[] = [
         element: <HomePage />,
       },
       {
-        path: 'users',
+        path: 'manage',
         permission: Permission.ManageCore,
-        element: <UserRoute />,
+        element: <Outlet />,
+        children: [
+          {
+            path: 'users',
+            element: <ManageUserPage />,
+          },
+          {
+            path: 'doctors',
+            element: <ManageDoctorPage />,
+          },
+          {
+            path: 'patient-types',
+            element: <ManagePatientTypePage />,
+          },
+          {
+            path: 'indications',
+            element: <ManageIndicationPage />,
+          },
+          {
+            path: 'test-categories',
+            element: <ManageTestCategoryPage />,
+          },
+          {
+            path: 'tests',
+            element: <ManageTestPage />,
+          },
+          {
+            path: 'test-elements',
+            element: <ManageTestElementPage />,
+          },
+          {
+            path: 'bio-products',
+            element: <ManageBioProductPage />,
+          },
+          {
+            path: 'sample-types',
+            element: <ManageSampleTypePage />,
+          },
+          {
+            path: 'test-combos',
+            element: <ManageTestComboPage />,
+          },
+        ],
       },
-      {
-        path: 'doctors',
-        permission: Permission.ManageCore,
-        element: <DoctorRoute />,
-      },
-      {
-        path: 'patient-types',
-        permission: Permission.ManageCore,
-        element: <PatientTypeRoute />,
-      },
-      {
-        path: 'indications',
-        permission: Permission.ManageCore,
-        element: <IndicationRoute />,
-      },
-      {
-        path: 'test-categories',
-        permission: Permission.ManageCore,
-        element: <TestCategoryRoute />,
-      },
-      {
-        path: 'tests',
-        permission: Permission.ManageCore,
-        element: <TestRoute />,
-      },
-      {
-        path: 'test-elements',
-        permission: Permission.ManageCore,
-        element: <TestElementRoute />,
-      },
-      {
-        path: 'bio-products',
-        permission: Permission.ManageCore,
-        element: <BioProductRoute />,
-      },
-      {
-        path: 'sample-types',
-        permission: Permission.ManageCore,
-        element: <SampleTypeRoute />,
-      },
-      {
-        path: 'test-combos',
-        permission: Permission.ManageCore,
-        element: <TestComboRoute />,
-      },
-      // ------------------------------------------------
+      // ------------------------------------------------------------------------
       {
         path: 'info',
         permission: Permission.ManageInfo,
@@ -120,36 +141,17 @@ export const appRoutes: CustomRouteObject[] = [
         children: [
           {
             index: true,
-            element: <InfoInputRoute />,
+            element: <InfoInputPage />,
+            loader: infoInputPageLoader,
           },
           {
             path: 'edit/:patientId/:sampleId',
-            element: <InfoEditRoute />,
-            loader: async ({ params }) => {
-              const { sampleId, patientId } = params
-              if (sampleId !== undefined && patientId !== undefined) {
-                return Promise.all([
-                  appStore
-                    .dispatch(
-                      sampleApi.endpoints.sampleFindById.initiate({
-                        id: sampleId,
-                      })
-                    )
-                    .unwrap(),
-                  appStore
-                    .dispatch(
-                      patientApi.endpoints.patientFindById.initiate({
-                        id: patientId,
-                      })
-                    )
-                    .unwrap(),
-                ])
-              }
-            },
+            element: <InfoEditPage />,
+            loader: infoEditPageLoader,
           },
           {
             path: 'confirm',
-            element: <InfoConfirmRoute />,
+            element: <InfoConfirmPage />,
           },
         ],
       },
@@ -160,61 +162,21 @@ export const appRoutes: CustomRouteObject[] = [
         children: [
           {
             index: true,
-            element: <EditSelectRoute />,
+            element: <EditSelectPage />,
           },
           {
             path: 'edit/:patientId/:sampleId',
-            element: <EditResultRoute />,
-            loader: async ({ params }) => {
-              const { sampleId, patientId } = params
-              if (sampleId !== undefined && patientId !== undefined) {
-                return Promise.all([
-                  appStore
-                    .dispatch(
-                      sampleApi.endpoints.sampleFindById.initiate({
-                        id: sampleId,
-                      })
-                    )
-                    .unwrap(),
-                  appStore
-                    .dispatch(
-                      patientApi.endpoints.patientFindById.initiate({
-                        id: patientId,
-                      })
-                    )
-                    .unwrap(),
-                ])
-              }
-            },
+            element: <EditResultPage />,
+            loader: editResultPageLoader,
           },
           {
             path: 'print-select',
-            element: <PrintSelectRoute />,
+            element: <PrintSelectPage />,
           },
           {
             path: 'print/:patientId/:sampleId',
-            element: <PrintResultRoute />,
-            loader: async ({ params }) => {
-              const { sampleId, patientId } = params
-              if (sampleId !== undefined && patientId !== undefined) {
-                return Promise.all([
-                  appStore
-                    .dispatch(
-                      sampleApi.endpoints.sampleFindById.initiate({
-                        id: sampleId,
-                      })
-                    )
-                    .unwrap(),
-                  appStore
-                    .dispatch(
-                      patientApi.endpoints.patientFindById.initiate({
-                        id: patientId,
-                      })
-                    )
-                    .unwrap(),
-                ])
-              }
-            },
+            element: <PrintResultPage />,
+            loader: printResultPageLoader,
           },
         ],
       },

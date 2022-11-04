@@ -1,6 +1,6 @@
 import { TestCategoryTable } from './components/TestCategoryTable'
 
-export function ManageTestCategoryPage() {
+export default function ManageTestCategoryPage() {
   return (
     <>
       <TestCategoryTable />

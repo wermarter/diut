@@ -5,7 +5,7 @@ import { useTypedSelector } from 'src/core'
 import { selectIsAuthenticated } from '../../slice'
 import { LoginForm } from './login-form'
 
-export function LoginPage() {
+export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const isAuthenticated = useTypedSelector(selectIsAuthenticated)
@@ -19,4 +19,4 @@ export function LoginPage() {
   return <LoginForm reason={location.state?.reason} />
 }
 
-export { loadLoginPage } from './loader'
+export { loginPageLoader } from './loader'

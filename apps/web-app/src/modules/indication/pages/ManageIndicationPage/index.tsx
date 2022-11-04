@@ -1,6 +1,6 @@
 import { IndicationTable } from './components/IndicationTable'
 
-export function ManageIndicationPage() {
+export default function ManageIndicationPage() {
   return (
     <>
       <IndicationTable />

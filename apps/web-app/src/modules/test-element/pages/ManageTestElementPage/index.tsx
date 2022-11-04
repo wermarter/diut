@@ -1,6 +1,6 @@
 import { TestElementTable } from './components/TestElementTable'
 
-export function ManageTestElementPage() {
+export default function ManageTestElementPage() {
   return (
     <>
       <TestElementTable />

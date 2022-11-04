@@ -1,6 +1,6 @@
 import { UserTable } from './components/UserTable'
 
-export function ManageUserPage() {
+export default function ManageUserPage() {
   return (
     <>
       <UserTable />

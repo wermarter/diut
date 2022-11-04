@@ -16,8 +16,6 @@ interface LoginPageProps {
   reason?: string
 }
 
-const TextField = FormTextField<FormSchema>
-
 export function LoginForm({ reason }: LoginPageProps) {
   const [contextText, setContextText] = useState(reason)
   const [showPassword, setShowPassword] = useState(false)
@@ -78,7 +76,7 @@ export function LoginForm({ reason }: LoginPageProps) {
         onSubmit={handleSubmit(handleLogin)}
         sx={{ maxWidth: '350px' }}
       >
-        <TextField
+        <FormTextField
           name="username"
           control={control}
           margin="dense"
@@ -87,7 +85,7 @@ export function LoginForm({ reason }: LoginPageProps) {
           autoComplete="username"
           autoFocus
         />
-        <TextField
+        <FormTextField
           name="password"
           control={control}
           margin="dense"

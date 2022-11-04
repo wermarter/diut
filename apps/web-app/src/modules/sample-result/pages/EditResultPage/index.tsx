@@ -19,8 +19,7 @@ import { toast } from 'react-toastify'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 
-import { PatientResponseDto } from 'src/api/patient'
-import { SampleResponseDto, useSampleUpdateByIdMutation } from 'src/api/sample'
+import { useSampleUpdateByIdMutation } from 'src/api/sample'
 import { TestResponseDto } from 'src/api/test'
 import {
   HighlightRuleDto,
@@ -37,6 +36,7 @@ import {
 } from 'src/modules/auth'
 import { getPatientCategory } from '../../utils'
 import { checkHighlight, getTechnicalHint } from './utils'
+import { editResultPageLoader } from './loader'
 
 export default function EditResultPage() {
   const userId = useTypedSelector(selectUserId)
@@ -45,10 +45,9 @@ export default function EditResultPage() {
 
   const navigate = useNavigate()
   const { sampleId } = useParams()
-  const [sample, patient] = useLoaderData() as [
-    SampleResponseDto,
-    PatientResponseDto
-  ]
+  const { sample, patient } = useLoaderData() as Awaited<
+    ReturnType<typeof editResultPageLoader>
+  >
 
   const patientCategory = useMemo(() => {
     return getPatientCategory(patient, sample)
@@ -98,6 +97,9 @@ export default function EditResultPage() {
         searchTestElementRequestDto: {
           filter: {
             test: testId,
+          },
+          sort: {
+            index: 1,
           },
         },
       }).then((res) => {
@@ -354,7 +356,13 @@ export default function EditResultPage() {
                             />
                           </TableCell>
                           <TableCell align="left" width="250px">
-                            <Typography sx={{ opacity: 0.7 }}>
+                            <Typography
+                              sx={{
+                                color: currentTestState.isLocked
+                                  ? '#CCC'
+                                  : 'inherit',
+                              }}
+                            >
                               {getTechnicalHint(
                                 patientCategory,
                                 element.highlightRules

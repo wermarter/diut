@@ -2,7 +2,6 @@ import { Gender } from '@diut/common'
 import { useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
-  Box,
   Button,
   FormControl,
   FormControlLabel,
@@ -19,28 +18,26 @@ import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { formResolver, FormSchema } from '../InfoInputPage/validation'
 import { TestSelector } from 'src/common/components/TestSelector'
-import { usePatientTypeSearchQuery } from 'src/api/patient-type'
-import { useIndicationSearchQuery } from 'src/api/indication'
-import { useDoctorSearchQuery } from 'src/api/doctor'
-import { useSampleTypeSearchQuery } from 'src/api/sample-type'
 import { FormDateTimePicker } from 'src/common/form-elements/FormDateTimePicker'
 import { FormAutocomplete } from 'src/common/form-elements/FormAutocomplete'
 import { FormSelect } from 'src/common/form-elements/FormSelect'
-import { SampleResponseDto, useSampleUpdateByIdMutation } from 'src/api/sample'
-import {
-  PatientResponseDto,
-  usePatientUpdateByIdMutation,
-} from 'src/api/patient'
+import { useSampleUpdateByIdMutation } from 'src/api/sample'
+import { usePatientUpdateByIdMutation } from 'src/api/patient'
+import { infoEditPageLoader } from './loader'
 
 const currentYear = new Date().getFullYear()
 
 export default function InfoEditPage() {
   const navigate = useNavigate()
   const { sampleId, patientId } = useParams()
-  const [sampleInfo, patientInfo] = useLoaderData() as [
-    SampleResponseDto,
-    PatientResponseDto
-  ]
+  const {
+    sampleInfo,
+    patientInfo,
+    patientTypes,
+    indications,
+    doctors,
+    sampleTypes,
+  } = useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
 
   const {
     control,
@@ -63,19 +60,6 @@ export default function InfoEditPage() {
     },
   })
 
-  const { data: patientTypes, isFetching: isFetchingPatientTypes } =
-    usePatientTypeSearchQuery({
-      searchPatientTypeRequestDto: { sort: { index: 1 } },
-    })
-  const { data: indications, isFetching: isFetchingIndications } =
-    useIndicationSearchQuery({
-      searchIndicationRequestDto: { sort: { index: 1 } },
-    })
-  const { data: doctors, isFetching: isFetchingDoctors } = useDoctorSearchQuery(
-    {
-      searchDoctorRequestDto: { sort: { index: 1 } },
-    }
-  )
   const birthYear = watch('birthYear')
   const [age, setAge] = useState(currentYear - getValues().birthYear)
 
@@ -88,13 +72,6 @@ export default function InfoEditPage() {
       setValue('birthYear', Number(birthYear))
     }
   }, [birthYear])
-
-  const { data: sampleTypes, isFetching: isFetchingSampleTypes } =
-    useSampleTypeSearchQuery({
-      searchSampleTypeRequestDto: {
-        sort: { index: 1 },
-      },
-    })
 
   const [testSelectorOpen, setTestSelectorOpen] = useState(false)
 
@@ -259,40 +236,34 @@ export default function InfoEditPage() {
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
             <Grid xs={4}>
-              {!isFetchingPatientTypes && (
-                <FormSelect
-                  control={control}
-                  name="patientTypeId"
-                  label="Đối tượng"
-                  options={patientTypes?.items!}
-                  getOptionValue={(option) => option._id}
-                  getOptionLabel={(option) => option.name}
-                />
-              )}
+              <FormSelect
+                control={control}
+                name="patientTypeId"
+                label="Đối tượng"
+                options={patientTypes?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
+              />
             </Grid>
             <Grid xs={4}>
-              {!isFetchingIndications && (
-                <FormSelect
-                  control={control}
-                  name="indicationId"
-                  label="Chẩn đoán"
-                  options={indications?.items!}
-                  getOptionValue={(option) => option._id}
-                  getOptionLabel={(option) => option.name}
-                />
-              )}
+              <FormSelect
+                control={control}
+                name="indicationId"
+                label="Chẩn đoán"
+                options={indications?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
+              />
             </Grid>
             <Grid xs={4}>
-              {!isFetchingDoctors && (
-                <FormSelect
-                  control={control}
-                  name="doctorId"
-                  label="Bác sĩ"
-                  options={doctors?.items!}
-                  getOptionValue={(option) => option._id}
-                  getOptionLabel={(option) => option.name}
-                />
-              )}
+              <FormSelect
+                control={control}
+                name="doctorId"
+                label="Bác sĩ"
+                options={doctors?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
+              />
             </Grid>
             {/* ----------------------------- Row 5 ----------------------------- */}
             <Grid xs={2}>
@@ -309,16 +280,14 @@ export default function InfoEditPage() {
               </Button>
             </Grid>
             <Grid xs={10}>
-              {!isFetchingSampleTypes && (
-                <FormAutocomplete
-                  control={control}
-                  name="sampleTypeIds"
-                  options={sampleTypes?.items!}
-                  getOptionLabel={(option) => option.name}
-                  getOptionValue={(option) => option._id}
-                  label="Loại mẫu"
-                />
-              )}
+              <FormAutocomplete
+                control={control}
+                name="sampleTypeIds"
+                options={sampleTypes?.items!}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option._id}
+                label="Loại mẫu"
+              />
             </Grid>
           </Grid>
           {/* ----------------------------- Submit ----------------------------- */}

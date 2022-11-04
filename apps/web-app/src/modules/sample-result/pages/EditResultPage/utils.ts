@@ -29,9 +29,10 @@ export function getTechnicalHint(
     categoryPrefix = 'Thai phụ: '
   }
 
-  if (description?.length! > 0) {
-    return categoryPrefix + description
-  }
+  // if (description?.length! > 0) {
+  //   return categoryPrefix + description
+  // }
+
   if (normalValue?.length! > 0) {
     return categoryPrefix + normalValue
   }

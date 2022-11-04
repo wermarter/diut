@@ -8,9 +8,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 
-// prettier-ignore
-const TextField = FormTextField<FormSchema>;
-
 interface ChangePasswordFormProps {
   onSubmit: (newPassword: string) => Promise<unknown>
 }
@@ -43,7 +40,7 @@ export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
       })}
       sx={{ maxWidth: '350px' }}
     >
-      <TextField
+      <FormTextField
         name="password"
         control={control}
         margin="dense"
@@ -64,7 +61,7 @@ export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
           ),
         }}
       />
-      <TextField
+      <FormTextField
         name="confirmPassword"
         control={control}
         margin="dense"
