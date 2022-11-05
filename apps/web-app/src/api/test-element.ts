@@ -116,6 +116,7 @@ export type HighlightRuleDto = {
   max?: number
   normalValue?: string
   description?: string
+  note?: string
 }
 export type TestElementResponseDto = {
   _id: string

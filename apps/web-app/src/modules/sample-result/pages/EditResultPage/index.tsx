@@ -6,6 +6,8 @@ import {
   CardContent,
   CardHeader,
   Checkbox,
+  List,
+  ListItemButton,
   Table,
   TableBody,
   TableCell,
@@ -35,7 +37,7 @@ import {
   selectUserName,
 } from 'src/modules/auth'
 import { getPatientCategory } from '../../utils'
-import { checkHighlight, getTechnicalHint } from './utils'
+import { checkHighlight } from './utils'
 import { editResultPageLoader } from './loader'
 
 export default function EditResultPage() {
@@ -197,41 +199,58 @@ export default function EditResultPage() {
 
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
-        <Button
-          sx={{ mr: 1 }}
-          variant="outlined"
-          onClick={() => {
-            navigate('/result')
+      <Box sx={{ position: 'fixed', width: '200px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            sx={{ mr: 1 }}
+            fullWidth
+            variant="outlined"
+            onClick={() => {
+              navigate('/result')
+            }}
+          >
+            Quay về
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            Lưu
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            my: 1,
+            px: 2,
+            py: 1,
+            border: '1px #CCC solid',
+            borderRadius: 1,
           }}
         >
-          Quay về
-        </Button>
-        <Button
-          sx={{ mr: 2 }}
-          variant="contained"
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-        >
-          Lưu
-        </Button>
-        <Typography variant="h5" marginRight={1}>
-          {patient.name}
-        </Typography>
-        <Typography variant="h6" marginRight={1}>
-          ({sample.sampleId})
-        </Typography>
+          <Typography variant="h6">{sample.sampleId}</Typography>
+          <Typography variant="h5">{patient.name}</Typography>
+        </Box>
+        <List>
+          {sortedTests.map((test) => {
+            const currentTestState = testState[test._id] ?? {}
+            return (
+              <ListItemButton
+                key={test._id}
+                selected={currentTestState.isLocked}
+              >
+                {test.name}
+              </ListItemButton>
+            )
+          })}
+        </List>
       </Box>
-      <FormContainer>
+      <FormContainer sx={{ ml: '250px' }}>
         {sortedTests.map((test) => {
           const currentTestState = testState[test._id] ?? {}
-
           return (
-            <Card
-              sx={{ my: 4, maxWidth: '700px', mx: 'auto' }}
-              key={test._id}
-              raised
-            >
+            <Card sx={{ mb: 4, maxWidth: '700px' }} key={test._id} raised>
               <CardHeader
                 title={test.name}
                 titleTypographyProps={{
@@ -287,7 +306,7 @@ export default function EditResultPage() {
                   </Box>
                 }
               />
-              <CardContent>
+              <CardContent sx={{ px: 10 }}>
                 <Table size="small">
                   <TableBody>
                     {test.elements.map((element) => {
@@ -327,12 +346,13 @@ export default function EditResultPage() {
                                 color: currentTestState.isLocked
                                   ? '#CCC'
                                   : 'inherit',
+                                fontWeight: state.checked ? 'bold' : 'normal',
                               }}
                             >
                               {element.name}
                             </Typography>
                           </TableCell>
-                          <TableCell align="justify" width="200px">
+                          <TableCell width="200px">
                             <TextField
                               disabled={currentTestState.isLocked}
                               fullWidth
@@ -343,7 +363,6 @@ export default function EditResultPage() {
                                 const checked =
                                   newValue.length > 0 &&
                                   checkHighlight(highlightRule, newValue)
-
                                 setElementState((formState) =>
                                   Object.assign({}, formState, {
                                     [element._id]: {
@@ -354,20 +373,6 @@ export default function EditResultPage() {
                                 )
                               }}
                             />
-                          </TableCell>
-                          <TableCell align="left" width="250px">
-                            <Typography
-                              sx={{
-                                color: currentTestState.isLocked
-                                  ? '#CCC'
-                                  : 'inherit',
-                              }}
-                            >
-                              {getTechnicalHint(
-                                patientCategory,
-                                element.highlightRules
-                              )}
-                            </Typography>
                           </TableCell>
                         </TableRow>
                       )

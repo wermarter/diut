@@ -146,7 +146,7 @@ export default function InfoInputPage() {
             <Grid xs={3}>
               <FormDateTimePicker
                 name="infoAt"
-                label="TG nhận mẫu"
+                label="TG nhận bệnh"
                 control={control}
               />
             </Grid>

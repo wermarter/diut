@@ -33,6 +33,7 @@ export class TestElement extends BaseSchema {
     max?: number
     normalValue?: string
     description?: string
+    note?: string
   }[]
 
   @Prop()

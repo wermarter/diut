@@ -10,6 +10,8 @@ import HomePage from 'src/modules/homepage/pages/Homepage'
 import { infoEditPageLoader } from 'src/modules/sample-info/pages/InfoEditPage/loader'
 import { editResultPageLoader } from 'src/modules/sample-result/pages/EditResultPage/loader'
 import { infoInputPageLoader } from 'src/modules/sample-info/pages/InfoInputPage/loader'
+import { infoConfirmPageLoader } from 'src/modules/sample-info/pages/InfoConfirmPage/loader'
+import { editSelectPageLoader } from 'src/modules/sample-result/pages/EditSelectPage/loader'
 
 //#region Lazy import pages
 const ManageDoctorPage = React.lazy(
@@ -148,6 +150,7 @@ export const appRoutes: CustomRouteObject[] = [
           {
             path: 'confirm',
             element: <InfoConfirmPage />,
+            loader: infoConfirmPageLoader,
           },
         ],
       },
@@ -159,6 +162,7 @@ export const appRoutes: CustomRouteObject[] = [
           {
             index: true,
             element: <EditSelectPage />,
+            loader: editSelectPageLoader,
           },
           {
             path: 'edit/:patientId/:sampleId',
@@ -170,7 +174,7 @@ export const appRoutes: CustomRouteObject[] = [
             element: <PrintSelectPage />,
           },
           {
-            path: 'print/:patientId/:sampleId',
+            path: 'print/:sampleId',
             element: <PrintResultPage />,
           },
         ],

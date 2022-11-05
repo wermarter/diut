@@ -28,6 +28,7 @@ import {
   NO_DESCRIPTION,
   NO_NORMAL_VALUE,
   useTestElementColumns,
+  NO_NOTE,
 } from './columns'
 import { useLazyTestSearchQuery, useTestSearchQuery } from 'src/api/test'
 import { HighlightRuleEditor } from './HighlightRuleEditor'
@@ -258,7 +259,7 @@ function processHighlightRules(item: any): HighlightRuleDto[] {
     return item.highlightRules
   }
 
-  const { anyMin, anyMax, anyNormal, anyDescription } = item
+  const { anyMin, anyMax, anyNormal, anyDescription, anyNote } = item
   const result: HighlightRuleDto = { category: PatientCategory.Any }
 
   if (anyMin !== NO_MIN) {
@@ -275,6 +276,10 @@ function processHighlightRules(item: any): HighlightRuleDto[] {
 
   if (anyDescription !== NO_DESCRIPTION) {
     result.description = anyDescription
+  }
+
+  if (anyNote !== NO_NOTE) {
+    result.note = anyNote
   }
 
   return [result]

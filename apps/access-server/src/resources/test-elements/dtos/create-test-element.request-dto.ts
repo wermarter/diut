@@ -97,4 +97,13 @@ export class HighlightRuleDto {
   @IsOptional()
   @IsString()
   description?: string
+
+  @Expose()
+  @ApiProperty({
+    example: '...',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  note?: string
 }

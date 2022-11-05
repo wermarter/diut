@@ -8,6 +8,7 @@ export const NO_MIN = -1
 export const NO_MAX = -1
 export const NO_NORMAL_VALUE = '---'
 export const NO_DESCRIPTION = '---'
+export const NO_NOTE = '---'
 
 export function useTestElementColumns(
   test: TestResponseDto[]
@@ -95,7 +96,7 @@ export function useTestElementColumns(
     },
     {
       field: 'anyNormal',
-      headerName: 'Bình thường',
+      headerName: 'So sánh',
       minWidth: 80,
       sortable: false,
       editable: true,
@@ -130,6 +131,26 @@ export function useTestElementColumns(
       },
       valueFormatter: ({ value }) => {
         if (value === NO_DESCRIPTION) {
+          return ''
+        }
+      },
+    },
+    {
+      field: 'anyNote',
+      headerName: 'Tham khảo',
+      minWidth: 100,
+      sortable: false,
+      editable: true,
+      valueGetter: ({ row }) => {
+        const rule = row.highlightRules?.[0] ?? {}
+        if (rule.category !== PatientCategory.Any) {
+          return NO_NOTE
+        }
+
+        return rule.note
+      },
+      valueFormatter: ({ value }) => {
+        if (value === NO_NOTE) {
           return ''
         }
       },

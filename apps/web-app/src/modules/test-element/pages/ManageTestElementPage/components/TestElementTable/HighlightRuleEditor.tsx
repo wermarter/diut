@@ -52,7 +52,7 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
   },
   {
     field: 'normalValue',
-    headerName: 'Bình thường',
+    headerName: 'So sánh',
     minWidth: 120,
     sortable: false,
     editable: true,
@@ -60,6 +60,14 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
   {
     field: 'description',
     headerName: 'Mô tả',
+    minWidth: 200,
+    flex: 1,
+    sortable: false,
+    editable: true,
+  },
+  {
+    field: 'note',
+    headerName: 'Tham khảo',
     minWidth: 200,
     flex: 1,
     sortable: false,

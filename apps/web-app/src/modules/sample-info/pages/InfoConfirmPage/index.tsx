@@ -1,7 +1,7 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
-import { useNavigate } from 'react-router-dom'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { Gender } from '@diut/common'
@@ -19,24 +19,14 @@ import {
 } from 'src/api/patient'
 import { useTypedSelector } from 'src/core'
 import { selectUserId } from 'src/modules/auth'
-import { renderCellExpand } from 'src/common/components/GridCellExpand'
-import { DoctorResponseDto, useLazyDoctorFindByIdQuery } from 'src/api/doctor'
-import {
-  IndicationResponseDto,
-  useLazyIndicationFindByIdQuery,
-} from 'src/api/indication'
-import {
-  SampleTypeResponseDto,
-  useLazySampleTypeFindByIdQuery,
-} from 'src/api/sample-type'
 import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
-import {
-  PatientTypeResponseDto,
-  useLazyPatientTypeFindByIdQuery,
-} from 'src/api/patient-type'
 import { useCrudPagination } from 'src/common/hooks'
+import { infoConfirmPageLoader } from './loader'
 
 export default function InfoConfirmPage() {
+  const { indicationMap, doctorMap } = useLoaderData() as Awaited<
+    ReturnType<typeof infoConfirmPageLoader>
+  >
   const userId = useTypedSelector(selectUserId)
   const navigate = useNavigate()
 
@@ -56,31 +46,11 @@ export default function InfoConfirmPage() {
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
-  const [getDoctor, { isFetching: isFetchingDoctors }] =
-    useLazyDoctorFindByIdQuery()
-  const [getPatientType, { isFetching: isFetchingPatientTypes }] =
-    useLazyPatientTypeFindByIdQuery()
-  const [getIndication, { isFetching: isFetchingIndications }] =
-    useLazyIndicationFindByIdQuery()
-  const [getSampleType, { isFetching: isFetchingSampleTypes }] =
-    useLazySampleTypeFindByIdQuery()
   const [getTest, { isFetching: isFetchingTests }] = useLazyTestFindByIdQuery()
 
   const [samples, setSamples] = useState<SearchSampleResponseDto>()
   const [patients, setPatients] = useState<{
     [id: string]: PatientResponseDto
-  }>({})
-  const [doctors, setDoctors] = useState<{
-    [id: string]: DoctorResponseDto
-  }>({})
-  const [patientTypes, setPatientTypes] = useState<{
-    [id: string]: PatientTypeResponseDto
-  }>({})
-  const [indications, setIndications] = useState<{
-    [id: string]: IndicationResponseDto
-  }>({})
-  const [sampleTypes, setSampleTypes] = useState<{
-    [id: string]: SampleTypeResponseDto
   }>({})
   const [tests, setTests] = useState<{
     [id: string]: TestResponseDto
@@ -88,45 +58,12 @@ export default function InfoConfirmPage() {
 
   async function expandId(samples: SampleResponseDto[]) {
     const promises = samples.map(async (sample) => {
-      const {
-        patientId,
-        doctorId,
-        patientTypeId,
-        indicationId,
-        sampleTypeIds,
-        results,
-      } = sample
+      const { patientId, results } = sample
       getPatient({ id: patientId }, true).then((res) => {
         setPatients((cache) => ({
           ...cache,
           [patientId]: res.data!,
         }))
-      })
-      getDoctor({ id: doctorId }, true).then((res) => {
-        setDoctors((cache) => ({
-          ...cache,
-          [doctorId]: res.data!,
-        }))
-      })
-      getPatientType({ id: patientTypeId }, true).then((res) => {
-        setPatientTypes((cache) => ({
-          ...cache,
-          [patientTypeId]: res.data!,
-        }))
-      })
-      getIndication({ id: indicationId }, true).then((res) => {
-        setIndications((cache) => ({
-          ...cache,
-          [indicationId]: res.data!,
-        }))
-      })
-      sampleTypeIds.map((sampleTypeId) => {
-        getSampleType({ id: sampleTypeId }, true).then((res) => {
-          setSampleTypes((cache) => ({
-            ...cache,
-            [sampleTypeId]: res.data!,
-          }))
-        })
       })
       results.map(({ testId }) => {
         getTest({ id: testId }, true).then((res) => {
@@ -166,92 +103,43 @@ export default function InfoConfirmPage() {
   return (
     <DataTable
       rows={samples?.items || []}
-      loading={
-        isFetchingSamples ||
-        isFetchingPatients ||
-        isFetchingDoctors ||
-        isFetchingIndications ||
-        isFetchingPatientTypes ||
-        isFetchingSampleTypes ||
-        isFetchingTests
-      }
+      autoRowHeight
+      loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
       getRowId={(row) => row._id}
       columns={[
         {
-          field: 'startActions',
-          headerName: 'Xác nhận',
-          type: 'actions',
+          field: 'sampledAt',
+          headerName: 'TG lấy mẫu',
           width: 100,
-          cellClassName: 'actions',
-          getActions: ({ row }) => [
-            <GridActionsCellItem
-              icon={<CheckIcon />}
-              label="Xác nhận"
-              color="primary"
-              onClick={handleConfirmClick(row)}
-              disabled={isConfirming}
-            />,
-          ],
+          sortable: false,
+          valueGetter: ({ value }) => {
+            return format(new Date(value), 'dd/MM/yyyy HH:mm')
+          },
         },
-        // {
-        //   field: 'infoAt',
-        //   headerName: 'TG nhận mẫu',
-        //   width: 150,
-        //   sortable: false,
-        //   valueGetter: ({ value }) => {
-        //     return format(new Date(value), 'dd/MM/yyyy HH:mm')
-        //   },
-        // },
         {
           field: 'sampleId',
           headerName: 'ID XN',
           width: 120,
           sortable: false,
         },
-        // {
-        //   field: 'externalId',
-        //   headerName: 'ID PK',
-        //   sortable: false,
-        //   width: 120,
-        //   valueGetter: ({ row }) => patients[row.patientId]?.externalId,
-        // },
-        {
-          field: 'tests',
-          headerName: 'Chỉ định XN',
-          width: 300,
-          sortable: false,
-          renderCell: renderCellExpand,
-          valueGetter: ({ row }) => {
-            return row.results
-              .map(({ testId, bioProductName }) => {
-                if (bioProductName?.length! > 0) {
-                  return `${tests[testId]?.name}(${bioProductName})`
-                } else {
-                  return tests[testId]?.name
-                }
-              })
-              .join(', ')
-          },
-        },
         {
           field: 'name',
           headerName: 'Tên',
-          flex: 1,
           sortable: false,
-          minWidth: 200,
+          width: 100,
           valueGetter: ({ row }) => patients[row.patientId]?.name,
         },
         {
           field: 'birthYear',
           headerName: 'Năm sinh',
-          width: 100,
+          width: 60,
           sortable: false,
           valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
         },
         {
           field: 'gender',
           headerName: 'Giới tính',
-          width: 100,
+          width: 60,
           sortable: false,
           valueGetter: ({ row }) => {
             if (patients[row.patientId]?.gender === Gender.Female) {
@@ -262,6 +150,13 @@ export default function InfoConfirmPage() {
           },
         },
         {
+          field: 'address',
+          headerName: 'Địa chỉ',
+          width: 80,
+          sortable: false,
+          valueGetter: ({ row }) => patients[row.patientId]?.address,
+        },
+        {
           field: 'phoneNumber',
           headerName: 'SĐT',
           width: 120,
@@ -269,64 +164,44 @@ export default function InfoConfirmPage() {
           valueGetter: ({ row }) => patients[row.patientId]?.phoneNumber,
         },
         {
-          field: 'address',
-          headerName: 'Địa chỉ',
-          width: 200,
-          sortable: false,
-          valueGetter: ({ row }) => patients[row.patientId]?.address,
-        },
-        {
           field: 'doctor',
           headerName: 'Bác sỹ',
-          width: 200,
+          width: 100,
           sortable: false,
-          valueGetter: ({ row }) => doctors[row.doctorId]?.name,
+          valueGetter: ({ row }) => doctorMap.get(row.doctorId)?.name,
         },
         {
-          field: 'indication',
-          headerName: 'Chẩn đoán',
-          width: 200,
+          field: 'tests',
+          headerName: 'Chỉ định XN',
+          minWidth: 100,
+          flex: 1,
           sortable: false,
-          valueGetter: ({ row }) => indications[row.indicationId]?.name,
-        },
-        {
-          field: 'patientType',
-          headerName: 'Đối tượng',
-          width: 200,
-          sortable: false,
-          valueGetter: ({ row }) => patientTypes[row.patientTypeId]?.name,
-        },
-        {
-          field: 'sampledAt',
-          headerName: 'TG lấy mẫu',
-          width: 150,
-          sortable: false,
-          valueGetter: ({ value }) => {
-            return format(new Date(value), 'dd/MM/yyyy HH:mm')
-          },
-        },
-        {
-          field: 'sampleTypes',
-          headerName: 'Loại mẫu',
-          width: 300,
-          sortable: false,
-          renderCell: renderCellExpand,
           valueGetter: ({ row }) => {
-            return row.sampleTypeIds
-              .map((sampleTypeId) => {
-                return sampleTypes[sampleTypeId]?.name
-              })
+            return row.results
+              .map(({ testId }) => tests[testId]?.name)
               .join(', ')
           },
         },
         {
-          field: 'endActions',
-          headerName: 'Sửa TT',
-          type: 'actions',
-          width: 100,
+          field: 'indication',
+          headerName: 'Chẩn đoán',
+          width: 70,
           sortable: false,
+          valueGetter: ({ row }) => indicationMap.get(row.indicationId)?.name,
+        },
+        {
+          field: 'actions',
+          type: 'actions',
+          width: 80,
           cellClassName: 'actions',
           getActions: ({ row }) => [
+            <GridActionsCellItem
+              icon={<CheckIcon />}
+              label="Xác nhận"
+              color="primary"
+              onClick={handleConfirmClick(row)}
+              disabled={isConfirming}
+            />,
             <GridActionsCellItem
               icon={<EditIcon />}
               label="Sửa"

@@ -16,15 +16,11 @@ import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
 } from 'src/api/patient'
-import { renderCellExpand } from 'src/common/components/GridCellExpand'
-import {
-  SampleTypeResponseDto,
-  useLazySampleTypeFindByIdQuery,
-} from 'src/api/sample-type'
 import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import { useTypedSelector } from 'src/core'
 import { selectUserId } from 'src/modules/auth'
+import { Gender } from '@diut/common'
 
 export default function PrintSelectPage() {
   const userId = useTypedSelector(selectUserId)
@@ -47,16 +43,11 @@ export default function PrintSelectPage() {
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
-  const [getSampleType, { isFetching: isFetchingSampleTypes }] =
-    useLazySampleTypeFindByIdQuery()
   const [getTest, { isFetching: isFetchingTests }] = useLazyTestFindByIdQuery()
 
   const [samples, setSamples] = useState<SearchSampleResponseDto>()
   const [patients, setPatients] = useState<{
     [id: string]: PatientResponseDto
-  }>({})
-  const [sampleTypes, setSampleTypes] = useState<{
-    [id: string]: SampleTypeResponseDto
   }>({})
   const [tests, setTests] = useState<{
     [id: string]: TestResponseDto
@@ -64,20 +55,12 @@ export default function PrintSelectPage() {
 
   async function expandId(samples: SampleResponseDto[]) {
     const promises = samples.map(async (sample) => {
-      const { patientId, sampleTypeIds, results } = sample
+      const { patientId, results } = sample
       getPatient({ id: patientId }, true).then((res) => {
         setPatients((cache) => ({
           ...cache,
           [patientId]: res.data!,
         }))
-      })
-      sampleTypeIds.map((sampleTypeId) => {
-        getSampleType({ id: sampleTypeId }, true).then((res) => {
-          setSampleTypes((cache) => ({
-            ...cache,
-            [sampleTypeId]: res.data!,
-          }))
-        })
       })
       results.map(({ testId }) => {
         getTest({ id: testId }, true).then((res) => {
@@ -99,7 +82,7 @@ export default function PrintSelectPage() {
   }, [isFetchingSamples, JSON.stringify(filterObj)])
 
   const handleConfirmClick = (sample: SampleResponseDto) => () => {
-    navigate('../print/' + sample.patientId + '/' + sample._id)
+    navigate('/result/print/' + sample._id)
   }
 
   const [updateSample, { isLoading: isEditing }] = useSampleUpdateByIdMutation()
@@ -111,25 +94,87 @@ export default function PrintSelectPage() {
         sampleCompleted: false,
       },
     }).then(() => {
-      navigate('..')
+      navigate('/result')
     })
   }
 
   return (
     <DataTable
       rows={samples?.items || []}
-      getRowHeight={() => 'auto'}
-      loading={
-        isFetchingSamples ||
-        isFetchingPatients ||
-        isFetchingSampleTypes ||
-        isFetchingTests
-      }
+      autoRowHeight
+      loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
       getRowId={(row) => row._id}
       columns={[
         {
-          field: 'startActions',
-          headerName: 'In KQ',
+          field: 'infoAt',
+          headerName: 'TG nhận bệnh',
+          width: 150,
+          sortable: false,
+          valueGetter: ({ value }) => {
+            return format(new Date(value), 'dd/MM/yyyy HH:mm')
+          },
+        },
+        {
+          field: 'externalId',
+          headerName: 'ID PK',
+          sortable: false,
+          width: 100,
+          valueGetter: ({ row }) => patients[row.patientId]?.externalId,
+        },
+        {
+          field: 'sampleId',
+          headerName: 'ID XN',
+          width: 120,
+          sortable: false,
+        },
+        {
+          field: 'name',
+          headerName: 'Tên',
+          sortable: false,
+          width: 100,
+          valueGetter: ({ row }) => patients[row.patientId]?.name,
+        },
+        {
+          field: 'birthYear',
+          headerName: 'Năm sinh',
+          width: 60,
+          sortable: false,
+          valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
+        },
+        {
+          field: 'gender',
+          headerName: 'Giới tính',
+          width: 60,
+          sortable: false,
+          valueGetter: ({ row }) => {
+            if (patients[row.patientId]?.gender === Gender.Female) {
+              return 'Nữ'
+            } else {
+              return 'Nam'
+            }
+          },
+        },
+        {
+          field: 'address',
+          headerName: 'Địa chỉ',
+          width: 80,
+          sortable: false,
+          valueGetter: ({ row }) => patients[row.patientId]?.address,
+        },
+        {
+          field: 'tests',
+          headerName: 'Chỉ định XN',
+          minWidth: 100,
+          flex: 1,
+          sortable: false,
+          valueGetter: ({ row }) => {
+            return row.results
+              .map(({ testId }) => tests[testId]?.name)
+              .join(', ')
+          },
+        },
+        {
+          field: 'actions',
           type: 'actions',
           width: 100,
           sortable: false,
@@ -141,83 +186,9 @@ export default function PrintSelectPage() {
               color="primary"
               onClick={handleConfirmClick(row)}
             />,
-          ],
-        },
-
-        {
-          field: 'infoAt',
-          headerName: 'TG nhận mẫu',
-          width: 150,
-          sortable: false,
-          valueGetter: ({ value }) => {
-            return format(new Date(value), 'dd/MM/yyyy HH:mm')
-          },
-        },
-        {
-          field: 'sampleId',
-          headerName: 'ID XN',
-          width: 120,
-          sortable: false,
-        },
-        {
-          field: 'name',
-          headerName: 'Tên',
-          flex: 1,
-          sortable: false,
-          minWidth: 200,
-          valueGetter: ({ row }) => patients[row.patientId]?.name,
-        },
-        {
-          field: 'tests',
-          headerName: 'Chỉ định XN',
-          width: 300,
-          sortable: false,
-          // renderCell: renderCellExpand,
-          valueGetter: ({ row }) => {
-            return row.results
-              .map(({ testId, bioProductName }) => {
-                if (bioProductName?.length! > 0) {
-                  return `${tests[testId]?.name}(${bioProductName})`
-                } else {
-                  return tests[testId]?.name
-                }
-              })
-              .join(', ')
-          },
-        },
-        // {
-        //   field: 'sampledAt',
-        //   headerName: 'TG lấy mẫu',
-        //   width: 150,
-        //   sortable: false,
-        //   valueGetter: ({ value }) => {
-        //     return format(new Date(value), 'dd/MM/yyyy HH:mm')
-        //   },
-        // },
-        // {
-        //   field: 'sampleTypes',
-        //   headerName: 'Loại mẫu',
-        //   width: 300,
-        //   sortable: false,
-        //   renderCell: renderCellExpand,
-        //   valueGetter: ({ row }) => {
-        //     return row.sampleTypeIds
-        //       .map((sampleTypeId) => {
-        //         return sampleTypes[sampleTypeId]?.name
-        //       })
-        //       .join(', ')
-        //   },
-        // },
-        {
-          field: 'endActions',
-          headerName: 'Sửa KQ',
-          type: 'actions',
-          width: 100,
-          cellClassName: 'actions',
-          getActions: ({ row }) => [
             <GridActionsCellItem
               icon={<EditIcon />}
-              label="Sửa"
+              label="Sửa KQ"
               onClick={handleEditClick(row)}
               disabled={isEditing}
             />,
