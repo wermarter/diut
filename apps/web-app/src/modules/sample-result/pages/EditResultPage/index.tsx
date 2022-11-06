@@ -186,11 +186,15 @@ export default function EditResultPage() {
         }
       }
     )
+    const sampleCompleted = !newResults.some(
+      ({ testCompleted }) => testCompleted === false
+    )
 
     updateSample({
       id: sample._id,
       updateSampleRequestDto: {
         results: newResults,
+        sampleCompleted,
       },
     }).then(() => {
       toast.success('Lưu thành công')
@@ -248,7 +252,7 @@ export default function EditResultPage() {
             return (
               <ListItemButton
                 key={test._id}
-                selected={currentTestState.isLocked}
+                selected={!currentTestState.isLocked}
               >
                 {test.name}
               </ListItemButton>

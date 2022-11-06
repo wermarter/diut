@@ -1,5 +1,4 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
-import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -9,7 +8,6 @@ import {
   SampleResponseDto,
   SearchSampleResponseDto,
   useSampleSearchQuery,
-  useSampleUpdateByIdMutation,
 } from 'src/api/sample'
 import { DataTable } from 'src/common/components/DataTable'
 import {
@@ -81,18 +79,6 @@ export default function EditSelectPage() {
     }
   }, [isFetchingSamples, JSON.stringify(filterObj)])
 
-  const [updateSample, { isLoading: isConfirming }] =
-    useSampleUpdateByIdMutation()
-
-  const handleConfirmClick = (sample: SampleResponseDto) => () => {
-    updateSample({
-      id: sample._id,
-      updateSampleRequestDto: {
-        sampleCompleted: true,
-      },
-    })
-  }
-
   const handleEditClick = (sample: SampleResponseDto) => () => {
     navigate('edit/' + sample.patientId + '/' + sample._id)
   }
@@ -106,22 +92,6 @@ export default function EditSelectPage() {
       loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
       getRowId={(row) => row._id}
       columns={[
-        {
-          field: 'startActions',
-          type: 'actions',
-          width: 50,
-          sortable: false,
-          cellClassName: 'actions',
-          getActions: ({ row }) => [
-            <GridActionsCellItem
-              icon={<CheckIcon />}
-              label="Xác nhận"
-              color="primary"
-              onClick={handleConfirmClick(row)}
-              disabled={isConfirming}
-            />,
-          ],
-        },
         {
           field: 'sampledAt',
           headerName: 'TG lấy mẫu',

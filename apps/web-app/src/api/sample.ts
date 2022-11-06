@@ -52,6 +52,20 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['samples'],
       }),
+      samplePrintById: build.query<
+        SamplePrintByIdApiResponse,
+        SamplePrintByIdApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/samples/print/${queryArg.id}`,
+          responseHandler: async (response: any) =>
+            (window.URL ?? window.webkitURL).createObjectURL(
+              await response.blob()
+            ),
+          cache: 'no-cache',
+        }),
+        providesTags: ['samples'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -75,6 +89,10 @@ export type SampleFindByIdApiArg = {
 }
 export type SampleDeleteByIdApiResponse = /** status 200  */ SampleResponseDto
 export type SampleDeleteByIdApiArg = {
+  id: string
+}
+export type SamplePrintByIdApiResponse = unknown
+export type SamplePrintByIdApiArg = {
   id: string
 }
 export type TestElementResultDto = {
@@ -156,4 +174,6 @@ export const {
   useSampleFindByIdQuery,
   useLazySampleFindByIdQuery,
   useSampleDeleteByIdMutation,
+  useSamplePrintByIdQuery,
+  useLazySamplePrintByIdQuery,
 } = injectedRtkApi
