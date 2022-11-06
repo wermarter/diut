@@ -46,6 +46,18 @@ export function useTestElementColumns(
       editable: true,
     },
     {
+      field: 'isParent',
+      type: 'boolean',
+      headerName: 'TP lớn',
+      minWidth: 80,
+      flex: 1,
+      sortable: false,
+      editable: true,
+      valueGetter: ({ value }) => {
+        return value ?? false
+      },
+    },
+    {
       field: 'unit',
       headerName: 'Đơn vị',
       minWidth: 80,
@@ -153,6 +165,23 @@ export function useTestElementColumns(
         if (value === NO_NOTE) {
           return ''
         }
+      },
+    },
+    {
+      field: 'anyDefaultChecked',
+      type: 'boolean',
+      headerName: 'Mặc định',
+      minWidth: 80,
+      flex: 1,
+      sortable: false,
+      editable: true,
+      valueGetter: ({ row }) => {
+        const rule = row.highlightRules?.[0] ?? {}
+        if (rule.category !== PatientCategory.Any) {
+          return false
+        }
+
+        return rule.defaultChecked ?? false
       },
     },
   ]

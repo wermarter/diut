@@ -232,7 +232,17 @@ export default function EditResultPage() {
           <Typography variant="h6">{sample.sampleId}</Typography>
           <Typography variant="h5">{patient.name}</Typography>
         </Box>
-        <List>
+        <List
+          sx={{
+            bgcolor: 'background.paper',
+            '&& .Mui-selected, && .Mui-selected:hover': {
+              bgcolor: 'secondary.main',
+              '&, & .MuiListItemIcon-root': {
+                color: 'white',
+              },
+            },
+          }}
+        >
           {sortedTests.map((test) => {
             const currentTestState = testState[test._id] ?? {}
             return (

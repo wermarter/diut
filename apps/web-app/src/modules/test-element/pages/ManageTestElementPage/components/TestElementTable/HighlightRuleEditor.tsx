@@ -73,6 +73,18 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
     sortable: false,
     editable: true,
   },
+  {
+    field: 'defaultChecked',
+    type: 'boolean',
+    headerName: 'Mặc định',
+    minWidth: 80,
+    flex: 1,
+    sortable: false,
+    editable: true,
+    valueGetter: ({ value }) => {
+      return value ?? false
+    },
+  },
 ]
 
 interface HighlightRuleEditorProps {
@@ -102,7 +114,13 @@ export function HighlightRuleEditor({
   }, [element?.highlightRules])
 
   const handleSubmit = () => {
-    onSubmit(items.map((rule) => ({ ...rule, id: undefined })))
+    onSubmit(
+      items.map((rule) => ({
+        ...rule,
+        id: undefined,
+        defaultChecked: rule.defaultChecked ?? false,
+      }))
+    )
     onClose()
   }
 

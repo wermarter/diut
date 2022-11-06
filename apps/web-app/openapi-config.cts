@@ -1,5 +1,7 @@
 import type { ConfigFile } from '@rtk-query/codegen-openapi'
 import { camelCase, kebabCase, upperFirst } from 'lodash'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const ENDPOINTS = [
   // 'auth',
@@ -33,7 +35,7 @@ ENDPOINTS.map((name) => {
 })
 
 const config: ConfigFile = {
-  schemaFile: 'http://localhost:9050/api/docs-json',
+  schemaFile: process.env.VITE_API_BASE_URL + '/api/docs-json',
   apiFile: './src/api/slice.ts',
   apiImport: 'apiSlice',
   hooks: { lazyQueries: true, mutations: true, queries: true },

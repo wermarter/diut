@@ -112,6 +112,7 @@ export type TestResponseDto = {
 }
 export type HighlightRuleDto = {
   category: PatientCategory
+  defaultChecked: boolean
   min?: number
   max?: number
   normalValue?: string
@@ -125,6 +126,7 @@ export type TestElementResponseDto = {
   name: string
   test: TestResponseDto
   index: number
+  isParent: boolean
   highlightRules: HighlightRuleDto[]
   unit?: string
 }
@@ -144,6 +146,7 @@ export type CreateTestElementRequestDto = {
   name: string
   test: string
   index: number
+  isParent: boolean
   highlightRules: HighlightRuleDto[]
   unit?: string
 }
@@ -151,6 +154,7 @@ export type UpdateTestElementRequestDto = {
   name?: string
   test?: string
   index?: number
+  isParent?: boolean
   highlightRules?: HighlightRuleDto[]
   unit?: string
 }

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -41,6 +42,13 @@ export class TestElementResponseDto extends BaseResourceResponseDto {
   @IsNumber()
   @Min(1)
   index: number
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isParent: boolean
 
   @Expose()
   @ApiProperty({

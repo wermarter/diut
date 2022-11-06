@@ -33,7 +33,7 @@ export default function InfoConfirmPage() {
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
     offset: 0,
     limit: 10,
-    sort: { createdAt: -1 },
+    sort: { infoAt: -1 },
     filter: {
       infoBy: userId,
       infoCompleted: false,
@@ -102,11 +102,28 @@ export default function InfoConfirmPage() {
 
   return (
     <DataTable
+      cellOutline
+      disableSelectionOnClick
       rows={samples?.items || []}
       autoRowHeight
       loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
       getRowId={(row) => row._id}
       columns={[
+        {
+          field: 'startActions',
+          type: 'actions',
+          width: 50,
+          cellClassName: 'actions',
+          getActions: ({ row }) => [
+            <GridActionsCellItem
+              icon={<CheckIcon />}
+              label="Xác nhận"
+              color="primary"
+              onClick={handleConfirmClick(row)}
+              disabled={isConfirming}
+            />,
+          ],
+        },
         {
           field: 'sampledAt',
           headerName: 'TG lấy mẫu',
@@ -131,14 +148,14 @@ export default function InfoConfirmPage() {
         },
         {
           field: 'birthYear',
-          headerName: 'Năm sinh',
+          headerName: 'Năm',
           width: 60,
           sortable: false,
           valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
         },
         {
           field: 'gender',
-          headerName: 'Giới tính',
+          headerName: 'Giới',
           width: 60,
           sortable: false,
           valueGetter: ({ row }) => {
@@ -190,18 +207,11 @@ export default function InfoConfirmPage() {
           valueGetter: ({ row }) => indicationMap.get(row.indicationId)?.name,
         },
         {
-          field: 'actions',
+          field: 'endActions',
           type: 'actions',
-          width: 80,
+          width: 50,
           cellClassName: 'actions',
           getActions: ({ row }) => [
-            <GridActionsCellItem
-              icon={<CheckIcon />}
-              label="Xác nhận"
-              color="primary"
-              onClick={handleConfirmClick(row)}
-              disabled={isConfirming}
-            />,
             <GridActionsCellItem
               icon={<EditIcon />}
               label="Sửa"

@@ -12,7 +12,7 @@ export class Patient extends BaseSchema {
   @Prop()
   externalId?: string
 
-  @Prop({ required: true, index: 'text' })
+  @Prop({ required: true, index: true })
   name: string
 
   @Prop({ required: true })

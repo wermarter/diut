@@ -9,6 +9,7 @@ import {
   Radio,
   Paper,
   TextField,
+  Box,
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
@@ -21,9 +22,17 @@ import { TestSelector } from 'src/common/components/TestSelector'
 import { FormDateTimePicker } from 'src/common/form-elements/FormDateTimePicker'
 import { FormAutocomplete } from 'src/common/form-elements/FormAutocomplete'
 import { FormSelect } from 'src/common/form-elements/FormSelect'
-import { useSampleUpdateByIdMutation } from 'src/api/sample'
-import { usePatientUpdateByIdMutation } from 'src/api/patient'
+import {
+  useSampleDeleteByIdMutation,
+  useSampleUpdateByIdMutation,
+} from 'src/api/sample'
+import {
+  usePatientDeleteByIdMutation,
+  usePatientUpdateByIdMutation,
+} from 'src/api/patient'
 import { infoEditPageLoader } from './loader'
+import { useTypedSelector } from 'src/core'
+import { selectUserIsAdmin } from 'src/modules/auth'
 
 const currentYear = new Date().getFullYear()
 
@@ -38,6 +47,7 @@ export default function InfoEditPage() {
     doctors,
     sampleTypes,
   } = useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
   const {
     control,
@@ -78,17 +88,61 @@ export default function InfoEditPage() {
   const [updateSample] = useSampleUpdateByIdMutation()
   const [updatePatient] = usePatientUpdateByIdMutation()
 
+  const [deleteSample, { isLoading: isDeletingSample }] =
+    useSampleDeleteByIdMutation()
+  const [deletePatient, { isLoading: isDeletingPatient }] =
+    usePatientDeleteByIdMutation()
+
   return (
     <>
-      <Button
-        sx={{ mb: 2 }}
-        variant="outlined"
-        onClick={() => {
-          navigate('/info/confirm')
-        }}
-      >
-        Quay về
-      </Button>
+      <Box sx={{ display: 'flex', mb: 2, justifyContent: 'space-between' }}>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            navigate('/info/confirm')
+          }}
+        >
+          Quay về
+        </Button>
+        {userIsAdmin && (
+          <div>
+            <Button
+              sx={{ mx: 1 }}
+              variant="contained"
+              color="warning"
+              onClick={() => {
+                deleteSample({ id: sampleInfo._id })
+                  .unwrap()
+                  .then(() => {
+                    toast.success(`Đã xoá mẫu: ${sampleInfo.sampleId}`)
+                    navigate('/info/confirm')
+                  })
+              }}
+              disabled={isDeletingSample}
+            >
+              Xoá mẫu XN
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                if (confirm('Tất cả các mẫu XN của bệnh sẽ bị xoá theo!')) {
+                  Promise.all([
+                    deletePatient({ id: patientInfo._id }).unwrap(),
+                    deleteSample({ id: sampleInfo._id }).unwrap(),
+                  ]).then(() => {
+                    toast.success(`Đã xoá bệnh nhân: ${patientInfo.name}`)
+                    navigate('/info/confirm')
+                  })
+                }
+              }}
+              disabled={isDeletingPatient}
+            >
+              Xoá bệnh nhân
+            </Button>
+          </div>
+        )}
+      </Box>
       <FormContainer
         onSubmit={handleSubmit((values) => {
           Object.keys(values).forEach(
@@ -100,7 +154,7 @@ export default function InfoEditPage() {
             updatePatient({
               id: patientId!,
               updatePatientRequestDto: values,
-            }),
+            }).unwrap(),
             updateSample({
               id: sampleId!,
               updateSampleRequestDto: {
@@ -108,7 +162,7 @@ export default function InfoEditPage() {
                 sampledAt: values.sampledAt.toISOString(),
                 infoAt: values.infoAt.toISOString(),
               },
-            }),
+            }).unwrap(),
           ]).then(() => {
             toast.success('Sửa thành công')
             navigate('/info/confirm')

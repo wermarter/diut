@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
   IsArray,
+  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -36,6 +37,12 @@ export class CreateTestElementRequestDto {
   index: number
 
   @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isParent: boolean
+
+  @ApiProperty({
     type: () => HighlightRuleDto,
     isArray: true,
   })
@@ -61,6 +68,13 @@ export class HighlightRuleDto {
   })
   @IsEnum(PatientCategory)
   category: PatientCategory
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  defaultChecked: boolean
 
   @Expose()
   @ApiProperty({

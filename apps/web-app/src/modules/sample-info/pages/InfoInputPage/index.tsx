@@ -15,6 +15,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useLoaderData } from 'react-router-dom'
+import CheckIcon from '@mui/icons-material/Check'
 
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
@@ -24,12 +25,15 @@ import { FormAutocomplete } from 'src/common/form-elements/FormAutocomplete'
 import { FormSelect } from 'src/common/form-elements/FormSelect'
 import { useSampleCreateMutation } from 'src/api/sample'
 import {
+  PatientResponseDto,
+  usePatientCreateMutation,
   usePatientSearchQuery,
   usePatientUpsertOneMutation,
 } from 'src/api/patient'
 import { DataTable } from 'src/common/components/DataTable'
 import { useDebouncedValue } from 'src/common/hooks'
 import { infoInputPageLoader } from './loader'
+import { GridActionsCellItem } from '@mui/x-data-grid'
 
 const currentYear = new Date().getFullYear()
 
@@ -44,6 +48,7 @@ export default function InfoInputPage() {
     setValue,
     getValues,
     formState: { isSubmitting },
+    reset,
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
@@ -75,6 +80,7 @@ export default function InfoInputPage() {
   const [testSelectorOpen, setTestSelectorOpen] = useState(false)
 
   const [createSample] = useSampleCreateMutation()
+  const [createPatient] = usePatientCreateMutation()
   const [upsertPatient] = usePatientUpsertOneMutation()
 
   const deferredExternalId = useDeferredValue(
@@ -88,11 +94,22 @@ export default function InfoInputPage() {
         filter:
           deferredExternalId?.length! > 0
             ? { externalId: deferredExternalId }
-            : { name: { $regex: deferredName } },
+            : { name: { $regex: '^' + deferredName, $options: 'i' } },
         offset: 0,
         limit: 10,
       },
     })
+
+  const [shouldUpdatePatient, setShouldUpdatePatient] = useState(false)
+
+  const resetState = () => {
+    const newSampleId = Number(getValues().sampleId) + 1
+    reset()
+    setValue('sampleId', newSampleId.toString())
+    setValue('infoAt', new Date())
+    setValue('sampledAt', new Date())
+    setShouldUpdatePatient(false)
+  }
 
   return (
     <Box>
@@ -102,9 +119,17 @@ export default function InfoInputPage() {
             //@ts-ignore
             (k) => values[k]! === '' && delete values[k]
           )
-          const patient = await upsertPatient({
-            createPatientRequestDto: values,
-          }).unwrap()
+          let patient: PatientResponseDto
+          if (shouldUpdatePatient) {
+            patient = await upsertPatient({
+              createPatientRequestDto: values,
+            }).unwrap()
+          } else {
+            patient = await createPatient({
+              createPatientRequestDto: values,
+            }).unwrap()
+          }
+
           await createSample({
             createSampleRequestDto: {
               ...values,
@@ -112,8 +137,9 @@ export default function InfoInputPage() {
               infoAt: values.infoAt.toISOString(),
               patientId: patient._id,
             },
-          })
+          }).unwrap()
           toast.success('Thêm thành công')
+          resetState()
         })}
       >
         <Paper sx={{ p: 2, mb: 4 }} elevation={5}>
@@ -323,20 +349,37 @@ export default function InfoInputPage() {
       <DataTable
         rows={patients?.items ?? []}
         loading={isFetchingPatients}
+        disableSelectionOnClick
         getRowId={(row) => row._id}
         pageSize={10}
         rowsPerPageOptions={[10]}
-        onSelectionModelChange={(props) => {
-          const patient = patients?.items.find(({ _id }) => _id === props[0])
-          setValue('externalId', patient?.externalId)
-          setValue('name', patient?.name!)
-          setValue('gender', patient?.gender!)
-          setValue('birthYear', patient?.birthYear!)
-          setValue('address', patient?.address!)
-          setValue('phoneNumber', patient?.phoneNumber)
-          setValue('SSN', patient?.SSN)
-        }}
         columns={[
+          {
+            field: 'startActions',
+            type: 'actions',
+            width: 80,
+            sortable: false,
+            cellClassName: 'actions',
+            getActions: ({ id }) => [
+              <GridActionsCellItem
+                icon={<CheckIcon />}
+                label="Chọn"
+                color="primary"
+                onClick={() => {
+                  setShouldUpdatePatient(true)
+                  const patient = patients?.items.find(({ _id }) => _id === id)
+
+                  setValue('externalId', patient?.externalId)
+                  setValue('name', patient?.name!)
+                  setValue('gender', patient?.gender!)
+                  setValue('birthYear', patient?.birthYear!)
+                  setValue('address', patient?.address!)
+                  setValue('phoneNumber', patient?.phoneNumber)
+                  setValue('SSN', patient?.SSN)
+                }}
+              />,
+            ],
+          },
           {
             field: 'externalId',
             headerName: 'ID PK',
@@ -348,7 +391,7 @@ export default function InfoInputPage() {
             headerName: 'Họ tên',
             sortable: false,
             flex: 1,
-            minWidth: 200,
+            minWidth: 150,
           },
           {
             field: 'birthYear',
@@ -372,13 +415,13 @@ export default function InfoInputPage() {
             field: 'address',
             headerName: 'Địa chỉ',
             sortable: false,
-            width: 250,
+            width: 200,
           },
           {
             field: 'phoneNumber',
             headerName: 'SĐT',
             sortable: false,
-            width: 200,
+            width: 150,
           },
         ]}
       />

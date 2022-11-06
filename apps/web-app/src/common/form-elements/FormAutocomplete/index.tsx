@@ -30,11 +30,7 @@ export function FormAutocomplete<
     <Controller
       name={name}
       control={control}
-      render={({
-        field: { onChange, ref },
-        fieldState: { error },
-        formState: { defaultValues },
-      }) => {
+      render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
         const errorProps = !disableError
           ? {
               error: Boolean(error),
@@ -50,8 +46,8 @@ export function FormAutocomplete<
             onChange={(event, value, reason) => {
               onChange(value.map(getOptionValue))
             }}
-            defaultValue={options.filter((option) =>
-              defaultValues?.[name]?.includes(getOptionValue(option))
+            value={options.filter((option) =>
+              value?.includes(getOptionValue(option))
             )}
             filterSelectedOptions
             renderInput={(params) => (

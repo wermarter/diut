@@ -141,6 +141,7 @@ export function TestElementTable() {
               index: item.index,
               test: tests.find((test) => test.name === (item.test as any))
                 ?._id!,
+              isParent: item.isParent,
               highlightRules: processHighlightRules(item),
               unit: item.unit,
             },
@@ -154,6 +155,7 @@ export function TestElementTable() {
               index: newItem.index,
               test: tests.find((test) => test.name === (newItem.test as any))
                 ?._id,
+              isParent: newItem.isParent,
               highlightRules: processHighlightRules(newItem),
               unit: newItem.unit,
             },
@@ -259,8 +261,18 @@ function processHighlightRules(item: any): HighlightRuleDto[] {
     return item.highlightRules
   }
 
-  const { anyMin, anyMax, anyNormal, anyDescription, anyNote } = item
-  const result: HighlightRuleDto = { category: PatientCategory.Any }
+  const {
+    anyMin,
+    anyMax,
+    anyNormal,
+    anyDescription,
+    anyNote,
+    anyDefaultChecked,
+  } = item
+  const result: HighlightRuleDto = {
+    category: PatientCategory.Any,
+    defaultChecked: anyDefaultChecked,
+  }
 
   if (anyMin !== NO_MIN) {
     result.min = anyMin

@@ -100,11 +100,28 @@ export default function PrintSelectPage() {
 
   return (
     <DataTable
+      cellOutline
+      disableSelectionOnClick
       rows={samples?.items || []}
       autoRowHeight
       loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
       getRowId={(row) => row._id}
       columns={[
+        {
+          field: 'startActions',
+          type: 'actions',
+          width: 50,
+          sortable: false,
+          cellClassName: 'actions',
+          getActions: ({ row }) => [
+            <GridActionsCellItem
+              icon={<PrintIcon />}
+              label="In KQ"
+              color="primary"
+              onClick={handleConfirmClick(row)}
+            />,
+          ],
+        },
         {
           field: 'infoAt',
           headerName: 'TG nhận bệnh',
@@ -136,14 +153,14 @@ export default function PrintSelectPage() {
         },
         {
           field: 'birthYear',
-          headerName: 'Năm sinh',
+          headerName: 'Năm',
           width: 60,
           sortable: false,
           valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
         },
         {
           field: 'gender',
-          headerName: 'Giới tính',
+          headerName: 'Giới',
           width: 60,
           sortable: false,
           valueGetter: ({ row }) => {
@@ -174,18 +191,12 @@ export default function PrintSelectPage() {
           },
         },
         {
-          field: 'actions',
+          field: 'endActions',
           type: 'actions',
-          width: 100,
+          width: 50,
           sortable: false,
           cellClassName: 'actions',
           getActions: ({ row }) => [
-            <GridActionsCellItem
-              icon={<PrintIcon />}
-              label="In KQ"
-              color="primary"
-              onClick={handleConfirmClick(row)}
-            />,
             <GridActionsCellItem
               icon={<EditIcon />}
               label="Sửa KQ"

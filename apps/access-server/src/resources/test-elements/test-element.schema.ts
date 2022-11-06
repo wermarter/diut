@@ -26,6 +26,9 @@ export class TestElement extends BaseSchema {
   @Prop({ required: true })
   index: number
 
+  @Prop({ required: true })
+  isParent: boolean
+
   @Prop({ required: true, type: [MongooseSchema.Types.Mixed] })
   highlightRules: {
     category: PatientCategory
@@ -34,6 +37,7 @@ export class TestElement extends BaseSchema {
     normalValue?: string
     description?: string
     note?: string
+    defaultChecked?: boolean
   }[]
 
   @Prop()
