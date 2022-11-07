@@ -13,11 +13,8 @@ export function MainLayout() {
     <Box sx={{ display: 'flex', minWidth: '800px' }}>
       <AppBar drawerWidth={drawerWidth} />
       <AppDrawer drawerWidth={drawerWidth} />
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', px: 3, py: 1 }}
-      >
-        <Toolbar />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
+        <Toolbar variant="dense" />
         <Outlet />
       </Box>
       <ToastContainer

@@ -1,6 +1,11 @@
-import { TextField as MuiTextField } from '@mui/material'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material'
+import { format } from 'date-fns'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 
 export type FormDateTimePickerProps<T extends FieldValues = FieldValues> = {
   name: Path<T>
@@ -21,38 +26,67 @@ export function FormDateTimePicker<
     <Controller
       name={name}
       control={control}
-      render={({ field: { ref, ...formFields }, fieldState: { error } }) => {
+      render={({
+        field: { ref, value, onChange, ...formFields },
+        fieldState: { error },
+      }) => {
         const errorProps = !disableError
           ? {
               error: Boolean(error),
               helperText: error?.message,
             }
           : {}
-
         return (
-          <DateTimePicker
-            {...formFields}
-            inputRef={ref}
-            disableFuture
-            dayOfWeekFormatter={(day) => {
-              if (day === 'CN') return day
-              return day
-                .split(' ')
-                .map((word) => word[0])
-                .join('')
-            }}
-            label={label}
-            renderInput={(params) => (
-              <MuiTextField
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                {...params}
-                {...errorProps}
-              />
+          <FormControl fullWidth>
+            <InputLabel shrink error={errorProps.error}>
+              {label}
+            </InputLabel>
+            <OutlinedInput
+              error={errorProps.error}
+              type="datetime-local"
+              inputRef={ref}
+              label={label}
+              notched
+              title={label}
+              value={format(value, 'yyyy-MM-dd HH:mm')}
+              onChange={(e) => {
+                onChange(new Date(e.target.value))
+              }}
+              inputProps={{
+                max: format(Date.now(), 'yyyy-MM-dd HH:mm'),
+              }}
+              {...formFields}
+            />
+            {errorProps.error && (
+              <FormHelperText error>{errorProps.helperText}</FormHelperText>
             )}
-          />
+          </FormControl>
         )
+
+        // return (
+        //   <DateTimePicker
+        //     {...formFields}
+        //     inputRef={ref}
+        //     disableFuture
+        //     dayOfWeekFormatter={(day) => {
+        //       if (day === 'CN') return day
+        //       return day
+        //         .split(' ')
+        //         .map((word) => word[0])
+        //         .join('')
+        //     }}
+        //     label={label}
+        //     renderInput={(params) => (
+        //       <MuiTextField
+        //         InputLabelProps={{
+        //           shrink: true,
+        //         }}
+        //         {...params}
+        //         {...errorProps}
+        //       />
+        //     )}
+        //   />
+        // )
       }}
     />
   )

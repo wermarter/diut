@@ -78,4 +78,9 @@ export class SampleController {
 
     res.end(buffer)
   }
+
+  @AppRoute({ path: 'preview/:id', isPublic: true })
+  preview(@Param('id', ObjectIdPipe) id: string) {
+    return this.sampleService.previewById(id)
+  }
 }

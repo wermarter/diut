@@ -202,7 +202,7 @@ export default function EditResultPage() {
   }
 
   return (
-    <>
+    <Box sx={{ p: 2 }}>
       <Box sx={{ position: 'fixed', width: '200px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
@@ -398,6 +398,6 @@ export default function EditResultPage() {
           )
         })}
       </FormContainer>
-    </>
+    </Box>
   )
 }

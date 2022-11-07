@@ -94,7 +94,7 @@ export default function InfoEditPage() {
     usePatientDeleteByIdMutation()
 
   return (
-    <>
+    <Box sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', mb: 2, justifyContent: 'space-between' }}>
         <Button
           variant="outlined"
@@ -374,6 +374,6 @@ export default function InfoEditPage() {
         }}
         showCombos
       />
-    </>
+    </Box>
   )
 }

@@ -60,4 +60,6 @@ export const formDefaultValues: Partial<FormSchema> = {
   tests: [] as any,
 
   sampleId: '',
+  infoAt: new Date(),
+  sampledAt: new Date(),
 }

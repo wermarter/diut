@@ -2,7 +2,7 @@ import { Typography, Box } from '@mui/material'
 
 export default function HomePage() {
   return (
-    <Box>
+    <Box sx={{ p: 2 }}>
       <Typography paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus

@@ -28,17 +28,6 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['patients'],
       }),
-      patientUpsertOne: build.mutation<
-        PatientUpsertOneApiResponse,
-        PatientUpsertOneApiArg
-      >({
-        query: (queryArg) => ({
-          url: `/api/patients`,
-          method: 'PUT',
-          body: queryArg.createPatientRequestDto,
-        }),
-        invalidatesTags: ['patients'],
-      }),
       patientUpdateById: build.mutation<
         PatientUpdateByIdApiResponse,
         PatientUpdateByIdApiArg
@@ -78,10 +67,6 @@ export type PatientSearchApiArg = {
 }
 export type PatientCreateApiResponse = /** status 201  */ PatientResponseDto
 export type PatientCreateApiArg = {
-  createPatientRequestDto: CreatePatientRequestDto
-}
-export type PatientUpsertOneApiResponse = /** status 200  */ PatientResponseDto
-export type PatientUpsertOneApiArg = {
   createPatientRequestDto: CreatePatientRequestDto
 }
 export type PatientUpdateByIdApiResponse = /** status 200  */ PatientResponseDto
@@ -143,7 +128,6 @@ export const {
   useLazyPatientSearchQuery,
   usePatientSearchQuery,
   usePatientCreateMutation,
-  usePatientUpsertOneMutation,
   usePatientUpdateByIdMutation,
   usePatientFindByIdQuery,
   useLazyPatientFindByIdQuery,

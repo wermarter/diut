@@ -28,7 +28,7 @@ import {
   PatientResponseDto,
   usePatientCreateMutation,
   usePatientSearchQuery,
-  usePatientUpsertOneMutation,
+  usePatientUpdateByIdMutation,
 } from 'src/api/patient'
 import { DataTable } from 'src/common/components/DataTable'
 import { useDebouncedValue } from 'src/common/hooks'
@@ -81,7 +81,7 @@ export default function InfoInputPage() {
 
   const [createSample] = useSampleCreateMutation()
   const [createPatient] = usePatientCreateMutation()
-  const [upsertPatient] = usePatientUpsertOneMutation()
+  const [updatePatient] = usePatientUpdateByIdMutation()
 
   const deferredExternalId = useDeferredValue(
     useDebouncedValue(watch('externalId')!)
@@ -100,7 +100,9 @@ export default function InfoInputPage() {
       },
     })
 
-  const [shouldUpdatePatient, setShouldUpdatePatient] = useState(false)
+  const [shouldUpdatePatient, setShouldUpdatePatient] = useState<string | null>(
+    null
+  )
 
   const resetState = () => {
     const newSampleId = Number(getValues().sampleId) + 1
@@ -108,11 +110,11 @@ export default function InfoInputPage() {
     setValue('sampleId', newSampleId.toString())
     setValue('infoAt', new Date())
     setValue('sampledAt', new Date())
-    setShouldUpdatePatient(false)
+    setShouldUpdatePatient(null)
   }
 
   return (
-    <Box>
+    <Box sx={{ p: 2 }}>
       <FormContainer
         onSubmit={handleSubmit(async (values) => {
           Object.keys(values).forEach(
@@ -120,9 +122,10 @@ export default function InfoInputPage() {
             (k) => values[k]! === '' && delete values[k]
           )
           let patient: PatientResponseDto
-          if (shouldUpdatePatient) {
-            patient = await upsertPatient({
-              createPatientRequestDto: values,
+          if (shouldUpdatePatient !== null) {
+            patient = await updatePatient({
+              id: shouldUpdatePatient,
+              updatePatientRequestDto: values,
             }).unwrap()
           } else {
             patient = await createPatient({
@@ -366,8 +369,8 @@ export default function InfoInputPage() {
                 label="Chọn"
                 color="primary"
                 onClick={() => {
-                  setShouldUpdatePatient(true)
                   const patient = patients?.items.find(({ _id }) => _id === id)
+                  setShouldUpdatePatient(patient?._id!)
 
                   setValue('externalId', patient?.externalId)
                   setValue('name', patient?.name!)

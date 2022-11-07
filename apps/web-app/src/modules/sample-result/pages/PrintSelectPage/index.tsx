@@ -4,6 +4,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
+import { Box } from '@mui/material'
+import { Gender } from '@diut/common'
 
 import {
   SampleResponseDto,
@@ -20,7 +22,6 @@ import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import { useTypedSelector } from 'src/core'
 import { selectUserId } from 'src/modules/auth'
-import { Gender } from '@diut/common'
 
 export default function PrintSelectPage() {
   const userId = useTypedSelector(selectUserId)
@@ -94,125 +95,127 @@ export default function PrintSelectPage() {
         sampleCompleted: false,
       },
     }).then(() => {
-      navigate('/result')
+      navigate('/result/edit/' + sample.patientId + '/' + sample._id)
     })
   }
 
   return (
-    <DataTable
-      cellOutline
-      disableSelectionOnClick
-      rows={samples?.items || []}
-      autoRowHeight
-      loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
-      getRowId={(row) => row._id}
-      columns={[
-        {
-          field: 'startActions',
-          type: 'actions',
-          width: 50,
-          sortable: false,
-          cellClassName: 'actions',
-          getActions: ({ row }) => [
-            <GridActionsCellItem
-              icon={<PrintIcon />}
-              label="In KQ"
-              color="primary"
-              onClick={handleConfirmClick(row)}
-            />,
-          ],
-        },
-        {
-          field: 'infoAt',
-          headerName: 'TG nhận bệnh',
-          width: 150,
-          sortable: false,
-          valueGetter: ({ value }) => {
-            return format(new Date(value), 'dd/MM/yyyy HH:mm')
+    <Box sx={{ p: 2 }}>
+      <DataTable
+        cellOutline
+        disableSelectionOnClick
+        rows={samples?.items || []}
+        autoRowHeight
+        loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
+        getRowId={(row) => row._id}
+        columns={[
+          {
+            field: 'startActions',
+            type: 'actions',
+            width: 50,
+            sortable: false,
+            cellClassName: 'actions',
+            getActions: ({ row }) => [
+              <GridActionsCellItem
+                icon={<PrintIcon />}
+                label="In KQ"
+                color="primary"
+                onClick={handleConfirmClick(row)}
+              />,
+            ],
           },
-        },
-        {
-          field: 'externalId',
-          headerName: 'ID PK',
-          sortable: false,
-          width: 100,
-          valueGetter: ({ row }) => patients[row.patientId]?.externalId,
-        },
-        {
-          field: 'sampleId',
-          headerName: 'ID XN',
-          width: 120,
-          sortable: false,
-        },
-        {
-          field: 'name',
-          headerName: 'Tên',
-          sortable: false,
-          width: 100,
-          valueGetter: ({ row }) => patients[row.patientId]?.name,
-        },
-        {
-          field: 'birthYear',
-          headerName: 'Năm',
-          width: 60,
-          sortable: false,
-          valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
-        },
-        {
-          field: 'gender',
-          headerName: 'Giới',
-          width: 60,
-          sortable: false,
-          valueGetter: ({ row }) => {
-            if (patients[row.patientId]?.gender === Gender.Female) {
-              return 'Nữ'
-            } else {
-              return 'Nam'
-            }
+          {
+            field: 'infoAt',
+            headerName: 'TG nhận bệnh',
+            width: 150,
+            sortable: false,
+            valueGetter: ({ value }) => {
+              return format(new Date(value), 'dd/MM/yyyy HH:mm')
+            },
           },
-        },
-        {
-          field: 'address',
-          headerName: 'Địa chỉ',
-          width: 80,
-          sortable: false,
-          valueGetter: ({ row }) => patients[row.patientId]?.address,
-        },
-        {
-          field: 'tests',
-          headerName: 'Chỉ định XN',
-          minWidth: 100,
-          flex: 1,
-          sortable: false,
-          valueGetter: ({ row }) => {
-            return row.results
-              .map(({ testId }) => tests[testId]?.name)
-              .join(', ')
+          {
+            field: 'externalId',
+            headerName: 'ID PK',
+            sortable: false,
+            width: 100,
+            valueGetter: ({ row }) => patients[row.patientId]?.externalId,
           },
-        },
-        {
-          field: 'endActions',
-          type: 'actions',
-          width: 50,
-          sortable: false,
-          cellClassName: 'actions',
-          getActions: ({ row }) => [
-            <GridActionsCellItem
-              icon={<EditIcon />}
-              label="Sửa KQ"
-              onClick={handleEditClick(row)}
-              disabled={isEditing}
-            />,
-          ],
-        },
-      ]}
-      paginationMode="server"
-      rowsPerPageOptions={[5, 10, 20, 100]}
-      rowCount={samples?.total ?? 0}
-      page={samples?.offset ?? 0}
-      pageSize={samples?.limit ?? 10}
-      onPageChange={onPageChange}
-      onPageSizeChange={onPageSizeChange}
-    />
+          {
+            field: 'sampleId',
+            headerName: 'ID XN',
+            width: 120,
+            sortable: false,
+          },
+          {
+            field: 'name',
+            headerName: 'Tên',
+            sortable: false,
+            width: 100,
+            valueGetter: ({ row }) => patients[row.patientId]?.name,
+          },
+          {
+            field: 'birthYear',
+            headerName: 'Năm',
+            width: 60,
+            sortable: false,
+            valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
+          },
+          {
+            field: 'gender',
+            headerName: 'Giới',
+            width: 60,
+            sortable: false,
+            valueGetter: ({ row }) => {
+              if (patients[row.patientId]?.gender === Gender.Female) {
+                return 'Nữ'
+              } else {
+                return 'Nam'
+              }
+            },
+          },
+          {
+            field: 'address',
+            headerName: 'Địa chỉ',
+            width: 80,
+            sortable: false,
+            valueGetter: ({ row }) => patients[row.patientId]?.address,
+          },
+          {
+            field: 'tests',
+            headerName: 'Chỉ định XN',
+            minWidth: 100,
+            flex: 1,
+            sortable: false,
+            valueGetter: ({ row }) => {
+              return row.results
+                .map(({ testId }) => tests[testId]?.name)
+                .join(', ')
+            },
+          },
+          {
+            field: 'endActions',
+            type: 'actions',
+            width: 50,
+            sortable: false,
+            cellClassName: 'actions',
+            getActions: ({ row }) => [
+              <GridActionsCellItem
+                icon={<EditIcon />}
+                label="Sửa KQ"
+                onClick={handleEditClick(row)}
+                disabled={isEditing}
+              />,
+            ],
+          },
+        ]}
+        paginationMode="server"
+        rowsPerPageOptions={[5, 10, 20, 100]}
+        rowCount={samples?.total ?? 0}
+        page={samples?.offset ?? 0}
+        pageSize={samples?.limit ?? 10}
+        onPageChange={onPageChange}
+        onPageSizeChange={onPageSizeChange}
+      />
+    </Box>
   )
 }

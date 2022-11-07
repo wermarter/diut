@@ -34,14 +34,6 @@ export class PatientController {
     return this.patientService.updateById(id, body)
   }
 
-  @AppRoute(patientRoutes.upsertOne)
-  async upsertOne(@Body() body: CreatePatientRequestDto) {
-    return this.patientService.update({ externalId: body.externalId }, body, {
-      upsert: true,
-      new: true,
-    })
-  }
-
   @AppRoute(patientRoutes.findById)
   findById(@Param('id', ObjectIdPipe) id: string) {
     return this.patientService.findById(id)

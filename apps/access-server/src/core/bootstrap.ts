@@ -83,5 +83,7 @@ export async function bootstrap(rootModule: unknown) {
     'Bootstrap'
   )
 
+  app.enableShutdownHooks()
+
   return app
 }
