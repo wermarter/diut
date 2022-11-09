@@ -82,7 +82,7 @@ export class SampleService
           body.tests.some(({ id }) => id === testId)
         )
         const newTests = body.tests
-          .filter(({ id }) => keptResults.some(({ testId }) => testId !== id))
+          .filter(({ id }) => !keptResults.some(({ testId }) => testId === id))
           .map(({ id, bioProductName }) => ({
             testId: id,
             testCompleted: false,

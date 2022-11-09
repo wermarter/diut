@@ -3,7 +3,7 @@ import PrintIcon from '@mui/icons-material/Print'
 import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { format } from 'date-fns'
+import { format, startOfDay, endOfDay } from 'date-fns'
 import { Gender } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -81,8 +81,8 @@ export default function PrintSelectPage() {
           sampleId.length > 0
             ? undefined
             : {
-                $gte: format(date, 'yyyy-MM-dd') + 'T00:00:00.000Z',
-                $lte: format(date, 'yyyy-MM-dd') + 'T23:59:59.999Z',
+                $gte: startOfDay(date).toISOString(),
+                $lte: endOfDay(date).toISOString(),
               },
       },
     }))
