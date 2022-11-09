@@ -4,7 +4,8 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { Gender } from '@diut/common'
-import { Box } from '@mui/material'
+import { Box, Paper } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 
 import {
   SampleResponseDto,
@@ -19,22 +20,124 @@ import {
 import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import { editSelectPageLoader } from './loader'
+import { useForm } from 'react-hook-form'
+import {
+  FormContainer,
+  FormDateTimePicker,
+  FormSelect,
+  FormTextField,
+} from 'src/common/form-elements'
+import { useTypedSelector } from 'src/core'
+import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
+
+interface FilterData {
+  date: Date
+  sampleId: string
+  sampleCompleted: 'all' | 'true' | 'false'
+}
 
 export default function EditSelectPage() {
   const { indicationMap, doctorMap } = useLoaderData() as Awaited<
     ReturnType<typeof editSelectPageLoader>
   >
+  const userId = useTypedSelector(selectUserId)
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
 
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    offset: 0,
-    limit: 10,
-    sort: { infoAt: -1 },
-    filter: {
-      infoCompleted: true,
-      sampleCompleted: false,
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination({
+      offset: 0,
+      limit: 10,
+      sort: { infoAt: -1 },
+      filter: {
+        infoCompleted: true,
+        $or: [
+          {
+            sampleCompleted: true,
+            resultBy: userIsAdmin ? { $exists: true } : userId,
+          },
+          { sampleCompleted: false },
+        ],
+      },
+    })
+
+  const { control, handleSubmit, watch } = useForm<FilterData>({
+    defaultValues: {
+      date: new Date(),
+      sampleId: '',
+      sampleCompleted: 'all',
     },
   })
+  const date = watch('date')
+  const sampleCompleted = watch('sampleCompleted')
+
+  const handleSubmitFilter = ({
+    date,
+    sampleId,
+    sampleCompleted,
+  }: FilterData) => {
+    let sampleCompletedObj = {}
+    if (userIsAdmin) {
+      sampleCompletedObj = {
+        sampleCompleted:
+          sampleCompleted === 'all'
+            ? undefined
+            : sampleCompleted === 'true'
+            ? true
+            : false,
+      }
+    } else {
+      if (sampleCompleted === 'all') {
+        sampleCompletedObj = {
+          sampleCompleted: undefined,
+          resultBy: undefined,
+          $or: [
+            {
+              sampleCompleted: true,
+              resultBy: userId,
+            },
+            { sampleCompleted: false },
+          ],
+        }
+      }
+      if (sampleCompleted === 'false') {
+        sampleCompletedObj = {
+          $or: undefined,
+          sampleCompleted: false,
+        }
+      }
+      if (sampleCompleted === 'true') {
+        sampleCompletedObj = {
+          $or: undefined,
+          sampleCompleted: true,
+          resultBy: userId,
+        }
+      }
+    }
+
+    return setFilterObj((obj) => ({
+      ...obj,
+      filter: {
+        ...obj.filter,
+        sampleId:
+          sampleId.length > 0
+            ? { $regex: '^' + sampleId, $options: 'i' }
+            : undefined,
+        infoAt:
+          sampleId.length > 0
+            ? undefined
+            : {
+                $gte: format(date, 'yyyy-MM-dd') + 'T00:00:00.000Z',
+                $lte: format(date, 'yyyy-MM-dd') + 'T23:59:59.999Z',
+              },
+        ...sampleCompletedObj,
+      },
+    }))
+  }
+
+  useEffect(() => {
+    handleSubmit(handleSubmitFilter)()
+  }, [date, sampleCompleted])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -54,19 +157,23 @@ export default function EditSelectPage() {
 
   async function expandId(samples: SampleResponseDto[]) {
     const promises = samples.map(async (sample) => {
-      const { patientId, sampleTypeIds, results } = sample
+      const { patientId, results } = sample
       getPatient({ id: patientId }, true).then((res) => {
-        setPatients((cache) => ({
-          ...cache,
-          [patientId]: res.data!,
-        }))
+        setPatients((cache) =>
+          Object.assign({}, cache, {
+            ...cache,
+            [patientId]: res.data!,
+          })
+        )
       })
       results.map(({ testId }) => {
         getTest({ id: testId }, true).then((res) => {
-          setTests((cache) => ({
-            ...cache,
-            [testId]: res.data!,
-          }))
+          setTests((cache) =>
+            Object.assign({}, cache, {
+              ...cache,
+              [testId]: res.data!,
+            })
+          )
         })
       })
     })
@@ -86,6 +193,47 @@ export default function EditSelectPage() {
 
   return (
     <Box sx={{ p: 2 }}>
+      <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
+        <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
+          <Grid container spacing={2}>
+            <Grid xs={2}>
+              <FormDateTimePicker
+                control={control}
+                name="date"
+                dateOnly
+                label="Ngày nhận bệnh"
+                disabled={watch('sampleId')?.length > 0}
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="sampleCompleted"
+                label="Trạng thái"
+                options={[
+                  { label: 'Tất cả', value: 'all' },
+                  { label: 'Đầy đủ kết quả', value: 'true' },
+                  { label: 'Thiếu kết quả', value: 'false' },
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={4}>
+              <input type="submit" style={{ display: 'none' }} />
+            </Grid>
+            <Grid xs={3}>
+              <FormTextField
+                fullWidth
+                control={control}
+                name="sampleId"
+                label="ID XN"
+              />
+            </Grid>
+          </Grid>
+        </FormContainer>
+      </Paper>
       <DataTable
         cellOutline
         disableSelectionOnClick
@@ -186,6 +334,7 @@ export default function EditSelectPage() {
               <GridActionsCellItem
                 icon={<EditIcon />}
                 label="Sửa"
+                color={row.sampleCompleted ? 'default' : 'secondary'}
                 onClick={handleEditClick(row)}
               />,
             ],

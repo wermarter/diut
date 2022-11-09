@@ -19,6 +19,7 @@ export type FormSelectProps<
   getOptionLabel: (option: OptionType) => string
   getOptionValue: (option: OptionType) => string
   disableError?: boolean
+  size?: 'small' | 'medium'
 }
 
 export function FormSelect<
@@ -32,6 +33,7 @@ export function FormSelect<
   getOptionLabel,
   getOptionValue,
   disableError = false,
+  size = 'small',
 }: FormSelectProps<TFieldValues, OptionType>) {
   return (
     <Controller
@@ -46,7 +48,7 @@ export function FormSelect<
           : {}
 
         return (
-          <FormControl fullWidth size="small" error={errorProps.error}>
+          <FormControl fullWidth size={size} error={errorProps.error}>
             <InputLabel shrink>{label}</InputLabel>
             <Select
               {...formFields}

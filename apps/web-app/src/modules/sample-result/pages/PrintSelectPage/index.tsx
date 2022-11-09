@@ -4,8 +4,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
-import { Box } from '@mui/material'
 import { Gender } from '@diut/common'
+import { Box, Paper } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 
 import {
   SampleResponseDto,
@@ -22,26 +23,70 @@ import {
 import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import { useTypedSelector } from 'src/core'
-import { selectUserId } from 'src/modules/auth'
+import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
+import {
+  FormContainer,
+  FormDateTimePicker,
+  FormTextField,
+} from 'src/common/form-elements'
+import { useForm } from 'react-hook-form'
+
+interface FilterData {
+  date: Date
+  sampleId: string
+}
 
 export default function PrintSelectPage() {
   const userId = useTypedSelector(selectUserId)
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
 
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    offset: 0,
-    limit: 10,
-    sort: { createdAt: -1 },
-    filter: {
-      infoCompleted: true,
-      sampleCompleted: true,
-      resultBy: userId,
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination({
+      offset: 0,
+      limit: 10,
+      sort: { createdAt: -1 },
+      filter: {
+        infoCompleted: true,
+        sampleCompleted: true,
+        resultBy: userIsAdmin ? undefined : userId,
+      },
+    })
+
+  const { control, handleSubmit, watch } = useForm<FilterData>({
+    defaultValues: {
+      date: new Date(),
+      sampleId: '',
     },
   })
+  const date = watch('date')
+  useEffect(() => {
+    handleSubmit(handleSubmitFilter)()
+  }, [date])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
   })
+
+  const handleSubmitFilter = ({ date, sampleId }: FilterData) => {
+    return setFilterObj((obj) => ({
+      ...obj,
+      filter: {
+        ...obj.filter,
+        sampleId:
+          sampleId.length > 0
+            ? { $regex: '^' + sampleId, $options: 'i' }
+            : undefined,
+        infoAt:
+          sampleId.length > 0
+            ? undefined
+            : {
+                $gte: format(date, 'yyyy-MM-dd') + 'T00:00:00.000Z',
+                $lte: format(date, 'yyyy-MM-dd') + 'T23:59:59.999Z',
+              },
+      },
+    }))
+  }
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
@@ -59,17 +104,21 @@ export default function PrintSelectPage() {
     const promises = samples.map(async (sample) => {
       const { patientId, results } = sample
       getPatient({ id: patientId }, true).then((res) => {
-        setPatients((cache) => ({
-          ...cache,
-          [patientId]: res.data!,
-        }))
+        setPatients((cache) =>
+          Object.assign({}, cache, {
+            ...cache,
+            [patientId]: res.data!,
+          })
+        )
       })
       results.map(({ testId }) => {
         getTest({ id: testId }, true).then((res) => {
-          setTests((cache) => ({
-            ...cache,
-            [testId]: res.data!,
-          }))
+          setTests((cache) =>
+            Object.assign({}, cache, {
+              ...cache,
+              [testId]: res.data!,
+            })
+          )
         })
       })
     })
@@ -105,6 +154,32 @@ export default function PrintSelectPage() {
 
   return (
     <Box sx={{ p: 2 }}>
+      <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
+        <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
+          <Grid container spacing={2}>
+            <Grid xs={2}>
+              <FormDateTimePicker
+                control={control}
+                name="date"
+                dateOnly
+                label="Ngày nhận bệnh"
+                disabled={watch('sampleId')?.length > 0}
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormTextField
+                fullWidth
+                control={control}
+                name="sampleId"
+                label="ID XN"
+              />
+            </Grid>
+            <Grid xs={7}>
+              <input type="submit" style={{ display: 'none' }} />
+            </Grid>
+          </Grid>
+        </FormContainer>
+      </Paper>
       <DataTable
         cellOutline
         disableSelectionOnClick

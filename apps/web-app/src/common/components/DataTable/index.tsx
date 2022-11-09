@@ -31,6 +31,7 @@ export function DataTable<R extends GridValidRowModel>({
         }
         return null
       }}
+      getEstimatedRowHeight={() => 100}
       sx={[
         {
           '.MuiDataGrid-columnHeader:focus-within': {

@@ -145,7 +145,7 @@ export default function InfoInputPage() {
           resetState()
         })}
       >
-        <Paper sx={{ p: 2, mb: 4 }} elevation={5}>
+        <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
           <Grid container spacing={2}>
             {/* ----------------------------- Row 1 ----------------------------- */}
             <Grid xs={2}>

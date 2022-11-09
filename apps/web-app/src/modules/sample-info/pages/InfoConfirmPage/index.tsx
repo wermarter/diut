@@ -5,7 +5,8 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { Gender } from '@diut/common'
-import { Box } from '@mui/material'
+import { Box, Paper } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 
 import {
   SampleResponseDto,
@@ -19,31 +20,90 @@ import {
   useLazyPatientFindByIdQuery,
 } from 'src/api/patient'
 import { useTypedSelector } from 'src/core'
-import { selectUserId } from 'src/modules/auth'
+import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
 import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import { infoConfirmPageLoader } from './loader'
+import {
+  FormContainer,
+  FormDateTimePicker,
+  FormSelect,
+  FormTextField,
+} from 'src/common/form-elements'
+import { useForm } from 'react-hook-form'
+
+interface FilterData {
+  date: Date
+  sampleId: string
+  infoCompleted: 'all' | 'true' | 'false'
+}
 
 export default function InfoConfirmPage() {
   const { indicationMap, doctorMap } = useLoaderData() as Awaited<
     ReturnType<typeof infoConfirmPageLoader>
   >
   const userId = useTypedSelector(selectUserId)
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
 
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    offset: 0,
-    limit: 10,
-    sort: { infoAt: -1 },
-    filter: {
-      infoBy: userId,
-      infoCompleted: false,
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination({
+      offset: 0,
+      limit: 10,
+      sort: { infoAt: -1 },
+      filter: {
+        infoBy: userIsAdmin ? undefined : userId,
+        infoCompleted: false,
+      },
+    })
+
+  const { control, handleSubmit, watch } = useForm<FilterData>({
+    defaultValues: {
+      date: new Date(),
+      sampleId: '',
+      infoCompleted: 'false',
     },
   })
+  const date = watch('date')
+  const infoCompleted = watch('infoCompleted')
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
   })
+
+  const handleSubmitFilter = ({
+    date,
+    sampleId,
+    infoCompleted,
+  }: FilterData) => {
+    return setFilterObj((obj) => ({
+      ...obj,
+      filter: {
+        ...obj.filter,
+        sampleId:
+          sampleId.length > 0
+            ? { $regex: '^' + sampleId, $options: 'i' }
+            : undefined,
+        infoAt:
+          sampleId.length > 0
+            ? undefined
+            : {
+                $gte: format(date, 'yyyy-MM-dd') + 'T00:00:00.000Z',
+                $lte: format(date, 'yyyy-MM-dd') + 'T23:59:59.999Z',
+              },
+        infoCompleted:
+          infoCompleted === 'all'
+            ? undefined
+            : infoCompleted === 'true'
+            ? true
+            : false,
+      },
+    }))
+  }
+
+  useEffect(() => {
+    handleSubmit(handleSubmitFilter)()
+  }, [date, infoCompleted])
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
@@ -61,17 +121,20 @@ export default function InfoConfirmPage() {
     const promises = samples.map(async (sample) => {
       const { patientId, results } = sample
       getPatient({ id: patientId }, true).then((res) => {
-        setPatients((cache) => ({
-          ...cache,
-          [patientId]: res.data!,
-        }))
+        setPatients((cache) =>
+          Object.assign({}, cache, {
+            [patientId]: res.data!,
+          })
+        )
       })
       results.map(({ testId }) => {
         getTest({ id: testId }, true).then((res) => {
-          setTests((cache) => ({
-            ...cache,
-            [testId]: res.data!,
-          }))
+          setTests((cache) =>
+            Object.assign({}, cache, {
+              ...cache,
+              [testId]: res.data!,
+            })
+          )
         })
       })
     })
@@ -103,6 +166,47 @@ export default function InfoConfirmPage() {
 
   return (
     <Box sx={{ p: 2 }}>
+      <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
+        <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
+          <Grid container spacing={2}>
+            <Grid xs={2}>
+              <FormDateTimePicker
+                control={control}
+                name="date"
+                dateOnly
+                label="Ngày nhận bệnh"
+                disabled={watch('sampleId')?.length > 0}
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="infoCompleted"
+                label="Trạng thái"
+                options={[
+                  { label: 'Tất cả', value: 'all' },
+                  { label: 'Đã xác nhận', value: 'true' },
+                  { label: 'Chưa xác nhận', value: 'false' },
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={4}>
+              <input type="submit" style={{ display: 'none' }} />
+            </Grid>
+            <Grid xs={3}>
+              <FormTextField
+                fullWidth
+                control={control}
+                name="sampleId"
+                label="ID XN"
+              />
+            </Grid>
+          </Grid>
+        </FormContainer>
+      </Paper>
       <DataTable
         cellOutline
         disableSelectionOnClick
@@ -116,15 +220,18 @@ export default function InfoConfirmPage() {
             type: 'actions',
             width: 50,
             cellClassName: 'actions',
-            getActions: ({ row }) => [
-              <GridActionsCellItem
-                icon={<CheckIcon />}
-                label="Xác nhận"
-                color="primary"
-                onClick={handleConfirmClick(row)}
-                disabled={isConfirming}
-              />,
-            ],
+            getActions: ({ row }) =>
+              row.infoCompleted
+                ? []
+                : [
+                    <GridActionsCellItem
+                      icon={<CheckIcon />}
+                      label="Xác nhận"
+                      color="primary"
+                      onClick={handleConfirmClick(row)}
+                      disabled={isConfirming}
+                    />,
+                  ],
           },
           {
             field: 'infoAt',

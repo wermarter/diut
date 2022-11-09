@@ -12,6 +12,8 @@ export type FormDateTimePickerProps<T extends FieldValues = FieldValues> = {
   label: string
   control: Control<T>
   disableError?: boolean
+  dateOnly?: boolean
+  disabled?: boolean
 }
 
 export function FormDateTimePicker<
@@ -21,6 +23,8 @@ export function FormDateTimePicker<
   label,
   control,
   disableError = false,
+  dateOnly = false,
+  disabled = false,
 }: FormDateTimePickerProps<TFieldValues>) {
   return (
     <Controller
@@ -37,23 +41,29 @@ export function FormDateTimePicker<
             }
           : {}
         return (
-          <FormControl fullWidth>
+          <FormControl fullWidth disabled={disabled}>
             <InputLabel shrink error={errorProps.error}>
               {label}
             </InputLabel>
             <OutlinedInput
               error={errorProps.error}
-              type="datetime-local"
+              type={dateOnly ? 'date' : 'datetime-local'}
               inputRef={ref}
               label={label}
               notched
               title={label}
-              value={format(value, 'yyyy-MM-dd HH:mm')}
+              value={format(
+                value,
+                dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm'
+              )}
               onChange={(e) => {
                 onChange(new Date(e.target.value))
               }}
               inputProps={{
-                max: format(Date.now(), 'yyyy-MM-dd HH:mm'),
+                max: format(
+                  Date.now(),
+                  dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm'
+                ),
               }}
               {...formFields}
             />

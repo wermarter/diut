@@ -1,5 +1,7 @@
 import { Body, Logger, Param, Res } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
+import { NodeEnv } from '@diut/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'
@@ -14,7 +16,10 @@ import { AuthTokenPayload, ReqUser } from 'src/auth'
 export class SampleController {
   private logger: Logger
 
-  constructor(private sampleService: SampleService) {
+  constructor(
+    private sampleService: SampleService,
+    private configService: ConfigService
+  ) {
     this.logger = new Logger(SampleController.name)
   }
 
@@ -81,6 +86,9 @@ export class SampleController {
 
   @AppRoute({ path: 'preview/:id', isPublic: true })
   preview(@Param('id', ObjectIdPipe) id: string) {
+    if (this.configService.get('env') !== NodeEnv.Development) {
+      return
+    }
     return this.sampleService.previewById(id)
   }
 }
