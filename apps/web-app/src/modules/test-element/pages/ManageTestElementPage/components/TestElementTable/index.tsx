@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { toast } from 'react-toastify'
 import { PatientCategory } from '@diut/common'
+import { useLoaderData } from 'react-router-dom'
 
 import {
   useTestElementCreateMutation,
@@ -19,7 +20,6 @@ import {
   TestElementResponseDto,
   HighlightRuleDto,
 } from 'src/api/test-element'
-import { useTestCategorySearchQuery } from 'src/api/test-category'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
 import {
@@ -30,35 +30,26 @@ import {
   useTestElementColumns,
   NO_NOTE,
 } from './columns'
-import { useLazyTestSearchQuery, useTestSearchQuery } from 'src/api/test'
+import { useLazyTestSearchQuery } from 'src/api/test'
 import { HighlightRuleEditor } from './HighlightRuleEditor'
+import { manageTestElemenentPageLoader } from '../../loader'
 
 const ALL_CATEGORIES = 'ALL_CATEGORIES'
 const ALL_TESTS = 'ALL_TESTS'
 
 export function TestElementTable() {
+  const { testCategories, testRes } = useLoaderData() as Awaited<
+    ReturnType<typeof manageTestElemenentPageLoader>
+  >
+
   const [ruleRow, setRuleRow] = React.useState<TestElementResponseDto | null>(
     null
   )
-
-  const { data: categoryRes, isFetching: isLoadingTestCategories } =
-    useTestCategorySearchQuery({
-      searchTestCategoryRequestDto: {
-        sort: { index: 1 },
-      },
-    })
-
-  const testCategories = categoryRes?.items ?? []
 
   const [selectedCategoryId, setSelectedCategoryId] =
     React.useState<string>(ALL_CATEGORIES)
   const [selectedTestId, setSelectedTestId] = React.useState<string>(ALL_TESTS)
 
-  const { data: testRes, isFetching: isLoadingTests } = useTestSearchQuery({
-    searchTestRequestDto: {
-      sort: { index: 1 },
-    },
-  })
   const [searchTest, { data: testLazyRes, isFetching: isLoadingLazyTest }] =
     useLazyTestSearchQuery()
 
@@ -122,7 +113,7 @@ export function TestElementTable() {
   const [deleteTestElement, { isLoading: isDeleting }] =
     useTestElementDeleteByIdMutation()
 
-  return data?.items !== undefined && !isLoadingTestCategories ? (
+  return data?.items !== undefined ? (
     <>
       <CrudTable
         items={data?.items}
@@ -199,7 +190,7 @@ export function TestElementTable() {
               fullWidth
               size="small"
               sx={{ minWidth: '300px' }}
-              disabled={isLoadingTests || isLoadingLazyTest}
+              disabled={isLoadingLazyTest}
             >
               <InputLabel>Tên xét nghiệm</InputLabel>
               <Select

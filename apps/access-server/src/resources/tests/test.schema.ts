@@ -1,3 +1,4 @@
+import { PrintForm } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
 
@@ -33,4 +34,7 @@ export class Test extends BaseSchema {
 
   @Prop({ required: true })
   index: number
+
+  @Prop({ required: true })
+  printForm: PrintForm
 }

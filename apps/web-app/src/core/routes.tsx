@@ -12,6 +12,8 @@ import { editResultPageLoader } from 'src/modules/sample-result/pages/EditResult
 import { infoInputPageLoader } from 'src/modules/sample-info/pages/InfoInputPage/loader'
 import { infoConfirmPageLoader } from 'src/modules/sample-info/pages/InfoConfirmPage/loader'
 import { editSelectPageLoader } from 'src/modules/sample-result/pages/EditSelectPage/loader'
+import { manageTestPageLoader } from 'src/modules/test/pages/ManageTestPage/loader'
+import { manageTestElemenentPageLoader } from 'src/modules/test-element/pages/ManageTestElementPage/loader'
 
 //#region Lazy import pages
 const ManageDoctorPage = React.lazy(
@@ -62,9 +64,6 @@ const EditSelectPage = React.lazy(
 const PrintSelectPage = React.lazy(
   () => import('src/modules/sample-result/pages/PrintSelectPage')
 )
-const PrintResultPage = React.lazy(
-  () => import('src/modules/sample-result/pages/PrintResultPage')
-)
 //#endregion
 
 export const appRoutes: CustomRouteObject[] = [
@@ -112,10 +111,12 @@ export const appRoutes: CustomRouteObject[] = [
           {
             path: 'tests',
             element: <ManageTestPage />,
+            loader: manageTestPageLoader,
           },
           {
             path: 'test-elements',
             element: <ManageTestElementPage />,
+            loader: manageTestElemenentPageLoader,
           },
           {
             path: 'bio-products',
@@ -170,12 +171,8 @@ export const appRoutes: CustomRouteObject[] = [
             loader: editResultPageLoader,
           },
           {
-            path: 'print-select',
+            path: 'print',
             element: <PrintSelectPage />,
-          },
-          {
-            path: 'print/:sampleId',
-            element: <PrintResultPage />,
           },
         ],
       },

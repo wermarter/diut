@@ -1,5 +1,7 @@
+import { PrintForm } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import {
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -37,4 +39,11 @@ export class CreateTestRequestDto {
   @IsNumber()
   @Min(1)
   index: number
+
+  @ApiProperty({
+    example: PrintForm.Basic,
+    enum: PrintForm,
+  })
+  @IsEnum(PrintForm)
+  printForm: PrintForm
 }

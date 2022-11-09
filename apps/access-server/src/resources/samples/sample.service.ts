@@ -9,7 +9,13 @@ import { Model } from 'mongoose'
 import { join } from 'path'
 import * as ejs from 'ejs'
 import * as puppeteer from 'puppeteer'
-import { Gender, ID_INDICATION_PREGNANT, PatientCategory } from '@diut/common'
+import {
+  Gender,
+  ID_INDICATION_PREGNANT,
+  NodeEnv,
+  PatientCategory,
+  PrintForm,
+} from '@diut/common'
 
 import { BaseMongoService } from 'src/clients/mongo'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
@@ -24,6 +30,7 @@ import { SampleTypeService } from '../sample-types'
 import { PatientResponseDto } from '../patients/dtos/patient.response-dto'
 import { SampleResponseDto } from './dtos/sample.response-dto'
 import { TestCategory } from '../test-categories'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class SampleService
@@ -39,13 +46,19 @@ export class SampleService
     private readonly indicationService: IndicationService,
     private readonly doctorService: DoctorService,
     private readonly patientTypeService: PatientTypeService,
-    private readonly sampleTypeService: SampleTypeService
+    private readonly sampleTypeService: SampleTypeService,
+    private readonly configService: ConfigService
   ) {
     super(model, new Logger(SampleService.name))
   }
 
   async onModuleInit() {
-    this.browser = await puppeteer.launch({ headless: true })
+    if (this.configService.get('env') === NodeEnv.Development) {
+      // https://github.com/puppeteer/puppeteer/issues/4039
+      this.browser = await puppeteer.launch({ headless: true, pipe: true })
+    } else {
+      this.browser = await puppeteer.launch({ headless: true })
+    }
   }
 
   async onModuleDestroy() {
@@ -179,7 +192,7 @@ export class SampleService
     const sampleData = await this.fetchSampleData(id)
 
     const string = await ejs.renderFile(
-      join(__dirname, '..', '..', 'views', 'print-form-1.ejs'),
+      join(__dirname, '..', '..', `views/print-form/${PrintForm.Basic}.ejs`),
       sampleData
     )
     return string

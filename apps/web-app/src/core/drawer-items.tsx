@@ -60,7 +60,7 @@ export const drawerItems: DrawerItem[] = [
       {
         icon: <PrintIcon />,
         label: 'In KQ',
-        destination: 'result/print-select',
+        destination: 'result/print',
         permission: Permission.ManageResult,
       },
     ],

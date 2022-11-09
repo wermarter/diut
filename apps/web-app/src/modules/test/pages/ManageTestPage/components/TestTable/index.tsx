@@ -1,3 +1,4 @@
+import { printForms } from '@diut/common'
 import {
   FormControl,
   InputLabel,
@@ -5,11 +6,9 @@ import {
   Select,
   Skeleton,
 } from '@mui/material'
-import {
-  BioProductResponseDto,
-  useBioProductSearchQuery,
-} from 'src/api/bio-product'
+import { useLoaderData } from 'react-router-dom'
 
+import { BioProductResponseDto } from 'src/api/bio-product'
 import {
   useTestCreateMutation,
   useTestDeleteByIdMutation,
@@ -17,9 +16,9 @@ import {
   useTestUpdateByIdMutation,
   useLazyTestSearchQuery,
 } from 'src/api/test'
-import { useTestCategorySearchQuery } from 'src/api/test-category'
 import { CrudTable } from 'src/common/components/CrudTable'
 import { useCrudPagination } from 'src/common/hooks'
+import { manageTestPageLoader } from '../../loader'
 import { NO_BIOPRODUCT, useTestColumns } from './columns'
 
 const ALL_CATEGORIES = 'ALL_CATEGORIES'
@@ -37,22 +36,9 @@ function setBioProductId(
 }
 
 export function TestTable() {
-  const { data: categoryRes, isFetching: isLoadingTestCategories } =
-    useTestCategorySearchQuery({
-      searchTestCategoryRequestDto: {
-        sort: { index: 1 },
-      },
-    })
-
-  const { data: bioProductsRes, isFetching: isLoadingBioProducts } =
-    useBioProductSearchQuery({
-      searchBioProductRequestDto: {
-        sort: { index: 1 },
-      },
-    })
-
-  const testCategories = categoryRes?.items ?? []
-  const bioProducts = bioProductsRes?.items ?? []
+  const { testCategories, bioProducts } = useLoaderData() as Awaited<
+    ReturnType<typeof manageTestPageLoader>
+  >
 
   const columns = useTestColumns(testCategories, bioProducts)
 
@@ -71,9 +57,7 @@ export function TestTable() {
   const [updateTest, { isLoading: isUpdating }] = useTestUpdateByIdMutation()
   const [deleteTest, { isLoading: isDeleting }] = useTestDeleteByIdMutation()
 
-  return data?.items !== undefined &&
-    !isLoadingTestCategories &&
-    !isLoadingBioProducts ? (
+  return data?.items !== undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -93,6 +77,9 @@ export function TestTable() {
               (category) => category.name === (item.category as any)
             )?._id!,
             bioProduct: setBioProductId(bioProducts, item.bioProduct as any)!,
+            printForm: printForms.find(
+              (printForm) => printForm.label === (item.printForm as any)
+            )?.value!,
           },
         }).unwrap()
       }}
@@ -109,6 +96,9 @@ export function TestTable() {
               bioProducts,
               newItem.bioProduct as any
             )!,
+            printForm: printForms.find(
+              (printForm) => printForm.label === (newItem.printForm as any)
+            )?.value!,
           },
         }).unwrap()
       }}

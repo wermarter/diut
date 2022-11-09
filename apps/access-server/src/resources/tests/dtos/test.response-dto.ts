@@ -1,6 +1,8 @@
+import { PrintForm } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -47,4 +49,12 @@ export class TestResponseDto extends BaseResourceResponseDto {
   @IsNumber()
   @Min(1)
   index: number
+
+  @Expose()
+  @ApiProperty({
+    example: PrintForm.Basic,
+    enum: PrintForm,
+  })
+  @IsEnum(PrintForm)
+  printForm: PrintForm
 }

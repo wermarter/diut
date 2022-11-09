@@ -1,3 +1,4 @@
+import { PrintForm } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['tests', 'test-categories', 'bio-products'] as const
 const injectedRtkApi = api
@@ -94,6 +95,7 @@ export type TestResponseDto = {
   bioProduct?: BioProductResponseDto
   name: string
   index: number
+  printForm: PrintForm
 }
 export type SearchTestResponseDto = {
   total: number
@@ -112,12 +114,14 @@ export type CreateTestRequestDto = {
   bioProduct?: string
   name: string
   index: number
+  printForm: PrintForm
 }
 export type UpdateTestRequestDto = {
   category?: string
   bioProduct?: string
   name?: string
   index?: number
+  printForm?: PrintForm
 }
 export const {
   useTestSearchQuery,

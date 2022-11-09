@@ -58,10 +58,17 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/samples/print/${queryArg.id}`,
-          responseHandler: async (response: any) =>
-            (window.URL ?? window.webkitURL).createObjectURL(
+          responseHandler: async (response: any) => {
+            const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
               await response.blob()
-            ),
+            )
+            const hiddenElement = document.createElement('a')
+            hiddenElement.href = objectURL
+            hiddenElement.target = '_blank'
+            hiddenElement.click()
+
+            return objectURL
+          },
           cache: 'no-cache',
         }),
         providesTags: ['samples'],

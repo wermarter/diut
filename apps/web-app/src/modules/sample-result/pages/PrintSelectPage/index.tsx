@@ -10,6 +10,7 @@ import { Gender } from '@diut/common'
 import {
   SampleResponseDto,
   SearchSampleResponseDto,
+  useLazySamplePrintByIdQuery,
   useSampleSearchQuery,
   useSampleUpdateByIdMutation,
 } from 'src/api/sample'
@@ -82,8 +83,11 @@ export default function PrintSelectPage() {
     }
   }, [isFetchingSamples, JSON.stringify(filterObj)])
 
+  const [printSample, { isFetching: isDownloading }] =
+    useLazySamplePrintByIdQuery()
+
   const handleConfirmClick = (sample: SampleResponseDto) => () => {
-    navigate('/result/print/' + sample._id)
+    printSample({ id: sample._id })
   }
 
   const [updateSample, { isLoading: isEditing }] = useSampleUpdateByIdMutation()

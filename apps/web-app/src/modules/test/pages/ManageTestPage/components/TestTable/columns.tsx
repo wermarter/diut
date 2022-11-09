@@ -1,4 +1,5 @@
 import { GridColumns } from '@mui/x-data-grid'
+import { printForms } from '@diut/common'
 
 import { BioProductResponseDto, TestResponseDto } from 'src/api/test'
 import { TestCategoryResponseDto } from 'src/api/test-category'
@@ -14,7 +15,7 @@ export function useTestColumns(
       field: 'category',
       headerName: 'Nhóm XN',
       type: 'singleSelect',
-      minWidth: 300,
+      width: 200,
       sortable: false,
       editable: true,
       valueOptions: testCategories?.map((item) => ({
@@ -29,14 +30,14 @@ export function useTestColumns(
       field: 'index',
       headerName: 'Thứ tự',
       type: 'number',
-      minWidth: 100,
+      width: 70,
       sortable: false,
       editable: true,
     },
     {
       field: 'name',
       headerName: 'Tên xét nghiệm',
-      minWidth: 300,
+      minWidth: 200,
       flex: 1,
       sortable: false,
       editable: true,
@@ -56,6 +57,22 @@ export function useTestColumns(
       ),
       valueGetter: ({ value }) => {
         return value?.name ?? ''
+      },
+    },
+    {
+      field: 'printForm',
+      type: 'singleSelect',
+      headerName: 'Form In KQ',
+      width: 150,
+      sortable: false,
+      editable: true,
+      valueOptions: printForms.map(({ label }) => ({
+        label,
+        value: label,
+      })),
+      valueGetter: ({ value }) => {
+        return printForms.find(({ value: formValue }) => formValue === value)
+          ?.label
       },
     },
   ]
