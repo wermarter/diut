@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { Gender, PrintForm } from '@diut/common'
+import { Gender } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
@@ -12,9 +12,7 @@ import { useForm } from 'react-hook-form'
 import {
   SampleResponseDto,
   SearchSampleResponseDto,
-  useSamplePrintMutation,
   useSampleSearchQuery,
-  useSampleUpdateByIdMutation,
 } from 'src/api/sample'
 import { DataTable } from 'src/common/components/DataTable'
 import {
@@ -29,6 +27,10 @@ import {
   FormTextField,
 } from 'src/common/form-elements'
 import { SinglePrintDialog } from './SinglePrintDialog'
+import {
+  SampleTypeResponseDto,
+  useLazySampleTypeFindByIdQuery,
+} from 'src/api/sample-type'
 
 interface FilterData {
   date: Date
@@ -87,6 +89,8 @@ export default function PrintSelectPage() {
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
   const [getTest, { isFetching: isFetchingTests }] = useLazyTestFindByIdQuery()
+  const [getSampleType, { isFetching: isFetchingSampleTypes }] =
+    useLazySampleTypeFindByIdQuery()
 
   const [samples, setSamples] = useState<SearchSampleResponseDto>()
   const [patients, setPatients] = useState<{
@@ -95,10 +99,13 @@ export default function PrintSelectPage() {
   const [tests, setTests] = useState<{
     [id: string]: TestResponseDto
   }>({})
+  const [sampleTypes, setSampleTypes] = useState<{
+    [id: string]: SampleTypeResponseDto
+  }>({})
 
   async function expandId(samples: SampleResponseDto[]) {
     const promises = samples.map(async (sample) => {
-      const { patientId, results } = sample
+      const { patientId, results, sampleTypeIds } = sample
       getPatient({ id: patientId }, true).then((res) => {
         setPatients((cache) =>
           Object.assign({}, cache, {
@@ -117,6 +124,16 @@ export default function PrintSelectPage() {
           )
         })
       })
+      sampleTypeIds.map((sampleTypeId) => {
+        getSampleType({ id: sampleTypeId }, true).then((res) => {
+          setSampleTypes((cache) =>
+            Object.assign({}, cache, {
+              ...cache,
+              [sampleTypeId]: res.data!,
+            })
+          )
+        })
+      })
     })
     return Promise.all(promises)
   }
@@ -129,31 +146,13 @@ export default function PrintSelectPage() {
   }, [isFetchingSamples, JSON.stringify(filterObj)])
 
   const [printSample, setPrintSample] = useState<SampleResponseDto | null>(null)
-  const [triggerPrint] = useSamplePrintMutation()
 
   const handleConfirmClick = (sample: SampleResponseDto) => () => {
-    // setPrintSample(sample)
-    triggerPrint({
-      printSampleRequestDto: {
-        samples: [
-          { sampleId: sample._id, printForm: PrintForm.Basic },
-          { sampleId: sample._id, printForm: PrintForm.HIV },
-        ],
-      },
-    })
+    setPrintSample(sample)
   }
 
-  const [updateSample, { isLoading: isEditing }] = useSampleUpdateByIdMutation()
-
   const handleEditClick = (sample: SampleResponseDto) => () => {
-    updateSample({
-      id: sample._id,
-      updateSampleRequestDto: {
-        sampleCompleted: false,
-      },
-    }).then(() => {
-      navigate('/result/edit/' + sample.patientId + '/' + sample._id)
-    })
+    navigate('/result/edit/' + sample.patientId + '/' + sample._id)
   }
 
   return (
@@ -189,7 +188,12 @@ export default function PrintSelectPage() {
         disableSelectionOnClick
         rows={samples?.items || []}
         autoRowHeight
-        loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
+        loading={
+          isFetchingSamples ||
+          isFetchingPatients ||
+          isFetchingTests ||
+          isFetchingSampleTypes
+        }
         getRowId={(row) => row._id}
         columns={[
           {
@@ -286,7 +290,6 @@ export default function PrintSelectPage() {
                 icon={<EditIcon />}
                 label="Sửa KQ"
                 onClick={handleEditClick(row)}
-                disabled={isEditing}
               />,
             ],
           },
@@ -301,6 +304,9 @@ export default function PrintSelectPage() {
       />
       <SinglePrintDialog
         sample={printSample}
+        sampleTypes={printSample?.sampleTypeIds?.map(
+          (sampleTypeId) => sampleTypes[sampleTypeId]?.name
+        )}
         onClose={() => {
           setPrintSample(null)
         }}

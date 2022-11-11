@@ -11,10 +11,10 @@ export const authorizationInjector: InjectorFunction<{
   if (!checkPermissionSync(requestedPermission)) {
     throw new UnauthorizedException({
       message: 'Bạn không có quyền truy cập trang này.',
-      actionLabel: 'Yêu cầu cấp quyền',
-      action: () => {
-        alert('Cấp quyền hộ cái :)')
-      },
+      // actionLabel: 'Yêu cầu cấp quyền',
+      // action: () => {
+      //   alert('Cấp quyền hộ cái :)')
+      // },
     })
   }
 }

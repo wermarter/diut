@@ -44,7 +44,6 @@ export class SinglePrintRequestDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   authorPosition?: string
 
   @ApiProperty({
@@ -53,7 +52,6 @@ export class SinglePrintRequestDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   authorName?: string
 
   @ApiProperty({
