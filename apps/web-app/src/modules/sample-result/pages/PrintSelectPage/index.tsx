@@ -4,14 +4,15 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { Gender } from '@diut/common'
+import { Gender, PrintForm } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { useForm } from 'react-hook-form'
 
 import {
   SampleResponseDto,
   SearchSampleResponseDto,
-  useLazySamplePrintByIdQuery,
+  useSamplePrintMutation,
   useSampleSearchQuery,
   useSampleUpdateByIdMutation,
 } from 'src/api/sample'
@@ -22,14 +23,12 @@ import {
 } from 'src/api/patient'
 import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
-import { useTypedSelector } from 'src/core'
-import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
 import {
   FormContainer,
   FormDateTimePicker,
   FormTextField,
 } from 'src/common/form-elements'
-import { useForm } from 'react-hook-form'
+import { SinglePrintDialog } from './SinglePrintDialog'
 
 interface FilterData {
   date: Date
@@ -37,8 +36,6 @@ interface FilterData {
 }
 
 export default function PrintSelectPage() {
-  const userId = useTypedSelector(selectUserId)
-  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
@@ -49,7 +46,6 @@ export default function PrintSelectPage() {
       filter: {
         infoCompleted: true,
         sampleCompleted: true,
-        resultBy: userIsAdmin ? undefined : userId,
       },
     })
 
@@ -132,11 +128,19 @@ export default function PrintSelectPage() {
     }
   }, [isFetchingSamples, JSON.stringify(filterObj)])
 
-  const [printSample, { isFetching: isDownloading }] =
-    useLazySamplePrintByIdQuery()
+  const [printSample, setPrintSample] = useState<SampleResponseDto | null>(null)
+  const [triggerPrint] = useSamplePrintMutation()
 
   const handleConfirmClick = (sample: SampleResponseDto) => () => {
-    printSample({ id: sample._id })
+    // setPrintSample(sample)
+    triggerPrint({
+      printSampleRequestDto: {
+        samples: [
+          { sampleId: sample._id, printForm: PrintForm.Basic },
+          { sampleId: sample._id, printForm: PrintForm.HIV },
+        ],
+      },
+    })
   }
 
   const [updateSample, { isLoading: isEditing }] = useSampleUpdateByIdMutation()
@@ -171,7 +175,7 @@ export default function PrintSelectPage() {
                 fullWidth
                 control={control}
                 name="sampleId"
-                label="ID XN"
+                label="ID xét nghiệm"
               />
             </Grid>
             <Grid xs={7}>
@@ -294,6 +298,12 @@ export default function PrintSelectPage() {
         pageSize={samples?.limit ?? 10}
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
+      />
+      <SinglePrintDialog
+        sample={printSample}
+        onClose={() => {
+          setPrintSample(null)
+        }}
       />
     </Box>
   )

@@ -10,6 +10,7 @@ import {
   Paper,
   TextField,
   Box,
+  Typography,
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
@@ -26,13 +27,10 @@ import {
   useSampleDeleteByIdMutation,
   useSampleUpdateByIdMutation,
 } from 'src/api/sample'
-import {
-  usePatientDeleteByIdMutation,
-  usePatientUpdateByIdMutation,
-} from 'src/api/patient'
+import { usePatientUpdateByIdMutation } from 'src/api/patient'
 import { infoEditPageLoader } from './loader'
 import { useTypedSelector } from 'src/core'
-import { selectUserIsAdmin } from 'src/modules/auth'
+import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
 
 const currentYear = new Date().getFullYear()
 
@@ -40,6 +38,7 @@ export default function InfoEditPage() {
   const navigate = useNavigate()
   const { sampleId, patientId } = useParams()
   const {
+    author,
     sampleInfo,
     patientInfo,
     patientTypes,
@@ -48,6 +47,7 @@ export default function InfoEditPage() {
     sampleTypes,
   } = useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
+  const userId = useTypedSelector(selectUserId)
 
   const {
     control,
@@ -90,8 +90,6 @@ export default function InfoEditPage() {
 
   const [deleteSample, { isLoading: isDeletingSample }] =
     useSampleDeleteByIdMutation()
-  const [deletePatient, { isLoading: isDeletingPatient }] =
-    usePatientDeleteByIdMutation()
 
   return (
     <Box sx={{ p: 2 }}>
@@ -104,12 +102,14 @@ export default function InfoEditPage() {
         >
           Quay về
         </Button>
-        {userIsAdmin && (
-          <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Typography sx={{ fontStyle: 'italic', mr: 2 }}>
+            {author.name}
+          </Typography>
+          {(userIsAdmin || userId === author._id) && (
             <Button
-              sx={{ mx: 1 }}
               variant="contained"
-              color="warning"
+              color="error"
               onClick={() => {
                 deleteSample({ id: sampleInfo._id })
                   .unwrap()
@@ -122,26 +122,8 @@ export default function InfoEditPage() {
             >
               Xoá mẫu XN
             </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => {
-                if (confirm('Tất cả các mẫu XN của bệnh sẽ bị xoá theo!')) {
-                  Promise.all([
-                    deletePatient({ id: patientInfo._id }).unwrap(),
-                    deleteSample({ id: sampleInfo._id }).unwrap(),
-                  ]).then(() => {
-                    toast.success(`Đã xoá bệnh nhân: ${patientInfo.name}`)
-                    navigate('/info/confirm')
-                  })
-                }
-              }}
-              disabled={isDeletingPatient}
-            >
-              Xoá bệnh nhân
-            </Button>
-          </div>
-        )}
+          )}
+        </div>
       </Box>
       <FormContainer
         onSubmit={handleSubmit((values) => {
@@ -159,6 +141,8 @@ export default function InfoEditPage() {
               id: sampleId!,
               updateSampleRequestDto: {
                 ...values,
+                sampleCompleted: false,
+                infoCompleted: false,
                 results: sampleInfo.results,
                 sampledAt: values.sampledAt.toISOString(),
                 infoAt: values.infoAt.toISOString(),
@@ -170,11 +154,12 @@ export default function InfoEditPage() {
           })
         })}
       >
-        <Paper sx={{ p: 2, mb: 4 }} elevation={5}>
+        <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
           <Grid container spacing={2}>
             {/* ----------------------------- Row 1 ----------------------------- */}
             <Grid xs={2}>
               <FormTextField
+                autoComplete="off"
                 name="externalId"
                 control={control}
                 fullWidth
@@ -184,6 +169,7 @@ export default function InfoEditPage() {
             </Grid>
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="name"
                 control={control}
                 fullWidth
@@ -229,6 +215,7 @@ export default function InfoEditPage() {
             </Grid>
             <Grid xs={2}>
               <FormTextField
+                autoComplete="off"
                 name="birthYear"
                 type="number"
                 size="small"
@@ -239,6 +226,7 @@ export default function InfoEditPage() {
             </Grid>
             <Grid xs={2}>
               <TextField
+                autoComplete="off"
                 name="age"
                 type="number"
                 size="small"
@@ -264,6 +252,7 @@ export default function InfoEditPage() {
             {/* ----------------------------- Row 3 ----------------------------- */}
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="sampleId"
                 size="small"
                 control={control}
@@ -273,6 +262,7 @@ export default function InfoEditPage() {
             </Grid>
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="phoneNumber"
                 size="small"
                 control={control}
@@ -282,6 +272,7 @@ export default function InfoEditPage() {
             </Grid>
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="SSN"
                 control={control}
                 size="small"

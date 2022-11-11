@@ -11,6 +11,7 @@ import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
 import { sampleRoutes } from './sample.routes'
 import { SampleService } from './sample.service'
 import { AuthTokenPayload, ReqUser } from 'src/auth'
+import { PrintSampleRequestDto } from './dtos/print-sample.request-dto'
 
 @AppController(sampleRoutes.controller)
 export class SampleController {
@@ -67,9 +68,9 @@ export class SampleController {
     return this.sampleService.deleteById(id)
   }
 
-  @AppRoute(sampleRoutes.printById)
-  async printById(@Param('id', ObjectIdPipe) id: string, @Res() res: Response) {
-    const buffer = await this.sampleService.printById(id)
+  @AppRoute(sampleRoutes.print)
+  async print(@Body() body: PrintSampleRequestDto, @Res() res: Response) {
+    const buffer = await this.sampleService.print(body.samples)
 
     res.set({
       'Content-Type': 'application/pdf',
@@ -89,6 +90,6 @@ export class SampleController {
     if (this.configService.get('env') !== NodeEnv.Development) {
       return
     }
-    return this.sampleService.previewById(id)
+    return this.sampleService.prepareSampleContent({ sampleId: id })
   }
 }

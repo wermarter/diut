@@ -151,6 +151,7 @@ export default function InfoInputPage() {
             <Grid xs={2}>
               <FormTextField
                 name="externalId"
+                autoComplete="off"
                 control={control}
                 fullWidth
                 label="ID Phòng khám"
@@ -160,6 +161,7 @@ export default function InfoInputPage() {
             <Grid xs={4}>
               <FormTextField
                 name="name"
+                autoComplete="off"
                 control={control}
                 fullWidth
                 label="Họ tên"
@@ -205,6 +207,7 @@ export default function InfoInputPage() {
             <Grid xs={2}>
               <FormTextField
                 name="birthYear"
+                autoComplete="off"
                 type="number"
                 size="small"
                 control={control}
@@ -215,6 +218,7 @@ export default function InfoInputPage() {
             <Grid xs={2}>
               <TextField
                 name="age"
+                autoComplete="off"
                 type="number"
                 size="small"
                 value={age}
@@ -239,6 +243,7 @@ export default function InfoInputPage() {
             {/* ----------------------------- Row 3 ----------------------------- */}
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="sampleId"
                 size="small"
                 control={control}
@@ -248,6 +253,7 @@ export default function InfoInputPage() {
             </Grid>
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="phoneNumber"
                 size="small"
                 control={control}
@@ -257,6 +263,7 @@ export default function InfoInputPage() {
             </Grid>
             <Grid xs={4}>
               <FormTextField
+                autoComplete="off"
                 name="SSN"
                 control={control}
                 size="small"

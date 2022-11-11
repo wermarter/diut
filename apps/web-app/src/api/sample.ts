@@ -1,3 +1,4 @@
+import { PrintForm } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['samples'] as const
 const injectedRtkApi = api
@@ -52,12 +53,12 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['samples'],
       }),
-      samplePrintById: build.query<
-        SamplePrintByIdApiResponse,
-        SamplePrintByIdApiArg
-      >({
+      samplePrint: build.mutation<SamplePrintApiResponse, SamplePrintApiArg>({
         query: (queryArg) => ({
-          url: `/api/samples/print/${queryArg.id}`,
+          url: `/api/samples/print`,
+          method: 'POST',
+          body: queryArg.printSampleRequestDto,
+          cache: 'no-cache',
           responseHandler: async (response: any) => {
             const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
               await response.blob()
@@ -69,9 +70,7 @@ const injectedRtkApi = api
 
             return objectURL
           },
-          cache: 'no-cache',
         }),
-        providesTags: ['samples'],
       }),
     }),
     overrideExisting: false,
@@ -98,9 +97,9 @@ export type SampleDeleteByIdApiResponse = /** status 200  */ SampleResponseDto
 export type SampleDeleteByIdApiArg = {
   id: string
 }
-export type SamplePrintByIdApiResponse = unknown
-export type SamplePrintByIdApiArg = {
-  id: string
+export type SamplePrintApiResponse = unknown
+export type SamplePrintApiArg = {
+  printSampleRequestDto: PrintSampleRequestDto
 }
 export type TestElementResultDto = {
   id: string
@@ -173,6 +172,16 @@ export type UpdateSampleRequestDto = {
   infoCompleted?: boolean
   sampleCompleted?: boolean
 }
+export type SinglePrintRequestDto = {
+  sampleId: string
+  printForm?: PrintForm
+  authorPosition?: string
+  authorName?: string
+  sampleTypes?: string[]
+}
+export type PrintSampleRequestDto = {
+  samples: SinglePrintRequestDto[]
+}
 export const {
   useSampleSearchQuery,
   useLazySampleSearchQuery,
@@ -181,6 +190,5 @@ export const {
   useSampleFindByIdQuery,
   useLazySampleFindByIdQuery,
   useSampleDeleteByIdMutation,
-  useSamplePrintByIdQuery,
-  useLazySamplePrintByIdQuery,
+  useSamplePrintMutation,
 } = injectedRtkApi

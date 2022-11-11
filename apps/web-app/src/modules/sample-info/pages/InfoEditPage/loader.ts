@@ -7,6 +7,7 @@ import { patientApi } from 'src/api/patient'
 import { patientTypeApi } from 'src/api/patient-type'
 import { sampleApi } from 'src/api/sample'
 import { sampleTypeApi } from 'src/api/sample-type'
+import { userApi } from 'src/api/user'
 
 export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
   const { sampleId, patientId } = params
@@ -62,7 +63,14 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
       .unwrap(),
   ])
 
+  const author = await appStore
+    .dispatch(
+      userApi.endpoints.userFindById.initiate({ id: sampleInfo.infoBy })
+    )
+    .unwrap()
+
   return {
+    author,
     sampleInfo,
     patientInfo,
     patientTypes,

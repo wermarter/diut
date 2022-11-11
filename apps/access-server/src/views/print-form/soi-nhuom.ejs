@@ -12,6 +12,7 @@
     </style>
   </head>
   <body>
+    <h1 class="text-5xl">Form Soi Nhuộm</h1>
     <div class="m-8">
       <p class="text-base">
         ID_XN: <span class="font-bold"> <%= sample.sampleId %> </span>
@@ -53,8 +54,7 @@
           ><%= sample.sampledAt.toLocaleString('vi') %></span
         >
       </p>
-
-      <p class="text-base">Kết quả:</p>
+      <hr />
       <table class="table-auto" style="width: 100%">
         <thead>
           <tr>
@@ -65,9 +65,13 @@
           </tr>
         </thead>
         <tbody>
-          <% tests.forEach(test => { %>
+          <% results.forEach(category => { %>
           <tr>
-            <td class="font-bold"><%= test.name %></td>
+            <td class="font-bold"><%= category.categoryName %></td>
+          </tr>
+          <% category.tests.forEach(test => { %>
+          <tr>
+            <td><%= test.name %></td>
           </tr>
           <% test.elements.forEach(element => { %>
           <tr>
@@ -78,7 +82,7 @@
             <td><%= element.unit %></td>
             <td><%= element.description %></td>
           </tr>
-          <% }) %> <% }) %>
+          <% }) %> <% }) %> <% }) %>
         </tbody>
       </table>
     </div>

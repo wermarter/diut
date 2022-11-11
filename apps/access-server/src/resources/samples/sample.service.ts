@@ -4,6 +4,7 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { join } from 'path'
@@ -16,6 +17,8 @@ import {
   PatientCategory,
   PrintForm,
 } from '@diut/common'
+import { PDFDocument } from 'pdf-lib'
+import { omit } from 'lodash'
 
 import { BaseMongoService } from 'src/clients/mongo'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
@@ -30,7 +33,7 @@ import { SampleTypeService } from '../sample-types'
 import { PatientResponseDto } from '../patients/dtos/patient.response-dto'
 import { SampleResponseDto } from './dtos/sample.response-dto'
 import { TestCategory } from '../test-categories'
-import { ConfigService } from '@nestjs/config'
+import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
 
 @Injectable()
 export class SampleService
@@ -55,9 +58,24 @@ export class SampleService
   async onModuleInit() {
     if (this.configService.get('env') === NodeEnv.Development) {
       // https://github.com/puppeteer/puppeteer/issues/4039
-      this.browser = await puppeteer.launch({ headless: true, pipe: true })
+      this.browser = await puppeteer.launch({
+        headless: true,
+        pipe: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+        ],
+      })
     } else {
-      this.browser = await puppeteer.launch({ headless: true })
+      this.browser = await puppeteer.launch({
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+        ],
+      })
     }
   }
 
@@ -108,7 +126,8 @@ export class SampleService
     })
   }
 
-  async fetchSampleData(id: string) {
+  // Later used for embed data
+  async fetchSampleData(id: string, printForm?: PrintForm) {
     const sample = await this.findById(id)
 
     const [patient, doctor, patientType, indication] = await Promise.all([
@@ -126,32 +145,48 @@ export class SampleService
       )
     )
 
-    const tests: {
-      name: string
-      bioProductName: string
-      index: number
-      categoryName: string
-      categoryIndex: number
-      elements: {
+    const categoryMap: Record<number, string> = {}
+    const testMap: {
+      [categoryIndex: number]: Array<{
+        index: number
         name: string
-        value: string
-        isHighlighted: boolean
-        description: string
-        unit: string
-      }[]
-    }[] = []
+        bioProductName: string
+        elements: {
+          name: string
+          value: string
+          isHighlighted: boolean
+          description: string
+          unit: string
+        }[]
+      }>
+    } = {}
+
     await Promise.all(
       sample.results.map(async (result) => {
+        if (result.testCompleted !== true) {
+          return
+        }
+
         const test = await this.testService.findById(result.testId)
+        if (printForm !== undefined && test.printForm !== printForm) {
+          return
+        }
+
         const elements = await Promise.all(
           result.elements.map(({ id }) => this.testElementService.findById(id))
         )
 
-        tests.push({
-          name: test.name,
+        const { name: categoryName, index: categoryIndex } =
+          test.category as TestCategory
+
+        categoryMap[categoryIndex] = categoryName
+        if (testMap[categoryIndex] === undefined) {
+          testMap[categoryIndex] = []
+        }
+
+        testMap[categoryIndex].push({
           index: test.index,
-          categoryName: (test.category as TestCategory).name,
-          categoryIndex: (test.category as TestCategory).index,
+          name: test.name,
           bioProductName: result.bioProductName,
           elements: elements.map((element, index) => ({
             name: element.name,
@@ -172,52 +207,79 @@ export class SampleService
     )
 
     return {
-      sample,
+      sample: omit(sample, [
+        'patientId',
+        'doctorId',
+        'patientTypeId',
+        'indicationId',
+        'sampleTypeIds',
+        'results',
+      ]),
       patient,
-      tests: tests.sort((a, b) => {
-        const categoryDelta = a.categoryIndex - b.categoryIndex
-        if (categoryDelta !== 0) {
-          return categoryDelta
-        }
-        return a.index - b.index
-      }),
       doctor: doctor.name,
       patientType: patientType.name,
       indication: indication.name,
       sampleTypes: sampleTypes.map(({ name }) => name),
+      results: Object.keys(testMap)
+        .sort()
+        .map((categoryIndex) => ({
+          categoryIndex,
+          categoryName: categoryMap[categoryIndex],
+          tests: testMap[categoryIndex].sort((a, b) => a.index - b.index),
+        })),
     }
   }
 
-  async previewById(id: string) {
-    const sampleData = await this.fetchSampleData(id)
+  async prepareSampleContent(sample: SinglePrintRequestDto) {
+    const printForm = sample.printForm ?? PrintForm.Basic
+    const sampleData = await this.fetchSampleData(sample.sampleId, printForm)
+
+    const authorPosition = sample.authorPosition ?? 'await-position-from-redis'
+    const authorName = sample.authorName ?? 'await-name-from-redis'
+
+    const printData = Object.assign({}, sampleData, {
+      sampleTypes: sample.sampleTypes ?? sampleData.sampleTypes,
+      authorPosition,
+      authorName,
+    })
 
     const string = await ejs.renderFile(
-      join(__dirname, '..', '..', `views/print-form/${PrintForm.Basic}.ejs`),
-      sampleData
+      join(__dirname, '..', '..', `views/print-form/${printForm}.ejs`),
+      printData
     )
     return string
   }
 
-  async printById(id: string) {
-    const pageContent = await this.previewById(id)
+  async print(samples: SinglePrintRequestDto[]) {
+    const pageContents = await Promise.all(
+      samples.map((sample) => this.prepareSampleContent(sample))
+    )
+    const mergedPdf = await PDFDocument.create()
 
-    const page = await this.browser.newPage()
+    // Take it slow to save CPU and preserve print order
+    for (let pageContent of pageContents) {
+      const page = await this.browser.newPage()
+      await page.setContent(pageContent)
+      const buffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: {
+          left: '0px',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+        },
+      })
+      const document = await PDFDocument.load(buffer)
+      const copiedPages = await mergedPdf.copyPages(
+        document,
+        document.getPageIndices()
+      )
+      copiedPages.forEach((page) => mergedPdf.addPage(page))
+      await page.close()
+    }
 
-    await page.setContent(pageContent)
-
-    const buffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        left: '0px',
-        top: '0px',
-        right: '0px',
-        bottom: '0px',
-      },
-    })
-
-    await page.close()
-    return buffer
+    return mergedPdf.save()
   }
 }
 

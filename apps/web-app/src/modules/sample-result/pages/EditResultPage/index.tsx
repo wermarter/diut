@@ -47,7 +47,7 @@ export default function EditResultPage() {
 
   const navigate = useNavigate()
   const { sampleId } = useParams()
-  const { sample, patient } = useLoaderData() as Awaited<
+  const { author, sample, patient } = useLoaderData() as Awaited<
     ReturnType<typeof editResultPageLoader>
   >
 
@@ -202,7 +202,7 @@ export default function EditResultPage() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <FormContainer sx={{ p: 2 }}>
       <Box sx={{ position: 'fixed', width: '200px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
@@ -216,6 +216,7 @@ export default function EditResultPage() {
             Quay về
           </Button>
           <Button
+            type="submit"
             fullWidth
             variant="contained"
             onClick={handleSubmit}
@@ -235,6 +236,9 @@ export default function EditResultPage() {
         >
           <Typography variant="h6">{sample.sampleId}</Typography>
           <Typography variant="h5">{patient.name}</Typography>
+          <Typography fontStyle="italic" sx={{ mt: 2 }}>
+            {author.name}
+          </Typography>
         </Box>
         <List
           sx={{
@@ -260,7 +264,7 @@ export default function EditResultPage() {
           })}
         </List>
       </Box>
-      <FormContainer sx={{ ml: '250px' }}>
+      <Box sx={{ ml: '250px' }}>
         {sortedTests.map((test) => {
           const currentTestState = testState[test._id] ?? {}
           return (
@@ -368,6 +372,7 @@ export default function EditResultPage() {
                           </TableCell>
                           <TableCell width="200px">
                             <TextField
+                              name={element._id}
                               disabled={currentTestState.isLocked}
                               fullWidth
                               variant="standard"
@@ -397,7 +402,7 @@ export default function EditResultPage() {
             </Card>
           )
         })}
-      </FormContainer>
-    </Box>
+      </Box>
+    </FormContainer>
   )
 }

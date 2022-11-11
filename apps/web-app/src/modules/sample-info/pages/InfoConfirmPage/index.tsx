@@ -201,7 +201,7 @@ export default function InfoConfirmPage() {
                 fullWidth
                 control={control}
                 name="sampleId"
-                label="ID XN"
+                label="ID xét nghiệm"
               />
             </Grid>
           </Grid>

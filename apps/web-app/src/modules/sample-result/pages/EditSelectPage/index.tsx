@@ -228,7 +228,7 @@ export default function EditSelectPage() {
                 fullWidth
                 control={control}
                 name="sampleId"
-                label="ID XN"
+                label="ID xét nghiệm"
               />
             </Grid>
           </Grid>

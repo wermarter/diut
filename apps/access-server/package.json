@@ -43,6 +43,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "pdf-lib": "^1.17.1",
     "pino-http": "^8.2.0",
     "prom-client": "^14.1.0",
     "puppeteer": "^19.2.2",

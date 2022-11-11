@@ -81,9 +81,9 @@ export const sampleRoutes = {
     },
   },
 
-  printById: <AppRouteOptions>{
+  print: <AppRouteOptions>{
     permissions: [Permission.ManageResult],
-    path: 'print/:id',
-    method: RequestMethod.GET,
+    path: 'print',
+    method: RequestMethod.POST,
   },
 }
