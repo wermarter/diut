@@ -1,7 +1,7 @@
 import { Body, Logger, Param, Res } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
-import { NodeEnv } from '@diut/common'
+import { NodeEnv, PrintForm } from '@diut/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'
@@ -85,11 +85,14 @@ export class SampleController {
     res.end(buffer)
   }
 
-  @AppRoute({ path: 'preview/:id', isPublic: true })
-  preview(@Param('id', ObjectIdPipe) id: string) {
+  @AppRoute({ path: 'preview/:id/:printForm', isPublic: true })
+  preview(
+    @Param('id', ObjectIdPipe) id: string,
+    @Param('printForm') printForm: PrintForm
+  ) {
     if (this.configService.get('env') !== NodeEnv.Development) {
       return
     }
-    return this.sampleService.prepareSampleContent({ sampleId: id })
+    return this.sampleService.prepareSampleContent({ sampleId: id, printForm })
   }
 }

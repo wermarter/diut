@@ -11,80 +11,140 @@
       }
     </style>
   </head>
-  <body>
-    <h1 class="text-5xl">Form Chung</h1>
-    <div class="m-8">
-      <p class="text-base">
-        ID_XN: <span class="font-bold"> <%= sample.sampleId %> </span>
-      </p>
-      <p class="text-base">
-        Họ và tên: <span class="font-bold"><%= patient.name %></span>
-      </p>
-      <p class="text-base">
-        Địa chỉ: <span class="font-bold"><%= patient.address %></span>
-      </p>
-      <p class="text-base">
-        Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
-      </p>
-      <p class="text-base">
-        Giới tính:
-        <span class="font-bold"
-          ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
-        >
-      </p>
-      <p class="text-base">
-        BS chỉ định: <span class="font-bold"><%= doctor %></span>
-      </p>
-      <p class="text-base">
-        Chẩn đoán: <span class="font-bold"><%= indication %></span>
-      </p>
-      <p class="text-base">
-        Đối tượng: <span class="font-bold"><%= patientType %></span>
-      </p>
-      <p class="text-base">
-        Loại mẫu: <span class="font-bold"><%= sampleTypes.join(', ') %></span>
-      </p>
-      <p class="text-base">
-        TG nhận bệnh:
-        <span class="font-bold"><%= sample.infoAt.toLocaleString('vi') %></span>
-      </p>
-      <p class="text-base">
-        TG lấy mẫu:
-        <span class="font-bold"
-          ><%= sample.sampledAt.toLocaleString('vi') %></span
-        >
-      </p>
-      <hr />
-      <table class="table-auto" style="width: 100%">
-        <thead>
-          <tr>
-            <td>Xét nghiệm</td>
-            <td>Kết quả</td>
-            <td>Đơn vị</td>
-            <td>Trị số tham chiếu</td>
-          </tr>
-        </thead>
-        <tbody>
-          <% results.forEach(category => { %>
-          <tr>
-            <td class="font-bold"><%= category.categoryName %></td>
-          </tr>
-          <% category.tests.forEach(test => { %>
-          <tr>
-            <td><%= test.name %></td>
-          </tr>
-          <% test.elements.forEach(element => { %>
-          <tr>
-            <td><%= element.name %></td>
-            <td class="<%= element.isHighlighted ? 'font-bold' : '' %>">
-              <%= element.value %>
-            </td>
-            <td><%= element.unit %></td>
-            <td><%= element.description %></td>
-          </tr>
-          <% }) %> <% }) %> <% }) %>
-        </tbody>
-      </table>
+  <body class="m-6">
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-col">
+        <div class="flex flex-row">
+          <img src="http://localhost:9000/public/logo.png" width="140px" />
+          <div class="text-center ml-1">
+            <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
+            <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
+            <p class="font-bold">THÀNH PHỐ</p>
+            <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
+            <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
+          </div>
+        </div>
+        <div class="mt-1">
+          <p class="text-base">
+            Họ và tên: <span class="font-bold"><%= patient.name %></span>
+          </p>
+          <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
+
+          <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
+          <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
+        </div>
+      </div>
+      <div class="flex flex-col justify-between">
+        <div>
+          <p class="text-base">
+            ID_XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+          </p>
+          <p class="text-base">
+            Ngày nhận bệnh:
+            <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
+          </p>
+          <p class="text-base">
+            Giờ nhận bệnh:
+            <span
+              ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+            >
+          </p>
+        </div>
+        <div>
+          <div class="flex flex-row">
+            <p class="text-base">
+              Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
+            </p>
+            <p class="text-base ml-2">
+              Giới tính:
+              <span class="font-bold"
+                ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
+              >
+            </p>
+          </div>
+          <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
+          <p class="text-base">
+            Loại mẫu:
+            <span><%= sampleTypes.join(', ').toLocaleLowerCase() %></span>
+          </p>
+          <p class="text-base">
+            Ngày lấy mẫu:
+            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <h1 class="text-xl font-bold text-center my-2">PHIẾU KẾT QUẢ XÉT NGHIỆM</h1>
+    <table class="w-full">
+      <thead class="bg-gray-100 text-sm">
+        <tr>
+          <th scope="col" class="py-3 px-6 border border-gray-300">
+            Xét nghiệm
+          </th>
+          <th scope="col" class="py-3 px-6 border border-gray-300">Kết quả</th>
+          <th scope="col" class="py-3 px-6 border border-gray-300">Đơn vị</th>
+          <th scope="col" class="py-3 px-6 border border-gray-300">
+            Trị số tham chiếu
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach(category => { %>
+        <tr class="border border-gray-300">
+          <td class="pl-2 border border-gray-300 font-bold">
+            <%= category.categoryName %>
+          </td>
+        </tr>
+        <% category.tests.forEach(test => { %> <% if (test.elements.length > 1)
+        { %>
+        <tr class="border border-gray-300">
+          <td class="pl-6 border border-gray-300"><%= test.name %></td>
+        </tr>
+
+        <% test.elements.forEach(element => { %>
+        <tr class="border border-gray-300">
+          <td class="pl-8 border border-gray-300">- <%= element.name %></td>
+          <td
+            class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-bold' : '' %>"
+          >
+            <%= element.value %>
+          </td>
+          <td class="text-left pl-2 border border-gray-300">
+            <%= element.unit %>
+          </td>
+          <td class="text-left pl-2 border border-gray-300">
+            <%= element.description %>
+          </td>
+        </tr>
+        <% }) %> <% } else { %>
+        <tr class="border border-gray-300">
+          <td class="pl-6 border border-gray-300">
+            <%= test.elements[0].name %>
+          </td>
+          <td
+            class="text-center border border-gray-300 <%= test.elements[0].isHighlighted ? 'font-bold' : '' %>"
+          >
+            <%= test.elements[0].value %>
+          </td>
+          <td class="text-left pl-2 border border-gray-300">
+            <%= test.elements[0].unit %>
+          </td>
+          <td class="text-left pl-2 border border-gray-300">
+            <%= test.elements[0].description %>
+          </td>
+        </tr>
+        <% } %> <% }) %> <% }) %>
+      </tbody>
+    </table>
+    <div class="flex flex-row justify-end">
+      <div class="flex flex-col text-center mr-8">
+        <p>
+          Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() %>
+          năm <%= new Date().getFullYear() %>
+        </p>
+        <p class="font-bold"><%= authorPosition %></p>
+        <p><%= authorName %></p>
+      </div>
     </div>
   </body>
 </html>

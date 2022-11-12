@@ -70,6 +70,11 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
             },
           },
           overflowY: 'scroll',
+          msOverflowStyle: 'none',
+          scrollbarWidth: 'none',
+          '::-webkit-scrollbar': {
+            display: 'none',
+          },
         }}
       >
         {drawerItems.map((group, groupIndex) => (
