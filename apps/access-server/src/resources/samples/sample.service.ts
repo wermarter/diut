@@ -243,11 +243,15 @@ export class SampleService
       authorName,
     })
 
-    const string = await ejs.renderFile(
-      join(__dirname, '..', '..', `views/print-form/${printForm}.ejs`),
-      printData
-    )
-    return string
+    try {
+      const string = await ejs.renderFile(
+        join(__dirname, '..', '..', `views/print-form/${printForm}.ejs`),
+        printData
+      )
+      return string
+    } catch {
+      return JSON.stringify(printData.results)
+    }
   }
 
   async print(samples: SinglePrintRequestDto[]) {

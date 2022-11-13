@@ -9,13 +9,19 @@
       * {
         font-family: 'Times New Roman', monospace;
       }
+      @page {
+        margin: 10mm;
+      }
     </style>
   </head>
-  <body class="m-6">
+  <body>
     <div class="flex flex-row justify-between">
       <div class="flex flex-col">
         <div class="flex flex-row">
-          <img src="http://localhost:9000/public/logo.png" width="140px" />
+          <img
+            src="http://localhost:9000/public/logo.png"
+            style="width: 140px; object-fit: contain"
+          />
           <div class="text-center ml-1">
             <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
             <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
@@ -78,12 +84,16 @@
     <table class="w-full">
       <thead class="bg-gray-100 text-sm">
         <tr>
-          <th scope="col" class="py-3 px-6 border border-gray-300">
+          <th scope="col" class="py-2 px-6 border border-gray-300">
             Xét nghiệm
           </th>
-          <th scope="col" class="py-3 px-6 border border-gray-300">Kết quả</th>
-          <th scope="col" class="py-3 px-6 border border-gray-300">Đơn vị</th>
-          <th scope="col" class="py-3 px-6 border border-gray-300">
+          <th scope="col" class="py-2 px-6 border border-gray-300" width="15%">
+            Kết quả
+          </th>
+          <th scope="col" class="py-2 px-6 border border-gray-300" width="13%">
+            Đơn vị
+          </th>
+          <th scope="col" class="py-2 px-6 border border-gray-300" width="22%">
             Trị số tham chiếu
           </th>
         </tr>
@@ -136,7 +146,7 @@
         <% } %> <% }) %> <% }) %>
       </tbody>
     </table>
-    <div class="flex flex-row justify-end">
+    <div class="flex flex-row justify-end mt-2">
       <div class="flex flex-col text-center mr-8">
         <p>
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() %>

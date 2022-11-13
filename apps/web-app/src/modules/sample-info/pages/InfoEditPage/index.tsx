@@ -142,7 +142,7 @@ export default function InfoEditPage() {
               updateSampleRequestDto: {
                 ...values,
                 sampleCompleted: false,
-                infoCompleted: false,
+                infoCompleted: sampleInfo.infoCompleted,
                 results: sampleInfo.results,
                 sampledAt: values.sampledAt.toISOString(),
                 infoAt: values.infoAt.toISOString(),

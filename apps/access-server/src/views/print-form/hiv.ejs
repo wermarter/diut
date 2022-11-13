@@ -9,75 +9,97 @@
       * {
         font-family: 'Times New Roman', monospace;
       }
+      @page {
+        margin: 10mm;
+      }
     </style>
   </head>
-  <body class="m-6">
+  <body>
     <div class="flex flex-row justify-between">
-      <div class="flex flex-col">
-        <div class="flex flex-row">
-          <img src="http://localhost:9000/public/logo.png" width="140px" />
-          <div class="text-center ml-1">
-            <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
-            <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
-            <p class="font-bold">THÀNH PHỐ</p>
-            <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
-            <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
-          </div>
-        </div>
-        <div class="text-center">
-          <p class="text-xl font-bold">KẾT QUẢ XÉT NGHIỆM HIV</p>
-          <p class="text-base">
-            Họ và tên: <span class="font-bold"><%= patient.name %></span>
-          </p>
-          <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
-
-          <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
-          <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
+      <div class="flex flex-row">
+        <img
+          src="http://localhost:9000/public/logo.png"
+          style="width: 120px; object-fit: contain"
+        />
+        <div class="text-center ml-1">
+          <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
+          <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
+          <p class="font-bold">THÀNH PHỐ</p>
+          <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
+          <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
         </div>
       </div>
-      <div class="flex flex-col justify-between">
-        <div>
-          <p class="text-base">
-            ID_XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+      <div class="text-center">
+        <p class="text-xl font-bold my-3">KẾT QUẢ XÉT NGHIỆM HIV</p>
+        <p class="text-base">
+          Ngày lấy mẫu:
+          <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+        </p>
+        <p>Nơi chỉ định: Phòng khám</p>
+        <p>Nơi lấy mẫu: Phòng xét nghiệm</p>
+      </div>
+    </div>
+    <div class="m-4">
+      <div class="flex flex-row justify-between">
+        <p class="text-lg">
+          Họ và tên:
+          <span class="font-bold"><%= patient.name.toLocaleUpperCase() %></span>
+        </p>
+        <div class="flex flex-row">
+          <p class="text-lg">
+            Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
           </p>
-          <p class="text-base">
-            Ngày nhận bệnh:
-            <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
-          </p>
-          <p class="text-base">
-            Giờ nhận bệnh:
-            <span
-              ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+          <p class="text-lg ml-8">
+            Giới tính:
+            <span class="font-bold"
+              ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
             >
           </p>
         </div>
+      </div>
+      <div class="flex flex-row justify-between">
+        <p class="text-lg">ID_XN: <span><%= sample.sampleId %></span></p>
+        <p class="text-lg">Loại bệnh phẩm: máu</p>
+        <p class="text-lg">CMND(nếu có): <span><%= patient.SSN %></span></p>
+      </div>
+      <p class="text-lg">Địa chỉ: <span><%= patient.address %></span></p>
+
+      <div class="flex flex-row">
         <div>
-          <div class="flex flex-row">
-            <p class="text-base">
-              Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
-            </p>
-            <p class="text-base ml-2">
-              Giới tính:
-              <span class="font-bold"
-                ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
-              >
-            </p>
-          </div>
-          <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
-          <p class="text-base">
-            Loại mẫu:
-            <span><%= sampleTypes.join(', ').toLocaleLowerCase() %></span>
+          <p class="text-lg">Yêu cầu xét nghiệm:</p>
+          <p class="text-lg">Tên sinh phẩm xét nghiệm:</p>
+          <p class="text-lg">Kết luận: Kháng thể kháng HIV</p>
+          <p class="text-lg">Ngày xét nghiệm:</p>
+        </div>
+        <div class="ml-4">
+          <p class="font-bold text-lg">Kháng thể kháng HIV</p>
+          <p class="font-bold text-lg">
+            <%= results[0].tests[0].bioProductName %>
           </p>
-          <p class="text-base">
-            Ngày lấy mẫu:
-            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+          <p class="font-bold text-lg">
+            <%= results[0].tests[0].elements[0].value %>
+          </p>
+          <p class="font-bold text-lg">
+            <%= sample.infoAt.toLocaleDateString('vi') %>
           </p>
         </div>
       </div>
+      <p>Đề nghị: Tham vấn</p>
     </div>
-
-    <div class="flex flex-row justify-end">
-      <div class="flex flex-col text-center mr-8">
+    <div class="flex flex-row justify-between mt-6">
+      <div class="text-xs">
+        <p>
+          <span class="font-bold">Lưu ý: </span> Trường hợp không có giấy CMND
+          hoặc giấy tờ tùy thân
+        </p>
+        <p>để chứng minh đúng người được làm xét nghiệm thì ghi rỏ:</p>
+        <p>không có giấy tờ tùy thân xác thực với tên ghi trên giấy XN.</p>
+        <p>
+          BM.TTXN.04/3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Phiên bản: 1.0
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ngày áp dụng: 18/09/2019
+        </p>
+      </div>
+      <div class="flex flex-col text-center mr-8" style="margin-top: -50px">
         <p>
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() %>
           năm <%= new Date().getFullYear() %>

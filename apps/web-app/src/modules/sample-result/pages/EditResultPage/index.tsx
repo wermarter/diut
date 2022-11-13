@@ -342,6 +342,7 @@ export default function EditResultPage() {
                         <TableRow key={element._id}>
                           <TableCell padding="checkbox">
                             <Checkbox
+                              tabIndex={-1}
                               disabled={currentTestState.isLocked}
                               disableRipple
                               color="secondary"
