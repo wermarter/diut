@@ -61,7 +61,7 @@ export default function InfoConfirmPage() {
     defaultValues: {
       date: new Date(),
       sampleId: '',
-      infoCompleted: 'false',
+      infoCompleted: 'all',
     },
   })
   const date = watch('date')
