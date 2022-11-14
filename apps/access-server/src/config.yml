@@ -16,3 +16,7 @@ mongo:
 auth:
   jwtSecret: not_so_secret
   expiresIn: 16h
+
+cache:
+  host: localhost
+  port: 6379

@@ -101,14 +101,12 @@
       <tbody>
         <% results.forEach(category => { %>
         <tr class="border border-gray-300">
-          <td class="pl-2 border border-gray-300 font-bold">
-            <%= category.categoryName %>
-          </td>
+          <td class="pl-2 font-bold"><%= category.categoryName %></td>
         </tr>
         <% category.tests.forEach(test => { %> <% if (test.elements.length > 1)
         { %>
         <tr class="border border-gray-300">
-          <td class="pl-6 border border-gray-300"><%= test.name %></td>
+          <td class="pl-6"><%= test.name %></td>
         </tr>
 
         <% test.elements.forEach(element => { %>
@@ -128,9 +126,7 @@
         </tr>
         <% }) %> <% } else { %>
         <tr class="border border-gray-300">
-          <td class="pl-6 border border-gray-300">
-            <%= test.elements[0].name %>
-          </td>
+          <td class="pl-6"><%= test.elements[0].name %></td>
           <td
             class="text-center border border-gray-300 <%= test.elements[0].isHighlighted ? 'font-bold' : '' %>"
           >

@@ -53,7 +53,6 @@ export default function InfoConfirmPage() {
       sort: { infoAt: -1 },
       filter: {
         infoBy: userIsAdmin ? undefined : userId,
-        infoCompleted: false,
       },
     })
 

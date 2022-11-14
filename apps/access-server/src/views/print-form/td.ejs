@@ -100,9 +100,7 @@
       </thead>
       <tbody>
         <tr class="border border-gray-300">
-          <td class="pl-2 border border-gray-300 font-bold">
-            <%= results[0].tests[0].name %>
-          </td>
+          <td class="pl-2 font-bold"><%= results[0].tests[0].name %></td>
         </tr>
         <% results[0].tests[0].elements.forEach(element => { %>
         <tr class="border border-gray-300">
