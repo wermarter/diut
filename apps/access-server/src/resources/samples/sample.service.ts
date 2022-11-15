@@ -234,8 +234,8 @@ export class SampleService
     const printForm = sample.printForm ?? PrintForm.Basic
     const sampleData = await this.fetchSampleData(sample.sampleId, printForm)
 
-    const authorPosition = sample.authorPosition ?? 'await-position-from-redis'
-    const authorName = sample.authorName ?? 'await-name-from-redis'
+    const authorPosition = sample.authorPosition ?? ''
+    const authorName = sample.authorName ?? ''
 
     const printData = Object.assign({}, sampleData, {
       sampleTypes: sample.sampleTypes ?? sampleData.sampleTypes,

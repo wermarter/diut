@@ -11,6 +11,7 @@ import {
   HttpCode,
   UseGuards,
 } from '@nestjs/common'
+import { ApiBearerAuth } from '@nestjs/swagger'
 import { ClassConstructor } from 'class-transformer'
 
 import { Permissions } from 'src/auth/auth.common'
@@ -61,6 +62,10 @@ export function AppRoute({
 
   if (openApi !== undefined) {
     decorators.push(AppOpenApi({ isPublic, ...openApi }))
+  } else {
+    if (!isPublic) {
+      decorators.push(ApiBearerAuth())
+    }
   }
 
   if (serialize !== undefined) {

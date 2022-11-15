@@ -1,16 +1,16 @@
-import { CacheModule, Module } from '@nestjs/common'
+import { CacheModule, Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { redisStore } from 'cache-manager-redis-store'
-import { RedisClientOptions } from 'redis'
 
 import { validateConfig } from 'src/core/config/validate-config'
 import { RedisCacheConfig, REDIS_CACHE_CONFIG_NAME } from './redis-cache.config'
 import { RedisCacheController } from './redis-cache.controller'
+import { CacheService } from './redis-cache.service'
 
+@Global()
 @Module({
   imports: [
-    CacheModule.registerAsync<RedisClientOptions>({
-      isGlobal: true,
+    CacheModule.registerAsync({
       inject: [ConfigService],
       // @ts-ignore https://github.com/dabroek/node-cache-manager-redis-store/issues/40
       useFactory: async (configService: ConfigService) => {
@@ -25,13 +25,13 @@ import { RedisCacheController } from './redis-cache.controller'
         })
 
         return {
-          store: {
-            create: () => store,
-          },
+          store: () => store,
         }
       },
     }),
   ],
+  providers: [CacheService],
   controllers: [RedisCacheController],
+  exports: [CacheService],
 })
 export class RedisCacheModule {}

@@ -14,7 +14,7 @@
 
     // "incremental": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
-    // "allowJs": true
+    "skipLibCheck": true,
+    "allowJs": true
   }
 }

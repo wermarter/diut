@@ -1,5 +1,5 @@
-import { PrintForm, printForms } from '@diut/common'
-import { forwardRef, ReactElement, Ref, useEffect } from 'react'
+import { AppSetting, PrintForm, printForms } from '@diut/common'
+import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
@@ -17,6 +17,9 @@ import {
   FormSelect,
   FormTextField,
 } from 'src/common/form-elements'
+import { useAppSettingGetMutation } from 'src/api/app-setting'
+import { useTypedSelector } from 'src/core'
+import { selectUserIsAdmin } from 'src/modules/auth'
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -54,14 +57,39 @@ export function SinglePrintDialog({
     defaultValues: {
       sampleTypes: [],
       printForm: PrintForm.Basic,
-      authorPosition: 'Phụ trách xét nghiệm',
-      authorName: 'Lê Thị Mỹ Hạnh',
+      authorPosition: '',
+      authorName: '',
     },
   })
+
+  const [getSetting] = useAppSettingGetMutation()
+  const [isAuthorLocked, setIsAuthorLocked] = useState(true)
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
   useEffect(() => {
     if (sampleTypes?.length! > 0) {
       setValue('sampleTypes', sampleTypes)
+      getSetting({
+        getAppSettingRequestDto: { setting: AppSetting.authorName },
+      })
+        .unwrap()
+        .then((value) => {
+          setValue('authorName', value)
+        })
+      getSetting({
+        getAppSettingRequestDto: { setting: AppSetting.authorPosition },
+      })
+        .unwrap()
+        .then((value) => {
+          setValue('authorPosition', value)
+        })
+      getSetting({
+        getAppSettingRequestDto: { setting: AppSetting.isAuthorLocked },
+      })
+        .unwrap()
+        .then((value) => {
+          setIsAuthorLocked(JSON.parse(value) as boolean)
+        })
     }
   }, [JSON.stringify(sampleTypes)])
 
@@ -130,6 +158,7 @@ export function SinglePrintDialog({
                 control={control}
                 fullWidth
                 label="Chức vị"
+                disabled={!(userIsAdmin || !isAuthorLocked)}
               />
             </Grid>
             <Grid xs={12}>
@@ -138,6 +167,7 @@ export function SinglePrintDialog({
                 control={control}
                 fullWidth
                 label="Họ tên"
+                disabled={!(userIsAdmin || !isAuthorLocked)}
               />
             </Grid>
             <Grid xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>

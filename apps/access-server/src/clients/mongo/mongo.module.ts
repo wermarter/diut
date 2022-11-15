@@ -7,15 +7,6 @@ import mongoose from 'mongoose'
 import { validateConfig } from 'src/core/config/validate-config'
 import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
 
-function patchEmitter(emitter: any) {
-  var oldEmit = emitter.emit
-  emitter.emit = function () {
-    var emitArgs = arguments
-    console.log({ emitArgs })
-    oldEmit.apply(emitter, arguments)
-  }
-}
-
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -43,7 +34,6 @@ function patchEmitter(emitter: any) {
           retryAttempts: config.retryAttempts,
           connectionFactory: (connection, name) => {
             const client = connection.client
-            // patchEmitter(connection.client)
 
             client.on('serverHeartbeatFailed', ({ connectionId }) => {
               logger.warn(

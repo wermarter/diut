@@ -17,6 +17,7 @@ const ENDPOINTS = [
   // 'bio product',
   // 'sample type',
   // 'test combo',
+  // 'app setting',
 ]
 const outputFiles = {}
 

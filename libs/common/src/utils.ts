@@ -19,3 +19,12 @@ export const flattenKeys = (obj: object, currentpath: string) => {
 export const numericEnumArray = (targetEnum: object) => {
   return Object.values(targetEnum).filter((elm) => !isNaN(Number(elm)))
 }
+
+export function stalkEmitter(emitter: any) {
+  var oldEmit = emitter.emit
+  emitter.emit = function () {
+    var emitArgs = arguments
+    console.log({ emitArgs })
+    oldEmit.apply(emitter, arguments)
+  }
+}
