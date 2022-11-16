@@ -1,6 +1,6 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import EditIcon from '@mui/icons-material/Edit'
-import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { Gender } from '@diut/common'
@@ -44,6 +44,7 @@ export default function EditSelectPage() {
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -64,10 +65,19 @@ export default function EditSelectPage() {
 
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
-      fromDate: new Date(),
-      toDate: new Date(),
-      sampleId: '',
-      sampleCompleted: 'all',
+      fromDate:
+        searchParams.get('fromDate') !== null
+          ? new Date(searchParams.get('fromDate')!)
+          : new Date(),
+      toDate:
+        searchParams.get('toDate') !== null
+          ? new Date(searchParams.get('toDate')!)
+          : new Date(),
+      sampleId: searchParams.get('sampleId') ?? '',
+      sampleCompleted:
+        (searchParams.get(
+          'sampleCompleted'
+        ) as FilterData['sampleCompleted']) ?? 'all',
     },
   })
   const fromDate = watch('fromDate')
@@ -80,6 +90,12 @@ export default function EditSelectPage() {
     sampleId,
     sampleCompleted,
   }: FilterData) => {
+    setSearchParams({
+      sampleId,
+      sampleCompleted,
+      fromDate: fromDate.toISOString(),
+      toDate: toDate.toISOString(),
+    })
     let sampleCompletedObj = {}
     if (userIsAdmin) {
       sampleCompletedObj = {

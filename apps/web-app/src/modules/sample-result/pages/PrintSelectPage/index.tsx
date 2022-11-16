@@ -1,7 +1,7 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import PrintIcon from '@mui/icons-material/Print'
 import EditIcon from '@mui/icons-material/Edit'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { Gender } from '@diut/common'
@@ -40,6 +40,7 @@ interface FilterData {
 
 export default function PrintSelectPage() {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -54,9 +55,15 @@ export default function PrintSelectPage() {
 
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
-      fromDate: new Date(),
-      toDate: new Date(),
-      sampleId: '',
+      fromDate:
+        searchParams.get('fromDate') !== null
+          ? new Date(searchParams.get('fromDate')!)
+          : new Date(),
+      toDate:
+        searchParams.get('toDate') !== null
+          ? new Date(searchParams.get('toDate')!)
+          : new Date(),
+      sampleId: searchParams.get('sampleId') ?? '',
     },
   })
   const fromDate = watch('fromDate')
@@ -74,6 +81,11 @@ export default function PrintSelectPage() {
   })
 
   const handleSubmitFilter = ({ fromDate, toDate, sampleId }: FilterData) => {
+    setSearchParams({
+      sampleId,
+      fromDate: fromDate.toISOString(),
+      toDate: toDate.toISOString(),
+    })
     return setFilterObj((obj) => ({
       ...obj,
       filter: {

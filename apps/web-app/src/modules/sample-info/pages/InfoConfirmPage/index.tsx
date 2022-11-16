@@ -1,7 +1,7 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
-import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { Gender } from '@diut/common'
@@ -46,6 +46,7 @@ export default function InfoConfirmPage() {
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -56,10 +57,18 @@ export default function InfoConfirmPage() {
 
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
-      fromDate: new Date(),
-      toDate: new Date(),
-      sampleId: '',
-      infoCompleted: 'all',
+      fromDate:
+        searchParams.get('fromDate') !== null
+          ? new Date(searchParams.get('fromDate')!)
+          : new Date(),
+      toDate:
+        searchParams.get('toDate') !== null
+          ? new Date(searchParams.get('toDate')!)
+          : new Date(),
+      sampleId: searchParams.get('sampleId') ?? '',
+      infoCompleted:
+        (searchParams.get('infoCompleted') as FilterData['infoCompleted']) ??
+        'all',
     },
   })
   const fromDate = watch('fromDate')
@@ -76,6 +85,12 @@ export default function InfoConfirmPage() {
     sampleId,
     infoCompleted,
   }: FilterData) => {
+    setSearchParams({
+      sampleId,
+      infoCompleted,
+      fromDate: fromDate.toISOString(),
+      toDate: toDate.toISOString(),
+    })
     return setFilterObj((obj) => ({
       ...obj,
       filter: {
