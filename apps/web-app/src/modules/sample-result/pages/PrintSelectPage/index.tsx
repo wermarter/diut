@@ -33,7 +33,8 @@ import {
 } from 'src/api/sample-type'
 
 interface FilterData {
-  date: Date
+  fromDate: Date
+  toDate: Date
   sampleId: string
 }
 
@@ -47,26 +48,32 @@ export default function PrintSelectPage() {
       sort: { createdAt: -1 },
       filter: {
         infoCompleted: true,
-        sampleCompleted: true,
+        // sampleCompleted: true,
       },
     })
 
-  const { control, handleSubmit, watch } = useForm<FilterData>({
+  const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
-      date: new Date(),
+      fromDate: new Date(),
+      toDate: new Date(),
       sampleId: '',
     },
   })
-  const date = watch('date')
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
   useEffect(() => {
-    handleSubmit(handleSubmitFilter)()
-  }, [date])
+    if (toDate < fromDate) {
+      setValue('fromDate', toDate)
+    } else {
+      handleSubmit(handleSubmitFilter)()
+    }
+  }, [fromDate, toDate])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
   })
 
-  const handleSubmitFilter = ({ date, sampleId }: FilterData) => {
+  const handleSubmitFilter = ({ fromDate, toDate, sampleId }: FilterData) => {
     return setFilterObj((obj) => ({
       ...obj,
       filter: {
@@ -79,8 +86,8 @@ export default function PrintSelectPage() {
           sampleId.length > 0
             ? undefined
             : {
-                $gte: startOfDay(date).toISOString(),
-                $lte: endOfDay(date).toISOString(),
+                $gte: startOfDay(fromDate).toISOString(),
+                $lte: endOfDay(toDate).toISOString(),
               },
       },
     }))
@@ -163,11 +170,23 @@ export default function PrintSelectPage() {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                name="date"
+                name="fromDate"
                 dateOnly
-                label="Ngày nhận bệnh"
+                label="Từ ngày"
                 disabled={watch('sampleId')?.length > 0}
               />
+            </Grid>
+            <Grid xs={2}>
+              <FormDateTimePicker
+                control={control}
+                name="toDate"
+                dateOnly
+                label="Đến ngày"
+                disabled={watch('sampleId')?.length > 0}
+              />
+            </Grid>
+            <Grid xs={5}>
+              <input type="submit" style={{ display: 'none' }} />
             </Grid>
             <Grid xs={3}>
               <FormTextField
@@ -176,9 +195,6 @@ export default function PrintSelectPage() {
                 name="sampleId"
                 label="ID xét nghiệm"
               />
-            </Grid>
-            <Grid xs={7}>
-              <input type="submit" style={{ display: 'none' }} />
             </Grid>
           </Grid>
         </FormContainer>

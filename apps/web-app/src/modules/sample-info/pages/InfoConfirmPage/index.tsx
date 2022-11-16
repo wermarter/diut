@@ -33,7 +33,8 @@ import {
 import { useForm } from 'react-hook-form'
 
 interface FilterData {
-  date: Date
+  fromDate: Date
+  toDate: Date
   sampleId: string
   infoCompleted: 'all' | 'true' | 'false'
 }
@@ -51,19 +52,18 @@ export default function InfoConfirmPage() {
       offset: 0,
       limit: 10,
       sort: { infoAt: -1 },
-      filter: {
-        infoBy: userIsAdmin ? undefined : userId,
-      },
     })
 
-  const { control, handleSubmit, watch } = useForm<FilterData>({
+  const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
-      date: new Date(),
+      fromDate: new Date(),
+      toDate: new Date(),
       sampleId: '',
       infoCompleted: 'all',
     },
   })
-  const date = watch('date')
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
   const infoCompleted = watch('infoCompleted')
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
@@ -71,7 +71,8 @@ export default function InfoConfirmPage() {
   })
 
   const handleSubmitFilter = ({
-    date,
+    fromDate,
+    toDate,
     sampleId,
     infoCompleted,
   }: FilterData) => {
@@ -87,8 +88,8 @@ export default function InfoConfirmPage() {
           sampleId.length > 0
             ? undefined
             : {
-                $gte: startOfDay(date).toISOString(),
-                $lte: endOfDay(date).toISOString(),
+                $gte: startOfDay(fromDate).toISOString(),
+                $lte: endOfDay(toDate).toISOString(),
               },
         infoCompleted:
           infoCompleted === 'all'
@@ -101,8 +102,12 @@ export default function InfoConfirmPage() {
   }
 
   useEffect(() => {
-    handleSubmit(handleSubmitFilter)()
-  }, [date, infoCompleted])
+    if (toDate < fromDate) {
+      setValue('fromDate', toDate)
+    } else {
+      handleSubmit(handleSubmitFilter)()
+    }
+  }, [fromDate, toDate, infoCompleted])
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
@@ -171,9 +176,18 @@ export default function InfoConfirmPage() {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                name="date"
+                name="fromDate"
                 dateOnly
-                label="Ngày nhận bệnh"
+                label="Từ ngày"
+                disabled={watch('sampleId')?.length > 0}
+              />
+            </Grid>
+            <Grid xs={2}>
+              <FormDateTimePicker
+                control={control}
+                name="toDate"
+                dateOnly
+                label="Đến ngày"
                 disabled={watch('sampleId')?.length > 0}
               />
             </Grid>
@@ -192,7 +206,7 @@ export default function InfoConfirmPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={2}>
               <input type="submit" style={{ display: 'none' }} />
             </Grid>
             <Grid xs={3}>
@@ -319,13 +333,16 @@ export default function InfoConfirmPage() {
             type: 'actions',
             width: 50,
             cellClassName: 'actions',
-            getActions: ({ row }) => [
-              <GridActionsCellItem
-                icon={<EditIcon />}
-                label="Sửa"
-                onClick={handleEditClick(row)}
-              />,
-            ],
+            getActions: ({ row }) =>
+              userIsAdmin || row.infoBy === userId
+                ? [
+                    <GridActionsCellItem
+                      icon={<EditIcon />}
+                      label="Sửa"
+                      onClick={handleEditClick(row)}
+                    />,
+                  ]
+                : [],
           },
         ]}
         paginationMode="server"

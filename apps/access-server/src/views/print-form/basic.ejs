@@ -5,27 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          // extend: {
+          //   fontSize: {
+          //     sm: '0.8rem',
+          //     base: '1rem',
+          //     xl: '1.25rem',
+          //     '2xl': '1.563rem',
+          //     '3xl': '1.953rem',
+          //     '4xl': '2.441rem',
+          //     '5xl': '3.052rem',
+          //   },
+          // },
+        },
+      }
+    </script>
     <style>
       * {
         font-family: 'Times New Roman', monospace;
       }
+      html {
+        font-size: 15px;
+      }
       @page {
         margin: 10mm;
+      }
+      p {
+        page-break-inside: avoid;
+      }
+      .print-footer {
+        position: fixed;
+        bottom: 0;
       }
     </style>
   </head>
   <body>
     <div class="flex flex-row justify-between">
-      <div class="flex flex-col">
+      <div class="flex flex-col justify-between">
         <div class="flex flex-row">
           <img
             src="http://localhost:9000/public/logo.png"
-            style="width: 140px; object-fit: contain"
+            style="width: 80px; object-fit: contain"
           />
-          <div class="text-center ml-1">
+          <div class="text-center ml-1 text-base">
             <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
-            <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
-            <p class="font-bold">THÀNH PHỐ</p>
+            <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
             <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
             <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
           </div>
@@ -43,7 +69,7 @@
       <div class="flex flex-col justify-between" style="max-width: 200px">
         <div>
           <p class="text-base">
-            ID_XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+            ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
           </p>
           <p class="text-base">
             Ngày nhận bệnh:
@@ -84,16 +110,16 @@
     <table class="w-full">
       <thead class="bg-gray-100 text-sm">
         <tr>
-          <th scope="col" class="py-2 px-6 border border-gray-300">
+          <th scope="col" class="py-1 px-6 border border-gray-300">
             Xét nghiệm
           </th>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="15%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="15%">
             Kết quả
           </th>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="13%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="13%">
             Đơn vị
           </th>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="22%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="22%">
             Trị số tham chiếu
           </th>
         </tr>
@@ -106,7 +132,11 @@
         <% category.tests.forEach(test => { %> <% if (test.elements.length > 1)
         { %>
         <tr class="border border-gray-300">
-          <td class="pl-6"><%= test.name %></td>
+          <td class="pl-6">
+            <%= test.name %> <% if (test?.bioProductName?.length > 0) { %>
+            <span class="whitespace-nowrap">(<%= test?.bioProductName %>)</span>
+            <% } %>
+          </td>
         </tr>
 
         <% test.elements.forEach(element => { %>
@@ -149,7 +179,7 @@
           năm <%= new Date().getFullYear() %>
         </p>
         <p class="font-bold"><%= authorPosition %></p>
-        <p><%= authorName %></p>
+        <p style="margin-top: 13mm"><%= authorName %></p>
       </div>
     </div>
   </body>

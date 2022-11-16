@@ -16,6 +16,7 @@ import {
   NodeEnv,
   PatientCategory,
   PrintForm,
+  printForms,
 } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit } from 'lodash'
@@ -259,14 +260,20 @@ export class SampleService
       samples.map((sample) => this.prepareSampleContent(sample))
     )
     const mergedPdf = await PDFDocument.create()
+    let sampleCounter = 0
 
     // Take it slow to save CPU and preserve print order
     for (let pageContent of pageContents) {
+      const printForm = samples[sampleCounter++].printForm ?? PrintForm.Basic
+      const { isA4 } = printForms.find(({ value }) => value === printForm)
+
       const page = await this.browser.newPage()
       await page.setContent(pageContent)
       const buffer = await page.pdf({
-        format: 'A4',
+        format: isA4 ? 'A4' : 'A5',
+        landscape: !isA4,
         printBackground: true,
+        // pageRanges: isA4 ? undefined : '1',
         margin: {
           left: '0px',
           top: '0px',

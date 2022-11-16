@@ -30,7 +30,7 @@ import {
 import { usePatientUpdateByIdMutation } from 'src/api/patient'
 import { infoEditPageLoader } from './loader'
 import { useTypedSelector } from 'src/core'
-import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
+import { selectUserIsAdmin } from 'src/modules/auth'
 
 const currentYear = new Date().getFullYear()
 
@@ -47,7 +47,6 @@ export default function InfoEditPage() {
     sampleTypes,
   } = useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
-  const userId = useTypedSelector(selectUserId)
 
   const {
     control,
@@ -97,7 +96,7 @@ export default function InfoEditPage() {
         <Button
           variant="outlined"
           onClick={() => {
-            navigate('/info/confirm')
+            navigate(-1)
           }}
         >
           Quay về
@@ -106,7 +105,7 @@ export default function InfoEditPage() {
           <Typography sx={{ fontStyle: 'italic', mr: 2 }}>
             {author.name}
           </Typography>
-          {(userIsAdmin || userId === author._id) && (
+          {userIsAdmin && (
             <Button
               variant="contained"
               color="error"
@@ -115,7 +114,7 @@ export default function InfoEditPage() {
                   .unwrap()
                   .then(() => {
                     toast.success(`Đã xoá mẫu: ${sampleInfo.sampleId}`)
-                    navigate('/info/confirm')
+                    navigate(-1)
                   })
               }}
               disabled={isDeletingSample}
@@ -141,13 +140,14 @@ export default function InfoEditPage() {
               id: sampleId!,
               updateSampleRequestDto: {
                 ...values,
+                results: sampleInfo.results, // needed for backend update logic
                 sampledAt: values.sampledAt.toISOString(),
                 infoAt: values.infoAt.toISOString(),
               },
             }).unwrap(),
           ]).then(() => {
             toast.success('Sửa thành công')
-            navigate('/info/confirm')
+            navigate(-1)
           })
         })}
       >

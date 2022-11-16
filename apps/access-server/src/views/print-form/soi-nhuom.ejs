@@ -5,12 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          // extend: {
+          //   fontSize: {
+          //     sm: '0.8rem',
+          //     base: '1rem',
+          //     xl: '1.25rem',
+          //     '2xl': '1.563rem',
+          //     '3xl': '1.953rem',
+          //     '4xl': '2.441rem',
+          //     '5xl': '3.052rem',
+          //   },
+          // },
+        },
+      }
+    </script>
     <style>
       * {
         font-family: 'Times New Roman', monospace;
       }
+      html {
+        font-size: 13px;
+      }
       @page {
         margin: 10mm;
+      }
+      p {
+        page-break-inside: avoid;
+      }
+      .print-footer {
+        position: fixed;
+        bottom: 0;
       }
     </style>
   </head>
@@ -19,20 +46,19 @@
       <div class="flex flex-row">
         <img
           src="http://localhost:9000/public/logo.png"
-          style="width: 120px; object-fit: contain"
+          style="width: 80px; object-fit: contain"
         />
-        <div class="text-center ml-1">
+        <div class="text-center ml-1 text-base">
           <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
-          <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
-          <p class="font-bold">THÀNH PHỐ</p>
+          <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
           <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
           <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
         </div>
       </div>
       <div class="text-center">
-        <p class="text-xl font-bold my-3">PHIẾU KẾT QUẢ XÉT NGHIỆM</p>
+        <p class="text-xl font-bold my-1">PHIẾU KẾT QUẢ XÉT NGHIỆM</p>
         <p class="text-base">
-          ID_XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+          ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
         </p>
         <p class="text-base">
           Ngày nhận:
@@ -46,8 +72,8 @@
         </p>
       </div>
     </div>
-    <div class="flex flex-row my-2 gap-2">
-      <div class="flex flex-col gap-2">
+    <div class="flex flex-row gap-2">
+      <div class="flex flex-col gap-1">
         <p class="text-base">
           Họ và tên:
           <span class="font-bold"><%= patient.name.toLocaleUpperCase() %></span>
@@ -55,15 +81,15 @@
         <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
         <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
       </div>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-1">
         <div class="flex flex-row gap-4">
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-1">
             <p class="text-base">
               Năm sinh: <span><%= patient.birthYear %></span>
             </p>
             <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
           </div>
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-1">
             <p class="text-base">
               Giới tính:
               <span><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span>
@@ -83,23 +109,23 @@
     <table class="w-full my-2">
       <thead class="bg-gray-100 text-base">
         <tr>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="35%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="35%">
             Xét nghiệm
           </th>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="15%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="15%">
             Kết quả
           </th>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="35%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="35%">
             Xét nghiệm
           </th>
-          <th scope="col" class="py-2 px-6 border border-gray-300" width="15%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="15%">
             Kết quả
           </th>
         </tr>
       </thead>
       <tbody>
-        <% results.forEach(category => { %> <% category.tests.forEach(test =>
-        {%>
+        <% results.forEach((category, categoryIndex) => { %> <%
+        category.tests.forEach(test => {%>
         <tr class="border border-gray-300">
           <td class="pl-2 border border-gray-300 font-bold">
             <%= test.name %>
@@ -109,23 +135,23 @@
         Math.ceil(arr.length/2)) { %>
 
         <tr class="border border-gray-300">
-          <td
-            class="pl-6 border border-gray-300 <%= element.isHighlighted ? 'font-bold' : '' %>"
-          >
-            <%= element.name %>
+          <% if (categoryIndex === 1 && test?.bioProductName?.length > 0) { %>
+          <td class="pl-6 border border-gray-300">
+            <%= test?.bioProductName %>
           </td>
+          <% } else { %>
+          <td class="pl-6 border border-gray-300"><%= element.name %></td>
+          <% } %>
           <td
-            class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-bold' : '' %>"
+            class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-black' : '' %>"
           >
             <%= element.value %>
           </td>
-          <td
-            class="pl-6 border border-gray-300 <%= arr[Math.ceil(arr.length/2) + index]?.isHighlighted ? 'font-bold' : '' %>"
-          >
+          <td class="pl-6 border border-gray-300">
             <%= arr[Math.ceil(arr.length/2) + index]?.name %>
           </td>
           <td
-            class="text-center border border-gray-300 <%= arr[Math.ceil(arr.length/2) + index]?.isHighlighted ? 'font-bold' : '' %>"
+            class="text-center border border-gray-300 <%= arr[Math.ceil(arr.length/2) + index]?.isHighlighted ? 'font-black' : '' %>"
           >
             <%= arr[Math.ceil(arr.length/2) + index]?.value %>
           </td>
@@ -141,7 +167,7 @@
           năm <%= new Date().getFullYear() %>
         </p>
         <p class="font-bold"><%= authorPosition %></p>
-        <p><%= authorName %></p>
+        <p style="margin-top: 13mm"><%= authorName %></p>
       </div>
     </div>
   </body>

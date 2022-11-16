@@ -210,7 +210,7 @@ export default function EditResultPage() {
             fullWidth
             variant="outlined"
             onClick={() => {
-              navigate('/result')
+              navigate(-1)
             }}
           >
             Quay về

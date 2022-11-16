@@ -31,7 +31,8 @@ import { useTypedSelector } from 'src/core'
 import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
 
 interface FilterData {
-  date: Date
+  fromDate: Date
+  toDate: Date
   sampleId: string
   sampleCompleted: 'all' | 'true' | 'false'
 }
@@ -61,18 +62,21 @@ export default function EditSelectPage() {
       },
     })
 
-  const { control, handleSubmit, watch } = useForm<FilterData>({
+  const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
-      date: new Date(),
+      fromDate: new Date(),
+      toDate: new Date(),
       sampleId: '',
       sampleCompleted: 'all',
     },
   })
-  const date = watch('date')
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
   const sampleCompleted = watch('sampleCompleted')
 
   const handleSubmitFilter = ({
-    date,
+    fromDate,
+    toDate,
     sampleId,
     sampleCompleted,
   }: FilterData) => {
@@ -127,8 +131,8 @@ export default function EditSelectPage() {
           sampleId.length > 0
             ? undefined
             : {
-                $gte: startOfDay(date).toISOString(),
-                $lte: endOfDay(date).toISOString(),
+                $gte: startOfDay(fromDate).toISOString(),
+                $lte: endOfDay(toDate).toISOString(),
               },
         ...sampleCompletedObj,
       },
@@ -136,8 +140,12 @@ export default function EditSelectPage() {
   }
 
   useEffect(() => {
-    handleSubmit(handleSubmitFilter)()
-  }, [date, sampleCompleted])
+    if (toDate < fromDate) {
+      setValue('fromDate', toDate)
+    } else {
+      handleSubmit(handleSubmitFilter)()
+    }
+  }, [fromDate, toDate, sampleCompleted])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -199,9 +207,18 @@ export default function EditSelectPage() {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                name="date"
+                name="fromDate"
                 dateOnly
-                label="Ngày nhận bệnh"
+                label="Từ ngày"
+                disabled={watch('sampleId')?.length > 0}
+              />
+            </Grid>
+            <Grid xs={2}>
+              <FormDateTimePicker
+                control={control}
+                name="toDate"
+                dateOnly
+                label="Đến ngày"
                 disabled={watch('sampleId')?.length > 0}
               />
             </Grid>
@@ -220,7 +237,7 @@ export default function EditSelectPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={2}>
               <input type="submit" style={{ display: 'none' }} />
             </Grid>
             <Grid xs={3}>
