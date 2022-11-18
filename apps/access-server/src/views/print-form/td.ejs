@@ -30,7 +30,10 @@
         font-size: 15px;
       }
       @page {
-        margin: 10mm;
+        margin-top: 5mm;
+        margin-bottom: 5mm;
+        margin-left: 15mm;
+        margin-right: 15mm;
       }
       p {
         page-break-inside: avoid;
@@ -66,19 +69,16 @@
           <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
         </div>
       </div>
-      <div class="flex flex-col justify-between" style="max-width: 200px">
+      <div class="flex flex-col justify-between" style="max-width: 250px">
         <div>
           <p class="text-base">
             ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
           </p>
           <p class="text-base">
             Ngày nhận bệnh:
-            <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
-          </p>
-          <p class="text-base">
-            Giờ nhận bệnh:
             <span
-              ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+              ><%= sample.infoAt.toLocaleDateString('vi') %>, <%=
+              sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
             >
           </p>
         </div>
@@ -97,7 +97,7 @@
           <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
           <p class="text-base">
             Loại mẫu:
-            <span><%= sampleTypes.join(', ').toLocaleLowerCase() %></span>
+            <span> TD </span>
           </p>
           <p class="text-base">
             Ngày lấy mẫu:

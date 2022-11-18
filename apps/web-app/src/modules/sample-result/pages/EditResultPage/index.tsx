@@ -203,7 +203,7 @@ export default function EditResultPage() {
 
   return (
     <FormContainer sx={{ p: 2 }}>
-      <Box sx={{ position: 'fixed', width: '200px' }}>
+      <Box sx={{ position: 'fixed', width: '270px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             sx={{ mr: 1 }}
@@ -236,7 +236,7 @@ export default function EditResultPage() {
         >
           <Typography variant="h6">{sample.sampleId}</Typography>
           <Typography variant="h5">{patient.name}</Typography>
-          <Typography fontStyle="italic" sx={{ mt: 2 }}>
+          <Typography fontStyle="italic" sx={{ mt: 2, opacity: '0.5' }}>
             {author.name}
           </Typography>
         </Box>
@@ -264,7 +264,7 @@ export default function EditResultPage() {
           })}
         </List>
       </Box>
-      <Box sx={{ ml: '250px' }}>
+      <Box sx={{ ml: '300px' }}>
         {sortedTests.map((test) => {
           const currentTestState = testState[test._id] ?? {}
           return (

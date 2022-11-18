@@ -249,7 +249,10 @@ function processHighlightRules(item: any): HighlightRuleDto[] {
     firstRule?.category !== undefined &&
     firstRule?.category !== PatientCategory.Any
   ) {
-    return item.highlightRules
+    return item.highlightRules.map((rule: HighlightRuleDto) => ({
+      ...rule,
+      defaultChecked: rule.defaultChecked ?? false,
+    }))
   }
 
   const {
@@ -262,7 +265,7 @@ function processHighlightRules(item: any): HighlightRuleDto[] {
   } = item
   const result: HighlightRuleDto = {
     category: PatientCategory.Any,
-    defaultChecked: anyDefaultChecked,
+    defaultChecked: anyDefaultChecked ?? false,
   }
 
   if (anyMin !== NO_MIN) {

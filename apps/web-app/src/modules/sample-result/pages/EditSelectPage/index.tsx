@@ -141,7 +141,7 @@ export default function EditSelectPage() {
         ...obj.filter,
         sampleId:
           sampleId.length > 0
-            ? { $regex: '^' + sampleId, $options: 'i' }
+            ? { $regex: sampleId + '$', $options: 'i' }
             : undefined,
         infoAt:
           sampleId.length > 0
@@ -289,6 +289,7 @@ export default function EditSelectPage() {
             headerName: 'ID XN',
             width: 120,
             sortable: false,
+            renderCell: ({ value }) => <strong>{value}</strong>,
           },
           {
             field: 'name',

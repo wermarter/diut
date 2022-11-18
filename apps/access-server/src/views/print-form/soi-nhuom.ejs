@@ -30,7 +30,10 @@
         font-size: 13px;
       }
       @page {
-        margin: 10mm;
+        margin-top: 5mm;
+        margin-bottom: 5mm;
+        margin-left: 15mm;
+        margin-right: 15mm;
       }
       p {
         page-break-inside: avoid;
@@ -102,7 +105,7 @@
         </div>
         <p class="text-base">
           Loại mẫu:
-          <em><%= sampleTypes.join(', ').toLocaleLowerCase() %></em>
+          <em><%= sampleTypes.join(', ') %></em>
         </p>
       </div>
     </div>
@@ -127,21 +130,20 @@
         <% results.forEach((category, categoryIndex) => { %> <%
         category.tests.forEach(test => {%>
         <tr class="border border-gray-300">
-          <td class="pl-2 border border-gray-300 font-bold">
-            <%= test.name %>
+          <td class="pl-2 border border-gray-300">
+            <span class="font-bold"> <%= test.name %> </span>
+            <% if (test?.bioProductName?.length > 0) { %>
+            <span class="whitespace-nowrap"
+              >&nbsp;(<%= test?.bioProductName %>)</span
+            >
+            <% } %>
           </td>
         </tr>
         <% test.elements.forEach((element, index, arr) => { %> <% if (index <
         Math.ceil(arr.length/2)) { %>
 
         <tr class="border border-gray-300">
-          <% if (categoryIndex === 1 && test?.bioProductName?.length > 0) { %>
-          <td class="pl-6 border border-gray-300">
-            <%= test?.bioProductName %>
-          </td>
-          <% } else { %>
           <td class="pl-6 border border-gray-300"><%= element.name %></td>
-          <% } %>
           <td
             class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-black' : '' %>"
           >

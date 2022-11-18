@@ -57,11 +57,11 @@ export function checkHighlight(highlightRule: HighlightRuleDto, value: string) {
   }
 
   if (min != undefined) {
-    return Number(value) > min
+    return Number(value) < min
   }
 
   if (max != undefined) {
-    return Number(value) < max
+    return Number(value) > max
   }
 
   if (normalValue?.length! > 0) {

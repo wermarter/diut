@@ -92,7 +92,7 @@ export default function PrintSelectPage() {
         ...obj.filter,
         sampleId:
           sampleId.length > 0
-            ? { $regex: '^' + sampleId, $options: 'i' }
+            ? { $regex: sampleId + '$', $options: 'i' }
             : undefined,
         infoAt:
           sampleId.length > 0
@@ -249,17 +249,11 @@ export default function PrintSelectPage() {
             },
           },
           {
-            field: 'externalId',
-            headerName: 'ID PK',
-            sortable: false,
-            width: 100,
-            valueGetter: ({ row }) => patients[row.patientId]?.externalId,
-          },
-          {
             field: 'sampleId',
             headerName: 'ID XN',
             width: 120,
             sortable: false,
+            renderCell: ({ value }) => <strong>{value}</strong>,
           },
           {
             field: 'name',
@@ -267,6 +261,13 @@ export default function PrintSelectPage() {
             sortable: false,
             width: 100,
             valueGetter: ({ row }) => patients[row.patientId]?.name,
+          },
+          {
+            field: 'externalId',
+            headerName: 'ID PK',
+            sortable: false,
+            width: 100,
+            valueGetter: ({ row }) => patients[row.patientId]?.externalId,
           },
           {
             field: 'birthYear',

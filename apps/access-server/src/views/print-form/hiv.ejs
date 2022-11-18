@@ -30,7 +30,10 @@
         font-size: 15px;
       }
       @page {
-        margin: 10mm;
+        margin-top: 5mm;
+        margin-bottom: 5mm;
+        margin-left: 15mm;
+        margin-right: 15mm;
       }
       p {
         page-break-inside: avoid;
@@ -42,7 +45,7 @@
     </style>
   </head>
   <body>
-    <div class="print-footer">
+    <div class="print-footer text-sm">
       BM.TTXN.04/3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Phiên bản: 1.0
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ngày áp dụng: 18/09/2019
     </div>
@@ -76,25 +79,21 @@
           <span class="font-bold"><%= patient.name.toLocaleUpperCase() %></span>
         </p>
         <div class="flex flex-row">
-          <p class="text-lg">
-            Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
-          </p>
+          <p class="text-lg">Năm sinh: <span><%= patient.birthYear %></span></p>
           <p class="text-lg ml-8">
             Giới tính:
-            <span class="font-bold"
-              ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
-            >
+            <span><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span>
           </p>
         </div>
       </div>
       <div class="flex flex-row justify-between">
-        <p class="text-lg">ID XN: <span><%= sample.sampleId %></span></p>
+        <p class="text-lg">
+          ID XN: <span class="font-bold"><%= sample.sampleId %></span>
+        </p>
         <p class="text-lg">Loại bệnh phẩm: máu</p>
         <p class="text-lg">
           CMND:
-          <span
-            ><%= patient.SSN?.length > 0 ? patient.SSN : ' không có' %></span
-          >
+          <span><%= patient.SSN %></span>
         </p>
       </div>
       <p class="text-lg">Địa chỉ: <span><%= patient.address %></span></p>
@@ -107,15 +106,11 @@
         </div>
         <div class="ml-4">
           <p class="font-bold text-lg">Kháng thể kháng HIV</p>
-          <p class="font-bold text-lg">
-            <%= results[0].tests[0].bioProductName %>
-          </p>
+          <p class="text-lg"><%= results[0].tests[0].bioProductName %></p>
           <p class="font-bold text-lg">
             <%= results[0].tests[0].elements[0].value %>
           </p>
-          <p class="font-bold text-lg">
-            <%= sample.infoAt.toLocaleDateString('vi') %>
-          </p>
+          <p class="text-lg"><%= sample.infoAt.toLocaleDateString('vi') %></p>
         </div>
       </div>
       <p class="text-lg">Đề nghị: Tham vấn</p>
