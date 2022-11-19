@@ -38,6 +38,14 @@ export function useTestElementColumns(
       editable: true,
     },
     {
+      field: 'printIndex',
+      headerName: '# In',
+      type: 'number',
+      minWidth: 70,
+      sortable: false,
+      editable: true,
+    },
+    {
       field: 'name',
       headerName: 'Tên thành phần',
       minWidth: 200,

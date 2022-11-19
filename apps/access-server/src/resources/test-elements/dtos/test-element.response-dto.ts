@@ -45,6 +45,14 @@ export class TestElementResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
+    example: 2,
+  })
+  @IsNumber()
+  @Min(1)
+  printIndex: number
+
+  @Expose()
+  @ApiProperty({
     example: false,
   })
   @IsBoolean()

@@ -45,6 +45,13 @@
     </style>
   </head>
   <body>
+    <div class="print-footer text-sm">
+      BM.TTXN.04/7
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Phiên bản: 1.0
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Ngày áp dụng: 11/01/2021
+    </div>
     <div class="flex flex-row justify-between">
       <div class="flex flex-row">
         <img
@@ -64,13 +71,17 @@
           ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
         </p>
         <p class="text-base">
-          Ngày nhận:
-          <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
+          Nhận bệnh:
+          <span
+            ><%= sample.infoAt.toLocaleDateString('vi') %>, <%=
+            sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+          >
         </p>
         <p class="text-base">
-          Giờ nhận:
+          Lấy mẫu:
           <span
-            ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+            ><%= sample.sampledAt.toLocaleDateString('vi') %>, <%=
+            sample.sampledAt.toLocaleTimeString('vi').slice(0, -3) %></span
           >
         </p>
       </div>
@@ -169,7 +180,7 @@
           năm <%= new Date().getFullYear() %>
         </p>
         <p class="font-bold"><%= authorPosition %></p>
-        <p style="margin-top: 13mm"><%= authorName %></p>
+        <p style="margin-top: 20mm"><%= authorName %></p>
       </div>
     </div>
   </body>

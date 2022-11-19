@@ -141,6 +141,7 @@ export default function InfoEditPage() {
               updateSampleRequestDto: {
                 ...values,
                 results: sampleInfo.results, // needed for backend update logic
+                sampleCompleted: sampleInfo.sampleCompleted, // needed for backend update logic
                 sampledAt: values.sampledAt.toISOString(),
                 infoAt: values.infoAt.toISOString(),
               },

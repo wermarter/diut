@@ -37,6 +37,13 @@ export class CreateTestElementRequestDto {
   index: number
 
   @ApiProperty({
+    example: 2,
+  })
+  @IsNumber()
+  @Min(1)
+  printIndex: number
+
+  @ApiProperty({
     example: false,
   })
   @IsBoolean()

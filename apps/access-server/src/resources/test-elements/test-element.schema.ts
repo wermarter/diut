@@ -27,6 +27,9 @@ export class TestElement extends BaseSchema {
   index: number
 
   @Prop({ required: true })
+  printIndex: number
+
+  @Prop({ required: true })
   isParent: boolean
 
   @Prop({ required: true, type: [MongooseSchema.Types.Mixed] })

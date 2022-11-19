@@ -130,6 +130,7 @@ export function TestElementTable() {
             createTestElementRequestDto: {
               name: item.name,
               index: item.index,
+              printIndex: item.printIndex,
               test: tests.find((test) => test.name === (item.test as any))
                 ?._id!,
               isParent: item.isParent,
@@ -144,6 +145,7 @@ export function TestElementTable() {
             updateTestElementRequestDto: {
               name: newItem.name,
               index: newItem.index,
+              printIndex: newItem.printIndex,
               test: tests.find((test) => test.name === (newItem.test as any))
                 ?._id,
               isParent: newItem.isParent,

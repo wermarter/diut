@@ -45,6 +45,13 @@
     </style>
   </head>
   <body>
+    <div class="print-footer text-sm">
+      BM.TTXN.04/6
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Phiên bản: 1.0
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Ngày áp dụng: 18/09/2019
+    </div>
     <div class="flex flex-row justify-between">
       <div class="flex flex-col">
         <div class="flex flex-row">
@@ -75,7 +82,7 @@
             ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
           </p>
           <p class="text-base">
-            Ngày nhận bệnh:
+            Nhận bệnh:
             <span
               ><%= sample.infoAt.toLocaleDateString('vi') %>, <%=
               sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
@@ -100,8 +107,12 @@
             <span> TD </span>
           </p>
           <p class="text-base">
-            Ngày lấy mẫu:
-            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+            Ngày XN:
+            <span
+              ><%= new
+              Date(results[0].tests[0].elements[0].value).toLocaleDateString('vi')
+              %></span
+            >
           </p>
         </div>
       </div>
@@ -120,7 +131,7 @@
             Đơn vị
           </th>
           <th scope="col" class="py-1 px-6 border border-gray-300" width="22%">
-            Chuẩn tham khảo(WHO 2010)
+            Chuẩn tham khảo <span class="whitespace-nowrap"> (WHO 2010) </span>
           </th>
         </tr>
       </thead>
@@ -128,7 +139,7 @@
         <tr class="border border-gray-300">
           <td class="pl-2 font-bold"><%= results[0].tests[0].name %></td>
         </tr>
-        <% results[0].tests[0].elements.forEach(element => { %>
+        <% results[0].tests[0].elements.slice(1, -1).forEach(element => { %>
         <tr class="border border-gray-300">
           <td class="pl-6 border border-gray-300">- <%= element.name %></td>
           <td
@@ -146,6 +157,12 @@
         <% }) %>
       </tbody>
     </table>
+    <p class="text-base mt-1">
+      <span class="font-bold"
+        ><%= results[0].tests[0].elements.slice(-1)[0].name %>:</span
+      >
+      <span><%= results[0].tests[0].elements.slice(-1)[0].value ?? '' %></span>
+    </p>
     <div class="flex flex-row justify-end mt-2">
       <div class="flex flex-col text-center mr-8">
         <p>
@@ -153,7 +170,7 @@
           năm <%= new Date().getFullYear() %>
         </p>
         <p class="font-bold"><%= authorPosition %></p>
-        <p style="margin-top: 13mm"><%= authorName %></p>
+        <p style="margin-top: 20mm"><%= authorName %></p>
       </div>
     </div>
   </body>

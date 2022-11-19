@@ -53,6 +53,7 @@ export function SinglePrintDialog({
     handleSubmit,
     setValue,
     formState: { isSubmitting },
+    watch,
   } = useForm<FormData>({
     defaultValues: {
       sampleTypes: [],
@@ -61,6 +62,7 @@ export function SinglePrintDialog({
       authorName: '',
     },
   })
+  const selectedForm = watch('printForm')
 
   const [getSetting] = useAppSettingGetMutation()
   const [isAuthorLocked, setIsAuthorLocked] = useState(true)
@@ -137,21 +139,24 @@ export function SinglePrintDialog({
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={12}>
-              <FormAutocomplete
-                control={control}
-                name="sampleTypes"
-                options={
-                  sampleTypes?.map((sampleTypeName) => ({
-                    label: sampleTypeName,
-                    value: sampleTypeName,
-                  })) ?? []
-                }
-                getOptionLabel={(option) => option.label}
-                getOptionValue={(option) => option.value}
-                label="Loại mẫu"
-              />
-            </Grid>
+            {(selectedForm === PrintForm.Basic ||
+              selectedForm === PrintForm.SoiNhuom) && (
+              <Grid xs={12}>
+                <FormAutocomplete
+                  control={control}
+                  name="sampleTypes"
+                  options={
+                    sampleTypes?.map((sampleTypeName) => ({
+                      label: sampleTypeName,
+                      value: sampleTypeName,
+                    })) ?? []
+                  }
+                  getOptionLabel={(option) => option.label}
+                  getOptionValue={(option) => option.value}
+                  label="Loại mẫu"
+                />
+              </Grid>
+            )}
             <Grid xs={12}>
               <FormTextField
                 name="authorPosition"

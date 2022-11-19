@@ -94,7 +94,7 @@ export class SampleService
       resultBy = [userId]
     }
 
-    let { results } = body
+    let { results, sampleCompleted } = body
     if (body.tests?.length > 0) {
       if (body.results?.length > 0) {
         const keptResults = body.results.filter(({ testId }) =>
@@ -105,10 +105,13 @@ export class SampleService
           .map(({ id, bioProductName }) => ({
             testId: id,
             testCompleted: false,
-            bioProductName: bioProductName,
+            bioProductName,
             elements: [],
           }))
 
+        if (newTests.length > 0) {
+          sampleCompleted = false
+        }
         results = [...keptResults, ...newTests]
       } else {
         results = body.tests.map((test) => ({
@@ -122,6 +125,7 @@ export class SampleService
 
     return this.updateById(id, {
       ...body,
+      sampleCompleted,
       results,
       resultBy,
     })
@@ -268,7 +272,7 @@ export class SampleService
       const { isA4 } = printForms.find(({ value }) => value === printForm)
 
       const page = await this.browser.newPage()
-      await page.setContent(pageContent)
+      await page.setContent(pageContent, { waitUntil: 'networkidle0' })
       const buffer = await page.pdf({
         format: isA4 ? 'A4' : 'A5',
         landscape: !isA4,
@@ -280,6 +284,11 @@ export class SampleService
           right: '0px',
           bottom: '0px',
         },
+        displayHeaderFooter: true,
+        footerTemplate: `
+        <div style="width: 100vw; font-size: 10px; display: flex; justify-content: flex-end; padding: 0 10mm;">
+          <div><span class="pageNumber"></span>/<span class="totalPages"></span></div>
+        <div>`,
       })
       const document = await PDFDocument.load(buffer)
       const copiedPages = await mergedPdf.copyPages(

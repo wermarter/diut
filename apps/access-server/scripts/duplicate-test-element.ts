@@ -6,13 +6,14 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { TestElement, TestElementService } from 'src/resources/test-elements'
+import { COLLECTION } from 'src/common/collections'
 
 async function main(srcTestId: string, destTestId: string) {
-  const db = await mongoose.connect(process.env.PROD_MONGO_URI)
+  await mongoose.connect(process.env.PROD_MONGO_URI)
   console.log('MongoDB connected !')
 
   const model = mongoose.model(
-    'test_elements',
+    COLLECTION.TEST_ELEMENT,
     SchemaFactory.createForClass(TestElement)
   )
   const service = new TestElementService(model)

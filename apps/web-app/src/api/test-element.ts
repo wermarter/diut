@@ -1,4 +1,4 @@
-import { PatientCategory } from '@diut/common'
+import { PatientCategory, PrintForm } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['test-elements', 'tests'] as const
 const injectedRtkApi = api
@@ -109,6 +109,7 @@ export type TestResponseDto = {
   bioProduct?: BioProductResponseDto
   name: string
   index: number
+  printForm: PrintForm
 }
 export type HighlightRuleDto = {
   category: PatientCategory
@@ -126,6 +127,7 @@ export type TestElementResponseDto = {
   name: string
   test: TestResponseDto
   index: number
+  printIndex: number
   isParent: boolean
   highlightRules: HighlightRuleDto[]
   unit?: string
@@ -146,6 +148,7 @@ export type CreateTestElementRequestDto = {
   name: string
   test: string
   index: number
+  printIndex: number
   isParent: boolean
   highlightRules: HighlightRuleDto[]
   unit?: string
@@ -154,6 +157,7 @@ export type UpdateTestElementRequestDto = {
   name?: string
   test?: string
   index?: number
+  printIndex?: number
   isParent?: boolean
   highlightRules?: HighlightRuleDto[]
   unit?: string
