@@ -1,4 +1,4 @@
-import { AppSetting, PrintForm, printForms } from '@diut/common'
+import { PrintForm, printForms } from '@diut/common'
 import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -17,9 +17,9 @@ import {
   FormSelect,
   FormTextField,
 } from 'src/common/form-elements'
-import { useAppSettingGetMutation } from 'src/api/app-setting'
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin } from 'src/modules/auth'
+import { PrintFormResponseDto } from 'src/api/print-form'
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -31,6 +31,7 @@ const Transition = forwardRef(function Transition(
 })
 
 interface SinglePrintDialogProps {
+  printFormData: PrintFormResponseDto[]
   sample: SampleResponseDto | null
   onClose: Function
   sampleTypes: string[] | undefined
@@ -44,6 +45,7 @@ interface FormData {
 }
 
 export function SinglePrintDialog({
+  printFormData,
   sample,
   onClose,
   sampleTypes,
@@ -57,41 +59,30 @@ export function SinglePrintDialog({
   } = useForm<FormData>({
     defaultValues: {
       sampleTypes: [],
-      printForm: PrintForm.Basic,
+      printForm: printFormData[0]._id as PrintForm,
       authorPosition: '',
       authorName: '',
     },
   })
-  const selectedForm = watch('printForm')
 
-  const [getSetting] = useAppSettingGetMutation()
-  const [isAuthorLocked, setIsAuthorLocked] = useState(true)
+  const selectedForm = watch('printForm')
+  const [selectedPrintForm, setSelectedPrintForm] =
+    useState<PrintFormResponseDto | null>(null)
+
+  useEffect(() => {
+    if (selectedForm?.length > 0) {
+      const printForm = printFormData.find(({ _id }) => _id === selectedForm)!
+      setSelectedPrintForm(printForm)
+      setValue('authorPosition', printForm.authorPosition)
+      setValue('authorName', printForm.authorName)
+    }
+  }, [selectedForm])
+
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
   useEffect(() => {
     if (sampleTypes?.length! > 0) {
       setValue('sampleTypes', sampleTypes)
-      getSetting({
-        getAppSettingRequestDto: { setting: AppSetting.authorName },
-      })
-        .unwrap()
-        .then((value) => {
-          setValue('authorName', value)
-        })
-      getSetting({
-        getAppSettingRequestDto: { setting: AppSetting.authorPosition },
-      })
-        .unwrap()
-        .then((value) => {
-          setValue('authorPosition', value)
-        })
-      getSetting({
-        getAppSettingRequestDto: { setting: AppSetting.isAuthorLocked },
-      })
-        .unwrap()
-        .then((value) => {
-          setIsAuthorLocked(JSON.parse(value) as boolean)
-        })
     }
   }, [JSON.stringify(sampleTypes)])
 
@@ -134,7 +125,9 @@ export function SinglePrintDialog({
                 size="medium"
                 name="printForm"
                 label="Form In"
-                options={printForms}
+                options={printFormData.map(({ _id }) => ({
+                  ...printForms.find(({ value }) => _id === value)!,
+                }))}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}
               />
@@ -163,7 +156,9 @@ export function SinglePrintDialog({
                 control={control}
                 fullWidth
                 label="Chức vị"
-                disabled={!(userIsAdmin || !isAuthorLocked)}
+                disabled={
+                  !(userIsAdmin || !(selectedPrintForm?.isAuthorLocked ?? true))
+                }
               />
             </Grid>
             <Grid xs={12}>
@@ -172,7 +167,9 @@ export function SinglePrintDialog({
                 control={control}
                 fullWidth
                 label="Họ tên"
-                disabled={!(userIsAdmin || !isAuthorLocked)}
+                disabled={
+                  !(userIsAdmin || !(selectedPrintForm?.isAuthorLocked ?? true))
+                }
               />
             </Grid>
             <Grid xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>

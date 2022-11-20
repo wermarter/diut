@@ -14,6 +14,7 @@ import { infoConfirmPageLoader } from 'src/modules/sample-info/pages/InfoConfirm
 import { editSelectPageLoader } from 'src/modules/sample-result/pages/EditSelectPage/loader'
 import { manageTestPageLoader } from 'src/modules/test/pages/ManageTestPage/loader'
 import { manageTestElemenentPageLoader } from 'src/modules/test-element/pages/ManageTestElementPage/loader'
+import { printSelectPageLoader } from 'src/modules/sample-result/pages/PrintSelectPage/loader'
 
 //#region Lazy import pages
 const ManageDoctorPage = React.lazy(
@@ -45,6 +46,9 @@ const ManageSampleTypePage = React.lazy(
 )
 const ManageTestComboPage = React.lazy(
   () => import('src/modules/test-combo/pages/ManageTestComboPage')
+)
+const ManagePrintFormPage = React.lazy(
+  () => import('src/modules/print-form/pages/ManagePrintFormPage')
 )
 const InfoInputPage = React.lazy(
   () => import('src/modules/sample-info/pages/InfoInputPage')
@@ -130,6 +134,10 @@ export const appRoutes: CustomRouteObject[] = [
             path: 'test-combos',
             element: <ManageTestComboPage />,
           },
+          {
+            path: 'print-forms',
+            element: <ManagePrintFormPage />,
+          },
         ],
       },
       // ------------------------------------------------------------------------
@@ -173,6 +181,7 @@ export const appRoutes: CustomRouteObject[] = [
           {
             path: 'print',
             element: <PrintSelectPage />,
+            loader: printSelectPageLoader,
           },
         ],
       },

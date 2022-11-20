@@ -28,8 +28,8 @@ interface CrudTableProps<R extends GridValidRowModel> {
   items: GridRowsProp<R>
   itemIdField: keyof R
   fieldColumns: GridColumns<R>
-  onItemCreate: (item: R) => Promise<void> | void
   onItemUpdate: (newItem: R, oldItem: R) => Promise<void> | void
+  onItemCreate?: (item: R) => Promise<void> | void
   onItemDelete?: (item: R) => Promise<void> | void
   onRefresh?: () => Promise<void> | void
   isLoading?: boolean
@@ -130,7 +130,9 @@ export function CrudTable<R extends GridValidRowModel>({
 
   const processRowUpdate = async (newRow: R, oldRow: R) => {
     if (newRow[itemIdField] === NEW_ID_VALUE) {
-      await onItemCreate(newRow)
+      if (onItemCreate !== undefined) {
+        await onItemCreate(newRow)
+      }
     } else {
       await onItemUpdate(newRow, oldRow)
     }
@@ -230,6 +232,7 @@ export function CrudTable<R extends GridValidRowModel>({
             onRefresh,
             isLoading,
             firstField: columns?.[0]?.field,
+            allowAddNew: onItemCreate !== undefined,
           },
           pagination: {
             showFirstButton: true,

@@ -89,16 +89,23 @@ export default function InfoInputPage() {
   const deferredName = useDeferredValue(useDebouncedValue(watch('name')!))
 
   const { data: patients, isFetching: isFetchingPatients } =
-    usePatientSearchQuery({
-      searchPatientRequestDto: {
-        filter:
-          deferredExternalId?.length! > 0
-            ? { externalId: deferredExternalId }
-            : { name: { $regex: '^' + deferredName, $options: 'i' } },
-        offset: 0,
-        limit: 10,
+    usePatientSearchQuery(
+      {
+        searchPatientRequestDto: {
+          filter:
+            deferredExternalId?.length! > 0
+              ? { externalId: deferredExternalId }
+              : { name: { $regex: '^' + deferredName, $options: 'i' } },
+          offset: 0,
+          limit: 10,
+        },
       },
-    })
+      {
+        skip:
+          (deferredExternalId ?? '').length === 0 &&
+          (deferredName ?? '').length === 0,
+      }
+    )
 
   const [shouldUpdatePatient, setShouldUpdatePatient] = useState<string | null>(
     null

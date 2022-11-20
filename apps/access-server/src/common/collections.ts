@@ -11,4 +11,5 @@ export enum COLLECTION {
   BIO_PRODUCT = 'bio_products',
   SAMPLE_TYPE = 'sample_types',
   TEST_COMBO = 'test_combos',
+  PRINT_FORM = 'print_forms',
 }

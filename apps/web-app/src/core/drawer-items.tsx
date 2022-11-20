@@ -16,6 +16,7 @@ import Diversity2Icon from '@mui/icons-material/Diversity2'
 import PrintIcon from '@mui/icons-material/Print'
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+import ListAltIcon from '@mui/icons-material/ListAlt'
 
 export interface MenuItem {
   icon: ReactElement
@@ -126,6 +127,12 @@ export const drawerItems: DrawerItem[] = [
         icon: <Diversity2Icon />,
         label: 'Bộ xét nghiệm',
         destination: 'manage/test-combos',
+        permission: Permission.ManageCore,
+      },
+      {
+        icon: <ListAltIcon />,
+        label: 'Form In',
+        destination: 'manage/print-forms',
         permission: Permission.ManageCore,
       },
     ],

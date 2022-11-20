@@ -250,7 +250,14 @@ export class SampleService
 
     try {
       const string = await ejs.renderFile(
-        join(__dirname, '..', '..', `views/print-form/${printForm}.ejs`),
+        join(
+          __dirname,
+          '..',
+          '..',
+          `views/print-form/${
+            printForms.find(({ value }) => value === printForm).filename
+          }.ejs`
+        ),
         printData
       )
       return string

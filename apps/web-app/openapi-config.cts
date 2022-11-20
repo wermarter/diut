@@ -18,6 +18,7 @@ const ENDPOINTS = [
   // 'sample type',
   // 'test combo',
   // 'app setting',
+  // 'print form',
 ]
 const outputFiles = {}
 

@@ -17,9 +17,10 @@ interface CrudToolbarProps<R extends GridValidRowModel> {
   ) => void
   itemIdField: keyof R
   firstField: string
-  onRefresh?: () => Promise<void> | void
   isLoading: boolean
   TopRightComponent: React.ReactNode
+  allowAddNew?: boolean
+  onRefresh?: () => Promise<void> | void
 }
 
 export const NEW_ID_VALUE = 'NEW_ID_VALUE'
@@ -29,9 +30,10 @@ export function CrudToolbar<R extends GridValidRowModel>({
   setRowModesModel,
   itemIdField,
   firstField,
-  onRefresh,
   isLoading,
   TopRightComponent,
+  onRefresh,
+  allowAddNew = true,
 }: CrudToolbarProps<R>) {
   const handleAddNew = () => {
     setRows((oldRows) => {
@@ -68,15 +70,17 @@ export function CrudToolbar<R extends GridValidRowModel>({
             <LoopIcon />
           </Button>
         )}
-        <Button
-          startIcon={<AddIcon />}
-          onClick={handleAddNew}
-          color="primary"
-          variant="outlined"
-          disabled={isLoading}
-        >
-          Thêm
-        </Button>
+        {allowAddNew && (
+          <Button
+            startIcon={<AddIcon />}
+            onClick={handleAddNew}
+            color="primary"
+            variant="outlined"
+            disabled={isLoading}
+          >
+            Thêm
+          </Button>
+        )}
       </Box>
       <Box sx={{ m: 1 }}>{TopRightComponent}</Box>
     </GridToolbarContainer>

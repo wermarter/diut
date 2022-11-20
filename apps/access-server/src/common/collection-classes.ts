@@ -6,6 +6,7 @@ import { Doctor } from 'src/resources/doctors'
 import { Indication } from 'src/resources/indications'
 import { PatientType } from 'src/resources/patient-types'
 import { Patient } from 'src/resources/patients'
+import { PrintForm } from 'src/resources/print-forms'
 import { SampleType } from 'src/resources/sample-types'
 import { Sample } from 'src/resources/samples'
 import { TestCategory } from 'src/resources/test-categories'
@@ -31,4 +32,5 @@ export const COLLECTION_CLASS: Record<
   [COLLECTION.TEST_COMBO]: TestCombo,
   [COLLECTION.TEST_ELEMENT]: TestElement,
   [COLLECTION.USER]: User,
+  [COLLECTION.PRINT_FORM]: PrintForm,
 }

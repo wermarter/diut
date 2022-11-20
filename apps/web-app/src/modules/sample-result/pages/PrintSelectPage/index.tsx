@@ -1,7 +1,7 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import PrintIcon from '@mui/icons-material/Print'
 import EditIcon from '@mui/icons-material/Edit'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { Gender } from '@diut/common'
@@ -31,6 +31,7 @@ import {
   SampleTypeResponseDto,
   useLazySampleTypeFindByIdQuery,
 } from 'src/api/sample-type'
+import { printSelectPageLoader } from './loader'
 
 interface FilterData {
   fromDate: Date
@@ -41,6 +42,9 @@ interface FilterData {
 export default function PrintSelectPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const { printFormData } = useLoaderData() as Awaited<
+    ReturnType<typeof printSelectPageLoader>
+  >
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -304,6 +308,7 @@ export default function PrintSelectPage() {
             sortable: false,
             valueGetter: ({ row }) => {
               return row.results
+                .filter(({ testCompleted }) => testCompleted)
                 .map(({ testId }) => tests[testId]?.name)
                 .join(', ')
             },
@@ -332,6 +337,7 @@ export default function PrintSelectPage() {
         onPageSizeChange={onPageSizeChange}
       />
       <SinglePrintDialog
+        printFormData={printFormData.items}
         sample={printSample}
         sampleTypes={printSample?.sampleTypeIds?.map(
           (sampleTypeId) => sampleTypes[sampleTypeId]?.name

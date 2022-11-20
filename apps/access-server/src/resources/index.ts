@@ -3,6 +3,7 @@ import { DoctorModule } from './doctors'
 import { IndicationModule } from './indications'
 import { PatientTypeModule } from './patient-types'
 import { PatientModule } from './patients'
+import { PrintFormModule } from './print-forms'
 import { SampleTypeModule } from './sample-types'
 import { SampleModule } from './samples'
 import { TestCategoryModule } from './test-categories'
@@ -24,4 +25,5 @@ export const resourceModules = [
   TestComboModule,
   PatientModule,
   SampleModule,
+  PrintFormModule,
 ]
