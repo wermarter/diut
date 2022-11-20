@@ -45,13 +45,13 @@
     </style>
   </head>
   <body>
-    <!-- <div class="print-footer text-sm">
-      BM.TTXN.04/?
+    <div class="print-footer text-sm">
+      BM.TTXN.04/4
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       Phiên bản: 1.0
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       Ngày áp dụng: 18/09/2019
-    </div> -->
+    </div>
     <div class="flex flex-row justify-between">
       <div class="flex flex-col justify-between">
         <div class="flex flex-row">
@@ -98,13 +98,11 @@
         </div>
         <div>
           <p class="text-base">
-            Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
+            Năm sinh: <span><%= patient.birthYear %></span>
           </p>
           <p class="text-base">
             Giới tính:
-            <span class="font-bold"
-              ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
-            >
+            <span><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span>
           </p>
           <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
           <p class="text-base">
@@ -143,7 +141,7 @@
             <span class="font-bold"> <%= test.name %> </span>
             <% if (test?.bioProductName?.length > 0) { %>
             <span class="whitespace-nowrap"
-              >&nbsp;(<%= test?.bioProductName %>)</span
+              >&nbsp;-&nbsp;<%= test?.bioProductName %></span
             >
             <% } %>
           </td>
@@ -151,7 +149,13 @@
 
         <% test.elements.forEach(element => { %>
         <tr class="border border-gray-300">
+          <% if (element.isParent) { %>
+          <td class="pl-8 border border-gray-300 font-bold text-sm">
+            <%= element.name %>
+          </td>
+          <% } else { %>
           <td class="pl-8 border border-gray-300">- <%= element.name %></td>
+          <% } %>
           <td
             class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-bold' : '' %>"
           >

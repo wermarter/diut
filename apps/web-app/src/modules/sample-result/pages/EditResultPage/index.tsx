@@ -172,17 +172,32 @@ export default function EditResultPage() {
           bioProductName,
           testCompleted: test.isLocked ?? testCompleted,
           resultBy: test.author?._id ?? resultBy,
-          elements: tests[testId].elements.map(({ _id: elementId }) => {
-            const { isHighlighted, value } =
-              elements.find(({ id }) => id === elementId) ?? {}
-            const element = elementState[elementId] ?? {}
+          elements: tests[testId].elements.map(
+            ({ _id: elementId, highlightRules }) => {
+              const { isHighlighted, value } =
+                elements.find(({ id }) => id === elementId) ?? {}
+              const element = elementState[elementId] ?? {}
 
-            return {
-              id: elementId,
-              isHighlighted: element.checked ?? isHighlighted ?? false,
-              value: element.value ?? value ?? '',
+              const highlightRule =
+                highlightRules.find(
+                  ({ category }) => category === patientCategory
+                ) ??
+                highlightRules.find(
+                  ({ category }) => category === PatientCategory.Any
+                ) ??
+                ({} as HighlightRuleDto)
+
+              return {
+                id: elementId,
+                isHighlighted:
+                  element.checked ??
+                  isHighlighted ??
+                  highlightRule.defaultChecked ??
+                  false,
+                value: element.value ?? value ?? '',
+              }
             }
-          }),
+          ),
         }
       }
     )
@@ -346,7 +361,11 @@ export default function EditResultPage() {
                               disabled={currentTestState.isLocked}
                               disableRipple
                               color="secondary"
-                              checked={state.checked ?? false}
+                              checked={
+                                state.checked ??
+                                highlightRule.defaultChecked ??
+                                false
+                              }
                               onChange={(e) => {
                                 setElementState((formState) =>
                                   Object.assign({}, formState, {

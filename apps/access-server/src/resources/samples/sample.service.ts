@@ -151,8 +151,9 @@ export class SampleService
     )
 
     const categoryMap: Record<number, string> = {}
-    const testMap: {
-      [categoryIndex: number]: Array<{
+    const testMap: Record<
+      number,
+      Array<{
         index: number
         name: string
         bioProductName: string
@@ -162,9 +163,11 @@ export class SampleService
           isHighlighted: boolean
           description: string
           unit: string
+          isParent: boolean
+          printIndex: number
         }[]
       }>
-    } = {}
+    > = {}
 
     await Promise.all(
       sample.results.map(async (result) => {
@@ -206,6 +209,8 @@ export class SampleService
               )
             )?.description,
             unit: element.unit,
+            isParent: element.isParent,
+            printIndex: element.printIndex,
           })),
         })
       })
@@ -224,14 +229,22 @@ export class SampleService
       doctor: doctor.name,
       patientType: patientType.name,
       indication: indication.name,
-      sampleTypes: sampleTypes.map(({ name }) => name),
+      sampleTypes: sampleTypes.map((sampleType) => sampleType?.name),
       results: Object.keys(testMap)
         .sort()
-        .map((categoryIndex) => ({
-          categoryIndex,
-          categoryName: categoryMap[categoryIndex],
-          tests: testMap[categoryIndex].sort((a, b) => a.index - b.index),
-        })),
+        .map((categoryIndexString) => {
+          const categoryIndex = parseInt(categoryIndexString)
+          return {
+            categoryIndex,
+            categoryName: categoryMap[categoryIndex],
+            tests: testMap[categoryIndex]
+              .sort((a, b) => a.index - b.index)
+              .map(({ elements, ...rest }) => ({
+                ...rest,
+                elements: elements.sort((a, b) => a.printIndex - b.printIndex),
+              })),
+          }
+        }),
     }
   }
 

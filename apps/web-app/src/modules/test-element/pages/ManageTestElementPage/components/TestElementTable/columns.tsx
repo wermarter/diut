@@ -31,7 +31,7 @@ export function useTestElementColumns(
     },
     {
       field: 'index',
-      headerName: 'Thứ tự',
+      headerName: 'Thứ tự nhập',
       type: 'number',
       minWidth: 70,
       sortable: false,
@@ -39,7 +39,7 @@ export function useTestElementColumns(
     },
     {
       field: 'printIndex',
-      headerName: '# In',
+      headerName: 'Thứ tự In',
       type: 'number',
       minWidth: 70,
       sortable: false,

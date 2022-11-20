@@ -323,6 +323,7 @@ export default function PrintSelectPage() {
               <GridActionsCellItem
                 icon={<EditIcon />}
                 label="Sửa KQ"
+                color={row.sampleCompleted ? 'default' : 'secondary'}
                 onClick={handleEditClick(row)}
               />,
             ],
