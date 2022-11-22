@@ -1,21 +1,15 @@
-import { PatientCategory } from '@diut/common'
+import { ID_TEST_TD, PatientCategory } from '@diut/common'
 import {
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
-  Checkbox,
   List,
   ListItemButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TextField,
   Typography,
 } from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
@@ -37,8 +31,9 @@ import {
   selectUserName,
 } from 'src/modules/auth'
 import { getPatientCategory } from '../../utils'
-import { checkHighlight } from './utils'
 import { editResultPageLoader } from './loader'
+import { CommonResultCard } from './components/CommonResultCard'
+import { TDResultCard } from './components/TDResultCard'
 
 export default function EditResultPage() {
   const userId = useTypedSelector(selectUserId)
@@ -54,6 +49,19 @@ export default function EditResultPage() {
   const patientCategory = useMemo(() => {
     return getPatientCategory(patient, sample)
   }, [sampleId])
+
+  const getHighlightRule = useCallback(
+    (highlightRules: HighlightRuleDto[]) => {
+      return (
+        highlightRules.find(({ category }) => category === patientCategory) ??
+        highlightRules.find(
+          ({ category }) => category === PatientCategory.Any
+        ) ??
+        ({} as HighlightRuleDto)
+      )
+    },
+    [patientCategory]
+  )
 
   const [tests, setTests] = useState<{
     [id: string]: TestResponseDto & {
@@ -177,15 +185,7 @@ export default function EditResultPage() {
               const { isHighlighted, value } =
                 elements.find(({ id }) => id === elementId) ?? {}
               const element = elementState[elementId] ?? {}
-
-              const highlightRule =
-                highlightRules.find(
-                  ({ category }) => category === patientCategory
-                ) ??
-                highlightRules.find(
-                  ({ category }) => category === PatientCategory.Any
-                ) ??
-                ({} as HighlightRuleDto)
+              const highlightRule = getHighlightRule(highlightRules)
 
               return {
                 id: elementId,
@@ -218,7 +218,7 @@ export default function EditResultPage() {
 
   return (
     <FormContainer sx={{ p: 2 }}>
-      <Box sx={{ position: 'fixed', width: '270px' }}>
+      <Box sx={{ position: 'fixed', width: '280px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             sx={{ mr: 1 }}
@@ -279,17 +279,29 @@ export default function EditResultPage() {
           })}
         </List>
       </Box>
-      <Box sx={{ ml: '300px' }}>
-        {sortedTests.map((test) => {
-          const currentTestState = testState[test._id] ?? {}
+      <Box
+        sx={{
+          ml: '300px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        {sortedTests.map((currentTestInfo) => {
+          const currentTestState = testState[currentTestInfo._id] ?? {}
+
           return (
-            <Card sx={{ mb: 4, maxWidth: '700px' }} key={test._id} raised>
+            <Card
+              sx={{ mb: 4, maxWidth: '700px' }}
+              key={currentTestInfo._id}
+              raised
+            >
               <CardHeader
-                title={test.name}
+                title={currentTestInfo.name}
                 titleTypographyProps={{
                   color: currentTestState.isLocked ? '#CCC' : 'primary',
                 }}
-                subheader={test.result?.bioProductName}
+                subheader={currentTestInfo.result?.bioProductName}
                 action={
                   <Box sx={{ m: 1, display: 'flex', alignItems: 'center' }}>
                     {currentTestState.author != undefined && (
@@ -306,7 +318,7 @@ export default function EditResultPage() {
                           onClick={() => {
                             setTestState((cache) =>
                               Object.assign({}, cache, {
-                                [test._id]: {
+                                [currentTestInfo._id]: {
                                   isLocked: false,
                                 },
                               })
@@ -325,7 +337,7 @@ export default function EditResultPage() {
                         onClick={() => {
                           setTestState((cache) =>
                             Object.assign({}, cache, {
-                              [test._id]: {
+                              [currentTestInfo._id]: {
                                 isLocked: true,
                                 author: { _id: userId, name: userName },
                               },
@@ -339,85 +351,36 @@ export default function EditResultPage() {
                   </Box>
                 }
               />
-              <CardContent sx={{ px: 10 }}>
-                <Table size="small">
-                  <TableBody>
-                    {test.elements.map((element) => {
-                      const state = elementState[element._id] ?? {}
-                      const highlightRule =
-                        element.highlightRules.find(
-                          ({ category }) => category === patientCategory
-                        ) ??
-                        element.highlightRules.find(
-                          ({ category }) => category === PatientCategory.Any
-                        ) ??
-                        ({} as HighlightRuleDto)
-
-                      return (
-                        <TableRow key={element._id}>
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              tabIndex={-1}
-                              disabled={currentTestState.isLocked}
-                              disableRipple
-                              color="secondary"
-                              checked={
-                                state.checked ??
-                                highlightRule.defaultChecked ??
-                                false
-                              }
-                              onChange={(e) => {
-                                setElementState((formState) =>
-                                  Object.assign({}, formState, {
-                                    [element._id]: {
-                                      checked: e.target.checked,
-                                      value: state.value,
-                                    },
-                                  })
-                                )
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell align="left" width="200px">
-                            <Typography
-                              sx={{
-                                color: currentTestState.isLocked
-                                  ? '#CCC'
-                                  : 'inherit',
-                                fontWeight: state.checked ? 'bold' : 'normal',
-                              }}
-                            >
-                              {element.name}
-                            </Typography>
-                          </TableCell>
-                          <TableCell width="200px">
-                            <TextField
-                              name={element._id}
-                              disabled={currentTestState.isLocked}
-                              fullWidth
-                              variant="standard"
-                              value={state.value ?? ''}
-                              onChange={(e) => {
-                                const newValue = e.target.value
-                                const checked =
-                                  newValue.length > 0 &&
-                                  checkHighlight(highlightRule, newValue)
-                                setElementState((formState) =>
-                                  Object.assign({}, formState, {
-                                    [element._id]: {
-                                      checked: checked,
-                                      value: newValue,
-                                    },
-                                  })
-                                )
-                              }}
-                            />
-                          </TableCell>
-                        </TableRow>
+              <CardContent sx={{ px: 6, py: 0 }}>
+                {currentTestInfo._id === ID_TEST_TD ? (
+                  <TDResultCard
+                    currentTestInfo={currentTestInfo}
+                    currentTestState={currentTestState}
+                    elementState={elementState}
+                    setElementState={(elementId, { checked, value }) => {
+                      setElementState((formState: any) =>
+                        Object.assign({}, formState, {
+                          [elementId]: { checked, value },
+                        })
                       )
-                    })}
-                  </TableBody>
-                </Table>
+                    }}
+                    getHighlightRule={getHighlightRule}
+                  />
+                ) : (
+                  <CommonResultCard
+                    currentTestInfo={currentTestInfo}
+                    currentTestState={currentTestState}
+                    elementState={elementState}
+                    setElementState={(elementId, { checked, value }) => {
+                      setElementState((formState: any) =>
+                        Object.assign({}, formState, {
+                          [elementId]: { checked, value },
+                        })
+                      )
+                    }}
+                    getHighlightRule={getHighlightRule}
+                  />
+                )}
               </CardContent>
             </Card>
           )

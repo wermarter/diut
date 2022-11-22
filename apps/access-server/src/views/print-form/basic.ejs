@@ -88,26 +88,34 @@
               sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
             >
           </p>
-          <p class="text-base">
+          <!-- <p class="text-base">
             Lấy mẫu:
             <span
               ><%= sample.sampledAt.toLocaleDateString('vi') %>, <%=
               sample.sampledAt.toLocaleTimeString('vi').slice(0, -3) %></span
             >
-          </p>
+          </p> -->
         </div>
         <div>
-          <p class="text-base">
-            Năm sinh: <span><%= patient.birthYear %></span>
-          </p>
-          <p class="text-base">
-            Giới tính:
-            <span><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span>
-          </p>
+          <div class="flex flex-row">
+            <p class="text-base">
+              Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
+            </p>
+            <p class="text-base ml-2">
+              Giới tính:
+              <span class="font-bold"
+                ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
+              >
+            </p>
+          </div>
           <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
           <p class="text-base">
             Loại mẫu:
             <span><%= sampleTypes.join(', ') %></span>
+          </p>
+          <p class="text-base">
+            Ngày XN:
+            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
           </p>
         </div>
       </div>
