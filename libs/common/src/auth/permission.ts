@@ -4,4 +4,6 @@ export enum Permission {
   //
   ManageInfo = 'ManageInfo',
   ManageResult = 'ManageResult',
+  //
+  ViewTestReport = 'ViewTestReport',
 }

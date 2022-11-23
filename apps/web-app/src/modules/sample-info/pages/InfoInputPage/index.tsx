@@ -121,7 +121,9 @@ export default function InfoInputPage() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box
+      sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
       <FormContainer
         onSubmit={handleSubmit(async (values) => {
           Object.keys(values).forEach(
@@ -363,85 +365,88 @@ export default function InfoInputPage() {
         }}
         showCombos
       />
-      <DataTable
-        rows={patients?.items ?? []}
-        loading={isFetchingPatients}
-        disableSelectionOnClick
-        getRowId={(row) => row._id}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        columns={[
-          {
-            field: 'startActions',
-            type: 'actions',
-            width: 80,
-            sortable: false,
-            cellClassName: 'actions',
-            getActions: ({ id }) => [
-              <GridActionsCellItem
-                icon={<CheckIcon />}
-                label="Chọn"
-                color="primary"
-                onClick={() => {
-                  const patient = patients?.items.find(({ _id }) => _id === id)
-                  setShouldUpdatePatient(patient?._id!)
-
-                  setValue('externalId', patient?.externalId)
-                  setValue('name', patient?.name!)
-                  setValue('gender', patient?.gender!)
-                  setValue('birthYear', patient?.birthYear!)
-                  setValue('address', patient?.address!)
-                  setValue('phoneNumber', patient?.phoneNumber)
-                  setValue('SSN', patient?.SSN)
-                }}
-              />,
-            ],
-          },
-          {
-            field: 'externalId',
-            headerName: 'ID PK',
-            sortable: false,
-            width: 120,
-          },
-          {
-            field: 'name',
-            headerName: 'Họ tên',
-            sortable: false,
-            flex: 1,
-            minWidth: 150,
-          },
-          {
-            field: 'birthYear',
-            headerName: 'Năm sinh',
-            sortable: false,
-            width: 100,
-          },
-          {
-            field: 'gender',
-            headerName: 'Giới tính',
-            sortable: false,
-            width: 100,
-            valueGetter: ({ value }) => {
-              if (value === Gender.Male) {
-                return 'Nam'
-              }
-              return 'Nữ'
+      <Box sx={{ flexGrow: 1 }}>
+        <DataTable
+          rows={patients?.items ?? []}
+          loading={isFetchingPatients}
+          disableSelectionOnClick
+          getRowId={(row) => row._id}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+          columns={[
+            {
+              field: 'startActions',
+              type: 'actions',
+              width: 80,
+              sortable: false,
+              cellClassName: 'actions',
+              getActions: ({ id }) => [
+                <GridActionsCellItem
+                  icon={<CheckIcon />}
+                  label="Chọn"
+                  color="primary"
+                  onClick={() => {
+                    const patient = patients?.items.find(
+                      ({ _id }) => _id === id
+                    )
+                    setShouldUpdatePatient(patient?._id!)
+                    setValue('externalId', patient?.externalId)
+                    setValue('name', patient?.name!)
+                    setValue('gender', patient?.gender!)
+                    setValue('birthYear', patient?.birthYear!)
+                    setValue('address', patient?.address!)
+                    setValue('phoneNumber', patient?.phoneNumber)
+                    setValue('SSN', patient?.SSN)
+                  }}
+                />,
+              ],
             },
-          },
-          {
-            field: 'address',
-            headerName: 'Địa chỉ',
-            sortable: false,
-            width: 200,
-          },
-          {
-            field: 'phoneNumber',
-            headerName: 'SĐT',
-            sortable: false,
-            width: 150,
-          },
-        ]}
-      />
+            {
+              field: 'externalId',
+              headerName: 'ID PK',
+              sortable: false,
+              width: 120,
+            },
+            {
+              field: 'name',
+              headerName: 'Họ tên',
+              sortable: false,
+              flex: 1,
+              minWidth: 150,
+            },
+            {
+              field: 'birthYear',
+              headerName: 'Năm sinh',
+              sortable: false,
+              width: 100,
+            },
+            {
+              field: 'gender',
+              headerName: 'Giới tính',
+              sortable: false,
+              width: 100,
+              valueGetter: ({ value }) => {
+                if (value === Gender.Male) {
+                  return 'Nam'
+                }
+                return 'Nữ'
+              },
+            },
+            {
+              field: 'address',
+              headerName: 'Địa chỉ',
+              sortable: false,
+              width: 200,
+            },
+            {
+              field: 'phoneNumber',
+              headerName: 'SĐT',
+              sortable: false,
+              width: 150,
+            },
+          ]}
+        />
+      </Box>
     </Box>
   )
 }

@@ -17,6 +17,7 @@ import PrintIcon from '@mui/icons-material/Print'
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import ListAltIcon from '@mui/icons-material/ListAlt'
+import RuleIcon from '@mui/icons-material/Rule'
 
 export interface MenuItem {
   icon: ReactElement
@@ -63,6 +64,12 @@ export const drawerItems: DrawerItem[] = [
         label: 'In KQ',
         destination: 'result/print',
         permission: Permission.ManageResult,
+      },
+      {
+        icon: <RuleIcon />,
+        label: 'Sổ nhận mẫu',
+        destination: 'report/test',
+        permission: Permission.ViewTestReport,
       },
     ],
   },

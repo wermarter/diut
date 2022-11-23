@@ -184,7 +184,9 @@ export default function InfoConfirmPage() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box
+      sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
       <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
         <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
           <Grid container spacing={2}>
@@ -235,140 +237,143 @@ export default function InfoConfirmPage() {
           </Grid>
         </FormContainer>
       </Paper>
-      <DataTable
-        cellOutline
-        disableSelectionOnClick
-        rows={samples?.items || []}
-        autoRowHeight
-        loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
-        getRowId={(row) => row._id}
-        columns={[
-          {
-            field: 'startActions',
-            type: 'actions',
-            width: 50,
-            cellClassName: 'actions',
-            getActions: ({ row }) =>
-              row.infoCompleted
-                ? []
-                : [
-                    <GridActionsCellItem
-                      icon={<CheckIcon />}
-                      label="Xác nhận"
-                      color="primary"
-                      onClick={handleConfirmClick(row)}
-                      disabled={isConfirming}
-                    />,
-                  ],
-          },
-          {
-            field: 'infoAt',
-            headerName: 'Nhận bệnh',
-            width: 100,
-            sortable: false,
-            valueGetter: ({ value }) => {
-              return format(new Date(value), 'dd/MM/yyyy HH:mm')
+      <Box sx={{ flexGrow: 1 }}>
+        <DataTable
+          cellOutline
+          disableSelectionOnClick
+          rows={samples?.items || []}
+          autoRowHeight
+          loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
+          getRowId={(row) => row._id}
+          columns={[
+            {
+              field: 'startActions',
+              type: 'actions',
+              width: 50,
+              cellClassName: 'actions',
+              getActions: ({ row }) =>
+                row.infoCompleted
+                  ? []
+                  : [
+                      <GridActionsCellItem
+                        icon={<CheckIcon />}
+                        label="Xác nhận"
+                        color="primary"
+                        onClick={handleConfirmClick(row)}
+                        disabled={isConfirming}
+                      />,
+                    ],
             },
-          },
-          {
-            field: 'sampleId',
-            headerName: 'ID XN',
-            width: 120,
-            sortable: false,
-            renderCell: ({ value }) => <strong>{value}</strong>,
-          },
-          {
-            field: 'name',
-            headerName: 'Tên',
-            sortable: false,
-            width: 100,
-            valueGetter: ({ row }) => patients[row.patientId]?.name,
-          },
-          {
-            field: 'birthYear',
-            headerName: 'Năm',
-            width: 60,
-            sortable: false,
-            valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
-          },
-          {
-            field: 'gender',
-            headerName: 'Giới',
-            width: 60,
-            sortable: false,
-            valueGetter: ({ row }) => {
-              if (patients[row.patientId]?.gender === Gender.Female) {
-                return 'Nữ'
-              } else {
-                return 'Nam'
-              }
+            {
+              field: 'infoAt',
+              headerName: 'Nhận bệnh',
+              width: 100,
+              sortable: false,
+              valueGetter: ({ value }) => {
+                return format(new Date(value), 'dd/MM/yyyy HH:mm')
+              },
             },
-          },
-          {
-            field: 'address',
-            headerName: 'Địa chỉ',
-            width: 80,
-            sortable: false,
-            valueGetter: ({ row }) => patients[row.patientId]?.address,
-          },
-          {
-            field: 'phoneNumber',
-            headerName: 'SĐT',
-            width: 120,
-            sortable: false,
-            valueGetter: ({ row }) => patients[row.patientId]?.phoneNumber,
-          },
-          {
-            field: 'doctor',
-            headerName: 'Bác sỹ',
-            width: 100,
-            sortable: false,
-            valueGetter: ({ row }) => doctorMap.get(row.doctorId)?.name,
-          },
-          {
-            field: 'tests',
-            headerName: 'Chỉ định XN',
-            minWidth: 100,
-            flex: 1,
-            sortable: false,
-            valueGetter: ({ row }) => {
-              return row.results
-                .map(({ testId }) => tests[testId]?.name)
-                .join(', ')
+            {
+              field: 'sampleId',
+              headerName: 'ID XN',
+              width: 120,
+              sortable: false,
+              renderCell: ({ value }) => <strong>{value}</strong>,
             },
-          },
-          {
-            field: 'indication',
-            headerName: 'Chẩn đoán',
-            width: 70,
-            sortable: false,
-            valueGetter: ({ row }) => indicationMap.get(row.indicationId)?.name,
-          },
-          {
-            field: 'endActions',
-            type: 'actions',
-            width: 50,
-            cellClassName: 'actions',
-            getActions: ({ row }) =>
-              userIsAdmin || row.infoBy === userId
-                ? [
-                    <GridActionsCellItem
-                      icon={<EditIcon />}
-                      label="Sửa"
-                      onClick={handleEditClick(row)}
-                    />,
-                  ]
-                : [],
-          },
-        ]}
-        paginationMode="server"
-        rowsPerPageOptions={[5, 10, 20, 100]}
-        rowCount={samples?.total ?? 0}
-        page={samples?.offset ?? 0}
-        pageSize={samples?.limit ?? 10}
-        onPageChange={onPageChange}
-        onPageSizeChange={onPageSizeChange}
-      />
+            {
+              field: 'name',
+              headerName: 'Tên',
+              sortable: false,
+              width: 100,
+              valueGetter: ({ row }) => patients[row.patientId]?.name,
+            },
+            {
+              field: 'birthYear',
+              headerName: 'Năm',
+              width: 60,
+              sortable: false,
+              valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
+            },
+            {
+              field: 'gender',
+              headerName: 'Giới',
+              width: 60,
+              sortable: false,
+              valueGetter: ({ row }) => {
+                if (patients[row.patientId]?.gender === Gender.Female) {
+                  return 'Nữ'
+                } else {
+                  return 'Nam'
+                }
+              },
+            },
+            {
+              field: 'address',
+              headerName: 'Địa chỉ',
+              width: 80,
+              sortable: false,
+              valueGetter: ({ row }) => patients[row.patientId]?.address,
+            },
+            {
+              field: 'phoneNumber',
+              headerName: 'SĐT',
+              width: 120,
+              sortable: false,
+              valueGetter: ({ row }) => patients[row.patientId]?.phoneNumber,
+            },
+            {
+              field: 'doctor',
+              headerName: 'Bác sỹ',
+              width: 100,
+              sortable: false,
+              valueGetter: ({ row }) => doctorMap.get(row.doctorId)?.name,
+            },
+            {
+              field: 'tests',
+              headerName: 'Chỉ định XN',
+              minWidth: 100,
+              flex: 1,
+              sortable: false,
+              valueGetter: ({ row }) => {
+                return row.results
+                  .map(({ testId }) => tests[testId]?.name)
+                  .join(', ')
+              },
+            },
+            {
+              field: 'indication',
+              headerName: 'Chẩn đoán',
+              width: 70,
+              sortable: false,
+              valueGetter: ({ row }) =>
+                indicationMap.get(row.indicationId)?.name,
+            },
+            {
+              field: 'endActions',
+              type: 'actions',
+              width: 50,
+              cellClassName: 'actions',
+              getActions: ({ row }) =>
+                userIsAdmin || row.infoBy === userId
+                  ? [
+                      <GridActionsCellItem
+                        icon={<EditIcon />}
+                        label="Sửa"
+                        onClick={handleEditClick(row)}
+                      />,
+                    ]
+                  : [],
+            },
+          ]}
+          paginationMode="server"
+          rowsPerPageOptions={[5, 10, 20, 100]}
+          rowCount={samples?.total ?? 0}
+          page={samples?.offset ?? 0}
+          pageSize={samples?.limit ?? 10}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+        />
+      </Box>
     </Box>
   )
 }

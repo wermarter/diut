@@ -29,7 +29,7 @@ export const userColumns: GridColumns<UserResponseDto> = [
   {
     field: 'permissionManageCore',
     headerName: 'Admin',
-    width: 100,
+    width: 80,
     sortable: false,
     editable: true,
     type: 'boolean',
@@ -41,7 +41,7 @@ export const userColumns: GridColumns<UserResponseDto> = [
   {
     field: 'permissionManageInfo',
     headerName: 'Hồ sơ',
-    width: 100,
+    width: 80,
     sortable: false,
     editable: true,
     type: 'boolean',
@@ -53,7 +53,7 @@ export const userColumns: GridColumns<UserResponseDto> = [
   {
     field: 'permissionManageResult',
     headerName: 'Kết quả',
-    width: 100,
+    width: 80,
     sortable: false,
     editable: true,
     type: 'boolean',
@@ -61,6 +61,18 @@ export const userColumns: GridColumns<UserResponseDto> = [
       return row.permissions?.includes(Permission.ManageResult) ?? false
     },
     valueSetter: permissionValueSetter(Permission.ManageResult),
+  },
+  {
+    field: 'permissionViewTestReport',
+    headerName: 'Sổ nhận mẫu',
+    width: 120,
+    sortable: false,
+    editable: true,
+    type: 'boolean',
+    valueGetter: ({ row }) => {
+      return row.permissions?.includes(Permission.ViewTestReport) ?? false
+    },
+    valueSetter: permissionValueSetter(Permission.ViewTestReport),
   },
 ]
 

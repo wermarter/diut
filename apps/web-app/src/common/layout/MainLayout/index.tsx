@@ -10,7 +10,13 @@ export const drawerWidth = 220
 
 export function MainLayout() {
   return (
-    <Box sx={{ display: 'flex', minWidth: '800px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        minWidth: '800px',
+        minHeight: 'calc(100vh - 48px)',
+      }}
+    >
       <AppBar drawerWidth={drawerWidth} />
       <AppDrawer drawerWidth={drawerWidth} />
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>

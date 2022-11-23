@@ -23,7 +23,6 @@ export function DataTable<R extends GridValidRowModel>({
 }: DataTableProps<R>) {
   return (
     <DataGrid
-      autoHeight
       disableColumnMenu
       getRowHeight={() => {
         if (autoRowHeight === true) {

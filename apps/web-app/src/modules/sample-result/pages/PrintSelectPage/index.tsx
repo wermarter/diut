@@ -179,7 +179,9 @@ export default function PrintSelectPage() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box
+      sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
       <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
         <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
           <Grid container spacing={2}>
@@ -215,128 +217,130 @@ export default function PrintSelectPage() {
           </Grid>
         </FormContainer>
       </Paper>
-      <DataTable
-        cellOutline
-        disableSelectionOnClick
-        rows={samples?.items || []}
-        autoRowHeight
-        loading={
-          isFetchingSamples ||
-          isFetchingPatients ||
-          isFetchingTests ||
-          isFetchingSampleTypes
-        }
-        getRowId={(row) => row._id}
-        columns={[
-          {
-            field: 'startActions',
-            type: 'actions',
-            width: 50,
-            sortable: false,
-            cellClassName: 'actions',
-            getActions: ({ row }) => [
-              <GridActionsCellItem
-                icon={<PrintIcon />}
-                label="In KQ"
-                color="primary"
-                onClick={handleConfirmClick(row)}
-              />,
-            ],
-          },
-          {
-            field: 'infoAt',
-            headerName: 'TG nhận bệnh',
-            width: 150,
-            sortable: false,
-            valueGetter: ({ value }) => {
-              return format(new Date(value), 'dd/MM/yyyy HH:mm')
+      <Box sx={{ flexGrow: 1 }}>
+        <DataTable
+          cellOutline
+          disableSelectionOnClick
+          rows={samples?.items || []}
+          autoRowHeight
+          loading={
+            isFetchingSamples ||
+            isFetchingPatients ||
+            isFetchingTests ||
+            isFetchingSampleTypes
+          }
+          getRowId={(row) => row._id}
+          columns={[
+            {
+              field: 'startActions',
+              type: 'actions',
+              width: 50,
+              sortable: false,
+              cellClassName: 'actions',
+              getActions: ({ row }) => [
+                <GridActionsCellItem
+                  icon={<PrintIcon />}
+                  label="In KQ"
+                  color="primary"
+                  onClick={handleConfirmClick(row)}
+                />,
+              ],
             },
-          },
-          {
-            field: 'sampleId',
-            headerName: 'ID XN',
-            width: 120,
-            sortable: false,
-            renderCell: ({ value }) => <strong>{value}</strong>,
-          },
-          {
-            field: 'name',
-            headerName: 'Tên',
-            sortable: false,
-            width: 100,
-            valueGetter: ({ row }) => patients[row.patientId]?.name,
-          },
-          {
-            field: 'externalId',
-            headerName: 'ID PK',
-            sortable: false,
-            width: 100,
-            valueGetter: ({ row }) => patients[row.patientId]?.externalId,
-          },
-          {
-            field: 'birthYear',
-            headerName: 'Năm',
-            width: 60,
-            sortable: false,
-            valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
-          },
-          {
-            field: 'gender',
-            headerName: 'Giới',
-            width: 60,
-            sortable: false,
-            valueGetter: ({ row }) => {
-              if (patients[row.patientId]?.gender === Gender.Female) {
-                return 'Nữ'
-              } else {
-                return 'Nam'
-              }
+            {
+              field: 'infoAt',
+              headerName: 'TG nhận bệnh',
+              width: 150,
+              sortable: false,
+              valueGetter: ({ value }) => {
+                return format(new Date(value), 'dd/MM/yyyy HH:mm')
+              },
             },
-          },
-          {
-            field: 'address',
-            headerName: 'Địa chỉ',
-            width: 80,
-            sortable: false,
-            valueGetter: ({ row }) => patients[row.patientId]?.address,
-          },
-          {
-            field: 'tests',
-            headerName: 'Chỉ định XN',
-            minWidth: 100,
-            flex: 1,
-            sortable: false,
-            valueGetter: ({ row }) => {
-              return row.results
-                .filter(({ testCompleted }) => testCompleted)
-                .map(({ testId }) => tests[testId]?.name)
-                .join(', ')
+            {
+              field: 'sampleId',
+              headerName: 'ID XN',
+              width: 120,
+              sortable: false,
+              renderCell: ({ value }) => <strong>{value}</strong>,
             },
-          },
-          {
-            field: 'endActions',
-            type: 'actions',
-            width: 50,
-            sortable: false,
-            cellClassName: 'actions',
-            getActions: ({ row }) => [
-              <GridActionsCellItem
-                icon={<EditIcon />}
-                label="Sửa KQ"
-                color={row.sampleCompleted ? 'default' : 'secondary'}
-                onClick={handleEditClick(row)}
-              />,
-            ],
-          },
-        ]}
-        paginationMode="server"
-        rowsPerPageOptions={[5, 10, 20, 100]}
-        rowCount={samples?.total ?? 0}
-        page={samples?.offset ?? 0}
-        pageSize={samples?.limit ?? 10}
-        onPageChange={onPageChange}
-        onPageSizeChange={onPageSizeChange}
-      />
+            {
+              field: 'name',
+              headerName: 'Tên',
+              sortable: false,
+              width: 100,
+              valueGetter: ({ row }) => patients[row.patientId]?.name,
+            },
+            {
+              field: 'externalId',
+              headerName: 'ID PK',
+              sortable: false,
+              width: 100,
+              valueGetter: ({ row }) => patients[row.patientId]?.externalId,
+            },
+            {
+              field: 'birthYear',
+              headerName: 'Năm',
+              width: 60,
+              sortable: false,
+              valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
+            },
+            {
+              field: 'gender',
+              headerName: 'Giới',
+              width: 60,
+              sortable: false,
+              valueGetter: ({ row }) => {
+                if (patients[row.patientId]?.gender === Gender.Female) {
+                  return 'Nữ'
+                } else {
+                  return 'Nam'
+                }
+              },
+            },
+            {
+              field: 'address',
+              headerName: 'Địa chỉ',
+              width: 80,
+              sortable: false,
+              valueGetter: ({ row }) => patients[row.patientId]?.address,
+            },
+            {
+              field: 'tests',
+              headerName: 'Chỉ định XN',
+              minWidth: 100,
+              flex: 1,
+              sortable: false,
+              valueGetter: ({ row }) => {
+                return row.results
+                  .filter(({ testCompleted }) => testCompleted)
+                  .map(({ testId }) => tests[testId]?.name)
+                  .join(', ')
+              },
+            },
+            {
+              field: 'endActions',
+              type: 'actions',
+              width: 50,
+              sortable: false,
+              cellClassName: 'actions',
+              getActions: ({ row }) => [
+                <GridActionsCellItem
+                  icon={<EditIcon />}
+                  label="Sửa KQ"
+                  color={row.sampleCompleted ? 'default' : 'secondary'}
+                  onClick={handleEditClick(row)}
+                />,
+              ],
+            },
+          ]}
+          paginationMode="server"
+          rowsPerPageOptions={[5, 10, 20, 100]}
+          rowCount={samples?.total ?? 0}
+          page={samples?.offset ?? 0}
+          pageSize={samples?.limit ?? 10}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+        />
+      </Box>
       <SinglePrintDialog
         printFormData={printFormData.items}
         sample={printSample}

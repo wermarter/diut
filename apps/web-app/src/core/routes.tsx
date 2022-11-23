@@ -15,6 +15,7 @@ import { editSelectPageLoader } from 'src/modules/sample-result/pages/EditSelect
 import { manageTestPageLoader } from 'src/modules/test/pages/ManageTestPage/loader'
 import { manageTestElemenentPageLoader } from 'src/modules/test-element/pages/ManageTestElementPage/loader'
 import { printSelectPageLoader } from 'src/modules/sample-result/pages/PrintSelectPage/loader'
+import { testReportPageLoader } from 'src/modules/report/pages/TestReportPage/loader'
 
 //#region Lazy import pages
 const ManageDoctorPage = React.lazy(
@@ -67,6 +68,9 @@ const EditSelectPage = React.lazy(
 )
 const PrintSelectPage = React.lazy(
   () => import('src/modules/sample-result/pages/PrintSelectPage')
+)
+const TestReportPage = React.lazy(
+  () => import('src/modules/report/pages/TestReportPage')
 )
 //#endregion
 
@@ -182,6 +186,18 @@ export const appRoutes: CustomRouteObject[] = [
             path: 'print',
             element: <PrintSelectPage />,
             loader: printSelectPageLoader,
+          },
+        ],
+      },
+      {
+        path: 'report',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'test',
+            element: <TestReportPage />,
+            permission: Permission.ViewTestReport,
+            loader: testReportPageLoader,
           },
         ],
       },
