@@ -24,6 +24,7 @@ export function DataTable<R extends GridValidRowModel>({
   return (
     <DataGrid
       disableColumnMenu
+      disableVirtualization
       getRowHeight={() => {
         if (autoRowHeight === true) {
           return 'auto'

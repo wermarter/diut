@@ -19,6 +19,7 @@ import { useCrudPagination } from 'src/common/hooks'
 import { testReportPageLoader } from './loader'
 import { useForm } from 'react-hook-form'
 import { FormContainer, FormDateTimePicker } from 'src/common/form-elements'
+import { GridColDef } from '@mui/x-data-grid'
 
 interface FilterData {
   fromDate: Date
@@ -268,25 +269,28 @@ export default function TestReportPage() {
               valueGetter: ({ row }) =>
                 patientTypeMap.get(row.patientTypeId)?.name,
             },
-            ...tests.map(({ _id, name }) => ({
-              field: _id,
-              headerName: name,
-              width: 80,
-              sortable: false,
-              renderCell: ({ value }: any) => (
-                <Typography fontWeight="bold">{value}</Typography>
-              ),
-              valueGetter: ({ row }: { row: SampleResponseDto }) => {
-                //@ts-ignore
-                if (row?.isSummary === true) {
-                  return summary[_id]
-                }
-                if (row.results.some(({ testId }) => testId === _id)) {
-                  return '✓'
-                }
-                return ''
-              },
-            })),
+            ...tests.map(
+              ({ _id, name }): GridColDef<SampleResponseDto> => ({
+                field: _id,
+                headerName: name,
+                width: 80,
+                sortable: false,
+                align: 'center',
+                renderCell: ({ value }) => (
+                  <Typography fontWeight="bold">{value}</Typography>
+                ),
+                valueGetter: ({ row }) => {
+                  //@ts-ignore
+                  if (row?.isSummary === true) {
+                    return summary[_id]
+                  }
+                  if (row.results.some(({ testId }) => testId === _id)) {
+                    return '✓'
+                  }
+                  return ''
+                },
+              })
+            ),
           ]}
           paginationMode="server"
           rowsPerPageOptions={[5, 10, 20, 100]}
