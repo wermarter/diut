@@ -110,11 +110,13 @@ export default function TestReportPage() {
 
     const tempSummary: Record<string, number> = {}
     samples.forEach(({ results }) => {
-      results.forEach(({ testId }) => {
+      results.forEach(({ testId, testCompleted }) => {
         if (tempSummary[testId] === undefined) {
           tempSummary[testId] = 0
         }
-        tempSummary[testId]++
+        if (testCompleted) {
+          tempSummary[testId]++
+        }
       })
     })
     setSummary(tempSummary)
@@ -282,11 +284,20 @@ export default function TestReportPage() {
                 valueGetter: ({ row }) => {
                   //@ts-ignore
                   if (row?.isSummary === true) {
-                    return summary[_id]
+                    const count = summary[_id]
+                    if (count > 0) {
+                      return count
+                    }
+
+                    return ''
                   }
-                  if (row.results.some(({ testId }) => testId === _id)) {
+
+                  const { testCompleted } =
+                    row.results.find(({ testId }) => testId === _id) ?? {}
+                  if (testCompleted === true) {
                     return '✓'
                   }
+
                   return ''
                 },
               })

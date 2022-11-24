@@ -342,8 +342,15 @@ export default function PrintSelectPage() {
         />
       </Box>
       <SinglePrintDialog
-        printFormData={printFormData.items}
+        printFormData={printFormData.items.filter(({ _id }) => {
+          const testIds = printSample?.results
+            .filter(({ testCompleted }) => testCompleted)
+            .map(({ testId }) => testId)
+          const printForms = testIds?.map((testId) => tests[testId].printForm)
+          return printForms?.some((printFormId) => printFormId === _id)
+        })}
         sample={printSample}
+        key={printSample?._id}
         sampleTypes={printSample?.sampleTypeIds?.map(
           (sampleTypeId) => sampleTypes[sampleTypeId]?.name
         )}

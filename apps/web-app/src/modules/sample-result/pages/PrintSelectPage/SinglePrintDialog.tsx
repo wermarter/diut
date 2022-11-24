@@ -59,7 +59,7 @@ export function SinglePrintDialog({
   } = useForm<FormData>({
     defaultValues: {
       sampleTypes: [],
-      printForm: printFormData[0]._id as PrintForm,
+      printForm: printFormData[0]?._id as PrintForm,
       authorPosition: '',
       authorName: '',
     },
