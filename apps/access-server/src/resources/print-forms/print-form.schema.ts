@@ -22,4 +22,7 @@ export class PrintForm extends BaseSchema {
 
   @Prop()
   authorName?: string
+
+  @Prop()
+  titleMargin?: number
 }

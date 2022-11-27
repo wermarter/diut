@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger } from 'nestjs-pino'
+import helmet from 'helmet'
 
 import {
   HttpServerConfig,
@@ -75,8 +76,10 @@ export async function bootstrap(rootModule: unknown) {
     `,
   })
 
-  const PORT = httpServerConfig.port
   app.enableCors()
+  app.use(helmet())
+
+  const PORT = httpServerConfig.port
   await app.listen(PORT)
   logger.log(
     `Documentation on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,

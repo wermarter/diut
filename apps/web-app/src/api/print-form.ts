@@ -94,6 +94,7 @@ export type PrintFormResponseDto = {
   isAuthorLocked: boolean
   authorPosition: string
   authorName: string
+  titleMargin?: number
 }
 export type SearchPrintFormResponseDto = {
   total: number
@@ -113,6 +114,7 @@ export type CreatePrintFormRequestDto = {
   isAuthorLocked: boolean
   authorPosition: string
   authorName: string
+  titleMargin?: number
 }
 export type UpdatePrintFormRequestDto = {
   name?: string
@@ -120,6 +122,7 @@ export type UpdatePrintFormRequestDto = {
   isAuthorLocked?: boolean
   authorPosition?: string
   authorName?: string
+  titleMargin?: number
 }
 export const {
   usePrintFormSearchQuery,

@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsBoolean, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator'
 
 export class CreatePrintFormRequestDto {
   @ApiProperty({
@@ -33,4 +40,13 @@ export class CreatePrintFormRequestDto {
   })
   @IsString()
   authorName: string
+
+  @ApiProperty({
+    example: 4,
+    required: false,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  titleMargin: number
 }

@@ -34,6 +34,7 @@ import { SampleTypeService } from '../sample-types'
 import { PatientResponseDto } from '../patients/dtos/patient.response-dto'
 import { SampleResponseDto } from './dtos/sample.response-dto'
 import { TestCategory } from '../test-categories'
+import { PrintFormService } from '../print-forms'
 import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
 
 @Injectable()
@@ -51,6 +52,7 @@ export class SampleService
     private readonly doctorService: DoctorService,
     private readonly patientTypeService: PatientTypeService,
     private readonly sampleTypeService: SampleTypeService,
+    private readonly printFormService: PrintFormService,
     private readonly configService: ConfigService
   ) {
     super(model, new Logger(SampleService.name))
@@ -250,6 +252,7 @@ export class SampleService
 
   async prepareSampleContent(sample: SinglePrintRequestDto) {
     const printForm = sample.printForm ?? PrintForm.Basic
+    const { titleMargin } = await this.printFormService.findById(printForm)
     const sampleData = await this.fetchSampleData(sample.sampleId, printForm)
 
     const authorPosition = sample.authorPosition ?? ''
@@ -259,6 +262,7 @@ export class SampleService
       sampleTypes: sample.sampleTypes ?? sampleData.sampleTypes,
       authorPosition,
       authorName,
+      titleMargin,
     })
 
     try {
@@ -306,7 +310,7 @@ export class SampleService
         },
         displayHeaderFooter: true,
         footerTemplate: `
-        <div style="width: 100vw; font-size: 10px; display: flex; justify-content: flex-end; padding: 0 10mm;">
+        <div style="width: 100vw; font-size: 8px; display: flex; justify-content: flex-end; padding: 0 10mm;">
           <div><span class="pageNumber"></span>/<span class="totalPages"></span></div>
         <div>`,
       })

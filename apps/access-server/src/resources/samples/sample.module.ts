@@ -5,6 +5,7 @@ import { DoctorModule } from '../doctors'
 import { IndicationModule } from '../indications'
 import { PatientTypeModule } from '../patient-types'
 import { PatientModule } from '../patients'
+import { PrintFormModule } from '../print-forms'
 import { SampleTypeModule } from '../sample-types'
 import { TestElementModule } from '../test-elements'
 import { TestModule } from '../tests'
@@ -22,6 +23,7 @@ import { SampleService } from './sample.service'
     SampleTypeModule,
     TestElementModule,
     TestModule,
+    PrintFormModule,
   ],
   providers: [SampleService],
   controllers: [SampleController],

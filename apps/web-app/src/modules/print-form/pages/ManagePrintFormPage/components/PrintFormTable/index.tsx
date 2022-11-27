@@ -43,6 +43,7 @@ export function PrintFormTable() {
             isAuthorLocked: newItem.isAuthorLocked,
             authorPosition: newItem.authorPosition,
             authorName: newItem.authorName,
+            titleMargin: newItem.titleMargin,
           },
         }).unwrap()
       }}

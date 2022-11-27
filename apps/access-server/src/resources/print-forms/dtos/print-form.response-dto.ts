@@ -41,4 +41,13 @@ export class PrintFormResponseDto extends BaseResourceResponseDto {
   })
   @IsString()
   authorName: string
+
+  @Expose()
+  @ApiProperty({
+    example: 4,
+    required: false,
+  })
+  @IsNumber()
+  @Min(0)
+  titleMargin: number
 }

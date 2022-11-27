@@ -352,7 +352,7 @@ export default function PrintSelectPage() {
         sample={printSample}
         key={printSample?._id}
         sampleTypes={printSample?.sampleTypeIds?.map(
-          (sampleTypeId) => sampleTypes[sampleTypeId]?.name
+          (sampleTypeId) => sampleTypes[sampleTypeId]
         )}
         onClose={() => {
           setPrintSample(null)

@@ -1,4 +1,10 @@
-import { PrintForm, printForms } from '@diut/common'
+import {
+  PrintForm,
+  printForms,
+  ID_SAMPLE_TYPE_NUOC_TIEU,
+  ID_SAMPLE_TYPE_HUYET_TRANG,
+  ID_SAMPLE_TYPE_DICH_MU,
+} from '@diut/common'
 import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -20,6 +26,7 @@ import {
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin } from 'src/modules/auth'
 import { PrintFormResponseDto } from 'src/api/print-form'
+import { SampleTypeResponseDto } from 'src/api/sample-type'
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -34,7 +41,7 @@ interface SinglePrintDialogProps {
   printFormData: PrintFormResponseDto[]
   sample: SampleResponseDto | null
   onClose: Function
-  sampleTypes: string[] | undefined
+  sampleTypes: SampleTypeResponseDto[] | undefined
 }
 
 interface FormData {
@@ -72,6 +79,25 @@ export function SinglePrintDialog({
   useEffect(() => {
     if (selectedForm?.length > 0) {
       const printForm = printFormData.find(({ _id }) => _id === selectedForm)!
+      if (printForm._id === PrintForm.SoiNhuom) {
+        setValue(
+          'sampleTypes',
+          sampleTypes
+            ?.filter(({ _id }) =>
+              [
+                ID_SAMPLE_TYPE_NUOC_TIEU,
+                ID_SAMPLE_TYPE_HUYET_TRANG,
+                ID_SAMPLE_TYPE_DICH_MU,
+              ].includes(_id)
+            )
+            .map(({ name }) => name)
+        )
+      } else {
+        setValue(
+          'sampleTypes',
+          sampleTypes?.map(({ name }) => name)
+        )
+      }
       setSelectedPrintForm(printForm)
       setValue('authorPosition', printForm.authorPosition)
       setValue('authorName', printForm.authorName)
@@ -82,7 +108,25 @@ export function SinglePrintDialog({
 
   useEffect(() => {
     if (sampleTypes?.length! > 0) {
-      setValue('sampleTypes', sampleTypes)
+      if (printFormData[0]?._id === PrintForm.SoiNhuom) {
+        setValue(
+          'sampleTypes',
+          sampleTypes
+            ?.filter(({ _id }) =>
+              [
+                ID_SAMPLE_TYPE_NUOC_TIEU,
+                ID_SAMPLE_TYPE_HUYET_TRANG,
+                ID_SAMPLE_TYPE_DICH_MU,
+              ].includes(_id)
+            )
+            .map(({ name }) => name)
+        )
+      } else {
+        setValue(
+          'sampleTypes',
+          sampleTypes?.map(({ name }) => name)
+        )
+      }
     }
   }, [JSON.stringify(sampleTypes)])
 
@@ -139,9 +183,9 @@ export function SinglePrintDialog({
                   control={control}
                   name="sampleTypes"
                   options={
-                    sampleTypes?.map((sampleTypeName) => ({
-                      label: sampleTypeName,
-                      value: sampleTypeName,
+                    sampleTypes?.map(({ name }) => ({
+                      label: name,
+                      value: name,
                     })) ?? []
                   }
                   getOptionLabel={(option) => option.label}
@@ -155,7 +199,7 @@ export function SinglePrintDialog({
                 name="authorPosition"
                 control={control}
                 fullWidth
-                label="Chức vị"
+                label="Chức vụ"
                 disabled={
                   !(userIsAdmin || !(selectedPrintForm?.isAuthorLocked ?? true))
                 }
