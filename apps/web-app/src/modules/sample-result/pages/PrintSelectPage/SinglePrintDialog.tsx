@@ -104,7 +104,7 @@ export function SinglePrintDialog({
       setSelectedPrintForm(printForm)
 
       if (printForm._id === PrintForm.SoiNhuom) {
-        setValue('authorPosition', '')
+        setValue('authorPosition', printForm.authorPosition)
         setValue('authorName', userName)
       } else {
         setValue('authorPosition', printForm.authorPosition)

@@ -285,15 +285,8 @@ export default function PrintSelectPage() {
               field: 'name',
               headerName: 'Tên',
               sortable: false,
-              width: 100,
+              width: 180,
               valueGetter: ({ row }) => patients[row.patientId]?.name,
-            },
-            {
-              field: 'externalId',
-              headerName: 'ID PK',
-              sortable: false,
-              width: 100,
-              valueGetter: ({ row }) => patients[row.patientId]?.externalId,
             },
             {
               field: 'birthYear',

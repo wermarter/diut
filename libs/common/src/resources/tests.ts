@@ -1,1 +1,3 @@
 export const ID_TEST_TD = '635342593b685db3059d8d2d'
+export const ID_TEST_PAPSMEAR = '635341543b685db3059d8b97'
+export const ID_TEST_THINPREP = '6353415e3b685db3059d8ba1'

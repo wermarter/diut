@@ -1,4 +1,9 @@
-import { ID_TEST_TD, PatientCategory } from '@diut/common'
+import {
+  ID_TEST_PAPSMEAR,
+  ID_TEST_THINPREP,
+  ID_TEST_TD,
+  PatientCategory,
+} from '@diut/common'
 import {
   Box,
   Button,
@@ -34,6 +39,7 @@ import { getPatientCategory } from '../../utils'
 import { editResultPageLoader } from './loader'
 import { CommonResultCard } from './components/CommonResultCard'
 import { TDResultCard } from './components/TDResultCard'
+import { PapsmearResultCard } from './components/PapsmearResultCard'
 
 export default function EditResultPage() {
   const userId = useTypedSelector(selectUserId)
@@ -291,11 +297,7 @@ export default function EditResultPage() {
           const currentTestState = testState[currentTestInfo._id] ?? {}
 
           return (
-            <Card
-              sx={{ mb: 4, maxWidth: '700px' }}
-              key={currentTestInfo._id}
-              raised
-            >
+            <Card sx={{ mb: 4 }} key={currentTestInfo._id} raised>
               <CardHeader
                 title={currentTestInfo.name}
                 titleTypographyProps={{
@@ -354,6 +356,22 @@ export default function EditResultPage() {
               <CardContent sx={{ px: 6, py: 0 }}>
                 {currentTestInfo._id === ID_TEST_TD ? (
                   <TDResultCard
+                    currentTestInfo={currentTestInfo}
+                    currentTestState={currentTestState}
+                    elementState={elementState}
+                    setElementState={(elementId, { checked, value }) => {
+                      setElementState((formState: any) =>
+                        Object.assign({}, formState, {
+                          [elementId]: { checked, value },
+                        })
+                      )
+                    }}
+                    getHighlightRule={getHighlightRule}
+                  />
+                ) : [ID_TEST_PAPSMEAR, ID_TEST_THINPREP].includes(
+                    currentTestInfo._id
+                  ) ? (
+                  <PapsmearResultCard
                     currentTestInfo={currentTestInfo}
                     currentTestState={currentTestState}
                     elementState={elementState}

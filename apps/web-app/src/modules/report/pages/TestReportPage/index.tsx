@@ -18,18 +18,26 @@ import {
 import { useCrudPagination } from 'src/common/hooks'
 import { testReportPageLoader } from './loader'
 import { useForm } from 'react-hook-form'
-import { FormContainer, FormDateTimePicker } from 'src/common/form-elements'
+import {
+  FormContainer,
+  FormDateTimePicker,
+  FormSelect,
+} from 'src/common/form-elements'
 import { GridColDef } from '@mui/x-data-grid'
 
 interface FilterData {
   fromDate: Date
   toDate: Date
+  patientType: string
 }
+
+const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
 
 export default function TestReportPage() {
   const { patientTypeMap, categories, groups, tests } =
     useLoaderData() as Awaited<ReturnType<typeof testReportPageLoader>>
   const [searchParams, setSearchParams] = useSearchParams()
+  const patientTypeParam = searchParams.get('patientType') ?? ''
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -51,13 +59,21 @@ export default function TestReportPage() {
         searchParams.get('toDate') !== null
           ? new Date(searchParams.get('toDate')!)
           : new Date(),
+      patientType:
+        patientTypeParam?.length > 0 ? patientTypeParam : ANY_PATIENT_TYPE,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
+  const patientType = watch('patientType')
 
-  const handleSubmitFilter = ({ fromDate, toDate }: FilterData) => {
+  const handleSubmitFilter = ({
+    fromDate,
+    toDate,
+    patientType,
+  }: FilterData) => {
     setSearchParams({
+      patientType,
       fromDate: fromDate.toISOString(),
       toDate: toDate.toISOString(),
     })
@@ -70,6 +86,8 @@ export default function TestReportPage() {
           $gte: startOfDay(fromDate).toISOString(),
           $lte: endOfDay(toDate).toISOString(),
         },
+        patientTypeId:
+          patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
       },
     }))
   }
@@ -80,7 +98,7 @@ export default function TestReportPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate])
+  }, [fromDate, toDate, patientType])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -110,7 +128,7 @@ export default function TestReportPage() {
 
     const tempSummary: Record<string, number> = {}
     samples.forEach(({ results }) => {
-      results.forEach(({ testId, testCompleted }) => {
+      results.forEach(({ testId }) => {
         if (tempSummary[testId] === undefined) {
           tempSummary[testId] = 0
         }
@@ -158,7 +176,24 @@ export default function TestReportPage() {
                 label="Đến ngày"
               />
             </Grid>
-            <Grid xs={8}>
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="patientType"
+                label="Đối tượng"
+                options={[
+                  { label: 'Tất cả', value: ANY_PATIENT_TYPE },
+                  ...[...patientTypeMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={5}>
               <input type="submit" style={{ display: 'none' }} />
             </Grid>
           </Grid>

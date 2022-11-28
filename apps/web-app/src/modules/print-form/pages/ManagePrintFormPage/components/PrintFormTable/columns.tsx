@@ -45,7 +45,7 @@ export const printFormColumns: GridColumns<PrintFormResponseDto> = [
     field: 'titleMargin',
     headerName: 'Độ dãn',
     type: 'number',
-    width: 100,
+    width: 80,
     sortable: false,
     editable: true,
   },
