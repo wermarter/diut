@@ -81,7 +81,9 @@ export const TDResultCard = ({
                     autoComplete="off"
                     type="datetime-local"
                     value={format(
-                      new Date(currentElementState.value),
+                      currentElementState.value?.length > 0
+                        ? new Date(currentElementState.value)
+                        : new Date(),
                       'yyyy-MM-dd HH:mm'
                     )}
                     onChange={(e) => {
