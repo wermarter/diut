@@ -24,7 +24,7 @@ import {
   FormTextField,
 } from 'src/common/form-elements'
 import { useTypedSelector } from 'src/core'
-import { selectUserIsAdmin } from 'src/modules/auth'
+import { selectUserIsAdmin, selectUserName } from 'src/modules/auth'
 import { PrintFormResponseDto } from 'src/api/print-form'
 import { SampleTypeResponseDto } from 'src/api/sample-type'
 
@@ -57,6 +57,8 @@ export function SinglePrintDialog({
   onClose,
   sampleTypes,
 }: SinglePrintDialogProps) {
+  const userName = useTypedSelector(selectUserName)
+
   const {
     control,
     handleSubmit,
@@ -98,9 +100,16 @@ export function SinglePrintDialog({
           sampleTypes?.map(({ name }) => name)
         )
       }
+
       setSelectedPrintForm(printForm)
-      setValue('authorPosition', printForm.authorPosition)
-      setValue('authorName', printForm.authorName)
+
+      if (printForm._id === PrintForm.SoiNhuom) {
+        setValue('authorPosition', '')
+        setValue('authorName', userName)
+      } else {
+        setValue('authorPosition', printForm.authorPosition)
+        setValue('authorName', printForm.authorName)
+      }
     }
   }, [selectedForm])
 
@@ -201,6 +210,7 @@ export function SinglePrintDialog({
                 fullWidth
                 label="Chức vụ"
                 disabled={
+                  selectedPrintForm?._id! === PrintForm.SoiNhuom ||
                   !(userIsAdmin || !(selectedPrintForm?.isAuthorLocked ?? true))
                 }
               />
@@ -212,6 +222,7 @@ export function SinglePrintDialog({
                 fullWidth
                 label="Họ tên"
                 disabled={
+                  selectedPrintForm?._id! === PrintForm.SoiNhuom ||
                   !(userIsAdmin || !(selectedPrintForm?.isAuthorLocked ?? true))
                 }
               />

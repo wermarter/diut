@@ -114,9 +114,8 @@ export default function TestReportPage() {
         if (tempSummary[testId] === undefined) {
           tempSummary[testId] = 0
         }
-        if (testCompleted) {
-          tempSummary[testId]++
-        }
+
+        tempSummary[testId]++
       })
     })
     setSummary(tempSummary)
@@ -292,9 +291,9 @@ export default function TestReportPage() {
                     return ''
                   }
 
-                  const { testCompleted } =
+                  const { testId } =
                     row.results.find(({ testId }) => testId === _id) ?? {}
-                  if (testCompleted === true) {
+                  if (testId !== undefined) {
                     return '✓'
                   }
 
