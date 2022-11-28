@@ -53,6 +53,12 @@ export default function InfoConfirmPage() {
       offset: 0,
       limit: 10,
       sort: { infoAt: -1 },
+      filter: {
+        infoAt: {
+          $gte: startOfDay(new Date()).toISOString(),
+          $lte: endOfDay(new Date()).toISOString(),
+        },
+      },
     })
 
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({

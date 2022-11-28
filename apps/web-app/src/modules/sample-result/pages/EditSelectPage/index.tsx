@@ -53,6 +53,10 @@ export default function EditSelectPage() {
       sort: { infoAt: -1 },
       filter: {
         infoCompleted: true,
+        infoAt: {
+          $gte: startOfDay(new Date()).toISOString(),
+          $lte: endOfDay(new Date()).toISOString(),
+        },
         $or: [
           {
             sampleCompleted: true,

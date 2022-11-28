@@ -37,6 +37,7 @@ interface FilterData {
   fromDate: Date
   toDate: Date
   sampleId: string
+  patientId: string
 }
 
 export default function PrintSelectPage() {
@@ -53,7 +54,10 @@ export default function PrintSelectPage() {
       sort: { createdAt: -1 },
       filter: {
         infoCompleted: true,
-        // sampleCompleted: true,
+        infoAt: {
+          $gte: startOfDay(new Date()).toISOString(),
+          $lte: endOfDay(new Date()).toISOString(),
+        },
       },
     })
 
@@ -68,6 +72,7 @@ export default function PrintSelectPage() {
           ? new Date(searchParams.get('toDate')!)
           : new Date(),
       sampleId: searchParams.get('sampleId') ?? '',
+      patientId: searchParams.get('patientId') ?? '',
     },
   })
   const fromDate = watch('fromDate')
@@ -84,9 +89,15 @@ export default function PrintSelectPage() {
     searchSampleRequestDto: filterObj,
   })
 
-  const handleSubmitFilter = ({ fromDate, toDate, sampleId }: FilterData) => {
+  const handleSubmitFilter = ({
+    fromDate,
+    toDate,
+    sampleId,
+    patientId,
+  }: FilterData) => {
     setSearchParams({
       sampleId,
+      patientId,
       fromDate: fromDate.toISOString(),
       toDate: toDate.toISOString(),
     })
@@ -95,11 +106,12 @@ export default function PrintSelectPage() {
       filter: {
         ...obj.filter,
         sampleId:
-          sampleId.length > 0
+          patientId.length === 0 && sampleId.length > 0
             ? { $regex: sampleId + '$', $options: 'i' }
             : undefined,
+        patientId: patientId.length > 0 ? patientId : undefined,
         infoAt:
-          sampleId.length > 0
+          sampleId.length > 0 || patientId.length > 0
             ? undefined
             : {
                 $gte: startOfDay(fromDate).toISOString(),
@@ -191,7 +203,10 @@ export default function PrintSelectPage() {
                 name="fromDate"
                 dateOnly
                 label="Từ ngày"
-                disabled={watch('sampleId')?.length > 0}
+                disabled={
+                  watch('sampleId')?.length > 0 ||
+                  watch('patientId')?.length > 0
+                }
               />
             </Grid>
             <Grid xs={2}>
@@ -200,7 +215,10 @@ export default function PrintSelectPage() {
                 name="toDate"
                 dateOnly
                 label="Đến ngày"
-                disabled={watch('sampleId')?.length > 0}
+                disabled={
+                  watch('sampleId')?.length > 0 ||
+                  watch('patientId')?.length > 0
+                }
               />
             </Grid>
             <Grid xs={5}>
@@ -212,6 +230,7 @@ export default function PrintSelectPage() {
                 control={control}
                 name="sampleId"
                 label="ID xét nghiệm"
+                disabled={watch('patientId')?.length > 0}
               />
             </Grid>
           </Grid>

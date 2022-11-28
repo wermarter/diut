@@ -72,6 +72,9 @@ const PrintSelectPage = React.lazy(
 const TestReportPage = React.lazy(
   () => import('src/modules/report/pages/TestReportPage')
 )
+const SearchPatientPage = React.lazy(
+  () => import('src/modules/patient/pages/SearchPatientPage')
+)
 //#endregion
 
 export const appRoutes: CustomRouteObject[] = [
@@ -198,6 +201,16 @@ export const appRoutes: CustomRouteObject[] = [
             element: <TestReportPage />,
             permission: Permission.ViewTestReport,
             loader: testReportPageLoader,
+          },
+        ],
+      },
+      {
+        path: 'patient',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'search',
+            element: <SearchPatientPage />,
           },
         ],
       },

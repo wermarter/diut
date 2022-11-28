@@ -18,6 +18,7 @@ import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import ListAltIcon from '@mui/icons-material/ListAlt'
 import RuleIcon from '@mui/icons-material/Rule'
+import PersonSearchIcon from '@mui/icons-material/PersonSearch'
 
 export interface MenuItem {
   icon: ReactElement
@@ -70,6 +71,11 @@ export const drawerItems: DrawerItem[] = [
         label: 'Sổ nhận mẫu',
         destination: 'report/test',
         permission: Permission.ViewTestReport,
+      },
+      {
+        icon: <PersonSearchIcon />,
+        label: 'Tìm kiếm',
+        destination: 'patient/search',
       },
     ],
   },
