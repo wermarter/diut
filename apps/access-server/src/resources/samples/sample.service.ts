@@ -20,6 +20,7 @@ import {
 } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit } from 'lodash'
+// import * as crypto from 'crypto'
 
 import { BaseMongoService } from 'src/clients/mongo'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
@@ -36,6 +37,9 @@ import { SampleResponseDto } from './dtos/sample.response-dto'
 import { TestCategory } from '../test-categories'
 import { PrintFormService } from '../print-forms'
 import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
+import { StorageService } from 'src/clients/storage'
+import { UPLOAD_CONFIG } from './sample.common'
+import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
 
 @Injectable()
 export class SampleService
@@ -53,7 +57,8 @@ export class SampleService
     private readonly patientTypeService: PatientTypeService,
     private readonly sampleTypeService: SampleTypeService,
     private readonly printFormService: PrintFormService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly storageService: StorageService
   ) {
     super(model, new Logger(SampleService.name))
   }
@@ -84,6 +89,43 @@ export class SampleService
 
   async onModuleDestroy() {
     await this.browser.close()
+  }
+
+  async uploadFile(file: Express.Multer.File) {
+    // const timestamp = Date.now().toString()
+    // const hashedFileName = crypto
+    //   .createHash('md5')
+    //   .update(timestamp)
+    //   .digest('hex')
+    // const extension = file.originalname.substring(
+    //   file.originalname.lastIndexOf('.'),
+    //   file.originalname.length
+    // )
+    // const filename = hashedFileName + extension
+
+    const filename = file.filename ?? file.originalname
+    const metaData = {
+      'Content-Type': file.mimetype,
+    }
+
+    await this.storageService.client.putObject(
+      UPLOAD_CONFIG.BUCKET,
+      filename,
+      file.buffer,
+      metaData
+    )
+
+    return {
+      bucket: UPLOAD_CONFIG.BUCKET,
+      path: filename,
+    }
+  }
+
+  async downloadFile({ path }: SampleDownloadRequestDto) {
+    return await this.storageService.client.getObject(
+      UPLOAD_CONFIG.BUCKET,
+      path
+    )
   }
 
   customUpdateById(id: string, body: UpdateSampleRequestDto, userId: string) {

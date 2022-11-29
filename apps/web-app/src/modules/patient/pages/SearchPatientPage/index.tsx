@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Gender } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -5,12 +6,14 @@ import { GridActionsCellItem } from '@mui/x-data-grid'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { format } from 'date-fns'
 
 import { usePatientSearchQuery } from 'src/api/patient'
 import { DataTable } from 'src/common/components/DataTable'
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { useCrudPagination } from 'src/common/hooks'
+import { ConfirmDialog } from 'src/common/components/ConfirmDialog'
 
 interface FilterData {
   externalId: string
@@ -59,6 +62,18 @@ export default function SearchPatientPage() {
     navigate('/result/print?patientId=' + patientId)
   }
 
+  const [openDeleteItem, setOpenDeleteItem] = useState<string | null>(null)
+
+  const handleDeleteClick = (patientId: string) => {
+    if (patientId !== undefined) {
+      setOpenDeleteItem(patientId)
+    }
+  }
+
+  const handleDeletePatient = async (patientId: string) => {
+    alert('delete ' + patientId)
+  }
+
   return (
     <Box
       sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
@@ -104,7 +119,7 @@ export default function SearchPatientPage() {
             {
               field: 'startActions',
               type: 'actions',
-              width: 70,
+              width: 60,
               cellClassName: 'actions',
               getActions: ({ row }) => [
                 <GridActionsCellItem
@@ -119,7 +134,7 @@ export default function SearchPatientPage() {
               field: 'externalId',
               headerName: 'ID PK',
               sortable: false,
-              width: 120,
+              width: 100,
             },
             {
               field: 'name',
@@ -130,15 +145,15 @@ export default function SearchPatientPage() {
             },
             {
               field: 'birthYear',
-              headerName: 'Năm sinh',
+              headerName: 'Năm',
               sortable: false,
-              width: 100,
+              width: 60,
             },
             {
               field: 'gender',
-              headerName: 'Giới tính',
+              headerName: 'Giới',
               sortable: false,
-              width: 100,
+              width: 60,
               valueGetter: ({ value }) => {
                 if (value === Gender.Male) {
                   return 'Nam'
@@ -167,6 +182,20 @@ export default function SearchPatientPage() {
                 return format(new Date(value), 'dd/MM/yyyy HH:mm')
               },
             },
+            {
+              field: 'endActions',
+              type: 'actions',
+              width: 60,
+              cellClassName: 'actions',
+              getActions: ({ row }) => [
+                <GridActionsCellItem
+                  icon={<DeleteForeverIcon />}
+                  label="Xoá"
+                  color="error"
+                  onClick={() => handleDeleteClick(row._id)}
+                />,
+              ],
+            },
           ]}
           paginationMode="server"
           rowsPerPageOptions={[5, 10, 20, 100]}
@@ -177,6 +206,20 @@ export default function SearchPatientPage() {
           onPageSizeChange={onPageSizeChange}
         />
       </Box>
+      <ConfirmDialog
+        open={openDeleteItem !== null}
+        onClose={() => {
+          setOpenDeleteItem(null)
+        }}
+        content="Tất cả các mẫu XN liên kết với bệnh nhân này cũng sẽ bị xoá!"
+        onConfirm={() => {
+          // this should be async, but i like this behavior better
+          if (openDeleteItem !== null) {
+            handleDeletePatient(openDeleteItem)
+          }
+          setOpenDeleteItem(null)
+        }}
+      />
     </Box>
   )
 }

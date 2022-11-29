@@ -278,6 +278,12 @@ export default function EditResultPage() {
               <ListItemButton
                 key={test._id}
                 selected={!currentTestState.isLocked}
+                onClick={() => {
+                  document.getElementById(test._id)?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  })
+                }}
               >
                 {test.name}
               </ListItemButton>
@@ -297,7 +303,12 @@ export default function EditResultPage() {
           const currentTestState = testState[currentTestInfo._id] ?? {}
 
           return (
-            <Card sx={{ mb: 4 }} key={currentTestInfo._id} raised>
+            <Card
+              sx={{ mb: 4 }}
+              key={currentTestInfo._id}
+              raised
+              id={currentTestInfo._id}
+            >
               <CardHeader
                 title={currentTestInfo.name}
                 titleTypographyProps={{
@@ -383,6 +394,7 @@ export default function EditResultPage() {
                       )
                     }}
                     getHighlightRule={getHighlightRule}
+                    sampleId={sampleId!}
                   />
                 ) : (
                   <CommonResultCard

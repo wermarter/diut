@@ -4,6 +4,7 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
 import { SearchSampleResponseDto } from './dtos/search-sample.response-dto'
 import { SampleResponseDto } from './dtos/sample.response-dto'
+import { SampleUploadResponseDto } from './dtos/sample-upload.response-dto'
 
 export const sampleRoutes = {
   controller: <AppControllerOptions>{
@@ -85,5 +86,27 @@ export const sampleRoutes = {
     permissions: [Permission.ManageResult],
     path: 'print',
     method: RequestMethod.POST,
+  },
+
+  downloadFile: <AppRouteOptions>{
+    isPublic: true,
+    permissions: [Permission.ManageResult],
+    path: 'download',
+    method: RequestMethod.POST,
+  },
+
+  uploadFile: <AppRouteOptions>{
+    isPublic: true,
+    permissions: [Permission.ManageResult],
+    path: 'upload',
+    method: RequestMethod.POST,
+    serialize: SampleUploadResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: SampleUploadResponseDto,
+        },
+      ],
+    },
   },
 }

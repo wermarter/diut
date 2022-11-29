@@ -256,7 +256,7 @@ export default function TestReportPage() {
               field: 'name',
               headerName: 'Tên',
               sortable: false,
-              width: 100,
+              width: 150,
               valueGetter: ({ row }) => patients[row.patientId]?.name,
             },
             {

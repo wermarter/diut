@@ -72,6 +72,43 @@ const injectedRtkApi = api
           },
         }),
       }),
+      samplePreview: build.query<SamplePreviewApiResponse, SamplePreviewApiArg>(
+        {
+          query: (queryArg) => ({
+            url: `/api/samples/preview/${queryArg.id}/${queryArg.printForm}`,
+          }),
+          providesTags: ['samples'],
+        }
+      ),
+      sampleUploadFile: build.mutation<
+        SampleUploadFileApiResponse,
+        SampleUploadFileApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/samples/upload`,
+          method: 'POST',
+          body: queryArg.sampleUploadRequestDto,
+        }),
+        invalidatesTags: ['samples'],
+      }),
+      sampleDownloadFile: build.mutation<
+        SampleDownloadFileApiResponse,
+        SampleDownloadFileApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/samples/download`,
+          method: 'POST',
+          body: queryArg.sampleDownloadRequestDto,
+          cache: 'no-cache',
+          responseHandler: async (response: any) => {
+            const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
+              await response.blob()
+            )
+
+            return objectURL
+          },
+        }),
+      }),
     }),
     overrideExisting: false,
   })
@@ -100,6 +137,20 @@ export type SampleDeleteByIdApiArg = {
 export type SamplePrintApiResponse = unknown
 export type SamplePrintApiArg = {
   printSampleRequestDto: PrintSampleRequestDto
+}
+export type SamplePreviewApiResponse = unknown
+export type SamplePreviewApiArg = {
+  id: string
+  printForm: string
+}
+export type SampleUploadFileApiResponse =
+  /** status 200  */ SampleUploadResponseDto
+export type SampleUploadFileApiArg = {
+  sampleUploadRequestDto: FormData
+}
+export type SampleDownloadFileApiResponse = unknown
+export type SampleDownloadFileApiArg = {
+  sampleDownloadRequestDto: SampleDownloadRequestDto
 }
 export type TestElementResultDto = {
   id: string
@@ -182,6 +233,13 @@ export type SinglePrintRequestDto = {
 export type PrintSampleRequestDto = {
   samples: SinglePrintRequestDto[]
 }
+export type SampleUploadResponseDto = {
+  bucket: string
+  path: string
+}
+export type SampleDownloadRequestDto = {
+  path: string
+}
 export const {
   useSampleSearchQuery,
   useLazySampleSearchQuery,
@@ -191,4 +249,8 @@ export const {
   useLazySampleFindByIdQuery,
   useSampleDeleteByIdMutation,
   useSamplePrintMutation,
+  useSamplePreviewQuery,
+  useLazySamplePreviewQuery,
+  useSampleUploadFileMutation,
+  useSampleDownloadFileMutation,
 } = injectedRtkApi

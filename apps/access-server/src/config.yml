@@ -20,3 +20,9 @@ auth:
 cache:
   host: localhost
   port: 6379
+
+storage:
+  endPoint: localhost
+  port: 9000
+  accessKey: <username>
+  secretKey: <password>

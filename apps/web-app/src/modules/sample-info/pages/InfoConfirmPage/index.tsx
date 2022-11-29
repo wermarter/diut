@@ -194,7 +194,10 @@ export default function InfoConfirmPage() {
       sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
     >
       <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
-        <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
+        <FormContainer
+          onSubmit={handleSubmit(handleSubmitFilter)}
+          autoComplete="off"
+        >
           <Grid container spacing={2}>
             <Grid xs={2}>
               <FormDateTimePicker

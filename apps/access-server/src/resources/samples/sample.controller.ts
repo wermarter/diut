@@ -1,4 +1,16 @@
-import { Body, Logger, Param, Res } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  FileTypeValidator,
+  Logger,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Res,
+  StreamableFile,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
 import { NodeEnv, PrintForm } from '@diut/common'
@@ -12,6 +24,10 @@ import { sampleRoutes } from './sample.routes'
 import { SampleService } from './sample.service'
 import { AuthTokenPayload, ReqUser } from 'src/auth'
 import { PrintSampleRequestDto } from './dtos/print-sample.request-dto'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { ApiBody, ApiConsumes } from '@nestjs/swagger'
+import { SampleUploadRequestDto } from './dtos/sample-upload.request-dto'
+import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
 
 @AppController(sampleRoutes.controller)
 export class SampleController {
@@ -94,5 +110,35 @@ export class SampleController {
       return
     }
     return this.sampleService.prepareSampleContent({ sampleId: id, printForm })
+  }
+
+  @AppRoute(sampleRoutes.uploadFile)
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: SampleUploadRequestDto,
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10 * 1000 * 1000 }), // 10 MB
+          new FileTypeValidator({ fileType: 'image' }),
+        ],
+      })
+    )
+    file: Express.Multer.File
+  ) {
+    return this.sampleService.uploadFile(file)
+  }
+
+  @AppRoute(sampleRoutes.downloadFile)
+  async downloadFile(@Body() body: SampleDownloadRequestDto) {
+    try {
+      const fileStream = await this.sampleService.downloadFile(body)
+      return new StreamableFile(fileStream)
+    } catch {
+      throw new BadRequestException()
+    }
   }
 }
