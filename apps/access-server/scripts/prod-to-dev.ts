@@ -33,6 +33,7 @@ async function main(collections: COLLECTION[]) {
     console.log(`DONE ${COLLECTION_CLASS[collection].name} !`)
   }
 
+  await Promise.all([prodDB.close(), devDB.close()])
   process.exit(0)
 }
 
@@ -46,5 +47,5 @@ main([
   // COLLECTION.TEST_CATEGORY,
   // COLLECTION.TEST_COMBO,
   // COLLECTION.TEST_ELEMENT,
-  // COLLECTION.PRINT_FORM,
+  COLLECTION.PRINT_FORM,
 ])

@@ -295,10 +295,12 @@ export class SampleService
     const printForm = await this.printFormService.findById(
       sample.printForm ?? PrintForm.Basic
     )
-    const { titleMargin } = await this.printFormService.findById(printForm._id)
+    const { titleMargin } = await this.printFormService.findById(
+      printForm._id.toString()
+    )
     const sampleData = await this.fetchSampleData(
       sample.sampleId,
-      printForm._id as PrintForm
+      printForm._id.toString() as PrintForm
     )
 
     const authorPosition = sample.authorPosition ?? ''

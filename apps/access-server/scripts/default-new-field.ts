@@ -9,7 +9,7 @@ import { TestElement } from 'src/resources/test-elements'
 import { COLLECTION } from 'src/common/collections'
 
 async function main() {
-  await mongoose.connect(process.env.PROD_MONGO_URI)
+  const db = await mongoose.connect(process.env.PROD_MONGO_URI)
   console.log('MongoDB connected !')
 
   const model = mongoose.model(
@@ -35,6 +35,7 @@ async function main() {
     )
   }
 
+  await db.disconnect()
   process.exit(0)
 }
 

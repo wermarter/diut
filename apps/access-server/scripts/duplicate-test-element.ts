@@ -9,7 +9,7 @@ import { TestElement, TestElementService } from 'src/resources/test-elements'
 import { COLLECTION } from 'src/common/collections'
 
 async function main(srcTestId: string, destTestId: string) {
-  await mongoose.connect(process.env.PROD_MONGO_URI)
+  const db = await mongoose.connect(process.env.PROD_MONGO_URI)
   console.log('MongoDB connected !')
 
   const model = mongoose.model(
@@ -44,6 +44,7 @@ async function main(srcTestId: string, destTestId: string) {
   await Promise.all(promises)
   console.log(`Sucessfully duplicated test elements!`)
 
+  await db.disconnect()
   process.exit(0)
 }
 
