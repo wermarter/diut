@@ -12,10 +12,16 @@ export class PrintForm extends BaseSchema {
   name: string
 
   @Prop({ required: true })
+  filename: string
+
+  @Prop({ required: true })
   index: number
 
   @Prop({ required: true })
   isAuthorLocked: boolean
+
+  @Prop({ required: true })
+  isA4: boolean
 
   @Prop()
   authorPosition?: string

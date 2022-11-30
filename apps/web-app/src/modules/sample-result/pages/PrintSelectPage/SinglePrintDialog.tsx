@@ -1,6 +1,5 @@
 import {
   PrintForm,
-  printForms,
   ID_SAMPLE_TYPE_NUOC_TIEU,
   ID_SAMPLE_TYPE_HUYET_TRANG,
   ID_SAMPLE_TYPE_DICH_MU,
@@ -178,11 +177,9 @@ export function SinglePrintDialog({
                 size="medium"
                 name="printForm"
                 label="Form In"
-                options={printFormData.map(({ _id }) => ({
-                  ...printForms.find(({ value }) => _id === value)!,
-                }))}
-                getOptionLabel={({ label }) => label}
-                getOptionValue={({ value }) => value}
+                options={printFormData}
+                getOptionLabel={(printForm) => printForm.name}
+                getOptionValue={(printForm) => printForm._id}
               />
             </Grid>
             {(selectedForm === PrintForm.Basic ||

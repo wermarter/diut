@@ -16,7 +16,6 @@ import {
   NodeEnv,
   PatientCategory,
   PrintForm,
-  printForms,
 } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit } from 'lodash'
@@ -293,9 +292,14 @@ export class SampleService
   }
 
   async prepareSampleContent(sample: SinglePrintRequestDto) {
-    const printForm = sample.printForm ?? PrintForm.Basic
-    const { titleMargin } = await this.printFormService.findById(printForm)
-    const sampleData = await this.fetchSampleData(sample.sampleId, printForm)
+    const printForm = await this.printFormService.findById(
+      sample.printForm ?? PrintForm.Basic
+    )
+    const { titleMargin } = await this.printFormService.findById(printForm._id)
+    const sampleData = await this.fetchSampleData(
+      sample.sampleId,
+      printForm._id as PrintForm
+    )
 
     const authorPosition = sample.authorPosition ?? ''
     const authorName = sample.authorName ?? ''
@@ -313,9 +317,7 @@ export class SampleService
           __dirname,
           '..',
           '..',
-          `views/print-form/${
-            printForms.find(({ value }) => value === printForm).filename
-          }.ejs`
+          `views/print-form/${printForm.filename}.ejs`
         ),
         printData
       )
@@ -334,8 +336,9 @@ export class SampleService
 
     // Take it slow to save CPU and preserve print order
     for (let pageContent of pageContents) {
-      const printForm = samples[sampleCounter++].printForm ?? PrintForm.Basic
-      const { isA4 } = printForms.find(({ value }) => value === printForm)
+      const { isA4 } = await this.printFormService.findById(
+        samples[sampleCounter++].printForm ?? PrintForm.Basic
+      )
 
       const page = await this.browser.newPage()
       await page.setContent(pageContent, { waitUntil: 'networkidle0' })

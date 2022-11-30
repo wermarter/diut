@@ -17,6 +17,13 @@ export class CreatePrintFormRequestDto {
   name: string
 
   @ApiProperty({
+    example: 'hiv',
+  })
+  @IsString()
+  @IsNotEmpty()
+  filename: string
+
+  @ApiProperty({
     example: 2,
   })
   @IsNumber()
@@ -28,6 +35,12 @@ export class CreatePrintFormRequestDto {
   })
   @IsBoolean()
   isAuthorLocked: boolean
+
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isA4: boolean
 
   @ApiProperty({
     example: 'Chức vụ',

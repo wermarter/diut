@@ -1,6 +1,6 @@
 import { GridColumns } from '@mui/x-data-grid'
-import { printForms } from '@diut/common'
 
+import { PrintFormResponseDto } from 'src/api/print-form'
 import { BioProductResponseDto, TestResponseDto } from 'src/api/test'
 import { TestCategoryResponseDto } from 'src/api/test-category'
 
@@ -8,7 +8,8 @@ export const NO_BIOPRODUCT = 'NO_BIOPRODUCT'
 
 export function useTestColumns(
   testCategories: TestCategoryResponseDto[],
-  bioProducts: BioProductResponseDto[]
+  bioProducts: BioProductResponseDto[],
+  printForms: PrintFormResponseDto[]
 ): GridColumns<TestResponseDto> {
   return [
     {
@@ -66,13 +67,12 @@ export function useTestColumns(
       width: 150,
       sortable: false,
       editable: true,
-      valueOptions: printForms.map(({ label }) => ({
-        label,
-        value: label,
+      valueOptions: printForms.map(({ name }) => ({
+        label: name,
+        value: name,
       })),
       valueGetter: ({ value }) => {
-        return printForms.find(({ value: formValue }) => formValue === value)
-          ?.label
+        return printForms.find(({ _id }) => _id === value)?.name
       },
     },
   ]

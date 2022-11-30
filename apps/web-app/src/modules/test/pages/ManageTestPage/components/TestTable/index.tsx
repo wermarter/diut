@@ -1,4 +1,4 @@
-import { printForms } from '@diut/common'
+import { PrintForm } from '@diut/common'
 import {
   FormControl,
   InputLabel,
@@ -36,11 +36,10 @@ function setBioProductId(
 }
 
 export function TestTable() {
-  const { testCategories, bioProducts } = useLoaderData() as Awaited<
-    ReturnType<typeof manageTestPageLoader>
-  >
+  const { testCategories, bioProducts, printForms } =
+    useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
 
-  const columns = useTestColumns(testCategories, bioProducts)
+  const columns = useTestColumns(testCategories, bioProducts, printForms)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -78,8 +77,8 @@ export function TestTable() {
             )?._id!,
             bioProduct: setBioProductId(bioProducts, item.bioProduct as any)!,
             printForm: printForms.find(
-              (printForm) => printForm.label === (item.printForm as any)
-            )?.value!,
+              (printForm) => printForm.name === item.printForm
+            )?._id! as PrintForm,
           },
         }).unwrap()
       }}
@@ -97,8 +96,8 @@ export function TestTable() {
               newItem.bioProduct as any
             )!,
             printForm: printForms.find(
-              (printForm) => printForm.label === (newItem.printForm as any)
-            )?.value!,
+              (printForm) => printForm.name === newItem.printForm
+            )?._id! as PrintForm,
           },
         }).unwrap()
       }}

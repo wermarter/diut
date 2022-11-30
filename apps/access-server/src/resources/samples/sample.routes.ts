@@ -89,14 +89,12 @@ export const sampleRoutes = {
   },
 
   downloadFile: <AppRouteOptions>{
-    isPublic: true,
     permissions: [Permission.ManageResult],
     path: 'download',
     method: RequestMethod.POST,
   },
 
   uploadFile: <AppRouteOptions>{
-    isPublic: true,
     permissions: [Permission.ManageResult],
     path: 'upload',
     method: RequestMethod.POST,

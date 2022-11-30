@@ -90,8 +90,10 @@ export type PrintFormResponseDto = {
   createdAt: string
   updatedAt: string
   name: string
+  filename: string
   index: number
   isAuthorLocked: boolean
+  isA4: boolean
   authorPosition: string
   authorName: string
   titleMargin?: number
@@ -110,16 +112,20 @@ export type SearchPrintFormRequestDto = {
 }
 export type CreatePrintFormRequestDto = {
   name: string
+  filename: string
   index: number
   isAuthorLocked: boolean
+  isA4: boolean
   authorPosition: string
   authorName: string
   titleMargin?: number
 }
 export type UpdatePrintFormRequestDto = {
   name?: string
+  filename?: string
   index?: number
   isAuthorLocked?: boolean
+  isA4?: boolean
   authorPosition?: string
   authorName?: string
   titleMargin?: number

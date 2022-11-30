@@ -15,6 +15,14 @@ export class PrintFormResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
+    example: 'hiv',
+  })
+  @IsString()
+  @IsNotEmpty()
+  filename: string
+
+  @Expose()
+  @ApiProperty({
     example: 2,
   })
   @IsNumber()
@@ -27,6 +35,13 @@ export class PrintFormResponseDto extends BaseResourceResponseDto {
   })
   @IsBoolean()
   isAuthorLocked: boolean
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isA4: boolean
 
   @Expose()
   @ApiProperty({
