@@ -324,7 +324,8 @@ export class SampleService
         printData
       )
       return string
-    } catch {
+    } catch (e) {
+      this.logger.error(e)
       return JSON.stringify(printData.results)
     }
   }

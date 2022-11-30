@@ -32,7 +32,7 @@
       @page {
         margin-top: 5mm;
         margin-bottom: 5mm;
-        margin-left: 20mm;
+        margin-left: 15mm;
         margin-right: 10mm;
       }
       p {
@@ -56,144 +56,303 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       Ngày áp dụng: 18/09/2019
     </div>
-    <div style="position: absolute; bottom: 0; height: 100px;"></div>
+    <!-- -------------------------------------------------------------- -->
+    <div class="flex flex-row gap-1">
+      <img
+        src="http://localhost:9000/public/logo.png"
+        style="width: 90px; object-fit: contain"
+      />
+      <div class="text-left ml-1 text-base">
+        <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
+        <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
+        <p>
+          Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM; Website:www.hcdc.gov.vn;
+          www.hcdc.vn
+        </p>
+      </div>
+    </div>
+    <p class="mb-1 text-xl text-blue-700 text-center font-bold">
+      PHIẾU XÉT NGHIỆM TẾ BÀO CỔ TỬ CUNG
+    </p>
+    <!-- -------------------------------------------------------------- -->
     <div class="flex flex-row justify-between">
-      <div class="flex flex-col justify-between">
-        <div class="flex flex-row">
-          <img
-            src="http://localhost:9000/public/logo.png"
-            style="width: 90px; object-fit: contain"
-          />
-          <div class="text-center ml-1 text-base">
-            <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
-            <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
-            <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
-            <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
-          </div>
+      <div>
+        <p class="text-base">
+          Họ và tên: <span class="font-bold"><%= patient.name %></span>
+        </p>
+        <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
+        <p class="text-base">
+          Chẩn đoán lâm sàng:
+          <span><%= results[0].tests[0].elements[0].value %></span>
+        </p>
+        <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
+      </div>
+      <div>
+        <p class="text-base">
+          ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+        </p>
+        <p class="text-base">Năm sinh: <span><%= patient.birthYear %></span></p>
+        <p class="text-base">
+          Para: <span><%= results[0].tests[0].elements[1].value %></span>
+        </p>
+        <p class="text-base">
+          Ngày nhận mẫu:
+          <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
+        </p>
+      </div>
+    </div>
+    <!-- -------------------------------------------------------------- -->
+    <div class="flex flex-row justify-between my-1">
+      <div>
+        <p class="text-base text-blue-700 underline">Loại bệnh phẩm:</p>
+        <p class="text-base text-blue-700 underline">Đánh giá lame:</p>
+      </div>
+      <div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[2].isHighlighted) ? "checked": "" %>>
+          Phết thường qui
         </div>
-        <div class="mt-1">
-          <p class="text-base">
-            Họ và tên: <span class="font-bold"><%= patient.name %></span>
-          </p>
-          <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
-
-          <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
-          <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[4].isHighlighted) ? "checked": "" %>>
+          Đạt yêu cầu chẩn đoán
         </div>
       </div>
-      <div class="flex flex-col justify-between" style="max-width: 250px">
+      <div>
         <div>
-          <p class="text-base">
-            ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
-          </p>
-          <p class="text-base">
-            TG nhận bệnh:
-            <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
-          </p>
-          <p class="text-base">
-            Giờ:
-            <span
-              ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
-            >
-          </p>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[3].isHighlighted) ? "checked": "" %>>
+          Phết nhúng dịch
         </div>
         <div>
-          <div class="flex flex-row">
-            <p class="text-base">
-              Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
-            </p>
-            <p class="text-base ml-6">
-              Giới tính:
-              <span class="font-bold"
-                ><%= patient.gender === 'male' ? "Nam" : "Nữ" %></span
-              >
-            </p>
-          </div>
-          <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
-          <p class="text-base">
-            Loại mẫu:
-            <span><%= sampleTypes.join(', ') %></span>
-          </p>
-          <p class="text-base">
-            Ngày XN:
-            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
-          </p>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[5].isHighlighted) ? "checked": "" %>>
+          Không đạt yêu cầu chẩn đoán
         </div>
       </div>
     </div>
-    <h1 class="text-xl font-bold text-center my-<%= typeof titleMargin === 'number' ? titleMargin : 2 %>">PHIẾU KẾT QUẢ XÉT NGHIỆM</h1>
-    <table class="w-full">
-      <thead class="bg-gray-100 text-sm">
-        <tr>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="48%">
-            Tên Xét nghiệm
-          </th>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="15%">
-            Kết quả
-          </th>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="15%">
-            Đơn vị
-          </th>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="22%">
-            Trị số tham chiếu
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <% results.forEach(category => { %>
-        <tr class="border border-gray-300">
-          <td class="pl-2 font-bold"><%= category.categoryName %></td>
-        </tr>
-        <% category.tests.forEach(test => { %>
-        <tr class="border border-gray-300">
-          <td class="pl-6">
-            <span class="font-bold"> <%= test.name %> </span>
-            <% if (test?.bioProductName?.length > 0) { %>
-            <span class="whitespace-nowrap"
-              >&nbsp;-&nbsp;<%= test?.bioProductName %></span
-            >
-            <% } %>
-          </td>
-        </tr>
-
-        <% test.elements.forEach(element => { %>
-        <tr class="border border-gray-300" style="page-break-before: avoid;">
-          <% if (element.isParent) { %>
-          <td class="pl-8 border border-gray-300 font-bold text-sm">
-            <%= element.name %>
-          </td>
-          <% } else { %>
-          <td class="pl-8 border border-gray-300">- <%= element.name %></td>
-          <% } %>
-          <td
-            class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-bold' : '' %>"
+    <!-- -------------------------------------------------------------- -->
+    <h1 class="text-xl font-bold text-center my-2 text-red-700">
+      KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG (Theo Besthesda 2014)
+    </h1>
+    <!-- -------------------------------------------------------------- -->
+    <div class="flex flex-row justify-center gap-8">
+      <div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[6].isHighlighted) ? "checked": "" %>>
+          <span class="text-blue-700 font-bold"
+            >Tế bào trong giới hạn bình thường</span
           >
-            <%= element.value %>
-          </td>
-          <td class="text-center pl-2 border border-gray-300">
-            <%= element.unit %>
-          </td>
-          <td class="text-center pl-2 border border-gray-300">
-            <%= element.description %>
-          </td>
-        </tr>
-        <% }) %>
-        <% }) %> 
-        <% }) %>
-      </tbody>
-    </table>
-    <div>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[7].isHighlighted) ? "checked": "" %>>
+          <span class="text-blue-700 font-bold"
+            >Tế bào biến đổi lành tính:</span
+          >
+        </div>
+      </div>
+      <div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[8].isHighlighted) ? "checked": "" %>>
+          <span class="text-blue-700 font-bold">Tế bào nội mạc tử cung</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[9].isHighlighted) ? "checked": "" %>>
+          <span class="text-blue-700 font-bold">Bất thường TB biểu mô:</span>
+        </div>
+      </div>
+      <div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[10].isHighlighted) ? "checked": "" %>>
+          <span class="text-blue-700 font-bold">Bất thường khác</span>
+        </div>
+      </div>
+    </div>
+    <!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
+    <div class="flex flex-row justify-between my-2">
+      <div>
+        <h2 class="text-lg font-bold text-left text-green-700 underline">
+          BIẾN ĐỔI TẾ BÀO DO VI SINH:
+        </h2>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[11].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Trichomonas vaginalis</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[12].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Candida spp</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[13].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Tạp trùng</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[14].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Actinomyces spp</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[15].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Herpes simplex virus</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[16].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Khác (Others)</span>
+        </div>
+        <h2 class="text-lg font-bold text-left text-green-700 underline">
+          TẾ BÀO KHÁC:
+        </h2>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[23].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Tế bào biến đổi do viêm</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[24].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Tế bào biến đổi do xạ trị</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[25].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Tế bào biến đổi do vòng tránh thai</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[26].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Tế bào biểu mô teo</span>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-left text-green-700 underline">
+          TẾ BÀO GAI:
+        </h2>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[17].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >ASC- US (Atypical Squamous Cells of Undetermined
+            Significance)</span
+          >
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[18].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >ASC - H (Atypical Squamous Cells cannot excluce HSIL)</span
+          >
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[19].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >LSIL (Low-grade Squamous Intraepithelial Lesion)</span
+          >
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[20].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">HPV (Human Papilloma Virus)</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[21].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >HSIL (High-grade Squamous Intraepithelial Lesion)</span
+          >
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[22].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >Carcinom tế bào gai (Squamous Cells Carcinoma)</span
+          >
+        </div>
+        <h2 class="text-lg font-bold text-left text-green-700 underline">
+          TẾ BÀO TUYẾN:
+        </h2>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[27].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >AGC không điển hình (Atypical not otherwise specified)</span
+          >
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[28].isHighlighted) ? "checked": "" %>>
+          <span class="text-base"
+            >AGC hướng đến U (Atypicilal favor neoplastic)</span
+          >
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[29].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Carcinom tuyến (Adenocarcinoma)</span>
+        </div>
+        <div>
+          <input type="checkbox" <%=
+          (results[0].tests[0].elements[30].isHighlighted) ? "checked": "" %>>
+          <span class="text-base">Khác (Others)</span>
+        </div>
+      </div>
+    </div>
+    <!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
 
-    <div class="flex flex-row justify-end mt-2" style="page-break-inside: avoid">
+    <div class="flex flex-row justify-between gap-4">
+      <div>
+        <img
+          src="<%= `http://localhost:9000/sample-uploads/${results[0].tests[0].elements[32].value}` %>"
+          width="400px"
+          height="300px"
+          style="border: 1px solid blue; border-radius: 10px"
+        />
+      </div>
+      <div>
+        <div>
+          <img
+            src="<%= `http://localhost:9000/sample-uploads/${results[0].tests[0].elements[33].value}` %>"
+            width="400px"
+            height="300px"
+            style="border: 1px solid blue; border-radius: 10px"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------------------------------------------------------- -->
+    <p class="text-base">
+      <span class="text-blue-700 font-bold underline">Kết luận:</span>
+      <span><%= results[0].tests[0].elements[31].value %></span>
+    </p>
+    <!-- -------------------------------------------------------------- -->
+    <div
+      class="flex flex-row justify-end mt-2"
+      style="page-break-inside: avoid"
+    >
       <div class="flex flex-col text-center mr-8">
         <p>
-          Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1 %>
-          năm <%= new Date().getFullYear() %>
+          Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
+          %> năm <%= new Date().getFullYear() %>
         </p>
         <p class="font-bold"><%= authorPosition %></p>
         <p style="margin-top: 20mm" class="font-bold"><%= authorName %></p>
       </div>
     </div>
-    
   </body>
 </html>

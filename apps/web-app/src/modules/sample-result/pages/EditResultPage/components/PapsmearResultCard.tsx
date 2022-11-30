@@ -7,17 +7,18 @@ import {
   FormGroup,
   FormLabel,
   Paper,
-  Slider,
   TextField,
   Typography,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import Cropper, { Area, Point } from 'react-easy-crop'
+import { LoadingButton } from '@mui/lab'
 
 import { BioProductResponseDto } from 'src/api/bio-product'
 import {
   TestResultDto,
-  useSampleDownloadFileMutation,
+  useSampleDownloadFileQuery,
   useSampleUploadFileMutation,
 } from 'src/api/sample'
 import { TestCategoryResponseDto } from 'src/api/test-category'
@@ -25,7 +26,7 @@ import { HighlightRuleDto, TestElementResponseDto } from 'src/api/test-element'
 import { UserResponseDto } from 'src/api/user'
 import { SideAction } from 'src/common/components/SideAction'
 import { readFileToURL } from 'src/common/utils'
-import Cropper, { Point } from 'react-easy-crop'
+import { getCroppedImg } from 'src/common/utils/image-crop'
 
 interface PapsmearResultCardProps {
   currentTestInfo: {
@@ -78,40 +79,6 @@ export const PapsmearResultCard = ({
   const khacElements = elements.slice(23, 27)
   const tuyenElements = elements.slice(27, 31)
   const resultElement = [elements.at(31)!]
-  const imagePathElementId = elements.at(32)?._id!
-  const cropMetadataElementId = elements.at(33)?._id!
-
-  const imagePath = elementState[imagePathElementId]?.value
-  const cropMetadataString = elementState[cropMetadataElementId]?.value
-  const cropMetadata =
-    cropMetadataString?.length > 0 ? JSON.parse(cropMetadataString) : {}
-
-  const [imageURL, setImageURL] = useState<string | null>(null)
-  const [file, setFile] = useState<File | null>(null)
-
-  const [crop, setCrop] = useState<Point>(cropMetadata?.crop! ?? { x: 0, y: 0 })
-  const [zoom, setZoom] = useState(cropMetadata?.zoom! ?? 1)
-
-  const [downloadImage] = useSampleDownloadFileMutation()
-  const [uploadImage, { isLoading }] = useSampleUploadFileMutation()
-
-  useEffect(() => {
-    if (imagePath?.length > 0) {
-      downloadImage({ sampleDownloadRequestDto: { path: imagePath } })
-        .unwrap()
-        .then((res) => {
-          setImageURL(res as string)
-        })
-    }
-  }, [imagePath])
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0]
-      setFile(file)
-      setImageURL(await readFileToURL(file))
-    }
-  }
 
   const generateCheckboxes = (elements: TestElementResponseDto[]) => {
     return elements.map((currentElementInfo) => {
@@ -170,6 +137,84 @@ export const PapsmearResultCard = ({
       )
     })
   }
+
+  // --------------------------------------------------------------------------
+
+  const leftImagePathElementId = elements.at(32)?._id!
+  const rightImagePathElementId = elements.at(33)?._id!
+  const leftImagePath = elementState[leftImagePathElementId]?.value
+  const rightImagePath = elementState[rightImagePathElementId]?.value
+
+  const [leftUploadFile, setLeftUploadFile] = useState<File | null>(null)
+  const [rightUploadFile, setRightUploadFile] = useState<File | null>(null)
+
+  const [leftDisplayImageURL, setLeftDisplayImageURL] = useState<string | null>(
+    null
+  )
+  const [rightDisplayImageURL, setRightDisplayImageURL] = useState<
+    string | null
+  >(null)
+
+  const { data: leftDownloadImageURL, isFetching: isDownloadingLeftImage } =
+    useSampleDownloadFileQuery(
+      {
+        sampleDownloadRequestDto: { path: leftImagePath },
+      },
+      { skip: !(leftImagePath?.length > 0) }
+    )
+  const { data: rightDownloadImageURL, isFetching: isDownloadingRightImage } =
+    useSampleDownloadFileQuery(
+      {
+        sampleDownloadRequestDto: { path: rightImagePath },
+      },
+      { skip: !(rightImagePath?.length > 0) }
+    )
+  const [uploadImage, { isLoading: isUploading }] =
+    useSampleUploadFileMutation()
+
+  useEffect(() => {
+    if (!isDownloadingLeftImage) {
+      setLeftDisplayImageURL(leftDownloadImageURL as string)
+    }
+  }, [isDownloadingLeftImage])
+
+  useEffect(() => {
+    if (!isDownloadingRightImage) {
+      setRightDisplayImageURL(rightDownloadImageURL as string)
+    }
+  }, [isDownloadingRightImage])
+
+  const handleLeftFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      setLeftUploadFile(file)
+      setLeftDisplayImageURL(await readFileToURL(file))
+    }
+  }
+
+  const handleRightFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      setRightUploadFile(file)
+      setRightDisplayImageURL(await readFileToURL(file))
+    }
+  }
+
+  const [shouldCrop, setShouldCrop] = useState(false)
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<null | Area>(null)
+
+  const onCropComplete = useCallback(
+    (croppedArea: unknown, croppedAreaPixels: Area) => {
+      setCroppedAreaPixels(croppedAreaPixels)
+    },
+    []
+  )
 
   return (
     <>
@@ -234,96 +279,177 @@ export const PapsmearResultCard = ({
         onClose={() => {
           setShouldShowImage(false)
         }}
-        title="Crop hình ảnh"
+        title={currentTestInfo.name}
         disableClickOutside={false}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button
-            variant="contained"
-            component="label"
-            endIcon={<FileUploadIcon />}
-          >
-            Upload
-            <input
-              hidden
-              accept="image/*"
-              type="file"
-              onChange={handleFileChange}
-            />
-          </Button>
-          <Typography sx={{ ml: 1 }} fontStyle="italic">
-            {file?.name}
-          </Typography>
-        </Box>
-        {imageURL !== null && (
-          <>
-            <Box
-              sx={{
-                position: 'relative',
-                height: '500px',
-                width: '667px',
-                my: 2,
-              }}
-            >
-              <Cropper
-                image={imageURL}
-                crop={crop}
-                zoom={zoom}
-                showGrid={false}
-                onCropChange={(point) => setCrop(point)}
-                onZoomChange={(ratio) => setZoom(ratio)}
-              />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+          <Paper variant="outlined" sx={{ flexGrow: 1, p: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
+              <Button
+                variant="contained"
+                component="label"
+                endIcon={<FileUploadIcon />}
+              >
+                Upload
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleLeftFileChange}
+                />
+              </Button>
+              <Typography fontStyle="italic">{leftUploadFile?.name}</Typography>
             </Box>
-            <Slider
-              sx={{ mx: 1 }}
-              value={zoom}
-              min={1}
-              max={3}
-              step={0.1}
-              aria-labelledby="Zoom"
-              onChange={(e, zoom) => setZoom(zoom)}
-            />
-          </>
-        )}
-
-        <Button
+            {leftDisplayImageURL !== null ? (
+              <img src={leftDisplayImageURL} width="500px" height="375px" />
+            ) : (
+              <Box sx={{ height: '375px' }} />
+            )}
+          </Paper>
+          <Paper variant="outlined" sx={{ flexGrow: 1, p: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
+              <Button
+                variant="contained"
+                onClick={() => setShouldCrop((shouldCrop) => !shouldCrop)}
+              >
+                Crop
+              </Button>
+              <Button
+                variant="contained"
+                component="label"
+                endIcon={<FileUploadIcon />}
+              >
+                Upload
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleRightFileChange}
+                />
+              </Button>
+              <Typography fontStyle="italic">
+                {rightUploadFile?.name}
+              </Typography>
+            </Box>
+            {shouldCrop && leftDisplayImageURL !== null ? (
+              <Box
+                sx={{
+                  position: 'relative',
+                  height: '375px',
+                  width: '500px',
+                }}
+              >
+                <Cropper
+                  image={leftDisplayImageURL}
+                  crop={crop}
+                  zoom={zoom}
+                  showGrid={false}
+                  onCropChange={(point) => setCrop(point)}
+                  onZoomChange={(ratio) => setZoom(ratio)}
+                  onCropComplete={onCropComplete}
+                />
+              </Box>
+            ) : rightDisplayImageURL !== null ? (
+              <img src={rightDisplayImageURL!} width="500px" height="375px" />
+            ) : (
+              <Box sx={{ height: '375px' }} />
+            )}
+          </Paper>
+        </Box>
+        <LoadingButton
           type="submit"
           variant="contained"
           color="secondary"
           fullWidth
+          loading={isUploading}
           sx={{ color: 'white', mt: 1 }}
-          disabled={isLoading}
           onClick={async () => {
-            if (file !== null) {
-              const formData = new FormData()
-              const extension = file.name.substring(
-                file.name.lastIndexOf('.'),
-                file.name.length
+            const promises: Promise<unknown>[] = []
+            const testId = currentTestInfo._id
+
+            if (leftUploadFile !== null) {
+              // NEW IMAGE
+              const { formData, filename } = prepareFormData(
+                leftUploadFile,
+                sampleId,
+                testId,
+                'left'
               )
-              const filename = sampleId + extension
-              formData.append('file', file, filename)
-
-              await uploadImage({
-                sampleUploadRequestDto: formData,
-              }).unwrap()
-
-              setElementState(imagePathElementId, {
+              promises.push(
+                uploadImage({ sampleUploadRequestDto: formData }).unwrap()
+              )
+              setElementState(leftImagePathElementId, {
                 checked: false,
                 value: filename,
               })
             }
 
-            setElementState(cropMetadataElementId, {
-              checked: false,
-              value: JSON.stringify({ crop, zoom }),
-            })
-            
+            if (
+              shouldCrop &&
+              leftDisplayImageURL !== null &&
+              croppedAreaPixels !== null
+            ) {
+              // NEW CROP
+              const croppedFile = await getCroppedImg(
+                leftDisplayImageURL,
+                croppedAreaPixels,
+                0
+              )
+              const { formData, filename } = prepareFormData(
+                croppedFile!,
+                sampleId,
+                testId,
+                'right'
+              )
+              promises.push(
+                uploadImage({ sampleUploadRequestDto: formData }).unwrap()
+              )
+              setElementState(rightImagePathElementId, {
+                checked: false,
+                value: filename,
+              })
+            } else {
+              if (rightUploadFile !== null) {
+                // NO CROP, JUST UPLOAD
+                const { formData, filename } = prepareFormData(
+                  rightUploadFile,
+                  sampleId,
+                  currentTestInfo._id,
+                  'right'
+                )
+                promises.push(
+                  uploadImage({ sampleUploadRequestDto: formData }).unwrap()
+                )
+                setElementState(rightImagePathElementId, {
+                  checked: false,
+                  value: filename,
+                })
+              }
+            }
+
+            await Promise.all(promises)
             setShouldShowImage(false)
           }}
         >
           Lưu
-        </Button>
+        </LoadingButton>
       </SideAction>
     </>
   )
+}
+
+function prepareFormData(
+  file: File,
+  sampleId: string,
+  testId: string,
+  position: 'left' | 'right'
+) {
+  // const extension = file.name.substring(
+  //   file.name.lastIndexOf('.'),
+  //   file.name.length
+  // )
+  const filename = sampleId + '_' + testId + '_' + position + '.jpg'
+  const formData = new FormData()
+  formData.append('file', file, filename)
+  return { formData, filename }
 }

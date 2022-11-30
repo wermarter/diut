@@ -89,9 +89,8 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.sampleUploadRequestDto,
         }),
-        invalidatesTags: ['samples'],
       }),
-      sampleDownloadFile: build.mutation<
+      sampleDownloadFile: build.query<
         SampleDownloadFileApiResponse,
         SampleDownloadFileApiArg
       >({
@@ -252,5 +251,5 @@ export const {
   useSamplePreviewQuery,
   useLazySamplePreviewQuery,
   useSampleUploadFileMutation,
-  useSampleDownloadFileMutation,
+  useSampleDownloadFileQuery,
 } = injectedRtkApi

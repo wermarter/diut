@@ -1,3 +1,4 @@
+import { NodeEnv } from '@diut/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
@@ -19,8 +20,8 @@ export async function bootstrap(rootModule: unknown) {
     bufferLogs: true,
   })
 
+  app.enableShutdownHooks()
   app.setGlobalPrefix(API_PREFIX)
-
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // convert to DTO to class instance for applying default value
@@ -28,10 +29,17 @@ export async function bootstrap(rootModule: unknown) {
   )
 
   const logger: LoggerService = app.get(Logger)
-  const config = app.get(ConfigService)
-
   app.useLogger(logger)
   app.flushLogs()
+
+  const config = app.get(ConfigService)
+  const isDevelopment = config.get('NODE_ENV') === NodeEnv.Development
+
+  if (isDevelopment) {
+    app.enableCors()
+  } else {
+    app.use(helmet())
+  }
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
     config.get(HTTP_SERVER_CONFIG_NAME)
@@ -76,17 +84,17 @@ export async function bootstrap(rootModule: unknown) {
     `,
   })
 
-  app.enableCors()
-  app.use(helmet())
-
   const PORT = httpServerConfig.port
+  const BOOTSTRAP_CONTEXT = 'Bootstrap'
   await app.listen(PORT)
   logger.log(
     `Documentation on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,
-    'Bootstrap'
+    BOOTSTRAP_CONTEXT
   )
 
-  app.enableShutdownHooks()
+  if (isDevelopment) {
+    logger.warn('Running in Development mode!', BOOTSTRAP_CONTEXT)
+  }
 
   return app
 }
