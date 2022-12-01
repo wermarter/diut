@@ -94,6 +94,15 @@ export function SinglePrintDialog({
             )
             .map(({ name }) => name)
         )
+      } else if (printForm._id === PrintForm.Basic) {
+        setValue(
+          'sampleTypes',
+          sampleTypes
+            ?.filter(({ _id }) =>
+              [ID_SAMPLE_TYPE_NUOC_TIEU, ID_SAMPLE_TYPE_MAU].includes(_id)
+            )
+            .map(({ name }) => name)
+        )
       } else {
         setValue(
           'sampleTypes',
