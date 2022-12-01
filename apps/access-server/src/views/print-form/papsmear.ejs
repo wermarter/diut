@@ -71,7 +71,7 @@
         </p>
       </div>
     </div>
-    <p class="mb-1 text-xl text-blue-700 text-center font-bold">
+    <p class="mb-1 text-2xl text-blue-700 text-center font-bold">
       PHIẾU XÉT NGHIỆM TẾ BÀO CỔ TỬ CUNG
     </p>
     <!-- -------------------------------------------------------------- -->
@@ -87,7 +87,7 @@
         </p>
         <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
       </div>
-      <div>
+      <div class="mr-16">
         <p class="text-base">
           ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
         </p>
@@ -102,33 +102,35 @@
       </div>
     </div>
     <!-- -------------------------------------------------------------- -->
-    <div class="flex flex-row justify-between my-1">
+    <div class="flex flex-row my-1 gap-8">
       <div>
         <p class="text-base text-blue-700 underline">Loại bệnh phẩm:</p>
         <p class="text-base text-blue-700 underline">Đánh giá lame:</p>
       </div>
-      <div>
+      <div class="flex flex-row justify-center gap-8">
         <div>
-          <input type="checkbox" <%=
-          (results[0].tests[0].elements[2].isHighlighted) ? "checked": "" %>>
-          Phết thường qui
+          <div>
+            <input type="checkbox" <%=
+            (results[0].tests[0].elements[2].isHighlighted) ? "checked": "" %>>
+            Phết thường qui
+          </div>
+          <div>
+            <input type="checkbox" <%=
+            (results[0].tests[0].elements[4].isHighlighted) ? "checked": "" %>>
+            Đạt yêu cầu chẩn đoán
+          </div>
         </div>
         <div>
-          <input type="checkbox" <%=
-          (results[0].tests[0].elements[4].isHighlighted) ? "checked": "" %>>
-          Đạt yêu cầu chẩn đoán
-        </div>
-      </div>
-      <div>
-        <div>
-          <input type="checkbox" <%=
-          (results[0].tests[0].elements[3].isHighlighted) ? "checked": "" %>>
-          Phết nhúng dịch
-        </div>
-        <div>
-          <input type="checkbox" <%=
-          (results[0].tests[0].elements[5].isHighlighted) ? "checked": "" %>>
-          Không đạt yêu cầu chẩn đoán
+          <div>
+            <input type="checkbox" <%=
+            (results[0].tests[0].elements[3].isHighlighted) ? "checked": "" %>>
+            Phết nhúng dịch-Thinprep Paptest
+          </div>
+          <div>
+            <input type="checkbox" <%=
+            (results[0].tests[0].elements[5].isHighlighted) ? "checked": "" %>>
+            Không đạt yêu cầu chẩn đoán
+          </div>
         </div>
       </div>
     </div>

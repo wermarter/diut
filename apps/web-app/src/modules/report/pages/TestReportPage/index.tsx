@@ -235,7 +235,7 @@ export default function TestReportPage() {
           columns={[
             {
               field: 'infoAt',
-              headerName: 'Nhận bệnh',
+              headerName: 'Ngày nhận',
               width: 100,
               sortable: false,
               valueGetter: ({ value }) => {

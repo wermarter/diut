@@ -3,6 +3,7 @@ import {
   ID_SAMPLE_TYPE_NUOC_TIEU,
   ID_SAMPLE_TYPE_HUYET_TRANG,
   ID_SAMPLE_TYPE_DICH_MU,
+  ID_SAMPLE_TYPE_MAU,
 } from '@diut/common'
 import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
@@ -126,6 +127,15 @@ export function SinglePrintDialog({
                 ID_SAMPLE_TYPE_HUYET_TRANG,
                 ID_SAMPLE_TYPE_DICH_MU,
               ].includes(_id)
+            )
+            .map(({ name }) => name)
+        )
+      } else if (printFormData[0]?._id === PrintForm.Basic) {
+        setValue(
+          'sampleTypes',
+          sampleTypes
+            ?.filter(({ _id }) =>
+              [ID_SAMPLE_TYPE_NUOC_TIEU, ID_SAMPLE_TYPE_MAU].includes(_id)
             )
             .map(({ name }) => name)
         )

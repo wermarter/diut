@@ -17,6 +17,7 @@ import { toast } from 'react-toastify'
 import { useLoaderData } from 'react-router-dom'
 import CheckIcon from '@mui/icons-material/Check'
 import { GridActionsCellItem } from '@mui/x-data-grid'
+import { addMinutes } from 'date-fns'
 
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
@@ -74,7 +75,7 @@ export default function InfoInputPage() {
 
   useEffect(() => {
     setValue('infoAt', new Date())
-    setValue('sampledAt', new Date())
+    setValue('sampledAt', addMinutes(new Date(), 5))
   }, [])
 
   const [testSelectorOpen, setTestSelectorOpen] = useState(false)
@@ -116,7 +117,7 @@ export default function InfoInputPage() {
     reset()
     setValue('sampleId', newSampleId.toString())
     setValue('infoAt', new Date())
-    setValue('sampledAt', new Date())
+    setValue('sampledAt', addMinutes(new Date(), 5))
     setShouldUpdatePatient(null)
   }
 
