@@ -95,12 +95,15 @@ export default function PrintSelectPage() {
     sampleId,
     patientId,
   }: FilterData) => {
-    setSearchParams({
-      sampleId,
-      patientId,
-      fromDate: fromDate.toISOString(),
-      toDate: toDate.toISOString(),
-    })
+    setSearchParams(
+      {
+        sampleId,
+        patientId,
+        fromDate: fromDate.toISOString(),
+        toDate: toDate.toISOString(),
+      },
+      { replace: true }
+    )
     return setFilterObj((obj) => ({
       ...obj,
       filter: {

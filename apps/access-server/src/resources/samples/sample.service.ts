@@ -1,4 +1,6 @@
 import {
+  forwardRef,
+  Inject,
   Injectable,
   Logger,
   OnModuleDestroy,
@@ -48,6 +50,7 @@ export class SampleService
   private browser: puppeteer.Browser
   constructor(
     @InjectModel(Sample.name) model: Model<Sample>,
+    @Inject(forwardRef(() => PatientService))
     private readonly patientService: PatientService,
     private readonly testService: TestService,
     private readonly testElementService: TestElementService,

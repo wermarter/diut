@@ -150,10 +150,8 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     return item?.toObject<Entity>() ?? null
   }
 
-  public async delete(filter: FilterQuery<Entity>): Promise<Entity> {
-    const item = await this.model.findOneAndDelete(filter).exec()
-
-    return item?.toObject<Entity>() ?? null
+  public async deleteMany(filter: FilterQuery<Entity>) {
+    return this.model.deleteMany(filter).exec()
   }
 
   public async bulkUpsert(

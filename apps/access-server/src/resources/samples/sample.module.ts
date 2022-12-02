@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 
 import { importCollection } from 'src/clients/mongo'
 import { DoctorModule } from '../doctors'
@@ -18,7 +18,7 @@ import { SampleService } from './sample.service'
     importCollection(Sample),
     DoctorModule,
     IndicationModule,
-    PatientModule,
+    forwardRef(() => PatientModule),
     PatientTypeModule,
     SampleTypeModule,
     TestElementModule,

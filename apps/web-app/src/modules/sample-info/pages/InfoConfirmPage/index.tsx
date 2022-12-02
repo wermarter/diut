@@ -91,12 +91,15 @@ export default function InfoConfirmPage() {
     sampleId,
     infoCompleted,
   }: FilterData) => {
-    setSearchParams({
-      sampleId,
-      infoCompleted,
-      fromDate: fromDate.toISOString(),
-      toDate: toDate.toISOString(),
-    })
+    setSearchParams(
+      {
+        sampleId,
+        infoCompleted,
+        fromDate: fromDate.toISOString(),
+        toDate: toDate.toISOString(),
+      },
+      { replace: true }
+    )
     return setFilterObj((obj) => ({
       ...obj,
       filter: {

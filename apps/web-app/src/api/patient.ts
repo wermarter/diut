@@ -1,6 +1,6 @@
 import { Gender } from '@diut/common'
 import { apiSlice as api } from './slice'
-export const addTagTypes = ['patients'] as const
+export const addTagTypes = ['patients', 'samples'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/patients/${queryArg.id}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['patients'],
+        invalidatesTags: ['patients', 'samples'],
       }),
     }),
     overrideExisting: false,

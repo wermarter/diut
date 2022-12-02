@@ -9,7 +9,10 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { format } from 'date-fns'
 
-import { usePatientSearchQuery } from 'src/api/patient'
+import {
+  usePatientDeleteByIdMutation,
+  usePatientSearchQuery,
+} from 'src/api/patient'
 import { DataTable } from 'src/common/components/DataTable'
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { useCrudPagination } from 'src/common/hooks'
@@ -41,6 +44,8 @@ export default function SearchPatientPage() {
   const { data, isFetching } = usePatientSearchQuery({
     searchPatientRequestDto: filterObj,
   })
+  const [deletePatient, { isLoading: isDeleting }] =
+    usePatientDeleteByIdMutation()
 
   const handleSubmitFilter = ({ externalId, name }: FilterData) => {
     setSearchParams({
@@ -71,7 +76,7 @@ export default function SearchPatientPage() {
   }
 
   const handleDeletePatient = async (patientId: string) => {
-    alert('delete ' + patientId)
+    await deletePatient({ id: patientId })
   }
 
   return (
@@ -113,7 +118,7 @@ export default function SearchPatientPage() {
           disableSelectionOnClick
           rows={data?.items || []}
           autoRowHeight
-          loading={isFetching}
+          loading={isFetching || isDeleting}
           getRowId={(row) => row._id}
           columns={[
             {

@@ -94,12 +94,15 @@ export default function EditSelectPage() {
     sampleId,
     sampleCompleted,
   }: FilterData) => {
-    setSearchParams({
-      sampleId,
-      sampleCompleted,
-      fromDate: fromDate.toISOString(),
-      toDate: toDate.toISOString(),
-    })
+    setSearchParams(
+      {
+        sampleId,
+        sampleCompleted,
+        fromDate: fromDate.toISOString(),
+        toDate: toDate.toISOString(),
+      },
+      { replace: true }
+    )
     let sampleCompletedObj = {}
     if (userIsAdmin) {
       sampleCompletedObj = {
