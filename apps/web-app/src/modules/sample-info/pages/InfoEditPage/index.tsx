@@ -109,23 +109,21 @@ export default function InfoEditPage() {
           <Typography sx={{ fontStyle: 'italic', mr: 2 }}>
             {author.name}
           </Typography>
-          {userIsAdmin && (
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => {
-                deleteSample({ id: sampleInfo._id })
-                  .unwrap()
-                  .then(() => {
-                    toast.success(`Đã xoá mẫu: ${sampleInfo.sampleId}`)
-                    navigate(-1)
-                  })
-              }}
-              disabled={isDeletingSample}
-            >
-              Xoá mẫu XN
-            </Button>
-          )}
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              deleteSample({ id: sampleInfo._id })
+                .unwrap()
+                .then(() => {
+                  toast.success(`Đã xoá mẫu: ${sampleInfo.sampleId}`)
+                  navigate(-1)
+                })
+            }}
+            disabled={!userIsAdmin}
+          >
+            Xoá mẫu XN
+          </Button>
         </div>
       </Box>
       <FormContainer

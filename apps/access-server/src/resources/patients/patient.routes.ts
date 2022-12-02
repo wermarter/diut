@@ -11,7 +11,7 @@ export const patientRoutes = {
   },
 
   search: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo],
+    permissions: [Permission.ManageResult],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,

@@ -17,6 +17,8 @@ import { DataTable } from 'src/common/components/DataTable'
 import { FormContainer, FormTextField } from 'src/common/form-elements'
 import { useCrudPagination } from 'src/common/hooks'
 import { ConfirmDialog } from 'src/common/components/ConfirmDialog'
+import { useTypedSelector } from 'src/core'
+import { selectUserIsAdmin } from 'src/modules/auth'
 
 interface FilterData {
   externalId: string
@@ -26,6 +28,7 @@ interface FilterData {
 export default function SearchPatientPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -194,6 +197,7 @@ export default function SearchPatientPage() {
               cellClassName: 'actions',
               getActions: ({ row }) => [
                 <GridActionsCellItem
+                  disabled={!userIsAdmin}
                   icon={<DeleteForeverIcon />}
                   label="Xoá"
                   color="error"

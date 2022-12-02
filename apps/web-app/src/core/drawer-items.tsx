@@ -76,6 +76,7 @@ export const drawerItems: DrawerItem[] = [
         icon: <PersonSearchIcon />,
         label: 'Tìm kiếm',
         destination: 'patient/search',
+        permission: Permission.ManageResult,
       },
     ],
   },
