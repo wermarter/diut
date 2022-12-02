@@ -5,9 +5,9 @@ import { TestCategoryResponseDto } from 'src/api/test-category'
 export const testCategoryColumns: GridColumns<TestCategoryResponseDto> = [
   {
     field: 'index',
-    headerName: 'Thứ tự',
+    headerName: 'Thứ tự nhập',
     type: 'number',
-    minWidth: 100,
+    width: 100,
     sortable: false,
     editable: true,
   },
@@ -16,6 +16,14 @@ export const testCategoryColumns: GridColumns<TestCategoryResponseDto> = [
     headerName: 'Tên nhóm',
     flex: 1,
     minWidth: 300,
+    sortable: false,
+    editable: true,
+  },
+  {
+    field: 'reportIndex',
+    headerName: 'Thứ tự sổ',
+    type: 'number',
+    minWidth: 100,
     sortable: false,
     editable: true,
   },

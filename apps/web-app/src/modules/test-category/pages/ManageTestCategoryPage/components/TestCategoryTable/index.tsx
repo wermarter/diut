@@ -45,6 +45,7 @@ export function TestCategoryTable() {
           createTestCategoryRequestDto: {
             name: item.name,
             index: item.index,
+            reportIndex: item.reportIndex,
           },
         }).unwrap()
       }}
@@ -54,6 +55,7 @@ export function TestCategoryTable() {
           updateTestCategoryRequestDto: {
             name: newItem.name,
             index: newItem.index,
+            reportIndex: newItem.reportIndex,
           },
         }).unwrap()
       }}

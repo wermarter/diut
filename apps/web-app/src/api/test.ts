@@ -79,6 +79,7 @@ export type TestCategoryResponseDto = {
   updatedAt: string
   name: string
   index: number
+  reportIndex: number
 }
 export type BioProductResponseDto = {
   _id: string

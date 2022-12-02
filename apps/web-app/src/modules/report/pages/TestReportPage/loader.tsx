@@ -37,7 +37,7 @@ export const testReportPageLoader = async () => {
     ),
     groups,
     tests: [...testRes.items].sort((a, b) => {
-      const categoryDelta = a.category.index - b.category.index
+      const categoryDelta = a.category.reportIndex - b.category.reportIndex
       if (categoryDelta !== 0) {
         return categoryDelta
       }

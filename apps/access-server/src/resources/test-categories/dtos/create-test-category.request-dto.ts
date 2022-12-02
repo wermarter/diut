@@ -15,4 +15,11 @@ export class CreateTestCategoryRequestDto {
   @IsNumber()
   @Min(1)
   index: number
+
+  @ApiProperty({
+    example: 2,
+  })
+  @IsNumber()
+  @Min(1)
+  reportIndex: number
 }

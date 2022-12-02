@@ -5,21 +5,20 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { Sample } from 'src/resources/samples'
 import { COLLECTION } from 'src/common/collections'
+import { TestCategory } from 'src/resources/test-categories'
 
 async function main() {
   const db = await mongoose.connect(process.env.PROD_MONGO_URI)
   console.log('MongoDB connected !')
 
   const model = mongoose.model(
-    COLLECTION.SAMPLE,
-    SchemaFactory.createForClass(Sample)
+    COLLECTION.TEST_CATEGORY,
+    SchemaFactory.createForClass(TestCategory)
   )
 
-  const filterQuery: mongoose.FilterQuery<Sample> = {
-    isNgoaiGio: { $exists: false },
-    isTraBuuDien: { $exists: false },
+  const filterQuery: mongoose.FilterQuery<TestCategory> = {
+    reportIndex: { $exists: false },
   }
 
   const total = await model.countDocuments(filterQuery)
@@ -33,8 +32,7 @@ async function main() {
       { _id: doc._id },
       {
         $set: {
-          isNgoaiGio: false,
-          isTraBuuDien: false,
+          reportIndex: doc.index,
         },
       }
     )

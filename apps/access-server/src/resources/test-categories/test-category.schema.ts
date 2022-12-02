@@ -13,4 +13,7 @@ export class TestCategory extends BaseSchema {
 
   @Prop({ required: true })
   index: number
+
+  @Prop({ required: true })
+  reportIndex: number
 }

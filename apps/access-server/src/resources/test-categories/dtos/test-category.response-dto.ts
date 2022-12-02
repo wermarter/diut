@@ -20,4 +20,12 @@ export class TestCategoryResponseDto extends BaseResourceResponseDto {
   @IsNumber()
   @Min(1)
   index: number
+
+  @Expose()
+  @ApiProperty({
+    example: 2,
+  })
+  @IsNumber()
+  @Min(1)
+  reportIndex: number
 }
