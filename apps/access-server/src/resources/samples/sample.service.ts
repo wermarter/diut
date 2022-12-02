@@ -344,6 +344,8 @@ export class SampleService
       )
 
       const page = await this.browser.newPage()
+      page.setCacheEnabled(false)
+
       await page.setContent(pageContent, { waitUntil: 'networkidle0' })
       const buffer = await page.pdf({
         format: isA4 ? 'A4' : 'A5',
