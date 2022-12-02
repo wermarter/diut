@@ -37,4 +37,7 @@ export class Test extends BaseSchema {
 
   @Prop({ required: true })
   printForm: PrintForm
+
+  @Prop({ required: true })
+  shouldNotPrint: boolean
 }

@@ -114,6 +114,20 @@ export class SampleResponseDto extends BaseResourceResponseDto {
   })
   @IsBoolean()
   sampleCompleted: boolean
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isTraBuuDien: boolean
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isNgoaiGio: boolean
 }
 
 export class TestResultDto {

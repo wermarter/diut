@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsNotEmpty,
   IsOptional,
@@ -71,6 +72,18 @@ export class CreateSampleRequestDto {
   @ValidateNested({ each: true })
   @Type(() => SampleTestDto)
   tests: SampleTestDto[]
+
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isTraBuuDien: boolean
+
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  isNgoaiGio: boolean
 }
 
 class SampleTestDto {

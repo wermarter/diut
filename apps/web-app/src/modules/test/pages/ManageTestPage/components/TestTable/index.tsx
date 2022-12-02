@@ -79,6 +79,7 @@ export function TestTable() {
             printForm: printForms.find(
               (printForm) => printForm.name === item.printForm
             )?._id! as PrintForm,
+            shouldNotPrint: item.shouldNotPrint,
           },
         }).unwrap()
       }}
@@ -98,6 +99,7 @@ export function TestTable() {
             printForm: printForms.find(
               (printForm) => printForm.name === newItem.printForm
             )?._id! as PrintForm,
+            shouldNotPrint: newItem.shouldNotPrint,
           },
         }).unwrap()
       }}

@@ -47,7 +47,7 @@ export function useTestColumns(
       field: 'bioProduct',
       headerName: 'Sinh phẩm',
       type: 'singleSelect',
-      minWidth: 200,
+      width: 200,
       sortable: false,
       editable: true,
       valueOptions: [{ label: '-- không --', value: NO_BIOPRODUCT }].concat(
@@ -59,6 +59,14 @@ export function useTestColumns(
       valueGetter: ({ value }) => {
         return value?.name ?? ''
       },
+    },
+    {
+      field: 'shouldNotPrint',
+      type: 'boolean',
+      headerName: 'Không In',
+      width: 80,
+      sortable: false,
+      editable: true,
     },
     {
       field: 'printForm',

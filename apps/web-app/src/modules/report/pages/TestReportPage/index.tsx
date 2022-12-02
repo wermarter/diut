@@ -25,19 +25,39 @@ import {
 } from 'src/common/form-elements'
 import { GridColDef } from '@mui/x-data-grid'
 
+const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+
+enum IsNgoaiGio {
+  Any = 'ANY_NGOAI_GIO',
+  NgoaiGio = 'IS_NGOAI_GIO',
+  TrongGio = 'IS_TRONG_GIO',
+}
+
 interface FilterData {
   fromDate: Date
   toDate: Date
   patientType: string
+  isNgoaiGio: IsNgoaiGio
 }
 
-const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+function parseIsNgoaiGio(isNgoaiGioParam: IsNgoaiGio) {
+  if (isNgoaiGioParam === IsNgoaiGio.NgoaiGio) {
+    return true
+  } else if (isNgoaiGioParam === IsNgoaiGio.TrongGio) {
+    return false
+  }
+
+  return undefined
+}
 
 export default function TestReportPage() {
   const { patientTypeMap, categories, groups, tests } =
     useLoaderData() as Awaited<ReturnType<typeof testReportPageLoader>>
   const [searchParams, setSearchParams] = useSearchParams()
-  const patientTypeParam = searchParams.get('patientType') ?? ''
+
+  const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
+  const isNgoaiGioParam =
+    (searchParams.get('isNgoaiGio') as IsNgoaiGio) ?? IsNgoaiGio.Any
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -59,21 +79,24 @@ export default function TestReportPage() {
         searchParams.get('toDate') !== null
           ? new Date(searchParams.get('toDate')!)
           : new Date(),
-      patientType:
-        patientTypeParam?.length > 0 ? patientTypeParam : ANY_PATIENT_TYPE,
+      patientType: patientTypeParam,
+      isNgoaiGio: isNgoaiGioParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const patientType = watch('patientType')
+  const isNgoaiGio = watch('isNgoaiGio')
 
   const handleSubmitFilter = ({
     fromDate,
     toDate,
     patientType,
+    isNgoaiGio,
   }: FilterData) => {
     setSearchParams({
       patientType,
+      isNgoaiGio,
       fromDate: fromDate.toISOString(),
       toDate: toDate.toISOString(),
     })
@@ -88,6 +111,7 @@ export default function TestReportPage() {
         },
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
+        isNgoaiGio: parseIsNgoaiGio(isNgoaiGio),
       },
     }))
   }
@@ -98,7 +122,7 @@ export default function TestReportPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, patientType])
+  }, [fromDate, toDate, patientType, isNgoaiGio])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -176,6 +200,21 @@ export default function TestReportPage() {
                 label="Đến ngày"
               />
             </Grid>
+            <Grid xs={2}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="isNgoaiGio"
+                label="Thời gian"
+                options={[
+                  { label: 'Tất cả', value: IsNgoaiGio.Any },
+                  { label: 'Trong giờ', value: IsNgoaiGio.TrongGio },
+                  { label: 'Ngoài giờ', value: IsNgoaiGio.NgoaiGio },
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
             <Grid xs={3}>
               <FormSelect
                 control={control}
@@ -193,7 +232,7 @@ export default function TestReportPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={5}>
+            <Grid xs={3}>
               <input type="submit" style={{ display: 'none' }} />
             </Grid>
           </Grid>
@@ -243,6 +282,21 @@ export default function TestReportPage() {
                   return ''
                 }
                 return format(new Date(value), 'dd/MM/yyyy HH:mm')
+              },
+            },
+            {
+              field: 'isNgoaiGio',
+              headerName: 'Loại',
+              width: 90,
+              sortable: false,
+              editable: true,
+              valueGetter: ({ value }) => {
+                if (value === true) {
+                  return 'Ngoài giờ'
+                } else if (value === false) {
+                  return 'Trong giờ'
+                }
+                return ''
               },
             },
             {
@@ -304,6 +358,19 @@ export default function TestReportPage() {
               sortable: false,
               valueGetter: ({ row }) =>
                 patientTypeMap.get(row.patientTypeId)?.name,
+            },
+            {
+              field: 'isTraBuuDien',
+              headerName: 'KQ',
+              width: 80,
+              sortable: false,
+              editable: true,
+              valueGetter: ({ value }) => {
+                if (value === true) {
+                  return 'Bưu điện'
+                }
+                return ''
+              },
             },
             ...tests.map(
               ({ _id, name }): GridColDef<SampleResponseDto> => ({

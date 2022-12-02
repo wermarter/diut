@@ -2,6 +2,7 @@ import { PrintForm } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
+  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -57,4 +58,11 @@ export class TestResponseDto extends BaseResourceResponseDto {
   })
   @IsEnum(PrintForm)
   printForm: PrintForm
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  shouldNotPrint: boolean
 }

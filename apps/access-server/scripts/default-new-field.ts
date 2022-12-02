@@ -5,7 +5,7 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { TestElement } from 'src/resources/test-elements'
+import { Sample } from 'src/resources/samples'
 import { COLLECTION } from 'src/common/collections'
 
 async function main() {
@@ -13,15 +13,19 @@ async function main() {
   console.log('MongoDB connected !')
 
   const model = mongoose.model(
-    COLLECTION.TEST_ELEMENT,
-    SchemaFactory.createForClass(TestElement)
+    COLLECTION.SAMPLE,
+    SchemaFactory.createForClass(Sample)
   )
 
-  const total = await model.countDocuments({ printIndex: { $exists: false } })
+  const filterQuery: mongoose.FilterQuery<Sample> = {
+    isNgoaiGio: { $exists: false },
+    isTraBuuDien: { $exists: false },
+  }
+
+  const total = await model.countDocuments(filterQuery)
   let counter = 0
-  for await (const doc of model
-    .find({ printIndex: { $exists: false } })
-    .cursor()) {
+
+  for await (const doc of model.find(filterQuery).cursor()) {
     counter++
     console.log(`${counter}/${total}`)
 
@@ -29,7 +33,8 @@ async function main() {
       { _id: doc._id },
       {
         $set: {
-          printIndex: doc.index,
+          isNgoaiGio: false,
+          isTraBuuDien: false,
         },
       }
     )

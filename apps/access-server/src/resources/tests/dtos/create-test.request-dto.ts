@@ -1,6 +1,7 @@
 import { PrintForm } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import {
+  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -46,4 +47,10 @@ export class CreateTestRequestDto {
   })
   @IsEnum(PrintForm)
   printForm: PrintForm
+
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  shouldNotPrint: boolean
 }

@@ -19,12 +19,16 @@ import CheckIcon from '@mui/icons-material/Check'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import { addMinutes } from 'date-fns'
 
-import { FormContainer, FormTextField } from 'src/common/form-elements'
+import {
+  FormContainer,
+  FormSwitch,
+  FormTextField,
+  FormDateTimePicker,
+  FormAutocomplete,
+  FormSelect,
+} from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { TestSelector } from 'src/common/components/TestSelector'
-import { FormDateTimePicker } from 'src/common/form-elements/FormDateTimePicker'
-import { FormAutocomplete } from 'src/common/form-elements/FormAutocomplete'
-import { FormSelect } from 'src/common/form-elements/FormSelect'
 import { useSampleCreateMutation } from 'src/api/sample'
 import {
   PatientResponseDto,
@@ -113,8 +117,10 @@ export default function InfoInputPage() {
   )
 
   const resetState = () => {
-    const newSampleId = Number(getValues().sampleId) + 1
+    const { sampleId, isNgoaiGio } = getValues()
+    const newSampleId = Number(sampleId) + 1
     reset()
+    setValue('isNgoaiGio', isNgoaiGio)
     setValue('sampleId', newSampleId.toString())
     setValue('infoAt', new Date())
     setValue('sampledAt', addMinutes(new Date(), 5))
@@ -251,7 +257,7 @@ export default function InfoInputPage() {
               />
             </Grid>
             {/* ----------------------------- Row 3 ----------------------------- */}
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="sampleId"
@@ -261,7 +267,7 @@ export default function InfoInputPage() {
                 label="ID xét nghiệm"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="phoneNumber"
@@ -279,6 +285,13 @@ export default function InfoInputPage() {
                 size="small"
                 fullWidth
                 label="Số CMND/CCCD"
+              />
+            </Grid>
+            <Grid xs={2}>
+              <FormSwitch
+                control={control}
+                name="isTraBuuDien"
+                label="Bưu điện"
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
@@ -336,18 +349,26 @@ export default function InfoInputPage() {
                 label="Loại mẫu"
               />
             </Grid>
+            {/* ----------------------------- Submit ----------------------------- */}
+            <Grid xs={10}>
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={isSubmitting}
+                loading={isSubmitting}
+              >
+                Lưu thông tin
+              </LoadingButton>
+            </Grid>
+            <Grid xs={2}>
+              <FormSwitch
+                control={control}
+                name="isNgoaiGio"
+                label="Ngoài giờ"
+              />
+            </Grid>
           </Grid>
-          {/* ----------------------------- Submit ----------------------------- */}
-          <LoadingButton
-            sx={{ mt: 2 }}
-            type="submit"
-            fullWidth
-            variant="contained"
-            disabled={isSubmitting}
-            loading={isSubmitting}
-          >
-            Lưu thông tin
-          </LoadingButton>
         </Paper>
       </FormContainer>
       <TestSelector

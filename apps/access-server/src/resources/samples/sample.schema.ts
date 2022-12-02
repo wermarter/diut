@@ -102,4 +102,10 @@ export class Sample extends BaseSchema {
 
   @Prop({ required: true })
   sampleCompleted: boolean
+
+  @Prop({ required: true })
+  isTraBuuDien: boolean
+
+  @Prop({ required: true })
+  isNgoaiGio: boolean
 }

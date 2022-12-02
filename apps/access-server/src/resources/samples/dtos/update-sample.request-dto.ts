@@ -6,10 +6,6 @@ import { SampleResponseDto } from './sample.response-dto'
 export class UpdateSampleRequestDto extends PartialType(
   IntersectionType(
     CreateSampleRequestDto,
-    PickType(PartialType(SampleResponseDto), [
-      'results',
-      'sampleCompleted',
-      'infoCompleted',
-    ])
+    PickType(SampleResponseDto, ['results', 'sampleCompleted', 'infoCompleted'])
   )
 ) {}

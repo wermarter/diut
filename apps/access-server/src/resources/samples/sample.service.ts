@@ -219,6 +219,11 @@ export class SampleService
         }
 
         const test = await this.testService.findById(result.testId)
+
+        if (test.shouldNotPrint === true) {
+          return
+        }
+
         if (printForm !== undefined && test.printForm !== printForm) {
           return
         }
@@ -344,7 +349,7 @@ export class SampleService
       )
 
       const page = await this.browser.newPage()
-      page.setCacheEnabled(false)
+      page.setCacheEnabled(false) // prevent old image cache
 
       await page.setContent(pageContent, { waitUntil: 'networkidle0' })
       const buffer = await page.pdf({

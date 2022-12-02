@@ -17,12 +17,16 @@ import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 
-import { FormContainer, FormTextField } from 'src/common/form-elements'
+import {
+  FormContainer,
+  FormSwitch,
+  FormTextField,
+  FormDateTimePicker,
+  FormAutocomplete,
+  FormSelect,
+} from 'src/common/form-elements'
 import { formResolver, FormSchema } from '../InfoInputPage/validation'
 import { TestSelector } from 'src/common/components/TestSelector'
-import { FormDateTimePicker } from 'src/common/form-elements/FormDateTimePicker'
-import { FormAutocomplete } from 'src/common/form-elements/FormAutocomplete'
-import { FormSelect } from 'src/common/form-elements/FormSelect'
 import {
   useSampleDeleteByIdMutation,
   useSampleUpdateByIdMutation,
@@ -248,7 +252,7 @@ export default function InfoEditPage() {
               />
             </Grid>
             {/* ----------------------------- Row 3 ----------------------------- */}
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="sampleId"
@@ -258,7 +262,7 @@ export default function InfoEditPage() {
                 label="ID xét nghiệm"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="phoneNumber"
@@ -276,6 +280,13 @@ export default function InfoEditPage() {
                 size="small"
                 fullWidth
                 label="Số CMND/CCCD"
+              />
+            </Grid>
+            <Grid xs={2}>
+              <FormSwitch
+                control={control}
+                name="isTraBuuDien"
+                label="Bưu điện"
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
@@ -333,18 +344,25 @@ export default function InfoEditPage() {
                 label="Loại mẫu"
               />
             </Grid>
+            <Grid xs={10}>
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={isSubmitting}
+                loading={isSubmitting}
+              >
+                Sửa thông tin
+              </LoadingButton>
+            </Grid>
+            <Grid xs={2}>
+              <FormSwitch
+                control={control}
+                name="isNgoaiGio"
+                label="Ngoài giờ"
+              />
+            </Grid>
           </Grid>
-          {/* ----------------------------- Submit ----------------------------- */}
-          <LoadingButton
-            sx={{ mt: 2 }}
-            type="submit"
-            fullWidth
-            variant="contained"
-            disabled={isSubmitting}
-            loading={isSubmitting}
-          >
-            Sửa thông tin
-          </LoadingButton>
         </Paper>
       </FormContainer>
       <TestSelector
