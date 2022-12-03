@@ -24,8 +24,8 @@ import {
   FormSwitch,
   FormTextField,
   FormDateTimePicker,
-  FormAutocomplete,
   FormSelect,
+  FormCheckboxGroup,
 } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { TestSelector } from 'src/common/components/TestSelector'
@@ -249,6 +249,7 @@ export default function InfoInputPage() {
             </Grid>
             <Grid xs={6}>
               <FormTextField
+                autoComplete="off"
                 name="address"
                 size="small"
                 control={control}
@@ -326,7 +327,7 @@ export default function InfoInputPage() {
               />
             </Grid>
             {/* ----------------------------- Row 5 ----------------------------- */}
-            <Grid xs={2}>
+            <Grid xs={3}>
               <Button
                 sx={{ height: '100%' }}
                 onClick={() => {
@@ -339,8 +340,8 @@ export default function InfoInputPage() {
                 {getValues().tests?.length} Xét Nghiệm
               </Button>
             </Grid>
-            <Grid xs={10}>
-              <FormAutocomplete
+            <Grid xs={9}>
+              <FormCheckboxGroup
                 control={control}
                 name="sampleTypeIds"
                 options={sampleTypes?.items!}

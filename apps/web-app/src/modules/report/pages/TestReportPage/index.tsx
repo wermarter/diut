@@ -285,21 +285,6 @@ export default function TestReportPage() {
               },
             },
             {
-              field: 'isNgoaiGio',
-              headerName: 'Loại',
-              width: 90,
-              sortable: false,
-              editable: true,
-              valueGetter: ({ value }) => {
-                if (value === true) {
-                  return 'Ngoài giờ'
-                } else if (value === false) {
-                  return 'Trong giờ'
-                }
-                return ''
-              },
-            },
-            {
               field: 'sampleId',
               headerName: 'ID XN',
               width: 120,
@@ -361,13 +346,17 @@ export default function TestReportPage() {
             },
             {
               field: 'isTraBuuDien',
-              headerName: 'KQ',
+              headerName: 'Bưu điện',
               width: 80,
               sortable: false,
               editable: true,
+              align: 'center',
+              renderCell: ({ value }) => (
+                <Typography fontWeight="bold">{value}</Typography>
+              ),
               valueGetter: ({ value }) => {
                 if (value === true) {
-                  return 'Bưu điện'
+                  return '✓'
                 }
                 return ''
               },
@@ -403,6 +392,21 @@ export default function TestReportPage() {
                 },
               })
             ),
+            {
+              field: 'isNgoaiGio',
+              headerName: 'Loại',
+              width: 90,
+              sortable: false,
+              editable: true,
+              valueGetter: ({ value }) => {
+                if (value === true) {
+                  return 'Ngoài giờ'
+                } else if (value === false) {
+                  return 'Trong giờ'
+                }
+                return ''
+              },
+            },
           ]}
           paginationMode="server"
           rowsPerPageOptions={[5, 10, 20, 100]}

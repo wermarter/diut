@@ -15,49 +15,15 @@ import FileUploadIcon from '@mui/icons-material/FileUpload'
 import Cropper, { Area, Point } from 'react-easy-crop'
 import { LoadingButton } from '@mui/lab'
 
-import { BioProductResponseDto } from 'src/api/bio-product'
 import {
-  TestResultDto,
   useSampleDownloadFileQuery,
   useSampleUploadFileMutation,
 } from 'src/api/sample'
-import { TestCategoryResponseDto } from 'src/api/test-category'
-import { HighlightRuleDto, TestElementResponseDto } from 'src/api/test-element'
-import { UserResponseDto } from 'src/api/user'
+import { TestElementResponseDto } from 'src/api/test-element'
 import { SideAction } from 'src/common/components/SideAction'
 import { readFileToURL } from 'src/common/utils'
 import { getCroppedImg } from 'src/common/utils/image-crop'
-
-interface PapsmearResultCardProps {
-  currentTestInfo: {
-    result: TestResultDto | undefined
-    _id: string
-    createdAt: string
-    updatedAt: string
-    category: TestCategoryResponseDto
-    bioProduct?: BioProductResponseDto | undefined
-    name: string
-    index: number
-    printForm: PrintForm
-    elements: TestElementResponseDto[]
-  }
-  currentTestState: {
-    author: UserResponseDto
-    isLocked: boolean
-  }
-  elementState: {
-    [elementId: string]: {
-      checked: boolean
-      value: string
-    }
-  }
-  setElementState: (
-    elementId: string,
-    { checked, value }: { checked: boolean; value: string }
-  ) => void
-  getHighlightRule: (highlightRules: HighlightRuleDto[]) => HighlightRuleDto
-  sampleId: string
-}
+import { ResultCardProps } from './utils'
 
 export const PapsmearResultCard = ({
   currentTestState,
@@ -66,7 +32,7 @@ export const PapsmearResultCard = ({
   setElementState,
   getHighlightRule,
   sampleId,
-}: PapsmearResultCardProps) => {
+}: ResultCardProps) => {
   const { elements } = currentTestInfo
   const [shouldShowImage, setShouldShowImage] = useState(false)
 
@@ -78,7 +44,11 @@ export const PapsmearResultCard = ({
   const tbgaiElements = elements.slice(17, 23)
   const khacElements = elements.slice(23, 27)
   const tuyenElements = elements.slice(27, 31)
-  const resultElement = [elements.at(31)!]
+  const resultElement = elements.at(31)!
+  const resultElementState = elementState[resultElement._id] ?? {
+    checked: false,
+    value: '',
+  }
 
   const generateCheckboxes = (elements: TestElementResponseDto[]) => {
     return elements.map((currentElementInfo) => {
@@ -101,7 +71,6 @@ export const PapsmearResultCard = ({
               onChange={(e) => {
                 setElementState(currentElementInfo._id, {
                   checked: e.target.checked,
-                  value: '',
                 })
               }}
             />
@@ -126,7 +95,6 @@ export const PapsmearResultCard = ({
           value={currentElementState.value ?? ''}
           onChange={(e) => {
             setElementState(currentElementInfo._id, {
-              checked: false,
               value: e.target.value,
             })
           }}
@@ -262,9 +230,39 @@ export const PapsmearResultCard = ({
         </Box>
       </Box>
       <Box sx={{ display: 'flex', mt: 1 }}>
+        <Checkbox
+          disableRipple
+          disabled={currentTestState.isLocked}
+          color="secondary"
+          checked={resultElementState.checked ?? false}
+          onChange={(e) => {
+            setElementState(resultElement._id, {
+              checked: e.target.checked,
+            })
+          }}
+        />
+        <TextField
+          error={resultElementState.checked}
+          key={resultElement._id}
+          label={resultElement.name}
+          name={resultElement._id}
+          disabled={currentTestState.isLocked}
+          fullWidth
+          variant="standard"
+          value={resultElementState.value ?? ''}
+          onChange={(e) => {
+            setElementState(resultElement._id, {
+              checked: false,
+              value: e.target.value,
+            })
+          }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
         <Button
           variant="outlined"
-          sx={{ mr: 2 }}
+          sx={{ ml: 2 }}
           disabled={currentTestState.isLocked}
           onClick={() => {
             setShouldShowImage(true)
@@ -272,7 +270,6 @@ export const PapsmearResultCard = ({
         >
           Ảnh
         </Button>
-        {generateTextFields(resultElement)}
       </Box>
       <SideAction
         open={shouldShowImage}

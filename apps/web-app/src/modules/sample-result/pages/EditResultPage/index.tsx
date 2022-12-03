@@ -19,6 +19,7 @@ import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
+import { merge } from 'lodash-es'
 
 import { useSampleUpdateByIdMutation } from 'src/api/sample'
 import { TestResponseDto } from 'src/api/test'
@@ -40,6 +41,7 @@ import { editResultPageLoader } from './loader'
 import { CommonResultCard } from './components/CommonResultCard'
 import { TDResultCard } from './components/TDResultCard'
 import { PapsmearResultCard } from './components/PapsmearResultCard'
+import { ResultCardProps } from './components/utils'
 
 export default function EditResultPage() {
   const userId = useTypedSelector(selectUserId)
@@ -47,7 +49,7 @@ export default function EditResultPage() {
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
   const navigate = useNavigate()
-  const { sampleId } = useParams()
+  const sampleId = useParams().sampleId!
   const { author, sample, patient } = useLoaderData() as Awaited<
     ReturnType<typeof editResultPageLoader>
   >
@@ -301,6 +303,20 @@ export default function EditResultPage() {
       >
         {sortedTests.map((currentTestInfo) => {
           const currentTestState = testState[currentTestInfo._id] ?? {}
+          const resultCardProps: ResultCardProps = {
+            getHighlightRule,
+            currentTestInfo,
+            currentTestState,
+            elementState,
+            setElementState: (elementId, { checked, value }) => {
+              setElementState((formState: any) =>
+                Object.assign({}, formState, {
+                  [elementId]: merge(formState[elementId], { checked, value }),
+                })
+              )
+            },
+            sampleId: sampleId!,
+          }
 
           return (
             <Card
@@ -366,50 +382,13 @@ export default function EditResultPage() {
               />
               <CardContent sx={{ px: 6, py: 0 }}>
                 {currentTestInfo._id === ID_TEST_TD ? (
-                  <TDResultCard
-                    currentTestInfo={currentTestInfo}
-                    currentTestState={currentTestState}
-                    elementState={elementState}
-                    setElementState={(elementId, { checked, value }) => {
-                      setElementState((formState: any) =>
-                        Object.assign({}, formState, {
-                          [elementId]: { checked, value },
-                        })
-                      )
-                    }}
-                    getHighlightRule={getHighlightRule}
-                  />
+                  <TDResultCard {...resultCardProps} />
                 ) : [ID_TEST_PAPSMEAR, ID_TEST_THINPREP].includes(
                     currentTestInfo._id
                   ) ? (
-                  <PapsmearResultCard
-                    currentTestInfo={currentTestInfo}
-                    currentTestState={currentTestState}
-                    elementState={elementState}
-                    setElementState={(elementId, { checked, value }) => {
-                      setElementState((formState: any) =>
-                        Object.assign({}, formState, {
-                          [elementId]: { checked, value },
-                        })
-                      )
-                    }}
-                    getHighlightRule={getHighlightRule}
-                    sampleId={sampleId!}
-                  />
+                  <PapsmearResultCard {...resultCardProps} />
                 ) : (
-                  <CommonResultCard
-                    currentTestInfo={currentTestInfo}
-                    currentTestState={currentTestState}
-                    elementState={elementState}
-                    setElementState={(elementId, { checked, value }) => {
-                      setElementState((formState: any) =>
-                        Object.assign({}, formState, {
-                          [elementId]: { checked, value },
-                        })
-                      )
-                    }}
-                    getHighlightRule={getHighlightRule}
-                  />
+                  <CommonResultCard {...resultCardProps} />
                 )}
               </CardContent>
             </Card>

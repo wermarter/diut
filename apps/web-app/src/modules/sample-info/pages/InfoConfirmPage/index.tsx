@@ -327,11 +327,17 @@ export default function InfoConfirmPage() {
               valueGetter: ({ row }) => patients[row.patientId]?.address,
             },
             {
-              field: 'phoneNumber',
-              headerName: 'SĐT',
-              width: 120,
+              field: 'isTraBuuDien',
+              headerName: 'BĐ',
+              width: 60,
+              align: 'center',
               sortable: false,
-              valueGetter: ({ row }) => patients[row.patientId]?.phoneNumber,
+              valueGetter: ({ value }) => {
+                if (value === true) {
+                  return '✓'
+                }
+                return ''
+              },
             },
             {
               field: 'doctor',

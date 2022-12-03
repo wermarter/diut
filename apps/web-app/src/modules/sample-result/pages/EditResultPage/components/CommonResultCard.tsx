@@ -1,4 +1,3 @@
-import { PrintForm } from '@diut/common'
 import {
   Checkbox,
   Table,
@@ -9,42 +8,8 @@ import {
   Typography,
 } from '@mui/material'
 
-import { BioProductResponseDto } from 'src/api/bio-product'
-import { TestResultDto } from 'src/api/sample'
-import { TestCategoryResponseDto } from 'src/api/test-category'
-import { HighlightRuleDto, TestElementResponseDto } from 'src/api/test-element'
-import { UserResponseDto } from 'src/api/user'
 import { checkHighlight } from '../utils'
-
-interface CommonResultCardProps {
-  currentTestInfo: {
-    result: TestResultDto | undefined
-    _id: string
-    createdAt: string
-    updatedAt: string
-    category: TestCategoryResponseDto
-    bioProduct?: BioProductResponseDto | undefined
-    name: string
-    index: number
-    printForm: PrintForm
-    elements: TestElementResponseDto[]
-  }
-  currentTestState: {
-    author: UserResponseDto
-    isLocked: boolean
-  }
-  elementState: {
-    [elementId: string]: {
-      checked: boolean
-      value: string
-    }
-  }
-  setElementState: (
-    elementId: string,
-    { checked, value }: { checked: boolean; value: string }
-  ) => void
-  getHighlightRule: (highlightRules: HighlightRuleDto[]) => HighlightRuleDto
-}
+import { ResultCardProps } from './utils'
 
 export const CommonResultCard = ({
   currentTestState,
@@ -52,7 +17,7 @@ export const CommonResultCard = ({
   elementState,
   setElementState,
   getHighlightRule,
-}: CommonResultCardProps) => {
+}: ResultCardProps) => {
   return (
     <Table size="small">
       <TableBody>

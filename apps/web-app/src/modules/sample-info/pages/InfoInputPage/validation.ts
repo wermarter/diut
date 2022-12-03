@@ -35,7 +35,7 @@ const schema = z.object({
     })
   ),
 
-  sampleId: z.string().min(1, 'Không được để trống'),
+  sampleId: z.string().length(10, 'Phải đúng 10 kí tự'),
   sampledAt: z.date({ invalid_type_error: 'Không được để trống' }),
   infoAt: z.date({ invalid_type_error: 'Không được để trống' }),
 
@@ -52,7 +52,7 @@ export const formDefaultValues: Partial<FormSchema> = {
   name: '',
   gender: Gender.Female,
   birthYear: 1900,
-  address: 'QUẬN 1 - HCM',
+  address: '',
   phoneNumber: '',
   SSN: '',
 

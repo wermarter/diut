@@ -27,7 +27,7 @@
         font-family: 'Times New Roman', monospace;
       }
       html {
-        font-size: 13px;
+        font-size: 14px;
       }
       @page {
         margin-top: 5mm;
@@ -41,11 +41,12 @@
       .print-footer {
         position: fixed;
         bottom: 0;
+        font-size: 10px;
       }
     </style>
   </head>
   <body>
-    <div class="print-footer text-sm">
+    <div class="print-footer">
       BM.TTXN.04/7
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -58,7 +59,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       Ngày áp dụng: 11/01/2021
     </div>
-    <div class="flex flex-row justify-between mb-1">
+    <div class="flex flex-row justify-between">
       <div class="flex flex-row">
         <img
           src="http://localhost:9000/public/logo.png"
@@ -72,7 +73,7 @@
         </div>
       </div>
       <div class="text-center">
-        <p class="text-xl font-bold my-1">PHIẾU KẾT QUẢ XÉT NGHIỆM</p>
+        <p class="text-xl font-bold mb-1">PHIẾU KẾT QUẢ XÉT NGHIỆM</p>
         <div class="ml-20 text-left">
           <p class="text-base">
             ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
@@ -91,7 +92,7 @@
       </div>
     </div>
     <div class="flex flex-row gap-2 justify-between">
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-0.5">
         <p class="text-base">
           Họ và tên:
           <span class="font-bold"><%= patient.name.toLocaleUpperCase() %></span>
@@ -99,9 +100,9 @@
         <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
         <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
       </div>
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-0.5">
         <div class="flex flex-row gap-4 justify-between">
-          <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-0.5">
             <p class="text-base">
               Năm sinh: <span><%= patient.birthYear %></span>
             </p>
@@ -113,7 +114,7 @@
           <em><%= sampleTypes.join(', ') %></em>
         </p>
       </div>
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-0.5">
         <p class="text-base">
           Giới tính:
           <span><%= patient.gender === 0 ? "Nam" : "Nữ" %></span>
@@ -124,21 +125,17 @@
         </p>
       </div>
     </div>
-    <table class="w-full my-2">
+    <table class="w-full my-1">
       <thead class="bg-gray-100 text-base">
         <tr>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="30%">
+          <th scope="col" class="px-6 border border-gray-300" width="30%">
             Tên Xét nghiệm
           </th>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="20%">
+          <th scope="col" class="px-6 border border-gray-300" width="20%">
             Kết quả
           </th>
-          <th
-            scope="col"
-            class="py-1 px-6 border border-gray-300"
-            width="30%"
-          ></th>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="20%">
+          <th scope="col" class="px-6 border border-gray-300" width="30%"></th>
+          <th scope="col" class="px-6 border border-gray-300" width="20%">
             Kết quả
           </th>
         </tr>

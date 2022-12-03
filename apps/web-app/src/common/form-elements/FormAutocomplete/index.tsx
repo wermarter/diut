@@ -8,9 +8,11 @@ export type FormAutocompleteProps<
   name: Path<T>
   label: string
   control: Control<T>
+
   options: OptionType[]
   getOptionLabel: (option: OptionType) => string
   getOptionValue: (option: OptionType) => unknown
+
   disableError?: boolean
 }
 
