@@ -4,7 +4,7 @@
 
 Prepare your own MongoDB instance for [free](https://www.mongodb.com/atlas/database)
 
-Install NodeJS 16 (recommend [nvm](https://github.com/nvm-sh/nvm))
+Install NodeJS 18 (recommend [nvm](https://github.com/nvm-sh/nvm) use lts/hydrogen)
 
 Install Yarn v1
 

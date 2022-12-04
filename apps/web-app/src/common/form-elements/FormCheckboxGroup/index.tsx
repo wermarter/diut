@@ -64,6 +64,7 @@ export function FormCheckboxGroup<
             <FormGroup row>
               {options.map((option) => (
                 <FormControlLabel
+                  key={getOptionLabel(option)}
                   control={
                     <Checkbox
                       {...formFields}

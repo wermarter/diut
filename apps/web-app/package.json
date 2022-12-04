@@ -1,7 +1,14 @@
 {
   "name": "@diut/web-app",
+  "version": "1.0.0",
+  "description": "Web client for the project",
+  "repository": "https://github.com/wermarter/diut",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,
-  "version": "0.0.0",
+  "license": "MIT",
+  "engines": {
+    "node": "18"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
