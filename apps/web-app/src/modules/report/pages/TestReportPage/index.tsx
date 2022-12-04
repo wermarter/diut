@@ -409,7 +409,6 @@ export default function TestReportPage() {
             },
           ]}
           paginationMode="server"
-          rowsPerPageOptions={[5, 10, 20, 100]}
           rowCount={samples?.total ?? 0}
           page={samples?.offset ?? 0}
           pageSize={samples?.limit ?? 10}

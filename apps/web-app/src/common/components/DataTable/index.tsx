@@ -5,6 +5,7 @@ import {
   viVN,
 } from '@mui/x-data-grid'
 
+import { ROWS_PER_PAGE_OPTIONS } from 'src/common/constants'
 import { ProgressBar } from '../ProgressBar'
 import { EmptyRowsOverlay } from './components/EmptyRows'
 
@@ -63,6 +64,7 @@ export function DataTable<R extends GridValidRowModel>({
         },
         components
       )}
+      rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
       {...otherDataGridProps}
     />
   )

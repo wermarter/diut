@@ -242,7 +242,6 @@ export function CrudTable<R extends GridValidRowModel>({
         experimentalFeatures={{ newEditingApi: true }}
         cellOutline
         loading={isLoading}
-        rowsPerPageOptions={[5, 10, 20, 100]}
         paginationMode={rowCount !== undefined ? 'server' : undefined}
         rowCount={rowCount}
         page={page}

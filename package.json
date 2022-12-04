@@ -6,9 +6,6 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
   "private": true,
-  "engines": {
-    "node": "18"
-  },
   "workspaces": [
     "libs/common",
     "apps/access-server",

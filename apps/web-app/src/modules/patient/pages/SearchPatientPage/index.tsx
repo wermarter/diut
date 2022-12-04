@@ -207,7 +207,6 @@ export default function SearchPatientPage() {
             },
           ]}
           paginationMode="server"
-          rowsPerPageOptions={[5, 10, 20, 100]}
           rowCount={data?.total ?? 0}
           page={data?.offset ?? 0}
           pageSize={data?.limit ?? 10}

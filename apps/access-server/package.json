@@ -6,9 +6,6 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,
   "license": "MIT",
-  "engines": {
-    "node": "18"
-  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build && cp package.json dist/package.json",
