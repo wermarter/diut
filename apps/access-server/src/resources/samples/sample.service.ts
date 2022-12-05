@@ -12,16 +12,9 @@ import { Model } from 'mongoose'
 import { join } from 'path'
 import * as ejs from 'ejs'
 import * as puppeteer from 'puppeteer'
-import {
-  Gender,
-  ID_INDICATION_PREGNANT,
-  NodeEnv,
-  PatientCategory,
-  PrintForm,
-} from '@diut/common'
+import { NodeEnv, PatientCategory, Permission, PrintForm } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
-import { omit } from 'lodash'
-// import * as crypto from 'crypto'
+import { omit, uniq } from 'lodash'
 
 import { BaseMongoService } from 'src/clients/mongo'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
@@ -33,14 +26,13 @@ import { IndicationService } from '../indications'
 import { DoctorService } from '../doctors'
 import { PatientTypeService } from '../patient-types'
 import { SampleTypeService } from '../sample-types'
-import { PatientResponseDto } from '../patients/dtos/patient.response-dto'
-import { SampleResponseDto } from './dtos/sample.response-dto'
 import { TestCategory } from '../test-categories'
 import { PrintFormService } from '../print-forms'
 import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
 import { StorageService } from 'src/clients/storage'
-import { UPLOAD_CONFIG } from './sample.common'
+import { getPatientCategory, UPLOAD_CONFIG } from './sample.common'
 import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
+import { AuthTokenPayload } from 'src/auth'
 
 @Injectable()
 export class SampleService
@@ -130,7 +122,61 @@ export class SampleService
     )
   }
 
-  customUpdateById(id: string, body: UpdateSampleRequestDto, userId: string) {
+  updateSampleInfo(
+    id: string,
+    body: UpdateSampleRequestDto,
+    user: AuthTokenPayload
+  ) {
+    let { results, sampleCompleted, resultBy, infoCompleted, tests } = body
+
+    if (tests !== undefined) {
+      const keptResults = (results ?? []).filter(({ testId }) =>
+        body.tests.some(({ id }) => id === testId)
+      )
+
+      const newTests = body.tests.filter(
+        ({ id }) => !keptResults.some(({ testId }) => testId === id)
+      )
+      if (newTests.length > 0) {
+        sampleCompleted = false
+      }
+
+      const newResults = newTests.map(({ id, bioProductName }) => ({
+        testId: id,
+        testCompleted: false,
+        bioProductName,
+        elements: [],
+      }))
+
+      results = [...keptResults, ...newResults]
+      resultBy = uniq(results.map(({ resultBy }) => resultBy)).filter(
+        (x) => x !== undefined
+      )
+      return this.updateById(id, {
+        ...body,
+        sampleCompleted,
+        results,
+        resultBy,
+        infoBy: user.sub,
+      })
+    } else {
+      // Confirming info completed
+
+      return this.updateById(id, {
+        infoCompleted,
+      })
+    }
+  }
+
+  async updateSampleResults(
+    id: string,
+    body: UpdateSampleRequestDto,
+    user: AuthTokenPayload
+  ) {
+    const userId = user.sub
+    const userIsAdmin = user.permissions.includes(Permission.ManageCore)
+    const sample = await this.findById(id)
+
     let { resultBy } = body
     if (resultBy?.length > 0) {
       if (!resultBy.includes(userId)) {
@@ -140,37 +186,27 @@ export class SampleService
       resultBy = [userId]
     }
 
-    let { results, sampleCompleted } = body
-    if (body.tests?.length > 0) {
-      if (body.results?.length > 0) {
-        const keptResults = body.results.filter(({ testId }) =>
-          body.tests.some(({ id }) => id === testId)
-        )
-        const newTests = body.tests
-          .filter(({ id }) => !keptResults.some(({ testId }) => testId === id))
-          .map(({ id, bioProductName }) => ({
-            testId: id,
-            testCompleted: false,
-            bioProductName,
-            elements: [],
-          }))
+    const results = body.results.map((newResult) => {
+      const existingResult = sample.results.find(
+        ({ testId }) => testId === newResult.testId
+      )
 
-        if (newTests.length > 0) {
-          sampleCompleted = false
-        }
-        results = [...keptResults, ...newTests]
-      } else {
-        results = body.tests.map((test) => ({
-          testId: test.id,
-          testCompleted: false,
-          bioProductName: test.bioProductName,
-          elements: [],
-        }))
+      if (userIsAdmin || userId === existingResult.resultBy) {
+        return newResult
       }
-    }
+
+      if (existingResult.testCompleted !== true) {
+        return newResult
+      }
+
+      return existingResult
+    })
+
+    const sampleCompleted = !results.some(
+      ({ testCompleted }) => testCompleted === false
+    )
 
     return this.updateById(id, {
-      ...body,
       sampleCompleted,
       results,
       resultBy,
@@ -383,38 +419,4 @@ export class SampleService
 
     return mergedPdf.save()
   }
-}
-
-export function getPatientCategory(
-  patient: PatientResponseDto,
-  sample: SampleResponseDto
-) {
-  const { gender, birthYear } = patient
-  const age = new Date().getFullYear() - birthYear
-
-  if (gender === Gender.Female && isPregnant(sample)) {
-    return PatientCategory.Pregnant
-  }
-
-  if (gender === Gender.Male && age >= 18) {
-    return PatientCategory.Man
-  }
-
-  if (gender === Gender.Female && age >= 18) {
-    return PatientCategory.Woman
-  }
-
-  if (gender === Gender.Male && age < 18) {
-    return PatientCategory.Boy
-  }
-
-  if (gender === Gender.Female && age < 18) {
-    return PatientCategory.Girl
-  }
-
-  return PatientCategory.Any
-}
-
-function isPregnant(sample: SampleResponseDto) {
-  return sample.indicationId === ID_INDICATION_PREGNANT
 }

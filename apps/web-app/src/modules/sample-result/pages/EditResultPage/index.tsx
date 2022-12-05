@@ -209,15 +209,11 @@ export default function EditResultPage() {
         }
       }
     )
-    const sampleCompleted = !newResults.some(
-      ({ testCompleted }) => testCompleted === false
-    )
 
     updateSample({
       id: sample._id,
       updateSampleRequestDto: {
         results: newResults,
-        sampleCompleted,
       },
     }).then(() => {
       toast.success('Lưu thành công')

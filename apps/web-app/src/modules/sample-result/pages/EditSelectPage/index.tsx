@@ -30,21 +30,24 @@ import {
 import { useTypedSelector } from 'src/core'
 import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
 
+const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+
 interface FilterData {
   fromDate: Date
   toDate: Date
   sampleId: string
   sampleCompleted: 'all' | 'true' | 'false'
+  patientType: string
 }
 
 export default function EditSelectPage() {
-  const { indicationMap, doctorMap } = useLoaderData() as Awaited<
-    ReturnType<typeof editSelectPageLoader>
-  >
+  const { indicationMap, doctorMap, patientTypeMap } =
+    useLoaderData() as Awaited<ReturnType<typeof editSelectPageLoader>>
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -82,17 +85,20 @@ export default function EditSelectPage() {
         (searchParams.get(
           'sampleCompleted'
         ) as FilterData['sampleCompleted']) ?? 'all',
+      patientType: patientTypeParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const sampleCompleted = watch('sampleCompleted')
+  const patientType = watch('patientType')
 
   const handleSubmitFilter = ({
     fromDate,
     toDate,
     sampleId,
     sampleCompleted,
+    patientType,
   }: FilterData) => {
     setSearchParams(
       {
@@ -100,6 +106,7 @@ export default function EditSelectPage() {
         sampleCompleted,
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
+        patientType,
       },
       { replace: true }
     )
@@ -157,6 +164,8 @@ export default function EditSelectPage() {
                 $gte: startOfDay(fromDate).toISOString(),
                 $lte: endOfDay(toDate).toISOString(),
               },
+        patientTypeId:
+          patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
         ...sampleCompletedObj,
       },
     }))
@@ -168,7 +177,7 @@ export default function EditSelectPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, sampleCompleted])
+  }, [fromDate, toDate, sampleCompleted, patientType])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -250,7 +259,7 @@ export default function EditSelectPage() {
                 disabled={watch('sampleId')?.length > 0}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -258,15 +267,29 @@ export default function EditSelectPage() {
                 label="Trạng thái"
                 options={[
                   { label: 'Tất cả', value: 'all' },
-                  { label: 'Đầy đủ kết quả', value: 'true' },
-                  { label: 'Thiếu kết quả', value: 'false' },
+                  { label: 'Đầy đủ KQ', value: 'true' },
+                  { label: 'Thiếu KQ', value: 'false' },
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={2}>
-              <input type="submit" style={{ display: 'none' }} />
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="patientType"
+                label="Đối tượng"
+                options={[
+                  { label: 'Tất cả', value: ANY_PATIENT_TYPE },
+                  ...[...patientTypeMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
             </Grid>
             <Grid xs={3}>
               <FormTextField
@@ -276,6 +299,7 @@ export default function EditSelectPage() {
                 label="ID xét nghiệm"
               />
             </Grid>
+            <input type="submit" style={{ display: 'none' }} />
           </Grid>
         </FormContainer>
       </Paper>
@@ -354,7 +378,7 @@ export default function EditSelectPage() {
             },
             {
               field: 'tests',
-              headerName: 'Chỉ định XN',
+              headerName: 'Chỉ định',
               minWidth: 100,
               flex: 1,
               sortable: false,
@@ -366,11 +390,19 @@ export default function EditSelectPage() {
             },
             {
               field: 'indication',
-              headerName: 'Chẩn đoán',
+              headerName: 'CĐ',
               width: 70,
               sortable: false,
               valueGetter: ({ row }) =>
                 indicationMap.get(row.indicationId)?.name,
+            },
+            {
+              field: 'patientType',
+              headerName: 'Đối T.',
+              width: 70,
+              sortable: false,
+              valueGetter: ({ row }) =>
+                patientTypeMap.get(row.patientTypeId)?.name,
             },
             {
               field: 'endActions',

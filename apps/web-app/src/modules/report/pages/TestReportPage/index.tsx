@@ -344,23 +344,6 @@ export default function TestReportPage() {
               valueGetter: ({ row }) =>
                 patientTypeMap.get(row.patientTypeId)?.name,
             },
-            {
-              field: 'isTraBuuDien',
-              headerName: 'Bưu điện',
-              width: 80,
-              sortable: false,
-              editable: true,
-              align: 'center',
-              renderCell: ({ value }) => (
-                <Typography fontWeight="bold">{value}</Typography>
-              ),
-              valueGetter: ({ value }) => {
-                if (value === true) {
-                  return '✓'
-                }
-                return ''
-              },
-            },
             ...tests.map(
               ({ _id, name }): GridColDef<SampleResponseDto> => ({
                 field: _id,
@@ -393,8 +376,25 @@ export default function TestReportPage() {
               })
             ),
             {
+              field: 'isTraBuuDien',
+              headerName: 'Bưu điện',
+              width: 80,
+              sortable: false,
+              editable: true,
+              align: 'center',
+              renderCell: ({ value }) => (
+                <Typography fontWeight="bold">{value}</Typography>
+              ),
+              valueGetter: ({ value }) => {
+                if (value === true) {
+                  return '✓'
+                }
+                return ''
+              },
+            },
+            {
               field: 'isNgoaiGio',
-              headerName: 'Loại',
+              headerName: 'TG',
               width: 90,
               sortable: false,
               editable: true,

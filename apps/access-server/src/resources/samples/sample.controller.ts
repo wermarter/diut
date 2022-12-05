@@ -71,7 +71,11 @@ export class SampleController {
     @Body() body: UpdateSampleRequestDto,
     @ReqUser() user: AuthTokenPayload
   ) {
-    return this.sampleService.customUpdateById(id, body, user.sub)
+    if (body.tests !== undefined || body.infoCompleted !== undefined) {
+      return this.sampleService.updateSampleInfo(id, body, user)
+    } else {
+      return this.sampleService.updateSampleResults(id, body, user)
+    }
   }
 
   @AppRoute(sampleRoutes.findById)

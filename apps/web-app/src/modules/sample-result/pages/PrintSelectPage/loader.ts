@@ -1,8 +1,9 @@
 import { appStore } from 'src/core'
 import { printFormApi } from 'src/api/print-form'
+import { patientTypeApi } from 'src/api/patient-type'
 
 export const printSelectPageLoader = async () => {
-  const [printFormData] = await Promise.all([
+  const [printFormData, patientTypes] = await Promise.all([
     appStore
       .dispatch(
         printFormApi.endpoints.printFormSearch.initiate({
@@ -10,7 +11,19 @@ export const printSelectPageLoader = async () => {
         })
       )
       .unwrap(),
+    appStore
+      .dispatch(
+        patientTypeApi.endpoints.patientTypeSearch.initiate({
+          searchPatientTypeRequestDto: { sort: { index: 1 } },
+        })
+      )
+      .unwrap(),
   ])
 
-  return { printFormData }
+  return {
+    printFormData,
+    patientTypeMap: new Map(
+      patientTypes.items.map((patientType) => [patientType._id, patientType])
+    ),
+  }
 }

@@ -32,21 +32,24 @@ import {
 } from 'src/common/form-elements'
 import { useForm } from 'react-hook-form'
 
+const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+
 interface FilterData {
   fromDate: Date
   toDate: Date
   sampleId: string
   infoCompleted: 'all' | 'true' | 'false'
+  patientType: string
 }
 
 export default function InfoConfirmPage() {
-  const { indicationMap, doctorMap } = useLoaderData() as Awaited<
-    ReturnType<typeof infoConfirmPageLoader>
-  >
+  const { indicationMap, doctorMap, patientTypeMap } =
+    useLoaderData() as Awaited<ReturnType<typeof infoConfirmPageLoader>>
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -75,11 +78,13 @@ export default function InfoConfirmPage() {
       infoCompleted:
         (searchParams.get('infoCompleted') as FilterData['infoCompleted']) ??
         'all',
+      patientType: patientTypeParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const infoCompleted = watch('infoCompleted')
+  const patientType = watch('patientType')
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -90,6 +95,7 @@ export default function InfoConfirmPage() {
     toDate,
     sampleId,
     infoCompleted,
+    patientType,
   }: FilterData) => {
     setSearchParams(
       {
@@ -97,6 +103,7 @@ export default function InfoConfirmPage() {
         infoCompleted,
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
+        patientType,
       },
       { replace: true }
     )
@@ -121,6 +128,8 @@ export default function InfoConfirmPage() {
             : infoCompleted === 'true'
             ? true
             : false,
+        patientTypeId:
+          patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
       },
     }))
   }
@@ -131,7 +140,7 @@ export default function InfoConfirmPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, infoCompleted])
+  }, [fromDate, toDate, infoCompleted, patientType])
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
@@ -220,7 +229,7 @@ export default function InfoConfirmPage() {
                 disabled={watch('sampleId')?.length > 0}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -235,8 +244,22 @@ export default function InfoConfirmPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={2}>
-              <input type="submit" style={{ display: 'none' }} />
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="patientType"
+                label="Đối tượng"
+                options={[
+                  { label: 'Tất cả', value: ANY_PATIENT_TYPE },
+                  ...[...patientTypeMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
             </Grid>
             <Grid xs={3}>
               <FormTextField
@@ -246,6 +269,7 @@ export default function InfoConfirmPage() {
                 label="ID xét nghiệm"
               />
             </Grid>
+            <input type="submit" style={{ display: 'none' }} />
           </Grid>
         </FormContainer>
       </Paper>
@@ -348,7 +372,7 @@ export default function InfoConfirmPage() {
             },
             {
               field: 'tests',
-              headerName: 'Chỉ định XN',
+              headerName: 'Chỉ định',
               minWidth: 100,
               flex: 1,
               sortable: false,
@@ -360,11 +384,19 @@ export default function InfoConfirmPage() {
             },
             {
               field: 'indication',
-              headerName: 'Chẩn đoán',
+              headerName: 'CĐ',
               width: 70,
               sortable: false,
               valueGetter: ({ row }) =>
                 indicationMap.get(row.indicationId)?.name,
+            },
+            {
+              field: 'patientType',
+              headerName: 'Đối T.',
+              width: 70,
+              sortable: false,
+              valueGetter: ({ row }) =>
+                patientTypeMap.get(row.patientTypeId)?.name,
             },
             {
               field: 'endActions',

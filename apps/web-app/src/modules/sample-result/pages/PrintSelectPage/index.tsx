@@ -24,6 +24,7 @@ import { useCrudPagination } from 'src/common/hooks'
 import {
   FormContainer,
   FormDateTimePicker,
+  FormSelect,
   FormTextField,
 } from 'src/common/form-elements'
 import { SinglePrintDialog } from './SinglePrintDialog'
@@ -33,17 +34,21 @@ import {
 } from 'src/api/sample-type'
 import { printSelectPageLoader } from './loader'
 
+const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+
 interface FilterData {
   fromDate: Date
   toDate: Date
   sampleId: string
   patientId: string
+  patientType: string
 }
 
 export default function PrintSelectPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const { printFormData } = useLoaderData() as Awaited<
+  const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
+  const { printFormData, patientTypeMap } = useLoaderData() as Awaited<
     ReturnType<typeof printSelectPageLoader>
   >
 
@@ -73,17 +78,20 @@ export default function PrintSelectPage() {
           : new Date(),
       sampleId: searchParams.get('sampleId') ?? '',
       patientId: searchParams.get('patientId') ?? '',
+      patientType: patientTypeParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
+  const patientType = watch('patientType')
+
   useEffect(() => {
     if (toDate < fromDate) {
       setValue('fromDate', toDate)
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate])
+  }, [fromDate, toDate, patientType])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -94,6 +102,7 @@ export default function PrintSelectPage() {
     toDate,
     sampleId,
     patientId,
+    patientType,
   }: FilterData) => {
     setSearchParams(
       {
@@ -101,6 +110,7 @@ export default function PrintSelectPage() {
         patientId,
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
+        patientType,
       },
       { replace: true }
     )
@@ -120,6 +130,8 @@ export default function PrintSelectPage() {
                 $gte: startOfDay(fromDate).toISOString(),
                 $lte: endOfDay(toDate).toISOString(),
               },
+        patientTypeId:
+          patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
       },
     }))
   }
@@ -227,7 +239,24 @@ export default function PrintSelectPage() {
                 }
               />
             </Grid>
-            <Grid xs={5}>
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="patientType"
+                label="Đối tượng"
+                options={[
+                  { label: 'Tất cả', value: ANY_PATIENT_TYPE },
+                  ...[...patientTypeMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
               <input type="submit" style={{ display: 'none' }} />
             </Grid>
             <Grid xs={3}>

@@ -38,7 +38,7 @@ export async function bootstrap(rootModule: unknown) {
   if (isDevelopment) {
     app.enableCors()
   } else {
-    app.use(helmet())
+    app.use(helmet({ crossOriginEmbedderPolicy: false }))
   }
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
