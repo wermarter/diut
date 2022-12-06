@@ -4,7 +4,7 @@ import { PatientCategory } from '@diut/common'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
-import { Test } from '../tests'
+import { Test } from '../tests/test.schema'
 
 @Schema({
   ...baseSchemaOptions,

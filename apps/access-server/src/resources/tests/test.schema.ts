@@ -1,11 +1,11 @@
-import { PrintForm } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
-import { BioProduct } from '../bio-products'
-import { TestCategory } from '../test-categories'
+import { PrintForm } from '../print-forms/print-form.schema'
+import { BioProduct } from '../bio-products/bio-product.schema'
+import { TestCategory } from '../test-categories/test-category.schema'
 
 @Schema({
   ...baseSchemaOptions,
@@ -35,8 +35,8 @@ export class Test extends BaseSchema {
   @Prop({ required: true })
   index: number
 
-  @Prop({ required: true })
-  printForm: PrintForm
+  @Prop({ type: Types.ObjectId, ref: PrintForm.name, required: true })
+  printForm: string | PrintForm
 
   @Prop({ required: true })
   shouldNotPrint: boolean

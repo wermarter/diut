@@ -1,7 +1,7 @@
 import { Body, Logger, UseGuards } from '@nestjs/common'
 
 import { AppController, AppRoute } from 'src/core'
-import { User } from 'src/resources/users'
+import { User } from 'src/resources/users/user.schema'
 import { ReqUser } from './auth.common'
 import { authRoutes } from './auth.routes'
 import { AuthService } from './auth.service'

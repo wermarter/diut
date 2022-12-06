@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger } from 'nestjs-pino'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 
 import {
   HttpServerConfig,
@@ -35,11 +35,8 @@ export async function bootstrap(rootModule: unknown) {
   const config = app.get(ConfigService)
   const isDevelopment = config.get('NODE_ENV') === NodeEnv.Development
 
-  if (isDevelopment) {
-    app.enableCors()
-  } else {
-    app.use(helmet({ crossOriginEmbedderPolicy: false }))
-  }
+  // app.use(helmet())
+  app.enableCors()
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
     config.get(HTTP_SERVER_CONFIG_NAME)

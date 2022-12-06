@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
-import { User } from 'src/resources/users'
+import { User } from 'src/resources/users/user.schema'
 import { AuthTokenPayload } from './auth.common'
 import { LoginResponseDto } from './dtos/login.response-dto'
 

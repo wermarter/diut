@@ -3,12 +3,12 @@ import { Schema as MongooseSchema, Types } from 'mongoose'
 
 import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
 import { COLLECTION } from 'src/common/collections'
-import { Doctor } from '../doctors'
-import { Indication } from '../indications'
-import { PatientType } from '../patient-types'
-import { Patient } from '../patients'
-import { SampleType } from '../sample-types'
-import { User } from '../users'
+import { Doctor } from '../doctors/doctor.schema'
+import { Indication } from '../indications/indication.schema'
+import { PatientType } from '../patient-types/patient-type.schema'
+import { Patient } from '../patients/patient.schema'
+import { SampleType } from '../sample-types/sample-type.schema'
+import { User } from '../users/user.schema'
 
 @Schema({
   ...baseSchemaOptions,

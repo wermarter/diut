@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { validateConfig } from 'src/core/config/validate-config'
 
-import { UserModule } from 'src/resources/users'
+import { UserModule } from 'src/resources/users/user.module'
 import { AuthConfig, AUTH_CONFIG_NAME } from './auth.config'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'

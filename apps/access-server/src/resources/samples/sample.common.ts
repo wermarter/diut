@@ -1,6 +1,6 @@
 import { Gender, ID_INDICATION_PREGNANT, PatientCategory } from '@diut/common'
 
-import { Patient } from '../patients'
+import { Patient } from '../patients/patient.schema'
 import { Sample } from './sample.schema'
 
 export const UPLOAD_CONFIG = {
