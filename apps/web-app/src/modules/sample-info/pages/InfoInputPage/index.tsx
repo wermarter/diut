@@ -117,10 +117,14 @@ export default function InfoInputPage() {
   )
 
   const resetState = () => {
-    const { sampleId, isNgoaiGio } = getValues()
+    const { sampleId, isNgoaiGio, patientTypeId, indicationId, doctorId } =
+      getValues()
     const newSampleId = Number(sampleId) + 1
     reset()
     setValue('isNgoaiGio', isNgoaiGio)
+    setValue('patientTypeId', patientTypeId)
+    setValue('indicationId', indicationId)
+    setValue('doctorId', doctorId)
     setValue('sampleId', newSampleId.toString())
     setValue('infoAt', new Date())
     setValue('sampledAt', addMinutes(new Date(), 5))
