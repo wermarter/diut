@@ -54,6 +54,7 @@ export default function InfoInputPage() {
     getValues,
     formState: { isSubmitting },
     reset,
+    setFocus,
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
@@ -78,6 +79,7 @@ export default function InfoInputPage() {
   }, [birthYear])
 
   useEffect(() => {
+    setFocus('externalId')
     setValue('infoAt', new Date())
     setValue('sampledAt', addMinutes(new Date(), 5))
   }, [])
@@ -120,6 +122,7 @@ export default function InfoInputPage() {
     const { sampleId, isNgoaiGio, patientTypeId, indicationId, doctorId } =
       getValues()
     const newSampleId = Number(sampleId) + 1
+    setFocus('externalId')
     reset()
     setValue('isNgoaiGio', isNgoaiGio)
     setValue('patientTypeId', patientTypeId)
@@ -175,7 +178,6 @@ export default function InfoInputPage() {
                 control={control}
                 fullWidth
                 label="ID Phòng khám"
-                autoFocus
               />
             </Grid>
             <Grid xs={4}>

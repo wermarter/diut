@@ -58,12 +58,12 @@ export function FormCheckboxGroup<
             disabled={disabled}
             error={errorProps.error}
             component="fieldset"
-            ref={ref}
           >
             <FormLabel component="legend">{label}</FormLabel>
             <FormGroup row>
-              {options.map((option) => (
+              {options.map((option, index) => (
                 <FormControlLabel
+                  ref={index === 0 ? ref : undefined}
                   key={getOptionLabel(option)}
                   control={
                     <Checkbox
