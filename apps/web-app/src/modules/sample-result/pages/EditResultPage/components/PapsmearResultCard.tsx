@@ -90,15 +90,12 @@ export const PapsmearResultCard = ({
           name={currentElementInfo._id}
           disabled={currentTestState.isLocked}
           fullWidth
-          variant="standard"
+          variant="outlined"
           value={currentElementState.value ?? ''}
           onChange={(e) => {
             setElementState(currentElementInfo._id, {
               value: e.target.value,
             })
-          }}
-          InputLabelProps={{
-            shrink: true,
           }}
         />
       )
@@ -185,7 +182,7 @@ export const PapsmearResultCard = ({
 
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
         {generateTextFields(firstRowElements)}
       </Box>
       <Paper
@@ -247,7 +244,7 @@ export const PapsmearResultCard = ({
           name={resultElement._id}
           disabled={currentTestState.isLocked}
           fullWidth
-          variant="standard"
+          variant="outlined"
           value={resultElementState.value ?? ''}
           onChange={(e) => {
             setElementState(resultElement._id, {
@@ -255,13 +252,10 @@ export const PapsmearResultCard = ({
               value: e.target.value,
             })
           }}
-          InputLabelProps={{
-            shrink: true,
-          }}
         />
         <Button
           variant="outlined"
-          sx={{ ml: 2 }}
+          sx={{ ml: 1 }}
           disabled={currentTestState.isLocked}
           onClick={() => {
             setShouldShowImage(true)
