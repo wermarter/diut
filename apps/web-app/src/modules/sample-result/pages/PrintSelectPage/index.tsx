@@ -56,7 +56,7 @@ export default function PrintSelectPage() {
     useCrudPagination({
       offset: 0,
       limit: 10,
-      sort: { createdAt: -1 },
+      sort: { createdAt: -1, sampleId: -1 },
       filter: {
         infoCompleted: true,
         infoAt: {

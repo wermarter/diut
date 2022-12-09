@@ -63,7 +63,7 @@ export default function TestReportPage() {
     useCrudPagination({
       offset: 0,
       limit: 100,
-      sort: { infoAt: -1 },
+      sort: { infoAt: -1, sampleId: -1 },
       filter: {
         infoCompleted: true,
       },

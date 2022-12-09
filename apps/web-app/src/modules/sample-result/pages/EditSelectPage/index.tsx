@@ -53,7 +53,7 @@ export default function EditSelectPage() {
     useCrudPagination({
       offset: 0,
       limit: 10,
-      sort: { infoAt: -1 },
+      sort: { infoAt: -1, sampleId: -1 },
       filter: {
         infoCompleted: true,
         infoAt: {

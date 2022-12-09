@@ -55,7 +55,7 @@ export default function InfoConfirmPage() {
     useCrudPagination({
       offset: 0,
       limit: 10,
-      sort: { infoAt: -1 },
+      sort: { infoAt: -1, sampleId: -1 },
       filter: {
         infoAt: {
           $gte: startOfDay(new Date()).toISOString(),

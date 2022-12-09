@@ -321,18 +321,14 @@
       <div>
         <img
           src="<%= `http://localhost:9000/sample-uploads/${results[0].tests[0].elements[32].value}` %>"
-          width="400px"
-          height="300px"
-          style="border: 1px solid blue; border-radius: 10px"
+          style="border: 1px solid blue; border-radius: 10px; object-fit: cover; width: 400px; height: 230px;"
         />
       </div>
       <div>
         <div>
           <img
             src="<%= `http://localhost:9000/sample-uploads/${results[0].tests[0].elements[33].value}` %>"
-            width="400px"
-            height="300px"
-            style="border: 1px solid blue; border-radius: 10px"
+            style="border: 1px solid blue; border-radius: 10px; object-fit: cover; width: 400px; height: 230px;"
           />
         </div>
       </div>
@@ -341,7 +337,7 @@
     <!-- -------------------------------------------------------------- -->
     <p class="text-lg mt-1">
       <span class="text-base text-blue-700 font-bold underline">Kết luận:</span>
-      <span class="<%= (results[0].tests[0].elements[31].isHighlighted) ? "text-red-700" : "" %>">
+      <span class="<%= (results[0].tests[0].elements[31].isHighlighted) ? "text-red-700" : "text-lg" %>">
         <%= results[0].tests[0].elements[31].value %>
       </span>
     </p>

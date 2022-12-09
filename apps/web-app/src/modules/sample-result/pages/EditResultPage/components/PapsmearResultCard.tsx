@@ -124,14 +124,14 @@ export const PapsmearResultCard = ({
       {
         sampleDownloadRequestDto: { path: leftImagePath },
       },
-      { skip: !(leftImagePath?.length > 0) }
+      { skip: !(leftImagePath?.length > 0), refetchOnMountOrArgChange: true }
     )
   const { data: rightDownloadImageURL, isFetching: isDownloadingRightImage } =
     useSampleDownloadFileQuery(
       {
         sampleDownloadRequestDto: { path: rightImagePath },
       },
-      { skip: !(rightImagePath?.length > 0) }
+      { skip: !(rightImagePath?.length > 0), refetchOnMountOrArgChange: true }
     )
   const [uploadImage, { isLoading: isUploading }] =
     useSampleUploadFileMutation()
@@ -291,7 +291,12 @@ export const PapsmearResultCard = ({
               <Typography fontStyle="italic">{leftUploadFile?.name}</Typography>
             </Box>
             {leftDisplayImageURL !== null ? (
-              <img src={leftDisplayImageURL} width="500px" height="375px" />
+              <img
+                src={leftDisplayImageURL}
+                width="500px"
+                height="375px"
+                style={{ objectFit: 'cover' }}
+              />
             ) : (
               <Box sx={{ height: '375px' }} />
             )}
@@ -340,7 +345,12 @@ export const PapsmearResultCard = ({
                 />
               </Box>
             ) : rightDisplayImageURL !== null ? (
-              <img src={rightDisplayImageURL!} width="500px" height="375px" />
+              <img
+                src={rightDisplayImageURL!}
+                width="500px"
+                height="375px"
+                style={{ objectFit: 'cover' }}
+              />
             ) : (
               <Box sx={{ height: '375px' }} />
             )}
