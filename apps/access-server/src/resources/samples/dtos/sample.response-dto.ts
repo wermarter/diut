@@ -128,6 +128,13 @@ export class SampleResponseDto extends BaseResourceResponseDto {
   })
   @IsBoolean()
   isNgoaiGio: boolean
+
+  @Expose()
+  @ApiProperty({
+    example: 'ghi chú nho nhỏ...',
+  })
+  @IsString()
+  note: string
 }
 
 export class TestResultDto {

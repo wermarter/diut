@@ -84,6 +84,12 @@ export class CreateSampleRequestDto {
   })
   @IsBoolean()
   isNgoaiGio: boolean
+
+  @ApiProperty({
+    example: 'ghi chú nho nhỏ...',
+  })
+  @IsString()
+  note: string
 }
 
 class SampleTestDto {

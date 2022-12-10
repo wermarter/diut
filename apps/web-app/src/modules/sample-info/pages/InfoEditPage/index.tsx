@@ -120,7 +120,7 @@ export default function InfoEditPage() {
                   navigate(-1)
                 })
             }}
-            disabled={!userIsAdmin}
+            disabled={!userIsAdmin || isDeletingSample}
           >
             Xoá mẫu XN
           </Button>
@@ -142,6 +142,7 @@ export default function InfoEditPage() {
               id: sampleId!,
               updateSampleRequestDto: {
                 ...values,
+                note: values.note ?? '',
                 results: sampleInfo.results, // needed for backend update logic
                 sampleCompleted: sampleInfo.sampleCompleted, // needed for backend update logic
                 sampledAt: values.sampledAt.toISOString(),
@@ -288,7 +289,7 @@ export default function InfoEditPage() {
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormSelect
                 control={control}
                 name="patientTypeId"
@@ -298,7 +299,7 @@ export default function InfoEditPage() {
                 getOptionLabel={(option) => option.name}
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormSelect
                 control={control}
                 name="indicationId"
@@ -308,7 +309,7 @@ export default function InfoEditPage() {
                 getOptionLabel={(option) => option.name}
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormSelect
                 control={control}
                 name="doctorId"
@@ -316,6 +317,18 @@ export default function InfoEditPage() {
                 options={doctors?.items!}
                 getOptionValue={(option) => option._id}
                 getOptionLabel={(option) => option.name}
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormTextField
+                color="secondary"
+                autoComplete="off"
+                name="note"
+                control={control}
+                size="small"
+                fullWidth
+                label="Ghi chú"
+                focused
               />
             </Grid>
             {/* ----------------------------- Row 5 ----------------------------- */}

@@ -108,4 +108,7 @@ export class Sample extends BaseSchema {
 
   @Prop({ required: true })
   isNgoaiGio: boolean
+
+  @Prop()
+  note: string
 }

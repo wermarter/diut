@@ -182,6 +182,7 @@ export type SampleResponseDto = {
   sampleCompleted: boolean
   isTraBuuDien: boolean
   isNgoaiGio: boolean
+  note: string
 }
 export type SearchSampleResponseDto = {
   total: number
@@ -211,6 +212,7 @@ export type CreateSampleRequestDto = {
   tests: SampleTestDto[]
   isTraBuuDien: boolean
   isNgoaiGio: boolean
+  note: string
 }
 export type UpdateSampleRequestDto = {
   sampleId?: string
@@ -227,6 +229,7 @@ export type UpdateSampleRequestDto = {
   results?: TestResultDto[]
   infoCompleted?: boolean
   sampleCompleted?: boolean
+  note?: string
 }
 export type SinglePrintRequestDto = {
   sampleId: string

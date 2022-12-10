@@ -49,15 +49,20 @@ export const PapsmearResultCard = ({
     value: '',
   }
 
-  const generateCheckboxes = (elements: TestElementResponseDto[]) => {
-    return elements.map((currentElementInfo) => {
+  const generateCheckboxes = (
+    elements: TestElementResponseDto[],
+    disableFirst = false
+  ) => {
+    return elements.map((currentElementInfo, index) => {
       const currentElementState = elementState[currentElementInfo._id] ?? {}
       const highlightRule = getHighlightRule(currentElementInfo.highlightRules)
 
       return (
         <FormControlLabel
           key={currentElementInfo._id}
-          disabled={currentTestState.isLocked}
+          disabled={
+            currentTestState.isLocked || (index === 0 && disableFirst === true)
+          }
           control={
             <Checkbox
               disableRipple
@@ -189,8 +194,12 @@ export const PapsmearResultCard = ({
         sx={{ display: 'flex', justifyContent: 'space-between', p: 1, my: 1 }}
         variant="outlined"
       >
-        <FormGroup>{generateCheckboxes(aboveTitleCol1Elements)}</FormGroup>
-        <FormGroup>{generateCheckboxes(aboveTitleCol2Elements)}</FormGroup>
+        <FormGroup>
+          {generateCheckboxes(aboveTitleCol1Elements, true)}
+        </FormGroup>
+        <FormGroup>
+          {generateCheckboxes(aboveTitleCol2Elements, true)}
+        </FormGroup>
       </Paper>
       <Paper sx={{ p: 1, mt: 1 }} variant="outlined">
         {generateCheckboxes(belowTitleElements)}

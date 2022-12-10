@@ -17,7 +17,7 @@ import { toast } from 'react-toastify'
 import { useLoaderData } from 'react-router-dom'
 import CheckIcon from '@mui/icons-material/Check'
 import { GridActionsCellItem } from '@mui/x-data-grid'
-import { addMinutes } from 'date-fns'
+import { addMinutes, setMinutes, setHours } from 'date-fns'
 
 import {
   FormContainer,
@@ -119,18 +119,35 @@ export default function InfoInputPage() {
   )
 
   const resetState = () => {
-    const { sampleId, isNgoaiGio, patientTypeId, indicationId, doctorId } =
-      getValues()
+    const {
+      sampleId,
+      isNgoaiGio,
+      patientTypeId,
+      indicationId,
+      doctorId,
+      address,
+      infoAt,
+      sampledAt,
+    } = getValues()
     const newSampleId = Number(sampleId) + 1
+
+    const moment = new Date()
+    const thisHour = moment.getHours()
+    const thisMinute = moment.getMinutes()
+    const nextInfoAt = setMinutes(setHours(infoAt, thisHour), thisMinute)
+    const nextSampledAt = setMinutes(setHours(sampledAt, thisHour), thisMinute)
+
     setFocus('externalId')
     reset()
+
     setValue('isNgoaiGio', isNgoaiGio)
     setValue('patientTypeId', patientTypeId)
     setValue('indicationId', indicationId)
     setValue('doctorId', doctorId)
     setValue('sampleId', newSampleId.toString())
-    setValue('infoAt', new Date())
-    setValue('sampledAt', addMinutes(new Date(), 5))
+    setValue('address', address)
+    setValue('infoAt', nextInfoAt)
+    setValue('sampledAt', nextSampledAt)
     setShouldUpdatePatient(null)
   }
 
@@ -159,6 +176,7 @@ export default function InfoInputPage() {
           await createSample({
             createSampleRequestDto: {
               ...values,
+              note: values.note ?? '',
               sampledAt: values.sampledAt.toISOString(),
               infoAt: values.infoAt.toISOString(),
               patientId: patient._id,
@@ -302,7 +320,7 @@ export default function InfoInputPage() {
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormSelect
                 control={control}
                 name="patientTypeId"
@@ -312,7 +330,7 @@ export default function InfoInputPage() {
                 getOptionLabel={(option) => option.name}
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormSelect
                 control={control}
                 name="indicationId"
@@ -322,7 +340,7 @@ export default function InfoInputPage() {
                 getOptionLabel={(option) => option.name}
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormSelect
                 control={control}
                 name="doctorId"
@@ -330,6 +348,18 @@ export default function InfoInputPage() {
                 options={doctors?.items!}
                 getOptionValue={(option) => option._id}
                 getOptionLabel={(option) => option.name}
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormTextField
+                color="secondary"
+                autoComplete="off"
+                name="note"
+                control={control}
+                size="small"
+                fullWidth
+                label="Ghi chú"
+                focused
               />
             </Grid>
             {/* ----------------------------- Row 5 ----------------------------- */}

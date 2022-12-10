@@ -152,7 +152,6 @@ export function TestSelector({
                             sx: { fontWeight: 'bold' },
                           }}
                           primary={test.name}
-                          secondary={test.bioProduct?.name}
                         />
                       </ListItemButton>
                     </ListItem>

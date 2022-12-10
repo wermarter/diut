@@ -41,6 +41,7 @@ const schema = z.object({
 
   isTraBuuDien: z.boolean(),
   isNgoaiGio: z.boolean(),
+  note: z.string(),
 })
 
 export const formResolver = zodResolver(schema)
@@ -68,4 +69,5 @@ export const formDefaultValues: Partial<FormSchema> = {
 
   isTraBuuDien: false,
   isNgoaiGio: false,
+  note: '',
 }

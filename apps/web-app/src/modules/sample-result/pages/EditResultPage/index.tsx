@@ -5,6 +5,7 @@ import {
   PatientCategory,
 } from '@diut/common'
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -297,6 +298,16 @@ export default function EditResultPage() {
           alignItems: 'center',
         }}
       >
+        {sample.note?.length > 0 && (
+          <Alert
+            variant="outlined"
+            severity="info"
+            color={'secondary' as any}
+            sx={{ width: '100%', mb: 1 }}
+          >
+            {sample.note}
+          </Alert>
+        )}
         {sortedTests.map((currentTestInfo) => {
           const currentTestState = testState[currentTestInfo._id] ?? {}
           const resultCardProps: ResultCardProps = {
