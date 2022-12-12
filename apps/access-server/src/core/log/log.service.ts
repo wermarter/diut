@@ -26,6 +26,7 @@ export function buildPinoOptions(configService: ConfigService): Params {
             translateTime: 'SYS:HH:MM:ss',
           },
         },
+        autoLogging: true,
       }
     : {}
 
@@ -34,11 +35,7 @@ export function buildPinoOptions(configService: ConfigService): Params {
       level: logConfig.level,
       name: configService.get('package').name.replace(PROJECT_PREFIX, ''),
       base: { version: packageConfig.version },
-      autoLogging: <AutoLoggingOptions>{
-        ignore: (req, res) => {
-          return res?.statusCode !== 200
-        },
-      },
+      autoLogging: false,
       ...devConfig,
     },
   }

@@ -207,7 +207,7 @@ export function CrudTable<R extends GridValidRowModel>({
   return (
     <>
       <DataTable
-        sx={{ minWidth: '50vw', borderRadius: 0 }}
+        sx={{ borderRadius: 0 }}
         rows={rows}
         getRowId={(item) => {
           return item[itemIdField]

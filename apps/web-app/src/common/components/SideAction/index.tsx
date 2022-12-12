@@ -48,7 +48,9 @@ export function SideAction({
     >
       <Box
         sx={{
-          height: '100%',
+          height: 'calc(100vh - 48px)',
+          display: 'flex',
+          flexDirection: 'column',
           minWidth: '30vw',
           maxWidth: `calc(100vw - ${drawerWidth}px)`,
           width: fullWidth ? `calc(100vw - ${drawerWidth}px)` : undefined,
@@ -72,7 +74,7 @@ export function SideAction({
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Box sx={{ m: 2 }}>{children}</Box>
+        <Box sx={{ m: 2, flexGrow: 1 }}>{children}</Box>
       </Box>
     </Drawer>
   )

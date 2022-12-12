@@ -8,6 +8,7 @@ import { WeirdExceptionPage } from './weird-error'
 
 export function ErrorPage() {
   const error = useRouteError()
+  console.warn(error)
 
   if (isRouteErrorResponse(error) && error.status === 404) {
     return <NotFoundPage />

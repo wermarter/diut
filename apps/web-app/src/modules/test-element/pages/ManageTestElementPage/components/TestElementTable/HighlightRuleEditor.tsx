@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { PatientCategory } from '@diut/common'
-import { Button } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { GridColumns } from '@mui/x-data-grid'
 
 import { HighlightRuleDto, TestElementResponseDto } from 'src/api/test-element'
@@ -38,7 +38,7 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
     field: 'min',
     headerName: 'Min',
     type: 'number',
-    minWidth: 100,
+    width: 100,
     sortable: false,
     editable: true,
   },
@@ -46,21 +46,22 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
     field: 'max',
     headerName: 'Max',
     type: 'number',
-    minWidth: 100,
+    width: 100,
     sortable: false,
     editable: true,
   },
   {
     field: 'normalValue',
     headerName: 'So sánh',
-    minWidth: 120,
+    minWidth: 100,
+    flex: 1,
     sortable: false,
     editable: true,
   },
   {
     field: 'description',
     headerName: 'Mô tả',
-    minWidth: 200,
+    minWidth: 100,
     flex: 1,
     sortable: false,
     editable: true,
@@ -68,7 +69,7 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
   {
     field: 'note',
     headerName: 'Tham khảo',
-    minWidth: 200,
+    minWidth: 100,
     flex: 1,
     sortable: false,
     editable: true,
@@ -78,7 +79,6 @@ const columns: GridColumns<HighlightRuleDtoWithId> = [
     type: 'boolean',
     headerName: 'Mặc định',
     minWidth: 80,
-    flex: 1,
     sortable: false,
     editable: true,
     valueGetter: ({ value }) => {
@@ -136,34 +136,41 @@ export function HighlightRuleEditor({
       title={element?.name}
       disableClickOutside={isSubmitting}
     >
-      <CrudTable
-        items={items}
-        itemIdField="id"
-        fieldColumns={columns}
-        onItemCreate={(item) => {
-          setItems((items) => [...items, { ...item, id: JSON.stringify(item) }])
-        }}
-        onItemUpdate={(item) => {
-          setItems((items) => [
-            { ...item, id: JSON.stringify(item) },
-            ...items.filter((rule) => rule.id !== item.id),
-          ])
-        }}
-        onItemDelete={(item) => {
-          setItems((items) => items.filter((rule) => rule.id !== item.id))
-        }}
-      />
-      <Button
-        sx={{ mt: 2 }}
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-      >
-        Lưu
-      </Button>
-      <Button sx={{ mt: 2, mx: 1 }} color="primary" onClick={handleCancel}>
-        Huỷ
-      </Button>
+      <Box sx={{ height: '100%' }}>
+        <CrudTable
+          items={items}
+          itemIdField="id"
+          fieldColumns={columns}
+          onItemCreate={(item) => {
+            setItems((items) => [
+              ...items,
+              { ...item, id: JSON.stringify(item) },
+            ])
+          }}
+          onItemUpdate={(item) => {
+            setItems((items) => [
+              { ...item, id: JSON.stringify(item) },
+              ...items.filter((rule) => rule.id !== item.id),
+            ])
+          }}
+          onItemDelete={(item) => {
+            setItems((items) => items.filter((rule) => rule.id !== item.id))
+          }}
+        />
+        <Box>
+          <Button
+            sx={{ mt: 2 }}
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Lưu
+          </Button>
+          <Button sx={{ mt: 2, mx: 1 }} color="primary" onClick={handleCancel}>
+            Huỷ
+          </Button>
+        </Box>
+      </Box>
     </SideAction>
   )
 }

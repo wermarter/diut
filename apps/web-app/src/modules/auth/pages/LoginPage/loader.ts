@@ -10,4 +10,6 @@ export const loginPageLoader: LoaderFunction = () => {
   if (isAuthenticated) {
     throw new AppNavigate({ to: '/' })
   }
+
+  return null
 }

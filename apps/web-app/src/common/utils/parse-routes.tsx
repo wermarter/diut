@@ -14,6 +14,7 @@ import {
 } from 'src/modules/auth'
 import { combineInjectors, RouteInjectors, makeInjector } from './inject-loader'
 import { LoadingPage } from '../layout/LoadingPage'
+import { ErrorPage } from '../layout/ErrorPage'
 
 export type AdditionalRouteProps = {
   permission?: Permission
@@ -60,7 +61,7 @@ export function parseRoutes(
         })
       )
     }
-    const customLoader = combineInjectors(loader ?? (() => {}), injectors)
+    const customLoader = combineInjectors(loader ?? (() => null), injectors)
 
     // Recursive call for children
     let customChildren: RouteObject[] = []
@@ -82,6 +83,7 @@ export function parseRoutes(
       loader: customLoader,
       element: customElement,
       children: customChildren,
+      errorElement: <ErrorPage />,
     }
   })
 }
