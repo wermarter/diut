@@ -24,9 +24,10 @@ export const editResultPageLoader = async ({ params }: LoaderFunctionArgs) => {
       .unwrap(),
   ])
 
-  const author = await appStore
-    .dispatch(userApi.endpoints.userFindById.initiate({ id: sample.infoBy }))
-    .unwrap()
+  const author =
+    (await appStore
+      .dispatch(userApi.endpoints.userFindById.initiate({ id: sample.infoBy }))
+      .unwrap()) ?? {}
 
   return {
     author,

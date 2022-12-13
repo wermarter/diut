@@ -105,11 +105,13 @@ export default function EditResultPage() {
         getUserById({ id: resultBy! }).then((res) => {
           const user = res.data!
 
-          setUsers((cache) =>
-            Object.assign({}, cache, {
-              [user._id]: user,
-            })
-          )
+          if (user) {
+            setUsers((cache) =>
+              Object.assign({}, cache, {
+                [user._id]: user,
+              })
+            )
+          }
         })
       }
       searchTestElements({

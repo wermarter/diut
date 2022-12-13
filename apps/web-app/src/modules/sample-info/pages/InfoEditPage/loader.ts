@@ -63,11 +63,12 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
       .unwrap(),
   ])
 
-  const author = await appStore
-    .dispatch(
-      userApi.endpoints.userFindById.initiate({ id: sampleInfo.infoBy })
-    )
-    .unwrap()
+  const author =
+    (await appStore
+      .dispatch(
+        userApi.endpoints.userFindById.initiate({ id: sampleInfo.infoBy })
+      )
+      .unwrap()) ?? {}
 
   return {
     author,
