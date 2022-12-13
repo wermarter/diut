@@ -1,8 +1,10 @@
-import { IsNumberString } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsNumber } from 'class-validator'
 
 export const HTTP_SERVER_CONFIG_NAME = 'httpServer'
 
 export class HttpServerConfig {
-  @IsNumberString()
-  port = '5000'
+  @Type(() => Number)
+  @IsNumber()
+  port = 5000
 }
