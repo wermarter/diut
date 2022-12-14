@@ -50,6 +50,9 @@ function parseIsNgoaiGio(isNgoaiGioParam: IsNgoaiGio) {
   return undefined
 }
 
+const BUU_DIEN_SUMMARY = 'BUU_DIEN_SUMMARY'
+const NGOAI_GIO_SUMMARY = 'NGOAI_GIO_SUMMARY'
+
 export default function TestReportPage() {
   const { patientTypeMap, categories, groups, tests } =
     useLoaderData() as Awaited<ReturnType<typeof testReportPageLoader>>
@@ -151,7 +154,21 @@ export default function TestReportPage() {
     })
 
     const tempSummary: Record<string, number> = {}
-    samples.forEach(({ results }) => {
+    samples.forEach(({ results, isNgoaiGio, isTraBuuDien }) => {
+      if (tempSummary[BUU_DIEN_SUMMARY] === undefined) {
+        tempSummary[BUU_DIEN_SUMMARY] = 0
+      }
+      if (tempSummary[NGOAI_GIO_SUMMARY] === undefined) {
+        tempSummary[NGOAI_GIO_SUMMARY] = 0
+      }
+
+      if (isNgoaiGio === true) {
+        tempSummary[NGOAI_GIO_SUMMARY]++
+      }
+      if (isTraBuuDien === true) {
+        tempSummary[BUU_DIEN_SUMMARY]++
+      }
+
       results.forEach(({ testId }) => {
         if (tempSummary[testId] === undefined) {
           tempSummary[testId] = 0
@@ -385,7 +402,17 @@ export default function TestReportPage() {
               renderCell: ({ value }) => (
                 <Typography fontWeight="bold">{value}</Typography>
               ),
-              valueGetter: ({ value }) => {
+              valueGetter: ({ value, row }) => {
+                //@ts-ignore
+                if (row?.isSummary === true) {
+                  const count = summary[BUU_DIEN_SUMMARY]
+                  if (count > 0) {
+                    return count
+                  }
+
+                  return ''
+                }
+
                 if (value === true) {
                   return '✓'
                 }
@@ -398,7 +425,25 @@ export default function TestReportPage() {
               width: 90,
               sortable: false,
               editable: true,
-              valueGetter: ({ value }) => {
+              renderCell: ({ value, row }) => {
+                //@ts-ignore
+                if (row?.isSummary === true) {
+                  return <Typography fontWeight="bold">{value}</Typography>
+                }
+
+                return value
+              },
+              valueGetter: ({ value, row }) => {
+                //@ts-ignore
+                if (row?.isSummary === true) {
+                  const count = summary[NGOAI_GIO_SUMMARY]
+                  if (count > 0) {
+                    return count
+                  }
+
+                  return ''
+                }
+
                 if (value === true) {
                   return 'Ngoài giờ'
                 } else if (value === false) {
