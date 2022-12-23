@@ -81,7 +81,8 @@ export default function InfoEditPage() {
   }, [birthYear])
 
   useEffect(() => {
-    if (typeof birthYear === 'string') {
+    //@ts-ignore
+    if (typeof birthYear === 'string' && birthYear.length > 0) {
       setValue('birthYear', Number(birthYear))
     }
   }, [birthYear])

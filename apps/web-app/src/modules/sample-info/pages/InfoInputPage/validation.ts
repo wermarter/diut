@@ -41,7 +41,7 @@ const schema = z.object({
 
   isTraBuuDien: z.boolean(),
   isNgoaiGio: z.boolean(),
-  note: z.string(),
+  note: z.string().optional(),
 })
 
 export const formResolver = zodResolver(schema)
