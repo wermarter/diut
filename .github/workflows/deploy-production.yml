@@ -73,8 +73,8 @@ jobs:
         with:
           name: access-server-dist
           path: |
-            ./node_modules/
-            ./apps/access-server/node_modules/
+            ./node_modules
+            ./apps/access-server/node_modules
             ./apps/access-server/dist/
           if-no-files-found: error
 
