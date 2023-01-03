@@ -1,21 +1,57 @@
 name: deploy-production
-on: [push, workflow_dispatch]
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
 jobs:
-  test-env:
-    runs-on: ubuntu-latest
+  build-web-app:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./apps/web-app
+
     steps:
-      - run: echo '${{ toJSON(github) }}'
-  oneshot:
-    runs-on: ubuntu-latest
-    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Test path
+        run: pwd
+
+      - name: Test files
+        run: ls -al
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Build project
-        run: mkdir build && echo "Building project hardworkingly..." >> build/bundle2.txt
-      - name: Install SSH Key
+        run: mkdir dist && echo "Building project hardworkingly..." >> dist/bundle3.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-app-dist
+          path: dist
+
+  deploy-web-app:
+    needs: build-web-app
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: web-app-dist
+          path: ./build
+
+      - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'blah-blah-blah'
-      - name: Adding Known Hosts
+          known_hosts: 'delegate to the next step'
+      - name: Add known hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy with rsync
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/test-gh-action
