@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-web-app:
+    name: Build web-app
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -17,7 +18,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile && yarn postinstall
       - name: Build project
         run: yarn build
 
@@ -29,6 +30,7 @@ jobs:
           if-no-files-found: error
 
   deploy-web-app:
+    name: Deploy web-app
     needs: build-web-app
     runs-on: ubuntu-22.04
     steps:
