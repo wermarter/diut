@@ -58,10 +58,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'yarn'
+          # cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install # --frozen-lockfile --prefer-offline
 
       - name: Build project
         working-directory: ./apps/access-server
