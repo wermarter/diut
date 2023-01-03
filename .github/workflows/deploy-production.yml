@@ -39,6 +39,7 @@ jobs:
   build-access-server:
     name: Build access-server
     runs-on: ubuntu-22.04
+    environment: Production
 
     steps:
       - name: Get code
@@ -51,6 +52,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
+
+      - name: test env
+        run: echo "toJSON(${{ secrets }})"
 
       - name: Set env variables
         run: |
