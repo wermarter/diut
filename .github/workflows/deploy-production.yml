@@ -54,4 +54,4 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz --rsync-path="echo ${{ secrets.SSH_SUDO_PASSWORD }} | sudo -S rsync" -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
+        run: rsync -avz --rsync-path="echo ${{ secrets.SSH_SUDO_PASSWORD }} | sudo -Sv && sudo rsync" -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
