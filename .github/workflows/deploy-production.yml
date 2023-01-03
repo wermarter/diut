@@ -60,22 +60,18 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
 
-      - name: Set environment variables
-        working-directory: ./apps/access-server
-        run: |
-          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> .env
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-          echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> .env
-          echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> .env
-
-      - name: test env
-        working-directory: ./apps/access-server
-        run: cat .env
-
       - name: Build project
         working-directory: ./apps/access-server
         run: yarn build
+
+      - name: Set environment variables
+        working-directory: ./apps/access-server
+        run: |
+          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> ./dist/.env
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> ./dist/.env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> ./dist/.env
+          echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> ./dist/.env
+          echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> ./dist/.env
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
