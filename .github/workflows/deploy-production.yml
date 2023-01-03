@@ -89,7 +89,7 @@ jobs:
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
 
       - name: Deploy common lib with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./libs/common/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules/@diut/common
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --rsync-path="mkdir -p /var/www/access-server/node_modules/@diut/common && rsync" ./libs/common/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules/@diut/common
 
       - name: Deploy with rsync
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server
