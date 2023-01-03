@@ -82,6 +82,12 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Update dependency (1)
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --exclude '@diut' ./node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
+
+      - name: Update dependency (2)
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
+
       - name: Deploy common lib with rsync
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./libs/common/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules/@diut/common
 
