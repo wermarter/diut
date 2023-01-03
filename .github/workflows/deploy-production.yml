@@ -17,23 +17,23 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
 
-      - name: Test path
-        run: pwd
-
-      - name: Test files
-        run: ls -al
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile
 
       - name: Build project
         run: mkdir dist && echo "Building project hardworkingly..." >> dist/bundle3.txt
+
+      - name: test files
+        run: ls -al
+
+      - name: test result
+        run: ls -al dist
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: web-app-dist
-          path: dist
+          path: ./dist/
 
   deploy-web-app:
     needs: build-web-app
