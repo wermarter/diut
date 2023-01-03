@@ -10,6 +10,8 @@ jobs:
   build-web-app:
     name: Build web-app
     runs-on: ubuntu-22.04
+    env:
+      VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
     steps:
       - name: Get code
@@ -49,6 +51,14 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
+
+      - name: Set env variables
+        run: |
+          echo ${{ secrets.AUTH_JWT_SECRET }} >> $GITHUB_ENV
+          echo ${{ secrets.MONGO_URI }} >> $GITHUB_ENV
+          echo ${{ secrets.NODE_ENV }} >> $GITHUB_ENV
+          echo ${{ secrets.STORAGE_ACCESS_KEY }} >> $GITHUB_ENV
+          echo ${{ secrets.STORAGE_SECRET_KEY }} >> $GITHUB_ENV
 
       - name: Build project
         working-directory: ./apps/access-server
@@ -108,3 +118,6 @@ jobs:
 
       - name: Deploy with rsync
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server
+
+      - name: Restart server
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pm2 restart diut-production"
