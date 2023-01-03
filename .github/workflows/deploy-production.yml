@@ -57,12 +57,13 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Set environment variables
+        working-directory: ./apps/access-server
         run: |
-          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> $GITHUB_ENV
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> $GITHUB_ENV
-          echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> $GITHUB_ENV
-          echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> .env
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+          echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> .env
+          echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> .env
 
       - name: Build project
         working-directory: ./apps/access-server
