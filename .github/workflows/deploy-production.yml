@@ -54,7 +54,7 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
 
       - name: test env
-        run: echo "toJSON(${{ secrets }})"
+        run: echo "toJSON(${{ secrets.AUTH_JWT_SECRET }})"
 
       - name: Set env variables
         run: |
