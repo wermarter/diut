@@ -16,18 +16,10 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile
-
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - name: Build project
-        run: mkdir dist && echo "Building project hardworkingly..." >> dist/bundle3.txt
-
-      - name: test files
-        run: ls -al
-
-      - name: test result
-        run: ls -al dist
+        run: yarn build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -40,7 +32,7 @@ jobs:
     needs: build-web-app
     runs-on: ubuntu-22.04
     steps:
-      - name: Download
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: web-app-dist
@@ -55,4 +47,4 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/test-gh-action
+        run: rsync -avz --rsync-path="echo ${{ secrets.SSH_SUDO_PASSWORD }} | sudo -Sv && sudo rsync" -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app

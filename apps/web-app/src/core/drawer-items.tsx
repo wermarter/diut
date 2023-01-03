@@ -39,7 +39,7 @@ export const drawerItems: DrawerItem[] = [
     children: [
       {
         icon: <HomeIcon />,
-        label: 'Trang chủ',
+        label: 'Trang chủ 1',
         destination: '/',
       },
       {
