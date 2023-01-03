@@ -42,17 +42,6 @@ jobs:
     environment: Production
 
     steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-
       - name: test env
         run: echo "toJSON(${{ secrets.AUTH_JWT_SECRET }})"
 
@@ -63,6 +52,17 @@ jobs:
           echo ${{ secrets.NODE_ENV }} >> $GITHUB_ENV
           echo ${{ secrets.STORAGE_ACCESS_KEY }} >> $GITHUB_ENV
           echo ${{ secrets.STORAGE_SECRET_KEY }} >> $GITHUB_ENV
+
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Build project
         working-directory: ./apps/access-server
