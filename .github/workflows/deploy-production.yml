@@ -44,6 +44,8 @@ jobs:
     steps:
       - name: test env
         run: echo "toJSON(${{ secrets.AUTH_JWT_SECRET }})"
+      - name: test env
+        run: echo "toJSON(${{ secrets.FHDJH }})"
 
       - name: Set env variables
         run: |
