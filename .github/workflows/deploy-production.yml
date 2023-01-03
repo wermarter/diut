@@ -10,16 +10,21 @@ jobs:
   build-web-app:
     name: Build web-app
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: ./apps/web-app
 
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile && yarn postinstall
+        run: yarn install --frozen-lockfile --prefer-offline
+
       - name: Build project
+        working-directory: ./apps/web-app
         run: yarn build
 
       - name: Upload artifacts
