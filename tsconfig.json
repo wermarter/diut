@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
-    // "incremental": true,
+    "incremental": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true
