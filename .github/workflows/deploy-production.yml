@@ -1,4 +1,4 @@
-name: deploy-production
+name: Deploy production
 
 on:
   workflow_dispatch:
@@ -34,16 +34,45 @@ jobs:
           path: ./apps/web-app/dist/
           if-no-files-found: error
 
-  deploy-web-app:
-    name: Deploy web-app
-    needs: build-web-app
+  build-access-server:
+    name: Build access-server
     runs-on: ubuntu-22.04
+
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+
+      - name: Build project
+        working-directory: ./apps/access-server
+        run: yarn build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: access-server-dist
+          path: ./apps/access-server/dist/
+          if-no-files-found: error
+
+  deploy-web-app:
+    needs: build-web-app
+
+    name: Deploy web-app
+    runs-on: ubuntu-22.04
+
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: web-app-dist
-          path: ./build
+          path: ./dist
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -54,4 +83,28 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
+
+  deploy-access-server:
+    needs: build-access-server
+
+    name: Deploy access-server
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: access-server-dist
+          path: ./dist
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'delegate to the next step'
+      - name: Add known hosts
+        run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server
