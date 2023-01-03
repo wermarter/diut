@@ -10,10 +10,12 @@ jobs:
   build-web-app:
     name: Build web-app
     runs-on: ubuntu-22.04
-    env:
-      VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+    environment: web-app-production
 
     steps:
+      - name: Set environment variables
+        run: |
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
       - name: Get code
         uses: actions/checkout@v3
       - name: Set up Node.js
@@ -39,21 +41,16 @@ jobs:
   build-access-server:
     name: Build access-server
     runs-on: ubuntu-22.04
-    environment: Production
+    environment: access-server-production
 
     steps:
-      - name: test env
-        run: echo "toJSON(${{ secrets.AUTH_JWT_SECRET }})"
-      - name: test env
-        run: echo "toJSON(${{ secrets.FHDJH }})"
-
-      - name: Set env variables
+      - name: Set environment variables
         run: |
-          echo ${{ secrets.AUTH_JWT_SECRET }} >> $GITHUB_ENV
-          echo ${{ secrets.MONGO_URI }} >> $GITHUB_ENV
-          echo ${{ secrets.NODE_ENV }} >> $GITHUB_ENV
-          echo ${{ secrets.STORAGE_ACCESS_KEY }} >> $GITHUB_ENV
-          echo ${{ secrets.STORAGE_SECRET_KEY }} >> $GITHUB_ENV
+          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> $GITHUB_ENV
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> $GITHUB_ENV
+          echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> $GITHUB_ENV
 
       - name: Get code
         uses: actions/checkout@v3
