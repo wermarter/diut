@@ -33,7 +33,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: web-app-dist
-          path: ./dist/
+          path: ./apps/web-app/dist/
+          if-no-files-found: error
 
   deploy-web-app:
     needs: build-web-app
