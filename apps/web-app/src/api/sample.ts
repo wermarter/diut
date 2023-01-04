@@ -71,6 +71,7 @@ const injectedRtkApi = api
             return objectURL
           },
         }),
+        invalidatesTags: ['samples'],
       }),
       samplePreview: build.query<SamplePreviewApiResponse, SamplePreviewApiArg>(
         {
@@ -182,7 +183,9 @@ export type SampleResponseDto = {
   sampleCompleted: boolean
   isTraBuuDien: boolean
   isNgoaiGio: boolean
-  note: string
+  note?: string
+  printedBy?: string
+  printedAt?: string
 }
 export type SearchSampleResponseDto = {
   total: number
@@ -212,7 +215,7 @@ export type CreateSampleRequestDto = {
   tests: SampleTestDto[]
   isTraBuuDien: boolean
   isNgoaiGio: boolean
-  note: string
+  note?: string
 }
 export type UpdateSampleRequestDto = {
   sampleId?: string

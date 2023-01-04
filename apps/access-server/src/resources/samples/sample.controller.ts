@@ -89,8 +89,12 @@ export class SampleController {
   }
 
   @AppRoute(sampleRoutes.print)
-  async print(@Body() body: PrintSampleRequestDto, @Res() res: Response) {
-    const buffer = await this.sampleService.print(body.samples)
+  async print(
+    @Body() body: PrintSampleRequestDto,
+    @Res() res: Response,
+    @ReqUser() user: AuthTokenPayload
+  ) {
+    const buffer = await this.sampleService.print(body.samples, user)
 
     res.set({
       'Content-Type': 'application/pdf',

@@ -11,6 +11,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "lint": "tsc",
     "g:api": "npx @rtk-query/codegen-openapi openapi-config.cts"
   },
   "dependencies": {

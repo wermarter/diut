@@ -87,9 +87,11 @@ export class CreateSampleRequestDto {
 
   @ApiProperty({
     example: 'ghi chú nho nhỏ...',
+    required: false,
   })
+  @IsOptional()
   @IsString()
-  note: string
+  note?: string
 }
 
 class SampleTestDto {
