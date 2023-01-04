@@ -132,9 +132,30 @@ export class SampleResponseDto extends BaseResourceResponseDto {
   @Expose()
   @ApiProperty({
     example: 'ghi chú nho nhỏ...',
+    required: false,
   })
+  @IsOptional()
   @IsString()
-  note: string
+  note?: string
+
+  @Expose()
+  @ApiProperty({
+    example: '634180269de1f07e47bbf494',
+    required: false,
+  })
+  @IsOptional()
+  @IsObjectId()
+  printedBy?: string
+
+  @Expose()
+  @ApiProperty({
+    format: 'date-time',
+    example: '2022-10-24T10:15:00Z',
+    required: false,
+  })
+  @IsOptional()
+  @IsDateString()
+  printedAt?: Date
 }
 
 export class TestResultDto {

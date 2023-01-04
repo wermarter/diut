@@ -295,7 +295,7 @@ export default function PrintSelectPage() {
                 <GridActionsCellItem
                   icon={<PrintIcon />}
                   label="In KQ"
-                  color="primary"
+                  color={row.printedBy != null ? 'default' : 'primary'}
                   onClick={handleConfirmClick(row)}
                 />,
               ],

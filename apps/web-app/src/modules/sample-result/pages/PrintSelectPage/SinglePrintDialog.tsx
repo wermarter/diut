@@ -10,11 +10,12 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import { Slide } from '@mui/material'
+import { Box, Slide, Typography } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import { useForm } from 'react-hook-form'
 import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
+import { format } from 'date-fns'
 
 import { SampleResponseDto, useSamplePrintMutation } from 'src/api/sample'
 import {
@@ -27,6 +28,7 @@ import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin, selectUserName } from 'src/modules/auth'
 import { PrintFormResponseDto } from 'src/api/print-form'
 import { SampleTypeResponseDto } from 'src/api/sample-type'
+import { useUserFindByIdQuery } from 'src/api/user'
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -157,6 +159,11 @@ export function SinglePrintDialog({
     }
   }, [JSON.stringify(sampleTypes)])
 
+  const { data: printer } = useUserFindByIdQuery(
+    { id: sample?.printedBy! },
+    { skip: sample?.printedBy == null }
+  )
+
   const [printSample] = useSamplePrintMutation()
 
   const handlePrint = (data: FormData) => {
@@ -243,25 +250,45 @@ export function SinglePrintDialog({
                 }
               />
             </Grid>
-            <Grid xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
-              <Button
-                sx={{ mr: 1 }}
-                variant="outlined"
-                autoFocus
-                onClick={() => {
-                  onClose()
-                }}
-              >
-                Bỏ qua
-              </Button>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                disabled={isSubmitting}
-                loading={isSubmitting}
-              >
-                In kết quả
-              </LoadingButton>
+            <Grid
+              xs={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+              }}
+            >
+              <Box sx={{ ml: 1 }}>
+                {printer != null && (
+                  <>
+                    <Typography variant="overline">
+                      {format(new Date(sample?.printedAt!), 'dd/MM/yyyy HH:mm')}
+                      {' • '}
+                      {printer?.name}
+                    </Typography>
+                  </>
+                )}
+              </Box>
+              <Box>
+                <Button
+                  sx={{ mr: 1 }}
+                  variant="outlined"
+                  autoFocus
+                  onClick={() => {
+                    onClose()
+                  }}
+                >
+                  Bỏ qua
+                </Button>
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  disabled={isSubmitting}
+                  loading={isSubmitting}
+                >
+                  In kết quả
+                </LoadingButton>
+              </Box>
             </Grid>
           </Grid>
         </FormContainer>

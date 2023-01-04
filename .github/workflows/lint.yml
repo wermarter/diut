@@ -1,0 +1,24 @@
+name: Lint
+on: push
+
+jobs:
+  oneshot:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+
+      - name: Lint web-app
+        working-directory: ./apps/web-app
+        run: yarn lint
+
+      - name: Lint access-server
+        working-directory: ./apps/access-server
+        run: yarn lint

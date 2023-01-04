@@ -374,10 +374,21 @@ export class SampleService
     }
   }
 
-  async print(samples: SinglePrintRequestDto[]) {
+  async print(samples: SinglePrintRequestDto[], user?: AuthTokenPayload) {
     const pageContents = await Promise.all(
       samples.map((sample) => this.prepareSampleContent(sample))
     )
+
+    // Update print status
+    await Promise.all(
+      samples.map((sample) =>
+        this.updateById(sample.sampleId, {
+          printedAt: new Date(),
+          printedBy: user?.sub,
+        })
+      )
+    )
+
     const mergedPdf = await PDFDocument.create()
     let sampleCounter = 0
 

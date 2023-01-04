@@ -110,5 +110,14 @@ export class Sample extends BaseSchema {
   isNgoaiGio: boolean
 
   @Prop()
-  note: string
+  note?: string
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: User.name,
+  })
+  printedBy?: string | User
+
+  @Prop()
+  printedAt?: Date
 }
