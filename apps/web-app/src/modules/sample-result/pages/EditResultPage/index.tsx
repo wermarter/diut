@@ -300,7 +300,7 @@ export default function EditResultPage() {
           alignItems: 'center',
         }}
       >
-        {sample?.note?.length > 0 && (
+        {sample?.note?.length! > 0 && (
           <Alert
             variant="outlined"
             severity="info"
