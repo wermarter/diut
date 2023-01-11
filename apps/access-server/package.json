@@ -34,6 +34,7 @@
     "cache-manager-redis-store": "^3.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "date-fns": "^2.29.3",
     "ejs": "^3.1.8",
     "helmet": "^6.0.0",
     "js-yaml": "^4.1.0",

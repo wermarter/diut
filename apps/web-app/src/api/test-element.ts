@@ -1,5 +1,6 @@
-import { PatientCategory, PrintForm } from '@diut/common'
+import { PatientCategory } from '@diut/common'
 import { apiSlice as api } from './slice'
+import { TestResponseDto } from './test'
 export const addTagTypes = ['test-elements', 'tests'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
@@ -87,30 +88,6 @@ export type TestElementDeleteByIdApiResponse =
 export type TestElementDeleteByIdApiArg = {
   id: string
 }
-export type TestCategoryResponseDto = {
-  _id: string
-  createdAt: string
-  updatedAt: string
-  name: string
-  index: number
-}
-export type BioProductResponseDto = {
-  _id: string
-  createdAt: string
-  updatedAt: string
-  name: string
-  index: number
-}
-export type TestResponseDto = {
-  _id: string
-  createdAt: string
-  updatedAt: string
-  category: TestCategoryResponseDto
-  bioProduct?: BioProductResponseDto
-  name: string
-  index: number
-  printForm: PrintForm
-}
 export type HighlightRuleDto = {
   category: PatientCategory
   defaultChecked: boolean
@@ -128,6 +105,7 @@ export type TestElementResponseDto = {
   test: TestResponseDto
   index: number
   printIndex: number
+  reportOrder: number
   isParent: boolean
   highlightRules: HighlightRuleDto[]
   unit?: string
@@ -149,6 +127,7 @@ export type CreateTestElementRequestDto = {
   test: string
   index: number
   printIndex: number
+  reportOrder: number
   isParent: boolean
   highlightRules: HighlightRuleDto[]
   unit?: string
@@ -158,6 +137,7 @@ export type UpdateTestElementRequestDto = {
   test?: string
   index?: number
   printIndex?: number
+  reportOrder?: number
   isParent?: boolean
   highlightRules?: HighlightRuleDto[]
   unit?: string

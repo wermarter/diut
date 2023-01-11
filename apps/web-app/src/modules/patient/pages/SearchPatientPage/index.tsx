@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Gender } from '@diut/common'
+import { DATETIME_FORMAT, Gender } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridActionsCellItem } from '@mui/x-data-grid'
@@ -187,7 +187,7 @@ export default function SearchPatientPage() {
               sortable: false,
               width: 100,
               valueGetter: ({ value }) => {
-                return format(new Date(value), 'dd/MM/yyyy HH:mm')
+                return format(new Date(value), DATETIME_FORMAT)
               },
             },
             {

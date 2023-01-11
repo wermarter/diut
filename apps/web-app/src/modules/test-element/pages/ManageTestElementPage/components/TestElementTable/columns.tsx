@@ -46,6 +46,14 @@ export function useTestElementColumns(
       editable: true,
     },
     {
+      field: 'reportOrder',
+      headerName: 'Thứ tự Sổ',
+      type: 'number',
+      minWidth: 70,
+      sortable: false,
+      editable: true,
+    },
+    {
       field: 'name',
       headerName: 'Tên thành phần',
       minWidth: 200,
