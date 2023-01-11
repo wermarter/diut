@@ -14,14 +14,19 @@ import {
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { ClassConstructor } from 'class-transformer'
 
-import { Permissions } from 'src/auth/auth.common'
-import { JwtAuthGuard, PermissionsGuard } from 'src/auth/guards'
+import { PermissionAllOf, PermissionAnyOf } from 'src/auth/auth.common'
+import {
+  JwtAuthGuard,
+  PermissionAllOfGuard,
+  PermissionAnyOfGuard,
+} from 'src/auth/guards'
 import { AppOpenApi, AppOpenApiOptions } from './openapi.decorator'
 import { Serialize } from './serialize.decorator'
 
 export interface AppRouteOptions {
   isPublic?: boolean
-  permissions?: Permission[]
+  permissionAnyOf?: Permission[]
+  permissionAllOf?: Permission[]
   path?: string
   method?: RequestMethod
   code?: HttpStatus
@@ -39,7 +44,8 @@ const methodDecorator = {
 
 export function AppRoute({
   isPublic = false,
-  permissions = [],
+  permissionAnyOf = [],
+  permissionAllOf = [],
   path = '/',
   method = RequestMethod.GET,
   code,
@@ -50,9 +56,14 @@ export function AppRoute({
 
   if (!isPublic) {
     decorators.push(UseGuards(JwtAuthGuard))
-    if (permissions.length > 0) {
-      decorators.push(UseGuards(PermissionsGuard))
-      decorators.push(Permissions(permissions))
+
+    if (permissionAnyOf.length > 0) {
+      decorators.push(UseGuards(PermissionAnyOfGuard))
+      decorators.push(PermissionAnyOf(permissionAnyOf))
+    }
+    if (permissionAllOf.length > 0) {
+      decorators.push(UseGuards(PermissionAllOfGuard))
+      decorators.push(PermissionAllOf(permissionAllOf))
     }
   }
 

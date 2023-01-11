@@ -11,7 +11,7 @@ export const patientRoutes = {
   },
 
   search: <AppRouteOptions>{
-    permissions: [Permission.ManageResult, Permission.ManageInfo],
+    permissionAnyOf: [Permission.ManageResult, Permission.ManageInfo],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -26,7 +26,7 @@ export const patientRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo],
+    permissionAnyOf: [Permission.ManageInfo],
     method: RequestMethod.POST,
     serialize: PatientResponseDto,
     openApi: {
@@ -40,7 +40,7 @@ export const patientRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo],
+    permissionAnyOf: [Permission.ManageInfo],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: PatientResponseDto,
@@ -54,7 +54,7 @@ export const patientRoutes = {
   },
 
   findById: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo, Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageInfo, Permission.ManageResult],
     path: ':id',
     method: RequestMethod.GET,
     serialize: PatientResponseDto,
@@ -68,7 +68,7 @@ export const patientRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: PatientResponseDto,

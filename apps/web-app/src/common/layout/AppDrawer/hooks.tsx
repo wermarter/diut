@@ -1,5 +1,7 @@
+import { checkPermissionAllOf, checkPermissionAnyOf } from '@diut/common'
+
 import { useTypedSelector, drawerItems, DrawerItem } from 'src/core'
-import { checkPermission, selectUserPermissions } from 'src/modules/auth'
+import { selectUserPermissions } from 'src/modules/auth'
 
 export function useDrawerItems() {
   const userPermissions = useTypedSelector(selectUserPermissions)
@@ -7,8 +9,14 @@ export function useDrawerItems() {
   const result = drawerItems.map((group) => {
     // Group permission
     if (
-      group.permission &&
-      !checkPermission(userPermissions, group.permission)
+      group.permissionAnyOf &&
+      !checkPermissionAnyOf(userPermissions, group.permissionAnyOf)
+    ) {
+      return null
+    }
+    if (
+      group.permissionAllOf &&
+      !checkPermissionAllOf(userPermissions, group.permissionAllOf)
     ) {
       return null
     }
@@ -16,8 +24,14 @@ export function useDrawerItems() {
     // Children permission
     let filteredChildren = group.children.filter((item) => {
       if (
-        item.permission &&
-        !checkPermission(userPermissions, item.permission)
+        item.permissionAnyOf &&
+        !checkPermissionAnyOf(userPermissions, item.permissionAnyOf)
+      ) {
+        return false
+      }
+      if (
+        item.permissionAllOf &&
+        !checkPermissionAllOf(userPermissions, item.permissionAllOf)
       ) {
         return false
       }

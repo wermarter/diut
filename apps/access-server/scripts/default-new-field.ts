@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { COLLECTION } from 'src/common/collections'
-import { TestCategory } from 'src/resources/test-categories'
+import { TestCategory } from 'src/resources/test-categories/test-category.schema'
 
 async function main() {
   const db = await mongoose.connect(process.env.PROD_MONGO_URI)

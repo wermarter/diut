@@ -5,7 +5,8 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { TestElement, TestElementService } from 'src/resources/test-elements'
+import { TestElement } from 'src/resources/test-elements/test-element.schema'
+import { TestElementService } from 'src/resources/test-elements/test-element.service'
 import { COLLECTION } from 'src/common/collections'
 
 async function main(srcTestId: string, destTestId: string) {

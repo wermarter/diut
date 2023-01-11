@@ -17,7 +17,8 @@ import { LoadingPage } from '../layout/LoadingPage'
 import { ErrorPage } from '../layout/ErrorPage'
 
 export type AdditionalRouteProps = {
-  permission?: Permission
+  permissionAnyOf?: Permission[]
+  permissionAllOf?: Permission[]
   isAuthenticated?: boolean
 }
 
@@ -37,8 +38,14 @@ export function parseRoutes(
   authInjectors?: RouteInjectors
 ): RouteObject[] {
   return routes.map((customRouteObject) => {
-    const { isAuthenticated, permission, children, loader, element } =
-      customRouteObject
+    const {
+      isAuthenticated,
+      permissionAnyOf,
+      permissionAllOf,
+      children,
+      loader,
+      element,
+    } = customRouteObject
 
     // Route element wrappers
     let customElement = _.clone(element)
@@ -54,10 +61,11 @@ export function parseRoutes(
     if (isAuthenticated) {
       injectors.push(makeInjector(authenticationInjector, {}))
     }
-    if (permission !== undefined) {
+    if (permissionAllOf !== undefined || permissionAnyOf !== undefined) {
       injectors.push(
         makeInjector(authorizationInjector, {
-          requestedPermission: permission,
+          permissionAllOf,
+          permissionAnyOf,
         })
       )
     }

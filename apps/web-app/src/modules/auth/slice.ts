@@ -1,4 +1,4 @@
-import { Permission } from '@diut/common'
+import { Permission, isAdmin } from '@diut/common'
 import {
   createAction,
   createSlice,
@@ -97,4 +97,4 @@ export const selectIsAuthenticated = (state: RootState) =>
 export const selectUserPermissions = (state: RootState) =>
   state.auth.permissions ?? []
 export const selectUserIsAdmin = (state: RootState) =>
-  state.auth.permissions?.includes(Permission.ManageCore)
+  isAdmin(state.auth.permissions)

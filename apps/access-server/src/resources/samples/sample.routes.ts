@@ -12,7 +12,7 @@ export const sampleRoutes = {
   },
 
   search: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo, Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageInfo, Permission.ManageResult],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -27,7 +27,7 @@ export const sampleRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo],
+    permissionAnyOf: [Permission.ManageInfo],
     method: RequestMethod.POST,
     serialize: SampleResponseDto,
     openApi: {
@@ -41,7 +41,7 @@ export const sampleRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo, Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageInfo, Permission.ManageResult],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: SampleResponseDto,
@@ -55,7 +55,7 @@ export const sampleRoutes = {
   },
 
   findById: <AppRouteOptions>{
-    permissions: [Permission.ManageInfo, Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageInfo, Permission.ManageResult],
     path: ':id',
     method: RequestMethod.GET,
     serialize: SampleResponseDto,
@@ -69,7 +69,7 @@ export const sampleRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: SampleResponseDto,
@@ -83,19 +83,19 @@ export const sampleRoutes = {
   },
 
   print: <AppRouteOptions>{
-    permissions: [Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageResult],
     path: 'print',
     method: RequestMethod.POST,
   },
 
   downloadFile: <AppRouteOptions>{
-    permissions: [Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageResult],
     path: 'download',
     method: RequestMethod.POST,
   },
 
   uploadFile: <AppRouteOptions>{
-    permissions: [Permission.ManageResult],
+    permissionAnyOf: [Permission.ManageResult],
     path: 'upload',
     method: RequestMethod.POST,
     serialize: SampleUploadResponseDto,

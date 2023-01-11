@@ -11,7 +11,7 @@ export const userRoutes = {
   },
 
   search: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -26,7 +26,7 @@ export const userRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
     serialize: UserResponseDto,
     openApi: {
@@ -70,7 +70,7 @@ export const userRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: UserResponseDto,

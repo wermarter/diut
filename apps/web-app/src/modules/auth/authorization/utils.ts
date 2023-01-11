@@ -1,35 +1,36 @@
-import { Permission } from '@diut/common'
+import {
+  Permission,
+  checkPermissionAnyOf,
+  checkPermissionAllOf,
+} from '@diut/common'
 
 import { appStore, useTypedSelector } from 'src/core'
 import { selectUserPermissions } from '../slice'
 
-export function isAdmin(userPermissions: Permission[]) {
-  return userPermissions.includes(Permission.ManageCore)
-}
-
-export function checkPermission(
-  userPermissions: Permission[],
-  requestedPermission: Permission
-) {
-  if (isAdmin(userPermissions)) {
-    return true
-  }
-
-  return (
-    userPermissions?.some(
-      (userPermission) => userPermission === requestedPermission
-    ) ?? false
-  )
-}
-
-export function useCheckPermission(requestedPermission: Permission) {
+export function useCheckPermissionAnyOf(requiredPermissions: Permission[]) {
   const userPermissions = useTypedSelector(selectUserPermissions)
 
-  return checkPermission(userPermissions, requestedPermission)
+  return checkPermissionAnyOf(userPermissions, requiredPermissions)
 }
 
-export function checkPermissionSync(requestedPermission: Permission) {
+export function useCheckPermissionAllOf(requiredPermissions: Permission[]) {
+  const userPermissions = useTypedSelector(selectUserPermissions)
+
+  return checkPermissionAllOf(userPermissions, requiredPermissions)
+}
+
+export function checkPermissionAnyOfSync(
+  requiredPermissions: Permission[] | undefined
+) {
   const userPermissions = selectUserPermissions(appStore.getState())
 
-  return checkPermission(userPermissions, requestedPermission)
+  return checkPermissionAnyOf(userPermissions, requiredPermissions)
+}
+
+export function checkPermissionAllOfSync(
+  requiredPermissions: Permission[] | undefined
+) {
+  const userPermissions = selectUserPermissions(appStore.getState())
+
+  return checkPermissionAllOf(userPermissions, requiredPermissions)
 }
