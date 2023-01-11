@@ -20,6 +20,10 @@ export const ReqUser = createParamDecorator(
   }
 )
 
-export const PERMISSIONS_KEY = 'auth.permissions'
-export const Permissions = (permissions: Permission[]) =>
-  SetMetadata(PERMISSIONS_KEY, permissions)
+export const PERMISSION_ANYOF_KEY = 'auth.permissions.anyOf'
+export const PERMISSION_ALLOF_KEY = 'auth.permissions.allOf'
+
+export const PermissionAnyOf = (permissions: Permission[]) =>
+  SetMetadata(PERMISSION_ANYOF_KEY, permissions)
+export const PermissionAllOf = (permissions: Permission[]) =>
+  SetMetadata(PERMISSION_ALLOF_KEY, permissions)

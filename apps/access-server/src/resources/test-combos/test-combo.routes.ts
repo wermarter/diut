@@ -25,7 +25,7 @@ export const testComboRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
     serialize: TestComboResponseDto,
     openApi: {
@@ -39,7 +39,7 @@ export const testComboRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: TestComboResponseDto,
@@ -66,7 +66,7 @@ export const testComboRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: TestComboResponseDto,

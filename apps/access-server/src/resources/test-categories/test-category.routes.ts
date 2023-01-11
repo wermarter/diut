@@ -25,7 +25,7 @@ export const testCategoryRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
     serialize: TestCategoryResponseDto,
     openApi: {
@@ -39,7 +39,7 @@ export const testCategoryRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: TestCategoryResponseDto,
@@ -66,7 +66,7 @@ export const testCategoryRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: TestCategoryResponseDto,

@@ -72,6 +72,9 @@ const PrintSelectPage = React.lazy(
 const TestReportPage = React.lazy(
   () => import('src/modules/report/pages/TestReportPage')
 )
+const ExportReportPage = React.lazy(
+  () => import('src/modules/report/pages/ExportReportPage')
+)
 const SearchPatientPage = React.lazy(
   () => import('src/modules/patient/pages/SearchPatientPage')
 )
@@ -96,7 +99,7 @@ export const appRoutes: CustomRouteObject[] = [
       },
       {
         path: 'manage',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
         element: <Outlet />,
         children: [
           {
@@ -150,7 +153,7 @@ export const appRoutes: CustomRouteObject[] = [
       // ------------------------------------------------------------------------
       {
         path: 'info',
-        permission: Permission.ManageInfo,
+        permissionAnyOf: [Permission.ManageInfo],
         element: <Outlet />,
         children: [
           {
@@ -172,7 +175,7 @@ export const appRoutes: CustomRouteObject[] = [
       },
       {
         path: 'result',
-        permission: Permission.ManageResult,
+        permissionAnyOf: [Permission.ManageResult],
         element: <Outlet />,
         children: [
           {
@@ -199,8 +202,23 @@ export const appRoutes: CustomRouteObject[] = [
           {
             path: 'test',
             element: <TestReportPage />,
-            permission: Permission.ViewTestReport,
+            permissionAnyOf: [Permission.ViewTestReport],
             loader: testReportPageLoader,
+          },
+          {
+            path: 'export',
+            element: <ExportReportPage />,
+            permissionAnyOf: [
+              Permission.ExportCTM,
+              Permission.ExportHCG,
+              Permission.ExportHIV,
+              Permission.ExportPapSmear,
+              Permission.ExportSinhHoa,
+              Permission.ExportTD,
+              Permission.ExportThinPrep,
+              Permission.ExportUrine10,
+              Permission.ExportSoiNhuom,
+            ],
           },
         ],
       },
@@ -210,6 +228,7 @@ export const appRoutes: CustomRouteObject[] = [
         children: [
           {
             path: 'search',
+            permissionAnyOf: [Permission.ManageResult],
             element: <SearchPatientPage />,
           },
         ],

@@ -283,7 +283,6 @@ export function SinglePrintDialog({
                 <LoadingButton
                   type="submit"
                   variant="contained"
-                  disabled={isSubmitting}
                   loading={isSubmitting}
                 >
                   In kết quả

@@ -1,4 +1,4 @@
-import { Permission } from '@diut/common'
+import { isAdmin, Permission } from '@diut/common'
 import { GridColumns, GridValueSetterParams } from '@mui/x-data-grid'
 
 import { UserResponseDto } from 'src/api/user'
@@ -26,55 +26,42 @@ export const userColumns: GridColumns<UserResponseDto> = [
     sortable: false,
     editable: true,
   },
-  {
-    field: 'permissionManageCore',
-    headerName: 'Admin',
-    width: 80,
-    sortable: false,
-    editable: true,
-    type: 'boolean',
-    valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ManageCore) ?? false
-    },
-    valueSetter: permissionValueSetter(Permission.ManageCore),
-  },
-  {
-    field: 'permissionManageInfo',
-    headerName: 'Hồ sơ',
-    width: 80,
-    sortable: false,
-    editable: true,
-    type: 'boolean',
-    valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ManageInfo) ?? false
-    },
-    valueSetter: permissionValueSetter(Permission.ManageInfo),
-  },
-  {
-    field: 'permissionManageResult',
-    headerName: 'Kết quả',
-    width: 80,
-    sortable: false,
-    editable: true,
-    type: 'boolean',
-    valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ManageResult) ?? false
-    },
-    valueSetter: permissionValueSetter(Permission.ManageResult),
-  },
-  {
-    field: 'permissionViewTestReport',
-    headerName: 'Sổ nhận mẫu',
-    width: 120,
-    sortable: false,
-    editable: true,
-    type: 'boolean',
-    valueGetter: ({ row }) => {
-      return row.permissions?.includes(Permission.ViewTestReport) ?? false
-    },
-    valueSetter: permissionValueSetter(Permission.ViewTestReport),
-  },
+  generatePermissionColumn(Permission.Admin, 'Admin'),
+  generatePermissionColumn(Permission.ManageInfo, 'Hồ sơ'),
+  generatePermissionColumn(Permission.ManageResult, 'Kết quả'),
+  generatePermissionColumn(Permission.ViewTestReport, 'Sổ nhận mẫu', 120),
+  generatePermissionColumn(Permission.ExportSinhHoa, '1.SinhHoa'),
+  generatePermissionColumn(Permission.ExportPapSmear, '2.PapSmear'),
+  generatePermissionColumn(Permission.ExportHCG, '3.hCG'),
+  generatePermissionColumn(Permission.ExportUrine10, '4.Urine10'),
+  generatePermissionColumn(Permission.ExportTD, '5.TDĐ'),
+  generatePermissionColumn(Permission.ExportCTM, '6.CTM'),
+  generatePermissionColumn(Permission.ExportHIV, '7.HIV'),
+  generatePermissionColumn(Permission.ExportSoiNhuom, '8.SoiNhuom'),
+  generatePermissionColumn(Permission.ExportThinPrep, '9.ThinPrep'),
 ]
+
+function generatePermissionColumn(
+  permission: Permission,
+  label: string,
+  width = 80
+): typeof userColumns[number] {
+  return {
+    field: permission,
+    headerName: label,
+    width,
+    sortable: false,
+    editable: true,
+    type: 'boolean',
+    valueGetter: ({ row }) => {
+      if (isAdmin(row.permissions)) {
+        return true
+      }
+      return row.permissions?.includes(permission) ?? false
+    },
+    valueSetter: permissionValueSetter(permission),
+  }
+}
 
 function permissionValueSetter(permission: Permission) {
   return ({ value, row }: GridValueSetterParams) => {

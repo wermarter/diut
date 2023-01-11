@@ -34,7 +34,7 @@ export class CreateUserRequestDto {
   phoneNumber?: string
 
   @ApiProperty({
-    example: [Permission.ManageCore],
+    example: [Permission[0]],
     enum: Permission,
     isArray: true,
   })

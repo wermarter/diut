@@ -36,7 +36,7 @@ export async function bootstrap(rootModule: unknown) {
   const isDevelopment = config.get('NODE_ENV') === NodeEnv.Development
 
   // app.use(helmet())
-  app.enableCors()
+  app.enableCors({ exposedHeaders: 'Content-Disposition' })
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
     config.get(HTTP_SERVER_CONFIG_NAME)

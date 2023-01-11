@@ -35,7 +35,7 @@ export class UserResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
-    example: [Permission.ManageCore],
+    example: [Permission[0]],
     enum: Permission,
     enumName: 'Permission',
     isArray: true,

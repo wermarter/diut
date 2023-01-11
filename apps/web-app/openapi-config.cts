@@ -19,6 +19,7 @@ const ENDPOINTS = [
   // 'test combo',
   // 'app setting',
   // 'print form',
+  // 'report',
 ]
 const outputFiles = {}
 

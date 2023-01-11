@@ -25,7 +25,7 @@ export const doctorRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
     serialize: DoctorResponseDto,
     openApi: {
@@ -39,7 +39,7 @@ export const doctorRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: DoctorResponseDto,
@@ -66,7 +66,7 @@ export const doctorRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: DoctorResponseDto,

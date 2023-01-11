@@ -4,6 +4,7 @@ import { IndicationModule } from './indications/indication.module'
 import { PatientTypeModule } from './patient-types/patient-type.module'
 import { PatientModule } from './patients/patient.module'
 import { PrintFormModule } from './print-forms/print-form.module'
+import { ReportModule } from './reports/report.module'
 import { SampleTypeModule } from './sample-types/sample-type.module'
 import { SampleModule } from './samples/sample.module'
 import { TestCategoryModule } from './test-categories/test-category.module'
@@ -26,4 +27,5 @@ export const resourceModules = [
   PatientModule,
   SampleModule,
   PrintFormModule,
+  ReportModule,
 ]

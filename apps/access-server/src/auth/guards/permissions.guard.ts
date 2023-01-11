@@ -1,31 +1,45 @@
 import { Reflector } from '@nestjs/core'
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
-import { Permission } from '@diut/common'
+import {
+  checkPermissionAllOf,
+  checkPermissionAnyOf,
+  Permission,
+} from '@diut/common'
 
-import { AuthTokenPayload, PERMISSIONS_KEY } from '../auth.common'
+import {
+  AuthTokenPayload,
+  PERMISSION_ANYOF_KEY,
+  PERMISSION_ALLOF_KEY,
+} from '../auth.common'
 
 @Injectable()
-export class PermissionsGuard implements CanActivate {
+export class PermissionAnyOfGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest()
     const user = request.user as AuthTokenPayload
-    if (user.permissions.includes(Permission.ManageCore)) {
-      return true
-    }
-
     const requiredPermissions = this.reflector.getAllAndOverride<Permission[]>(
-      PERMISSIONS_KEY,
+      PERMISSION_ANYOF_KEY,
       [context.getHandler(), context.getClass()]
     )
 
-    if (!requiredPermissions) {
-      return true
-    }
+    return checkPermissionAnyOf(user.permissions, requiredPermissions)
+  }
+}
 
-    return user.permissions.some((userPermission) =>
-      requiredPermissions.includes(userPermission)
+@Injectable()
+export class PermissionAllOfGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest()
+    const user = request.user as AuthTokenPayload
+    const requiredPermissions = this.reflector.getAllAndOverride<Permission[]>(
+      PERMISSION_ALLOF_KEY,
+      [context.getHandler(), context.getClass()]
     )
+
+    return checkPermissionAllOf(user.permissions, requiredPermissions)
   }
 }

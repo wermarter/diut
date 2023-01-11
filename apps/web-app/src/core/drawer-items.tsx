@@ -19,17 +19,20 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import ListAltIcon from '@mui/icons-material/ListAlt'
 import RuleIcon from '@mui/icons-material/Rule'
 import PersonSearchIcon from '@mui/icons-material/PersonSearch'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 export interface MenuItem {
   icon: ReactElement
   label: string
   destination: To
-  permission?: Permission
+  permissionAnyOf?: Permission[]
+  permissionAllOf?: Permission[]
 }
 
 export interface DrawerItem {
   title: string
-  permission?: Permission
+  permissionAnyOf?: Permission[]
+  permissionAllOf?: Permission[]
   children: MenuItem[]
 }
 
@@ -46,37 +49,53 @@ export const drawerItems: DrawerItem[] = [
         icon: <AirlineSeatReclineNormalIcon />,
         label: 'Nhập TT',
         destination: 'info',
-        permission: Permission.ManageInfo,
+        permissionAnyOf: [Permission.ManageInfo],
       },
       {
         icon: <FaceRetouchingNaturalIcon />,
         label: 'Xác nhận TT',
         destination: 'info/confirm',
-        permission: Permission.ManageInfo,
+        permissionAnyOf: [Permission.ManageInfo],
       },
       {
         icon: <AppRegistrationIcon />,
         label: 'Nhập KQ',
         destination: 'result',
-        permission: Permission.ManageResult,
+        permissionAnyOf: [Permission.ManageResult],
       },
       {
         icon: <PrintIcon />,
         label: 'In KQ',
         destination: 'result/print',
-        permission: Permission.ManageResult,
+        permissionAnyOf: [Permission.ManageResult],
       },
       {
         icon: <RuleIcon />,
         label: 'Sổ nhận mẫu',
         destination: 'report/test',
-        permission: Permission.ViewTestReport,
+        permissionAnyOf: [Permission.ViewTestReport],
       },
       {
         icon: <PersonSearchIcon />,
         label: 'Tìm kiếm',
         destination: 'patient/search',
-        permission: Permission.ManageResult,
+        permissionAnyOf: [Permission.ManageResult],
+      },
+      {
+        icon: <FileDownloadIcon />,
+        label: 'Xuất báo cáo',
+        destination: 'report/export',
+        permissionAnyOf: [
+          Permission.ExportCTM,
+          Permission.ExportHCG,
+          Permission.ExportHIV,
+          Permission.ExportPapSmear,
+          Permission.ExportSinhHoa,
+          Permission.ExportTD,
+          Permission.ExportThinPrep,
+          Permission.ExportUrine10,
+          Permission.ExportSoiNhuom,
+        ],
       },
     ],
   },
@@ -87,67 +106,67 @@ export const drawerItems: DrawerItem[] = [
         icon: <ManageAccountsIcon />,
         label: 'Người dùng',
         destination: 'manage/users',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <AccountBoxIcon />,
         label: 'Bác sĩ',
         destination: 'manage/doctors',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <WorkIcon />,
         label: 'Đối tượng',
         destination: 'manage/patient-types',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <MedicalInformationIcon />,
         label: 'Chẩn đoán',
         destination: 'manage/indications',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <CoronavirusIcon />,
         label: 'Sinh phẩm',
         destination: 'manage/bio-products',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <VaccinesIcon />,
         label: 'Loại mẫu',
         destination: 'manage/sample-types',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <WorkspacesIcon />,
         label: 'Nhóm XN',
         destination: 'manage/test-categories',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <BiotechIcon />,
         label: 'Tên XN',
         destination: 'manage/tests',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <BloodtypeIcon />,
         label: 'Thành phần XN',
         destination: 'manage/test-elements',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <Diversity2Icon />,
         label: 'Bộ xét nghiệm',
         destination: 'manage/test-combos',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
       {
         icon: <ListAltIcon />,
         label: 'Form In',
         destination: 'manage/print-forms',
-        permission: Permission.ManageCore,
+        permissionAnyOf: [Permission.Admin],
       },
     ],
   },

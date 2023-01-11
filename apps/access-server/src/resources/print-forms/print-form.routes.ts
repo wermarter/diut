@@ -25,7 +25,7 @@ export const printFormRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
     serialize: PrintFormResponseDto,
     openApi: {
@@ -39,7 +39,7 @@ export const printFormRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: PrintFormResponseDto,
@@ -66,7 +66,7 @@ export const printFormRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: PrintFormResponseDto,

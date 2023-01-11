@@ -54,13 +54,13 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   private populate(
     query: any,
     populates?: Array<{
-      collection: string
+      path: keyof Entity
       fields?: Array<string>
     }>
   ) {
     populates.forEach((populate) => {
-      if (populate.collection) {
-        let populateObj = { path: populate.collection }
+      if (populate.path) {
+        let populateObj = { path: populate.path }
 
         if (populate.fields) {
           populateObj['select'] = populate.fields.join(' ')
@@ -78,7 +78,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     sort?: { [key: string]: SortOrder | { $meta: 'textScore' } }
     selectedFields?: Array<string>
     populates?: Array<{
-      collection: string
+      path: keyof Entity
       fields?: Array<string>
     }>
   }) {

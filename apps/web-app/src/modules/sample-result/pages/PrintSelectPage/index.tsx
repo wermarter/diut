@@ -114,6 +114,7 @@ export default function PrintSelectPage() {
       },
       { replace: true }
     )
+
     return setFilterObj((obj) => ({
       ...obj,
       filter: {

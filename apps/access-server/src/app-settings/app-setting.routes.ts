@@ -10,18 +10,18 @@ export const appSettingRoutes = {
 
   setSetting: <AppRouteOptions>{
     path: 'set',
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
   },
 
   getSetting: <AppRouteOptions>{
     path: 'get',
-    permissions: [Permission.ManageCore, Permission.ManageResult],
+    permissionAnyOf: [Permission.Admin, Permission.ManageResult],
     method: RequestMethod.POST,
   },
 
   deleteSetting: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.DELETE,
   },
 }

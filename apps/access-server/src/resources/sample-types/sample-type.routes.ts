@@ -25,7 +25,7 @@ export const sampleTypeRoutes = {
   },
 
   create: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     method: RequestMethod.POST,
     serialize: SampleTypeResponseDto,
     openApi: {
@@ -39,7 +39,7 @@ export const sampleTypeRoutes = {
   },
 
   updateById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: SampleTypeResponseDto,
@@ -66,7 +66,7 @@ export const sampleTypeRoutes = {
   },
 
   deleteById: <AppRouteOptions>{
-    permissions: [Permission.ManageCore],
+    permissionAnyOf: [Permission.Admin],
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: SampleTypeResponseDto,

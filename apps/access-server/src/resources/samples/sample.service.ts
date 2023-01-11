@@ -12,7 +12,7 @@ import { Model } from 'mongoose'
 import { join } from 'path'
 import * as ejs from 'ejs'
 import * as puppeteer from 'puppeteer'
-import { NodeEnv, PatientCategory, Permission, PrintForm } from '@diut/common'
+import { isAdmin, NodeEnv, PatientCategory, PrintForm } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq } from 'lodash'
 
@@ -174,7 +174,7 @@ export class SampleService
     user: AuthTokenPayload
   ) {
     const userId = user.sub
-    const userIsAdmin = user.permissions.includes(Permission.ManageCore)
+    const userIsAdmin = isAdmin(user.permissions)
     const sample = await this.findById(id)
 
     let { resultBy } = body
