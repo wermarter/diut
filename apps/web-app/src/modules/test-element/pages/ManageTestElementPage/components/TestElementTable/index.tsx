@@ -131,6 +131,7 @@ export function TestElementTable() {
               name: item.name,
               index: item.index,
               printIndex: item.printIndex,
+              reportOrder: item.reportOrder,
               test: tests.find((test) => test.name === (item.test as any))
                 ?._id!,
               isParent: item.isParent,
@@ -146,6 +147,7 @@ export function TestElementTable() {
               name: newItem.name,
               index: newItem.index,
               printIndex: newItem.printIndex,
+              reportOrder: newItem.reportOrder,
               test: tests.find((test) => test.name === (newItem.test as any))
                 ?._id,
               isParent: newItem.isParent,

@@ -1,3 +1,4 @@
+import { Permission } from '@diut/common'
 import { RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
@@ -8,7 +9,7 @@ export const reportRoutes = {
   },
 
   exportSoiNhuom: <AppRouteOptions>{
-    isPublic: true,
+    permissionAnyOf: [Permission.ExportSoiNhuom],
     path: 'export-soi-nhuom',
     method: RequestMethod.POST,
   },

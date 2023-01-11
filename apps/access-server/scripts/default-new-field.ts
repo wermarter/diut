@@ -6,19 +6,19 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { COLLECTION } from 'src/common/collections'
-import { TestCategory } from 'src/resources/test-categories/test-category.schema'
+import { TestElement } from 'src/resources/test-elements/test-element.schema'
 
 async function main() {
   const db = await mongoose.connect(process.env.PROD_MONGO_URI)
   console.log('MongoDB connected !')
 
   const model = mongoose.model(
-    COLLECTION.TEST_CATEGORY,
-    SchemaFactory.createForClass(TestCategory)
+    COLLECTION.TEST_ELEMENT,
+    SchemaFactory.createForClass(TestElement)
   )
 
-  const filterQuery: mongoose.FilterQuery<TestCategory> = {
-    reportIndex: { $exists: false },
+  const filterQuery: mongoose.FilterQuery<TestElement> = {
+    reportOrder: { $exists: false },
   }
 
   const total = await model.countDocuments(filterQuery)
@@ -32,7 +32,7 @@ async function main() {
       { _id: doc._id },
       {
         $set: {
-          reportIndex: doc.index,
+          reportOrder: doc.printIndex,
         },
       }
     )

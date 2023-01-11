@@ -1,7 +1,8 @@
 import { GridColumns } from '@mui/x-data-grid'
 
+import { BioProductResponseDto } from 'src/api/bio-product'
 import { PrintFormResponseDto } from 'src/api/print-form'
-import { BioProductResponseDto, TestResponseDto } from 'src/api/test'
+import { TestResponseDto } from 'src/api/test'
 import { TestCategoryResponseDto } from 'src/api/test-category'
 
 export const NO_BIOPRODUCT = 'NO_BIOPRODUCT'

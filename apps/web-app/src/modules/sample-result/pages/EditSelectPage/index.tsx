@@ -3,7 +3,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { Gender } from '@diut/common'
+import { DATETIME_FORMAT, Gender } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 
@@ -318,7 +318,7 @@ export default function EditSelectPage() {
               width: 100,
               sortable: false,
               valueGetter: ({ value }) => {
-                return format(new Date(value), 'dd/MM/yyyy HH:mm')
+                return format(new Date(value), DATETIME_FORMAT)
               },
             },
             {

@@ -1,5 +1,7 @@
 import { PrintForm } from '@diut/common'
+import { BioProductResponseDto } from './bio-product'
 import { apiSlice as api } from './slice'
+import { TestCategoryResponseDto } from './test-category'
 export const addTagTypes = ['tests', 'test-categories', 'bio-products'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
@@ -72,21 +74,6 @@ export type TestFindByIdApiArg = {
 export type TestDeleteByIdApiResponse = /** status 200  */ TestResponseDto
 export type TestDeleteByIdApiArg = {
   id: string
-}
-export type TestCategoryResponseDto = {
-  _id: string
-  createdAt: string
-  updatedAt: string
-  name: string
-  index: number
-  reportIndex: number
-}
-export type BioProductResponseDto = {
-  _id: string
-  createdAt: string
-  updatedAt: string
-  name: string
-  index: number
 }
 export type TestResponseDto = {
   _id: string
