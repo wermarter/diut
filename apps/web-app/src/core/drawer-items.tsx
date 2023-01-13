@@ -95,6 +95,7 @@ export const drawerItems: DrawerItem[] = [
           Permission.ExportThinPrep,
           Permission.ExportUrine10,
           Permission.ExportSoiNhuom,
+          Permission.ExportTraKQ,
         ],
       },
     ],

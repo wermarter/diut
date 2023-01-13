@@ -21,6 +21,20 @@ const injectedRtkApi = api
           }),
         }),
       }),
+      reportExportTraKq: build.mutation<
+        ReportExportTraKqApiResponse,
+        ReportExportTraKqApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/reports/export-tra-kq`,
+          method: 'POST',
+          body: queryArg.exportTraKqRequestDto,
+          cache: 'no-cache',
+          responseHandler: fileDownloadReponseHandler({
+            defaultFilename: 'danh sách trả kết quả.xlsx',
+          }),
+        }),
+      }),
     }),
     overrideExisting: false,
   })
@@ -29,8 +43,18 @@ export type ReportExportSoiNhuomApiResponse = unknown
 export type ReportExportSoiNhuomApiArg = {
   exportSoiNhuomRequestDto: ExportSoiNhuomRequestDto
 }
+export type ReportExportTraKqApiResponse = unknown
+export type ReportExportTraKqApiArg = {
+  exportTraKqRequestDto: ExportTraKqRequestDto
+}
 export type ExportSoiNhuomRequestDto = {
   startDate: string
   endDate: string
 }
-export const { useReportExportSoiNhuomMutation } = injectedRtkApi
+export type ExportTraKqRequestDto = {
+  startDate: string
+  endDate: string
+  testIds: string[]
+}
+export const { useReportExportSoiNhuomMutation, useReportExportTraKqMutation } =
+  injectedRtkApi

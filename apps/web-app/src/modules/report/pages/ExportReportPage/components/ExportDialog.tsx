@@ -60,6 +60,7 @@ export function ExportDialog({
       onClose={handleClose}
       TransitionComponent={Transition}
       keepMounted
+      fullWidth
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent dividers>{children}</DialogContent>

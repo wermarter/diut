@@ -1,4 +1,4 @@
-import { Autocomplete, TextField as MuiTextField } from '@mui/material'
+import { Autocomplete, AutocompleteProps, TextField } from '@mui/material'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
 export type FormAutocompleteProps<
@@ -14,6 +14,12 @@ export type FormAutocompleteProps<
   getOptionValue: (option: OptionType) => unknown
 
   disableError?: boolean
+  groupBy?: AutocompleteProps<
+    OptionType,
+    undefined,
+    undefined,
+    undefined
+  >['groupBy']
 }
 
 export function FormAutocomplete<
@@ -26,6 +32,7 @@ export function FormAutocomplete<
   options,
   getOptionLabel,
   getOptionValue,
+  groupBy,
   disableError = false,
 }: FormAutocompleteProps<TFieldValues, OptionType>) {
   return (
@@ -42,8 +49,10 @@ export function FormAutocomplete<
 
         return (
           <Autocomplete
+            fullWidth
             multiple
             options={options}
+            groupBy={groupBy}
             getOptionLabel={getOptionLabel}
             onChange={(event, value, reason) => {
               onChange(value.map(getOptionValue))
@@ -53,7 +62,7 @@ export function FormAutocomplete<
             )}
             filterSelectedOptions
             renderInput={(params) => (
-              <MuiTextField
+              <TextField
                 {...params}
                 {...errorProps}
                 inputRef={ref}

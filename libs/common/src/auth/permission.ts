@@ -16,6 +16,8 @@ export enum Permission {
   ExportCTM = 'ExportCTM',
   ExportHIV = 'ExportHIV',
   ExportSoiNhuom = 'ExportSoiNhuom',
+  //
+  ExportTraKQ = 'ExportTraKQ',
 }
 
 export function isAdmin(userPermissions: Permission[] | undefined) {

@@ -13,4 +13,10 @@ export const reportRoutes = {
     path: 'export-soi-nhuom',
     method: RequestMethod.POST,
   },
+
+  exportTraKQ: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportTraKQ],
+    path: 'export-tra-kq',
+    method: RequestMethod.POST,
+  },
 }

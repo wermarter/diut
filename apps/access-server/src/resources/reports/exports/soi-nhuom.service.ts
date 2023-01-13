@@ -12,6 +12,8 @@ import { TestElementService } from 'src/resources/test-elements/test-element.ser
 import { ExportSoiNhuomRequestDto } from '../dtos/export-soi-nhuom.request-dto'
 import { Patient } from 'src/resources/patients/patient.schema'
 
+const CLUE_CELL_POSITION = 2
+
 @Injectable()
 export class SoiNhuomService {
   private logger: Logger
@@ -44,7 +46,6 @@ export class SoiNhuomService {
         },
       })
     ).items
-
     const samples = (
       await this.sampleService.search({
         filter: {
@@ -72,17 +73,26 @@ export class SoiNhuomService {
       })
     ).items
 
+    // init summation values
+    const irregularCounters: { [elementId: string]: number } = {}
+    testElementsHT.forEach(({ _id }) => {
+      irregularCounters[_id] = 0
+    })
+    const summaryRow = ['', '', '', '']
+
+    // header
     const aoaData = [
       [
         'STT',
-        'TG nhận mẫu',
-        'Mã XN',
-        'Họ tên',
-        'Năm sinh',
+        'Ngày/Giờ XN',
+        'HỌ TÊN',
+        'NS',
         ...testElementsHT.map(({ name }) => name),
+        'ID XN',
       ],
     ]
 
+    // test element result
     aoaData.push(
       ...samples.map((sample, sampleIndex) => {
         const patient = sample.patientId as Patient
@@ -96,7 +106,7 @@ export class SoiNhuomService {
         return [
           (sampleIndex + 1).toString(),
           format(sample.infoAt, DATETIME_FORMAT),
-          sample.sampleId,
+          // sample.infoAt as unknown as string,
           patient.name,
           patient.birthYear.toString(),
           ...testElementsHT.map(({ _id }, elementIndex) => {
@@ -104,15 +114,18 @@ export class SoiNhuomService {
               const elementResult = testResultElements?.find(
                 ({ id }) => id === _id.toString()
               )
+              if (elementResult.isHighlighted === true) {
+                irregularCounters[_id]++
+              }
 
               return elementResult?.value ?? ''
             } else {
-              if (elementIndex === 5) {
+              if (elementIndex === CLUE_CELL_POSITION) {
                 return ''
               }
 
               let translatedIndex = elementIndex
-              if (elementIndex > 2) {
+              if (elementIndex > CLUE_CELL_POSITION) {
                 translatedIndex = elementIndex - 1
               }
 
@@ -120,13 +133,25 @@ export class SoiNhuomService {
                 ({ id }) =>
                   id === testElementsDM[translatedIndex]._id.toString()
               )
+              if (elementResult.isHighlighted === true) {
+                irregularCounters[_id]++
+              }
 
               return elementResult?.value ?? ''
             }
           }),
+          sample.sampleId,
         ]
       })
     )
+
+    // compile summary row
+    summaryRow.push(
+      ...Object.keys(irregularCounters).map((key) =>
+        irregularCounters[key].toString()
+      )
+    )
+    aoaData.push([], summaryRow)
 
     return aoaData
   }
@@ -134,8 +159,6 @@ export class SoiNhuomService {
   async exportWorksheet(body: ExportSoiNhuomRequestDto) {
     const aoaData = await this.prepareAOA(body)
     const worksheet = xlsx.utils.aoa_to_sheet(aoaData)
-
-    // TODO: Styling
 
     return worksheet
   }
