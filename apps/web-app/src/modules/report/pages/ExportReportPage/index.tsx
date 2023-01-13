@@ -1,14 +1,18 @@
-import { checkPermissionAnyOf, Permission } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { ExportCTM } from './components/ExportCTM'
+import { ExportHCG } from './components/ExportHCG'
+import { ExportHIV } from './components/ExportHIV'
+import { ExportPapSmear } from './components/ExportPapSmear'
+import { ExportSinhHoa } from './components/ExportSinhHoa'
 
-import { useTypedSelector } from 'src/core'
-import { selectUserPermissions } from 'src/modules/auth'
 import { ExportSoiNhuom } from './components/ExportSoiNhuom'
+import { ExportTD } from './components/ExportTD'
+import { ExportThinPrep } from './components/ExportThinPrep'
+import { ExportTraKQ } from './components/ExportTraKQ'
+import { ExportUrine10 } from './components/ExportUrine10'
 
 export default function ExportReportPage() {
-  const userPermissions = useTypedSelector(selectUserPermissions)
-
   return (
     <Box
       sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
@@ -16,51 +20,36 @@ export default function ExportReportPage() {
       <Paper variant="outlined" sx={{ p: 2 }}>
         <Grid container spacing={2}>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportSoiNhuom />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportSinhHoa />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportTD />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportUrine10 />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportHCG />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportPapSmear />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportThinPrep />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportHIV />
           </Grid>
           <Grid xs={4}>
-            {checkPermissionAnyOf(userPermissions, [
-              Permission.ExportSoiNhuom,
-            ]) && <ExportSoiNhuom />}
+            <ExportCTM />
           </Grid>
         </Grid>
+      </Paper>
+      <Paper variant="outlined" sx={{ p: 2, my: 2 }}>
+        <ExportTraKQ />
       </Paper>
     </Box>
   )

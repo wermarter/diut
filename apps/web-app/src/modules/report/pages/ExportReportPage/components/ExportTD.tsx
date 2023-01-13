@@ -20,7 +20,7 @@ const schema = z.object({
 const formResolver = zodResolver(schema)
 type FormSchema = z.infer<typeof schema>
 
-export function ExportSoiNhuom() {
+export function ExportTD() {
   const userPermissions = useTypedSelector(selectUserPermissions)
   const [openDialog, setOpenDialog] = useState(false)
   const [exportSoiNhuom, { isLoading }] = useReportExportSoiNhuomMutation()
@@ -41,14 +41,12 @@ export function ExportSoiNhuom() {
         onClick={() => {
           setOpenDialog(true)
         }}
-        disabled={
-          !checkPermissionAnyOf(userPermissions, [Permission.ExportSoiNhuom])
-        }
+        disabled={!checkPermissionAnyOf(userPermissions, [Permission.ExportTD])}
       >
-        soi nhuộm
+        TDĐ
       </Button>
       <ExportDialog
-        title="Sổ Soi nhuộm"
+        title="Sổ TDĐ"
         open={openDialog}
         isLoading={isLoading}
         onClose={() => setOpenDialog(false)}

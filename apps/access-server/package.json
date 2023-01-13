@@ -14,7 +14,7 @@
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "tsc",
+    "lint": "tsc && rimraf dist",
     "g:resource": "ts-node generators/resource"
   },
   "dependencies": {
