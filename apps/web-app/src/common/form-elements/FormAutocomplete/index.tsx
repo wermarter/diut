@@ -1,4 +1,10 @@
-import { Autocomplete, AutocompleteProps, TextField } from '@mui/material'
+import {
+  Autocomplete,
+  AutocompleteProps,
+  Popper,
+  styled,
+  TextField,
+} from '@mui/material'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
 export type FormAutocompleteProps<
@@ -53,6 +59,7 @@ export function FormAutocomplete<
             multiple
             options={options}
             groupBy={groupBy}
+            PopperComponent={StyledPopper}
             getOptionLabel={getOptionLabel}
             onChange={(event, value, reason) => {
               onChange(value.map(getOptionValue))
@@ -78,3 +85,11 @@ export function FormAutocomplete<
     />
   )
 }
+
+const StyledPopper = styled(Popper)(({ theme }) => ({
+  '& .MuiAutocomplete-groupLabel': {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+  },
+}))

@@ -9,4 +9,10 @@ export class ExportTraKQRequestDto extends DateRangeDto {
   })
   @IsString({ each: true })
   testIds: string[]
+
+  @ApiProperty({
+    example: ['634180269de1f07e47bbf494'],
+  })
+  @IsString({ each: true })
+  testComboIds: string[]
 }
