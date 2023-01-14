@@ -16,6 +16,7 @@ import { manageTestPageLoader } from 'src/modules/test/pages/ManageTestPage/load
 import { manageTestElemenentPageLoader } from 'src/modules/test-element/pages/ManageTestElementPage/loader'
 import { printSelectPageLoader } from 'src/modules/sample-result/pages/PrintSelectPage/loader'
 import { testReportPageLoader } from 'src/modules/report/pages/TestReportPage/loader'
+import { exportReportPageLoader } from 'src/modules/report/pages/ExportReportPage/loader'
 
 //#region Lazy import pages
 const ManageDoctorPage = React.lazy(
@@ -208,6 +209,7 @@ export const appRoutes: CustomRouteObject[] = [
           {
             path: 'export',
             element: <ExportReportPage />,
+            loader: exportReportPageLoader,
             permissionAnyOf: [
               Permission.ExportCTM,
               Permission.ExportHCG,

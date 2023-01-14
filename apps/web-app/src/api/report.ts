@@ -55,6 +55,7 @@ export type ExportTraKqRequestDto = {
   startDate: string
   endDate: string
   testIds: string[]
+  testComboIds: string[]
 }
 export const { useReportExportSoiNhuomMutation, useReportExportTraKqMutation } =
   injectedRtkApi

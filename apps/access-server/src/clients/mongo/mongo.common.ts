@@ -47,6 +47,9 @@ export const baseSchemaOptions: SchemaOptions = {
 }
 
 export class BaseSchema {
+  /**
+   * Beware, it is actually ObjectId, add .toString() before string comparision
+   */
   _id: string
 
   createdAt: Date

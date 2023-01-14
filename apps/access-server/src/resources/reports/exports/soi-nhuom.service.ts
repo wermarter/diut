@@ -5,12 +5,12 @@ import {
 } from '@diut/common'
 import { Injectable, Logger } from '@nestjs/common'
 import * as xlsx from 'xlsx'
-import { format } from 'date-fns'
 
 import { SampleService } from 'src/resources/samples/sample.service'
 import { TestElementService } from 'src/resources/test-elements/test-element.service'
 import { ExportSoiNhuomRequestDto } from '../dtos/export-soi-nhuom.request-dto'
 import { Patient } from 'src/resources/patients/patient.schema'
+import { cringySort } from './utils'
 
 const CLUE_CELL_POSITION = 2
 
@@ -46,32 +46,34 @@ export class SoiNhuomService {
         },
       })
     ).items
-    const samples = (
-      await this.sampleService.search({
-        filter: {
-          infoAt: {
-            $gte: body.startDate,
-            $lte: body.endDate,
-          },
-          results: {
-            $elemMatch: {
-              testId: {
-                $in: [ID_TEST_SOINHUOM_HT, ID_TEST_SOINHUOM_DM],
+    const samples = cringySort(
+      (
+        await this.sampleService.search({
+          filter: {
+            infoAt: {
+              $gte: body.startDate,
+              $lte: body.endDate,
+            },
+            results: {
+              $elemMatch: {
+                testId: {
+                  $in: [ID_TEST_SOINHUOM_HT, ID_TEST_SOINHUOM_DM],
+                },
               },
             },
           },
-        },
-        sort: {
-          infoAt: 1,
-          sampleId: 1,
-        },
-        populates: [
-          {
-            path: 'patientId',
+          sort: {
+            infoAt: 1,
+            sampleId: 1,
           },
-        ],
-      })
-    ).items
+          populates: [
+            {
+              path: 'patientId',
+            },
+          ],
+        })
+      ).items
+    )
 
     // init summation values
     const irregularCounters: { [elementId: string]: number } = {}
@@ -81,14 +83,14 @@ export class SoiNhuomService {
     const summaryRow = ['', '', '', '']
 
     // header
-    const aoaData = [
+    const aoaData: Array<Array<string | Date>> = [
       [
         'STT',
         'Ngày/Giờ XN',
+        'ID XN',
         'HỌ TÊN',
         'NS',
         ...testElementsHT.map(({ name }) => name),
-        'ID XN',
       ],
     ]
 
@@ -105,8 +107,8 @@ export class SoiNhuomService {
 
         return [
           (sampleIndex + 1).toString(),
-          format(sample.infoAt, DATETIME_FORMAT),
-          // sample.infoAt as unknown as string,
+          sample.infoAt,
+          sample.sampleId,
           patient.name,
           patient.birthYear.toString(),
           ...testElementsHT.map(({ _id }, elementIndex) => {
@@ -114,7 +116,7 @@ export class SoiNhuomService {
               const elementResult = testResultElements?.find(
                 ({ id }) => id === _id.toString()
               )
-              if (elementResult.isHighlighted === true) {
+              if (elementResult?.isHighlighted === true) {
                 irregularCounters[_id]++
               }
 
@@ -140,7 +142,6 @@ export class SoiNhuomService {
               return elementResult?.value ?? ''
             }
           }),
-          sample.sampleId,
         ]
       })
     )
@@ -158,7 +159,9 @@ export class SoiNhuomService {
 
   async exportWorksheet(body: ExportSoiNhuomRequestDto) {
     const aoaData = await this.prepareAOA(body)
-    const worksheet = xlsx.utils.aoa_to_sheet(aoaData)
+    const worksheet = xlsx.utils.aoa_to_sheet(aoaData, {
+      dateNF: DATETIME_FORMAT,
+    })
 
     return worksheet
   }

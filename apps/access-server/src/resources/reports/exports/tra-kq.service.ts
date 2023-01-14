@@ -1,12 +1,14 @@
 import { DATEONLY_FORMAT } from '@diut/common'
 import { Injectable, Logger } from '@nestjs/common'
 import * as xlsx from 'xlsx'
-import { format } from 'date-fns'
 
 import { SampleService } from 'src/resources/samples/sample.service'
 import { TestService } from 'src/resources/tests/test.service'
 import { Patient } from 'src/resources/patients/patient.schema'
 import { ExportTraKQRequestDto } from '../dtos/export-tra-kq.request-dto'
+import { cringySort } from './utils'
+import { TestCombo } from 'src/resources/test-combos/test-combo.schema'
+import { TestComboService } from 'src/resources/test-combos/test-combo.service'
 
 @Injectable()
 export class TraKQService {
@@ -14,44 +16,63 @@ export class TraKQService {
 
   constructor(
     private sampleService: SampleService,
-    private testService: TestService
+    private testService: TestService,
+    private testComboService: TestComboService
   ) {
     this.logger = new Logger(TraKQService.name)
   }
 
   async prepareAOA(body: ExportTraKQRequestDto) {
-    const tests = await Promise.all(
-      body.testIds.map((testId) => this.testService.findById(testId))
+    // expand combos
+    const comboTestIds: string[] = []
+    const testCombos: TestCombo[] = []
+    await Promise.all(
+      body.testComboIds.map(async (comboId) => {
+        const testCombo = await this.testComboService.findById(comboId)
+        testCombos.push(testCombo)
+        testCombo.children?.forEach((testId) =>
+          comboTestIds.push(testId.toString())
+        )
+      })
     )
-    const samples = (
-      await this.sampleService.search({
-        filter: {
-          infoAt: {
-            $gte: body.startDate,
-            $lte: body.endDate,
-          },
-          results: {
-            $elemMatch: {
-              testId: {
-                $in: body.testIds,
+
+    // combine tests
+    const testIds = Array.from(new Set([...comboTestIds, ...body.testIds]))
+    const tests = await Promise.all(
+      testIds.map((testId) => this.testService.findById(testId))
+    )
+
+    const samples = cringySort(
+      (
+        await this.sampleService.search({
+          filter: {
+            infoAt: {
+              $gte: body.startDate,
+              $lte: body.endDate,
+            },
+            results: {
+              $elemMatch: {
+                testId: {
+                  $in: testIds,
+                },
               },
             },
           },
-        },
-        sort: {
-          infoAt: 1,
-          sampleId: 1,
-        },
-        populates: [
-          {
-            path: 'patientId',
+          sort: {
+            infoAt: 1,
+            sampleId: 1,
           },
-        ],
-      })
-    ).items
+          populates: [
+            {
+              path: 'patientId',
+            },
+          ],
+        })
+      ).items
+    )
 
     // header
-    const aoaData = [
+    const aoaData: Array<Array<string | Date>> = [
       [
         'STT',
         'ID XN',
@@ -59,9 +80,9 @@ export class TraKQService {
         'NS',
         'Ngày nhận mẫu',
         'XN yêu cầu',
-        'Ngày trả KQ', // empty
-        'Người trả KQ', // empty
-        'Ghi chú', // Bưu điện ? BĐ : ''
+        'Ngày trả KQ',
+        'Người trả KQ',
+        'Ghi chú',
       ],
     ]
 
@@ -70,21 +91,45 @@ export class TraKQService {
       ...samples.map((sample, sampleIndex) => {
         const patient = sample.patientId as Patient
 
-        const selectedResults = sample.results.filter(({ testId }) =>
+        // filter tests
+        const matchedTestIds = sample.results
+          .map(({ testId }) => testId)
+          .filter((testId) => testIds.includes(testId))
+
+        const matchedCombos: TestCombo[] = []
+        testCombos.forEach((combo) => {
+          if (
+            !combo.children.some(
+              (testId) => !matchedTestIds.includes(testId.toString())
+            )
+          ) {
+            matchedCombos.push(combo)
+          }
+        })
+
+        const standaloneTestIds = matchedTestIds.filter((testId) =>
           body.testIds.includes(testId)
         )
-
-        const selectedTests = selectedResults.map(({ testId }) =>
-          tests.find((test) => test._id.toString() === testId)
+        const standaloneTests = standaloneTestIds.map((testId) =>
+          tests.find(({ _id }) => _id.toString() === testId)
         )
+
+        // combine test name
+        const testNames = [
+          ...matchedCombos.map(({ name }) => name),
+          ...standaloneTests.map(({ name }) => name),
+        ]
+        if (testNames.length === 0) {
+          return null
+        }
 
         return [
           (sampleIndex + 1).toString(),
           sample.sampleId,
           patient.name,
           patient.birthYear.toString(),
-          format(sample.infoAt, DATEONLY_FORMAT),
-          selectedTests.map(({ name }) => name).join(', '),
+          sample.infoAt,
+          testNames.join(', '),
           '',
           '',
           sample?.isTraBuuDien === true ? 'BĐ' : '',
@@ -92,12 +137,14 @@ export class TraKQService {
       })
     )
 
-    return aoaData
+    return aoaData.filter((rowArray) => rowArray != null)
   }
 
   async exportWorksheet(body: ExportTraKQRequestDto) {
     const aoaData = await this.prepareAOA(body)
-    const worksheet = xlsx.utils.aoa_to_sheet(aoaData)
+    const worksheet = xlsx.utils.aoa_to_sheet(aoaData, {
+      dateNF: DATEONLY_FORMAT,
+    })
 
     return worksheet
   }
