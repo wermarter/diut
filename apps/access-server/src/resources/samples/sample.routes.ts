@@ -12,7 +12,11 @@ export const sampleRoutes = {
   },
 
   search: <AppRouteOptions>{
-    permissionAnyOf: [Permission.ManageInfo, Permission.ManageResult],
+    permissionAnyOf: [
+      Permission.ManageInfo,
+      Permission.ManageResult,
+      Permission.PrintResult,
+    ],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -83,7 +87,7 @@ export const sampleRoutes = {
   },
 
   print: <AppRouteOptions>{
-    permissionAnyOf: [Permission.ManageResult],
+    permissionAnyOf: [Permission.PrintResult],
     path: 'print',
     method: RequestMethod.POST,
   },

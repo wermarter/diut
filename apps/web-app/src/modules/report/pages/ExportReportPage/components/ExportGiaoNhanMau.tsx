@@ -24,7 +24,7 @@ const schema = z.object({
 const formResolver = zodResolver(schema)
 type FormSchema = z.infer<typeof schema>
 
-export function ExportTraKQ() {
+export function ExportGiaoNhanMau() {
   const { tests, testCombos } = useLoaderData() as Awaited<
     ReturnType<typeof exportReportPageLoader>
   >
@@ -52,13 +52,13 @@ export function ExportTraKQ() {
           setOpenDialog(true)
         }}
         disabled={
-          !checkPermissionAnyOf(userPermissions, [Permission.ExportTraKQ])
+          !checkPermissionAnyOf(userPermissions, [Permission.ExportGiaoNhanMau])
         }
       >
-        DS trả kết quả
+        DS giao nhận mẫu
       </Button>
       <ExportDialog
-        title="Danh sách Trả kết quả"
+        title="Danh sách Giao nhận mẫu"
         open={openDialog}
         isLoading={isLoading}
         onClose={() => setOpenDialog(false)}
