@@ -11,7 +11,7 @@ export const patientRoutes = {
   },
 
   search: <AppRouteOptions>{
-    permissionAnyOf: [Permission.ManageResult, Permission.ManageInfo],
+    permissionAnyOf: [Permission.ManageInfo],
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -54,7 +54,11 @@ export const patientRoutes = {
   },
 
   findById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.ManageInfo, Permission.ManageResult],
+    permissionAnyOf: [
+      Permission.ManageInfo,
+      Permission.ManageResult,
+      Permission.PrintResult,
+    ],
     path: ':id',
     method: RequestMethod.GET,
     serialize: PatientResponseDto,

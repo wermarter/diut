@@ -80,7 +80,7 @@ export class SoiNhuomService {
     testElementsHT.forEach(({ _id }) => {
       irregularCounters[_id] = 0
     })
-    const summaryRow = ['', '', '', '']
+    const summaryRow = ['', '', '', '', '']
 
     // header
     const aoaData: Array<Array<string | Date>> = [

@@ -45,7 +45,7 @@ export function ExportUrine10() {
           !checkPermissionAnyOf(userPermissions, [Permission.ExportUrine10])
         }
       >
-        Urine
+        Urine 10TS
       </Button>
       <ExportDialog
         title="Sổ Urine 10 thông số"

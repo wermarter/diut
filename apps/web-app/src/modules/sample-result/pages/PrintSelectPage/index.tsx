@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { DATETIME_FORMAT, Gender } from '@diut/common'
+import { DATETIME_FORMAT, Gender, Permission } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
@@ -33,6 +33,8 @@ import {
   useLazySampleTypeFindByIdQuery,
 } from 'src/api/sample-type'
 import { printSelectPageLoader } from './loader'
+import { useTypedSelector } from 'src/core'
+import { selectUserPermissions } from 'src/modules/auth'
 
 const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
 
@@ -51,6 +53,10 @@ export default function PrintSelectPage() {
   const { printFormData, patientTypeMap } = useLoaderData() as Awaited<
     ReturnType<typeof printSelectPageLoader>
   >
+
+  const userPermissions = useTypedSelector(selectUserPermissions)
+  const userCanPrint = userPermissions.includes(Permission.PrintResult)
+  const userCanEdit = userPermissions.includes(Permission.ManageResult)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -298,6 +304,7 @@ export default function PrintSelectPage() {
                   label="In KQ"
                   color={row.printedBy != null ? 'default' : 'primary'}
                   onClick={handleConfirmClick(row)}
+                  disabled={!userCanPrint}
                 />,
               ],
             },
@@ -376,6 +383,7 @@ export default function PrintSelectPage() {
                   label="Sửa KQ"
                   color={row.sampleCompleted ? 'default' : 'secondary'}
                   onClick={handleEditClick(row)}
+                  disabled={!userCanEdit}
                 />,
               ],
             },

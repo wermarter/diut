@@ -67,7 +67,7 @@ export const drawerItems: DrawerItem[] = [
         icon: <PrintIcon />,
         label: 'In KQ',
         destination: 'result/print',
-        permissionAnyOf: [Permission.ManageResult],
+        permissionAnyOf: [Permission.PrintResult, Permission.ManageInfo],
       },
       {
         icon: <RuleIcon />,
@@ -79,7 +79,7 @@ export const drawerItems: DrawerItem[] = [
         icon: <PersonSearchIcon />,
         label: 'Tìm kiếm',
         destination: 'patient/search',
-        permissionAnyOf: [Permission.ManageResult],
+        permissionAnyOf: [Permission.ManageInfo],
       },
       {
         icon: <FileDownloadIcon />,
@@ -96,6 +96,7 @@ export const drawerItems: DrawerItem[] = [
           Permission.ExportUrine10,
           Permission.ExportSoiNhuom,
           Permission.ExportTraKQ,
+          Permission.ExportGiaoNhanMau,
         ],
       },
     ],

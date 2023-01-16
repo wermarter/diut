@@ -2,6 +2,7 @@ import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 
 import { ExportCTM } from './components/ExportCTM'
+import { ExportGiaoNhanMau } from './components/ExportGiaoNhanMau'
 import { ExportHCG } from './components/ExportHCG'
 import { ExportHIV } from './components/ExportHIV'
 import { ExportPapSmear } from './components/ExportPapSmear'
@@ -49,7 +50,14 @@ export default function ExportReportPage() {
         </Grid>
       </Paper>
       <Paper variant="outlined" sx={{ p: 2, my: 2 }}>
-        <ExportTraKQ />
+        <Grid container spacing={2}>
+          <Grid xs={6}>
+            <ExportTraKQ />
+          </Grid>
+          <Grid xs={6}>
+            <ExportGiaoNhanMau />
+          </Grid>
+        </Grid>
       </Paper>
     </Box>
   )

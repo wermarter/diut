@@ -4,6 +4,7 @@ export enum Permission {
   //
   ManageInfo = 'ManageInfo',
   ManageResult = 'ManageResult',
+  PrintResult = 'PrintResult',
   //
   ViewTestReport = 'ViewTestReport',
   //
@@ -18,6 +19,7 @@ export enum Permission {
   ExportSoiNhuom = 'ExportSoiNhuom',
   //
   ExportTraKQ = 'ExportTraKQ',
+  ExportGiaoNhanMau = 'ExportGiaoNhanMau',
 }
 
 export function isAdmin(userPermissions: Permission[] | undefined) {

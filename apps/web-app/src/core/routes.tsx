@@ -176,21 +176,23 @@ export const appRoutes: CustomRouteObject[] = [
       },
       {
         path: 'result',
-        permissionAnyOf: [Permission.ManageResult],
         element: <Outlet />,
         children: [
           {
             index: true,
+            permissionAnyOf: [Permission.ManageResult],
             element: <EditSelectPage />,
             loader: editSelectPageLoader,
           },
           {
             path: 'edit/:patientId/:sampleId',
+            permissionAnyOf: [Permission.ManageResult],
             element: <EditResultPage />,
             loader: editResultPageLoader,
           },
           {
             path: 'print',
+            permissionAnyOf: [Permission.PrintResult, Permission.ManageInfo],
             element: <PrintSelectPage />,
             loader: printSelectPageLoader,
           },
@@ -221,6 +223,7 @@ export const appRoutes: CustomRouteObject[] = [
               Permission.ExportUrine10,
               Permission.ExportSoiNhuom,
               Permission.ExportTraKQ,
+              Permission.ExportGiaoNhanMau,
             ],
           },
         ],
@@ -231,7 +234,7 @@ export const appRoutes: CustomRouteObject[] = [
         children: [
           {
             path: 'search',
-            permissionAnyOf: [Permission.ManageResult],
+            permissionAnyOf: [Permission.ManageInfo],
             element: <SearchPatientPage />,
           },
         ],
