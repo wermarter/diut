@@ -186,6 +186,16 @@ export class TestResultDto {
 
   @Expose()
   @ApiProperty({
+    format: 'date-time',
+    example: '2022-10-24T10:15:00Z',
+    required: false,
+  })
+  @IsOptional()
+  @IsDateString()
+  resultAt?: Date
+
+  @Expose()
+  @ApiProperty({
     example: false,
   })
   @IsBoolean()

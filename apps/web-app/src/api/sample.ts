@@ -161,6 +161,7 @@ export type TestResultDto = {
   testId: string
   bioProductName?: string
   resultBy?: string
+  resultAt?: Date
   testCompleted: boolean
   elements: TestElementResultDto[]
 }

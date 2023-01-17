@@ -77,6 +77,7 @@ export class Sample extends BaseSchema {
     testCompleted: boolean
     bioProductName?: string
     resultBy?: string
+    resultAt?: Date
 
     elements: Array<{
       id: string
