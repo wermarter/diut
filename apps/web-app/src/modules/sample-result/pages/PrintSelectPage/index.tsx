@@ -33,8 +33,7 @@ import {
   useLazySampleTypeFindByIdQuery,
 } from 'src/api/sample-type'
 import { printSelectPageLoader } from './loader'
-import { useTypedSelector } from 'src/core'
-import { selectUserPermissions } from 'src/modules/auth'
+import { useCheckPermissionAnyOf } from 'src/modules/auth'
 
 const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
 
@@ -54,9 +53,8 @@ export default function PrintSelectPage() {
     ReturnType<typeof printSelectPageLoader>
   >
 
-  const userPermissions = useTypedSelector(selectUserPermissions)
-  const userCanPrint = userPermissions.includes(Permission.PrintResult)
-  const userCanEdit = userPermissions.includes(Permission.ManageResult)
+  const userCanPrint = useCheckPermissionAnyOf([Permission.PrintResult])
+  const userCanEdit = useCheckPermissionAnyOf([Permission.ManageResult])
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
