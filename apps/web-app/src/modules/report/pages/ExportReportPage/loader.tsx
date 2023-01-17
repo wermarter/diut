@@ -7,14 +7,22 @@ export const exportReportPageLoader = async () => {
     appStore
       .dispatch(
         testApi.endpoints.testSearch.initiate({
-          searchTestRequestDto: {},
+          searchTestRequestDto: {
+            sort: {
+              category: 1,
+            },
+          },
         })
       )
       .unwrap(),
     appStore
       .dispatch(
         testComboApi.endpoints.testComboSearch.initiate({
-          searchTestComboRequestDto: {},
+          searchTestComboRequestDto: {
+            sort: {
+              index: 1,
+            },
+          },
         })
       )
       .unwrap(),
