@@ -20,8 +20,9 @@ export interface ResultCardProps {
     elements: TestElementResponseDto[]
   }
   currentTestState: {
-    author: UserResponseDto
     isLocked: boolean
+    resultBy?: UserResponseDto
+    resultAt?: Date
   }
   elementState: {
     [elementId: string]: {

@@ -191,11 +191,24 @@ export class SampleService
         ({ testId }) => testId === newResult.testId
       )
 
-      if (userIsAdmin || userId === existingResult.resultBy) {
-        return newResult
+      // There is no change to the result
+      if (
+        JSON.stringify(existingResult.elements) ===
+          JSON.stringify(newResult.elements) &&
+        newResult.testCompleted === existingResult.testCompleted
+      ) {
+        return existingResult
       }
 
-      if (existingResult.testCompleted !== true) {
+      // There are some changes to the result
+      if (
+        userIsAdmin || // Admin
+        userId === existingResult.resultBy || // Previous author
+        existingResult.testCompleted !== true // Unlocked test
+      ) {
+        newResult.resultBy = userId
+        newResult.resultAt = new Date()
+
         return newResult
       }
 

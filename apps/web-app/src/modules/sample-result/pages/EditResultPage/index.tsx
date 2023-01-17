@@ -3,6 +3,7 @@ import {
   ID_TEST_THINPREP,
   ID_TEST_TD,
   PatientCategory,
+  DATETIME_FORMAT,
 } from '@diut/common'
 import {
   Alert,
@@ -43,6 +44,7 @@ import { CommonResultCard } from './components/CommonResultCard'
 import { TDResultCard } from './components/TDResultCard'
 import { PapsmearResultCard } from './components/PapsmearResultCard'
 import { ResultCardProps } from './components/utils'
+import { format } from 'date-fns'
 
 export default function EditResultPage() {
   const userId = useTypedSelector(selectUserId)
@@ -80,8 +82,9 @@ export default function EditResultPage() {
 
   const [testState, setTestState] = useState<{
     [testId: string]: {
-      author: UserResponseDto
       isLocked: boolean
+      resultBy?: UserResponseDto
+      resultAt?: Date
     }
   }>({})
 
@@ -165,8 +168,9 @@ export default function EditResultPage() {
         setTestState((testState) =>
           Object.assign({}, testState, {
             [result?.testId!]: {
-              author: userId && users[userId],
               isLocked: result?.testCompleted ?? false,
+              resultBy: userId && users[userId],
+              resultAt: result?.resultAt,
             },
           })
         )
@@ -183,14 +187,13 @@ export default function EditResultPage() {
 
   const handleSubmit = () => {
     const newResults = sample.results.map(
-      ({ testId, bioProductName, testCompleted, resultBy, elements }) => {
+      ({ testId, bioProductName, testCompleted, elements }) => {
         const test = testState[testId] ?? {}
 
         return {
           testId,
           bioProductName,
           testCompleted: test.isLocked ?? testCompleted,
-          resultBy: test.author?._id ?? resultBy,
           elements: tests[testId].elements.map(
             ({ _id: elementId, highlightRules }) => {
               const { isHighlighted, value } =
@@ -256,7 +259,9 @@ export default function EditResultPage() {
             borderRadius: 1,
           }}
         >
-          <Typography variant="h6">{sample.sampleId}</Typography>
+          <Typography variant="h6" fontWeight="bold">
+            {sample.sampleId}
+          </Typography>
           <Typography variant="h5">{patient.name}</Typography>
           <Typography fontStyle="italic" sx={{ mt: 2, opacity: '0.5' }}>
             {author.name}
@@ -338,17 +343,29 @@ export default function EditResultPage() {
                 title={currentTestInfo.name}
                 titleTypographyProps={{
                   color: currentTestState.isLocked ? '#CCC' : 'primary',
+                  fontWeight: 'bold',
                 }}
                 subheader={currentTestInfo.result?.bioProductName}
                 action={
                   <Box sx={{ m: 1, display: 'flex', alignItems: 'center' }}>
-                    {currentTestState.author != undefined && (
+                    {currentTestState.resultAt != null && (
+                      <Typography
+                        sx={{ opacity: 0.5, mr: 1 }}
+                        variant="overline"
+                      >
+                        {format(
+                          new Date(currentTestState.resultAt),
+                          DATETIME_FORMAT
+                        )}
+                      </Typography>
+                    )}
+                    {currentTestState.resultBy != null && (
                       <Typography sx={{ fontStyle: 'italic', mr: 2 }}>
-                        {currentTestState.author.name}
+                        {currentTestState.resultBy.name}
                       </Typography>
                     )}
                     {currentTestState.isLocked ? (
-                      (currentTestState.author?._id === userId ||
+                      (currentTestState.resultBy?._id === userId ||
                         userIsAdmin) && (
                         <Button
                           size="large"
@@ -377,7 +394,8 @@ export default function EditResultPage() {
                             Object.assign({}, cache, {
                               [currentTestInfo._id]: {
                                 isLocked: true,
-                                author: { _id: userId, name: userName },
+                                resultBy: { _id: userId, name: userName },
+                                resultAt: new Date(),
                               },
                             })
                           )
