@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { checkPermissionAnyOf, Permission } from '@diut/common'
 
-import { useReportExportSoiNhuomMutation } from 'src/api/report'
+import { useReportExportUrine10Mutation } from 'src/api/report'
 import { FormDateTimePicker } from 'src/common/form-elements'
 import { ExportDialog } from './ExportDialog'
 import { useTypedSelector } from 'src/core'
@@ -23,7 +23,7 @@ type FormSchema = z.infer<typeof schema>
 export function ExportUrine10() {
   const userPermissions = useTypedSelector(selectUserPermissions)
   const [openDialog, setOpenDialog] = useState(false)
-  const [exportSoiNhuom, { isLoading }] = useReportExportSoiNhuomMutation()
+  const [exportUrine10, { isLoading }] = useReportExportUrine10Mutation()
 
   const { control, handleSubmit } = useForm<FormSchema>({
     resolver: formResolver,
@@ -53,8 +53,8 @@ export function ExportUrine10() {
         isLoading={isLoading}
         onClose={() => setOpenDialog(false)}
         onConfirm={handleSubmit(async (values) => {
-          await exportSoiNhuom({
-            exportSoiNhuomRequestDto: {
+          await exportUrine10({
+            exportUrine10RequestDto: {
               startDate: startOfDay(values.startDate).toISOString(),
               endDate: endOfDay(values.endDate).toISOString(),
             },

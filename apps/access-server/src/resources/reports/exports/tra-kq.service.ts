@@ -1,6 +1,4 @@
-import { DATEONLY_FORMAT } from '@diut/common'
-import { Injectable, Logger } from '@nestjs/common'
-import * as xlsx from 'xlsx'
+import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
 import { TestService } from 'src/resources/tests/test.service'
@@ -9,17 +7,16 @@ import { ExportTraKQRequestDto } from '../dtos/export-tra-kq.request-dto'
 import { cringySort } from './utils'
 import { TestCombo } from 'src/resources/test-combos/test-combo.schema'
 import { TestComboService } from 'src/resources/test-combos/test-combo.service'
+import { BaseExportService } from './base-export.service'
 
 @Injectable()
-export class TraKQService {
-  private logger: Logger
-
+export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
   constructor(
     private sampleService: SampleService,
     private testService: TestService,
     private testComboService: TestComboService
   ) {
-    this.logger = new Logger(TraKQService.name)
+    super(TraKQService.name)
   }
 
   async prepareAOA(body: ExportTraKQRequestDto) {
@@ -43,35 +40,13 @@ export class TraKQService {
     )
 
     const samples = cringySort(
-      (
-        await this.sampleService.search({
-          filter: {
-            infoAt: {
-              $gte: body.startDate,
-              $lte: body.endDate,
-            },
-            results: {
-              $elemMatch: {
-                testId: {
-                  $in: testIds,
-                },
-              },
-            },
-          },
-          sort: {
-            infoAt: 1,
-            sampleId: 1,
-          },
-          populates: [
-            {
-              path: 'patientId',
-            },
-          ],
-        })
-      ).items
+      await this.sampleService.getSamplesForTestReport(
+        testIds,
+        body.startDate,
+        body.endDate
+      )
     )
 
-    // header
     const aoaData: Array<Array<string | Date>> = [
       [
         'STT',
@@ -86,7 +61,6 @@ export class TraKQService {
       ],
     ]
 
-    // test element result
     aoaData.push(
       ...samples.map((sample, sampleIndex) => {
         const patient = sample.patientId as Patient
@@ -111,7 +85,7 @@ export class TraKQService {
           body.testIds.includes(testId)
         )
         const standaloneTests = standaloneTestIds.map((testId) =>
-          tests.find(({ _id }) => _id.toString() === testId)
+          tests.find(({ _id }) => _id === testId)
         )
 
         // combine test name
@@ -140,12 +114,7 @@ export class TraKQService {
     return aoaData.filter((rowArray) => rowArray != null)
   }
 
-  async exportWorksheet(body: ExportTraKQRequestDto) {
-    const aoaData = await this.prepareAOA(body)
-    const worksheet = xlsx.utils.aoa_to_sheet(aoaData, {
-      dateNF: DATEONLY_FORMAT,
-    })
-
-    return worksheet
+  exportWorksheet(body: ExportTraKQRequestDto) {
+    return this.exportWorksheetDateOnly(body)
   }
 }

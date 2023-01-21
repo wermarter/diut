@@ -343,7 +343,8 @@ export default function EditResultPage() {
                 title={currentTestInfo.name}
                 titleTypographyProps={{
                   color: currentTestState.isLocked ? '#CCC' : 'primary',
-                  fontWeight: 'bold',
+                  fontWeight:
+                    currentTestInfo.shouldNotPrint === true ? 'normal' : 'bold',
                 }}
                 subheader={currentTestInfo.result?.bioProductName}
                 action={
