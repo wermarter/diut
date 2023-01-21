@@ -14,6 +14,7 @@ import {
 } from 'class-validator'
 
 import { IsObjectId } from 'src/clients/mongo'
+import { DISABLED_REPORT_ORDER } from '../test-element.common'
 
 export class CreateTestElementRequestDto {
   @ApiProperty({
@@ -45,9 +46,10 @@ export class CreateTestElementRequestDto {
 
   @ApiProperty({
     example: 2,
+    description: `${DISABLED_REPORT_ORDER}:disabled, 1-*:normal order`,
   })
   @IsNumber()
-  @Min(1)
+  @Min(DISABLED_REPORT_ORDER)
   reportOrder: number
 
   @ApiProperty({

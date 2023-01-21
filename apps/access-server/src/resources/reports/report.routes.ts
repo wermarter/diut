@@ -19,4 +19,52 @@ export const reportRoutes = {
     path: 'export-tra-kq',
     method: RequestMethod.POST,
   },
+
+  exportTD: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportTD],
+    path: 'export-td',
+    method: RequestMethod.POST,
+  },
+
+  exportHCG: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportHCG],
+    path: 'export-hcg',
+    method: RequestMethod.POST,
+  },
+
+  exportUrine10: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportUrine10],
+    path: 'export-urine-10',
+    method: RequestMethod.POST,
+  },
+
+  exportSinhHoa: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportSinhHoa],
+    path: 'export-sinh-hoa',
+    method: RequestMethod.POST,
+  },
+
+  exportPapsmear: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportPapSmear],
+    path: 'export-papsmear',
+    method: RequestMethod.POST,
+  },
+
+  exportThinprep: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportThinPrep],
+    path: 'export-thinprep',
+    method: RequestMethod.POST,
+  },
+
+  exportCTM: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportCTM],
+    path: 'export-ctm',
+    method: RequestMethod.POST,
+  },
+
+  exportHIV: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportHIV],
+    path: 'export-hiv',
+    method: RequestMethod.POST,
+  },
 }

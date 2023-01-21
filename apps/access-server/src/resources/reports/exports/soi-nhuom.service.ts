@@ -1,92 +1,53 @@
-import {
-  DATETIME_FORMAT,
-  ID_TEST_SOINHUOM_DM,
-  ID_TEST_SOINHUOM_HT,
-} from '@diut/common'
-import { Injectable, Logger } from '@nestjs/common'
-import * as xlsx from 'xlsx'
+import { ID_TEST_SOINHUOM_DM, ID_TEST_SOINHUOM_HT } from '@diut/common'
+import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
 import { TestElementService } from 'src/resources/test-elements/test-element.service'
 import { ExportSoiNhuomRequestDto } from '../dtos/export-soi-nhuom.request-dto'
 import { Patient } from 'src/resources/patients/patient.schema'
 import { cringySort } from './utils'
+import { BaseExportService } from './base-export.service'
 
 const CLUE_CELL_POSITION = 2
 
 @Injectable()
-export class SoiNhuomService {
-  private logger: Logger
-
+export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto> {
   constructor(
     private sampleService: SampleService,
     private testElementService: TestElementService
   ) {
-    this.logger = new Logger(SoiNhuomService.name)
+    super(SoiNhuomService.name)
   }
 
   async prepareAOA(body: ExportSoiNhuomRequestDto) {
-    const testElementsHT = (
-      await this.testElementService.search({
-        filter: {
-          test: ID_TEST_SOINHUOM_HT,
-        },
-        sort: {
-          reportOrder: 1,
-        },
-      })
-    ).items
-    const testElementsDM = (
-      await this.testElementService.search({
-        filter: {
-          test: ID_TEST_SOINHUOM_DM,
-        },
-        sort: {
-          reportOrder: 1,
-        },
-      })
-    ).items
+    const testElementsHT =
+      await this.testElementService.getElementsForTestReport([
+        ID_TEST_SOINHUOM_HT,
+      ])
+    const testElementsDM =
+      await this.testElementService.getElementsForTestReport([
+        ID_TEST_SOINHUOM_DM,
+      ])
+
     const samples = cringySort(
-      (
-        await this.sampleService.search({
-          filter: {
-            infoAt: {
-              $gte: body.startDate,
-              $lte: body.endDate,
-            },
-            results: {
-              $elemMatch: {
-                testId: {
-                  $in: [ID_TEST_SOINHUOM_HT, ID_TEST_SOINHUOM_DM],
-                },
-              },
-            },
-          },
-          sort: {
-            infoAt: 1,
-            sampleId: 1,
-          },
-          populates: [
-            {
-              path: 'patientId',
-            },
-          ],
-        })
-      ).items
+      await this.sampleService.getSamplesForTestReport(
+        [ID_TEST_SOINHUOM_HT, ID_TEST_SOINHUOM_DM],
+        body.startDate,
+        body.endDate
+      )
     )
 
     // init summation values
-    const irregularCounters: { [elementId: string]: number } = {}
+    const abnormalCounters: { [elementId: string]: number } = {}
     testElementsHT.forEach(({ _id }) => {
-      irregularCounters[_id] = 0
+      abnormalCounters[_id] = 0
     })
     const summaryRow = ['', '', '', '', '']
 
-    // header
     const aoaData: Array<Array<string | Date>> = [
       [
         'STT',
-        'Ngày/Giờ XN',
+        'TG Nhận bệnh',
         'ID XN',
         'HỌ TÊN',
         'NS',
@@ -94,7 +55,6 @@ export class SoiNhuomService {
       ],
     ]
 
-    // test element result
     aoaData.push(
       ...samples.map((sample, sampleIndex) => {
         const patient = sample.patientId as Patient
@@ -114,10 +74,10 @@ export class SoiNhuomService {
           ...testElementsHT.map(({ _id }, elementIndex) => {
             if (isSoiNhuomHT) {
               const elementResult = testResultElements?.find(
-                ({ id }) => id === _id.toString()
+                ({ id }) => id === _id
               )
               if (elementResult?.isHighlighted === true) {
-                irregularCounters[_id]++
+                abnormalCounters[_id]++
               }
 
               return elementResult?.value ?? ''
@@ -132,11 +92,10 @@ export class SoiNhuomService {
               }
 
               const elementResult = testResultElements?.find(
-                ({ id }) =>
-                  id === testElementsDM[translatedIndex]._id.toString()
+                ({ id }) => id === testElementsDM[translatedIndex]._id
               )
               if (elementResult.isHighlighted === true) {
-                irregularCounters[_id]++
+                abnormalCounters[_id]++
               }
 
               return elementResult?.value ?? ''
@@ -148,21 +107,12 @@ export class SoiNhuomService {
 
     // compile summary row
     summaryRow.push(
-      ...Object.keys(irregularCounters).map((key) =>
-        irregularCounters[key].toString()
+      ...Object.keys(abnormalCounters).map((key) =>
+        abnormalCounters[key].toString()
       )
     )
     aoaData.push([], summaryRow)
 
     return aoaData
-  }
-
-  async exportWorksheet(body: ExportSoiNhuomRequestDto) {
-    const aoaData = await this.prepareAOA(body)
-    const worksheet = xlsx.utils.aoa_to_sheet(aoaData, {
-      dateNF: DATETIME_FORMAT,
-    })
-
-    return worksheet
   }
 }

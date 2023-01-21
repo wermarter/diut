@@ -149,7 +149,10 @@ export function TestSelector({
                       >
                         <ListItemText
                           primaryTypographyProps={{
-                            sx: { fontWeight: 'bold' },
+                            sx:
+                              test.shouldNotPrint === true
+                                ? {}
+                                : { fontWeight: 'bold' },
                           }}
                           primary={test.name}
                         />

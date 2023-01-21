@@ -226,6 +226,35 @@ export class SampleService
     })
   }
 
+  async getSamplesForTestReport(
+    testIds: string[],
+    startDate: Date,
+    endDate: Date,
+    populatePaths: Array<keyof Sample> = ['patientId']
+  ) {
+    const res = await this.search({
+      filter: {
+        infoAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+        results: {
+          $elemMatch: {
+            testId: {
+              $in: testIds,
+            },
+          },
+        },
+      },
+      sort: {
+        sampleId: 1,
+      },
+      populates: [...populatePaths.map((path) => ({ path }))],
+    })
+
+    return res.items ?? []
+  }
+
   // Later used for embed data
   async fetchSampleData(id: string, printForm?: PrintForm) {
     const sample = await this.findById(id)
@@ -352,12 +381,10 @@ export class SampleService
     const printForm = await this.printFormService.findById(
       sample.printForm ?? PrintForm.Basic
     )
-    const { titleMargin } = await this.printFormService.findById(
-      printForm._id.toString()
-    )
+    const { titleMargin } = await this.printFormService.findById(printForm._id)
     const sampleData = await this.fetchSampleData(
       sample.sampleId,
-      printForm._id.toString() as PrintForm
+      printForm._id as PrintForm
     )
 
     const authorPosition = sample.authorPosition ?? ''
@@ -419,7 +446,6 @@ export class SampleService
         format: isA4 ? 'A4' : 'A5',
         landscape: !isA4,
         printBackground: true,
-        // pageRanges: isA4 ? undefined : '1',
         margin: {
           left: '0px',
           top: '0px',
