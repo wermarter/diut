@@ -27,6 +27,8 @@ import {
   ID_TEST_TCK,
   ID_TEST_FIBRI,
   ID_TEST_DIENDI,
+  ID_TEST_GLUCOSE,
+  ID_TEST_NHOMMAU,
 } from '@diut/common'
 import { Injectable } from '@nestjs/common'
 
@@ -68,6 +70,8 @@ const TEST_IDS = [
   ID_TEST_TCK,
   ID_TEST_FIBRI,
   ID_TEST_DIENDI,
+  ID_TEST_GLUCOSE,
+  ID_TEST_NHOMMAU,
 ]
 
 @Injectable()
