@@ -36,14 +36,13 @@ import { SampleService } from 'src/resources/samples/sample.service'
 import { Patient } from 'src/resources/patients/patient.schema'
 import { cringySort } from './utils'
 import { TestElementService } from 'src/resources/test-elements/test-element.service'
-import { DISABLED_REPORT_ORDER } from 'src/resources/test-elements/test-element.common'
 import { Test } from 'src/resources/tests/test.schema'
 import { Sample } from 'src/resources/samples/sample.schema'
 import { BaseExportService } from './base-export.service'
 import { ExportSinhHoaRequestDto } from '../dtos/export-sinh-hoa.request-dto'
 
 const TEST_IDS = [
-  ID_TEST_RHESUS,
+  ID_TEST_GLUCOSE,
   ID_TEST_DUONG75,
   ID_TEST_HBSAG,
   ID_TEST_ANTIHBS,
@@ -70,7 +69,7 @@ const TEST_IDS = [
   ID_TEST_TCK,
   ID_TEST_FIBRI,
   ID_TEST_DIENDI,
-  ID_TEST_GLUCOSE,
+  ID_TEST_RHESUS,
   ID_TEST_NHOMMAU,
 ]
 
