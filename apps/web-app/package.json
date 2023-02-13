@@ -9,9 +9,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "nx exec -- tsc && vite build",
     "preview": "vite preview",
-    "lint": "tsc",
+    "lint": "nx exec -- tsc",
     "g:api": "npx @rtk-query/codegen-openapi openapi-config.cts"
   },
   "dependencies": {

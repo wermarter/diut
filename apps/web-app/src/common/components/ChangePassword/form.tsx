@@ -38,7 +38,6 @@ export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
       onSubmit={handleSubmit(({ password }: FormSchema) => {
         return onSubmit(password)
       })}
-      sx={{ maxWidth: '350px' }}
     >
       <FormTextField
         name="password"

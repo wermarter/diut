@@ -12,14 +12,13 @@
     "apps/web-app"
   ],
   "devDependencies": {
-    "lerna": "^5.4.3",
-    "nx": "^14.5.7"
+    "@nrwl/nx-cloud": "latest",
+    "nx": "15.6.3"
   },
   "scripts": {
-    "be": "lerna run dev --scope @diut/access-server",
-    "common": "lerna run dev --scope @diut/common",
-    "fe": "lerna run dev --scope @diut/web-app",
-    "dev": "lerna run --parallel dev",
-    "postinstall": "lerna run build --scope @diut/common"
+    "be": "nx run @diut/access-server:dev",
+    "common": "nx run @diut/common:dev",
+    "fe": "nx run @diut/web-app:dev",
+    "lint": "nx run-many -t lint"
   }
 }
