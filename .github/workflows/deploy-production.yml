@@ -26,8 +26,8 @@ jobs:
       - name: Set environment variables
         working-directory: ./apps/web-app
         run: |
-          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
-          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> ./.env
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> ./.env
+        # echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
 
       - name: Build web app
         run: yarn nx run @diut/web-app:build
