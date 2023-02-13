@@ -27,9 +27,8 @@ jobs:
         run: |
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
 
-      - name: Build project
-        working-directory: ./apps/web-app
-        run: yarn build
+      - name: Build web app
+        run: yarn nx run @diut/web-app:build
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -41,7 +40,6 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        working-directory:
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/web-app/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
 
   access-server:
@@ -60,9 +58,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
 
-      - name: Build project
-        working-directory: ./apps/access-server
-        run: yarn build
+      - name: Build access server
+        run: yarn nx run @diut/access-server:build
 
       - name: Set environment variables
         working-directory: ./apps/access-server

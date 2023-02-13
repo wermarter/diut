@@ -7,14 +7,12 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build && cp package.json dist/package.json",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build": "nx exec -- rimraf dist && nest build && cp package.json dist/package.json",
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "tsc && rimraf dist",
+    "lint": "nx exec -- tsc && rimraf dist",
     "g:resource": "ts-node generators/resource"
   },
   "dependencies": {
