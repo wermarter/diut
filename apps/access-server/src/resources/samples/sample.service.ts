@@ -164,6 +164,7 @@ export class SampleService
 
       return this.updateById(id, {
         infoCompleted,
+        infoBy: user.sub,
       })
     }
   }

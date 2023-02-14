@@ -42,6 +42,7 @@ import {
 import { DataTable } from 'src/common/components/DataTable'
 import { useDebouncedValue } from 'src/common/hooks'
 import { infoInputPageLoader } from './loader'
+import { printBarcode } from 'src/common/utils'
 
 const currentYear = new Date().getFullYear()
 
@@ -131,7 +132,6 @@ export default function InfoInputPage() {
       doctorId,
       address,
       infoAt,
-      sampledAt,
     } = getValues()
     const newSampleId = Number(sampleId) + 1
 
@@ -283,6 +283,13 @@ export default function InfoInputPage() {
                 color="primary"
                 variant="outlined"
                 fullWidth
+                onClick={() => {
+                  const { name, birthYear, sampleId } = getValues()
+                  printBarcode(
+                    sampleId,
+                    `${name.toLocaleUpperCase()} - ${birthYear}`
+                  )
+                }}
               >
                 <HorizontalSplitIcon sx={{ transform: 'rotate(90deg)' }} />
               </Button>
