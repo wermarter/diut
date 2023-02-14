@@ -37,6 +37,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   refetchOnReconnect: true,
-  // keepUnusedDataFor: 60 * 60 * 24,
+  keepUnusedDataFor: 60 * 60 * 20, // 20 hours
   endpoints: () => ({}),
 })

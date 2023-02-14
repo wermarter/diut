@@ -14,6 +14,7 @@ const injectedRtkApi = api
           body: queryArg.searchSampleRequestDto,
         }),
         providesTags: ['samples'],
+        keepUnusedDataFor: 60, // 1 min
       }),
       sampleCreate: build.mutation<SampleCreateApiResponse, SampleCreateApiArg>(
         {
@@ -42,6 +43,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({ url: `/api/samples/${queryArg.id}` }),
         providesTags: ['samples'],
+        keepUnusedDataFor: 60, // 1 min
       }),
       sampleDeleteById: build.mutation<
         SampleDeleteByIdApiResponse,

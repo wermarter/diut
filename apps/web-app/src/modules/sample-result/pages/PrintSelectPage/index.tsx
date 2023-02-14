@@ -5,9 +5,10 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { DATETIME_FORMAT, Gender, Permission } from '@diut/common'
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
+import LoopIcon from '@mui/icons-material/Loop'
 
 import {
   SampleResponseDto,
@@ -97,7 +98,11 @@ export default function PrintSelectPage() {
     }
   }, [fromDate, toDate, patientType])
 
-  const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
+  const {
+    data,
+    isFetching: isFetchingSamples,
+    refetch,
+  } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
   })
 
@@ -293,9 +298,20 @@ export default function PrintSelectPage() {
             {
               field: 'startActions',
               type: 'actions',
-              width: 50,
               sortable: false,
+              width: 60,
               cellClassName: 'actions',
+              renderHeader: () => (
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => {
+                    refetch()
+                  }}
+                >
+                  <LoopIcon />
+                </IconButton>
+              ),
               getActions: ({ row }) => [
                 <GridActionsCellItem
                   icon={<PrintIcon />}
@@ -372,7 +388,7 @@ export default function PrintSelectPage() {
             {
               field: 'endActions',
               type: 'actions',
-              width: 50,
+              width: 60,
               sortable: false,
               cellClassName: 'actions',
               getActions: ({ row }) => [

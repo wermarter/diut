@@ -61,8 +61,9 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
       ],
     ]
 
+    let sampleIndex = 0
     aoaData.push(
-      ...samples.map((sample, sampleIndex) => {
+      ...samples.map((sample) => {
         const patient = sample.patientId as Patient
 
         // filter tests
@@ -98,7 +99,7 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
         }
 
         return [
-          (sampleIndex + 1).toString(),
+          (++sampleIndex).toString(),
           sample.sampleId,
           patient.name,
           patient.birthYear.toString(),
