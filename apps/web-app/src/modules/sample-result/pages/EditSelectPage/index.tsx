@@ -4,8 +4,9 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { DATETIME_FORMAT, Gender } from '@diut/common'
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import LoopIcon from '@mui/icons-material/Loop'
 
 import {
   SampleResponseDto,
@@ -179,7 +180,11 @@ export default function EditSelectPage() {
     }
   }, [fromDate, toDate, sampleCompleted, patientType])
 
-  const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
+  const {
+    data,
+    isFetching: isFetchingSamples,
+    refetch,
+  } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
   })
 
@@ -313,6 +318,25 @@ export default function EditSelectPage() {
           getRowId={(row) => row._id}
           columns={[
             {
+              field: 'startActions',
+              type: 'actions',
+              sortable: false,
+              width: 60,
+              cellClassName: 'actions',
+              renderHeader: () => (
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => {
+                    refetch()
+                  }}
+                >
+                  <LoopIcon />
+                </IconButton>
+              ),
+              getActions: ({ row }) => [],
+            },
+            {
               field: 'infoAt',
               headerName: 'Nhận bệnh',
               width: 100,
@@ -407,7 +431,7 @@ export default function EditSelectPage() {
             {
               field: 'endActions',
               type: 'actions',
-              width: 50,
+              width: 60,
               sortable: false,
               cellClassName: 'actions',
               getActions: ({ row }) => [

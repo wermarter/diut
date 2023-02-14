@@ -3,11 +3,15 @@ import {
   FormHelperText,
   InputLabel,
   OutlinedInput,
+  OutlinedInputProps,
 } from '@mui/material'
 import { format } from 'date-fns'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
-export type FormDateTimePickerProps<T extends FieldValues = FieldValues> = {
+export type FormDateTimePickerProps<T extends FieldValues = FieldValues> = Omit<
+  OutlinedInputProps,
+  'name'
+> & {
   name: Path<T>
   label: string
   control: Control<T>
@@ -25,6 +29,7 @@ export function FormDateTimePicker<
   disableError = false,
   dateOnly = false,
   disabled = false,
+  ...outlinedInputProps
 }: FormDateTimePickerProps<TFieldValues>) {
   return (
     <Controller
@@ -66,6 +71,7 @@ export function FormDateTimePicker<
                 ),
               }}
               {...formFields}
+              {...outlinedInputProps}
             />
             {errorProps.error && (
               <FormHelperText error>{errorProps.helperText}</FormHelperText>

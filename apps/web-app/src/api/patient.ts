@@ -15,6 +15,7 @@ const injectedRtkApi = api
             body: queryArg.searchPatientRequestDto,
           }),
           providesTags: ['patients'],
+          keepUnusedDataFor: 60, // 1 min
         }
       ),
       patientCreate: build.mutation<
@@ -45,6 +46,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({ url: `/api/patients/${queryArg.id}` }),
         providesTags: ['patients'],
+        keepUnusedDataFor: 60, // 1 min
       }),
       patientDeleteById: build.mutation<
         PatientDeleteByIdApiResponse,

@@ -5,8 +5,9 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
 import { DATETIME_FORMAT, Gender } from '@diut/common'
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import LoopIcon from '@mui/icons-material/Loop'
 
 import {
   SampleResponseDto,
@@ -86,7 +87,11 @@ export default function InfoConfirmPage() {
   const infoCompleted = watch('infoCompleted')
   const patientType = watch('patientType')
 
-  const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
+  const {
+    data,
+    isFetching: isFetchingSamples,
+    refetch,
+  } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
   })
 
@@ -285,8 +290,19 @@ export default function InfoConfirmPage() {
             {
               field: 'startActions',
               type: 'actions',
-              width: 50,
+              width: 60,
               cellClassName: 'actions',
+              renderHeader: () => (
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => {
+                    refetch()
+                  }}
+                >
+                  <LoopIcon />
+                </IconButton>
+              ),
               getActions: ({ row }) =>
                 row.infoCompleted
                   ? []
@@ -401,7 +417,7 @@ export default function InfoConfirmPage() {
             {
               field: 'endActions',
               type: 'actions',
-              width: 50,
+              width: 60,
               cellClassName: 'actions',
               getActions: ({ row }) =>
                 userIsAdmin || row.infoBy === userId

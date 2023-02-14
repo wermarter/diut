@@ -10,6 +10,7 @@ import {
   Radio,
   Paper,
   TextField,
+  IconButton,
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
@@ -18,6 +19,8 @@ import { useLoaderData } from 'react-router-dom'
 import CheckIcon from '@mui/icons-material/Check'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import { addMinutes, setMinutes, setHours } from 'date-fns'
+import HorizontalSplitIcon from '@mui/icons-material/HorizontalSplit'
+import LoopIcon from '@mui/icons-material/Loop'
 
 import {
   FormContainer,
@@ -136,7 +139,7 @@ export default function InfoInputPage() {
     const thisHour = moment.getHours()
     const thisMinute = moment.getMinutes()
     const nextInfoAt = setMinutes(setHours(infoAt, thisHour), thisMinute)
-    const nextSampledAt = setMinutes(setHours(sampledAt, thisHour), thisMinute)
+    const nextSampledAt = addMinutes(nextInfoAt, 5)
 
     setFocus('externalId')
     reset()
@@ -210,6 +213,7 @@ export default function InfoInputPage() {
             </Grid>
             <Grid xs={3}>
               <FormDateTimePicker
+                inputProps={{ tabIndex: 999 }}
                 name="sampledAt"
                 label="TG lấy mẫu"
                 control={control}
@@ -217,18 +221,19 @@ export default function InfoInputPage() {
             </Grid>
             <Grid xs={3}>
               <FormDateTimePicker
+                inputProps={{ tabIndex: 999 }}
                 name="infoAt"
                 label="TG nhận bệnh"
                 control={control}
               />
             </Grid>
             {/* ----------------------------- Row 2 ----------------------------- */}
-            <Grid xs={2}>
+            <Grid xs={2} sx={{ display: 'flex' }}>
               <Controller
                 name="gender"
                 control={control}
                 render={({ field }) => (
-                  <FormControl>
+                  <FormControl sx={{ flexGrow: 1, alignItems: 'center' }}>
                     <RadioGroup row {...field}>
                       <FormControlLabel
                         value={Gender.Male}
@@ -245,7 +250,7 @@ export default function InfoInputPage() {
                 )}
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.5}>
               <FormTextField
                 name="birthYear"
                 autoComplete="off"
@@ -256,7 +261,7 @@ export default function InfoInputPage() {
                 label="Năm sinh"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.5}>
               <TextField
                 name="age"
                 autoComplete="off"
@@ -271,6 +276,16 @@ export default function InfoInputPage() {
                 fullWidth
                 label="Tuổi"
               />
+            </Grid>
+            <Grid xs={1}>
+              <Button
+                sx={{ height: '100%' }}
+                color="primary"
+                variant="outlined"
+                fullWidth
+              >
+                <HorizontalSplitIcon sx={{ transform: 'rotate(90deg)' }} />
+              </Button>
             </Grid>
             <Grid xs={6}>
               <FormTextField
@@ -440,6 +455,17 @@ export default function InfoInputPage() {
               width: 80,
               sortable: false,
               cellClassName: 'actions',
+              renderHeader: () => (
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => {
+                    resetState()
+                  }}
+                >
+                  <LoopIcon />
+                </IconButton>
+              ),
               getActions: ({ id }) => [
                 <GridActionsCellItem
                   icon={<CheckIcon />}
