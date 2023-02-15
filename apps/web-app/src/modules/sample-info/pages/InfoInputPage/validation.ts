@@ -35,7 +35,7 @@ const schema = z.object({
     })
   ),
 
-  sampleId: z.string().length(10, 'Phải đúng 10 kí tự'),
+  sampleId: z.string(),
   sampledAt: z.date({ invalid_type_error: 'Không được để trống' }),
   infoAt: z.date({ invalid_type_error: 'Không được để trống' }),
 
