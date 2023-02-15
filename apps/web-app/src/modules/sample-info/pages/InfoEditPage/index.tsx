@@ -129,11 +129,6 @@ export default function InfoEditPage() {
       </Box>
       <FormContainer
         onSubmit={handleSubmit((values) => {
-          Object.keys(values).forEach(
-            //@ts-ignore
-            (k) => values[k]! === '' && delete values[k]
-          )
-
           return Promise.all([
             updatePatient({
               id: patientId!,
@@ -272,7 +267,7 @@ export default function InfoEditPage() {
                 label="Số điện thoại"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="SSN"
@@ -282,11 +277,18 @@ export default function InfoEditPage() {
                 label="Số CMND/CCCD"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.4}>
               <FormSwitch
                 control={control}
                 name="isTraBuuDien"
-                label="Bưu điện"
+                label="BưuĐiện"
+              />
+            </Grid>
+            <Grid xs={1.6}>
+              <FormSwitch
+                control={control}
+                name="isNgoaiGio"
+                label="NgoàiGiờ"
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
@@ -356,7 +358,7 @@ export default function InfoEditPage() {
                 label="Loại mẫu"
               />
             </Grid>
-            <Grid xs={10}>
+            <Grid xs={12}>
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -366,13 +368,6 @@ export default function InfoEditPage() {
               >
                 Sửa thông tin
               </LoadingButton>
-            </Grid>
-            <Grid xs={2}>
-              <FormSwitch
-                control={control}
-                name="isNgoaiGio"
-                label="Ngoài giờ"
-              />
             </Grid>
           </Grid>
         </Paper>
