@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -12,11 +13,17 @@ import { Model } from 'mongoose'
 import { join } from 'path'
 import * as ejs from 'ejs'
 import * as puppeteer from 'puppeteer'
-import { isAdmin, NodeEnv, PatientCategory, PrintForm } from '@diut/common'
+import {
+  isAdmin,
+  NodeEnv,
+  PatientCategory,
+  PrintForm,
+  SampleExceptionMsg,
+} from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq } from 'lodash'
 
-import { BaseMongoService } from 'src/clients/mongo'
+import { BaseMongoService, BaseSchema } from 'src/clients/mongo'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
 import { Sample } from './sample.schema'
 import { PatientService } from '../patients/patient.service'
@@ -85,6 +92,14 @@ export class SampleService
     await this.browser.close()
   }
 
+  public async create(data: Omit<Sample, keyof BaseSchema>): Promise<Sample> {
+    if (await this.exists({ sampleId: data.sampleId })) {
+      throw new BadRequestException(SampleExceptionMsg.SAMPLE_ID_EXISTED)
+    }
+
+    return super.create(data)
+  }
+
   async uploadFile(file: Express.Multer.File) {
     // const timestamp = Date.now().toString()
     // const hashedFileName = crypto
@@ -137,9 +152,6 @@ export class SampleService
       const newTests = body.tests.filter(
         ({ id }) => !keptResults.some(({ testId }) => testId === id)
       )
-      if (newTests.length > 0) {
-        sampleCompleted = false
-      }
 
       const newResults = newTests.map(({ id, bioProductName }) => ({
         testId: id,
@@ -152,6 +164,11 @@ export class SampleService
       resultBy = uniq(results.map(({ resultBy }) => resultBy)).filter(
         (x) => x !== undefined
       )
+
+      sampleCompleted = !results.some(
+        ({ testCompleted }) => testCompleted === false
+      )
+
       return this.updateById(id, {
         ...body,
         sampleCompleted,

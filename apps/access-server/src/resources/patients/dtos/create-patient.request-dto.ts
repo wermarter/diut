@@ -15,7 +15,6 @@ export class CreatePatientRequestDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   externalId?: string
 
   @ApiProperty({
@@ -42,7 +41,6 @@ export class CreatePatientRequestDto {
     example: 'QUẬN 11 - HCM',
   })
   @IsString()
-  @IsNotEmpty()
   address: string
 
   @ApiProperty({
@@ -51,7 +49,6 @@ export class CreatePatientRequestDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   phoneNumber?: string
 
   @ApiProperty({
@@ -60,6 +57,5 @@ export class CreatePatientRequestDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   SSN?: string
 }

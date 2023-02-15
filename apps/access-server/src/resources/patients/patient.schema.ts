@@ -21,8 +21,8 @@ export class Patient extends BaseSchema {
   @Prop({ required: true })
   birthYear: number
 
-  @Prop({ required: true })
-  address: string
+  @Prop()
+  address?: string
 
   @Prop()
   phoneNumber?: string

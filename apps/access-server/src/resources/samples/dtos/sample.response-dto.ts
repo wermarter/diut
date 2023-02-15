@@ -1,3 +1,4 @@
+import { SampleExceptionMsg } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { Type } from 'class-transformer'
@@ -16,6 +17,7 @@ import {
   ExposeObjectId,
   IsObjectId,
 } from 'src/clients/mongo'
+import { BadRequestDto } from 'src/core'
 
 export class SampleResponseDto extends BaseResourceResponseDto {
   @Expose()
@@ -233,4 +235,12 @@ export class TestElementResultDto {
   })
   @IsBoolean()
   isHighlighted: boolean
+}
+
+export class SampleBadRequestDto extends BadRequestDto {
+  @ApiProperty({
+    enum: SampleExceptionMsg,
+    enumName: 'SampleExceptionMsg',
+  })
+  message: SampleExceptionMsg
 }

@@ -1,4 +1,4 @@
-import { Gender } from '@diut/common'
+import { Gender, SampleExceptionMsg } from '@diut/common'
 import { useDeferredValue, useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -32,7 +32,7 @@ import {
 } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { TestSelector } from 'src/common/components/TestSelector'
-import { useSampleCreateMutation } from 'src/api/sample'
+import { SampleBadRequestDto, useSampleCreateMutation } from 'src/api/sample'
 import {
   PatientResponseDto,
   usePatientCreateMutation,
@@ -59,6 +59,7 @@ export default function InfoInputPage() {
     formState: { isSubmitting },
     reset,
     setFocus,
+    setError,
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
@@ -91,9 +92,21 @@ export default function InfoInputPage() {
 
   const [testSelectorOpen, setTestSelectorOpen] = useState(false)
 
-  const [createSample] = useSampleCreateMutation()
+  const [createSample, { error }] = useSampleCreateMutation()
   const [createPatient] = usePatientCreateMutation()
   const [updatePatient] = usePatientUpdateByIdMutation()
+
+  useEffect(() => {
+    const response = (error as any)?.data as SampleBadRequestDto
+    if (response?.message?.length > 0) {
+      const { message } = response
+      if (message === SampleExceptionMsg.SAMPLE_ID_EXISTED) {
+        setError('sampleId', { message: 'Đã tồn tại' }, { shouldFocus: true })
+      } else {
+        toast.error(message)
+      }
+    }
+  }, [error])
 
   const deferredExternalId = useDeferredValue(
     useDebouncedValue(watch('externalId')!)
@@ -161,10 +174,6 @@ export default function InfoInputPage() {
     >
       <FormContainer
         onSubmit={handleSubmit(async (values) => {
-          Object.keys(values).forEach(
-            //@ts-ignore
-            (k) => values[k]! === '' && delete values[k]
-          )
           let patient: PatientResponseDto
           if (shouldUpdatePatient !== null) {
             patient = await updatePatient({
@@ -250,7 +259,7 @@ export default function InfoInputPage() {
                 )}
               />
             </Grid>
-            <Grid xs={1.5}>
+            <Grid xs={2}>
               <FormTextField
                 name="birthYear"
                 autoComplete="off"
@@ -261,7 +270,7 @@ export default function InfoInputPage() {
                 label="Năm sinh"
               />
             </Grid>
-            <Grid xs={1.5}>
+            <Grid xs={2}>
               <TextField
                 name="age"
                 autoComplete="off"
@@ -277,7 +286,7 @@ export default function InfoInputPage() {
                 label="Tuổi"
               />
             </Grid>
-            <Grid xs={1}>
+            {/* <Grid xs={1}>
               <Button
                 sx={{ height: '100%' }}
                 color="primary"
@@ -293,7 +302,7 @@ export default function InfoInputPage() {
               >
                 <HorizontalSplitIcon sx={{ transform: 'rotate(90deg)' }} />
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid xs={6}>
               <FormTextField
                 autoComplete="off"
@@ -325,7 +334,7 @@ export default function InfoInputPage() {
                 label="Số điện thoại"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="SSN"
@@ -335,11 +344,18 @@ export default function InfoInputPage() {
                 label="Số CMND/CCCD"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.4}>
               <FormSwitch
                 control={control}
                 name="isTraBuuDien"
-                label="Bưu điện"
+                label="BưuĐiện"
+              />
+            </Grid>
+            <Grid xs={1.6}>
+              <FormSwitch
+                control={control}
+                name="isNgoaiGio"
+                label="NgoàiGiờ"
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
@@ -410,7 +426,7 @@ export default function InfoInputPage() {
               />
             </Grid>
             {/* ----------------------------- Submit ----------------------------- */}
-            <Grid xs={10}>
+            <Grid xs={12}>
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -420,13 +436,6 @@ export default function InfoInputPage() {
               >
                 Lưu thông tin
               </LoadingButton>
-            </Grid>
-            <Grid xs={2}>
-              <FormSwitch
-                control={control}
-                name="isNgoaiGio"
-                label="Ngoài giờ"
-              />
             </Grid>
           </Grid>
         </Paper>
