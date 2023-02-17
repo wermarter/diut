@@ -4,6 +4,7 @@ import {
   ID_TEST_TD,
   PatientCategory,
   DATETIME_FORMAT,
+  ID_TEST_LIQUIPREP,
 } from '@diut/common'
 import {
   Alert,
@@ -411,9 +412,11 @@ export default function EditResultPage() {
               <CardContent sx={{ px: 6, py: 0 }}>
                 {currentTestInfo._id === ID_TEST_TD ? (
                   <TDResultCard {...resultCardProps} />
-                ) : [ID_TEST_PAPSMEAR, ID_TEST_THINPREP].includes(
-                    currentTestInfo._id
-                  ) ? (
+                ) : [
+                    ID_TEST_PAPSMEAR,
+                    ID_TEST_THINPREP,
+                    ID_TEST_LIQUIPREP,
+                  ].includes(currentTestInfo._id) ? (
                   <PapsmearResultCard {...resultCardProps} />
                 ) : (
                   <CommonResultCard {...resultCardProps} />

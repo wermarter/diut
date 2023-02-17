@@ -92,13 +92,12 @@ export class SampleService
     await this.browser.close()
   }
 
-  public async create(data: Omit<Sample, keyof BaseSchema>): Promise<Sample> {
-    if (await this.exists({ sampleId: data.sampleId })) {
-      throw new BadRequestException(SampleExceptionMsg.SAMPLE_ID_EXISTED)
-    }
-
-    return super.create(data)
-  }
+  // public async create(data: Omit<Sample, keyof BaseSchema>): Promise<Sample> {
+  //   // if (await this.exists({ sampleId: data.sampleId })) {
+  //   //   throw new BadRequestException(SampleExceptionMsg.SAMPLE_ID_EXISTED)
+  //   // }
+  //   return super.create(data)
+  // }
 
   async uploadFile(file: Express.Multer.File) {
     // const timestamp = Date.now().toString()

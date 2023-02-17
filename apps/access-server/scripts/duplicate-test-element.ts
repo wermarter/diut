@@ -8,6 +8,7 @@ dotenv.config()
 import { TestElement } from 'src/resources/test-elements/test-element.schema'
 import { TestElementService } from 'src/resources/test-elements/test-element.service'
 import { COLLECTION } from 'src/common/collections'
+import { ID_TEST_LIQUIPREP, ID_TEST_PAPSMEAR } from '@diut/common'
 
 async function main(srcTestId: string, destTestId: string) {
   const db = await mongoose.connect(process.env.PROD_MONGO_URI)
@@ -49,4 +50,4 @@ async function main(srcTestId: string, destTestId: string) {
   process.exit(0)
 }
 
-main('635341543b685db3059d8b97', '6353415e3b685db3059d8ba1')
+main(ID_TEST_PAPSMEAR, ID_TEST_LIQUIPREP)

@@ -327,7 +327,7 @@ export default function InfoConfirmPage() {
             {
               field: 'sampleId',
               headerName: 'ID XN',
-              width: 120,
+              width: 180,
               sortable: false,
               renderCell: ({ value }) => <strong>{value}</strong>,
             },
@@ -335,7 +335,7 @@ export default function InfoConfirmPage() {
               field: 'name',
               headerName: 'Tên',
               sortable: false,
-              width: 100,
+              width: 150,
               valueGetter: ({ row }) => patients[row.patientId]?.name,
             },
             {
@@ -366,26 +366,6 @@ export default function InfoConfirmPage() {
               valueGetter: ({ row }) => patients[row.patientId]?.address,
             },
             {
-              field: 'isTraBuuDien',
-              headerName: 'BĐ',
-              width: 60,
-              align: 'center',
-              sortable: false,
-              valueGetter: ({ value }) => {
-                if (value === true) {
-                  return '✓'
-                }
-                return ''
-              },
-            },
-            {
-              field: 'doctor',
-              headerName: 'Bác sỹ',
-              width: 100,
-              sortable: false,
-              valueGetter: ({ row }) => doctorMap.get(row.doctorId)?.name,
-            },
-            {
               field: 'tests',
               headerName: 'Chỉ định',
               minWidth: 100,
@@ -398,17 +378,9 @@ export default function InfoConfirmPage() {
               },
             },
             {
-              field: 'indication',
-              headerName: 'CĐ',
-              width: 70,
-              sortable: false,
-              valueGetter: ({ row }) =>
-                indicationMap.get(row.indicationId)?.name,
-            },
-            {
               field: 'patientType',
-              headerName: 'Đối T.',
-              width: 70,
+              headerName: 'Đối Tượng',
+              width: 150,
               sortable: false,
               valueGetter: ({ row }) =>
                 patientTypeMap.get(row.patientTypeId)?.name,

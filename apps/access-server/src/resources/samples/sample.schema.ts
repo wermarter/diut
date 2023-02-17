@@ -15,7 +15,7 @@ import { User } from '../users/user.schema'
   collection: COLLECTION.SAMPLE,
 })
 export class Sample extends BaseSchema {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   sampleId: string
 
   @Prop({ required: true })

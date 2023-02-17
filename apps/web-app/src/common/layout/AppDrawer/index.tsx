@@ -43,7 +43,7 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
         },
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           position: 'sticky',
           backgroundColor: 'background.paper',
@@ -52,17 +52,18 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
           left: 0,
         }}
       >
-        <img
+         <img
           src={fullLogo}
           width={`${drawerWidth}px`}
           style={{
             padding: '4px',
           }}
-        />
-        <Divider sx={{ my: 1, borderColor: 'primary.main' }} />
-      </Box>
+        /> 
+        <Divider sx={{ my: 1, borderColor: 'primary.main' }}
+      </Box> */}
       <List
         sx={{
+          p: 0,
           '&& .Mui-selected, && .Mui-selected:hover': {
             bgcolor: 'primary.main',
             '&, & .MuiListItemIcon-root': {

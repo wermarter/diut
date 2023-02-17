@@ -35,7 +35,7 @@ const schema = z.object({
     })
   ),
 
-  sampleId: z.string(),
+  sampleId: z.string().min(1, 'Không được để trống'),
   sampledAt: z.date({ invalid_type_error: 'Không được để trống' }),
   infoAt: z.date({ invalid_type_error: 'Không được để trống' }),
 

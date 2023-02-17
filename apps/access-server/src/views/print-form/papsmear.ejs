@@ -30,7 +30,7 @@
         font-size: 15px;
       }
       @page {
-        margin-top: 5mm;
+        margin-top: 15mm;
         margin-bottom: 5mm;
         margin-left: 15mm;
         margin-right: 10mm;
@@ -46,32 +46,6 @@
     </style>
   </head>
   <body>
-    <div class="print-footer">
-      BM.TTXN.04/5
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      Phiên bản: 1.0
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      Ngày áp dụng: 18/09/2019
-    </div>
-    <!-- -------------------------------------------------------------- -->
-    <div class="flex flex-row gap-1">
-      <img
-        src="http://localhost:9000/public/logo.png"
-        style="width: 90px; object-fit: contain"
-      />
-      <div class="text-left ml-1 text-base">
-        <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
-        <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
-        <p>
-          Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM; Website:www.hcdc.gov.vn;
-          www.hcdc.vn
-        </p>
-      </div>
-    </div>
     <p class="mb-1 text-2xl text-blue-700 text-center font-bold">
       PHIẾU XÉT NGHIỆM TẾ BÀO CỔ TỬ CUNG
     </p>
@@ -86,11 +60,11 @@
           Chẩn đoán lâm sàng:
           <span><%= results[0].tests[0].elements[0].value %></span>
         </p>
-        <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
+        <p class="text-base">Chỉ định: <span><%= doctor %></span></p>
       </div>
       <div class="mr-16">
         <p class="text-base">
-          ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+          ID: <span class="font-bold"> <%= sample.sampleId %> </span>
         </p>
         <p class="text-base">Năm sinh: <span><%= patient.birthYear %></span></p>
         <p class="text-base">
@@ -124,8 +98,8 @@
         <div>
           <div>
             <input type="checkbox" <%=
-            (results[0].tests[0].elements[3].isHighlighted) ? "checked": "" %>>
-            Phết nhúng dịch-Thinprep Paptest
+            (results[0].tests[0].elements[34].isHighlighted) ? "checked": "" %>>
+            LiquiPrep Paptest
           </div>
           <div>
             <input type="checkbox" <%=
@@ -133,10 +107,22 @@
             Không đạt yêu cầu chẩn đoán
           </div>
         </div>
+        <div>
+          <div>
+            <input type="checkbox" <%=
+            (results[0].tests[0].elements[3].isHighlighted) ? "checked": "" %>>
+            ThinPrep Paptest
+          </div>
+          <!-- <div>
+            <input type="checkbox" <%=
+            (results[0].tests[0].elements[5].isHighlighted) ? "checked": "" %>>
+            Không đạt yêu cầu chẩn đoán
+          </div> -->
+        </div>
       </div>
     </div>
     <!-- -------------------------------------------------------------- -->
-    <h1 class="text-xl font-bold text-center my-2 text-red-700">
+    <h1 class="text-2xl font-bold text-center my-4 text-red-700">
       KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG (Theo Besthesda 2014)
     </h1>
     <!-- -------------------------------------------------------------- -->

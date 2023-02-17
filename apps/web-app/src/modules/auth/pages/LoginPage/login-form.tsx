@@ -66,12 +66,13 @@ export function LoginForm({ reason }: LoginPageProps) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        pt: '300px',
       }}
     >
-      <img
+      {/* <img
         src={fullLogo}
         style={{ maxWidth: '50%', marginTop: '24px', marginBottom: '24px' }}
-      />
+      /> */}
       <FormContainer
         onSubmit={handleSubmit(handleLogin)}
         sx={{ maxWidth: '350px' }}

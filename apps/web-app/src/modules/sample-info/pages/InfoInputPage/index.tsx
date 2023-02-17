@@ -199,7 +199,7 @@ export default function InfoInputPage() {
 
       resetForm()
     }),
-    []
+    [shouldUpdatePatient]
   )
 
   return (

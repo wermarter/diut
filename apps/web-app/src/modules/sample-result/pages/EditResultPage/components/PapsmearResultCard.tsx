@@ -37,7 +37,8 @@ export const PapsmearResultCard = ({
 
   const firstRowElements = elements.slice(0, 2)
   const aboveTitleCol1Elements = [elements.at(2)!, elements.at(4)!]
-  const aboveTitleCol2Elements = [elements.at(3)!, elements.at(5)!]
+  const aboveTitleCol2Elements = [elements.at(34)!, elements.at(5)!]
+  const aboveTitleCol3Elements = [elements.at(3)!]
   const belowTitleElements = elements.slice(6, 11)
   const visinhElements = elements.slice(11, 17)
   const tbgaiElements = elements.slice(17, 23)
@@ -199,6 +200,9 @@ export const PapsmearResultCard = ({
         </FormGroup>
         <FormGroup>
           {generateCheckboxes(aboveTitleCol2Elements, true)}
+        </FormGroup>
+        <FormGroup>
+          {generateCheckboxes(aboveTitleCol3Elements, true)}
         </FormGroup>
       </Paper>
       <Paper sx={{ p: 1, mt: 1 }} variant="outlined">
