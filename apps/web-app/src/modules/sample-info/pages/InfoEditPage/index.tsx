@@ -35,6 +35,7 @@ import { usePatientUpdateByIdMutation } from 'src/api/patient'
 import { infoEditPageLoader } from './loader'
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin } from 'src/modules/auth'
+import { BarcodeModal } from '../../components/BarcodeModal'
 
 const currentYear = new Date().getFullYear()
 
@@ -95,6 +96,8 @@ export default function InfoEditPage() {
   const [deleteSample, { isLoading: isDeletingSample }] =
     useSampleDeleteByIdMutation()
 
+  const [barcodeModalOpen, setBarcodeModalOpen] = useState(false)
+
   return (
     <Box sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', mb: 2, justifyContent: 'space-between' }}>
@@ -129,11 +132,6 @@ export default function InfoEditPage() {
       </Box>
       <FormContainer
         onSubmit={handleSubmit((values) => {
-          Object.keys(values).forEach(
-            //@ts-ignore
-            (k) => values[k]! === '' && delete values[k]
-          )
-
           return Promise.all([
             updatePatient({
               id: patientId!,
@@ -151,8 +149,7 @@ export default function InfoEditPage() {
               },
             }).unwrap(),
           ]).then(() => {
-            toast.success('Sửa thành công')
-            navigate(-1)
+            setBarcodeModalOpen(true)
           })
         })}
       >
@@ -198,7 +195,7 @@ export default function InfoEditPage() {
                 name="gender"
                 control={control}
                 render={({ field }) => (
-                  <FormControl>
+                  <FormControl sx={{ flexGrow: 1, alignItems: 'center' }}>
                     <RadioGroup row {...field}>
                       <FormControlLabel
                         value={Gender.Male}
@@ -272,7 +269,7 @@ export default function InfoEditPage() {
                 label="Số điện thoại"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="SSN"
@@ -282,11 +279,18 @@ export default function InfoEditPage() {
                 label="Số CMND/CCCD"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.4}>
               <FormSwitch
                 control={control}
                 name="isTraBuuDien"
-                label="Bưu điện"
+                label="BưuĐiện"
+              />
+            </Grid>
+            <Grid xs={1.6}>
+              <FormSwitch
+                control={control}
+                name="isNgoaiGio"
+                label="NgoàiGiờ"
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
@@ -356,7 +360,7 @@ export default function InfoEditPage() {
                 label="Loại mẫu"
               />
             </Grid>
-            <Grid xs={10}>
+            <Grid xs={12}>
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -366,13 +370,6 @@ export default function InfoEditPage() {
               >
                 Sửa thông tin
               </LoadingButton>
-            </Grid>
-            <Grid xs={2}>
-              <FormSwitch
-                control={control}
-                name="isNgoaiGio"
-                label="Ngoài giờ"
-              />
             </Grid>
           </Grid>
         </Paper>
@@ -393,6 +390,16 @@ export default function InfoEditPage() {
           )
         }}
         showCombos
+      />
+      <BarcodeModal
+        open={barcodeModalOpen}
+        onClose={() => {
+          setBarcodeModalOpen(false)
+          navigate(-1)
+        }}
+        sampleId={getValues().sampleId}
+        name={getValues().name}
+        birthYear={getValues().birthYear}
       />
     </Box>
   )

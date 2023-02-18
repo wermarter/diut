@@ -294,7 +294,6 @@ export default function InfoConfirmPage() {
               cellClassName: 'actions',
               renderHeader: () => (
                 <IconButton
-                  color="primary"
                   size="small"
                   onClick={() => {
                     refetch()

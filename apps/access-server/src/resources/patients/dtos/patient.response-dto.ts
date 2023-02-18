@@ -19,7 +19,6 @@ export class PatientResponseDto extends BaseResourceResponseDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   externalId?: string
 
   @Expose()
@@ -50,7 +49,6 @@ export class PatientResponseDto extends BaseResourceResponseDto {
     example: 'QUẬN 11 - HCM',
   })
   @IsString()
-  @IsNotEmpty()
   address: string
 
   @Expose()
@@ -60,7 +58,6 @@ export class PatientResponseDto extends BaseResourceResponseDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   phoneNumber?: string
 
   @Expose()
@@ -70,6 +67,5 @@ export class PatientResponseDto extends BaseResourceResponseDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   SSN?: string
 }

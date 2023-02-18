@@ -3,7 +3,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions, AppRouteOptions } from 'src/core'
 import { SearchSampleResponseDto } from './dtos/search-sample.response-dto'
-import { SampleResponseDto } from './dtos/sample.response-dto'
+import {
+  SampleBadRequestDto,
+  SampleResponseDto,
+} from './dtos/sample.response-dto'
 import { SampleUploadResponseDto } from './dtos/sample-upload.response-dto'
 
 export const sampleRoutes = {
@@ -39,6 +42,10 @@ export const sampleRoutes = {
         {
           type: SampleResponseDto,
           status: HttpStatus.CREATED,
+        },
+        {
+          status: HttpStatus.BAD_REQUEST,
+          type: SampleBadRequestDto,
         },
       ],
     },

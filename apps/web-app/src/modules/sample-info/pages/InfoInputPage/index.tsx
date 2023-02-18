@@ -1,5 +1,5 @@
-import { Gender } from '@diut/common'
-import { useDeferredValue, useEffect, useState } from 'react'
+import { Gender, SampleExceptionMsg } from '@diut/common'
+import { useCallback, useDeferredValue, useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
   Box,
@@ -16,11 +16,10 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useLoaderData } from 'react-router-dom'
-import CheckIcon from '@mui/icons-material/Check'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import { addMinutes, setMinutes, setHours } from 'date-fns'
-import HorizontalSplitIcon from '@mui/icons-material/HorizontalSplit'
 import LoopIcon from '@mui/icons-material/Loop'
+import LinkIcon from '@mui/icons-material/Link'
 
 import {
   FormContainer,
@@ -32,7 +31,7 @@ import {
 } from 'src/common/form-elements'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { TestSelector } from 'src/common/components/TestSelector'
-import { useSampleCreateMutation } from 'src/api/sample'
+import { SampleBadRequestDto, useSampleCreateMutation } from 'src/api/sample'
 import {
   PatientResponseDto,
   usePatientCreateMutation,
@@ -42,6 +41,7 @@ import {
 import { DataTable } from 'src/common/components/DataTable'
 import { useDebouncedValue } from 'src/common/hooks'
 import { infoInputPageLoader } from './loader'
+import { BarcodeModal } from '../../components/BarcodeModal'
 
 const currentYear = new Date().getFullYear()
 
@@ -58,6 +58,7 @@ export default function InfoInputPage() {
     formState: { isSubmitting },
     reset,
     setFocus,
+    setError,
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
@@ -90,9 +91,21 @@ export default function InfoInputPage() {
 
   const [testSelectorOpen, setTestSelectorOpen] = useState(false)
 
-  const [createSample] = useSampleCreateMutation()
+  const [createSample, { error }] = useSampleCreateMutation()
   const [createPatient] = usePatientCreateMutation()
   const [updatePatient] = usePatientUpdateByIdMutation()
+
+  useEffect(() => {
+    const response = (error as any)?.data as SampleBadRequestDto
+    if (response?.message?.length > 0) {
+      const { message } = response
+      if (message === SampleExceptionMsg.SAMPLE_ID_EXISTED) {
+        setError('sampleId', { message: 'Đã tồn tại' }, { shouldFocus: true })
+      } else {
+        toast.error(message)
+      }
+    }
+  }, [error])
 
   const deferredExternalId = useDeferredValue(
     useDebouncedValue(watch('externalId')!)
@@ -122,7 +135,7 @@ export default function InfoInputPage() {
     null
   )
 
-  const resetState = () => {
+  const resetForm = useCallback(() => {
     const {
       sampleId,
       isNgoaiGio,
@@ -131,7 +144,6 @@ export default function InfoInputPage() {
       doctorId,
       address,
       infoAt,
-      sampledAt,
     } = getValues()
     const newSampleId = Number(sampleId) + 1
 
@@ -153,43 +165,45 @@ export default function InfoInputPage() {
     setValue('infoAt', nextInfoAt)
     setValue('sampledAt', nextSampledAt)
     setShouldUpdatePatient(null)
-  }
+  }, [])
+
+  const [barcodeModalOpen, setBarcodeModalOpen] = useState(false)
+
+  const handleFormSubmit = useCallback(
+    handleSubmit(async (values) => {
+      let patient: PatientResponseDto
+
+      if (shouldUpdatePatient !== null) {
+        patient = await updatePatient({
+          id: shouldUpdatePatient,
+          updatePatientRequestDto: values,
+        }).unwrap()
+      } else {
+        patient = await createPatient({
+          createPatientRequestDto: values,
+        }).unwrap()
+      }
+
+      await createSample({
+        createSampleRequestDto: {
+          ...values,
+          note: values.note ?? '',
+          sampledAt: values.sampledAt.toISOString(),
+          infoAt: values.infoAt.toISOString(),
+          patientId: patient._id,
+        },
+      }).unwrap()
+
+      setBarcodeModalOpen(true)
+    }),
+    [shouldUpdatePatient]
+  )
 
   return (
     <Box
       sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}
     >
-      <FormContainer
-        onSubmit={handleSubmit(async (values) => {
-          Object.keys(values).forEach(
-            //@ts-ignore
-            (k) => values[k]! === '' && delete values[k]
-          )
-          let patient: PatientResponseDto
-          if (shouldUpdatePatient !== null) {
-            patient = await updatePatient({
-              id: shouldUpdatePatient,
-              updatePatientRequestDto: values,
-            }).unwrap()
-          } else {
-            patient = await createPatient({
-              createPatientRequestDto: values,
-            }).unwrap()
-          }
-
-          await createSample({
-            createSampleRequestDto: {
-              ...values,
-              note: values.note ?? '',
-              sampledAt: values.sampledAt.toISOString(),
-              infoAt: values.infoAt.toISOString(),
-              patientId: patient._id,
-            },
-          }).unwrap()
-          toast.success('Thêm thành công')
-          resetState()
-        })}
-      >
+      <FormContainer onSubmit={handleFormSubmit}>
         <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
           <Grid container spacing={2}>
             {/* ----------------------------- Row 1 ----------------------------- */}
@@ -250,7 +264,7 @@ export default function InfoInputPage() {
                 )}
               />
             </Grid>
-            <Grid xs={1.5}>
+            <Grid xs={2}>
               <FormTextField
                 name="birthYear"
                 autoComplete="off"
@@ -261,7 +275,7 @@ export default function InfoInputPage() {
                 label="Năm sinh"
               />
             </Grid>
-            <Grid xs={1.5}>
+            <Grid xs={2}>
               <TextField
                 name="age"
                 autoComplete="off"
@@ -276,16 +290,6 @@ export default function InfoInputPage() {
                 fullWidth
                 label="Tuổi"
               />
-            </Grid>
-            <Grid xs={1}>
-              <Button
-                sx={{ height: '100%' }}
-                color="primary"
-                variant="outlined"
-                fullWidth
-              >
-                <HorizontalSplitIcon sx={{ transform: 'rotate(90deg)' }} />
-              </Button>
             </Grid>
             <Grid xs={6}>
               <FormTextField
@@ -318,7 +322,7 @@ export default function InfoInputPage() {
                 label="Số điện thoại"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="SSN"
@@ -328,11 +332,18 @@ export default function InfoInputPage() {
                 label="Số CMND/CCCD"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.4}>
               <FormSwitch
                 control={control}
                 name="isTraBuuDien"
-                label="Bưu điện"
+                label="BưuĐiện"
+              />
+            </Grid>
+            <Grid xs={1.6}>
+              <FormSwitch
+                control={control}
+                name="isNgoaiGio"
+                label="NgoàiGiờ"
               />
             </Grid>
             {/* ----------------------------- Row 4 ----------------------------- */}
@@ -403,7 +414,7 @@ export default function InfoInputPage() {
               />
             </Grid>
             {/* ----------------------------- Submit ----------------------------- */}
-            <Grid xs={10}>
+            <Grid xs={12}>
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -413,13 +424,6 @@ export default function InfoInputPage() {
               >
                 Lưu thông tin
               </LoadingButton>
-            </Grid>
-            <Grid xs={2}>
-              <FormSwitch
-                control={control}
-                name="isNgoaiGio"
-                label="Ngoài giờ"
-              />
             </Grid>
           </Grid>
         </Paper>
@@ -457,10 +461,10 @@ export default function InfoInputPage() {
               cellClassName: 'actions',
               renderHeader: () => (
                 <IconButton
-                  color="primary"
+                  color="secondary"
                   size="small"
                   onClick={() => {
-                    resetState()
+                    resetForm()
                   }}
                 >
                   <LoopIcon />
@@ -468,8 +472,8 @@ export default function InfoInputPage() {
               ),
               getActions: ({ id }) => [
                 <GridActionsCellItem
-                  icon={<CheckIcon />}
-                  label="Chọn"
+                  icon={<LinkIcon />}
+                  label="Liên kết"
                   color="primary"
                   onClick={() => {
                     const patient = patients?.items.find(
@@ -533,6 +537,16 @@ export default function InfoInputPage() {
           ]}
         />
       </Box>
+      <BarcodeModal
+        open={barcodeModalOpen}
+        onClose={() => {
+          setBarcodeModalOpen(false)
+          resetForm()
+        }}
+        sampleId={getValues().sampleId}
+        name={getValues().name}
+        birthYear={getValues().birthYear}
+      />
     </Box>
   )
 }

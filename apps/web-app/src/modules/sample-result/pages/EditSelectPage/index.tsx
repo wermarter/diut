@@ -325,7 +325,6 @@ export default function EditSelectPage() {
               cellClassName: 'actions',
               renderHeader: () => (
                 <IconButton
-                  color="primary"
                   size="small"
                   onClick={() => {
                     refetch()

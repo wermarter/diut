@@ -303,7 +303,6 @@ export default function PrintSelectPage() {
               cellClassName: 'actions',
               renderHeader: () => (
                 <IconButton
-                  color="primary"
                   size="small"
                   onClick={() => {
                     refetch()

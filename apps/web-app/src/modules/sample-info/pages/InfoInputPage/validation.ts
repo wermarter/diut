@@ -16,10 +16,10 @@ const schema = z.object({
     (value) => parseInt(value as string, 10),
     z
       .number({ required_error: 'Không được để trống' })
-      .gt(1900, 'Năm sinh quá nhỏ')
-      .lte(new Date().getFullYear(), 'Năm sinh quá lớn')
+      .gt(1900, 'Số quá nhỏ')
+      .lte(new Date().getFullYear(), 'Số quá lớn')
   ),
-  address: z.string().min(1, 'Không được để trống'),
+  address: z.string(),
   phoneNumber: z.string().optional(),
   SSN: z.string().optional(),
 
@@ -27,7 +27,7 @@ const schema = z.object({
   indicationId: z.string(),
   doctorId: z.string(),
 
-  sampleTypeIds: z.array(z.string()).nonempty('Phải chọn một loại mẫu'),
+  sampleTypeIds: z.array(z.string()),
   tests: z.array(
     z.object({
       id: z.string(),

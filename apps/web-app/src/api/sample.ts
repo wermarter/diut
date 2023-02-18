@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/common'
+import { PrintForm, SampleExceptionMsg } from '@diut/common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['samples'] as const
 const injectedRtkApi = api
@@ -219,6 +219,11 @@ export type CreateSampleRequestDto = {
   isTraBuuDien: boolean
   isNgoaiGio: boolean
   note?: string
+}
+export type SampleBadRequestDto = {
+  statusCode: number
+  error: string
+  message: SampleExceptionMsg
 }
 export type UpdateSampleRequestDto = {
   sampleId?: string

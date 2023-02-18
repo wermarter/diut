@@ -25,7 +25,7 @@ export function fileDownloadReponseHandler({
       filename?.length! > 0 ? filename! : defaultFilename ?? 'HCDC_Lab_Web'
     hiddenElement.click()
 
-    URL.revokeObjectURL(objectURL)
+    // URL.revokeObjectURL(objectURL)
     return objectURL
   }
 }
