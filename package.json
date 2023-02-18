@@ -19,6 +19,7 @@
     "be": "nx run @diut/access-server:dev",
     "common": "nx run @diut/common:dev",
     "fe": "nx run @diut/web-app:dev",
-    "lint": "nx run-many -t lint"
+    "lint": "nx run-many -t lint",
+    "dev": "nx run-many -t dev"
   }
 }

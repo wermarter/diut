@@ -59,7 +59,7 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
             padding: '4px',
           }}
         />
-        <Divider sx={{ my: 1, borderColor: 'primary.main' }} />
+        <Divider sx={{ mt: 1, borderColor: 'primary.main' }} />
       </Box>
       <List
         sx={{
@@ -69,6 +69,7 @@ export function AppDrawer({ drawerWidth }: AppDrawerProps) {
               color: 'white',
             },
           },
+          p: 0,
           overflowY: 'scroll',
           msOverflowStyle: 'none',
           scrollbarWidth: 'none',
