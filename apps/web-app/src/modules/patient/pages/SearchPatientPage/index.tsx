@@ -142,7 +142,7 @@ export default function SearchPatientPage() {
               field: 'externalId',
               headerName: 'ID PK',
               sortable: false,
-              width: 100,
+              width: 150,
             },
             {
               field: 'name',

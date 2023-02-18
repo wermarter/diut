@@ -137,7 +137,6 @@ export default function InfoInputPage() {
 
   const resetForm = useCallback(() => {
     const {
-      sampleId,
       isNgoaiGio,
       patientTypeId,
       indicationId,
@@ -145,8 +144,6 @@ export default function InfoInputPage() {
       address,
       infoAt,
     } = getValues()
-    const newSampleId = Number(sampleId) + 1
-
     const moment = new Date()
     const thisHour = moment.getHours()
     const thisMinute = moment.getMinutes()
@@ -160,7 +157,6 @@ export default function InfoInputPage() {
     setValue('patientTypeId', patientTypeId)
     setValue('indicationId', indicationId)
     setValue('doctorId', doctorId)
-    setValue('sampleId', newSampleId.toString())
     setValue('address', address)
     setValue('infoAt', nextInfoAt)
     setValue('sampledAt', nextSampledAt)

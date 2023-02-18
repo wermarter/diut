@@ -46,79 +46,42 @@
     </style>
   </head>
   <body>
-    <div class="print-footer">
-      BM.TTXN.04/4
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      Phiên bản: 1.0
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      Ngày áp dụng: 18/09/2019
-    </div>
-    <div class="flex flex-row justify-between">
-      <div class="flex flex-col justify-between">
-        <div class="flex flex-row">
-          <img
-            src="http://localhost:9000/public/logo.png"
-            style="width: 90px; object-fit: contain"
-          />
-          <div class="text-center ml-1 text-base">
-            <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
-            <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
-            <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
-            <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
-          </div>
-        </div>
-        <div class="mt-1">
-          <p class="text-base">
-            Họ và tên: <span class="font-bold"><%= patient.name %></span>
-          </p>
-          <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
-
-          <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
-          <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
-        </div>
+    <div class="flex flex-row justify-end">
+      <div>
+        <p class="text-base">
+          ID: <span class="font-bold"> <%= sample.sampleId %> </span>
+        </p>
+        <!-- <p class="text-base">
+          TG nhận bệnh:
+          <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
+        </p> -->
       </div>
-      <div class="flex flex-col justify-between" style="max-width: 250px">
-        <div>
-          <p class="text-base">
-            ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
-          </p>
-          <p class="text-base">
-            TG nhận bệnh:
-            <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
-          </p>
-          <p class="text-base">
-            Giờ:
-            <span
-              ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
-            >
-          </p>
-        </div>
-        <div>
-          <div class="flex flex-row">
-            <p class="text-base">
-              Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
-            </p>
-            <p class="text-base ml-6">
-              Giới tính:
-              <span class="font-bold"
-                ><%= patient.gender === 0 ? "Nam" : "Nữ" %></span
-              >
-            </p>
-          </div>
-          <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
-          <p class="text-base">
-            Loại mẫu:
-            <span><%= sampleTypes.join(', ') %></span>
-          </p>
-          <p class="text-base">
-            Ngày XN:
-            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
-          </p>
-        </div>
+    </div>
+    <div class="flex flex-row justify-between mt-1">
+      <div>
+        <p class="text-base">
+          Họ và tên: <span class="font-bold"><%= patient.name %></span>
+        </p>
+        <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
+        <p class="text-base">Chỉ định: <span><%= doctor %></span></p>
+        <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
+      </div>
+      <div style="max-width: 250px">
+        <p class="text-base">
+          Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
+        </p>
+        <p class="text-base">Giới tính:
+          <span class="font-bold"
+            ><%= patient.gender === 0 ? "Nam" : "Nữ" %></span
+          ></p>
+        <p class="text-base">
+          Loại mẫu:
+          <span><%= sampleTypes.join(', ') %></span>
+        </p>
+        <p class="text-base">
+          Ngày XN:
+          <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+        </p>
       </div>
     </div>
     <h1 class="text-xl font-bold text-center my-<%= typeof titleMargin === 'number' ? titleMargin : 2 %>">PHIẾU KẾT QUẢ XÉT NGHIỆM</h1>
