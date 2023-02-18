@@ -35,6 +35,7 @@ import { usePatientUpdateByIdMutation } from 'src/api/patient'
 import { infoEditPageLoader } from './loader'
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin } from 'src/modules/auth'
+import { BarcodeModal } from '../../components/BarcodeModal'
 
 const currentYear = new Date().getFullYear()
 
@@ -95,6 +96,8 @@ export default function InfoEditPage() {
   const [deleteSample, { isLoading: isDeletingSample }] =
     useSampleDeleteByIdMutation()
 
+  const [barcodeModalOpen, setBarcodeModalOpen] = useState(false)
+
   return (
     <Box sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', mb: 2, justifyContent: 'space-between' }}>
@@ -146,8 +149,7 @@ export default function InfoEditPage() {
               },
             }).unwrap(),
           ]).then(() => {
-            toast.success('Sửa thành công')
-            navigate(-1)
+            setBarcodeModalOpen(true)
           })
         })}
       >
@@ -388,6 +390,16 @@ export default function InfoEditPage() {
           )
         }}
         showCombos
+      />
+      <BarcodeModal
+        open={barcodeModalOpen}
+        onClose={() => {
+          setBarcodeModalOpen(false)
+          navigate(-1)
+        }}
+        sampleId={getValues().sampleId}
+        name={getValues().name}
+        birthYear={getValues().birthYear}
       />
     </Box>
   )

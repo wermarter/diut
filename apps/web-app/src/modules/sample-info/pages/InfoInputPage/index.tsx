@@ -41,7 +41,7 @@ import {
 import { DataTable } from 'src/common/components/DataTable'
 import { useDebouncedValue } from 'src/common/hooks'
 import { infoInputPageLoader } from './loader'
-import { BarcodeModal } from './components/BarcodeModal'
+import { BarcodeModal } from '../../components/BarcodeModal'
 
 const currentYear = new Date().getFullYear()
 
@@ -190,10 +190,7 @@ export default function InfoInputPage() {
         },
       }).unwrap()
 
-      toast.success('Nhập thành công')
-      // setBarcodeModalOpen(true)
-
-      resetForm()
+      setBarcodeModalOpen(true)
     }),
     [shouldUpdatePatient]
   )
@@ -539,7 +536,13 @@ export default function InfoInputPage() {
       </Box>
       <BarcodeModal
         open={barcodeModalOpen}
-        onClose={() => setBarcodeModalOpen(false)}
+        onClose={() => {
+          setBarcodeModalOpen(false)
+          resetForm()
+        }}
+        sampleId={getValues().sampleId}
+        name={getValues().name}
+        birthYear={getValues().birthYear}
       />
     </Box>
   )

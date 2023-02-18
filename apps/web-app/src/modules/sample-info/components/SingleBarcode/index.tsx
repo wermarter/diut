@@ -13,16 +13,23 @@ export function SingleBarcode({
   lowerText,
   value,
 }: SingleBarcodeProps) {
-  upperText = upperText && normalizeString(upperText)
-  lowerText = lowerText && normalizeString(lowerText)
   value = normalizeString(value)
 
   return (
-    <div>
-      {upperText}
-      <Barcode value={value} />
-      OJDOJIVJFIVJ
-      {lowerText}
+    <div
+      style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '0.4mm' }}
+    >
+      <p style={{ fontSize: '2.5mm', margin: 0 }}>{upperText ?? '　'}</p>
+      <Barcode
+        value={value}
+        displayValue={false}
+        width={0.6}
+        height={25}
+        margin={0}
+      />
+      <p style={{ fontSize: '2.7mm', marginTop: -7, marginBottom: 0 }}>
+        {lowerText ?? '　'}
+      </p>
     </div>
   )
 }
