@@ -210,7 +210,8 @@ export function SinglePrintDialog({
               />
             </Grid>
             {(selectedForm === PrintForm.Basic ||
-              selectedForm === PrintForm.SoiNhuom) && (
+              selectedForm === PrintForm.SoiNhuom ||
+              selectedForm === PrintForm.STD) && (
               <Grid xs={12}>
                 <FormAutocomplete
                   control={control}
