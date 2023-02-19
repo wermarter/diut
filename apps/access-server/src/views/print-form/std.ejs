@@ -46,19 +46,9 @@
     </style>
   </head>
   <body>
-    <div class="flex flex-row justify-end">
-      <div>
-        <p class="text-base">
-          ID: <span class="font-bold"> <%= sample.sampleId %> </span>
-        </p>
-        <!-- <p class="text-base">
-          TG nhận bệnh:
-          <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
-        </p> -->
-      </div>
-    </div>
-    <div class="flex flex-row justify-between mt-1">
-      <div>
+    <div class="flex flex-row justify-between my-4 mr-12">
+      <div class="mt-1">
+        <p class="text-base">　</p>
         <p class="text-base">
           Họ và tên: <span class="font-bold"><%= patient.name %></span>
         </p>
@@ -66,32 +56,39 @@
         <p class="text-base">Chỉ định: <span><%= doctor %></span></p>
         <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
       </div>
-      <div style="max-width: 250px">
-        <p class="text-base">
-          Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
-        </p>
-        <p class="text-base">Giới tính:
-          <span class="font-bold"
-            ><%= patient.gender === 0 ? "Nam" : "Nữ" %></span
-          ></p>
-        <p class="text-base">
-          Loại mẫu:
-          <span><%= sampleTypes.join(', ') %></span>
-        </p>
-        <p class="text-base">
-          Ngày XN:
-          <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
-        </p>
+      <div class="flex flex-col justify-between" style="max-width: 250px">
+        <div>
+          <p class="text-base">
+            ID: <span class="font-bold"> <%= sample.sampleId %> </span>
+          </p>
+        </div>
+        <div>
+          <p class="text-base">
+            Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
+          </p>
+          <p class="text-base">Giới tính:
+            <span class="font-bold"
+              ><%= patient.gender === 0 ? "Nam" : "Nữ" %></span
+            ></p>
+            <p class="text-base">
+              Loại mẫu:
+              <span><%= sampleTypes.join(', ') %></span>
+            </p>
+            <p class="text-base">
+              Ngày XN:
+              <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+            </p>
+        </div>
       </div>
     </div>
     <h1 class="text-xl font-bold text-center my-<%= typeof titleMargin === 'number' ? titleMargin : 2 %>">PHIẾU KẾT QUẢ XÉT NGHIỆM / TEST RESULT</h1>
     <table class="w-full">
       <thead class="bg-gray-100 text-sm">
         <tr>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="48%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="60%">
             Tên Xét nghiệm
           </th>
-          <th scope="col" class="py-1 px-6 border border-gray-300" width="15%">
+          <th scope="col" class="py-1 px-6 border border-gray-300" width="40%">
             Kết quả
           </th>
         </tr>
