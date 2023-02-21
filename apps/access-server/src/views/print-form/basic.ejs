@@ -166,7 +166,7 @@
           <td class="pl-8 border border-gray-300">- <%= element.name %></td>
           <% } %>
           <td
-            class="text-center border border-gray-300 <%= element.isHighlighted ? 'font-bold' : '' %>"
+            class="text-center border border-gray-300 <%= element?.isHighlighted ? 'font-bold' : '' %>"
           >
             <%= element.value %>
           </td>

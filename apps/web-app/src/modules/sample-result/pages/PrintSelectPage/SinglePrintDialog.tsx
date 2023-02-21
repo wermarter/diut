@@ -41,7 +41,7 @@ const Transition = forwardRef(function Transition(
 })
 
 interface SinglePrintDialogProps {
-  printFormData: PrintFormResponseDto[]
+  printForms: PrintFormResponseDto[]
   sample: SampleResponseDto | null
   onClose: Function
   sampleTypes: SampleTypeResponseDto[] | undefined
@@ -55,7 +55,7 @@ interface FormData {
 }
 
 export function SinglePrintDialog({
-  printFormData,
+  printForms,
   sample,
   onClose,
   sampleTypes,
@@ -71,7 +71,7 @@ export function SinglePrintDialog({
   } = useForm<FormData>({
     defaultValues: {
       sampleTypes: [],
-      printForm: printFormData[0]?._id as PrintForm,
+      printForm: printForms[0]?._id as PrintForm,
       authorPosition: '',
       authorName: '',
     },
@@ -83,7 +83,7 @@ export function SinglePrintDialog({
 
   useEffect(() => {
     if (selectedForm?.length > 0) {
-      const printForm = printFormData.find(({ _id }) => _id === selectedForm)!
+      const printForm = printForms.find(({ _id }) => _id === selectedForm)!
       if (printForm._id === PrintForm.SoiNhuom) {
         setValue(
           'sampleTypes',
@@ -129,7 +129,7 @@ export function SinglePrintDialog({
 
   useEffect(() => {
     if (sampleTypes?.length! > 0) {
-      if (printFormData[0]?._id === PrintForm.SoiNhuom) {
+      if (printForms[0]?._id === PrintForm.SoiNhuom) {
         setValue(
           'sampleTypes',
           sampleTypes
@@ -142,7 +142,7 @@ export function SinglePrintDialog({
             )
             .map(({ name }) => name)
         )
-      } else if (printFormData[0]?._id === PrintForm.Basic) {
+      } else if (printForms[0]?._id === PrintForm.Basic) {
         setValue(
           'sampleTypes',
           sampleTypes
@@ -204,7 +204,7 @@ export function SinglePrintDialog({
                 size="medium"
                 name="printForm"
                 label="Form In"
-                options={printFormData}
+                options={printForms}
                 getOptionLabel={(printForm) => printForm.name}
                 getOptionValue={(printForm) => printForm._id}
               />

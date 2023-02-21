@@ -157,7 +157,7 @@ export default function EditResultPage() {
           setElementState((formState) =>
             Object.assign({}, formState, {
               [element.id]: {
-                checked: element.isHighlighted,
+                checked: element?.isHighlighted,
                 value: element.value,
               },
             })

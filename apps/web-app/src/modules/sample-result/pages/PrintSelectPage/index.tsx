@@ -20,19 +20,15 @@ import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
 } from 'src/api/patient'
-import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import {
+  FormAutocomplete,
   FormContainer,
   FormDateTimePicker,
   FormSelect,
   FormTextField,
 } from 'src/common/form-elements'
 import { SinglePrintDialog } from './SinglePrintDialog'
-import {
-  SampleTypeResponseDto,
-  useLazySampleTypeFindByIdQuery,
-} from 'src/api/sample-type'
 import { printSelectPageLoader } from './loader'
 import { useCheckPermissionAnyOf } from 'src/modules/auth'
 
@@ -44,15 +40,15 @@ interface FilterData {
   sampleId: string
   patientId: string
   patientType: string
+  testIds: string[]
 }
 
 export default function PrintSelectPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
-  const { printFormData, patientTypeMap } = useLoaderData() as Awaited<
-    ReturnType<typeof printSelectPageLoader>
-  >
+  const { printForms, patientTypeMap, testMap, sampleTypeMap, tests } =
+    useLoaderData() as Awaited<ReturnType<typeof printSelectPageLoader>>
 
   const userCanPrint = useCheckPermissionAnyOf([Permission.PrintResult])
   const userCanEdit = useCheckPermissionAnyOf([Permission.ManageResult])
@@ -84,6 +80,7 @@ export default function PrintSelectPage() {
       sampleId: searchParams.get('sampleId') ?? '',
       patientId: searchParams.get('patientId') ?? '',
       patientType: patientTypeParam,
+      testIds: searchParams.getAll('testIds') ?? [],
     },
   })
   const fromDate = watch('fromDate')
@@ -112,6 +109,7 @@ export default function PrintSelectPage() {
     sampleId,
     patientId,
     patientType,
+    testIds,
   }: FilterData) => {
     setSearchParams(
       {
@@ -120,6 +118,7 @@ export default function PrintSelectPage() {
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
         patientType,
+        testIds,
       },
       { replace: true }
     )
@@ -142,25 +141,25 @@ export default function PrintSelectPage() {
               },
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
+        results:
+          testIds?.length > 0
+            ? {
+                $elemMatch: {
+                  testId: {
+                    $in: testIds,
+                  },
+                },
+              }
+            : undefined,
       },
     }))
   }
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
-  const [getTest, { isFetching: isFetchingTests }] = useLazyTestFindByIdQuery()
-  const [getSampleType, { isFetching: isFetchingSampleTypes }] =
-    useLazySampleTypeFindByIdQuery()
-
   const [samples, setSamples] = useState<SearchSampleResponseDto>()
   const [patients, setPatients] = useState<{
     [id: string]: PatientResponseDto
-  }>({})
-  const [tests, setTests] = useState<{
-    [id: string]: TestResponseDto
-  }>({})
-  const [sampleTypes, setSampleTypes] = useState<{
-    [id: string]: SampleTypeResponseDto
   }>({})
 
   async function expandId(samples: SampleResponseDto[]) {
@@ -173,26 +172,6 @@ export default function PrintSelectPage() {
             [patientId]: res.data!,
           })
         )
-      })
-      results.map(({ testId }) => {
-        getTest({ id: testId }, true).then((res) => {
-          setTests((cache) =>
-            Object.assign({}, cache, {
-              ...cache,
-              [testId]: res.data!,
-            })
-          )
-        })
-      })
-      sampleTypeIds.map((sampleTypeId) => {
-        getSampleType({ id: sampleTypeId }, true).then((res) => {
-          setSampleTypes((cache) =>
-            Object.assign({}, cache, {
-              ...cache,
-              [sampleTypeId]: res.data!,
-            })
-          )
-        })
       })
     })
     return Promise.all(promises)
@@ -249,7 +228,7 @@ export default function PrintSelectPage() {
                 }
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -266,10 +245,18 @@ export default function PrintSelectPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={2}>
-              <input type="submit" style={{ display: 'none' }} />
+            <Grid xs={4}>
+              <FormAutocomplete
+                groupBy={(option) => option?.category?.name ?? ''}
+                control={control}
+                name="testIds"
+                options={tests}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option._id}
+                label="Chọn XN"
+              />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormTextField
                 fullWidth
                 control={control}
@@ -277,6 +264,7 @@ export default function PrintSelectPage() {
                 label="ID xét nghiệm"
                 disabled={watch('patientId')?.length > 0}
               />
+              <input type="submit" style={{ display: 'none' }} />
             </Grid>
           </Grid>
         </FormContainer>
@@ -287,12 +275,7 @@ export default function PrintSelectPage() {
           disableSelectionOnClick
           rows={samples?.items || []}
           autoRowHeight
-          loading={
-            isFetchingSamples ||
-            isFetchingPatients ||
-            isFetchingTests ||
-            isFetchingSampleTypes
-          }
+          loading={isFetchingSamples || isFetchingPatients}
           getRowId={(row) => row._id}
           columns={[
             {
@@ -380,7 +363,7 @@ export default function PrintSelectPage() {
               valueGetter: ({ row }) => {
                 return row.results
                   .filter(({ testCompleted }) => testCompleted)
-                  .map(({ testId }) => tests[testId]?.name)
+                  .map(({ testId }) => testMap.get(testId)?.name)
                   .join(', ')
               },
             },
@@ -410,17 +393,19 @@ export default function PrintSelectPage() {
         />
       </Box>
       <SinglePrintDialog
-        printFormData={printFormData.items.filter(({ _id }) => {
+        printForms={printForms.filter(({ _id }) => {
           const testIds = printSample?.results
             .filter(({ testCompleted }) => testCompleted)
             .map(({ testId }) => testId)
-          const printForms = testIds?.map((testId) => tests[testId].printForm)
-          return printForms?.some((printFormId) => printFormId === _id)
+          const printFormIds = testIds?.map(
+            (testId) => testMap.get(testId)?.printForm
+          )
+          return printFormIds?.some((printFormId) => printFormId === _id)
         })}
         sample={printSample}
         key={printSample?._id}
         sampleTypes={printSample?.sampleTypeIds?.map(
-          (sampleTypeId) => sampleTypes[sampleTypeId]
+          (sampleTypeId) => sampleTypeMap.get(sampleTypeId)!
         )}
         onClose={() => {
           setPrintSample(null)

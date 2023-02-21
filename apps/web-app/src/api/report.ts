@@ -31,7 +31,21 @@ const injectedRtkApi = api
           body: queryArg.exportTraKqRequestDto,
           cache: 'no-cache',
           responseHandler: fileDownloadReponseHandler({
-            defaultFilename: 'danh sách trả kết quả.xlsx',
+            defaultFilename: 'danh sách trả kết quả (lỗi).xlsx',
+          }),
+        }),
+      }),
+      reportExportGiaoNhanMau: build.mutation<
+        ReportExportTraKqApiResponse,
+        ReportExportTraKqApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/reports/export-giao-nhan-mau`,
+          method: 'POST',
+          body: queryArg.exportTraKqRequestDto,
+          cache: 'no-cache',
+          responseHandler: fileDownloadReponseHandler({
+            defaultFilename: 'danh sách giao nhận mẫu (lỗi).xlsx',
           }),
         }),
       }),
@@ -228,4 +242,5 @@ export const {
   useReportExportPapsmearMutation,
   useReportExportThinprepMutation,
   useReportExportUrine10Mutation,
+  useReportExportGiaoNhanMauMutation,
 } = injectedRtkApi

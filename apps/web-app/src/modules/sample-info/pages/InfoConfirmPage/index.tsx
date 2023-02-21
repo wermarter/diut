@@ -44,7 +44,7 @@ interface FilterData {
 }
 
 export default function InfoConfirmPage() {
-  const { indicationMap, doctorMap, patientTypeMap } =
+  const { indicationMap, doctorMap, patientTypeMap, testMap } =
     useLoaderData() as Awaited<ReturnType<typeof infoConfirmPageLoader>>
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
@@ -149,14 +149,10 @@ export default function InfoConfirmPage() {
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
-  const [getTest, { isFetching: isFetchingTests }] = useLazyTestFindByIdQuery()
 
   const [samples, setSamples] = useState<SearchSampleResponseDto>()
   const [patients, setPatients] = useState<{
     [id: string]: PatientResponseDto
-  }>({})
-  const [tests, setTests] = useState<{
-    [id: string]: TestResponseDto
   }>({})
 
   async function expandId(samples: SampleResponseDto[]) {
@@ -168,16 +164,6 @@ export default function InfoConfirmPage() {
             [patientId]: res.data!,
           })
         )
-      })
-      results.map(({ testId }) => {
-        getTest({ id: testId }, true).then((res) => {
-          setTests((cache) =>
-            Object.assign({}, cache, {
-              ...cache,
-              [testId]: res.data!,
-            })
-          )
-        })
       })
     })
     return Promise.all(promises)
@@ -284,7 +270,7 @@ export default function InfoConfirmPage() {
           disableSelectionOnClick
           rows={samples?.items || []}
           autoRowHeight
-          loading={isFetchingSamples || isFetchingPatients || isFetchingTests}
+          loading={isFetchingSamples || isFetchingPatients}
           getRowId={(row) => row._id}
           columns={[
             {
@@ -393,7 +379,7 @@ export default function InfoConfirmPage() {
               sortable: false,
               valueGetter: ({ row }) => {
                 return row.results
-                  .map(({ testId }) => tests[testId]?.name)
+                  .map(({ testId }) => testMap.get(testId)?.name)
                   .join(', ')
               },
             },

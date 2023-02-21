@@ -94,7 +94,7 @@ export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto>
               const elementResult = testResultElements?.find(
                 ({ id }) => id === testElementsDM[translatedIndex]._id
               )
-              if (elementResult.isHighlighted === true) {
+              if (elementResult?.isHighlighted === true) {
                 abnormalCounters[_id]++
               }
 

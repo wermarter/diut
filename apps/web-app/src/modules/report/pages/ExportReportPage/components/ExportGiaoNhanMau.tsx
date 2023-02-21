@@ -12,7 +12,7 @@ import { FormAutocomplete, FormDateTimePicker } from 'src/common/form-elements'
 import { ExportDialog } from './ExportDialog'
 import { useTypedSelector } from 'src/core'
 import { selectUserPermissions } from 'src/modules/auth'
-import { useReportExportTraKqMutation } from 'src/api/report'
+import { useReportExportGiaoNhanMauMutation } from 'src/api/report'
 import { exportReportPageLoader } from '../loader'
 
 const schema = z.object({
@@ -31,7 +31,8 @@ export function ExportGiaoNhanMau() {
 
   const userPermissions = useTypedSelector(selectUserPermissions)
   const [openDialog, setOpenDialog] = useState(false)
-  const [exportTraKQ, { isLoading }] = useReportExportTraKqMutation()
+  const [exportGiaoNhanMau, { isLoading }] =
+    useReportExportGiaoNhanMauMutation()
 
   const { control, handleSubmit } = useForm<FormSchema>({
     resolver: formResolver,
@@ -63,7 +64,7 @@ export function ExportGiaoNhanMau() {
         isLoading={isLoading}
         onClose={() => setOpenDialog(false)}
         onConfirm={handleSubmit(async (values) => {
-          await exportTraKQ({
+          await exportGiaoNhanMau({
             exportTraKqRequestDto: {
               startDate: startOfDay(values.startDate).toISOString(),
               endDate: endOfDay(values.endDate).toISOString(),
