@@ -57,7 +57,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
     >
       <Toolbar variant="dense">
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          Xin chào, {name}.
+          Xin chào, {name}. !!!
         </Typography>
         <div>
           <IconButton
