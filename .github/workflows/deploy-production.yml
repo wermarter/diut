@@ -17,20 +17,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-          cache: 'yarn'
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: npm ci
 
       - name: Set environment variables
         working-directory: ./apps/web-app
         run: |
+          echo "NODE_ENV=production" >> ./.env
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> ./.env
-        # echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
 
       - name: Build web app
-        run: yarn nx run @diut/web-app:build
+        run: npx nx run @diut/web-app:build
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -54,21 +54,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-          cache: 'yarn'
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: npm ci
 
       - name: Build access server
-        run: yarn nx run @diut/access-server:build
+        run: npx nx run @diut/access-server:build
 
       - name: Set environment variables
         working-directory: ./apps/access-server
         run: |
+          echo "NODE_ENV=production" >> ./dist/.env
           echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> ./dist/.env
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> ./dist/.env
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> ./dist/.env
           echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> ./dist/.env
           echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> ./dist/.env
 

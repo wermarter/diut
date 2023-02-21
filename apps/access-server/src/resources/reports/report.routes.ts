@@ -15,8 +15,14 @@ export const reportRoutes = {
   },
 
   exportTraKQ: <AppRouteOptions>{
-    permissionAnyOf: [Permission.ExportTraKQ, Permission.ExportGiaoNhanMau],
+    permissionAnyOf: [Permission.ExportTraKQ],
     path: 'export-tra-kq',
+    method: RequestMethod.POST,
+  },
+
+  exportGiaoNhanMau: <AppRouteOptions>{
+    permissionAnyOf: [Permission.ExportGiaoNhanMau],
+    path: 'export-giao-nhan-mau',
     method: RequestMethod.POST,
   },
 

@@ -56,7 +56,14 @@ export class ReportService {
 
   async exportTraKQ(body: ExportTraKQRequestDto) {
     const worksheet = await this.traKQService.exportWorksheet(body)
-    const filename = generateFilename(body, 'Danh sach Tra KQ')
+    const filename = generateFilename(body, 'DS Tra KQ')
+
+    return this.exportWorksheet(worksheet, filename)
+  }
+
+  async exportGiaoNhanMau(body: ExportTraKQRequestDto) {
+    const worksheet = await this.traKQService.exportWorksheet(body)
+    const filename = generateFilename(body, 'DS Giao nhan mau')
 
     return this.exportWorksheet(worksheet, filename)
   }

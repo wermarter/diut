@@ -7,10 +7,12 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "libs/common",
-    "apps/access-server",
-    "apps/web-app"
+    "libs/**/*",
+    "apps/**/*"
   ],
+  "engines": {
+    "node": "18"
+  },
   "devDependencies": {
     "@nrwl/nx-cloud": "latest",
     "nx": "15.6.3"

@@ -4,22 +4,16 @@
 
 Prepare your own MongoDB instance for [free](https://www.mongodb.com/atlas/database)
 
-Install NodeJS 16 (recommend [nvm](https://github.com/nvm-sh/nvm))
+Install NodeJS 18 (recommend [nvm](https://github.com/nvm-sh/nvm))
 
-Install Yarn v1
-
-```bash
-corepack enable
-```
-
-Install Yarn workspace dependencies
+Install NPM workspace dependencies
 
 ```bash
 git clone https://github.com/wermarter/diut
-cd diut/ && yarn
+cd diut/ && npm install
 ```
 
-Backend configs in `apps/access-server/config.yml`
+Backend configs in `apps/access-server/config.yml` and `apps/access-server/.env`
 
 Frontend configs in `apps/web-app/.env`
 

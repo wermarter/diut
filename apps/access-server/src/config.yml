@@ -17,12 +17,8 @@ auth:
   jwtSecret: not_so_secret
   expiresIn: 16h
 
-cache:
-  host: localhost
-  port: 6379
-
 storage:
-  endPoint: localhost
+  endPoint: 127.0.0.1
   port: 9000
   accessKey: <username>
   secretKey: <password>

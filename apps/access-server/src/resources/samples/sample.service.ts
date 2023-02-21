@@ -346,7 +346,7 @@ export class SampleService
           elements: elements.map((element, index) => ({
             name: element.name,
             value: result.elements[index].value,
-            isHighlighted: result.elements[index].isHighlighted,
+            isHighlighted: result.elements[index]?.isHighlighted,
             description: (
               element.highlightRules.find(
                 ({ category }) => category === patientCategory

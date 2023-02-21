@@ -44,6 +44,19 @@ export class ReportController {
     return new StreamableFile(buffer)
   }
 
+  @AppRoute(reportRoutes.exportGiaoNhanMau)
+  async exportGiaoNhanMau(
+    @Body() body: ExportTraKQRequestDto,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const { buffer, filename } = await this.reportService.exportGiaoNhanMau(
+      body
+    )
+    res.set(generateExcelHeader(filename))
+
+    return new StreamableFile(buffer)
+  }
+
   @AppRoute(reportRoutes.exportTD)
   async exportTD(
     @Body() body: ExportTDRequestDto,
