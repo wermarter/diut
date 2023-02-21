@@ -65,7 +65,6 @@ export async function bootstrap(rootModule: unknown) {
       #swagger-ui {
         max-width: 800px;
         margin: auto;
-        background-color: red;
       }
       .topbar {
         display: none;
