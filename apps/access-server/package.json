@@ -7,7 +7,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "nx exec -- rimraf dist && nest build && cp package.json dist/package.json",
+    "build": "nx exec -- rimraf dist && nest build",
     "dev": "nx exec -- nest start --watch --preserveWatchOutput",
     "lint": "nx exec -- tsc && rimraf dist",
     "g:resource": "ts-node generators/resource"

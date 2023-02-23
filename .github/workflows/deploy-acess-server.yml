@@ -9,8 +9,8 @@ on:
       - apps/access-server/**
 
 jobs:
-  deploy-access-server:
-    name: Deploy access server
+  deploy:
+    name: Deploy
     runs-on: ubuntu-22.04
     environment: access-server-production
 
@@ -28,6 +28,9 @@ jobs:
 
       - name: Build access server
         run: npx nx run @diut/access-server:build
+
+      - name: Prune dev dependencies
+        run: npm prune --omit=dev
 
       - name: Set environment variables
         working-directory: ./apps/access-server
