@@ -30,7 +30,7 @@ jobs:
         run: npx nx run @diut/access-server:build
 
       - name: Prune dev dependencies
-        run: npm prune --production
+        run: npm prune --omit=dev
 
       - name: Set environment variables
         working-directory: ./apps/access-server
