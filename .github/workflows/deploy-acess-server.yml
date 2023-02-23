@@ -30,7 +30,7 @@ jobs:
         run: npx nx run @diut/access-server:build
 
       - name: Prune dev dependencies
-        run: npm prune --omit=dev
+        run: npm prune --production
 
       - name: Set environment variables
         working-directory: ./apps/access-server
@@ -51,7 +51,7 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Update dependency (1)
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --exclude '@diut' ./node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --exclude '@diut' --exclude '.cache' ./node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
 
       - name: Update dependency (2)
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules

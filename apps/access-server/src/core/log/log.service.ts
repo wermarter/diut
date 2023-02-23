@@ -11,7 +11,6 @@ export function buildPinoOptions(configService: ConfigService): Params {
     configService.get(LOG_CONFIG_NAME)
   )
   const isProduction = configService.get('env') === NodeEnv.Production
-  const packageConfig = configService.get('package')
 
   const devConfig: Options = !isProduction
     ? {
@@ -33,8 +32,8 @@ export function buildPinoOptions(configService: ConfigService): Params {
   return {
     pinoHttp: {
       level: logConfig.level,
-      name: configService.get('package').name.replace(PROJECT_PREFIX, ''),
-      base: { version: packageConfig.version },
+      name: 'access-server',
+      base: { version: '1.0.0' },
       autoLogging: false,
       ...devConfig,
     },
