@@ -13,7 +13,7 @@
   "scripts": {
     "build": "nx exec -- tsc",
     "lint": "nx exec -- tsc --noEmit",
-    "dev": "tsc --watch"
+    "dev": " nx exec -- tsc --watch --preserveWatchOutput"
   },
   "dependencies": {
     "lodash": "^4.17.21"

@@ -1,4 +1,4 @@
-import { groupBy } from 'lodash-es'
+import { groupBy } from 'lodash'
 
 import { appStore } from 'src/core'
 import { patientTypeApi } from 'src/api/patient-type'

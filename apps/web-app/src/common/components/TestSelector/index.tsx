@@ -9,7 +9,7 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material'
-import { groupBy } from 'lodash-es'
+import { groupBy } from 'lodash'
 
 import { SideAction } from 'src/common/components/SideAction'
 import { useTestSearchQuery, TestResponseDto } from 'src/api/test'

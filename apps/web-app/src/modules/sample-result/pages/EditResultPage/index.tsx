@@ -21,7 +21,7 @@ import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
-import { merge } from 'lodash-es'
+import { merge } from 'lodash'
 
 import { useSampleUpdateByIdMutation } from 'src/api/sample'
 import { TestResponseDto } from 'src/api/test'
