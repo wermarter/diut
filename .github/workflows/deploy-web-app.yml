@@ -9,8 +9,8 @@ on:
       - apps/web-app/**
 
 jobs:
-  deploy-web-app:
-    name: Deploy web app
+  deploy:
+    name: Deploy
     runs-on: ubuntu-22.04
     environment: web-app-production
 
@@ -24,7 +24,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/web-app --production
+        run: npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/web-app
 
       - name: Set environment variables
         working-directory: ./apps/web-app

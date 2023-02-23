@@ -5,11 +5,8 @@ import { flattenKeys, NodeEnv } from '@diut/common'
 import { join } from 'path'
 
 export const APP_CONFIG_FILENAME = '../../config.yml'
-export const PACKAGE_CONFIG_FILENAME = 'package.json'
-export const PACKAGE_CONFIG_FILENAME_PROD = '../../package.json'
 
 interface AppConfig {
-  package: Record<string, unknown>
   env: NodeEnv
 }
 
@@ -27,18 +24,8 @@ export const loadConfig = async (): Promise<AppConfig> => {
     set(configObj, path, process.env[envKey] ?? get(configObj, path))
   }
 
-  const packageConfigObj = JSON.parse(
-    readFileSync(
-      (process.env['NODE_ENV'] as NodeEnv) === NodeEnv.Production
-        ? join(__dirname, PACKAGE_CONFIG_FILENAME_PROD)
-        : PACKAGE_CONFIG_FILENAME,
-      'utf-8'
-    )
-  )
-
   return {
     ...configObj,
     env: (process.env['NODE_ENV'] as NodeEnv) || NodeEnv.Development,
-    package: packageConfigObj,
   }
 }
