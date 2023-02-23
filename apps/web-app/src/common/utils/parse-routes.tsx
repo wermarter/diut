@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import _ from 'lodash-es'
+import _ from 'lodash'
 import {
   IndexRouteObject,
   NonIndexRouteObject,

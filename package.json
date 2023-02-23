@@ -17,6 +17,9 @@
     "@nrwl/nx-cloud": "latest",
     "nx": "15.6.3"
   },
+  "devDependencies": {
+    "npm-check-updates": "^16.7.5"
+  },
   "scripts": {
     "be": "nx run @diut/access-server:dev",
     "common": "nx run @diut/common:dev",

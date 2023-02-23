@@ -1,50 +1,16 @@
-name: Deploy production
+name: Deploy access server
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+    paths:
+      - apps/access-server/**
 
 jobs:
-  web-app:
-    runs-on: ubuntu-22.04
-    environment: web-app-production
-
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Set environment variables
-        working-directory: ./apps/web-app
-        run: |
-          echo "NODE_ENV=production" >> ./.env
-          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> ./.env
-
-      - name: Build web app
-        run: npx nx run @diut/web-app:build
-
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'delegate to the next step'
-
-      - name: Add known hosts
-        run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/web-app/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
-
-  access-server:
+  deploy-access-server:
+    name: Deploy access server
     runs-on: ubuntu-22.04
     environment: access-server-production
 
@@ -58,7 +24,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
 
       - name: Build access server
         run: npx nx run @diut/access-server:build
