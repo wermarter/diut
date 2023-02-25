@@ -26,11 +26,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
 
-      - name: Build access server
+      - name: Build
         run: npx nx run @diut/access-server:build
 
       - name: Prune dev dependencies
-        run: npm prune --omit=dev
+        run: npm prune --omit=dev --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
 
       - name: Set environment variables
         working-directory: ./apps/access-server
@@ -50,17 +50,17 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Update dependency (1)
+      - name: Copy node_modules (1)
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --exclude '@diut' --exclude '.cache' ./node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
 
-      - name: Update dependency (2)
+      - name: Copy node_modules (2)
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
 
-      - name: Deploy common lib with rsync
+      - name: Copy @diut/common
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --rsync-path="mkdir -p /var/www/access-server/node_modules/@diut/common && rsync" ./libs/common/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules/@diut/common
 
-      - name: Deploy with rsync
+      - name: Copy @diut/access-server
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server
 
-      - name: Restart server
+      - name: PM2 restart
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "source ~/.nvm/nvm.sh && pm2 restart diut-production"

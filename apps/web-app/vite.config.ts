@@ -17,5 +17,7 @@ export default defineConfig({
       },
     ],
   },
-  logLevel: 'warn',
+  server: {
+    host: true,
+  },
 })
