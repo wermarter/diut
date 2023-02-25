@@ -37,5 +37,3 @@ root.render(
     </ThemeProvider>
   </React.StrictMode>
 )
-
-console.log('conditional CI/CD :)')

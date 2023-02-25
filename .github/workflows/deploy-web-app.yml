@@ -32,7 +32,7 @@ jobs:
           echo "NODE_ENV=production" >> ./.env
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> ./.env
 
-      - name: Build web app
+      - name: Build
         run: npx nx run @diut/web-app:build
 
       - name: Install SSH key
@@ -44,5 +44,5 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy with rsync
+      - name: Copy built artifact
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/web-app/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
