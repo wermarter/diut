@@ -470,6 +470,8 @@ export class SampleService
           bottom: '0px',
         },
         displayHeaderFooter: true,
+        headerTemplate:
+          '<p style="width: 100vw; font-size: 8px; display: flex; justify-content: flex-end; padding: 0 10mm;"></p>',
         footerTemplate: `
         <div style="width: 100vw; font-size: 8px; display: flex; justify-content: flex-end; padding: 0 10mm;">
           <div><span class="pageNumber"></span>/<span class="totalPages"></span></div>
