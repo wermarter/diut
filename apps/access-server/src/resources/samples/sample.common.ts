@@ -4,7 +4,7 @@ import { Patient } from '../patients/patient.schema'
 import { Sample } from './sample.schema'
 
 export const UPLOAD_CONFIG = {
-  BUCKET: 'sample-uploads',
+  BUCKET: 'bathanghai-result-image',
 }
 
 export function getPatientCategory(patient: Patient, sample: Sample) {
