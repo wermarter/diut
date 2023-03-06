@@ -65,7 +65,7 @@ export function ExportGiaoNhanMau() {
         onClose={() => setOpenDialog(false)}
         onConfirm={handleSubmit(async (values) => {
           await exportGiaoNhanMau({
-            exportTraKqRequestDto: {
+            exportGiaoNhanRequestDto: {
               startDate: startOfDay(values.startDate).toISOString(),
               endDate: endOfDay(values.endDate).toISOString(),
               testIds: values.testIds,
