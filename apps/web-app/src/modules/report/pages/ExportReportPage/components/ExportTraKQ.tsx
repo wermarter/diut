@@ -20,12 +20,13 @@ const schema = z.object({
   endDate: z.date({ invalid_type_error: 'Không được để trống' }),
   testIds: z.array(z.string()),
   testComboIds: z.array(z.string()),
+  patientTypeIds: z.array(z.string()),
 })
 const formResolver = zodResolver(schema)
 type FormSchema = z.infer<typeof schema>
 
 export function ExportTraKQ() {
-  const { tests, testCombos } = useLoaderData() as Awaited<
+  const { tests, testCombos, patientTypes } = useLoaderData() as Awaited<
     ReturnType<typeof exportReportPageLoader>
   >
 
@@ -40,6 +41,7 @@ export function ExportTraKQ() {
       endDate: new Date(),
       testIds: [],
       testComboIds: [],
+      patientTypeIds: [],
     },
   })
 
@@ -69,6 +71,7 @@ export function ExportTraKQ() {
               endDate: endOfDay(values.endDate).toISOString(),
               testIds: values.testIds,
               testComboIds: values.testComboIds,
+              patientTypeIds: values.patientTypeIds,
             },
           })
         })}
@@ -109,6 +112,16 @@ export function ExportTraKQ() {
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option._id}
               label="Chọn bộ XN"
+            />
+          </Grid>
+          <Grid xs={12}>
+            <FormAutocomplete
+              control={control}
+              name="patientTypeIds"
+              options={patientTypes}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option._id}
+              label="Chọn đối tượng"
             />
           </Grid>
         </Grid>

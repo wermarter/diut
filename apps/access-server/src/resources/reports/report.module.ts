@@ -6,6 +6,7 @@ import { TestElementModule } from '../test-elements/test-element.module'
 import { TestModule } from '../tests/test.module'
 import { UserModule } from '../users/user.module'
 import { CTMService } from './exports/ctm.service'
+import { GiaoNhanService } from './exports/giao-nhan.service'
 import { HCGService } from './exports/hcg.service'
 import { HIVService } from './exports/hiv.service'
 import { PapsmearService } from './exports/papsmear.service'
@@ -30,6 +31,7 @@ import { ReportService } from './report.service'
     ReportService,
     SoiNhuomService,
     TraKQService,
+    GiaoNhanService,
     TDService,
     SinhHoaService,
     HCGService,

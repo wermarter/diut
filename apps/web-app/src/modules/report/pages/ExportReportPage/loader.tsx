@@ -1,9 +1,10 @@
 import { appStore } from 'src/core'
 import { testApi } from 'src/api/test'
 import { testComboApi } from 'src/api/test-combo'
+import { patientTypeApi } from 'src/api/patient-type'
 
 export const exportReportPageLoader = async () => {
-  const [testRes, testComboRes] = await Promise.all([
+  const [testRes, testComboRes, patientTypeRes] = await Promise.all([
     appStore
       .dispatch(
         testApi.endpoints.testSearch.initiate({
@@ -26,10 +27,18 @@ export const exportReportPageLoader = async () => {
         })
       )
       .unwrap(),
+    appStore
+      .dispatch(
+        patientTypeApi.endpoints.patientTypeSearch.initiate({
+          searchPatientTypeRequestDto: { sort: { index: 1 } },
+        })
+      )
+      .unwrap(),
   ])
 
   return {
     tests: testRes?.items ?? [],
     testCombos: testComboRes?.items ?? [],
+    patientTypes: patientTypeRes?.items ?? [],
   }
 }

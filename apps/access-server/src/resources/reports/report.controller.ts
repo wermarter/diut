@@ -3,6 +3,7 @@ import { Response } from 'express'
 
 import { AppController, AppRoute } from 'src/core'
 import { ExportCTMRequestDto } from './dtos/export-ctm.request-dto'
+import { ExportGiaoNhanRequestDto } from './dtos/export-giao-nhan.request-dto'
 import { ExportHCGRequestDto } from './dtos/export-hcg.request-dto'
 import { ExportHIVRequestDto } from './dtos/export-hiv.request-dto'
 import { ExportPapsmearRequestDto } from './dtos/export-papsmear.request-dto'
@@ -46,7 +47,7 @@ export class ReportController {
 
   @AppRoute(reportRoutes.exportGiaoNhanMau)
   async exportGiaoNhanMau(
-    @Body() body: ExportTraKQRequestDto,
+    @Body() body: ExportGiaoNhanRequestDto,
     @Res({ passthrough: true }) res: Response
   ) {
     const { buffer, filename } = await this.reportService.exportGiaoNhanMau(
