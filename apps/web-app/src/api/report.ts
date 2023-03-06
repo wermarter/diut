@@ -36,13 +36,13 @@ const injectedRtkApi = api
         }),
       }),
       reportExportGiaoNhanMau: build.mutation<
-        ReportExportTraKqApiResponse,
-        ReportExportTraKqApiArg
+        ReportExportGiaoNhanApiResponse,
+        ReportExportGiaoNhanApiArg
       >({
         query: (queryArg) => ({
           url: `/api/reports/export-giao-nhan-mau`,
           method: 'POST',
-          body: queryArg.exportTraKqRequestDto,
+          body: queryArg.exportGiaoNhanRequestDto,
           cache: 'no-cache',
           responseHandler: fileDownloadReponseHandler({
             defaultFilename: 'danh sách giao nhận mẫu (lỗi).xlsx',
@@ -189,6 +189,10 @@ export type ReportExportTraKqApiResponse = unknown
 export type ReportExportTraKqApiArg = {
   exportTraKqRequestDto: ExportTraKqRequestDto
 }
+export type ReportExportGiaoNhanApiResponse = unknown
+export type ReportExportGiaoNhanApiArg = {
+  exportGiaoNhanRequestDto: ExportGiaoNhanRequestDto
+}
 export type ExportSoiNhuomRequestDto = {
   startDate: string
   endDate: string
@@ -231,6 +235,12 @@ export type ExportTraKqRequestDto = {
   testIds: string[]
   testComboIds: string[]
   patientTypeIds: string[]
+}
+export type ExportGiaoNhanRequestDto = {
+  startDate: string
+  endDate: string
+  testIds: string[]
+  testComboIds: string[]
 }
 export const {
   useReportExportSoiNhuomMutation,
