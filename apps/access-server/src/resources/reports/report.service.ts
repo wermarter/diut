@@ -24,6 +24,8 @@ import { CTMService } from './exports/ctm.service'
 import { ExportCTMRequestDto } from './dtos/export-ctm.request-dto'
 import { HIVService } from './exports/hiv.service'
 import { ExportHIVRequestDto } from './dtos/export-hiv.request-dto'
+import { ExportGiaoNhanRequestDto } from './dtos/export-giao-nhan.request-dto'
+import { GiaoNhanService } from './exports/giao-nhan.service'
 
 @Injectable()
 export class ReportService {
@@ -32,6 +34,7 @@ export class ReportService {
   constructor(
     private soiNhuomService: SoiNhuomService,
     private traKQService: TraKQService,
+    private giaoNhanService: GiaoNhanService,
     private tdService: TDService,
     private hcgService: HCGService,
     private urine10Service: Urine10Service,
@@ -61,8 +64,8 @@ export class ReportService {
     return this.exportWorksheet(worksheet, filename)
   }
 
-  async exportGiaoNhanMau(body: ExportTraKQRequestDto) {
-    const worksheet = await this.traKQService.exportWorksheet(body)
+  async exportGiaoNhanMau(body: ExportGiaoNhanRequestDto) {
+    const worksheet = await this.giaoNhanService.exportWorksheet(body)
     const filename = generateFilename(body, 'DS Giao nhan mau')
 
     return this.exportWorksheet(worksheet, filename)

@@ -230,6 +230,7 @@ export type ExportTraKqRequestDto = {
   endDate: string
   testIds: string[]
   testComboIds: string[]
+  patientTypeIds: string[]
 }
 export const {
   useReportExportSoiNhuomMutation,

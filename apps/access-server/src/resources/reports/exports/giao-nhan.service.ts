@@ -3,23 +3,23 @@ import { Injectable } from '@nestjs/common'
 import { SampleService } from 'src/resources/samples/sample.service'
 import { TestService } from 'src/resources/tests/test.service'
 import { Patient } from 'src/resources/patients/patient.schema'
-import { ExportTraKQRequestDto } from '../dtos/export-tra-kq.request-dto'
+import { ExportGiaoNhanRequestDto } from '../dtos/export-giao-nhan.request-dto'
 import { cringySort } from './utils'
 import { TestCombo } from 'src/resources/test-combos/test-combo.schema'
 import { TestComboService } from 'src/resources/test-combos/test-combo.service'
 import { BaseExportService } from './base-export.service'
 
 @Injectable()
-export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
+export class GiaoNhanService extends BaseExportService<ExportGiaoNhanRequestDto> {
   constructor(
     private sampleService: SampleService,
     private testService: TestService,
     private testComboService: TestComboService
   ) {
-    super(TraKQService.name)
+    super(GiaoNhanService.name)
   }
 
-  async prepareAOA(body: ExportTraKQRequestDto) {
+  async prepareAOA(body: ExportGiaoNhanRequestDto) {
     // expand combos
     const comboTestIds: string[] = []
     const testCombos: TestCombo[] = []
@@ -43,17 +43,7 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
       await this.sampleService.getSamplesForTestReport(
         testIds,
         body.startDate,
-        body.endDate,
-        ['patientId'],
-        body.patientTypeIds?.length > 0
-          ? {
-              filter: {
-                patientTypeId: {
-                  $in: body.patientTypeIds,
-                },
-              },
-            }
-          : {}
+        body.endDate
       )
     )
 
@@ -125,7 +115,7 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
     return aoaData.filter((rowArray) => rowArray != null)
   }
 
-  exportWorksheet(body: ExportTraKQRequestDto) {
+  exportWorksheet(body: ExportGiaoNhanRequestDto) {
     return this.exportWorksheetDateOnly(body)
   }
 }

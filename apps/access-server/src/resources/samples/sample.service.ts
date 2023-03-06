@@ -21,7 +21,7 @@ import {
   SampleExceptionMsg,
 } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
-import { omit, uniq } from 'lodash'
+import { omit, uniq, merge } from 'lodash'
 
 import { BaseMongoService, BaseSchema } from 'src/clients/mongo'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
@@ -248,27 +248,33 @@ export class SampleService
     testIds: string[],
     startDate: Date,
     endDate: Date,
-    populatePaths: Array<keyof Sample> = ['patientId']
+    populatePaths: Array<keyof Sample> = ['patientId'],
+    mergeSearchOptions: Parameters<typeof this.search>[0] = {} // Leaky abstraction
   ) {
-    const res = await this.search({
-      filter: {
-        infoAt: {
-          $gte: startDate,
-          $lte: endDate,
-        },
-        results: {
-          $elemMatch: {
-            testId: {
-              $in: testIds,
+    const res = await this.search(
+      merge(
+        {
+          filter: {
+            infoAt: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+            results: {
+              $elemMatch: {
+                testId: {
+                  $in: testIds,
+                },
+              },
             },
           },
+          sort: {
+            sampleId: 1,
+          },
+          populates: [...populatePaths.map((path) => ({ path }))],
         },
-      },
-      sort: {
-        sampleId: 1,
-      },
-      populates: [...populatePaths.map((path) => ({ path }))],
-    })
+        mergeSearchOptions
+      )
+    )
 
     return res.items ?? []
   }
