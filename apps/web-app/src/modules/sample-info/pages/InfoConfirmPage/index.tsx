@@ -405,7 +405,9 @@ export default function InfoConfirmPage() {
               width: 60,
               cellClassName: 'actions',
               getActions: ({ row }) =>
-                userIsAdmin || row.infoBy === userId
+                userIsAdmin ||
+                row.infoBy === userId ||
+                row.infoCompleted === false
                   ? [
                       <GridActionsCellItem
                         icon={<EditIcon />}
