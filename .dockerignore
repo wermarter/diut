@@ -1,0 +1,14 @@
+.git
+.github
+.vscode
+
+.npmrc
+node_modules
+
+.dockerignore
+.gitignore
+
+npm-debug.log
+*.dockerfile
+
+.env

@@ -10,25 +10,25 @@ import { Patient } from 'src/resources/patients/patient.schema'
 import { Gender } from '@diut/common'
 
 async function main() {
-  const [prodDB, devDB] = await Promise.all([
-    mongoose.createConnection(process.env.PROD_MONGO_URI),
-    mongoose.createConnection(process.env.DEV_MONGO_URI),
+  const [sourceDB, targetDB] = await Promise.all([
+    mongoose.createConnection(process.env.SOURCE_MONGO_URI),
+    mongoose.createConnection(process.env.TARGET_MONGO_URI),
   ])
   console.log('prod + dev MongoDB connected !')
 
   const schema = SchemaFactory.createForClass(Patient)
-  const prodModel = prodDB.model(COLLECTION.PATIENT, schema)
-  const devModel = devDB.model(COLLECTION.PATIENT, schema)
+  const sourceModel = sourceDB.model(COLLECTION.PATIENT, schema)
+  const targetModel = targetDB.model(COLLECTION.PATIENT, schema)
 
   console.log(`Removing existing DEV ${Patient.name}...`)
-  await devModel.deleteMany()
+  await targetModel.deleteMany()
 
-  const total = await prodModel.countDocuments()
+  const total = await sourceModel.countDocuments()
   let counter = 0
-  for await (const doc of prodModel.find().cursor()) {
+  for await (const doc of sourceModel.find().cursor()) {
     counter++
     console.log(`${counter}/${total}`)
-    await devModel.insertMany({
+    await targetModel.insertMany({
       _id: doc._id,
       birthYear: doc.birthYear ?? 2000,
       gender: doc.gender ?? Gender.Female,
@@ -41,7 +41,7 @@ async function main() {
   }
   console.log(`DONE ${Patient.name} !`)
 
-  await Promise.all([prodDB.close(), devDB.close()])
+  await Promise.all([sourceDB.close(), targetDB.close()])
   process.exit(0)
 }
 

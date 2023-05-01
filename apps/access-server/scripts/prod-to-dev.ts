@@ -9,31 +9,31 @@ import { COLLECTION } from 'src/common/collections'
 import { COLLECTION_CLASS } from 'src/common/collection-classes'
 
 async function main(collections: COLLECTION[]) {
-  const [prodDB, devDB] = await Promise.all([
-    mongoose.createConnection(process.env.PROD_MONGO_URI),
-    mongoose.createConnection(process.env.DEV_MONGO_URI),
+  const [sourceDB, targetDB] = await Promise.all([
+    mongoose.createConnection(process.env.SOURCE_MONGO_URI),
+    mongoose.createConnection(process.env.TARGET_MONGO_URI),
   ])
   console.log('prod + dev MongoDB connected !')
 
   for (const collection of collections) {
     const schema = SchemaFactory.createForClass(COLLECTION_CLASS[collection])
-    const prodModel = prodDB.model(collection, schema)
-    const devModel = devDB.model(collection, schema)
+    const sourceModel = sourceDB.model(collection, schema)
+    const targetModel = targetDB.model(collection, schema)
 
     console.log(`Removing existing DEV ${COLLECTION_CLASS[collection].name}...`)
-    await devModel.deleteMany()
+    await targetModel.deleteMany()
 
-    const total = await prodModel.countDocuments()
+    const total = await sourceModel.countDocuments()
     let counter = 0
-    for await (const doc of prodModel.find().cursor()) {
+    for await (const doc of sourceModel.find().cursor()) {
       counter++
       console.log(`${counter}/${total}`)
-      await devModel.insertMany(doc)
+      await targetModel.insertMany(doc)
     }
     console.log(`DONE ${COLLECTION_CLASS[collection].name} !`)
   }
 
-  await Promise.all([prodDB.close(), devDB.close()])
+  await Promise.all([sourceDB.close(), targetDB.close()])
   process.exit(0)
 }
 
