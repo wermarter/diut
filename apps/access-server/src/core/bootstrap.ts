@@ -4,7 +4,6 @@ import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger } from 'nestjs-pino'
-// import helmet from 'helmet'
 
 import {
   HttpServerConfig,
@@ -23,14 +22,18 @@ export async function bootstrap(
     version: '1.0.0',
   }
 ) {
+  process.on('SIGINT', () => {
+    console.log('Received SIGINT. Press Control-D to exit.')
+  })
+
   const app = await NestFactory.create(rootModule, {
-    bufferLogs: true,
+    bufferLogs: false,
   })
   const logger: LoggerService = app.get(Logger)
   app.useLogger(logger)
   app.flushLogs()
 
-  app.enableShutdownHooks()
+  app.enableShutdownHooks(['SIGINT', 'SIGTERM'])
   app.setGlobalPrefix(API_PREFIX)
   app.useGlobalPipes(
     new ValidationPipe({
@@ -41,7 +44,6 @@ export async function bootstrap(
   const config = app.get(ConfigService)
   const isDevelopment = config.get('NODE_ENV') === NodeEnv.Development
 
-  // app.use(helmet())
   app.enableCors({ exposedHeaders: 'Content-Disposition' })
 
   const httpServerConfig = validateConfig(HttpServerConfig)(

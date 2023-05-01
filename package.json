@@ -1,7 +1,7 @@
 {
   "name": "diut",
   "version": "1.0.0",
-  "description": "thesis project",
+  "description": "A project for diut: HCDC laboratory information management system",
   "repository": "https://github.com/wermarter/diut",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
@@ -13,11 +13,9 @@
   "engines": {
     "node": "18"
   },
-  "dependencies": {
-    "@nrwl/nx-cloud": "latest",
-    "nx": "15.7.2"
-  },
   "devDependencies": {
+    "@nrwl/nx-cloud": "latest",
+    "nx": "15.7.2",
     "npm-check-updates": "^16.7.9"
   },
   "scripts": {
@@ -25,6 +23,7 @@
     "common": "nx run @diut/common:dev",
     "fe": "nx run @diut/web-app:dev",
     "lint": "nx run-many -t lint",
-    "dev": "nx run-many -t dev"
+    "dev": "nx run-many -t dev",
+    "ncu": "ncu --workspaces"
   }
 }
