@@ -45,4 +45,4 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Docker container restart
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull diut-bathanghai-production:latest && docker stop diut-bathanghai-production || true && docker run --rm -d -p 9050:5000 diut-bathanghai-production:latest"
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest && docker stop ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production || true && docker run --rm -d -p 9050:5000 diut-bathanghai-production:latest"
