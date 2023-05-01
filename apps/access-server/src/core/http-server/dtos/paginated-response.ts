@@ -4,7 +4,7 @@ import { ClassConstructor, Expose, Type } from 'class-transformer'
 export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
   ItemClass: ItemType
 ) {
-  abstract class PaginationDtoClass {
+  class PaginationDtoClass {
     @Expose()
     @ApiProperty()
     total: number
@@ -26,10 +26,5 @@ export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
     items: ItemType[]
   }
 
-  return PaginationDtoClass as ClassConstructor<{
-    total: number
-    offset: number
-    limit: number
-    items: ItemType[]
-  }>
+  return PaginationDtoClass
 }

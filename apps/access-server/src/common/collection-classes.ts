@@ -1,4 +1,3 @@
-import { ClassConstructor } from 'class-transformer'
 import { BaseSchema } from 'src/clients/mongo'
 
 import { BioProduct } from 'src/resources/bio-products/bio-product.schema'
@@ -16,10 +15,7 @@ import { Test } from 'src/resources/tests/test.schema'
 import { User } from 'src/resources/users/user.schema'
 import { COLLECTION } from './collections'
 
-export const COLLECTION_CLASS: Record<
-  COLLECTION,
-  ClassConstructor<BaseSchema>
-> = {
+export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProduct,
   [COLLECTION.DOCTOR]: Doctor,
   [COLLECTION.INDICATION]: Indication,
