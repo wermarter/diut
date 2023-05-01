@@ -17,29 +17,23 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          node-version: '18'
-          cache: 'npm'
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Build
-        run: npx nx run @diut/access-server:build
-
-      - name: Prune dev dependencies
-        run: npm prune --omit=dev --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
-
-      - name: Set environment variables
-        working-directory: ./apps/access-server
-        run: |
-          echo "NODE_ENV=production" >> ./dist/.env
-          echo "AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}" >> ./dist/.env
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> ./dist/.env
-          echo "STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }}" >> ./dist/.env
-          echo "STORAGE_SECRET_KEY=${{ secrets.STORAGE_SECRET_KEY }}" >> ./dist/.env
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./access-server.dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -50,17 +44,5 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Copy node_modules (1)
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --exclude '@diut' --exclude '.cache' ./node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
-
-      - name: Copy node_modules (2)
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/node_modules/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules
-
-      - name: Copy @diut/common
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --rsync-path="mkdir -p /var/www/access-server/node_modules/@diut/common && rsync" ./libs/common/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server/node_modules/@diut/common
-
-      - name: Copy @diut/access-server
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/access-server/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/access-server
-
-      - name: PM2 restart
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "source ~/.nvm/nvm.sh && pm2 restart diut-production"
+      - name: Docker container restart
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull diut-bathanghai-production:latest && docker stop diut-bathanghai-production || true && docker run --rm -d -p 9050:5000 diut-bathanghai-production:latest"
