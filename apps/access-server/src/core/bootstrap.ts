@@ -26,6 +26,9 @@ export async function bootstrap(
   const app = await NestFactory.create(rootModule, {
     bufferLogs: true,
   })
+  const logger: LoggerService = app.get(Logger)
+  app.useLogger(logger)
+  app.flushLogs()
 
   app.enableShutdownHooks()
   app.setGlobalPrefix(API_PREFIX)
@@ -34,10 +37,6 @@ export async function bootstrap(
       transform: true, // convert to DTO to class instance for applying default value
     })
   )
-
-  const logger: LoggerService = app.get(Logger)
-  app.useLogger(logger)
-  app.flushLogs()
 
   const config = app.get(ConfigService)
   const isDevelopment = config.get('NODE_ENV') === NodeEnv.Development

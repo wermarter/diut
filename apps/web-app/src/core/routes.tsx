@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 import { MainLayout } from 'src/common/layout/MainLayout'
 import { CustomRouteObject } from 'src/common/utils'
 import LoginPage, { loginPageLoader } from 'src/modules/auth/pages/LoginPage'
-import { ErrorPage } from 'src/common/layout/ErrorPage'
 import HomePage from 'src/modules/homepage/pages/Homepage'
 import { infoEditPageLoader } from 'src/modules/sample-info/pages/InfoEditPage/loader'
 import { editResultPageLoader } from 'src/modules/sample-result/pages/EditResultPage/loader'
@@ -85,13 +84,11 @@ export const appRoutes: CustomRouteObject[] = [
   {
     path: 'login',
     element: <LoginPage />,
-    errorElement: <ErrorPage />,
     loader: loginPageLoader,
   },
   {
     path: '/',
     element: <MainLayout />,
-    errorElement: <ErrorPage />,
     isAuthenticated: true,
     children: [
       {
