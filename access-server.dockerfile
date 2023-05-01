@@ -42,6 +42,7 @@ RUN npm prune --omit=dev --include-workspace-root -workspace=@diut/common -works
 FROM node:18-alpine AS production
 
 RUN apk add --no-cache tini
+RUN apk add --no-cache chromium
 
 USER node
 
