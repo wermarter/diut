@@ -2,7 +2,7 @@ import { NodeEnv } from '@diut/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { LoggerService, ValidationPipe } from '@nestjs/common'
+import { LoggerService, ShutdownSignal, ValidationPipe } from '@nestjs/common'
 import { Logger } from 'nestjs-pino'
 
 import {
@@ -22,8 +22,11 @@ export async function bootstrap(
     version: '1.0.0',
   }
 ) {
-  process.on('SIGINT', () => {
-    console.log('Received SIGINT. Press Control-D to exit.')
+  process.on(ShutdownSignal.SIGINT, () => {
+    console.log('Received SIGINT...')
+  })
+  process.on(ShutdownSignal.SIGTERM, () => {
+    console.log('Received SIGTERM...')
   })
 
   const app = await NestFactory.create(rootModule, {
@@ -33,7 +36,7 @@ export async function bootstrap(
   app.useLogger(logger)
   app.flushLogs()
 
-  app.enableShutdownHooks(['SIGINT', 'SIGTERM'])
+  app.enableShutdownHooks()
   app.setGlobalPrefix(API_PREFIX)
   app.useGlobalPipes(
     new ValidationPipe({
