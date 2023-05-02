@@ -32,9 +32,11 @@ jobs:
           context: .
           file: ./access-server.dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
           cache-to: type=inline
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:${{ github.workflow }}-${{ github.run_number }}
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -45,5 +47,11 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Docker container restart
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest && docker stop ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production || true && docker run --rm --env-file=/var/www/diut-bathanghai-production.env -d --network=host ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest"
+      - name: Docker pull new image
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest"
+
+      - name: Docker stop running container
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker rm $(docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production --format="{{.ID}}")) || true"
+
+      - name: Docker start new container
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run --env-file=/var/www/diut-bathanghai-production.env -d --network=host ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest"
