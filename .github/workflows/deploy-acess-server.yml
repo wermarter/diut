@@ -54,10 +54,10 @@ jobs:
 
       - name: Docker stop running container
         env:
-          CMD: docker rm $(docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production --format="{{.ID}}")) || true
+          CMD: docker rm diut-bathanghai-production --force || true
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "$CMD"
 
       - name: Docker start new container
         env:
-          CMD: docker run --env-file=/var/www/diut-bathanghai-production.env -d --restart unless-stopped --network=host ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
+          CMD: docker run --env-file=/var/www/diut-bathanghai-production.env -d --restart unless-stopped --network=host --name=diut-bathanghai-production ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
         run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "$CMD"
