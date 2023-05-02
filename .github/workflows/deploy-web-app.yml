@@ -38,4 +38,4 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy built artifact
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/web-app/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/web-app
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./apps/web-app/dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/diut-bathanghai-production
