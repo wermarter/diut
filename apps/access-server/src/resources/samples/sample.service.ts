@@ -4,7 +4,6 @@ import {
   Inject,
   Injectable,
   Logger,
-  OnApplicationShutdown,
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common'
@@ -45,7 +44,7 @@ import { AuthTokenPayload } from 'src/auth'
 @Injectable()
 export class SampleService
   extends BaseMongoService<Sample>
-  implements OnModuleInit, OnModuleDestroy, OnApplicationShutdown
+  implements OnModuleInit, OnModuleDestroy
 {
   private browser: puppeteer.Browser
   constructor(
@@ -90,12 +89,8 @@ export class SampleService
     }
   }
 
-  async onApplicationShutdown(signal?: string) {
-    console.log('!!! Shutting down')
-  }
-
   async onModuleDestroy() {
-    console.log('!!! Module destroy')
+    this.logger.log('Closing browser on module destroy...')
     await this.browser.close()
   }
 

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
-import { NodeEnv, PrintForm, SampleExceptionMsg } from '@diut/common'
+import { NodeEnv, PrintForm } from '@diut/common'
 
 import { AppController, AppRoute } from 'src/core'
 import { ObjectIdPipe } from 'src/clients/mongo'

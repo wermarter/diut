@@ -12,7 +12,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-22.04
-    environment: access-server-production
 
     steps:
       - name: Get code
@@ -34,6 +33,8 @@ jobs:
           file: ./access-server.dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
+          cache-to: type=inline
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
