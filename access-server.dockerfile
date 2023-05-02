@@ -43,6 +43,9 @@ FROM node:18-alpine AS production
 
 RUN apk add --no-cache tini
 RUN apk add --no-cache chromium
+RUN apk add --no-cache msttcorefonts-installer fontconfig && \
+    update-ms-fonts && \
+    fc-cache -f
 
 USER node
 
