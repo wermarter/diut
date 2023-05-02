@@ -48,10 +48,16 @@ jobs:
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Docker pull new image
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest"
+        env:
+          CMD: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "$CMD"
 
       - name: Docker stop running container
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker rm $(docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production --format="{{.ID}}")) || true"
+        env:
+          CMD: docker rm $(docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production --format="{{.ID}}")) || true
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "$CMD"
 
       - name: Docker start new container
-        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run --env-file=/var/www/diut-bathanghai-production.env -d --network=host ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest"
+        env:
+          CMD: docker run --env-file=/var/www/diut-bathanghai-production.env -d --restart unless-stopped --network=host ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "$CMD"
