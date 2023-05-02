@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./access-server.dockerfile
+          file: ./apps/access-server/Dockerfile
           push: true
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
           cache-to: type=inline
