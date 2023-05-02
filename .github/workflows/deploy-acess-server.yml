@@ -36,7 +36,7 @@ jobs:
           cache-to: type=inline
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:${{ github.workflow }}-${{ github.run_number }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/diut-bathanghai-production:${{ github.run_number }}
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
