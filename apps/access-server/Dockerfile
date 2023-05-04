@@ -17,6 +17,9 @@ COPY apps/access-server/package.json ./apps/access-server
 RUN mkdir -p ./apps/web-app
 COPY apps/web-app/package.json ./apps/web-app
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
 RUN npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
 
 ###################

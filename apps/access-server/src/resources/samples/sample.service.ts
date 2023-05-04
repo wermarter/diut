@@ -79,7 +79,6 @@ export class SampleService
       })
     } else {
       this.browser = await puppeteer.launch({
-        executablePath: '/usr/bin/chromium-browser',
         headless: true,
         args: [
           '--no-sandbox',
