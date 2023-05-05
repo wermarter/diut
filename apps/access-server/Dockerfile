@@ -41,6 +41,10 @@ RUN npm prune --omit=dev --include-workspace-root -workspace=@diut/common -works
 
 FROM node:18-alpine AS production
 
+RUN apk add --no-cache tzdata
+RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+RUN echo "Asia/Ho_Chi_Minh" >  /etc/timezone
+
 RUN apk add --no-cache tini
 RUN apk add --no-cache chromium
 RUN apk add --no-cache msttcorefonts-installer fontconfig && \
