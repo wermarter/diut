@@ -2,7 +2,7 @@ import { NodeEnv } from '@diut/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { LoggerService, ShutdownSignal, ValidationPipe } from '@nestjs/common'
+import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { Logger } from 'nestjs-pino'
 
 import {
@@ -10,6 +10,7 @@ import {
   HTTP_SERVER_CONFIG_NAME,
 } from './http-server/http-server.config'
 import { validateConfig } from './config/validate-config'
+import otelSDK from './open-telemetry/open-telemetry.sdk'
 
 const API_PREFIX = 'api'
 const SWAGGER_ENDPOINT = API_PREFIX + '/docs'
@@ -22,16 +23,9 @@ export async function bootstrap(
     version: '1.0.0',
   }
 ) {
-  process.on(ShutdownSignal.SIGINT, () => {
-    console.log('Received SIGINT...')
-  })
-  process.on(ShutdownSignal.SIGTERM, () => {
-    console.log('Received SIGTERM...')
-  })
+  otelSDK.start()
 
-  const app = await NestFactory.create(rootModule, {
-    bufferLogs: false,
-  })
+  const app = await NestFactory.create(rootModule, { bufferLogs: true })
   const logger: LoggerService = app.get(Logger)
   app.useLogger(logger)
   app.flushLogs()
