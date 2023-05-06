@@ -34,7 +34,25 @@ const otelSDK = new NodeSDK({
       }),
     ],
   }),
-  instrumentations: [getNodeAutoInstrumentations()],
+  instrumentations: [
+    getNodeAutoInstrumentations({
+      '@opentelemetry/instrumentation-mongodb': {
+        enabled: false,
+      },
+      '@opentelemetry/instrumentation-fs': {
+        enabled: false,
+      },
+      '@opentelemetry/instrumentation-dns': {
+        enabled: false,
+      },
+      '@opentelemetry/instrumentation-express': {
+        enabled: false,
+      },
+      '@opentelemetry/instrumentation-net': {
+        enabled: false,
+      },
+    }),
+  ],
 })
 
 export default otelSDK
