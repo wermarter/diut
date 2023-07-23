@@ -1,0 +1,24 @@
+name: diut_bathanghai_local
+
+services:
+  client:
+    build:
+      target: development
+    volumes:
+      - ../../:/usr/src/app
+    ports:
+      - '5173:5173'
+
+  server:
+    build:
+      target: development
+    ports:
+      - '5000:5000'
+    volumes:
+      - ../../:/usr/src/app
+    environment:
+      OTEL_SERVICE_NAME: bathanghai_server_local
+    networks:
+      diut_monitoring_network:
+        aliases:
+          - bathanghai_server_local

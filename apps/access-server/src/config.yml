@@ -18,7 +18,7 @@ auth:
   expiresIn: 16h
 
 storage:
-  endPoint: 127.0.0.1
+  endpoint: 127.0.0.1
   port: 9000
   accessKey: <username>
   secretKey: <password>

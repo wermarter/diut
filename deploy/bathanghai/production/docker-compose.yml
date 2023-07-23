@@ -1,0 +1,16 @@
+name: diut_bathanghai_production
+
+services:
+  client:
+    ports:
+      - '8081:80'
+
+  server:
+    ports:
+      - '5001:5000'
+    environment:
+      OTEL_SERVICE_NAME: bathanghai_server_production
+    networks:
+      diut_monitoring_network:
+        aliases:
+          - bathanghai_server_production

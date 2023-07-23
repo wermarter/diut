@@ -5,7 +5,7 @@ export const STORAGE_CONFIG_NAME = 'storage'
 
 export class StorageConfig {
   @IsString()
-  endPoint: string
+  endpoint: string
 
   @Type(() => Number)
   @IsNumber()

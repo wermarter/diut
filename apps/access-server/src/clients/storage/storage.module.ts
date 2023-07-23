@@ -18,7 +18,7 @@ import { StorageService } from './storage.service'
         )
 
         return {
-          endPoint: config.endPoint,
+          endPoint: config.endpoint,
           port: config.port,
           accessKey: config.accessKey,
           secretKey: config.secretKey,

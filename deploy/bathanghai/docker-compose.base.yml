@@ -1,0 +1,33 @@
+services:
+  client:
+    image: wermarter/diut_bathanghai_client
+    restart: unless-stopped
+    build:
+      context: ../../
+      dockerfile: ./apps/web-app/Dockerfile
+    env_file:
+      - ../../apps/web-app/.env
+    expose:
+      - 80
+
+  server:
+    image: wermarter/diut_bathanghai_server
+    restart: unless-stopped
+    build:
+      context: ../../
+      dockerfile: ./apps/access-server/Dockerfile
+    environment:
+      OTEL_EXPORTER_JAEGER_ENDPOINT: http://tempo:14268/api/traces
+    env_file:
+      - ../../apps/access-server/.env
+    expose:
+      - 5000
+      - 8081
+    networks:
+      diut_infrastructure_network:
+
+networks:
+  diut_monitoring_network:
+    external: true
+  diut_infrastructure_network:
+    external: true

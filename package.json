@@ -19,11 +19,8 @@
     "nx": "15.7.2"
   },
   "scripts": {
-    "be": "nx run @diut/access-server:dev",
-    "common": "nx run @diut/common:dev",
-    "fe": "nx run @diut/web-app:dev",
+    "postinstall": "nx run @diut/common:build",
     "lint": "nx run-many -t lint",
-    "dev": "nx run-many -t dev",
     "ncu": "ncu --workspaces"
   }
 }

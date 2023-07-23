@@ -6,47 +6,49 @@ FROM node:18-alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY package.json package-lock.json ./
-
-RUN mkdir -p ./libs/common
-COPY libs/common/package.json ./libs/common
-
-RUN mkdir -p ./apps/access-server
-COPY apps/access-server/package.json ./apps/access-server
-
-RUN mkdir -p ./apps/web-app
-COPY apps/web-app/package.json ./apps/web-app
+COPY . .
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN npm ci --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server
+RUN npm ci --workspace=@diut/access-server --include-workspace-root
+
+RUN apk add --no-cache tzdata
+RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
+
+RUN apk add --no-cache chromium
+RUN apk add --no-cache msttcorefonts-installer fontconfig && \
+    update-ms-fonts && \
+    fc-cache -f
+
+EXPOSE 8081
+EXPOSE 5000
+
+CMD npx nx run-many -t dev -p @diut/access-server @diut/common
 
 ###################
 # BUILD 
 ###################
 
-FROM node:18-alpine AS build
+FROM development AS build
 
-WORKDIR /usr/src/app
-
-COPY --from=development /usr/src/app/node_modules ./node_modules
-
-COPY . .
+# WORKDIR /usr/src/app
 
 RUN npx nx run @diut/access-server:build
 
-RUN npm prune --omit=dev --include-workspace-root -workspace=@diut/common -workspace=@diut/access-server && npm cache clean --force
+RUN npm prune --omit=dev --workspaces --include-workspace-root
+RUN npm cache clean --force
 
 ###################
-# PRODUCTION
+# FINAL
 ###################
 
-FROM node:18-alpine AS production
+FROM node:18-alpine AS final
 
 RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-RUN echo "Asia/Ho_Chi_Minh" >  /etc/timezone
+RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
 RUN apk add --no-cache tini
 RUN apk add --no-cache chromium
@@ -57,9 +59,13 @@ RUN apk add --no-cache msttcorefonts-installer fontconfig && \
 USER node
 
 COPY --from=build /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/libs/common ./node_modules/@diut/common
+COPY --from=build /usr/src/app/libs/common/package.json ./node_modules/@diut/common/package.json
+COPY --from=build /usr/src/app/libs/common/dist ./node_modules/@diut/common/dist
 
 COPY --from=build /usr/src/app/apps/access-server/dist ./dist
+
+EXPOSE 8081
+EXPOSE 5000
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
