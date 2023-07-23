@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   Logger,
+  NotFoundException,
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common'
@@ -139,15 +140,21 @@ export class SampleService
     )
   }
 
-  updateSampleInfo(
+  async updateSampleInfo(
     id: string,
     body: UpdateSampleRequestDto,
     user: AuthTokenPayload
   ) {
-    let { results, sampleCompleted, resultBy, infoCompleted, tests } = body
+    let { sampleCompleted, resultBy, infoCompleted, tests } = body
+    const found = await this.findById(id)
+    if (found == null) {
+      throw new NotFoundException()
+    }
+
+    let results = found.results ?? []
 
     if (tests !== undefined) {
-      const keptResults = (results ?? []).filter(({ testId }) =>
+      const keptResults = results.filter(({ testId }) =>
         body.tests.some(({ id }) => id === testId)
       )
 
