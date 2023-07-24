@@ -5,17 +5,26 @@ services:
     build:
       target: development
     volumes:
-      - ../../:/usr/src/app
+      - ../../apps/web-app/package.json:/usr/src/app/apps/web-app/package.json
+      - ../../apps/web-app/src:/usr/src/app/apps/web-app/src
+      - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
+      - ../../libs/common/src:/usr/src/app/libs/common/src
     ports:
       - '5173:5173'
 
   server:
+    labels:
+      logging: 'promtail'
+      logging_jobname: 'bathanghai_local_server'
     build:
       target: development
     ports:
       - '5000:5000'
     volumes:
-      - ../../:/usr/src/app
+      - ../../apps/access-server/package.json:/usr/src/app/apps/access-server/package.json
+      - ../../apps/access-server/src:/usr/src/app/apps/access-server/src
+      - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
+      - ../../libs/common/src:/usr/src/app/libs/common/src
     environment:
       OTEL_SERVICE_NAME: bathanghai_server_local
     networks:

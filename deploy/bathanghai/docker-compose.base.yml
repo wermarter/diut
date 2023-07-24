@@ -17,6 +17,7 @@ services:
       context: ../../
       dockerfile: ./apps/access-server/Dockerfile
     environment:
+      OTEL_LOG_LEVEL: all
       OTEL_EXPORTER_JAEGER_ENDPOINT: http://tempo:14268/api/traces
     env_file:
       - ../../apps/access-server/.env

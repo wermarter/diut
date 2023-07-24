@@ -11,7 +11,7 @@ COPY . .
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN npm ci --workspace=@diut/access-server --include-workspace-root
+RUN npm i --workspace=@diut/common --workspace=@diut/access-server --include-workspace-root
 
 RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime

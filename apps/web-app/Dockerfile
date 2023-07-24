@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm ci
+RUN npm i --workspace=@diut/common --workspace=@diut/web-app --include-workspace-root
 
 EXPOSE 5173
 

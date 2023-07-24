@@ -3,7 +3,7 @@ name: diut_monitoring
 services:
   tempo:
     restart: unless-stopped
-    image: grafana/tempo:1.5.0
+    image: grafana/tempo:2.1.1
     command: ['-config.file=/etc/tempo/config.yml']
     volumes:
       - ./configs/tempo/config.yml:/etc/tempo/config.yml
@@ -34,9 +34,24 @@ services:
     networks:
       - network
 
+  promtail:
+    restart: unless-stopped
+    image: grafana/promtail:2.8.3
+    volumes:
+      - ./configs/promtail/config.yml:/etc/promtail/docker-config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/docker-config.yaml
+    depends_on:
+      - loki
+    ports:
+      - 9080:9080
+    networks:
+      - network
+
   prometheus:
     restart: unless-stopped
-    image: prom/prometheus:v2.37.7
+    image: prom/prometheus:v2.45.0
     entrypoint:
       - /bin/prometheus
       - --config.file=/etc/prometheus/config.yml
@@ -51,21 +66,18 @@ services:
 
   grafana:
     restart: unless-stopped
-    image: grafana/grafana:9.1.1-ubuntu
+    image: grafana/grafana:10.0.2
     volumes:
       - ./configs/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./configs/grafana/dashboards-provisioning:/etc/grafana/provisioning/dashboards
       - ./configs/grafana/dashboards:/var/lib/grafana/dashboards
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
     ports:
       - '3000:3000'
     depends_on:
       - prometheus
       - tempo
       - loki
+      - promtail
     networks:
       - network
 

@@ -8,7 +8,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "nx exec -- vite",
+    "dev:local": "nx exec -- vite",
+    "dev": "concurrently \"onchange -i 'package.json' -- npm i\" \"npm run dev:local\"",
     "build": "nx exec -- vite build",
     "preview": "vite preview",
     "lint": "nx exec -- tsc",
@@ -46,7 +47,9 @@
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "concurrently": "^8.2.0",
     "dotenv": "^16.0.3",
+    "onchange": "^7.1.0",
     "typescript": "^4.9.5"
   },
   "optionalDependencies": {
