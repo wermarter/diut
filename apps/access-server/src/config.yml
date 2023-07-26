@@ -3,6 +3,9 @@
 
 # Config with YAML instead of JSON enables commenting :)
 
+service:
+  name: server
+
 httpServer:
   port: 5000
 

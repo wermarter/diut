@@ -20,8 +20,6 @@ CMD npx nx run-many -t dev -p @diut/web-app @diut/common
 
 FROM development as build
 
-# WORKDIR /usr/src/app ?
-
 RUN npx nx run @diut/web-app:build
 
 ###################

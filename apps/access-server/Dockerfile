@@ -17,6 +17,7 @@ RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
+RUN apk add --no-cache mongodb-tools
 RUN apk add --no-cache chromium
 RUN apk add --no-cache msttcorefonts-installer fontconfig && \
     update-ms-fonts && \
@@ -33,8 +34,6 @@ CMD npx nx run-many -t dev -p @diut/access-server @diut/common
 
 FROM development AS build
 
-# WORKDIR /usr/src/app
-
 RUN npx nx run @diut/access-server:build
 
 RUN npm prune --omit=dev --workspaces --include-workspace-root
@@ -50,6 +49,7 @@ RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
+RUN apk add --no-cache mongodb-tools
 RUN apk add --no-cache tini
 RUN apk add --no-cache chromium
 RUN apk add --no-cache msttcorefonts-installer fontconfig && \

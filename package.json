@@ -14,9 +14,8 @@
     "node": "18"
   },
   "devDependencies": {
-    "@nrwl/nx-cloud": "latest",
     "npm-check-updates": "^16.7.9",
-    "nx": "15.7.2"
+    "nx": "^16.5.5"
   },
   "scripts": {
     "postinstall": "nx run @diut/common:build",

@@ -26,7 +26,7 @@ services:
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
     environment:
-      OTEL_SERVICE_NAME: bathanghai_server_local
+      SERVICE_NAME: bathanghai_server_local
     networks:
       diut_monitoring_network:
         aliases:

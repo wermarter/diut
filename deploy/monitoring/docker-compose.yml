@@ -7,13 +7,10 @@ services:
     command: ['-config.file=/etc/tempo/config.yml']
     volumes:
       - ./configs/tempo/config.yml:/etc/tempo/config.yml
-      - tempo-volume:/tmp/tempo
+      - tempo_volume:/tmp/tempo
     expose:
-      - '14268' # jaeger ingest, Jaeger - Thrift HTTP
-      - '14250' # Jaeger - GRPC
-      - '55680' # OpenTelemetry
-      - '6831/udp' # Jaeger - Thrift Compact
-      - '6832/udp' # Jaeger - Thrift Binary
+      - 4318 # OTLP HTTP receiver
+      - 3100 # Data query port
     networks:
       - network
 
@@ -23,14 +20,14 @@ services:
     command: -config.file=/etc/loki/config.yml
     expose:
       - 3100
-    environment:
-      - JAEGER_AGENT_HOST=tempo
-      - JAEGER_ENDPOINT=http://tempo:14268/api/traces # send traces to Tempo
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+    # environment:
+    #   - JAEGER_AGENT_HOST=tempo
+    #   - JAEGER_ENDPOINT=http://tempo:14268/api/traces # send traces to Tempo
+    #   - JAEGER_SAMPLER_TYPE=const
+    #   - JAEGER_SAMPLER_PARAM=1
     volumes:
       - ./configs/loki/config.yml:/etc/loki/config.yml
-      # - loki-volume:/tmp/loki
+      - loki_volume:/loki
     networks:
       - network
 
@@ -45,7 +42,7 @@ services:
     depends_on:
       - loki
     ports:
-      - 9080:9080
+      - '9080:9080'
     networks:
       - network
 
@@ -82,7 +79,8 @@ services:
       - network
 
 volumes:
-  tempo-volume:
+  tempo_volume:
+  loki_volume:
 
 networks:
   network:
