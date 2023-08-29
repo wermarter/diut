@@ -110,7 +110,7 @@ export default function InfoConfirmPage() {
         toDate: toDate.toISOString(),
         patientType,
       },
-      { replace: true }
+      { replace: true },
     )
     return setFilterObj((obj) => ({
       ...obj,
@@ -162,7 +162,7 @@ export default function InfoConfirmPage() {
         setPatients((cache) =>
           Object.assign({}, cache, {
             [patientId]: res.data!,
-          })
+          }),
         )
       })
     })
@@ -267,7 +267,7 @@ export default function InfoConfirmPage() {
       <Box sx={{ flexGrow: 1 }}>
         <DataTable
           cellOutline
-          disableSelectionOnClick
+          disableRowSelectionOnClick
           rows={samples?.items || []}
           autoRowHeight
           loading={isFetchingSamples || isFetchingPatients}

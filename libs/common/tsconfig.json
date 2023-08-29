@@ -1,6 +1,22 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext",
+
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noEmitOnError": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "incremental": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+
     "outDir": "./dist"
   },
   "include": ["src/**/*"],

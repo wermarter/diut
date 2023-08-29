@@ -21,4 +21,6 @@ export const authorizationInjector: InjectorFunction<{
       // },
     })
   }
+
+  return {}
 }

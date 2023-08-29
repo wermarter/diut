@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { BioProductResponseDto } from 'src/api/bio-product'
 
-export const bioProductColumns: GridColumns<BioProductResponseDto> = [
+export const bioProductColumns: GridColDef<BioProductResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự',

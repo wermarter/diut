@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
+import { Client } from 'minio'
 import { MinioService } from 'nestjs-minio-client'
 
 @Injectable()
@@ -9,7 +10,7 @@ export class StorageService {
     this.logger = new Logger(StorageService.name)
   }
 
-  public get client() {
+  public get client(): Client {
     return this.minio.client
   }
 }

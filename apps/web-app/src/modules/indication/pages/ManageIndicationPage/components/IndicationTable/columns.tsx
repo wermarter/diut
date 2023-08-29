@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { IndicationResponseDto } from 'src/api/indication'
 
-export const indicationColumns: GridColumns<IndicationResponseDto> = [
+export const indicationColumns: GridColDef<IndicationResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự',

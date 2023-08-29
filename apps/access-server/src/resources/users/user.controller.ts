@@ -32,7 +32,7 @@ export class UserController {
   async updateById(
     @Param('id', ObjectIdPipe) id: string,
     @Body() body: UpdateUserRequestDto,
-    @ReqUser() user: AuthTokenPayload
+    @ReqUser() user: AuthTokenPayload,
   ) {
     const isAdmin = checkAdmin(user.permissions)
 
@@ -43,7 +43,7 @@ export class UserController {
       return this.userService.updateById(id, body)
     } else {
       throw new UnauthorizedException(
-        'You can only modify your own information'
+        'You can only modify your own information',
       )
     }
   }

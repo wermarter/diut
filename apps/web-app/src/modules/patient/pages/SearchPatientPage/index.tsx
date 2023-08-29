@@ -118,7 +118,7 @@ export default function SearchPatientPage() {
       <Box sx={{ flexGrow: 1 }}>
         <DataTable
           cellOutline
-          disableSelectionOnClick
+          disableRowSelectionOnClick
           rows={data?.items || []}
           autoRowHeight
           loading={isFetching || isDeleting}

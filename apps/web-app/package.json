@@ -8,38 +8,39 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev:local": "nx exec -- vite",
-    "dev": "concurrently \"onchange -i 'package.json' -- npm i\" \"npm run dev:local\"",
-    "build": "nx exec -- vite build",
+    "dev:local": "vite",
+    "dev:docker": "concurrently \"onchange -i 'package.json' -- npm i\" \"npm run dev:local\"",
+    "build": "vite build",
     "preview": "vite preview",
-    "lint": "nx exec -- tsc",
+    "lint": "tsc",
     "g:api": "npx @rtk-query/codegen-openapi openapi-config.cts"
   },
   "dependencies": {
     "@diut/common": "*",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@hookform/resolvers": "^2.9.11",
+    "@hookform/resolvers": "^3.3.1",
     "@mui/icons-material": "^5.11.9",
     "@mui/lab": "^5.0.0-alpha.120",
     "@mui/material": "^5.11.10",
-    "@mui/x-data-grid": "^5.17.25",
+    "@mui/x-data-grid": "^6.12.0",
     "@reduxjs/toolkit": "^1.9.3",
-    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-react": "^4.0.4",
     "date-fns": "^2.29.3",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-barcode": "^1.4.6",
     "react-dom": "^18.2.0",
-    "react-easy-crop": "^4.7.3",
+    "react-easy-crop": "^5.0.0",
     "react-hook-form": "^7.43.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-to-print": "^2.14.12",
     "react-toastify": "^9.1.1",
+    "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "vite": "^4.1.4",
-    "vite-tsconfig-paths": "^3.5.0",
+    "vite-tsconfig-paths": "^4.2.0",
     "zod": "^3.20.6"
   },
   "devDependencies": {
@@ -50,9 +51,9 @@
     "concurrently": "^8.2.0",
     "dotenv": "^16.0.3",
     "onchange": "^7.1.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.2.2"
   },
   "optionalDependencies": {
-    "@esbuild/darwin-x64": "^0.16.17"
+    "@esbuild/darwin-x64": "^0.19.2"
   }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { PatientCategory } from '@diut/common'
 import { Box, Button } from '@mui/material'
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { HighlightRuleDto, TestElementResponseDto } from 'src/api/test-element'
 import { CrudTable } from 'src/common/components/CrudTable'
@@ -20,7 +20,7 @@ type HighlightRuleDtoWithId = HighlightRuleDto & {
   id: string
 }
 
-const columns: GridColumns<HighlightRuleDtoWithId> = [
+const columns: GridColDef<HighlightRuleDtoWithId>[] = [
   {
     field: 'category',
     headerName: 'Phân loại',
@@ -108,7 +108,7 @@ export function HighlightRuleEditor({
         element.highlightRules.map((rule) => ({
           id: JSON.stringify(rule),
           ...rule,
-        }))
+        })),
       )
     }
   }, [element?.highlightRules])
@@ -119,7 +119,7 @@ export function HighlightRuleEditor({
         ...rule,
         id: undefined,
         defaultChecked: rule.defaultChecked ?? false,
-      }))
+      })),
     )
     onClose()
   }

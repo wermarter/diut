@@ -1,6 +1,8 @@
 import {
   DataGrid,
   DataGridProps,
+  GridCallbackDetails,
+  GridPaginationModel,
   GridValidRowModel,
   viVN,
 } from '@mui/x-data-grid'
@@ -8,11 +10,16 @@ import {
 import { ROWS_PER_PAGE_OPTIONS } from 'src/common/constants'
 import { ProgressBar } from '../ProgressBar'
 import { EmptyRowsOverlay } from './components/EmptyRows'
+import { useCallback } from 'react'
 
 export type DataTableProps<R extends GridValidRowModel> = DataGridProps<R> &
   React.RefAttributes<HTMLDivElement> & {
     cellOutline?: boolean
     autoRowHeight?: boolean
+    page?: number
+    pageSize?: number
+    onPageChange?: (page: number) => void
+    onPageSizeChange?: (pageSize: number) => void
   }
 
 export function DataTable<R extends GridValidRowModel>({
@@ -20,8 +27,21 @@ export function DataTable<R extends GridValidRowModel>({
   autoRowHeight = false,
   sx,
   components,
+  page = 0,
+  pageSize = ROWS_PER_PAGE_OPTIONS[0],
+  onPageChange,
+  onPageSizeChange,
   ...otherDataGridProps
 }: DataTableProps<R>) {
+  const handlePaginationModelChange: DataGridProps['onPaginationModelChange'] =
+    useCallback(
+      (model: GridPaginationModel, details: GridCallbackDetails) => {
+        onPageChange?.(model.page)
+        onPageSizeChange?.(model.pageSize)
+      },
+      [page, pageSize],
+    )
+
   return (
     <DataGrid
       disableColumnMenu
@@ -62,9 +82,11 @@ export function DataTable<R extends GridValidRowModel>({
           LoadingOverlay: ProgressBar,
           NoRowsOverlay: EmptyRowsOverlay,
         },
-        components
+        components,
       )}
-      rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+      pageSizeOptions={ROWS_PER_PAGE_OPTIONS}
+      paginationModel={{ page, pageSize }}
+      onPaginationModelChange={handlePaginationModelChange}
       {...otherDataGridProps}
     />
   )

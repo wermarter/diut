@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { TestComboResponseDto } from 'src/api/test-combo'
 
-export const testComboColumns: GridColumns<TestComboResponseDto> = [
+export const testComboColumns: GridColDef<TestComboResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự',

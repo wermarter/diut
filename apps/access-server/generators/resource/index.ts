@@ -12,7 +12,7 @@ const plural = process.argv[3]
 
 if (_.isEmpty(single) || _.isEmpty(plural)) {
   console.log(
-    `Please follow syntax:\n\t yarn g:resource "lowercase singular" "lowercase plural" `
+    `Please follow syntax:\n\t yarn g:resource "lowercase singular" "lowercase plural" `,
   )
   process.exit(1)
 }
@@ -59,7 +59,7 @@ if (existsSync(dtoPath)) {
 
 function generate(template: string, destination: string) {
   const controller = _.template(
-    readFileSync(`${templatePath}/${template}`).toString()
+    readFileSync(`${templatePath}/${template}`).toString(),
   )
   writeFileSync(`${resourcePath}/${destination}`, controller(names))
   console.log('|', destination)
@@ -81,19 +81,19 @@ generate('service.template', `${names.singleKebab}.service.ts`)
 
 generate(
   'dtos/create.request.template',
-  `dtos/create-${names.singleKebab}.request-dto.ts`
+  `dtos/create-${names.singleKebab}.request-dto.ts`,
 )
 generate(
   'dtos/search.request.template',
-  `dtos/search-${names.singleKebab}.request-dto.ts`
+  `dtos/search-${names.singleKebab}.request-dto.ts`,
 )
 generate(
   'dtos/search.response.template',
-  `dtos/search-${names.singleKebab}.response-dto.ts`
+  `dtos/search-${names.singleKebab}.response-dto.ts`,
 )
 generate(
   'dtos/update.request.template',
-  `dtos/update-${names.singleKebab}.request-dto.ts`
+  `dtos/update-${names.singleKebab}.request-dto.ts`,
 )
 generate('dtos/response.template', `dtos/${names.singleKebab}.response-dto.ts`)
 

@@ -83,7 +83,7 @@ export default function EditSelectPage() {
       sampleId: searchParams.get('sampleId') ?? '',
       sampleCompleted:
         (searchParams.get(
-          'sampleCompleted'
+          'sampleCompleted',
         ) as FilterData['sampleCompleted']) ?? 'all',
       patientType: patientTypeParam,
     },
@@ -108,7 +108,7 @@ export default function EditSelectPage() {
         toDate: toDate.toISOString(),
         patientType,
       },
-      { replace: true }
+      { replace: true },
     )
     let sampleCompletedObj = {}
     if (userIsAdmin) {
@@ -203,7 +203,7 @@ export default function EditSelectPage() {
           Object.assign({}, cache, {
             ...cache,
             [patientId]: res.data!,
-          })
+          }),
         )
       })
     })
@@ -296,7 +296,7 @@ export default function EditSelectPage() {
       <Box sx={{ flexGrow: 1 }}>
         <DataTable
           cellOutline
-          disableSelectionOnClick
+          disableRowSelectionOnClick
           rows={samples?.items || []}
           autoRowHeight
           loading={isFetchingSamples || isFetchingPatients}

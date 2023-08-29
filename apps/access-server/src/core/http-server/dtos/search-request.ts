@@ -30,7 +30,7 @@ export class SearchRequestDto<Entity> {
   })
   @IsOptional()
   @IsObject()
-  sort?: { [key: string]: SortOrder | { $meta: 'textScore' } }
+  sort?: { [key in keyof Entity]: SortOrder | { $meta: 'textScore' } }
 
   @ApiProperty({
     example: {

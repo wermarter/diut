@@ -1,57 +1,68 @@
-import { Options } from 'pino-http'
-import { ConfigService } from '@nestjs/config'
-import { NodeEnv } from '@diut/common'
-import { Params } from 'nestjs-pino'
+import { Injectable, OnApplicationShutdown } from '@nestjs/common'
+import {
+  WinstonModuleOptions,
+  WinstonModuleOptionsFactory,
+  utilities,
+} from 'nest-winston'
+import * as winston from 'winston'
+import LokiTransport from 'winston-loki'
 import { trace, context } from '@opentelemetry/api'
 
-import { LogConfig, LOG_CONFIG_NAME } from './log.config'
-import { validateConfig } from 'src/core/config/validate-config'
-
-export function buildPinoOptions(configService: ConfigService): Params {
-  const logConfig = validateConfig(LogConfig)(
-    configService.get(LOG_CONFIG_NAME)
+@Injectable()
+export class WinstonConfigService
+  implements WinstonModuleOptionsFactory, OnApplicationShutdown
+{
+  protected readonly winstonFormat = winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json({ space: 0 }),
   )
-  const isProduction = configService.get('env') === NodeEnv.Production
 
-  const devConfig: Options = !isProduction
-    ? {
-        transport: {
-          target: 'pino-pretty',
-          options: {
-            colorize: true,
-            crlf: true,
-            ignore:
-              'version,pid,hostname,context,req.headers,res.headers,req.remoteAddress,req.remotePort,req.params,req.query',
-            messageFormat: '[{context}] {msg}',
-            translateTime: 'SYS:HH:MM:ss',
-          },
-        },
-        autoLogging: true,
-      }
-    : {}
+  protected readonly lokiTransport =
+    process.env.NEST_LOKI_URL?.length > 0
+      ? new LokiTransport({
+          level: 'debug',
+          host: process.env.NEST_LOKI_URL,
+          format: this.winstonFormat,
+          replaceTimestamp: false,
+          labels: { job: process.env.SERVICE_NAME },
+        })
+      : undefined
 
-  return {
-    pinoHttp: {
-      level: logConfig.level,
-      // name: 'access-server',
-      // base: { version: '1.0.0' },
-      // autoLogging: false,
-      // ...devConfig,
-      formatters: {
-        level(label) {
-          return { level: label }
+  async onApplicationShutdown() {
+    this.lokiTransport?.close()
+  }
+
+  async createWinstonModuleOptions(): Promise<WinstonModuleOptions> {
+    const serviceName = process.env.SERVICE_NAME
+
+    const consoleTransport = new winston.transports.Console({
+      level: 'verbose',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        utilities.format.nestLike(serviceName, {
+          colors: true,
+          prettyPrint: true,
+        }),
+      ),
+    })
+
+    const transports: winston.transport[] = [consoleTransport]
+
+    if (this.lokiTransport !== undefined) {
+      transports.push(this.lokiTransport)
+    }
+
+    return {
+      defaultMeta: {
+        service: serviceName,
+        get spanId() {
+          return trace.getSpan(context.active())?.spanContext().spanId
         },
-        // Workaround for PinoInstrumentation (does not support latest version yet)
-        log(object) {
-          const span = trace.getSpan(context.active())
-          if (!span) return { ...object }
-          const { spanId, traceId } = trace
-            .getSpan(context.active())
-            ?.spanContext()
-          return { ...object, spanId, traceId }
+        get traceId() {
+          return trace.getSpan(context.active())?.spanContext().traceId
         },
       },
-    },
-    exclude: ['/api/health'],
+      transports,
+    }
   }
 }

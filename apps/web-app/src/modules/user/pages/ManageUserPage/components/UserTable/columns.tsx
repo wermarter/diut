@@ -1,9 +1,9 @@
 import { isAdmin, Permission } from '@diut/common'
-import { GridColumns, GridValueSetterParams } from '@mui/x-data-grid'
+import { GridColDef, GridValueSetterParams } from '@mui/x-data-grid'
 
 import { UserResponseDto } from 'src/api/user'
 
-export const userColumns: GridColumns<UserResponseDto> = [
+export const userColumns: GridColDef<UserResponseDto>[] = [
   {
     field: 'name',
     headerName: 'Tên',
@@ -48,8 +48,8 @@ export const userColumns: GridColumns<UserResponseDto> = [
 function generatePermissionColumn(
   permission: Permission,
   label: string,
-  width = 80
-): typeof userColumns[number] {
+  width = 80,
+): (typeof userColumns)[number] {
   return {
     field: permission,
     headerName: label,

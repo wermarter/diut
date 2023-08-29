@@ -1,4 +1,4 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { BioProductResponseDto } from 'src/api/bio-product'
 import { PrintFormResponseDto } from 'src/api/print-form'
@@ -10,8 +10,8 @@ export const NO_BIOPRODUCT = 'NO_BIOPRODUCT'
 export function useTestColumns(
   testCategories: TestCategoryResponseDto[],
   bioProducts: BioProductResponseDto[],
-  printForms: PrintFormResponseDto[]
-): GridColumns<TestResponseDto> {
+  printForms: PrintFormResponseDto[],
+): GridColDef<TestResponseDto>[] {
   return [
     {
       field: 'category',
@@ -55,7 +55,7 @@ export function useTestColumns(
         bioProducts?.map((item) => ({
           value: item?.name,
           label: item?.name,
-        }))
+        })),
       ),
       valueGetter: ({ value }) => {
         return value?.name ?? ''

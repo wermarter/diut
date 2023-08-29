@@ -120,7 +120,7 @@ export default function PrintSelectPage() {
         patientType,
         testIds,
       },
-      { replace: true }
+      { replace: true },
     )
 
     return setFilterObj((obj) => ({
@@ -170,7 +170,7 @@ export default function PrintSelectPage() {
           Object.assign({}, cache, {
             ...cache,
             [patientId]: res.data!,
-          })
+          }),
         )
       })
     })
@@ -272,7 +272,7 @@ export default function PrintSelectPage() {
       <Box sx={{ flexGrow: 1 }}>
         <DataTable
           cellOutline
-          disableSelectionOnClick
+          disableRowSelectionOnClick
           rows={samples?.items || []}
           autoRowHeight
           loading={isFetchingSamples || isFetchingPatients}
@@ -398,14 +398,14 @@ export default function PrintSelectPage() {
             .filter(({ testCompleted }) => testCompleted)
             .map(({ testId }) => testId)
           const printFormIds = testIds?.map(
-            (testId) => testMap.get(testId)?.printForm
+            (testId) => testMap.get(testId)?.printForm,
           )
           return printFormIds?.some((printFormId) => printFormId === _id)
         })}
         sample={printSample}
         key={printSample?._id}
         sampleTypes={printSample?.sampleTypeIds?.map(
-          (sampleTypeId) => sampleTypeMap.get(sampleTypeId)!
+          (sampleTypeId) => sampleTypeMap.get(sampleTypeId)!,
         )}
         onClose={() => {
           setPrintSample(null)

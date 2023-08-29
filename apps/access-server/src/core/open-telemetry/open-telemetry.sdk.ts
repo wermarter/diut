@@ -19,7 +19,7 @@ const traceExporter = new OTLPTraceExporter({
 
 const otelSDK = new NodeSDK({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: process.env.SERVICE_NAME, // update this to a more relevant name for you!
+    [SemanticResourceAttributes.SERVICE_NAME]: process.env.SERVICE_NAME,
   }),
   metricReader: new PrometheusExporter({
     port: 8081,
@@ -58,7 +58,7 @@ process.on(ShutdownSignal.SIGTERM, () => {
     .shutdown()
     .then(
       () => console.log('SDK shut down successfully'),
-      (err) => console.log('Error shutting down SDK', err)
+      (err) => console.log('Error shutting down SDK', err),
     )
     .finally(() => process.exit(0))
 })

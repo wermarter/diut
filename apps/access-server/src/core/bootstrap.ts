@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { LoggerService, ValidationPipe } from '@nestjs/common'
-import { Logger } from 'nestjs-pino'
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 
 import {
   HttpServerConfig,
@@ -11,6 +11,7 @@ import {
 } from './http-server/http-server.config'
 import { validateConfig } from './config/validate-config'
 import otelSDK from './open-telemetry/open-telemetry.sdk'
+import { HttpLoggerInterceptor } from './http-server'
 
 const API_PREFIX = 'api'
 const SWAGGER_ENDPOINT = API_PREFIX + '/docs'
@@ -21,21 +22,23 @@ export async function bootstrap(
     name: '@diut/access-server',
     description: 'Main access server for the project',
     version: '1.0.0',
-  }
+  },
 ) {
   otelSDK.start()
 
   const app = await NestFactory.create(rootModule, { bufferLogs: true })
-  const logger: LoggerService = app.get(Logger)
+  const logger: LoggerService = app.get(WINSTON_MODULE_NEST_PROVIDER)
   app.useLogger(logger)
   app.flushLogs()
+
+  app.useGlobalInterceptors(new HttpLoggerInterceptor())
 
   app.enableShutdownHooks()
   app.setGlobalPrefix(API_PREFIX)
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // convert to DTO to class instance for applying default value
-    })
+    }),
   )
 
   const config = app.get(ConfigService)
@@ -44,7 +47,7 @@ export async function bootstrap(
   app.enableCors({ exposedHeaders: 'Content-Disposition' })
 
   const httpServerConfig = validateConfig(HttpServerConfig)(
-    config.get(HTTP_SERVER_CONFIG_NAME)
+    config.get(HTTP_SERVER_CONFIG_NAME),
   )
 
   // Bootstrap HTTP server
@@ -89,7 +92,7 @@ export async function bootstrap(
   await app.listen(PORT)
   logger.log(
     `Documentation on http://localhost:${PORT}/${SWAGGER_ENDPOINT}`,
-    BOOTSTRAP_CONTEXT
+    BOOTSTRAP_CONTEXT,
   )
 
   if (isDevelopment) {

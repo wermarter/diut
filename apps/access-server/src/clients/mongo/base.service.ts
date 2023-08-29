@@ -3,17 +3,22 @@ import {
   FilterQuery,
   Model,
   PipelineStage,
+  Query,
   QueryOptions,
   Require_id,
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
 import { pick, isNil } from 'lodash'
+import { DeleteResult } from 'mongodb'
 
 import { BaseSchema } from './mongo.common'
 
 export abstract class BaseMongoService<Entity extends BaseSchema> {
-  constructor(protected model: Model<Entity>, protected logger: Logger) {}
+  constructor(
+    public model: Model<Entity>,
+    protected logger: Logger,
+  ) {}
 
   private stringifyId(object: Require_id<Entity>) {
     if (object == null) {
@@ -38,14 +43,18 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
 
   public async findOne(options?: {
     filter?: FilterQuery<Entity>
-    selectedFields?: Array<string>
+    projection?:
+      | keyof Entity
+      | (keyof Entity)[]
+      | Record<keyof Entity, number | boolean | object>
   }): Promise<Entity> {
-    const { filter, selectedFields } = options ?? {}
+    const { filter, projection } = options ?? {}
 
     const query = this.model.findOne(filter)
 
-    if (selectedFields?.length) {
-      query.select(selectedFields.join(' '))
+    if (projection !== undefined) {
+      // @ts-ignore
+      query.select(projection)
     }
 
     const item = await query.exec()
@@ -72,7 +81,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     populates?: Array<{
       path: keyof Entity
       fields?: Array<string>
-    }>
+    }>,
   ) {
     populates.forEach((populate) => {
       if (populate.path) {
@@ -91,15 +100,17 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     offset?: number
     limit?: number
     filter?: FilterQuery<Entity>
-    sort?: { [key: string]: SortOrder | { $meta: 'textScore' } }
-    selectedFields?: Array<string>
+    sort?: { [key in keyof Entity]?: SortOrder | { $meta: 'textScore' } }
+    projection?:
+      | keyof Entity
+      | (keyof Entity)[]
+      | Record<keyof Entity, number | boolean | object>
     populates?: Array<{
       path: keyof Entity
       fields?: Array<string>
     }>
   }) {
-    const { offset, limit, filter, sort, selectedFields, populates } =
-      options ?? {}
+    const { offset, limit, filter, sort, projection, populates } = options ?? {}
 
     const query = this.model.find(filter)
 
@@ -112,8 +123,9 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
       query.limit(limit)
     }
 
-    if (selectedFields) {
-      query.select(selectedFields.join(' '))
+    if (projection !== undefined) {
+      // @ts-ignore
+      query.select(projection)
     }
 
     if (populates) {
@@ -136,7 +148,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   public async updateById(
     id: string,
     data: UpdateQuery<Entity>,
-    options?: QueryOptions<Entity>
+    options?: QueryOptions<Entity>,
   ): Promise<Entity> {
     const item = await this.model.findByIdAndUpdate(id, data, options).exec()
 
@@ -146,7 +158,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   public async update(
     filter: FilterQuery<Entity>,
     data: UpdateQuery<Entity>,
-    options?: QueryOptions<Entity>
+    options?: QueryOptions<Entity>,
   ): Promise<Entity> {
     const item = await this.model.findOneAndUpdate(filter, data, options).exec()
 
@@ -156,7 +168,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   public async updateMany(
     filter: FilterQuery<Entity>,
     data: UpdateQuery<Entity>,
-    options?: QueryOptions<Entity>
+    options?: QueryOptions<Entity>,
   ): Promise<void> {
     await this.model.updateMany(filter, data, options).exec()
   }
@@ -167,7 +179,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
     return this.stringifyId(item?.toObject<Entity>()) ?? null
   }
 
-  public async deleteMany(filter: FilterQuery<Entity>) {
+  public async deleteMany(filter: FilterQuery<Entity>): Promise<DeleteResult> {
     return this.model.deleteMany(filter).exec()
   }
 
@@ -177,7 +189,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
       conditions?: Array<string>
       operator?: string
       selectedFields?: Array<string>
-    }
+    },
   ): Promise<void> {
     let { selectedFields, conditions, operator = 'set' } = upsert ?? {}
 
@@ -202,7 +214,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
 
   public async aggregate<Result = any>(
     pipelines: Array<PipelineStage>,
-    allowDiskUse = false
+    allowDiskUse = false,
   ): Promise<Array<Result>> {
     return await this.model
       .aggregate<Result>(pipelines)

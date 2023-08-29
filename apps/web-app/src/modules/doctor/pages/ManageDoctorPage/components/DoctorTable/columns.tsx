@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { DoctorResponseDto } from 'src/api/doctor'
 
-export const doctorColumns: GridColumns<DoctorResponseDto> = [
+export const doctorColumns: GridColDef<DoctorResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự',

@@ -60,7 +60,7 @@ export class SampleService
     private readonly sampleTypeService: SampleTypeService,
     private readonly printFormService: PrintFormService,
     private readonly configService: ConfigService,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
   ) {
     super(model, new Logger(SampleService.name))
   }
@@ -146,7 +146,7 @@ export class SampleService
       UPLOAD_CONFIG.BUCKET,
       filename,
       file.buffer,
-      metaData
+      metaData,
     )
 
     return {
@@ -158,14 +158,14 @@ export class SampleService
   async downloadFile({ path }: SampleDownloadRequestDto) {
     return await this.storageService.client.getObject(
       UPLOAD_CONFIG.BUCKET,
-      path
+      path,
     )
   }
 
   async updateSampleInfo(
     id: string,
     body: UpdateSampleRequestDto,
-    user: AuthTokenPayload
+    user: AuthTokenPayload,
   ) {
     let { sampleCompleted, resultBy, infoCompleted, tests } = body
     const found = await this.findById(id)
@@ -177,11 +177,11 @@ export class SampleService
 
     if (tests !== undefined) {
       const keptResults = results.filter(({ testId }) =>
-        body.tests.some(({ id }) => id === testId)
+        body.tests.some(({ id }) => id === testId),
       )
 
       const newTests = body.tests.filter(
-        ({ id }) => !keptResults.some(({ testId }) => testId === id)
+        ({ id }) => !keptResults.some(({ testId }) => testId === id),
       )
 
       const newResults = newTests.map(({ id, bioProductName }) => ({
@@ -193,11 +193,11 @@ export class SampleService
 
       results = [...keptResults, ...newResults]
       resultBy = uniq(results.map(({ resultBy }) => resultBy)).filter(
-        (x) => x !== undefined
+        (x) => x !== undefined,
       )
 
       sampleCompleted = !results.some(
-        ({ testCompleted }) => testCompleted === false
+        ({ testCompleted }) => testCompleted === false,
       )
 
       return this.updateById(id, {
@@ -220,7 +220,7 @@ export class SampleService
   async updateSampleResults(
     id: string,
     body: UpdateSampleRequestDto,
-    user: AuthTokenPayload
+    user: AuthTokenPayload,
   ) {
     const userId = user.sub
     const userIsAdmin = isAdmin(user.permissions)
@@ -237,7 +237,7 @@ export class SampleService
 
     const results = body.results.map((newResult) => {
       const existingResult = sample.results.find(
-        ({ testId }) => testId === newResult.testId
+        ({ testId }) => testId === newResult.testId,
       )
 
       // There is no change to the result
@@ -265,7 +265,7 @@ export class SampleService
     })
 
     const sampleCompleted = !results.some(
-      ({ testCompleted }) => testCompleted === false
+      ({ testCompleted }) => testCompleted === false,
     )
 
     return this.updateById(id, {
@@ -280,7 +280,7 @@ export class SampleService
     startDate: Date,
     endDate: Date,
     populatePaths: Array<keyof Sample> = ['patientId'],
-    mergeSearchOptions: Parameters<typeof this.search>[0] = {} // Leaky abstraction
+    mergeSearchOptions: Parameters<typeof this.search>[0] = {}, // Leaky abstraction
   ) {
     const res = await this.search(
       merge(
@@ -303,8 +303,8 @@ export class SampleService
           },
           populates: [...populatePaths.map((path) => ({ path }))],
         },
-        mergeSearchOptions
-      )
+        mergeSearchOptions,
+      ),
     )
 
     return res.items ?? []
@@ -325,8 +325,8 @@ export class SampleService
 
     const sampleTypes = await Promise.all(
       (sample.sampleTypeIds as string[]).map((id) =>
-        this.sampleTypeService.findById(id)
-      )
+        this.sampleTypeService.findById(id),
+      ),
     )
 
     const categoryMap: Record<number, string> = {}
@@ -365,7 +365,7 @@ export class SampleService
         }
 
         const elements = await Promise.all(
-          result.elements.map(({ id }) => this.testElementService.findById(id))
+          result.elements.map(({ id }) => this.testElementService.findById(id)),
         )
 
         const { name: categoryName, index: categoryIndex } =
@@ -386,10 +386,10 @@ export class SampleService
             isHighlighted: result.elements[index]?.isHighlighted,
             description: (
               element.highlightRules.find(
-                ({ category }) => category === patientCategory
+                ({ category }) => category === patientCategory,
               ) ??
               element.highlightRules.find(
-                ({ category }) => category === PatientCategory.Any
+                ({ category }) => category === PatientCategory.Any,
               )
             )?.description,
             unit: element.unit,
@@ -397,7 +397,7 @@ export class SampleService
             printIndex: element.printIndex,
           })),
         })
-      })
+      }),
     )
 
     return {
@@ -434,12 +434,12 @@ export class SampleService
 
   async prepareSampleContent(sample: SinglePrintRequestDto) {
     const printForm = await this.printFormService.findById(
-      sample.printForm ?? PrintForm.Basic
+      sample.printForm ?? PrintForm.Basic,
     )
     const { titleMargin } = await this.printFormService.findById(printForm._id)
     const sampleData = await this.fetchSampleData(
       sample.sampleId,
-      printForm._id as PrintForm
+      printForm._id as PrintForm,
     )
 
     const authorPosition = sample.authorPosition ?? ''
@@ -458,9 +458,9 @@ export class SampleService
           __dirname,
           '..',
           '..',
-          `views/print-form/${printForm.filename}.ejs`
+          `views/print-form/${printForm.filename}.ejs`,
         ),
-        printData
+        printData,
       )
       return string
     } catch (e) {
@@ -471,7 +471,7 @@ export class SampleService
 
   async print(samples: SinglePrintRequestDto[], user?: AuthTokenPayload) {
     const pageContents = await Promise.all(
-      samples.map((sample) => this.prepareSampleContent(sample))
+      samples.map((sample) => this.prepareSampleContent(sample)),
     )
 
     // Update print status
@@ -480,8 +480,8 @@ export class SampleService
         this.updateById(sample.sampleId, {
           printedAt: new Date(),
           printedBy: user?.sub,
-        })
-      )
+        }),
+      ),
     )
 
     const mergedPdf = await PDFDocument.create()
@@ -490,7 +490,7 @@ export class SampleService
     // Take it slow to save CPU and preserve print order
     for (let pageContent of pageContents) {
       const { isA4 } = await this.printFormService.findById(
-        samples[sampleCounter++].printForm ?? PrintForm.Basic
+        samples[sampleCounter++].printForm ?? PrintForm.Basic,
       )
 
       const page = await this.browser.newPage()
@@ -516,7 +516,7 @@ export class SampleService
       const document = await PDFDocument.load(buffer)
       const copiedPages = await mergedPdf.copyPages(
         document,
-        document.getPageIndices()
+        document.getPageIndices(),
       )
       copiedPages.forEach((page) => mergedPdf.addPage(page))
       await page.close()

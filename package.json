@@ -6,20 +6,7 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "libs/**/*",
-    "apps/**/*"
-  ],
   "engines": {
-    "node": "18"
-  },
-  "devDependencies": {
-    "npm-check-updates": "^16.7.9",
-    "nx": "^16.5.5"
-  },
-  "scripts": {
-    "postinstall": "nx run @diut/common:build",
-    "lint": "nx run-many -t lint",
-    "ncu": "ncu --workspaces"
+    "node": "20"
   }
 }

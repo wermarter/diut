@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { PrintFormResponseDto } from 'src/api/print-form'
 
-export const printFormColumns: GridColumns<PrintFormResponseDto> = [
+export const printFormColumns: GridColDef<PrintFormResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự',

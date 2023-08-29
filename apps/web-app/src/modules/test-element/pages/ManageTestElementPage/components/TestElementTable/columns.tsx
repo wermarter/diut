@@ -1,5 +1,5 @@
 import { PatientCategory } from '@diut/common'
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { TestResponseDto } from 'src/api/test'
 import { TestElementResponseDto } from 'src/api/test-element'
@@ -11,8 +11,8 @@ export const NO_DESCRIPTION = '---'
 export const NO_NOTE = '---'
 
 export function useTestElementColumns(
-  test: TestResponseDto[]
-): GridColumns<TestElementResponseDto> {
+  test: TestResponseDto[],
+): GridColDef<TestElementResponseDto>[] {
   return [
     {
       field: 'test',

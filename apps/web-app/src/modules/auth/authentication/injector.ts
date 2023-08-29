@@ -5,7 +5,7 @@ import { AppNavigate, InjectorFunction } from 'src/common/utils'
 import { selectIsAuthenticated } from '../slice'
 
 export const authenticationInjector: InjectorFunction<{}> = (
-  args: LoaderFunctionArgs
+  args: LoaderFunctionArgs,
 ) => {
   if (!selectIsAuthenticated(appStore.getState())) {
     throw new AppNavigate({
@@ -17,4 +17,6 @@ export const authenticationInjector: InjectorFunction<{}> = (
       replace: true,
     })
   }
+
+  return {}
 }

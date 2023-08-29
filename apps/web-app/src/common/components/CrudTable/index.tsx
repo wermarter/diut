@@ -6,13 +6,12 @@ import {
   GridRowsProp,
   GridRowModesModel,
   GridRowModes,
-  GridColumns,
+  GridColDef,
   GridRowParams,
   MuiEvent,
   GridActionsCellItem,
   GridEventListener,
   GridValidRowModel,
-  GridCallbackDetails,
 } from '@mui/x-data-grid'
 
 import { DataTable } from '../DataTable'
@@ -27,7 +26,7 @@ interface CustomRowAction<R extends GridValidRowModel> {
 interface CrudTableProps<R extends GridValidRowModel> {
   items: GridRowsProp<R>
   itemIdField: keyof R
-  fieldColumns: GridColumns<R>
+  fieldColumns: GridColDef<R>[]
   onItemUpdate: (newItem: R, oldItem: R) => Promise<void> | void
   onItemCreate?: (item: R) => Promise<void> | void
   onItemDelete?: (item: R) => Promise<void> | void
@@ -36,12 +35,9 @@ interface CrudTableProps<R extends GridValidRowModel> {
 
   rowCount?: number
   page?: number
-  onPageChange?: (page: number, details: GridCallbackDetails<any>) => void
+  onPageChange?: (page: number) => void
   pageSize?: number
-  onPageSizeChange?: (
-    pageSize: number,
-    details: GridCallbackDetails<any>
-  ) => void
+  onPageSizeChange?: (pageSize: number) => void
 
   TopRightComponent?: React.ReactNode
   customRowActions?: CustomRowAction<R>[]
@@ -68,7 +64,7 @@ export function CrudTable<R extends GridValidRowModel>({
 }: CrudTableProps<R>) {
   const [rows, setRows] = React.useState<GridRowsProp<R>>([])
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
-    {}
+    {},
   )
 
   React.useEffect(() => {
@@ -79,14 +75,14 @@ export function CrudTable<R extends GridValidRowModel>({
 
   const handleRowEditStart = (
     params: GridRowParams,
-    event: MuiEvent<React.SyntheticEvent>
+    event: MuiEvent<React.SyntheticEvent>,
   ) => {
     event.defaultMuiPrevented = true
   }
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (
     params,
-    event
+    event,
   ) => {
     event.defaultMuiPrevented = true
   }
@@ -140,7 +136,7 @@ export function CrudTable<R extends GridValidRowModel>({
     return newRow
   }
 
-  const columns: GridColumns<R> = React.useMemo(() => {
+  const columns: GridColDef<R>[] = React.useMemo(() => {
     return [
       ...fieldColumns,
       {
@@ -239,7 +235,6 @@ export function CrudTable<R extends GridValidRowModel>({
             showLastButton: true,
           },
         }}
-        experimentalFeatures={{ newEditingApi: true }}
         cellOutline
         loading={isLoading}
         paginationMode={rowCount !== undefined ? 'server' : undefined}

@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { PatientTypeResponseDto } from 'src/api/patient-type'
 
-export const patientTypeColumns: GridColumns<PatientTypeResponseDto> = [
+export const patientTypeColumns: GridColDef<PatientTypeResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự',

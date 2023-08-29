@@ -1,8 +1,8 @@
-import { GridColumns } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 
 import { TestCategoryResponseDto } from 'src/api/test-category'
 
-export const testCategoryColumns: GridColumns<TestCategoryResponseDto> = [
+export const testCategoryColumns: GridColDef<TestCategoryResponseDto>[] = [
   {
     field: 'index',
     headerName: 'Thứ tự nhập',

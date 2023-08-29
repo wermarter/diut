@@ -108,7 +108,7 @@ export default function InfoInputPage() {
   }, [error])
 
   const deferredExternalId = useDeferredValue(
-    useDebouncedValue(watch('externalId')!)
+    useDebouncedValue(watch('externalId')!),
   )
   const deferredName = useDeferredValue(useDebouncedValue(watch('name')!))
 
@@ -128,11 +128,11 @@ export default function InfoInputPage() {
         skip:
           (deferredExternalId ?? '').length === 0 &&
           (deferredName ?? '').length === 0,
-      }
+      },
     )
 
   const [shouldUpdatePatient, setShouldUpdatePatient] = useState<string | null>(
-    null
+    null,
   )
 
   const resetForm = useCallback(() => {
@@ -196,7 +196,7 @@ export default function InfoInputPage() {
 
       setBarcodeModalOpen(true)
     }),
-    [shouldUpdatePatient]
+    [shouldUpdatePatient],
   )
 
   return (
@@ -439,7 +439,7 @@ export default function InfoInputPage() {
             items.map((item) => ({
               bioProductName: item.bioProduct?.name,
               id: item._id,
-            }))
+            })),
           )
         }}
         showCombos
@@ -448,10 +448,10 @@ export default function InfoInputPage() {
         <DataTable
           rows={patients?.items ?? []}
           loading={isFetchingPatients}
-          disableSelectionOnClick
+          disableRowSelectionOnClick
           getRowId={(row) => row._id}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          paginationModel={{ page: 1, pageSize: 10 }}
+          pageSizeOptions={[10]}
           columns={[
             {
               field: 'startActions',
@@ -477,7 +477,7 @@ export default function InfoInputPage() {
                   color="primary"
                   onClick={() => {
                     const patient = patients?.items.find(
-                      ({ _id }) => _id === id
+                      ({ _id }) => _id === id,
                     )
                     setShouldUpdatePatient(patient?._id!)
                     setValue('externalId', patient?.externalId)
