@@ -7,7 +7,7 @@ import { merge } from 'lodash'
 
 type LogModuleOptions = WinstonModuleOptions & {
   // if empty string, app will not send logs to Loki
-  lokiUrl: string
+  lokiUrl?: string
   serviceName: string
 }
 
@@ -27,7 +27,7 @@ export class LogModule {
           ? options.transports
           : []
 
-        if (options.lokiUrl?.length > 0) {
+        if (options?.lokiUrl?.length > 0) {
           transports.push(
             buildLokiTransport(options.lokiUrl, options.serviceName),
           )

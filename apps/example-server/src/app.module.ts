@@ -12,7 +12,6 @@ import { ServiceConfig, loadServiceConfig } from './configs/service.config'
       inject: [loadServiceConfig.KEY],
       useFactory: async (serviceConfig: ServiceConfig) => ({
         serviceName: serviceConfig.SERVICE_NAME,
-        lokiUrl: '',
       }),
     }),
   ],
