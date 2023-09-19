@@ -22,8 +22,8 @@ export const ExposeObjectId = () =>
       ({ obj, key }) => {
         return obj[key]
       },
-      { toClassOnly: true }
-    )
+      { toClassOnly: true },
+    ),
   )
 
 export class BaseResourceResponseDto {
@@ -58,7 +58,7 @@ export class BaseSchema {
 
 export function importCollection(
   SchemaClass: ClassConstructor<unknown>,
-  useAutopopulate = false
+  useAutopopulate = false,
 ) {
   if (useAutopopulate === true) {
     return MongooseModule.forFeatureAsync([

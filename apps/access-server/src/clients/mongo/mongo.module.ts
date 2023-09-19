@@ -12,10 +12,10 @@ import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (
-        configService: ConfigService
+        configService: ConfigService,
       ): MongooseModuleFactoryOptions => {
         const config = validateConfig(MongoConfig)(
-          configService.get(MONGO_CONFIG_NAME)
+          configService.get(MONGO_CONFIG_NAME),
         )
         const isProduction = configService.get('env') === NodeEnv.Production
 
@@ -24,9 +24,7 @@ import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
           if (!isProduction && method === 'createIndex') {
             return
           }
-          // logger.debug({ coll, method, query, doc, options })
         })
-
         mongoose.set('autoIndex', false)
 
         return {
@@ -37,7 +35,7 @@ import { MongoConfig, MONGO_CONFIG_NAME } from './mongo.config'
 
             client.on('serverHeartbeatFailed', ({ connectionId }) => {
               logger.warn(
-                `MongoDB heartbeat failed: ${connectionId}. Reconnecting...`
+                `MongoDB heartbeat failed: ${connectionId}. Reconnecting...`,
               )
             })
 

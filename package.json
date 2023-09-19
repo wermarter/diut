@@ -8,5 +8,8 @@
   "private": true,
   "engines": {
     "node": "20"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
   }
 }

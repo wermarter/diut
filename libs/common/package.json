@@ -20,8 +20,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "concurrently": "^8.2.0",
+    "@types/lodash": "^4.14.198",
+    "concurrently": "^8.2.1",
     "onchange": "^7.1.0",
     "typescript": "^5.2.2"
   }
