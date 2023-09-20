@@ -1,7 +1,7 @@
 import { LoggerService } from '@nestjs/common'
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 
-import { BootstrapConfig } from 'src/bootstrap'
+import { BootstrapConfig } from '../bootstrap'
 
 export const LogBootstrap: BootstrapConfig = {
   initOptions: { bufferLogs: true },

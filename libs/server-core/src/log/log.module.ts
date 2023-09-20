@@ -1,9 +1,10 @@
+import { merge } from 'lodash'
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common'
 import { WinstonModule, WinstonModuleOptions } from 'nest-winston'
+
 import { buildLokiTransport } from './transports/loki.transport'
 import { buildConsoleTransport } from './transports/console.transport'
 import { buildWinstonDefaultMeta } from './default-meta'
-import { merge } from 'lodash'
 
 type LogModuleOptions = WinstonModuleOptions & {
   // if empty string, app will not send logs to Loki

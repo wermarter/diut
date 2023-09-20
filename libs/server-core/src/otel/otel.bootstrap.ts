@@ -12,8 +12,8 @@ import {
 } from '@opentelemetry/core'
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node'
 
-import { BootstrapConfig } from 'src/bootstrap'
-import { loadConfigFromEnv } from 'src/config'
+import { BootstrapConfig } from '../bootstrap'
+import { loadConfigFromEnv } from '../config'
 import { OtelConfig } from './otel.config'
 
 export let OtelSDK: NodeSDK

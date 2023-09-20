@@ -5,10 +5,8 @@ import { ServiceConfig, loadServiceConfig } from './configs/service.config'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [loadServiceConfig],
-    }),
     LogModule.forRootAsync({
+      imports: [ConfigModule.forFeature(loadServiceConfig)],
       inject: [loadServiceConfig.KEY],
       useFactory: async (serviceConfig: ServiceConfig) => ({
         serviceName: serviceConfig.SERVICE_NAME,

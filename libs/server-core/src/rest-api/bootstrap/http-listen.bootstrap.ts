@@ -2,8 +2,8 @@ import { ConfigService } from '@nestjs/config'
 import { NodeEnv } from '@diut/common'
 import { Logger } from '@nestjs/common'
 
-import { BootstrapConfig } from 'src/bootstrap'
-import { ConfigurationException } from 'src/config'
+import { BootstrapConfig } from '../../bootstrap'
+import { ConfigurationException } from '../../config'
 import { HTTP_PORT, NODE_ENV, SWAGGER_ENDPOINT } from '../constants'
 
 const BOOTSTRAP_CONTEXT = 'Bootstrap'

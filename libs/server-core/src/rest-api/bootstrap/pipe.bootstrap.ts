@@ -1,6 +1,6 @@
 import { ValidationPipe } from '@nestjs/common'
 
-import { BootstrapConfig } from 'src/bootstrap'
+import { BootstrapConfig } from '../../bootstrap'
 
 export const PipeBootstrap: BootstrapConfig = {
   afterInit(ctx) {

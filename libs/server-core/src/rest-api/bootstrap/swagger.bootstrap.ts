@@ -1,7 +1,7 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
-import { BootstrapConfig } from 'src/bootstrap'
-import { SWAGGER_ENDPOINT } from 'src/rest-api/constants'
+import { BootstrapConfig } from '../../bootstrap'
+import { SWAGGER_ENDPOINT } from '../constants'
 
 export const SwaggerBootstrap: BootstrapConfig = {
   afterInit(ctx) {

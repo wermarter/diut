@@ -1,7 +1,7 @@
 {
   "extends": "../../libs/server-core/base.tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "baseUrl": "."
+    "outDir": "./dist"
+    // "baseUrl": "." this will break dependency resolution in consuming modules
   }
 }

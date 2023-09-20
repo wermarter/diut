@@ -1,4 +1,4 @@
-import { BootstrapConfig } from 'src/bootstrap'
+import { BootstrapConfig } from '../../bootstrap'
 
 export const LifecycleBootstrap: BootstrapConfig = {
   afterInit(ctx) {
