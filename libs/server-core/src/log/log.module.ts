@@ -6,11 +6,17 @@ import { buildLokiTransport } from './transports/loki.transport'
 import { buildConsoleTransport } from './transports/console.transport'
 import { buildWinstonDefaultMeta } from './default-meta'
 
-type LogModuleOptions = WinstonModuleOptions & {
+type LogModuleExtraOptions = {
   // if empty string, app will not send logs to Loki
   lokiUrl?: string
   serviceName: string
 }
+
+type LogModuleOptions = Omit<
+  WinstonModuleOptions,
+  keyof LogModuleExtraOptions
+> &
+  LogModuleExtraOptions
 
 type LogModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &
   Pick<FactoryProvider, 'inject'> & {

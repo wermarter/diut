@@ -8,6 +8,6 @@ export interface AppControllerOptions {
 export function AppController(options: AppControllerOptions) {
   return applyDecorators(
     ApiTags(options.basePath),
-    Controller(options.basePath)
+    Controller(options.basePath),
   )
 }

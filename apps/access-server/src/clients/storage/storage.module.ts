@@ -10,11 +10,10 @@ import { StorageService } from './storage.service'
 @Module({
   imports: [
     MinioModule.registerAsync({
-      // isGlobal: true,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const config = validateConfig(StorageConfig)(
-          configService.get(STORAGE_CONFIG_NAME)
+          configService.get(STORAGE_CONFIG_NAME),
         )
 
         return {

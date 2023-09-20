@@ -14,4 +14,4 @@ import { OpenTelemetryModule } from 'nestjs-otel'
     }),
   ],
 })
-export class AppOpenTelemetryModule {}
+export class OtelModule {}

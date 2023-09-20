@@ -1,4 +1,4 @@
-import { IsNumber, IsString, IsUrl } from 'class-validator'
+import { IsNumber, IsString } from 'class-validator'
 
 export class OtelConfig {
   @IsNumber()
@@ -7,6 +7,6 @@ export class OtelConfig {
   @IsString()
   PROMETHEUS_ENDPOINT = '/metrics'
 
-  @IsUrl()
+  @IsString()
   OTLP_TRACE_EXPORTER_URL = 'http://tempo:4318/v1/traces'
 }

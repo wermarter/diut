@@ -11,7 +11,7 @@ const BOOTSTRAP_CONTEXT = 'Bootstrap'
 export const HttpListenBootstrap: BootstrapConfig = {
   async afterInit(ctx) {
     const configService = ctx.app.get(ConfigService)
-    const logger = ctx.app.get(Logger)
+    const logger = new Logger(BOOTSTRAP_CONTEXT)
 
     const port = parseInt(configService.get<string>(HTTP_PORT))
     if (isNaN(port) || port < 0 || port > 65535)
@@ -20,13 +20,10 @@ export const HttpListenBootstrap: BootstrapConfig = {
     const env = configService.get<string>(NODE_ENV)
     const isDev = env === NodeEnv.Development
     if (isDev) {
-      logger.warn('Running in Development mode!', BOOTSTRAP_CONTEXT)
+      logger.warn('Running in Development mode!')
     }
 
     await ctx.app.listen(port)
-    logger.log(
-      `Documentation at http://localhost:${port}/${SWAGGER_ENDPOINT}`,
-      BOOTSTRAP_CONTEXT,
-    )
+    logger.log(`Documentation at http://localhost:${port}/${SWAGGER_ENDPOINT}`)
   },
 }

@@ -1,5 +1,5 @@
-import { MongooseModule, SchemaFactory, SchemaOptions } from '@nestjs/mongoose'
-import { ClassConstructor, Expose, Transform } from 'class-transformer'
+import { SchemaOptions } from '@nestjs/mongoose'
+import { Expose, Transform } from 'class-transformer'
 import { ApiProperty } from '@nestjs/swagger'
 import {
   applyDecorators,
@@ -47,38 +47,12 @@ export const baseSchemaOptions: SchemaOptions = {
 }
 
 export class BaseSchema {
-  /**
-   * Beware, it can be ObjectId, add .toString() before string comparison
-   */
-  _id: string
+  get _id() {
+    return this._id.toString()
+  }
 
   createdAt: Date
   updatedAt: Date
-}
-
-export function importCollection(
-  SchemaClass: ClassConstructor<unknown>,
-  useAutopopulate = false,
-) {
-  if (useAutopopulate === true) {
-    return MongooseModule.forFeatureAsync([
-      {
-        name: SchemaClass.name,
-        useFactory: () => {
-          const schema = SchemaFactory.createForClass(SchemaClass)
-          schema.plugin(require('mongoose-autopopulate'))
-          return schema
-        },
-      },
-    ])
-  } else {
-    return MongooseModule.forFeature([
-      {
-        name: SchemaClass.name,
-        schema: SchemaFactory.createForClass(SchemaClass),
-      },
-    ])
-  }
 }
 
 @Injectable()

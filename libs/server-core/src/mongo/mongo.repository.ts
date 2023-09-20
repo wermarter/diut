@@ -1,11 +1,8 @@
-import { Logger } from '@nestjs/common'
 import {
   FilterQuery,
   Model,
   PipelineStage,
-  Query,
   QueryOptions,
-  Require_id,
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
@@ -14,31 +11,13 @@ import { DeleteResult } from 'mongodb'
 
 import { BaseSchema } from './mongo.common'
 
-export abstract class BaseMongoService<Entity extends BaseSchema> {
-  constructor(
-    public model: Model<Entity>,
-    protected logger: Logger,
-  ) {}
-
-  private stringifyId(object: Require_id<Entity>) {
-    if (object == null) {
-      return object
-    }
-
-    // stringify ID
-    const id = object._id.toString()
-    object._id = id
-
-    // @ts-ignore
-    delete object.__v!
-
-    return object
-  }
+export abstract class MongoRepository<Entity extends BaseSchema> {
+  constructor(private readonly model: Model<Entity>) {}
 
   public async findById(id: string): Promise<Entity> {
     const item = await this.model.findById(id).exec()
 
-    return this.stringifyId(item?.toObject<Entity>()) ?? null
+    return item?.toObject<Entity>() ?? null
   }
 
   public async findOne(options?: {
@@ -59,21 +38,21 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
 
     const item = await query.exec()
 
-    return this.stringifyId(item?.toObject<Entity>()) ?? null
+    return item?.toObject<Entity>() ?? null
   }
 
   public async exists(filter: FilterQuery<Entity>): Promise<boolean> {
-    return !isNil((await this.model.exists(filter))?._id)
+    return !isNil((await this.model.exists(filter).exec())?._id)
   }
 
   public async create(data: Omit<Entity, keyof BaseSchema>): Promise<Entity> {
     const item = await this.model.create(data)
 
-    return this.stringifyId(item.toObject<Entity>())
+    return item.toObject<Entity>()
   }
 
   public async count(filter: FilterQuery<Entity>): Promise<number> {
-    return await this.model.countDocuments(filter)
+    return await this.model.countDocuments(filter).exec()
   }
 
   private populate(
@@ -134,14 +113,13 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
 
     const items = await query.exec()
 
-    const total = await this.model.countDocuments(filter)
+    const total = await this.count(filter)
 
     return {
       total,
       offset,
       limit,
-      items:
-        items.map((item) => this.stringifyId(item.toObject<Entity>())) ?? [],
+      items: items.map((item) => item.toObject<Entity>()) ?? [],
     }
   }
 
@@ -152,7 +130,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   ): Promise<Entity> {
     const item = await this.model.findByIdAndUpdate(id, data, options).exec()
 
-    return this.stringifyId(item?.toObject<Entity>()) ?? null
+    return item?.toObject<Entity>() ?? null
   }
 
   public async update(
@@ -162,7 +140,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   ): Promise<Entity> {
     const item = await this.model.findOneAndUpdate(filter, data, options).exec()
 
-    return this.stringifyId(item?.toObject<Entity>()) ?? null
+    return item?.toObject<Entity>() ?? null
   }
 
   public async updateMany(
@@ -176,7 +154,7 @@ export abstract class BaseMongoService<Entity extends BaseSchema> {
   public async deleteById(id: string): Promise<Entity> {
     const item = await this.model.findByIdAndDelete(id).exec()
 
-    return this.stringifyId(item?.toObject<Entity>()) ?? null
+    return item?.toObject<Entity>() ?? null
   }
 
   public async deleteMany(filter: FilterQuery<Entity>): Promise<DeleteResult> {

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@diut/common": "workspace:*",
+    "@diut/server-core": "workspace:*",
     "@nestjs/cli": "^10.1.17",
     "@nestjs/common": "^10.2.5",
     "@nestjs/config": "^3.1.1",

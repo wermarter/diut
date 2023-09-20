@@ -2,10 +2,10 @@ import { registerAs } from '@nestjs/config'
 import { makeConfigLoader } from '@diut/server-core'
 import { IsString, MinLength } from 'class-validator'
 
-export class ServiceConfig {
+export class MongoConfig {
   @IsString()
   @MinLength(3)
-  SERVICE_NAME: string
+  MONGO_URI: string
 }
 
-export const loadServiceConfig = makeConfigLoader(ServiceConfig)
+export const loadMongoConfig = makeConfigLoader(MongoConfig)

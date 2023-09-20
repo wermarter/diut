@@ -20,8 +20,7 @@ import {
   PermissionAllOfGuard,
   PermissionAnyOfGuard,
 } from 'src/auth/guards'
-import { AppOpenApi, AppOpenApiOptions } from './openapi.decorator'
-import { Serialize } from './serialize.decorator'
+import { AppOpenApi, AppOpenApiOptions, Serialize } from '@diut/server-core'
 
 export interface AppRouteOptions {
   isPublic?: boolean
@@ -73,10 +72,8 @@ export function AppRoute({
 
   if (openApi !== undefined) {
     decorators.push(AppOpenApi({ isPublic, ...openApi }))
-  } else {
-    if (!isPublic) {
-      decorators.push(ApiBearerAuth())
-    }
+  } else if (!isPublic) {
+    decorators.push(ApiBearerAuth())
   }
 
   if (serialize !== undefined) {

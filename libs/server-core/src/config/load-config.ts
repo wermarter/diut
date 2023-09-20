@@ -21,7 +21,9 @@ export function loadConfigFromEnv<T = unknown>(
   const config = plainToInstance(ConfigClass, process.env, {
     enableImplicitConversion: true,
     excludeExtraneousValues: false,
-  }) as T
+  })
+
+  // console.log({ class: ConfigClass.name, process_env: process.env, config })
 
   const errors = validateSync(config as object, {
     skipMissingProperties: false,
