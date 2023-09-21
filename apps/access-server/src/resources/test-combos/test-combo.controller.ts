@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateTestComboRequestDto } from './dtos/create-test-combo.request-dto'
 import { SearchTestComboRequestDto } from './dtos/search-test-combo.request-dto'
 import { UpdateTestComboRequestDto } from './dtos/update-test-combo.request-dto'
@@ -29,7 +30,7 @@ export class TestComboController {
   @AppRoute(testComboRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateTestComboRequestDto
+    @Body() body: UpdateTestComboRequestDto,
   ) {
     return this.testComboService.updateById(id, body)
   }

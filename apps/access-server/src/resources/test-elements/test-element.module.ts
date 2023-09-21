@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 
-import { importCollection } from 'src/clients/mongo'
+import { MongoModule } from '@diut/server-core'
 import { TestElementController } from './test-element.controller'
 import { TestElement } from './test-element.schema'
 import { TestElementService } from './test-element.service'
 
 @Module({
-  imports: [importCollection(TestElement, true)],
+  imports: [MongoModule.forFeature([TestElement])],
   providers: [TestElementService],
   controllers: [TestElementController],
   exports: [TestElementService],

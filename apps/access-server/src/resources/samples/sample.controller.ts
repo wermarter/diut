@@ -15,8 +15,9 @@ import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
 import { NodeEnv, PrintForm } from '@diut/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateSampleRequestDto } from './dtos/create-sample.request-dto'
 import { SearchSampleRequestDto } from './dtos/search-sample.request-dto'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
@@ -35,7 +36,7 @@ export class SampleController {
 
   constructor(
     private sampleService: SampleService,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {
     this.logger = new Logger(SampleController.name)
   }
@@ -48,7 +49,7 @@ export class SampleController {
   @AppRoute(sampleRoutes.create)
   create(
     @Body() body: CreateSampleRequestDto,
-    @ReqUser() user: AuthTokenPayload
+    @ReqUser() user: AuthTokenPayload,
   ) {
     return this.sampleService.create({
       ...body,
@@ -69,7 +70,7 @@ export class SampleController {
   async updateById(
     @Param('id', ObjectIdPipe) id: string,
     @Body() body: UpdateSampleRequestDto,
-    @ReqUser() user: AuthTokenPayload
+    @ReqUser() user: AuthTokenPayload,
   ) {
     if (body.tests !== undefined || body.infoCompleted !== undefined) {
       return this.sampleService.updateSampleInfo(id, body, user)
@@ -92,7 +93,7 @@ export class SampleController {
   async print(
     @Body() body: PrintSampleRequestDto,
     @Res() res: Response,
-    @ReqUser() user: AuthTokenPayload
+    @ReqUser() user: AuthTokenPayload,
   ) {
     const buffer = await this.sampleService.print(body.samples, user)
 
@@ -112,7 +113,7 @@ export class SampleController {
   @AppRoute({ path: 'preview/:id/:printForm', isPublic: true })
   preview(
     @Param('id', ObjectIdPipe) id: string,
-    @Param('printForm') printForm: PrintForm
+    @Param('printForm') printForm: PrintForm,
   ) {
     if (this.configService.get('env') !== NodeEnv.Development) {
       return
@@ -133,9 +134,9 @@ export class SampleController {
           new MaxFileSizeValidator({ maxSize: 10 * 1000 * 1000 }), // 10 MB
           new FileTypeValidator({ fileType: 'image' }),
         ],
-      })
+      }),
     )
-    file: Express.Multer.File
+    file: Express.Multer.File,
   ) {
     return this.sampleService.uploadFile(file)
   }

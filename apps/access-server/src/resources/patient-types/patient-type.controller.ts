@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreatePatientTypeRequestDto } from './dtos/create-patient-type.request-dto'
 import { SearchPatientTypeRequestDto } from './dtos/search-patient-type.request-dto'
 import { UpdatePatientTypeRequestDto } from './dtos/update-patient-type.request-dto'
@@ -29,7 +30,7 @@ export class PatientTypeController {
   @AppRoute(patientTypeRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdatePatientTypeRequestDto
+    @Body() body: UpdatePatientTypeRequestDto,
   ) {
     return this.patientTypeService.updateById(id, body)
   }

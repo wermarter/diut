@@ -1,4 +1,4 @@
-import { SearchRequestDto } from 'src/core/http-server/dtos/search-request'
+import { SearchRequestDto } from '@diut/server-core'
 import { TestCategory } from '../test-category.schema'
 
 export class SearchTestCategoryRequestDto extends SearchRequestDto<TestCategory> {}

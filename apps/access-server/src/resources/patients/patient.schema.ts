@@ -1,7 +1,7 @@
 import { Gender } from '@diut/common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
-import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
+import { BaseSchema, baseSchemaOptions } from '@diut/server-core'
 import { COLLECTION } from 'src/common/collections'
 
 @Schema({

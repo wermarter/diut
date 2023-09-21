@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { COLLECTION } from 'src/common/collections'
-import { COLLECTION_CLASS } from 'src/common/collection-classes'
+import { COLLECTION_CLASS } from 'src/resources/collection-classes'
 
 async function main(collections: COLLECTION[]) {
   const [sourceDB, targetDB] = await Promise.all([

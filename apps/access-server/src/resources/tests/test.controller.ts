@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateTestRequestDto } from './dtos/create-test.request-dto'
 import { SearchTestRequestDto } from './dtos/search-test.request-dto'
 import { UpdateTestRequestDto } from './dtos/update-test.request-dto'
@@ -29,7 +30,7 @@ export class TestController {
   @AppRoute(testRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateTestRequestDto
+    @Body() body: UpdateTestRequestDto,
   ) {
     return this.testService.updateById(id, body)
   }

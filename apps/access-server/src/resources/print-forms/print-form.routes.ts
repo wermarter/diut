@@ -1,7 +1,8 @@
 import { Permission } from '@diut/common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions, AppRouteOptions } from 'src/core'
+import { AppControllerOptions } from '@diut/server-core'
+import { AppRouteOptions } from 'src/common/route.decorator'
 import { SearchPrintFormResponseDto } from './dtos/search-print-form.response-dto'
 import { PrintFormResponseDto } from './dtos/print-form.response-dto'
 

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 
-import { BaseResourceResponseDto } from 'src/clients/mongo'
+import { BaseResourceResponseDto } from '@diut/server-core'
 
 export class DoctorResponseDto extends BaseResourceResponseDto {
   @Expose()

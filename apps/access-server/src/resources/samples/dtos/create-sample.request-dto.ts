@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { IsObjectId } from 'src/clients/mongo'
+import { IsObjectId } from '@diut/server-core'
 
 export class CreateSampleRequestDto {
   @ApiProperty({

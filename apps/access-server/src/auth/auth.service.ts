@@ -18,6 +18,7 @@ export class AuthService {
 
     return {
       ...user,
+      _id: user._id,
       generatedAccessToken,
     }
   }

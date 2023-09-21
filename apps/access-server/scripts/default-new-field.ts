@@ -14,7 +14,7 @@ async function main() {
 
   const model = mongoose.model(
     COLLECTION.TEST_ELEMENT,
-    SchemaFactory.createForClass(TestElement)
+    SchemaFactory.createForClass(TestElement),
   )
 
   const filterQuery: mongoose.FilterQuery<TestElement> = {
@@ -34,7 +34,7 @@ async function main() {
         $set: {
           reportOrder: doc.printIndex,
         },
-      }
+      },
     )
   }
 

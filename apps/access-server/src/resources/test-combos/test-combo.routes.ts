@@ -1,7 +1,8 @@
 import { Permission } from '@diut/common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions, AppRouteOptions } from 'src/core'
+import { AppControllerOptions } from '@diut/server-core'
+import { AppRouteOptions } from 'src/common/route.decorator'
 import { SearchTestComboResponseDto } from './dtos/search-test-combo.response-dto'
 import { TestComboResponseDto } from './dtos/test-combo.response-dto'
 

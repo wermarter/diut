@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
-import { validateConfig } from 'src/core/config/validate-config'
+import { loadConfigFromEnv } from '@diut/server-core'
 
 import { UserModule } from 'src/resources/users/user.module'
-import { AuthConfig, AUTH_CONFIG_NAME } from './auth.config'
+import { AuthConfig } from '../configs/auth.config'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
@@ -16,14 +16,12 @@ import { LocalStrategy } from './strategies/local.strategy'
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const config = validateConfig(AuthConfig)(
-          configService.get(AUTH_CONFIG_NAME)
-        )
+        const config = loadConfigFromEnv(AuthConfig)
 
         return {
-          secret: config.jwtSecret,
+          secret: config.JWT_SECRET,
           signOptions: {
-            expiresIn: config.expiresIn,
+            expiresIn: config.EXPIRES_IN,
           },
         }
       },

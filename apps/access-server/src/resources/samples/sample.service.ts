@@ -24,7 +24,7 @@ import {
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq, merge } from 'lodash'
 
-import { BaseMongoService, BaseSchema } from 'src/clients/mongo'
+import { BaseSchema, MinioService, MongoRepository } from '@diut/server-core'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
 import { Sample } from './sample.schema'
 import { PatientService } from '../patients/patient.service'
@@ -37,17 +37,18 @@ import { SampleTypeService } from '../sample-types/sample-type.service'
 import { TestCategory } from '../test-categories/test-category.schema'
 import { PrintFormService } from '../print-forms/print-form.service'
 import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
-import { StorageService } from 'src/clients/storage'
 import { getPatientCategory, UPLOAD_CONFIG } from './sample.common'
 import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
 import { AuthTokenPayload } from 'src/auth'
 
 @Injectable()
 export class SampleService
-  extends BaseMongoService<Sample>
+  extends MongoRepository<Sample>
   implements OnModuleInit, OnModuleDestroy
 {
   private browser: puppeteer.Browser
+  private logger = new Logger(SampleService.name)
+
   constructor(
     @InjectModel(Sample.name) model: Model<Sample>,
     @Inject(forwardRef(() => PatientService))
@@ -60,9 +61,9 @@ export class SampleService
     private readonly sampleTypeService: SampleTypeService,
     private readonly printFormService: PrintFormService,
     private readonly configService: ConfigService,
-    private readonly storageService: StorageService,
+    private readonly minioService: MinioService,
   ) {
-    super(model, new Logger(SampleService.name))
+    super(model)
   }
 
   async onModuleInit() {
@@ -142,7 +143,7 @@ export class SampleService
       'Content-Type': file.mimetype,
     }
 
-    await this.storageService.client.putObject(
+    await this.minioService.client.putObject(
       UPLOAD_CONFIG.BUCKET,
       filename,
       file.buffer,
@@ -156,10 +157,7 @@ export class SampleService
   }
 
   async downloadFile({ path }: SampleDownloadRequestDto) {
-    return await this.storageService.client.getObject(
-      UPLOAD_CONFIG.BUCKET,
-      path,
-    )
+    return await this.minioService.client.getObject(UPLOAD_CONFIG.BUCKET, path)
   }
 
   async updateSampleInfo(

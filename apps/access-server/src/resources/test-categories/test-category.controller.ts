@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateTestCategoryRequestDto } from './dtos/create-test-category.request-dto'
 import { SearchTestCategoryRequestDto } from './dtos/search-test-category.request-dto'
 import { UpdateTestCategoryRequestDto } from './dtos/update-test-category.request-dto'
@@ -29,7 +30,7 @@ export class TestCategoryController {
   @AppRoute(testCategoryRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateTestCategoryRequestDto
+    @Body() body: UpdateTestCategoryRequestDto,
   ) {
     return this.testCategoryService.updateById(id, body)
   }

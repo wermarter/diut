@@ -15,7 +15,7 @@ async function main(srcTestId: string, destTestId: string) {
 
   const model = mongoose.model(
     COLLECTION.TEST_ELEMENT,
-    SchemaFactory.createForClass(TestElement)
+    SchemaFactory.createForClass(TestElement),
   )
   const service = new TestElementService(model)
 

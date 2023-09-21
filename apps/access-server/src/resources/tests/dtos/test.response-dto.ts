@@ -12,7 +12,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { BaseResourceResponseDto } from 'src/clients/mongo'
+import { BaseResourceResponseDto } from '@diut/server-core'
 import { BioProductResponseDto } from 'src/resources/bio-products/dtos/bio-product.response-dto'
 import { TestCategoryResponseDto } from 'src/resources/test-categories/dtos/test-category.response-dto'
 

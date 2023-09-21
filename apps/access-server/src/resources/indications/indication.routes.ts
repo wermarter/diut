@@ -1,7 +1,8 @@
 import { Permission } from '@diut/common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions, AppRouteOptions } from 'src/core'
+import { AppControllerOptions } from '@diut/server-core'
+import { AppRouteOptions } from 'src/common/route.decorator'
 import { SearchIndicationResponseDto } from './dtos/search-indication.response-dto'
 import { IndicationResponseDto } from './dtos/indication.response-dto'
 

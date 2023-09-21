@@ -1,6 +1,7 @@
-import { Body, Logger, UseGuards } from '@nestjs/common'
+import { Body, UseGuards } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
 import { User } from 'src/resources/users/user.schema'
 import { ReqUser } from './auth.common'
 import { authRoutes } from './auth.routes'
@@ -10,10 +11,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard'
 
 @AppController(authRoutes.controller)
 export class AuthController {
-  private logger: Logger
-  constructor(private authService: AuthService) {
-    this.logger = new Logger(AuthController.name)
-  }
+  constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @AppRoute(authRoutes.login)

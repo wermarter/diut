@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreatePrintFormRequestDto } from './dtos/create-print-form.request-dto'
 import { SearchPrintFormRequestDto } from './dtos/search-print-form.request-dto'
 import { UpdatePrintFormRequestDto } from './dtos/update-print-form.request-dto'
@@ -29,7 +30,7 @@ export class PrintFormController {
   @AppRoute(printFormRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdatePrintFormRequestDto
+    @Body() body: UpdatePrintFormRequestDto,
   ) {
     return this.printFormService.updateById(id, body)
   }

@@ -2,7 +2,7 @@ import { Prop, Schema } from '@nestjs/mongoose'
 import { Schema as MongooseSchema, Types } from 'mongoose'
 import { PatientCategory } from '@diut/common'
 
-import { BaseSchema, baseSchemaOptions } from 'src/clients/mongo'
+import { BaseSchema, baseSchemaOptions } from '@diut/server-core'
 import { COLLECTION } from 'src/common/collections'
 import { Test } from '../tests/test.schema'
 

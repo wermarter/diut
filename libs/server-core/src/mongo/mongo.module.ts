@@ -6,6 +6,7 @@ import {
 } from '@nestjs/mongoose'
 import { ClassConstructor } from 'class-transformer'
 import mongoose from 'mongoose'
+
 import { BaseSchema } from './mongo.common'
 
 export type MongoModuleExtraOptions = {}
@@ -60,15 +61,15 @@ export class MongoModule {
     })
   }
 
-  static forFeature(SchemaClass: ClassConstructor<BaseSchema>) {
-    return MongooseModule.forFeatureAsync([
-      {
+  static forFeature(SchemaClasses: ClassConstructor<BaseSchema>[]) {
+    return MongooseModule.forFeatureAsync(
+      SchemaClasses.map((SchemaClass) => ({
         name: SchemaClass.name,
         useFactory: () => {
           const schema = SchemaFactory.createForClass(SchemaClass)
           return schema
         },
-      },
-    ])
+      })),
+    )
   }
 }

@@ -16,8 +16,8 @@ import {
   BaseResourceResponseDto,
   ExposeObjectId,
   IsObjectId,
-} from 'src/clients/mongo'
-import { BadRequestDto } from 'src/core'
+} from '@diut/server-core'
+import { BadRequestDto } from '@diut/server-core'
 
 export class SampleResponseDto extends BaseResourceResponseDto {
   @Expose()

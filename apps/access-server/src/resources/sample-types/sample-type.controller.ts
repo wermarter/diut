@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateSampleTypeRequestDto } from './dtos/create-sample-type.request-dto'
 import { SearchSampleTypeRequestDto } from './dtos/search-sample-type.request-dto'
 import { UpdateSampleTypeRequestDto } from './dtos/update-sample-type.request-dto'
@@ -29,7 +30,7 @@ export class SampleTypeController {
   @AppRoute(sampleTypeRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateSampleTypeRequestDto
+    @Body() body: UpdateSampleTypeRequestDto,
   ) {
     return this.sampleTypeService.updateById(id, body)
   }

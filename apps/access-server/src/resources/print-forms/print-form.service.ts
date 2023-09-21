@@ -2,12 +2,12 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { BaseMongoService } from 'src/clients/mongo'
+import { MongoRepository } from '@diut/server-core'
 import { PrintForm } from './print-form.schema'
 
 @Injectable()
-export class PrintFormService extends BaseMongoService<PrintForm> {
+export class PrintFormService extends MongoRepository<PrintForm> {
   constructor(@InjectModel(PrintForm.name) model: Model<PrintForm>) {
-    super(model, new Logger(PrintFormService.name))
+    super(model)
   }
 }

@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common'
 
-import { importCollection } from 'src/clients/mongo'
+import { MongoModule } from '@diut/server-core'
 import { DoctorModule } from '../doctors/doctor.module'
 import { IndicationModule } from '../indications/indication.module'
 import { PatientTypeModule } from '../patient-types/patient-type.module'
@@ -15,7 +15,7 @@ import { SampleService } from './sample.service'
 
 @Module({
   imports: [
-    importCollection(Sample),
+    MongoModule.forFeature([Sample]),
     DoctorModule,
     IndicationModule,
     forwardRef(() => PatientModule),

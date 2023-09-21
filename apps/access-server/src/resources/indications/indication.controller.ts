@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateIndicationRequestDto } from './dtos/create-indication.request-dto'
 import { SearchIndicationRequestDto } from './dtos/search-indication.request-dto'
 import { UpdateIndicationRequestDto } from './dtos/update-indication.request-dto'
@@ -29,7 +30,7 @@ export class IndicationController {
   @AppRoute(indicationRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateIndicationRequestDto
+    @Body() body: UpdateIndicationRequestDto,
   ) {
     return this.indicationService.updateById(id, body)
   }

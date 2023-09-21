@@ -15,7 +15,7 @@ import {
   BaseResourceResponseDto,
   ExposeObjectId,
   IsObjectId,
-} from 'src/clients/mongo'
+} from '@diut/server-core'
 import { TestResponseDto } from 'src/resources/tests/dtos/test.response-dto'
 import { HighlightRuleDto } from './create-test-element.request-dto'
 

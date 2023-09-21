@@ -1,7 +1,8 @@
 import { Body, Logger, Param } from '@nestjs/common'
 
-import { AppController, AppRoute } from 'src/core'
-import { ObjectIdPipe } from 'src/clients/mongo'
+import { AppController } from '@diut/server-core'
+import { AppRoute } from 'src/common/route.decorator'
+import { ObjectIdPipe } from '@diut/server-core'
 import { CreateBioProductRequestDto } from './dtos/create-bio-product.request-dto'
 import { SearchBioProductRequestDto } from './dtos/search-bio-product.request-dto'
 import { UpdateBioProductRequestDto } from './dtos/update-bio-product.request-dto'
@@ -29,7 +30,7 @@ export class BioProductController {
   @AppRoute(bioProductRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: UpdateBioProductRequestDto
+    @Body() body: UpdateBioProductRequestDto,
   ) {
     return this.bioProductService.updateById(id, body)
   }

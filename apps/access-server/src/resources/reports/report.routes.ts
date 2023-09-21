@@ -1,7 +1,8 @@
 import { Permission } from '@diut/common'
 import { RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions, AppRouteOptions } from 'src/core'
+import { AppControllerOptions } from '@diut/server-core'
+import { AppRouteOptions } from 'src/common/route.decorator'
 
 export const reportRoutes = {
   controller: <AppControllerOptions>{

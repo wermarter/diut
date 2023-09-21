@@ -23,8 +23,6 @@ export function loadConfigFromEnv<T = unknown>(
     excludeExtraneousValues: false,
   })
 
-  // console.log({ class: ConfigClass.name, process_env: process.env, config })
-
   const errors = validateSync(config as object, {
     skipMissingProperties: false,
   })

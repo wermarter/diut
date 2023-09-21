@@ -1,6 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions, AppRouteOptions } from 'src/core'
+import { AppControllerOptions } from '@diut/server-core'
+import { AppRouteOptions } from 'src/common/route.decorator'
 import { LoginResponseDto, LoginBadRequestDto } from './dtos/login.response-dto'
 
 export const authRoutes = {

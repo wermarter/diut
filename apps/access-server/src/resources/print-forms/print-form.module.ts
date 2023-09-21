@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 
-import { importCollection } from 'src/clients/mongo'
+import { MongoModule } from '@diut/server-core'
 import { PrintFormController } from './print-form.controller'
 import { PrintForm } from './print-form.schema'
 import { PrintFormService } from './print-form.service'
 
 @Module({
-  imports: [importCollection(PrintForm)],
+  imports: [MongoModule.forFeature([PrintForm])],
   providers: [PrintFormService],
   controllers: [PrintFormController],
   exports: [PrintFormService],

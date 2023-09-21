@@ -1,4 +1,0 @@
-import { SearchRequestDto } from 'src/core/http-server/dtos/search-request'
-import { <%= singlePascal %> } from '../<%= singleKebab %>.schema'
-
-export class Search<%= singlePascal %>RequestDto extends SearchRequestDto<<%= singlePascal %>> {}

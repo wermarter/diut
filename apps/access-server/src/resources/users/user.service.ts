@@ -4,13 +4,13 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model, QueryOptions, UpdateQuery } from 'mongoose'
 import * as argon2 from 'argon2'
 
-import { BaseMongoService, BaseSchema } from 'src/clients/mongo'
+import { BaseSchema, MongoRepository } from '@diut/server-core'
 import { User } from './user.schema'
 
 @Injectable()
-export class UserService extends BaseMongoService<User> {
+export class UserService extends MongoRepository<User> {
   constructor(@InjectModel(User.name) model: Model<User>) {
-    super(model, new Logger(UserService.name))
+    super(model)
   }
 
   private async presaveUser(data: Omit<User, keyof BaseSchema>, isNew = true) {
@@ -40,12 +40,12 @@ export class UserService extends BaseMongoService<User> {
   public async updateById(
     id: string,
     data: UpdateQuery<User>,
-    options?: QueryOptions<User>
+    options?: QueryOptions<User>,
   ) {
     return super.updateById(
       id,
       await this.presaveUser(data as any, false),
-      options
+      options,
     )
   }
 }

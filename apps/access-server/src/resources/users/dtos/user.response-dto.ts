@@ -2,9 +2,7 @@ import { Permission, UserExceptionMsg } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-
-import { BaseResourceResponseDto } from 'src/clients/mongo'
-import { BadRequestDto } from 'src/core'
+import { BaseResourceResponseDto, BadRequestDto } from '@diut/server-core'
 
 export class UserResponseDto extends BaseResourceResponseDto {
   @Expose()

@@ -1,4 +1,4 @@
-import { SearchRequestDto } from 'src/core/http-server/dtos/search-request'
+import { SearchRequestDto } from '@diut/server-core'
 import { Doctor } from '../doctor.schema'
 
 export class SearchDoctorRequestDto extends SearchRequestDto<Doctor> {}

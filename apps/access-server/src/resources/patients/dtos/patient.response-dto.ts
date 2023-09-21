@@ -9,7 +9,7 @@ import {
   IsString,
 } from 'class-validator'
 
-import { BaseResourceResponseDto } from 'src/clients/mongo'
+import { BaseResourceResponseDto } from '@diut/server-core'
 
 export class PatientResponseDto extends BaseResourceResponseDto {
   @Expose()
