@@ -6,7 +6,7 @@ FROM node:20-alpine AS base
 
 RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
+RUN echo "Asia/Ho_Chi_Minh" >  /etc/timezone
 
 RUN apk add --no-cache chromium
 RUN apk add --no-cache msttcorefonts-installer fontconfig && \
@@ -31,6 +31,8 @@ WORKDIR /usr/src/app
 FROM base AS development
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-server" run --parallel dev
 
 ###################
 # build 

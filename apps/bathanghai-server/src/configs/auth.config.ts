@@ -1,4 +1,4 @@
-import { registerAs } from '@nestjs/config'
+// import { registerAs } from '@nestjs/config'
 import { makeConfigLoader } from '@diut/server-core'
 import { IsNotEmpty, IsString } from 'class-validator'
 

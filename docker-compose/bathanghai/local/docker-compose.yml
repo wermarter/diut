@@ -4,6 +4,7 @@ services:
   client:
     build:
       target: development
+    restart: 'no'
     volumes:
       - ../../apps/web-app/package.json:/usr/src/app/apps/web-app/package.json
       - ../../apps/web-app/src:/usr/src/app/apps/web-app/src
@@ -15,18 +16,18 @@ services:
   server:
     labels:
       logging: 'promtail'
-      logging_jobname: 'bathanghai_local_server'
+      logging_jobname: 'bathanghai_server_local'
     build:
       target: development
+    restart: 'no'
     ports:
       - '5000:5000'
+      - '8081:8081'
     volumes:
-      - ../../apps/access-server/package.json:/usr/src/app/apps/access-server/package.json
-      - ../../apps/access-server/src:/usr/src/app/apps/access-server/src
+      - ../../apps/bathanghai-server/package.json:/usr/src/app/apps/bathanghai-server/package.json
+      - ../../apps/bathanghai-server/src:/usr/src/app/apps/bathanghai-server/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
-    environment:
-      SERVICE_NAME: bathanghai_server_local
     networks:
       diut_monitoring_network:
         aliases:

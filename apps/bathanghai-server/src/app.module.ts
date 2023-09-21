@@ -1,7 +1,3 @@
-import { Module, ModuleMetadata } from '@nestjs/common'
-
-import { resourceModules } from './resources'
-import { AuthModule } from './auth'
 import {
   ConfigModule,
   LogModule,
@@ -9,14 +5,18 @@ import {
   MongoModule,
   OtelModule,
 } from '@diut/server-core'
-import { AppConfig, loadServiceConfig } from './configs/app.config'
+import { Module, ModuleMetadata } from '@nestjs/common'
+
+import { resourceModules } from './resources'
+import { AuthModule } from './auth'
+import { AppConfig, loadAppConfig } from './configs/app.config'
 import { MongoConfig, loadMongoConfig } from './configs/mongo.config'
 import { MinioConfig, loadMinioConfig } from './configs/minio.config'
 
 const coreModules: ModuleMetadata['imports'] = [
   LogModule.forRootAsync({
-    imports: [ConfigModule.forFeature(loadServiceConfig)],
-    inject: [loadServiceConfig.KEY],
+    imports: [ConfigModule.forFeature(loadAppConfig)],
+    inject: [loadAppConfig.KEY],
     useFactory: async (serviceConfig: AppConfig) => ({
       serviceName: serviceConfig.APP_SERVICE_NAME,
     }),

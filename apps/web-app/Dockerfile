@@ -2,31 +2,33 @@
 # DEVELOPMENT
 ###################
 
-FROM node:18 AS development
+FROM node:20-alpine AS development
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm i --workspace=@diut/common --workspace=@diut/web-app --include-workspace-root
+RUN corepack enable
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 EXPOSE 5173
 
-CMD npx nx run-many -t dev -p @diut/web-app @diut/common
+CMD pnpm --filter "@diut/common" --filter "@diut/web-app" run --parallel dev
 
 ###################
 # BUILD
 ###################
 
-FROM development as build
+FROM development AS build
 
-RUN npx nx run @diut/web-app:build
+CMD pnpm --filter "@diut/common" --filter "@diut/web-app" run --stream build
 
 ###################
 # FINAL
 ###################
 
-FROM nginx:alpine as final
+FROM nginx:alpine AS final
 
 COPY --from=build /usr/src/app/apps/web-app/dist /usr/share/nginx/html
 

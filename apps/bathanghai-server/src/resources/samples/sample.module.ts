@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common'
 
-import { MongoModule } from '@diut/server-core'
+import { ConfigModule, MongoModule } from '@diut/server-core'
 import { DoctorModule } from '../doctors/doctor.module'
 import { IndicationModule } from '../indications/indication.module'
 import { PatientTypeModule } from '../patient-types/patient-type.module'
@@ -12,9 +12,11 @@ import { TestModule } from '../tests/test.module'
 import { SampleController } from './sample.controller'
 import { Sample } from './sample.schema'
 import { SampleService } from './sample.service'
+import { loadAppConfig } from 'src/configs/app.config'
 
 @Module({
   imports: [
+    ConfigModule.forFeature(loadAppConfig),
     MongoModule.forFeature([Sample]),
     DoctorModule,
     IndicationModule,

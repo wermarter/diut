@@ -40,6 +40,7 @@ import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
 import { getPatientCategory, UPLOAD_CONFIG } from './sample.common'
 import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
 import { AuthTokenPayload } from 'src/auth'
+import { AppConfig, loadAppConfig } from 'src/configs/app.config'
 
 @Injectable()
 export class SampleService
@@ -50,6 +51,7 @@ export class SampleService
   private logger = new Logger(SampleService.name)
 
   constructor(
+    @Inject(loadAppConfig.KEY) private readonly appConfig: AppConfig,
     @InjectModel(Sample.name) model: Model<Sample>,
     @Inject(forwardRef(() => PatientService))
     private readonly patientService: PatientService,
@@ -60,7 +62,6 @@ export class SampleService
     private readonly patientTypeService: PatientTypeService,
     private readonly sampleTypeService: SampleTypeService,
     private readonly printFormService: PrintFormService,
-    private readonly configService: ConfigService,
     private readonly minioService: MinioService,
   ) {
     super(model)
@@ -98,7 +99,7 @@ export class SampleService
       '--disable-dev-profile',
     ]
 
-    if (this.configService.get('env') === NodeEnv.Development) {
+    if (this.appConfig.NODE_ENV === NodeEnv.Development) {
       // https://github.com/puppeteer/puppeteer/issues/4039
       this.browser = await puppeteer.launch({
         headless: true,

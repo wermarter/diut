@@ -15,11 +15,11 @@ services:
     restart: unless-stopped
     build:
       context: ../../
-      dockerfile: ./apps/access-server/Dockerfile
+      dockerfile: ./apps/bathanghai-server/Dockerfile
     environment:
       OTEL_LOG_LEVEL: all
     env_file:
-      - ../../apps/access-server/.env
+      - ../../apps/bathanghai-server/.env
     expose:
       - 5000
       - 8081

@@ -8,7 +8,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev:local": "vite",
+    "dev": "vite",
     "dev:docker": "concurrently \"onchange -i 'package.json' -- npm i\" \"npm run dev:local\"",
     "build": "vite build",
     "preview": "vite preview",
