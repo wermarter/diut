@@ -10,8 +10,8 @@ import { COLLECTION_CLASS } from 'src/common/collection-classes'
 
 async function main(collections: COLLECTION[]) {
   const [sourceDB, targetDB] = await Promise.all([
-    mongoose.createConnection(process.env.SOURCE_MONGO_URI),
-    mongoose.createConnection(process.env.TARGET_MONGO_URI),
+    mongoose.createConnection(process.env.SOURCE_MONGO_URI).asPromise(),
+    mongoose.createConnection(process.env.TARGET_MONGO_URI).asPromise(),
   ])
   console.log('prod + dev MongoDB connected !')
 
@@ -38,17 +38,17 @@ async function main(collections: COLLECTION[]) {
 }
 
 main([
-  // COLLECTION.USER,
-  // COLLECTION.BIO_PRODUCT,
-  // COLLECTION.DOCTOR,
-  // COLLECTION.INDICATION,
-  // COLLECTION.PATIENT_TYPE,
-  // COLLECTION.SAMPLE_TYPE,
-  // COLLECTION.TEST,
-  // COLLECTION.TEST_CATEGORY,
-  // COLLECTION.TEST_COMBO,
-  // COLLECTION.TEST_ELEMENT,
-  // COLLECTION.PRINT_FORM,
-  COLLECTION.SAMPLE,
-  COLLECTION.PATIENT,
+  COLLECTION.USER,
+  COLLECTION.BIO_PRODUCT,
+  COLLECTION.DOCTOR,
+  COLLECTION.INDICATION,
+  COLLECTION.PATIENT_TYPE,
+  COLLECTION.SAMPLE_TYPE,
+  COLLECTION.TEST,
+  COLLECTION.TEST_CATEGORY,
+  COLLECTION.TEST_COMBO,
+  COLLECTION.TEST_ELEMENT,
+  COLLECTION.PRINT_FORM,
+  // COLLECTION.SAMPLE,
+  // COLLECTION.PATIENT,
 ])

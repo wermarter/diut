@@ -23,6 +23,10 @@ services:
     ports:
       - '5000:5000'
       - '8081:8081'
+    environment:
+      OTEL_LOG_LEVEL: all
+    env_file:
+      - ../../apps/bathanghai-server/.env.local
     volumes:
       - ../../apps/bathanghai-server/package.json:/usr/src/app/apps/bathanghai-server/package.json
       - ../../apps/bathanghai-server/src:/usr/src/app/apps/bathanghai-server/src

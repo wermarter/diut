@@ -1,6 +1,7 @@
 import viLocale from 'date-fns/locale/vi'
 import setDefaultOptions from 'date-fns/setDefaultOptions'
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { CssBaseline } from '@mui/material'
 import { viVN } from '@mui/material/locale'
 import type {} from '@mui/x-data-grid/themeAugmentation'
 import React from 'react'
@@ -25,7 +26,7 @@ const appTheme = createTheme(
       },
     },
   },
-  viVN
+  viVN,
 )
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
@@ -35,5 +36,5 @@ root.render(
       <CssBaseline enableColorScheme />
       <App />
     </ThemeProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

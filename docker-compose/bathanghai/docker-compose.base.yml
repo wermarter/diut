@@ -16,10 +16,6 @@ services:
     build:
       context: ../../
       dockerfile: ./apps/bathanghai-server/Dockerfile
-    environment:
-      OTEL_LOG_LEVEL: all
-    env_file:
-      - ../../apps/bathanghai-server/.env
     expose:
       - 5000
       - 8081

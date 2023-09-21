@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { ClassConstructor } from 'class-transformer'
+import { AppOpenApi, AppOpenApiOptions, Serialize } from '@diut/server-core'
 
 import { PermissionAllOf, PermissionAnyOf } from 'src/auth/auth.common'
 import {
@@ -20,7 +21,6 @@ import {
   PermissionAllOfGuard,
   PermissionAnyOfGuard,
 } from 'src/auth/guards'
-import { AppOpenApi, AppOpenApiOptions, Serialize } from '@diut/server-core'
 
 export interface AppRouteOptions {
   isPublic?: boolean
