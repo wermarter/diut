@@ -1,8 +1,7 @@
 import { Body, Logger, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateIndicationRequestDto } from './dtos/create-indication.request-dto'
 import { SearchIndicationRequestDto } from './dtos/search-indication.request-dto'
 import { UpdateIndicationRequestDto } from './dtos/update-indication.request-dto'

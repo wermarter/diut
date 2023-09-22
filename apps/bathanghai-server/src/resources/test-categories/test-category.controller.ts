@@ -1,8 +1,7 @@
-import { Body, Logger, Param } from '@nestjs/common'
+import { Body, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateTestCategoryRequestDto } from './dtos/create-test-category.request-dto'
 import { SearchTestCategoryRequestDto } from './dtos/search-test-category.request-dto'
 import { UpdateTestCategoryRequestDto } from './dtos/update-test-category.request-dto'
@@ -11,11 +10,7 @@ import { TestCategoryService } from './test-category.service'
 
 @AppController(testCategoryRoutes.controller)
 export class TestCategoryController {
-  private logger: Logger
-
-  constructor(private testCategoryService: TestCategoryService) {
-    this.logger = new Logger(TestCategoryController.name)
-  }
+  constructor(private testCategoryService: TestCategoryService) {}
 
   @AppRoute(testCategoryRoutes.search)
   search(@Body() body: SearchTestCategoryRequestDto) {

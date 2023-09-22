@@ -1,8 +1,7 @@
-import { Body, Logger, Param } from '@nestjs/common'
+import { Body, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateTestComboRequestDto } from './dtos/create-test-combo.request-dto'
 import { SearchTestComboRequestDto } from './dtos/search-test-combo.request-dto'
 import { UpdateTestComboRequestDto } from './dtos/update-test-combo.request-dto'
@@ -11,11 +10,7 @@ import { TestComboService } from './test-combo.service'
 
 @AppController(testComboRoutes.controller)
 export class TestComboController {
-  private logger: Logger
-
-  constructor(private testComboService: TestComboService) {
-    this.logger = new Logger(TestComboController.name)
-  }
+  constructor(private testComboService: TestComboService) {}
 
   @AppRoute(testComboRoutes.search)
   search(@Body() body: SearchTestComboRequestDto) {

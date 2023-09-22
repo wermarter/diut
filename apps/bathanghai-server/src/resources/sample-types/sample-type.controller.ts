@@ -1,8 +1,7 @@
 import { Body, Logger, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateSampleTypeRequestDto } from './dtos/create-sample-type.request-dto'
 import { SearchSampleTypeRequestDto } from './dtos/search-sample-type.request-dto'
 import { UpdateSampleTypeRequestDto } from './dtos/update-sample-type.request-dto'

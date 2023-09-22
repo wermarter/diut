@@ -1,8 +1,7 @@
 import { Body, Logger, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateDoctorRequestDto } from './dtos/create-doctor.request-dto'
 import { SearchDoctorRequestDto } from './dtos/search-doctor.request-dto'
 import { UpdateDoctorRequestDto } from './dtos/update-doctor.request-dto'

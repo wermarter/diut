@@ -1,8 +1,7 @@
 import { Body, Logger, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateBioProductRequestDto } from './dtos/create-bio-product.request-dto'
 import { SearchBioProductRequestDto } from './dtos/search-bio-product.request-dto'
 import { UpdateBioProductRequestDto } from './dtos/update-bio-product.request-dto'

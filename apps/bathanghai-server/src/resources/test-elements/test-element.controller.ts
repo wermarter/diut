@@ -1,8 +1,7 @@
-import { Body, Logger, Param } from '@nestjs/common'
+import { Body, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateTestElementRequestDto } from './dtos/create-test-element.request-dto'
 import { SearchTestElementRequestDto } from './dtos/search-test-element.request-dto'
 import { UpdateTestElementRequestDto } from './dtos/update-test-element.request-dto'
@@ -11,11 +10,7 @@ import { TestElementService } from './test-element.service'
 
 @AppController(testElementRoutes.controller)
 export class TestElementController {
-  private logger: Logger
-
-  constructor(private testElementService: TestElementService) {
-    this.logger = new Logger(TestElementController.name)
-  }
+  constructor(private testElementService: TestElementService) {}
 
   @AppRoute(testElementRoutes.search)
   search(@Body() body: SearchTestElementRequestDto) {

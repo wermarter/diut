@@ -1,8 +1,7 @@
 import { Body, Logger, Param } from '@nestjs/common'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 
-import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreatePatientTypeRequestDto } from './dtos/create-patient-type.request-dto'
 import { SearchPatientTypeRequestDto } from './dtos/search-patient-type.request-dto'
 import { UpdatePatientTypeRequestDto } from './dtos/update-patient-type.request-dto'
