@@ -38,7 +38,7 @@ export function PrintBarcode({
                   lowerText={sampleId}
                 />
               </SinglePrintRow>
-            )
+            ),
           )}
         </div>
       </div>

@@ -46,9 +46,10 @@ export function TestSelector({
   React.useEffect(() => {
     if (isFetching === false) {
       setSelectedIds(
-        previousState.filter((testId) =>
-          data?.items.some((test) => test.category && test._id === testId)
-        )
+        previousState.filter(
+          (testId) =>
+            data?.items.some((test) => test.category && test._id === testId),
+        ),
       )
     }
   }, [JSON.stringify(previousState), isFetching])
@@ -63,7 +64,7 @@ export function TestSelector({
     onSubmit(
       selectedIds.map((selectedId) => {
         return data?.items.find(({ _id }) => _id === selectedId)!
-      })
+      }),
     )
     onClose()
   }
@@ -143,7 +144,7 @@ export function TestSelector({
                       <ListItemButton
                         dense
                         selected={selectedIds.some(
-                          (selectedId) => selectedId === test._id
+                          (selectedId) => selectedId === test._id,
                         )}
                         onClick={toggleSelected(test._id)}
                       >

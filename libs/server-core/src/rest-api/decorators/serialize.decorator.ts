@@ -20,7 +20,7 @@ class SerializeInterceptor implements NestInterceptor {
         return plainToClass(this.dto, response, {
           excludeExtraneousValues: true,
         })
-      })
+      }),
     )
   }
 }

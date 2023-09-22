@@ -11,7 +11,7 @@ export const useCrudPagination = (
   defaultFilter: SearchRequestDto = {
     sort: { createdAt: -1 },
     offset: 0,
-  }
+  },
 ) => {
   const [filterObj, setFilterObj] =
     React.useState<SearchRequestDto>(defaultFilter)
@@ -23,7 +23,7 @@ export const useCrudPagination = (
         })
       })
     },
-    [setFilterObj]
+    [setFilterObj],
   )
 
   const onPageSizeChange = React.useCallback(
@@ -35,7 +35,7 @@ export const useCrudPagination = (
         })
       })
     },
-    [setFilterObj]
+    [setFilterObj],
   )
 
   return {

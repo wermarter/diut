@@ -14,7 +14,7 @@ export function fileDownloadReponseHandler({
   return async (response: Response) => {
     const filename = extractFilename(response)
     const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
-      await response.blob()
+      await response.blob(),
     )
 
     // Download the file

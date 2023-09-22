@@ -23,42 +23,42 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
       .dispatch(
         sampleApi.endpoints.sampleFindById.initiate({
           id: sampleId!,
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         patientApi.endpoints.patientFindById.initiate({
           id: patientId!,
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         patientTypeApi.endpoints.patientTypeSearch.initiate({
           searchPatientTypeRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         indicationApi.endpoints.indicationSearch.initiate({
           searchIndicationRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         doctorApi.endpoints.doctorSearch.initiate({
           searchDoctorRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         sampleTypeApi.endpoints.sampleTypeSearch.initiate({
           searchSampleTypeRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
   ])
@@ -66,7 +66,7 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
   const author =
     (await appStore
       .dispatch(
-        userApi.endpoints.userFindById.initiate({ id: sampleInfo.infoBy })
+        userApi.endpoints.userFindById.initiate({ id: sampleInfo.infoBy }),
       )
       .unwrap()) ?? {}
 

@@ -11,14 +11,14 @@ export const printSelectPageLoader = async () => {
         .dispatch(
           printFormApi.endpoints.printFormSearch.initiate({
             searchPrintFormRequestDto: { sort: { index: 1 } },
-          })
+          }),
         )
         .unwrap(),
       appStore
         .dispatch(
           patientTypeApi.endpoints.patientTypeSearch.initiate({
             searchPatientTypeRequestDto: { sort: { index: 1 } },
-          })
+          }),
         )
         .unwrap(),
       appStore
@@ -29,14 +29,14 @@ export const printSelectPageLoader = async () => {
                 category: 1,
               },
             },
-          })
+          }),
         )
         .unwrap(),
       appStore
         .dispatch(
           sampleTypeApi.endpoints.sampleTypeSearch.initiate({
             searchSampleTypeRequestDto: { sort: { index: 1 } },
-          })
+          }),
         )
         .unwrap(),
     ])
@@ -49,10 +49,10 @@ export const printSelectPageLoader = async () => {
   return {
     printForms,
     patientTypeMap: new Map(
-      patientTypes.map((patientType) => [patientType._id, patientType])
+      patientTypes.map((patientType) => [patientType._id, patientType]),
     ),
     sampleTypeMap: new Map(
-      sampleTypes.map((sampleType) => [sampleType._id, sampleType])
+      sampleTypes.map((sampleType) => [sampleType._id, sampleType]),
     ),
     tests,
     testMap: new Map(tests.map((test) => [test._id, test])),

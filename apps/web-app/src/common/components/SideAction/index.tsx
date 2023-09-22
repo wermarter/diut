@@ -36,7 +36,7 @@ export function SideAction({
       }
       onClose()
     },
-    [disableClickOutside]
+    [disableClickOutside],
   )
 
   return (

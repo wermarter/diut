@@ -9,7 +9,7 @@ import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
 export type FormAutocompleteProps<
   T extends FieldValues = FieldValues,
-  OptionType = any
+  OptionType = any,
 > = {
   name: Path<T>
   label: string
@@ -30,7 +30,7 @@ export type FormAutocompleteProps<
 
 export function FormAutocomplete<
   TFieldValues extends FieldValues = FieldValues,
-  OptionType = any
+  OptionType = any,
 >({
   name,
   label,
@@ -64,8 +64,8 @@ export function FormAutocomplete<
             onChange={(event, value, reason) => {
               onChange(value.map(getOptionValue))
             }}
-            value={options.filter((option) =>
-              value?.includes(getOptionValue(option))
+            value={options.filter(
+              (option) => value?.includes(getOptionValue(option)),
             )}
             filterSelectedOptions
             renderInput={(params) => (

@@ -24,7 +24,7 @@ export const CommonResultCard = ({
         {currentTestInfo.elements.map((currentElementInfo) => {
           const currentElementState = elementState[currentElementInfo._id] ?? {}
           const highlightRule = getHighlightRule(
-            currentElementInfo.highlightRules
+            currentElementInfo.highlightRules,
           )
 
           return (

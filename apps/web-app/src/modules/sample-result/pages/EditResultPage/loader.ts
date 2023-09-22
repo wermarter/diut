@@ -12,14 +12,14 @@ export const editResultPageLoader = async ({ params }: LoaderFunctionArgs) => {
       .dispatch(
         sampleApi.endpoints.sampleFindById.initiate({
           id: sampleId!,
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         patientApi.endpoints.patientFindById.initiate({
           id: patientId!,
-        })
+        }),
       )
       .unwrap(),
   ])

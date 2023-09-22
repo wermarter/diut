@@ -21,7 +21,7 @@ export type FormDateTimePickerProps<T extends FieldValues = FieldValues> = Omit<
 }
 
 export function FormDateTimePicker<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   label,
@@ -59,7 +59,7 @@ export function FormDateTimePicker<
               title={label}
               value={format(
                 value,
-                dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm'
+                dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm',
               )}
               onChange={(e) => {
                 onChange(new Date(e.target.value))
@@ -67,7 +67,7 @@ export function FormDateTimePicker<
               inputProps={{
                 max: format(
                   Date.now(),
-                  dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm'
+                  dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm',
                 ),
               }}
               {...formFields}

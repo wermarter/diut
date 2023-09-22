@@ -2,14 +2,14 @@ import { LoaderFunction, LoaderFunctionArgs } from 'react-router-dom'
 
 export type InjectorFunction<InjectorFunctionArgs> = (
   args: LoaderFunctionArgs,
-  injectedArgs: InjectorFunctionArgs
+  injectedArgs: InjectorFunctionArgs,
 ) => ReturnType<LoaderFunction>
 
 export const injectLoader =
   <InjectorFunctionArgs>(
     loader: LoaderFunction,
     injector: InjectorFunction<InjectorFunctionArgs>,
-    injectorArgs: InjectorFunctionArgs
+    injectorArgs: InjectorFunctionArgs,
   ): LoaderFunction =>
   (args: LoaderFunctionArgs) => {
     injector(args, injectorArgs)
@@ -24,7 +24,7 @@ type RouteInjector<T> = {
 
 export function makeInjector<ArgType>(
   injector: InjectorFunction<ArgType>,
-  args: ArgType
+  args: ArgType,
 ): RouteInjector<ArgType> {
   return {
     injector,
@@ -36,7 +36,7 @@ export type RouteInjectors = RouteInjector<any>[]
 
 export const combineInjectors = (
   loader: LoaderFunction,
-  injectors: RouteInjectors
+  injectors: RouteInjectors,
 ) =>
   injectors.reverse().reduce((cumloader, { injector, args }) => {
     return injectLoader(cumloader, injector, args)

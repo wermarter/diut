@@ -10,7 +10,7 @@ import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
 export type FormSelectProps<
   T extends FieldValues = FieldValues,
-  OptionType = any
+  OptionType = any,
 > = {
   control: Control<T>
   name: Path<T>
@@ -24,7 +24,7 @@ export type FormSelectProps<
 
 export function FormSelect<
   TFieldValues extends FieldValues = FieldValues,
-  OptionType = any
+  OptionType = any,
 >({
   name,
   label,

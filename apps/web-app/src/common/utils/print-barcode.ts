@@ -2,7 +2,7 @@ export function normalizeString(str: string) {
   return str
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace('đ', 'd');
+    .replace('đ', 'd')
 }
 
 export function printBarcode(content: string, altText?: string) {
@@ -19,7 +19,7 @@ export function printBarcode(content: string, altText?: string) {
     window
       ?.open(
         `http://bwipjs-api.metafloor.com/?bcid=code128&text=${normalizedContent}&alttext=${normalizedAltText}&textyoffset=3`,
-        '_blank'
+        '_blank',
       )
       ?.focus()
   }

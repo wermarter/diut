@@ -51,7 +51,7 @@ export const PapsmearResultCard = ({
 
   const generateCheckboxes = (
     elements: TestElementResponseDto[],
-    disableFirst = false
+    disableFirst = false,
   ) => {
     return elements.map((currentElementInfo, index) => {
       const currentElementState = elementState[currentElementInfo._id] ?? {}
@@ -118,7 +118,7 @@ export const PapsmearResultCard = ({
   const [rightUploadFile, setRightUploadFile] = useState<File | null>(null)
 
   const [leftDisplayImageURL, setLeftDisplayImageURL] = useState<string | null>(
-    null
+    null,
   )
   const [rightDisplayImageURL, setRightDisplayImageURL] = useState<
     string | null
@@ -129,14 +129,14 @@ export const PapsmearResultCard = ({
       {
         sampleDownloadRequestDto: { path: leftImagePath },
       },
-      { skip: !(leftImagePath?.length > 0), refetchOnMountOrArgChange: true }
+      { skip: !(leftImagePath?.length > 0), refetchOnMountOrArgChange: true },
     )
   const { data: rightDownloadImageURL, isFetching: isDownloadingRightImage } =
     useSampleDownloadFileQuery(
       {
         sampleDownloadRequestDto: { path: rightImagePath },
       },
-      { skip: !(rightImagePath?.length > 0), refetchOnMountOrArgChange: true }
+      { skip: !(rightImagePath?.length > 0), refetchOnMountOrArgChange: true },
     )
   const [uploadImage, { isLoading: isUploading }] =
     useSampleUploadFileMutation()
@@ -154,7 +154,7 @@ export const PapsmearResultCard = ({
   }, [isDownloadingRightImage])
 
   const handleLeftFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0]
@@ -164,7 +164,7 @@ export const PapsmearResultCard = ({
   }
 
   const handleRightFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0]
@@ -182,7 +182,7 @@ export const PapsmearResultCard = ({
     (croppedArea: unknown, croppedAreaPixels: Area) => {
       setCroppedAreaPixels(croppedAreaPixels)
     },
-    []
+    [],
   )
 
   return (
@@ -382,10 +382,10 @@ export const PapsmearResultCard = ({
                 leftUploadFile,
                 sampleId,
                 testId,
-                'left'
+                'left',
               )
               promises.push(
-                uploadImage({ sampleUploadRequestDto: formData }).unwrap()
+                uploadImage({ sampleUploadRequestDto: formData }).unwrap(),
               )
               setElementState(leftImagePathElementId, {
                 checked: false,
@@ -402,16 +402,16 @@ export const PapsmearResultCard = ({
               const croppedFile = await getCroppedImg(
                 leftDisplayImageURL,
                 croppedAreaPixels,
-                0
+                0,
               )
               const { formData, filename } = prepareFormData(
                 croppedFile!,
                 sampleId,
                 testId,
-                'right'
+                'right',
               )
               promises.push(
-                uploadImage({ sampleUploadRequestDto: formData }).unwrap()
+                uploadImage({ sampleUploadRequestDto: formData }).unwrap(),
               )
               setElementState(rightImagePathElementId, {
                 checked: false,
@@ -424,10 +424,10 @@ export const PapsmearResultCard = ({
                   rightUploadFile,
                   sampleId,
                   currentTestInfo._id,
-                  'right'
+                  'right',
                 )
                 promises.push(
-                  uploadImage({ sampleUploadRequestDto: formData }).unwrap()
+                  uploadImage({ sampleUploadRequestDto: formData }).unwrap(),
                 )
                 setElementState(rightImagePathElementId, {
                   checked: false,
@@ -451,7 +451,7 @@ function prepareFormData(
   file: File,
   sampleId: string,
   testId: string,
-  position: 'left' | 'right'
+  position: 'left' | 'right',
 ) {
   // const extension = file.name.substring(
   //   file.name.lastIndexOf('.'),

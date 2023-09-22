@@ -10,7 +10,7 @@ export const manageTestElemenentPageLoader = async () => {
           searchTestCategoryRequestDto: {
             sort: { index: 1 },
           },
-        })
+        }),
       )
       .unwrap(),
     appStore
@@ -19,7 +19,7 @@ export const manageTestElemenentPageLoader = async () => {
           searchTestRequestDto: {
             sort: { index: 1 },
           },
-        })
+        }),
       )
       .unwrap(),
   ])

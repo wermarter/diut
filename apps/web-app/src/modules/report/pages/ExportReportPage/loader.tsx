@@ -13,7 +13,7 @@ export const exportReportPageLoader = async () => {
               category: 1,
             },
           },
-        })
+        }),
       )
       .unwrap(),
     appStore
@@ -24,14 +24,14 @@ export const exportReportPageLoader = async () => {
               index: 1,
             },
           },
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         patientTypeApi.endpoints.patientTypeSearch.initiate({
           searchPatientTypeRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
   ])

@@ -22,7 +22,7 @@ const injectedRtkApi = api
             body: queryArg.createDoctorRequestDto,
           }),
           invalidatesTags: ['doctors'],
-        }
+        },
       ),
       doctorUpdateById: build.mutation<
         DoctorUpdateByIdApiResponse,

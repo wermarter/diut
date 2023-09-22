@@ -14,7 +14,7 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
   constructor(
     private sampleService: SampleService,
     private testService: TestService,
-    private testComboService: TestComboService
+    private testComboService: TestComboService,
   ) {
     super(TraKQService.name)
   }
@@ -28,15 +28,15 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
         const testCombo = await this.testComboService.findById(comboId)
         testCombos.push(testCombo)
         testCombo.children?.forEach((testId) =>
-          comboTestIds.push(testId.toString())
+          comboTestIds.push(testId.toString()),
         )
-      })
+      }),
     )
 
     // combine tests
     const testIds = Array.from(new Set([...comboTestIds, ...body.testIds]))
     const tests = await Promise.all(
-      testIds.map((testId) => this.testService.findById(testId))
+      testIds.map((testId) => this.testService.findById(testId)),
     )
 
     const samples = cringySort(
@@ -53,8 +53,8 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
                 },
               },
             }
-          : {}
-      )
+          : {},
+      ),
     )
 
     const aoaData: Array<Array<string | Date>> = [
@@ -85,7 +85,7 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
         testCombos.forEach((combo) => {
           if (
             !combo.children.some(
-              (testId) => !matchedTestIds.includes(testId.toString())
+              (testId) => !matchedTestIds.includes(testId.toString()),
             )
           ) {
             matchedCombos.push(combo)
@@ -93,10 +93,10 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
         })
 
         const standaloneTestIds = matchedTestIds.filter((testId) =>
-          body.testIds.includes(testId)
+          body.testIds.includes(testId),
         )
         const standaloneTests = standaloneTestIds.map((testId) =>
-          tests.find(({ _id }) => _id === testId)
+          tests.find(({ _id }) => _id === testId),
         )
 
         // combine test name
@@ -119,7 +119,7 @@ export class TraKQService extends BaseExportService<ExportTraKQRequestDto> {
           '',
           sample?.isTraBuuDien === true ? 'BĐ' : '',
         ]
-      })
+      }),
     )
 
     return aoaData.filter((rowArray) => rowArray != null)

@@ -14,7 +14,7 @@ export class GiaoNhanService extends BaseExportService<ExportGiaoNhanRequestDto>
   constructor(
     private sampleService: SampleService,
     private testService: TestService,
-    private testComboService: TestComboService
+    private testComboService: TestComboService,
   ) {
     super(GiaoNhanService.name)
   }
@@ -28,23 +28,23 @@ export class GiaoNhanService extends BaseExportService<ExportGiaoNhanRequestDto>
         const testCombo = await this.testComboService.findById(comboId)
         testCombos.push(testCombo)
         testCombo.children?.forEach((testId) =>
-          comboTestIds.push(testId.toString())
+          comboTestIds.push(testId.toString()),
         )
-      })
+      }),
     )
 
     // combine tests
     const testIds = Array.from(new Set([...comboTestIds, ...body.testIds]))
     const tests = await Promise.all(
-      testIds.map((testId) => this.testService.findById(testId))
+      testIds.map((testId) => this.testService.findById(testId)),
     )
 
     const samples = cringySort(
       await this.sampleService.getSamplesForTestReport(
         testIds,
         body.startDate,
-        body.endDate
-      )
+        body.endDate,
+      ),
     )
 
     const aoaData: Array<Array<string | Date>> = [
@@ -75,7 +75,7 @@ export class GiaoNhanService extends BaseExportService<ExportGiaoNhanRequestDto>
         testCombos.forEach((combo) => {
           if (
             !combo.children.some(
-              (testId) => !matchedTestIds.includes(testId.toString())
+              (testId) => !matchedTestIds.includes(testId.toString()),
             )
           ) {
             matchedCombos.push(combo)
@@ -83,10 +83,10 @@ export class GiaoNhanService extends BaseExportService<ExportGiaoNhanRequestDto>
         })
 
         const standaloneTestIds = matchedTestIds.filter((testId) =>
-          body.testIds.includes(testId)
+          body.testIds.includes(testId),
         )
         const standaloneTests = standaloneTestIds.map((testId) =>
-          tests.find(({ _id }) => _id === testId)
+          tests.find(({ _id }) => _id === testId),
         )
 
         // combine test name
@@ -109,7 +109,7 @@ export class GiaoNhanService extends BaseExportService<ExportGiaoNhanRequestDto>
           '',
           sample?.isTraBuuDien === true ? 'BĐ' : '',
         ]
-      })
+      }),
     )
 
     return aoaData.filter((rowArray) => rowArray != null)

@@ -10,14 +10,14 @@ export const testReportPageLoader = async () => {
       .dispatch(
         patientTypeApi.endpoints.patientTypeSearch.initiate({
           searchPatientTypeRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
     appStore
       .dispatch(
         testApi.endpoints.testSearch.initiate({
           searchTestRequestDto: { sort: { index: 1 } },
-        })
+        }),
       )
       .unwrap(),
   ])
@@ -30,10 +30,10 @@ export const testReportPageLoader = async () => {
 
   return {
     patientTypeMap: new Map(
-      patientTypes.items.map((patientType) => [patientType._id, patientType])
+      patientTypes.items.map((patientType) => [patientType._id, patientType]),
     ),
     categories: categories.filter(
-      (categoryName) => typeof categoryName === 'string'
+      (categoryName) => typeof categoryName === 'string',
     ),
     groups,
     tests: [...testRes.items].sort((a, b) => {

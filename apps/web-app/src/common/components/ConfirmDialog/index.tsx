@@ -22,7 +22,7 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   const handleClose = (
     event: object,
-    reason: 'backdropClick' | 'escapeKeyDown'
+    reason: 'backdropClick' | 'escapeKeyDown',
   ) => {
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
       return

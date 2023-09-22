@@ -10,7 +10,7 @@ import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
 export type FormCheckboxGroupProps<
   T extends FieldValues = FieldValues,
-  OptionType = any
+  OptionType = any,
 > = {
   name: Path<T>
   label: string
@@ -26,7 +26,7 @@ export type FormCheckboxGroupProps<
 
 export function FormCheckboxGroup<
   TFieldValues extends FieldValues = FieldValues,
-  OptionType = any
+  OptionType = any,
 >({
   name,
   label,
@@ -80,8 +80,8 @@ export function FormCheckboxGroup<
                           onChange(
                             value?.filter(
                               (optionValue: unknown) =>
-                                optionValue !== getOptionValue(option)
-                            )
+                                optionValue !== getOptionValue(option),
+                            ),
                           )
                         }
                       }}

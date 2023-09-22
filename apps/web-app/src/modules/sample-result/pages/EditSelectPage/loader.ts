@@ -11,21 +11,21 @@ export const editSelectPageLoader = async () => {
         .dispatch(
           indicationApi.endpoints.indicationSearch.initiate({
             searchIndicationRequestDto: { sort: { index: 1 } },
-          })
+          }),
         )
         .unwrap(),
       appStore
         .dispatch(
           doctorApi.endpoints.doctorSearch.initiate({
             searchDoctorRequestDto: { sort: { index: 1 } },
-          })
+          }),
         )
         .unwrap(),
       appStore
         .dispatch(
           patientTypeApi.endpoints.patientTypeSearch.initiate({
             searchPatientTypeRequestDto: { sort: { index: 1 } },
-          })
+          }),
         )
         .unwrap(),
       appStore
@@ -36,10 +36,10 @@ export const editSelectPageLoader = async () => {
                 category: 1,
               },
             },
-          })
+          }),
         )
         .unwrap(),
-    ]
+    ],
   )
 
   const tests = testRes?.items ?? []
@@ -49,11 +49,11 @@ export const editSelectPageLoader = async () => {
 
   return {
     indicationMap: new Map(
-      indications.map((indication) => [indication._id, indication])
+      indications.map((indication) => [indication._id, indication]),
     ),
     doctorMap: new Map(doctors.map((doctor) => [doctor._id, doctor])),
     patientTypeMap: new Map(
-      patientTypes.map((patientType) => [patientType._id, patientType])
+      patientTypes.map((patientType) => [patientType._id, patientType]),
     ),
     testMap: new Map(tests.map((test) => [test._id, test])),
   }

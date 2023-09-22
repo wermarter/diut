@@ -32,7 +32,7 @@ export function isRestricted(requiredPermissions: Permission[]) {
 
 export function checkPermissionAnyOf(
   userPermissions: Permission[] | undefined | null,
-  requiredPermissions: Permission[] | undefined | null
+  requiredPermissions: Permission[] | undefined | null,
 ) {
   if (userPermissions == null) {
     return false
@@ -48,13 +48,13 @@ export function checkPermissionAnyOf(
   }
 
   return userPermissions.some((userPermission) =>
-    requiredPermissions.includes(userPermission)
+    requiredPermissions.includes(userPermission),
   )
 }
 
 export function checkPermissionAllOf(
   userPermissions: Permission[] | undefined | null,
-  requiredPermissions: Permission[] | undefined | null
+  requiredPermissions: Permission[] | undefined | null,
 ) {
   if (userPermissions == null) {
     return false
@@ -70,6 +70,6 @@ export function checkPermissionAllOf(
   }
 
   return requiredPermissions.every((requiredPermission) =>
-    userPermissions.includes(requiredPermission)
+    userPermissions.includes(requiredPermission),
   )
 }

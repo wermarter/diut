@@ -11,6 +11,6 @@ export class UpdateSampleRequestDto extends PartialType(
       'sampleCompleted',
       'infoCompleted',
       'resultBy',
-    ])
-  )
+    ]),
+  ),
 ) {}

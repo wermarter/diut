@@ -13,7 +13,7 @@ import LoopIcon from '@mui/icons-material/Loop'
 interface CrudToolbarProps<R extends GridValidRowModel> {
   setRows: (newRows: (oldRows: GridRowsProp<R>) => GridRowsProp) => void
   setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel
+    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
   ) => void
   itemIdField: keyof R
   firstField: string
@@ -38,7 +38,7 @@ export function CrudToolbar<R extends GridValidRowModel>({
   const handleAddNew = () => {
     setRows((oldRows) => {
       const isAlreadyExist = oldRows.some(
-        (row) => row[itemIdField] === NEW_ID_VALUE
+        (row) => row[itemIdField] === NEW_ID_VALUE,
       )
       if (isAlreadyExist) {
         return oldRows

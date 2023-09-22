@@ -11,7 +11,7 @@ export const manageTestPageLoader = async () => {
           searchTestCategoryRequestDto: {
             sort: { index: 1 },
           },
-        })
+        }),
       )
       .unwrap(),
     appStore
@@ -20,7 +20,7 @@ export const manageTestPageLoader = async () => {
           searchBioProductRequestDto: {
             sort: { index: 1 },
           },
-        })
+        }),
       )
       .unwrap(),
     appStore
@@ -29,7 +29,7 @@ export const manageTestPageLoader = async () => {
           searchPrintFormRequestDto: {
             sort: { index: 1 },
           },
-        })
+        }),
       )
       .unwrap(),
   ])

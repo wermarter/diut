@@ -4,7 +4,7 @@ import { validate } from 'class-validator'
 
 export const validateDto = async <T extends object>(
   plainObject: object,
-  dtoClass: ClassConstructor<T>
+  dtoClass: ClassConstructor<T>,
 ) => {
   const instance = plainToInstance(dtoClass, plainObject)
 

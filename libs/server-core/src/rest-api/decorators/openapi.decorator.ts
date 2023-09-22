@@ -25,7 +25,7 @@ export const AppOpenApi = ({
       ApiResponse({
         ...responseOptions,
         status: status ?? HttpStatus.OK,
-      })
+      }),
     )
   })
 

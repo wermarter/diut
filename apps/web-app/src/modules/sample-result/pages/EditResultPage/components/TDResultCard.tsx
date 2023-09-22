@@ -49,7 +49,7 @@ export const TDResultCard = ({
                       currentElementState.value?.length > 0
                         ? new Date(currentElementState.value)
                         : new Date(),
-                      'yyyy-MM-dd HH:mm'
+                      'yyyy-MM-dd HH:mm',
                     )}
                     onChange={(e) => {
                       setElementState(currentElementInfo._id, {
@@ -67,7 +67,7 @@ export const TDResultCard = ({
           }
 
           const highlightRule = getHighlightRule(
-            currentElementInfo.highlightRules
+            currentElementInfo.highlightRules,
           )
 
           return (
