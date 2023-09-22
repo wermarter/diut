@@ -10,7 +10,8 @@
   "types": "dist/index",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch --preserveWatchOutput"
+    "dev:local": "tsc --watch --preserveWatchOutput",
+    "dev": "concurrently \"onchange -i 'package.json' -- npm i\" \"npm run dev:local\""
   },
   "dependencies": {
     "@diut/common": "workspace:*",
@@ -47,6 +48,9 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
-    "@types/lodash": "^4.14.198"
+    "@types/lodash": "^4.14.198",
+    "typescript": "^5.2.2",
+    "concurrently": "^8.2.1",
+    "onchange": "^7.1.0"
   }
 }

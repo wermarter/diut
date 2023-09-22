@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node -r tsconfig-paths/register
+#!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
 
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'

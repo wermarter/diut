@@ -3,7 +3,6 @@ import {
   LogModule,
   MinioModule,
   MongoModule,
-  OtelModule,
 } from '@diut/server-core'
 import { Module, ModuleMetadata } from '@nestjs/common'
 
@@ -44,7 +43,6 @@ const coreModules: ModuleMetadata['imports'] = [
       secretKey: minioConfig.MINIO_SECRET_KEY,
     }),
   }),
-  OtelModule,
 ]
 
 @Module({

@@ -1,7 +1,6 @@
-import { SampleExceptionMsg } from '@diut/common'
+import { SampleExceptionMsg } from '@diut/bathanghai-common'
 import { ApiProperty } from '@nestjs/swagger'
-import { Expose } from 'class-transformer'
-import { Type } from 'class-transformer'
+import { Expose, Type } from 'class-transformer'
 import {
   IsArray,
   IsBoolean,
@@ -16,8 +15,8 @@ import {
   BaseResourceResponseDto,
   ExposeObjectId,
   IsObjectId,
+  BadRequestDto,
 } from '@diut/server-core'
-import { BadRequestDto } from '@diut/server-core'
 
 export class SampleResponseDto extends BaseResourceResponseDto {
   @Expose()

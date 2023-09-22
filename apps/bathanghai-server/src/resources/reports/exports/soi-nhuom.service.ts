@@ -1,4 +1,7 @@
-import { ID_TEST_SOINHUOM_DM, ID_TEST_SOINHUOM_HT } from '@diut/common'
+import {
+  ID_TEST_SOINHUOM_DM,
+  ID_TEST_SOINHUOM_HT,
+} from '@diut/bathanghai-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
@@ -14,7 +17,7 @@ const CLUE_CELL_POSITION = 2
 export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto> {
   constructor(
     private sampleService: SampleService,
-    private testElementService: TestElementService
+    private testElementService: TestElementService,
   ) {
     super(SoiNhuomService.name)
   }
@@ -33,8 +36,8 @@ export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto>
       await this.sampleService.getSamplesForTestReport(
         [ID_TEST_SOINHUOM_HT, ID_TEST_SOINHUOM_DM],
         body.startDate,
-        body.endDate
-      )
+        body.endDate,
+      ),
     )
 
     // init summation values
@@ -60,7 +63,7 @@ export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto>
         const patient = sample.patientId as Patient
         const testResult = sample.results.find(
           ({ testId }) =>
-            testId === ID_TEST_SOINHUOM_HT || testId === ID_TEST_SOINHUOM_DM
+            testId === ID_TEST_SOINHUOM_HT || testId === ID_TEST_SOINHUOM_DM,
         )
         const isSoiNhuomHT = testResult.testId === ID_TEST_SOINHUOM_HT
         const testResultElements = testResult?.elements ?? []
@@ -74,7 +77,7 @@ export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto>
           ...testElementsHT.map(({ _id }, elementIndex) => {
             if (isSoiNhuomHT) {
               const elementResult = testResultElements?.find(
-                ({ id }) => id === _id
+                ({ id }) => id === _id,
               )
               if (elementResult?.isHighlighted === true) {
                 abnormalCounters[_id]++
@@ -92,7 +95,7 @@ export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto>
               }
 
               const elementResult = testResultElements?.find(
-                ({ id }) => id === testElementsDM[translatedIndex]._id
+                ({ id }) => id === testElementsDM[translatedIndex]._id,
               )
               if (elementResult?.isHighlighted === true) {
                 abnormalCounters[_id]++
@@ -102,14 +105,14 @@ export class SoiNhuomService extends BaseExportService<ExportSoiNhuomRequestDto>
             }
           }),
         ]
-      })
+      }),
     )
 
     // compile summary row
     summaryRow.push(
       ...Object.keys(abnormalCounters).map((key) =>
-        abnormalCounters[key].toString()
-      )
+        abnormalCounters[key].toString(),
+      ),
     )
     aoaData.push([], summaryRow)
 

@@ -1,4 +1,5 @@
-import { Gender, numericEnumArray } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
+import { numericEnumArray } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsEnum,

@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node -r tsconfig-paths/register
+#!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
 
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
@@ -21,9 +21,9 @@ async function main(collections: COLLECTION[]) {
     const targetModel = targetDB.model(collection, schema)
 
     console.log(`Removing existing DEV ${COLLECTION_CLASS[collection].name}...`)
-    await targetModel.deleteMany()
+    await targetModel.deleteMany().exec()
 
-    const total = await sourceModel.countDocuments()
+    const total = await sourceModel.countDocuments().exec()
     let counter = 0
     for await (const doc of sourceModel.find().cursor()) {
       counter++

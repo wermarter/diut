@@ -10,7 +10,7 @@ COPY . .
 
 RUN corepack enable
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
 EXPOSE 5173
 

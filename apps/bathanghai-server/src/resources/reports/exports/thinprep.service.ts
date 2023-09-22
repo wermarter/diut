@@ -1,4 +1,4 @@
-import { ID_TEST_THINPREP } from '@diut/common'
+import { ID_TEST_THINPREP } from '@diut/bathanghai-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
@@ -14,7 +14,7 @@ export class ThinprepService extends BaseExportService<ExportPapsmearRequestDto>
   constructor(
     private sampleService: SampleService,
     private testElementService: TestElementService,
-    private userService: UserService
+    private userService: UserService,
   ) {
     super(ThinprepService.name)
   }
@@ -27,8 +27,8 @@ export class ThinprepService extends BaseExportService<ExportPapsmearRequestDto>
       await this.sampleService.getSamplesForTestReport(
         [ID_TEST_THINPREP],
         body.startDate,
-        body.endDate
-      )
+        body.endDate,
+      ),
     )
 
     const aoaData: Array<Array<string | Date>> = [
@@ -55,7 +55,7 @@ export class ThinprepService extends BaseExportService<ExportPapsmearRequestDto>
     for (const sample of samples) {
       const patient = sample.patientId as Patient
       const testResult = sample.results.find(
-        ({ testId }) => testId === ID_TEST_THINPREP
+        ({ testId }) => testId === ID_TEST_THINPREP,
       )
       const author = await this.userService.findById(testResult?.resultBy)
 

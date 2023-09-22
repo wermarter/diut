@@ -1,4 +1,4 @@
-import { Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
 import { useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -386,7 +386,7 @@ export default function InfoEditPage() {
             items.map((item) => ({
               bioProductName: item.bioProduct?.name,
               id: item._id,
-            }))
+            })),
           )
         }}
         showCombos

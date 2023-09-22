@@ -1,7 +1,8 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { DATETIME_FORMAT, Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
+import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridColDef } from '@mui/x-data-grid'
@@ -148,7 +149,7 @@ export default function TestReportPage() {
           Object.assign({}, cache, {
             ...cache,
             [patientId]: res.data!,
-          })
+          }),
         )
       })
     })
@@ -390,7 +391,7 @@ export default function TestReportPage() {
 
                   return ''
                 },
-              })
+              }),
             ),
             {
               field: 'isTraBuuDien',

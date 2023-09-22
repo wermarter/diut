@@ -16,7 +16,6 @@ import { ConfigModule } from '@diut/server-core'
       imports: [ConfigModule.forFeature(loadAuthConfig)],
       inject: [loadAuthConfig.KEY],
       useFactory: (authConfig: AuthConfig) => {
-        console.log(authConfig)
         return {
           secret: authConfig.AUTH_JWT_SECRET,
           signOptions: {

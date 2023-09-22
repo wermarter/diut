@@ -1,4 +1,4 @@
-import { Permission } from '@diut/common'
+import { Permission } from '@diut/bathanghai-common'
 import {
   createParamDecorator,
   ExecutionContext,
@@ -17,7 +17,7 @@ export const ReqUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest()
     return request.user
-  }
+  },
 )
 
 export const PERMISSION_ANYOF_KEY = 'auth.permissions.anyOf'

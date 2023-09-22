@@ -5,7 +5,7 @@ import {
   NonIndexRouteObject,
   RouteObject,
 } from 'react-router-dom'
-import { Permission } from '@diut/common'
+import { Permission } from '@diut/bathanghai-common'
 
 import {
   AuthenticationCheck,
@@ -35,7 +35,7 @@ export type CustomRouteObject =
 
 export function parseRoutes(
   routes: CustomRouteObject[],
-  authInjectors?: RouteInjectors
+  authInjectors?: RouteInjectors,
 ): RouteObject[] {
   return routes.map((customRouteObject) => {
     const {
@@ -66,7 +66,7 @@ export function parseRoutes(
         makeInjector(authorizationInjector, {
           permissionAllOf,
           permissionAnyOf,
-        })
+        }),
       )
     }
     const customLoader = combineInjectors(loader ?? (() => null), injectors)

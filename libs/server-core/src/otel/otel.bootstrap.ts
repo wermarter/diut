@@ -3,7 +3,6 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
 import { Resource } from '@opentelemetry/resources'
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { PrometheusExporter } from '@opentelemetry/exporter-prometheus'
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base'
 import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
 import {
   CompositePropagator,
@@ -36,7 +35,7 @@ export const OtelBootstrap: BootstrapConfig = {
         [SemanticResourceAttributes.SERVICE_NAME]: ctx.serviceName,
       }),
       metricReader: metricExporter,
-      spanProcessor: new BatchSpanProcessor(traceExporter) as any,
+      traceExporter,
       contextManager: new AsyncLocalStorageContextManager(),
       textMapPropagator: new CompositePropagator({
         propagators: [

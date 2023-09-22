@@ -1,4 +1,4 @@
-import { Gender, SampleExceptionMsg } from '@diut/common'
+import { Gender, SampleExceptionMsg } from '@diut/bathanghai-common'
 import { useCallback, useDeferredValue, useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {

@@ -1,4 +1,4 @@
-import { Permission, isAdmin } from '@diut/common'
+import { Permission, isAdmin } from '@diut/bathanghai-common'
 import {
   createAction,
   createSlice,
@@ -76,7 +76,7 @@ export const authSlice = createSlice({
         state.name = payload?.name
         state.accessToken = payload?.generatedAccessToken
         state.permissions = payload?.permissions
-      }
+      },
     )
   },
 })
@@ -86,7 +86,7 @@ export const authReducer = persistReducer(
     key: 'rtk:' + authSlice.name,
     storage,
   },
-  authSlice.reducer
+  authSlice.reducer,
 )
 
 export const selectUserId = (state: RootState) => state.auth.id

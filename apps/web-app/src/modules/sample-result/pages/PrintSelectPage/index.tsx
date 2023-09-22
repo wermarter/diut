@@ -4,7 +4,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { DATETIME_FORMAT, Gender, Permission } from '@diut/common'
+import { Gender, Permission } from '@diut/bathanghai-common'
+import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
@@ -168,7 +169,7 @@ export default function PrintSelectPage() {
       getPatient({ id: patientId }, true).then((res) => {
         setPatients((cache) =>
           Object.assign({}, cache, {
-            ...cache,
+            // ...cache,
             [patientId]: res.data!,
           }),
         )

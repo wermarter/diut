@@ -26,7 +26,7 @@ export function DataTable<R extends GridValidRowModel>({
   cellOutline = false,
   autoRowHeight = false,
   sx,
-  components,
+  slots,
   page = 0,
   pageSize = ROWS_PER_PAGE_OPTIONS[0],
   onPageChange,
@@ -76,13 +76,13 @@ export function DataTable<R extends GridValidRowModel>({
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
-      components={Object.assign(
+      slots={Object.assign(
         {},
         {
-          LoadingOverlay: ProgressBar,
-          NoRowsOverlay: EmptyRowsOverlay,
+          loadingOverlay: ProgressBar,
+          noRowsOverlay: EmptyRowsOverlay,
         },
-        components,
+        slots,
       )}
       pageSizeOptions={ROWS_PER_PAGE_OPTIONS}
       paginationModel={{ page, pageSize }}

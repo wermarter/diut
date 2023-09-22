@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/common'
+import { PrintForm } from '@diut/bathanghai-common'
 
 import { BioProductResponseDto } from 'src/api/bio-product'
 import { TestResultDto } from 'src/api/sample'
@@ -32,7 +32,7 @@ export interface ResultCardProps {
   }
   setElementState: (
     elementId: string,
-    { checked, value }: { checked?: boolean; value?: string }
+    { checked, value }: { checked?: boolean; value?: string },
   ) => void
   getHighlightRule: (highlightRules: HighlightRuleDto[]) => HighlightRuleDto
   sampleId: string

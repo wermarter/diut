@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/common'
+import { PrintForm } from '@diut/bathanghai-common'
 import {
   FormControl,
   InputLabel,
@@ -25,13 +25,13 @@ const ALL_CATEGORIES = 'ALL_CATEGORIES'
 
 function setBioProductId(
   bioProducts: BioProductResponseDto[],
-  bioProductId: string
+  bioProductId: string,
 ) {
   if (bioProductId === NO_BIOPRODUCT) {
     return null
   }
   return bioProducts.find(
-    (bioProduct) => bioProduct.name === (bioProductId as any)
+    (bioProduct) => bioProduct.name === (bioProductId as any),
   )?._id!
 }
 
@@ -73,11 +73,11 @@ export function TestTable() {
             name: item.name,
             index: item.index,
             category: testCategories.find(
-              (category) => category.name === (item.category as any)
+              (category) => category.name === (item.category as any),
             )?._id!,
             bioProduct: setBioProductId(bioProducts, item.bioProduct as any)!,
             printForm: printForms.find(
-              (printForm) => printForm.name === item.printForm
+              (printForm) => printForm.name === item.printForm,
             )?._id! as PrintForm,
             shouldNotPrint: item.shouldNotPrint ?? false,
           },
@@ -90,14 +90,14 @@ export function TestTable() {
             name: newItem.name,
             index: newItem.index,
             category: testCategories.find(
-              (category) => category.name === (newItem.category as any)
+              (category) => category.name === (newItem.category as any),
             )?._id,
             bioProduct: setBioProductId(
               bioProducts,
-              newItem.bioProduct as any
+              newItem.bioProduct as any,
             )!,
             printForm: printForms.find(
-              (printForm) => printForm.name === newItem.printForm
+              (printForm) => printForm.name === newItem.printForm,
             )?._id! as PrintForm,
             shouldNotPrint: newItem.shouldNotPrint ?? false,
           },

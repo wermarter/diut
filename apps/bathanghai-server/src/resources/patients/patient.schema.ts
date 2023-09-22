@@ -1,4 +1,4 @@
-import { Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from '@diut/server-core'

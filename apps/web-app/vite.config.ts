@@ -15,6 +15,13 @@ export default defineConfig({
         find: '@diut/common',
         replacement: path.resolve(__dirname, '../../libs/common/src'),
       },
+      {
+        find: '@diut/bathanghai-common',
+        replacement: path.resolve(
+          __dirname,
+          '../../libs/bathanghai-common/src',
+        ),
+      },
     ],
   },
   server: {

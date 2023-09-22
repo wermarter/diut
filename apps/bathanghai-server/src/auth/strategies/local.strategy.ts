@@ -1,4 +1,4 @@
-import { LoginExceptionMsg } from '@diut/common'
+import { LoginExceptionMsg } from '@diut/bathanghai-common'
 import { Request } from 'express'
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'

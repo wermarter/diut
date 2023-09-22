@@ -1,5 +1,5 @@
 import React from 'react'
-import { Permission } from '@diut/common'
+import { Permission } from '@diut/bathanghai-common'
 import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from 'src/common/layout/MainLayout'
@@ -19,64 +19,64 @@ import { exportReportPageLoader } from 'src/modules/report/pages/ExportReportPag
 
 //#region Lazy import pages
 const ManageDoctorPage = React.lazy(
-  () => import('src/modules/doctor/pages/ManageDoctorPage')
+  () => import('src/modules/doctor/pages/ManageDoctorPage'),
 )
 const ManageUserPage = React.lazy(
-  () => import('src/modules/user/pages/ManageUserPage')
+  () => import('src/modules/user/pages/ManageUserPage'),
 )
 const ManagePatientTypePage = React.lazy(
-  () => import('src/modules/patient-type/pages/ManagePatientTypePage')
+  () => import('src/modules/patient-type/pages/ManagePatientTypePage'),
 )
 const ManageTestCategoryPage = React.lazy(
-  () => import('src/modules/test-category/pages/ManageTestCategoryPage')
+  () => import('src/modules/test-category/pages/ManageTestCategoryPage'),
 )
 const ManageTestPage = React.lazy(
-  () => import('src/modules/test/pages/ManageTestPage')
+  () => import('src/modules/test/pages/ManageTestPage'),
 )
 const ManageTestElementPage = React.lazy(
-  () => import('src/modules/test-element/pages/ManageTestElementPage')
+  () => import('src/modules/test-element/pages/ManageTestElementPage'),
 )
 const ManageIndicationPage = React.lazy(
-  () => import('src/modules/indication/pages/ManageIndicationPage')
+  () => import('src/modules/indication/pages/ManageIndicationPage'),
 )
 const ManageBioProductPage = React.lazy(
-  () => import('src/modules/bio-product/pages/ManageBioProductPage')
+  () => import('src/modules/bio-product/pages/ManageBioProductPage'),
 )
 const ManageSampleTypePage = React.lazy(
-  () => import('src/modules/sample-type/pages/ManageSampleTypePage')
+  () => import('src/modules/sample-type/pages/ManageSampleTypePage'),
 )
 const ManageTestComboPage = React.lazy(
-  () => import('src/modules/test-combo/pages/ManageTestComboPage')
+  () => import('src/modules/test-combo/pages/ManageTestComboPage'),
 )
 const ManagePrintFormPage = React.lazy(
-  () => import('src/modules/print-form/pages/ManagePrintFormPage')
+  () => import('src/modules/print-form/pages/ManagePrintFormPage'),
 )
 const InfoInputPage = React.lazy(
-  () => import('src/modules/sample-info/pages/InfoInputPage')
+  () => import('src/modules/sample-info/pages/InfoInputPage'),
 )
 const InfoEditPage = React.lazy(
-  () => import('src/modules/sample-info/pages/InfoEditPage')
+  () => import('src/modules/sample-info/pages/InfoEditPage'),
 )
 const InfoConfirmPage = React.lazy(
-  () => import('src/modules/sample-info/pages/InfoConfirmPage')
+  () => import('src/modules/sample-info/pages/InfoConfirmPage'),
 )
 const EditResultPage = React.lazy(
-  () => import('src/modules/sample-result/pages/EditResultPage')
+  () => import('src/modules/sample-result/pages/EditResultPage'),
 )
 const EditSelectPage = React.lazy(
-  () => import('src/modules/sample-result/pages/EditSelectPage')
+  () => import('src/modules/sample-result/pages/EditSelectPage'),
 )
 const PrintSelectPage = React.lazy(
-  () => import('src/modules/sample-result/pages/PrintSelectPage')
+  () => import('src/modules/sample-result/pages/PrintSelectPage'),
 )
 const TestReportPage = React.lazy(
-  () => import('src/modules/report/pages/TestReportPage')
+  () => import('src/modules/report/pages/TestReportPage'),
 )
 const ExportReportPage = React.lazy(
-  () => import('src/modules/report/pages/ExportReportPage')
+  () => import('src/modules/report/pages/ExportReportPage'),
 )
 const SearchPatientPage = React.lazy(
-  () => import('src/modules/patient/pages/SearchPatientPage')
+  () => import('src/modules/patient/pages/SearchPatientPage'),
 )
 //#endregion
 

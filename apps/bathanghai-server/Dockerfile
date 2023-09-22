@@ -30,7 +30,7 @@ WORKDIR /usr/src/app
 
 FROM base AS development
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
 CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-server" run --parallel dev
 

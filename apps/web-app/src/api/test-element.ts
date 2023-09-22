@@ -1,4 +1,4 @@
-import { PatientCategory } from '@diut/common'
+import { PatientCategory } from '@diut/bathanghai-common'
 import { apiSlice as api } from './slice'
 import { TestResponseDto } from './test'
 export const addTagTypes = ['test-elements', 'tests'] as const

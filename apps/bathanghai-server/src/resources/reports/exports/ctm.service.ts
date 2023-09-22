@@ -1,4 +1,4 @@
-import { Gender, ID_TEST_CTM } from '@diut/common'
+import { Gender, ID_TEST_CTM } from '@diut/bathanghai-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
@@ -13,14 +13,14 @@ import { ExportCTMRequestDto } from '../dtos/export-ctm.request-dto'
 export class CTMService extends BaseExportService<ExportCTMRequestDto> {
   constructor(
     private sampleService: SampleService,
-    private testElementService: TestElementService
+    private testElementService: TestElementService,
   ) {
     super(CTMService.name)
   }
 
   async prepareAOA(body: ExportCTMRequestDto) {
     const testElements = await this.testElementService.getElementsForTestReport(
-      [ID_TEST_CTM]
+      [ID_TEST_CTM],
     )
 
     const samples = cringySort(
@@ -28,8 +28,8 @@ export class CTMService extends BaseExportService<ExportCTMRequestDto> {
         [ID_TEST_CTM],
         body.startDate,
         body.endDate,
-        ['patientId', 'patientTypeId']
-      )
+        ['patientId', 'patientTypeId'],
+      ),
     )
 
     const aoaData: Array<Array<string | Date>> = [
@@ -64,14 +64,14 @@ export class CTMService extends BaseExportService<ExportCTMRequestDto> {
           patientType.name,
           ...testElements.map((testElement) => {
             const result = elementResults.find(
-              ({ id }) => id === testElement._id
+              ({ id }) => id === testElement._id,
             )
 
             return result?.value ?? ''
           }),
           sample?.isTraBuuDien === true ? 'BĐ' : '',
         ]
-      })
+      }),
     )
 
     return aoaData

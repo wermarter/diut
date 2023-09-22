@@ -1,4 +1,4 @@
-import { PrintForm, SampleExceptionMsg } from '@diut/common'
+import { PrintForm, SampleExceptionMsg } from '@diut/bathanghai-common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['samples'] as const
 const injectedRtkApi = api
@@ -24,7 +24,7 @@ const injectedRtkApi = api
             body: queryArg.createSampleRequestDto,
           }),
           invalidatesTags: ['samples'],
-        }
+        },
       ),
       sampleUpdateById: build.mutation<
         SampleUpdateByIdApiResponse,
@@ -63,7 +63,7 @@ const injectedRtkApi = api
           cache: 'no-cache',
           responseHandler: async (response: any) => {
             const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
-              await response.blob()
+              await response.blob(),
             )
             const hiddenElement = document.createElement('a')
             hiddenElement.href = objectURL
@@ -81,7 +81,7 @@ const injectedRtkApi = api
             url: `/api/samples/preview/${queryArg.id}/${queryArg.printForm}`,
           }),
           providesTags: ['samples'],
-        }
+        },
       ),
       sampleUploadFile: build.mutation<
         SampleUploadFileApiResponse,
@@ -104,7 +104,7 @@ const injectedRtkApi = api
           cache: 'no-cache',
           responseHandler: async (response: any) => {
             const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
-              await response.blob()
+              await response.blob(),
             )
 
             return objectURL

@@ -3,8 +3,8 @@ import {
   ID_TEST_THINPREP,
   ID_TEST_TD,
   PatientCategory,
-  DATETIME_FORMAT,
-} from '@diut/common'
+} from '@diut/bathanghai-common'
+import { DATETIME_FORMAT } from '@diut/common'
 import {
   Alert,
   Box,
@@ -66,12 +66,12 @@ export default function EditResultPage() {
       return (
         highlightRules.find(({ category }) => category === patientCategory) ??
         highlightRules.find(
-          ({ category }) => category === PatientCategory.Any
+          ({ category }) => category === PatientCategory.Any,
         ) ??
         ({} as HighlightRuleDto)
       )
     },
-    [patientCategory]
+    [patientCategory],
   )
 
   const [tests, setTests] = useState<{
@@ -103,7 +103,7 @@ export default function EditResultPage() {
   const [getUserById] = useLazyUserFindByIdQuery()
 
   useEffect(() => {
-    sample.results.map(({ testId, resultBy }) => {
+    sample.results.forEach(({ testId, resultBy }) => {
       if (resultBy?.length! > 0) {
         getUserById({ id: resultBy! }).then((res) => {
           const user = res.data!
@@ -112,7 +112,7 @@ export default function EditResultPage() {
             setUsers((cache) =>
               Object.assign({}, cache, {
                 [user._id]: user,
-              })
+              }),
             )
           }
         })
@@ -133,7 +133,7 @@ export default function EditResultPage() {
         setTests((cache) =>
           Object.assign({}, cache, {
             [test._id]: { ...test, elements },
-          })
+          }),
         )
       })
     })
@@ -150,7 +150,7 @@ export default function EditResultPage() {
       })
       .map((res) => {
         const result = sample.results.find(
-          (result) => result.testId === res._id
+          (result) => result.testId === res._id,
         )
 
         result?.elements?.forEach((element) => {
@@ -160,7 +160,7 @@ export default function EditResultPage() {
                 checked: element?.isHighlighted,
                 value: element.value,
               },
-            })
+            }),
           )
         })
 
@@ -172,7 +172,7 @@ export default function EditResultPage() {
               resultBy: userId && users[userId],
               resultAt: result?.resultAt,
             },
-          })
+          }),
         )
 
         return {
@@ -210,10 +210,10 @@ export default function EditResultPage() {
                   false,
                 value: element.value ?? value ?? '',
               }
-            }
+            },
           ),
         }
-      }
+      },
     )
 
     updateSample({
@@ -326,7 +326,7 @@ export default function EditResultPage() {
               setElementState((formState: any) =>
                 Object.assign({}, formState, {
                   [elementId]: merge(formState[elementId], { checked, value }),
-                })
+                }),
               )
             },
             sampleId: sampleId!,
@@ -356,7 +356,7 @@ export default function EditResultPage() {
                       >
                         {format(
                           new Date(currentTestState.resultAt),
-                          DATETIME_FORMAT
+                          DATETIME_FORMAT,
                         )}
                       </Typography>
                     )}
@@ -377,7 +377,7 @@ export default function EditResultPage() {
                                 [currentTestInfo._id]: {
                                   isLocked: false,
                                 },
-                              })
+                              }),
                             )
                           }}
                         >
@@ -398,7 +398,7 @@ export default function EditResultPage() {
                                 resultBy: { _id: userId, name: userName },
                                 resultAt: new Date(),
                               },
-                            })
+                            }),
                           )
                         }}
                       >
@@ -412,7 +412,7 @@ export default function EditResultPage() {
                 {currentTestInfo._id === ID_TEST_TD ? (
                   <TDResultCard {...resultCardProps} />
                 ) : [ID_TEST_PAPSMEAR, ID_TEST_THINPREP].includes(
-                    currentTestInfo._id
+                    currentTestInfo._id,
                   ) ? (
                   <PapsmearResultCard {...resultCardProps} />
                 ) : (

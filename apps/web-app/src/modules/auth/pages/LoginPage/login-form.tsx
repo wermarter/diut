@@ -1,4 +1,4 @@
-import { LoginExceptionMsg } from '@diut/common'
+import { LoginExceptionMsg } from '@diut/bathanghai-common'
 import { Alert, IconButton, InputAdornment, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
@@ -40,7 +40,7 @@ export function LoginForm({ reason }: LoginPageProps) {
         setError(
           'username',
           { message: 'Sai tên đăng nhập' },
-          { shouldFocus: true }
+          { shouldFocus: true },
         )
         return
       }

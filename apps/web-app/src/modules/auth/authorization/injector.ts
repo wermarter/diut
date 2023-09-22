@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import { Permission } from '@diut/common'
+import { Permission } from '@diut/bathanghai-common'
 
 import { checkPermissionAllOfSync, checkPermissionAnyOfSync } from './utils'
 import { UnauthorizedException } from './exceptions'

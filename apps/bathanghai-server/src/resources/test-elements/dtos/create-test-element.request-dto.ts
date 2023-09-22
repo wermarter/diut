@@ -1,4 +1,4 @@
-import { PatientCategory } from '@diut/common'
+import { PatientCategory } from '@diut/bathanghai-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {

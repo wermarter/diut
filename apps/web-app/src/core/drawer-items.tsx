@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import { To } from 'react-router-dom'
-import { Permission } from '@diut/common'
+import { Permission } from '@diut/bathanghai-common'
 import AccountBoxIcon from '@mui/icons-material/AccountBoxOutlined'
 import HomeIcon from '@mui/icons-material/HomeOutlined'
 import VaccinesIcon from '@mui/icons-material/VaccinesOutlined'

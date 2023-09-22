@@ -13,7 +13,8 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
-import { NodeEnv, PrintForm } from '@diut/common'
+import { PrintForm } from '@diut/bathanghai-common'
+import { NodeEnv } from '@diut/common'
 
 import { AppController } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'

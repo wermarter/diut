@@ -4,7 +4,6 @@ import {
   InterceptorBootstrap,
   LifecycleBootstrap,
   LogBootstrap,
-  OtelBootstrap,
   PipeBootstrap,
   PrefixBootstrap,
   SwaggerBootstrap,
@@ -14,7 +13,6 @@ import {
 import { AppModule } from './app.module'
 
 bootstrapApp({ serviceName: 'bathanghai-server' }, AppModule, [
-  OtelBootstrap,
   LogBootstrap,
   CorsBootstrap,
   InterceptorBootstrap,

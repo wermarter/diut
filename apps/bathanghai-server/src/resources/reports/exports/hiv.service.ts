@@ -1,4 +1,4 @@
-import { Gender, ID_TEST_HIV } from '@diut/common'
+import { Gender, ID_TEST_HIV } from '@diut/bathanghai-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
@@ -20,8 +20,8 @@ export class HIVService extends BaseExportService<ExportHIVRequestDto> {
         [ID_TEST_HIV],
         body.startDate,
         body.endDate,
-        ['patientId', 'patientTypeId']
-      )
+        ['patientId', 'patientTypeId'],
+      ),
     )
 
     const aoaData: Array<Array<string | Date>> = [
@@ -47,7 +47,7 @@ export class HIVService extends BaseExportService<ExportHIVRequestDto> {
         const patient = sample.patientId as Patient
         const patientType = sample.patientTypeId as PatientType
         const testResult = sample.results.find(
-          ({ testId }) => testId === ID_TEST_HIV
+          ({ testId }) => testId === ID_TEST_HIV,
         )
 
         return [
@@ -65,7 +65,7 @@ export class HIVService extends BaseExportService<ExportHIVRequestDto> {
           '',
           sample?.isTraBuuDien === true ? 'BĐ' : '',
         ]
-      })
+      }),
     )
 
     return aoaData

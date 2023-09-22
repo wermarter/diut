@@ -1,4 +1,8 @@
-import { Gender, PatientCategory, ID_INDICATION_PREGNANT } from '@diut/common'
+import {
+  Gender,
+  PatientCategory,
+  ID_INDICATION_PREGNANT,
+} from '@diut/bathanghai-common'
 
 import { PatientResponseDto } from 'src/api/patient'
 import { SampleResponseDto } from 'src/api/sample'
@@ -9,7 +13,7 @@ function isPregnant(sample: SampleResponseDto) {
 
 export function getPatientCategory(
   patient: PatientResponseDto,
-  sample: SampleResponseDto
+  sample: SampleResponseDto,
 ) {
   const { gender, birthYear } = patient
   const age = new Date().getFullYear() - birthYear

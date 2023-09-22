@@ -8,7 +8,7 @@ import {
   Skeleton,
 } from '@mui/material'
 import { toast } from 'react-toastify'
-import { PatientCategory } from '@diut/common'
+import { PatientCategory } from '@diut/bathanghai-common'
 import { useLoaderData } from 'react-router-dom'
 
 import {
@@ -43,7 +43,7 @@ export function TestElementTable() {
   >
 
   const [ruleRow, setRuleRow] = React.useState<TestElementResponseDto | null>(
-    null
+    null,
   )
 
   const [selectedCategoryId, setSelectedCategoryId] =

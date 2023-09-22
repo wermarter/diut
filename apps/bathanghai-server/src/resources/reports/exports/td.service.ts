@@ -1,4 +1,4 @@
-import { ID_TEST_TD } from '@diut/common'
+import { ID_TEST_TD } from '@diut/bathanghai-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
@@ -12,22 +12,22 @@ import { BaseExportService } from './base-export.service'
 export class TDService extends BaseExportService<ExportTDRequestDto> {
   constructor(
     private sampleService: SampleService,
-    private testElementService: TestElementService
+    private testElementService: TestElementService,
   ) {
     super(TDService.name)
   }
 
   async prepareAOA(body: ExportTDRequestDto) {
     const testElements = await this.testElementService.getElementsForTestReport(
-      [ID_TEST_TD]
+      [ID_TEST_TD],
     )
 
     const samples = cringySort(
       await this.sampleService.getSamplesForTestReport(
         [ID_TEST_TD],
         body.startDate,
-        body.endDate
-      )
+        body.endDate,
+      ),
     )
 
     const aoaData: Array<Array<string | Date>> = [
@@ -56,13 +56,13 @@ export class TDService extends BaseExportService<ExportTDRequestDto> {
           patient.birthYear.toString(),
           ...testElements.map((testElement) => {
             const result = elementResults.find(
-              ({ id }) => id === testElement._id
+              ({ id }) => id === testElement._id,
             )
 
             return result?.value ?? ''
           }),
         ]
-      })
+      }),
     )
 
     return aoaData

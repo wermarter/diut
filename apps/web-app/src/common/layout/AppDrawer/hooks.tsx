@@ -1,4 +1,7 @@
-import { checkPermissionAllOf, checkPermissionAnyOf } from '@diut/common'
+import {
+  checkPermissionAllOf,
+  checkPermissionAnyOf,
+} from '@diut/bathanghai-common'
 
 import { useTypedSelector, drawerItems, DrawerItem } from 'src/core'
 import { selectUserPermissions } from 'src/modules/auth'

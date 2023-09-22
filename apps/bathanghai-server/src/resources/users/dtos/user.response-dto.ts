@@ -1,4 +1,4 @@
-import { Permission, UserExceptionMsg } from '@diut/common'
+import { Permission, UserExceptionMsg } from '@diut/bathanghai-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'

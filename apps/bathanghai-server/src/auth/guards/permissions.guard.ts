@@ -4,7 +4,7 @@ import {
   checkPermissionAllOf,
   checkPermissionAnyOf,
   Permission,
-} from '@diut/common'
+} from '@diut/bathanghai-common'
 
 import {
   AuthTokenPayload,
@@ -21,7 +21,7 @@ export class PermissionAnyOfGuard implements CanActivate {
     const user = request.user as AuthTokenPayload
     const requiredPermissions = this.reflector.getAllAndOverride<Permission[]>(
       PERMISSION_ANYOF_KEY,
-      [context.getHandler(), context.getClass()]
+      [context.getHandler(), context.getClass()],
     )
 
     return checkPermissionAnyOf(user.permissions, requiredPermissions)
@@ -37,7 +37,7 @@ export class PermissionAllOfGuard implements CanActivate {
     const user = request.user as AuthTokenPayload
     const requiredPermissions = this.reflector.getAllAndOverride<Permission[]>(
       PERMISSION_ALLOF_KEY,
-      [context.getHandler(), context.getClass()]
+      [context.getHandler(), context.getClass()],
     )
 
     return checkPermissionAllOf(user.permissions, requiredPermissions)

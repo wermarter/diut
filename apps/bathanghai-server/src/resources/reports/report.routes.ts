@@ -1,4 +1,4 @@
-import { Permission } from '@diut/common'
+import { Permission } from '@diut/bathanghai-common'
 import { RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions } from '@diut/server-core'

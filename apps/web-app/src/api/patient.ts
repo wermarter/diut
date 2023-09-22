@@ -1,4 +1,4 @@
-import { Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['patients', 'samples'] as const
 const injectedRtkApi = api
@@ -16,7 +16,7 @@ const injectedRtkApi = api
           }),
           providesTags: ['patients'],
           keepUnusedDataFor: 60, // 1 min
-        }
+        },
       ),
       patientCreate: build.mutation<
         PatientCreateApiResponse,

@@ -1,18 +1,18 @@
 name: diut_monitoring
 
 services:
-  tempo:
-    restart: unless-stopped
-    image: grafana/tempo:2.1.1
-    command: ['-config.file=/etc/tempo/config.yml']
-    volumes:
-      - ./configs/tempo/config.yml:/etc/tempo/config.yml
-      - tempo_volume:/tmp/tempo
-    expose:
-      - 4318 # OTLP HTTP receiver
-      - 3100 # Data query port
-    networks:
-      - network
+  # tempo:
+  #   restart: unless-stopped
+  #   image: grafana/tempo:2.1.1
+  #   command: ['-config.file=/etc/tempo/config.yml']
+  #   volumes:
+  #     - ./configs/tempo/config.yml:/etc/tempo/config.yml
+  #     - tempo_volume:/tmp/tempo
+  #   expose:
+  #     - 4318 # OTLP HTTP receiver
+  #     - 3100 # Data query port
+  #   networks:
+  #     - network
 
   loki:
     restart: unless-stopped
@@ -31,20 +31,20 @@ services:
     networks:
       - network
 
-  promtail:
-    restart: unless-stopped
-    image: grafana/promtail:2.8.3
-    volumes:
-      - ./configs/promtail/config.yml:/etc/promtail/docker-config.yaml
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: -config.file=/etc/promtail/docker-config.yaml
-    depends_on:
-      - loki
-    ports:
-      - '9080:9080'
-    networks:
-      - network
+  # promtail:
+  #   restart: unless-stopped
+  #   image: grafana/promtail:2.8.3
+  #   volumes:
+  #     - ./configs/promtail/config.yml:/etc/promtail/docker-config.yaml
+  #     - /var/lib/docker/containers:/var/lib/docker/containers:ro
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: -config.file=/etc/promtail/docker-config.yaml
+  #   depends_on:
+  #     - loki
+  #   ports:
+  #     - '9080:9080'
+  #   networks:
+  #     - network
 
   prometheus:
     restart: unless-stopped
@@ -72,14 +72,14 @@ services:
       - '3000:3000'
     depends_on:
       - prometheus
-      - tempo
+      # - tempo
       - loki
-      - promtail
+      # - promtail
     networks:
       - network
 
 volumes:
-  tempo_volume:
+  # tempo_volume:
   loki_volume:
 
 networks:

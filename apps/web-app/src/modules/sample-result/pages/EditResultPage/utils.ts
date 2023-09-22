@@ -1,9 +1,9 @@
-import { PatientCategory } from '@diut/common'
+import { PatientCategory } from '@diut/bathanghai-common'
 import { HighlightRuleDto } from 'src/api/test-element'
 
 export function getTechnicalHint(
   patientCategory: PatientCategory,
-  highlightRules: HighlightRuleDto[]
+  highlightRules: HighlightRuleDto[],
 ) {
   const highlightRule =
     highlightRules.find(({ category }) => category === patientCategory) ??

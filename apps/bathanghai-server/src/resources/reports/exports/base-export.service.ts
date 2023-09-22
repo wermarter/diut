@@ -17,7 +17,7 @@ export abstract class BaseExportService<BodyDto> {
       aoaData.filter((rowArray) => rowArray != null), // filter out null rows
       {
         dateNF: DATETIME_FORMAT,
-      }
+      },
     )
 
     return worksheet
@@ -29,7 +29,7 @@ export abstract class BaseExportService<BodyDto> {
       aoaData.filter((rowArray) => rowArray != null), // filter out null rows
       {
         dateNF: DATEONLY_FORMAT,
-      }
+      },
     )
 
     return worksheet

@@ -4,8 +4,8 @@ import {
   ID_SAMPLE_TYPE_HUYET_TRANG,
   ID_SAMPLE_TYPE_DICH_MU,
   ID_SAMPLE_TYPE_MAU,
-  DATETIME_FORMAT,
-} from '@diut/common'
+} from '@diut/bathanghai-common'
+import { DATETIME_FORMAT } from '@diut/common'
 import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -35,7 +35,7 @@ const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: ReactElement<any, any>
   },
-  ref: Ref<unknown>
+  ref: Ref<unknown>,
 ) {
   return <Slide direction="down" ref={ref} {...props} />
 })
@@ -93,24 +93,21 @@ export function SinglePrintDialog({
                 ID_SAMPLE_TYPE_NUOC_TIEU,
                 ID_SAMPLE_TYPE_HUYET_TRANG,
                 ID_SAMPLE_TYPE_DICH_MU,
-              ].includes(_id)
+              ].includes(_id),
             )
-            .map(({ name }) => name)
+            .map(({ name }) => name),
         )
       } else if (printForm._id === PrintForm.Basic) {
         setValue(
           'sampleTypes',
           sampleTypes
             ?.filter(({ _id }) =>
-              [ID_SAMPLE_TYPE_NUOC_TIEU, ID_SAMPLE_TYPE_MAU].includes(_id)
+              [ID_SAMPLE_TYPE_NUOC_TIEU, ID_SAMPLE_TYPE_MAU].includes(_id),
             )
-            .map(({ name }) => name)
+            .map(({ name }) => name),
         )
       } else {
-        setValue(
-          'sampleTypes',
-          sampleTypes?.map(({ name }) => name)
-        )
+        setValue('sampleTypes', sampleTypes?.map(({ name }) => name))
       }
 
       setSelectedPrintForm(printForm)
@@ -138,31 +135,28 @@ export function SinglePrintDialog({
                 ID_SAMPLE_TYPE_NUOC_TIEU,
                 ID_SAMPLE_TYPE_HUYET_TRANG,
                 ID_SAMPLE_TYPE_DICH_MU,
-              ].includes(_id)
+              ].includes(_id),
             )
-            .map(({ name }) => name)
+            .map(({ name }) => name),
         )
       } else if (printForms[0]?._id === PrintForm.Basic) {
         setValue(
           'sampleTypes',
           sampleTypes
             ?.filter(({ _id }) =>
-              [ID_SAMPLE_TYPE_NUOC_TIEU, ID_SAMPLE_TYPE_MAU].includes(_id)
+              [ID_SAMPLE_TYPE_NUOC_TIEU, ID_SAMPLE_TYPE_MAU].includes(_id),
             )
-            .map(({ name }) => name)
+            .map(({ name }) => name),
         )
       } else {
-        setValue(
-          'sampleTypes',
-          sampleTypes?.map(({ name }) => name)
-        )
+        setValue('sampleTypes', sampleTypes?.map(({ name }) => name))
       }
     }
   }, [JSON.stringify(sampleTypes)])
 
   const { data: printer } = useUserFindByIdQuery(
     { id: sample?.printedBy! },
-    { skip: sample?.printedBy == null }
+    { skip: sample?.printedBy == null },
   )
 
   const [printSample] = useSamplePrintMutation()

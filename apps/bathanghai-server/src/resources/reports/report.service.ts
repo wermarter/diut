@@ -42,7 +42,7 @@ export class ReportService {
     private papsmearService: PapsmearService,
     private thinprepService: ThinprepService,
     private ctmService: CTMService,
-    private hivService: HIVService
+    private hivService: HIVService,
   ) {
     this.logger = new Logger(ReportService.name)
   }
@@ -138,6 +138,6 @@ export class ReportService {
 function generateFilename(body: DateRangeDto, filenamePrefix: string) {
   return `${filenamePrefix} (${format(
     new Date(body.startDate),
-    DATEONLY_FORMAT
+    DATEONLY_FORMAT,
   )} - ${format(new Date(body.endDate), DATEONLY_FORMAT)}).xlsx`
 }

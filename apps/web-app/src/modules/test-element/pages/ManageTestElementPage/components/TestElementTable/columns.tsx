@@ -1,4 +1,4 @@
-import { PatientCategory } from '@diut/common'
+import { PatientCategory } from '@diut/bathanghai-common'
 import { GridColDef } from '@mui/x-data-grid'
 
 import { TestResponseDto } from 'src/api/test'

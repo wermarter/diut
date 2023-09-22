@@ -1,4 +1,5 @@
-import { Box, styled } from '@mui/material'
+import Box from '@mui/material/Box'
+import { styled } from '@mui/material/styles'
 
 const StyledGridOverlay = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -26,7 +27,7 @@ const StyledGridOverlay = styled('div')(({ theme }) => ({
 
 export function EmptyRowsOverlay() {
   return (
-    <StyledGridOverlay sx={{ mt: 1 }}>
+    <StyledGridOverlay>
       <svg
         width="120"
         height="100"

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
 
 const schema = z.object({
   externalId: z.string().optional(),
@@ -9,7 +9,7 @@ const schema = z.object({
     .min(2, 'Không được để trống'),
   gender: z.preprocess(
     (value) => parseInt(value as string, 10),
-    z.nativeEnum(Gender)
+    z.nativeEnum(Gender),
   ),
 
   birthYear: z.preprocess(
@@ -17,7 +17,7 @@ const schema = z.object({
     z
       .number({ required_error: 'Không được để trống' })
       .gt(1900, 'Số quá nhỏ')
-      .lte(new Date().getFullYear(), 'Số quá lớn')
+      .lte(new Date().getFullYear(), 'Số quá lớn'),
   ),
   address: z.string(),
   phoneNumber: z.string().optional(),
@@ -32,7 +32,7 @@ const schema = z.object({
     z.object({
       id: z.string(),
       bioProductName: z.string().nullable().optional(),
-    })
+    }),
   ),
 
   sampleId: z.string().length(10, 'Phải đúng 10 kí tự'),

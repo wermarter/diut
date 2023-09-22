@@ -1,10 +1,10 @@
-import { UserExceptionMsg } from '@diut/common'
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { UserExceptionMsg } from '@diut/bathanghai-common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, QueryOptions, UpdateQuery } from 'mongoose'
 import * as argon2 from 'argon2'
-
 import { BaseSchema, MongoRepository } from '@diut/server-core'
+
 import { User } from './user.schema'
 
 @Injectable()

@@ -1,4 +1,8 @@
-import { Gender, ID_INDICATION_PREGNANT, PatientCategory } from '@diut/common'
+import {
+  Gender,
+  ID_INDICATION_PREGNANT,
+  PatientCategory,
+} from '@diut/bathanghai-common'
 
 import { Patient } from '../patients/patient.schema'
 import { Sample } from './sample.schema'

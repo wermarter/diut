@@ -8,7 +8,6 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { join } from 'path'
@@ -16,11 +15,11 @@ import * as ejs from 'ejs'
 import * as puppeteer from 'puppeteer'
 import {
   isAdmin,
-  NodeEnv,
   PatientCategory,
   PrintForm,
   SampleExceptionMsg,
-} from '@diut/common'
+} from '@diut/bathanghai-common'
+import { NodeEnv } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq, merge } from 'lodash'
 

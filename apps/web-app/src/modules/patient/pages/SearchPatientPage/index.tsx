@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DATETIME_FORMAT, Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
+import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { GridActionsCellItem } from '@mui/x-data-grid'

@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node -r tsconfig-paths/register
+#!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
 
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
@@ -7,12 +7,12 @@ dotenv.config()
 
 import { COLLECTION } from 'src/common/collections'
 import { Patient } from 'src/resources/patients/patient.schema'
-import { Gender } from '@diut/common'
+import { Gender } from '@diut/bathanghai-common'
 
 async function main() {
   const [sourceDB, targetDB] = await Promise.all([
-    mongoose.createConnection(process.env.SOURCE_MONGO_URI),
-    mongoose.createConnection(process.env.TARGET_MONGO_URI),
+    mongoose.createConnection(process.env.SOURCE_MONGO_URI).asPromise(),
+    mongoose.createConnection(process.env.TARGET_MONGO_URI).asPromise(),
   ])
   console.log('prod + dev MongoDB connected !')
 
@@ -21,9 +21,9 @@ async function main() {
   const targetModel = targetDB.model(COLLECTION.PATIENT, schema)
 
   console.log(`Removing existing DEV ${Patient.name}...`)
-  await targetModel.deleteMany()
+  await targetModel.deleteMany().exec()
 
-  const total = await sourceModel.countDocuments()
+  const total = await sourceModel.countDocuments().exec()
   let counter = 0
   for await (const doc of sourceModel.find().cursor()) {
     counter++

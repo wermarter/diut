@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node -r tsconfig-paths/register
+#!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
 
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
@@ -21,21 +21,23 @@ async function main() {
     reportOrder: { $exists: false },
   }
 
-  const total = await model.countDocuments(filterQuery)
+  const total = await model.countDocuments(filterQuery).exec()
   let counter = 0
 
   for await (const doc of model.find(filterQuery).cursor()) {
     counter++
     console.log(`${counter}/${total}`)
 
-    await model.updateOne(
-      { _id: doc._id },
-      {
-        $set: {
-          reportOrder: doc.printIndex,
+    await model
+      .updateOne(
+        { _id: doc._id },
+        {
+          $set: {
+            reportOrder: doc.printIndex,
+          },
         },
-      },
-    )
+      )
+      .exec()
   }
 
   await db.disconnect()

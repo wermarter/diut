@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/common'
+import { PrintForm } from '@diut/bathanghai-common'
 import { BioProductResponseDto } from './bio-product'
 import { apiSlice as api } from './slice'
 import { TestCategoryResponseDto } from './test-category'

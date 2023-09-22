@@ -29,7 +29,7 @@ import {
   ID_TEST_DIENDI,
   ID_TEST_GLUCOSE,
   ID_TEST_NHOMMAU,
-} from '@diut/common'
+} from '@diut/bathanghai-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'
@@ -77,7 +77,7 @@ const TEST_IDS = [
 export class SinhHoaService extends BaseExportService<ExportSinhHoaRequestDto> {
   constructor(
     private sampleService: SampleService,
-    private testElementService: TestElementService
+    private testElementService: TestElementService,
   ) {
     super(SinhHoaService.name)
   }
@@ -88,10 +88,10 @@ export class SinhHoaService extends BaseExportService<ExportSinhHoaRequestDto> {
     ) // Sort by test order in TEST_IDS and reportOrder
       .sort((elementA, elementB) => {
         const testIndexA = TEST_IDS.findIndex(
-          (id) => id === (elementA.test as Test)._id.toString()
+          (id) => id === (elementA.test as Test)._id.toString(),
         )
         const testIndexB = TEST_IDS.findIndex(
-          (id) => id === (elementB.test as Test)._id.toString()
+          (id) => id === (elementB.test as Test)._id.toString(),
         )
 
         const testIndexDelta = testIndexA - testIndexB
@@ -106,8 +106,8 @@ export class SinhHoaService extends BaseExportService<ExportSinhHoaRequestDto> {
       await this.sampleService.getSamplesForTestReport(
         TEST_IDS,
         body.startDate,
-        body.endDate
-      )
+        body.endDate,
+      ),
     )
 
     // header
@@ -120,7 +120,7 @@ export class SinhHoaService extends BaseExportService<ExportSinhHoaRequestDto> {
         'Nam',
         'Nữ',
         ...testElements.map(
-          ({ name, test }) => `${(test as Test).name} - ${name}`
+          ({ name, test }) => `${(test as Test).name} - ${name}`,
         ),
         'Ghi chú',
       ],
@@ -135,7 +135,7 @@ export class SinhHoaService extends BaseExportService<ExportSinhHoaRequestDto> {
           .filter(({ testId }) => TEST_IDS.includes(testId))
           .forEach((testResult) => {
             testResult.elements.forEach((elementResult) =>
-              elementResults.push(elementResult)
+              elementResults.push(elementResult),
             )
           })
 
@@ -148,14 +148,14 @@ export class SinhHoaService extends BaseExportService<ExportSinhHoaRequestDto> {
           patient.gender === Gender.Female ? patient.birthYear.toString() : '',
           ...testElements.map((testElement) => {
             const result = elementResults.find(
-              ({ id }) => id === testElement._id
+              ({ id }) => id === testElement._id,
             )
 
             return result?.value ?? ''
           }),
           sample?.isTraBuuDien === true ? 'BĐ' : '',
         ]
-      })
+      }),
     )
 
     return aoaData

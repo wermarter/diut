@@ -2,7 +2,7 @@ import {
   Permission,
   checkPermissionAnyOf,
   checkPermissionAllOf,
-} from '@diut/common'
+} from '@diut/bathanghai-common'
 
 import { appStore, useTypedSelector } from 'src/core'
 import { selectUserPermissions } from '../slice'
@@ -20,7 +20,7 @@ export function useCheckPermissionAllOf(requiredPermissions: Permission[]) {
 }
 
 export function checkPermissionAnyOfSync(
-  requiredPermissions: Permission[] | undefined
+  requiredPermissions: Permission[] | undefined,
 ) {
   const userPermissions = selectUserPermissions(appStore.getState())
 
@@ -28,7 +28,7 @@ export function checkPermissionAnyOfSync(
 }
 
 export function checkPermissionAllOfSync(
-  requiredPermissions: Permission[] | undefined
+  requiredPermissions: Permission[] | undefined,
 ) {
   const userPermissions = selectUserPermissions(appStore.getState())
 

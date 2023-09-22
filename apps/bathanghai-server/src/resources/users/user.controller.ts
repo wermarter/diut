@@ -1,9 +1,8 @@
-import { isAdmin as checkAdmin } from '@diut/common'
+import { isAdmin as checkAdmin } from '@diut/bathanghai-common'
 import { Body, Logger, Param, UnauthorizedException } from '@nestjs/common'
 
-import { AppController } from '@diut/server-core'
+import { AppController, ObjectIdPipe } from '@diut/server-core'
 import { AppRoute } from 'src/common/route.decorator'
-import { ObjectIdPipe } from '@diut/server-core'
 import { CreateUserRequestDto } from './dtos/create-user.request-dto'
 import { SearchUserRequestDto } from './dtos/search-user.request-dto'
 import { UpdateUserRequestDto } from './dtos/update-user.request-dto'
