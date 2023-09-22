@@ -23,5 +23,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build all
+        run: pnpm run -r --parallel build
+
       - name: Lint all
         run: pnpm run -r --parallel lint

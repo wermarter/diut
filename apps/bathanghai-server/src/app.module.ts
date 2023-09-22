@@ -12,13 +12,18 @@ import { AuthModule } from './auth'
 import { AppConfig, loadAppConfig } from './configs/app.config'
 import { MongoConfig, loadMongoConfig } from './configs/mongo.config'
 import { MinioConfig, loadMinioConfig } from './configs/minio.config'
+import { LogConfig, loadLogConfig } from './configs'
 
 const coreModules: ModuleMetadata['imports'] = [
   LogModule.forRootAsync({
-    imports: [ConfigModule.forFeature(loadAppConfig)],
-    inject: [loadAppConfig.KEY],
-    useFactory: async (serviceConfig: AppConfig) => ({
+    imports: [
+      ConfigModule.forFeature(loadAppConfig),
+      ConfigModule.forFeature(loadLogConfig),
+    ],
+    inject: [loadAppConfig.KEY, loadLogConfig.KEY],
+    useFactory: async (serviceConfig: AppConfig, logConfig: LogConfig) => ({
       serviceName: serviceConfig.APP_SERVICE_NAME,
+      lokiUrl: logConfig.LOKI_URL,
     }),
   }),
   MongoModule.forRootAsync({

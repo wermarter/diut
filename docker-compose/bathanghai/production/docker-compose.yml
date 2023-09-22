@@ -6,9 +6,9 @@ services:
       - '8081:80'
 
   server:
-    labels:
-      logging: 'promtail'
-      logging_jobname: 'bathanghai_production_server'
+    # labels:
+    #   logging: 'promtail'
+    #   logging_jobname: 'bathanghai_production_server'
     ports:
       - '5001:5000'
     environment:

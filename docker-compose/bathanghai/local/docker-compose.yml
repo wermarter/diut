@@ -14,9 +14,9 @@ services:
       - '5173:5173'
 
   server:
-    labels:
-      logging: 'promtail'
-      logging_jobname: 'bathanghai_server_local'
+    # labels:
+    #   logging: 'promtail'
+    #   logging_jobname: 'bathanghai_server_local'
     build:
       target: development
     restart: 'no'
