@@ -10,6 +10,8 @@ services:
       - ../../apps/web-app/src:/usr/src/app/apps/web-app/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
+      - ../../libs/bathanghai-common/package.json:/usr/src/app/libs/bathanghai-common/package.json
+      - ../../libs/bathanghai-common/src:/usr/src/app/libs/bathanghai-common/src
     ports:
       - '5173:5173'
 
@@ -30,6 +32,8 @@ services:
       - ../../apps/bathanghai-server/src:/usr/src/app/apps/bathanghai-server/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
+      - ../../libs/bathanghai-common/package.json:/usr/src/app/libs/bathanghai-common/package.json
+      - ../../libs/bathanghai-common/src:/usr/src/app/libs/bathanghai-common/src
     networks:
       diut_monitoring_network:
         aliases:

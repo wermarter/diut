@@ -14,7 +14,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 EXPOSE 5173
 
-CMD pnpm --filter "@diut/common" --filter "@diut/web-app" run --parallel dev
+CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-common" --filter "@diut/web-app" run --parallel dev
 
 ###################
 # BUILD
