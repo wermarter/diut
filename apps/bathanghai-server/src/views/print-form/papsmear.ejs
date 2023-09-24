@@ -60,7 +60,7 @@
     <!-- -------------------------------------------------------------- -->
     <div class="flex flex-row gap-1">
       <img
-        src="http://localhost:9000/public/logo.png"
+        src=<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_PUBLIC_BUCKET}/logo.png` %>
         style="width: 90px; object-fit: contain"
       />
       <div class="text-left ml-1 text-base">
@@ -320,14 +320,14 @@
     <div class="flex flex-row justify-between gap-4">
       <div>
         <img
-          src="<%= `http://localhost:9000/bathanghai-result-image/${results[0].tests[0].elements[32].value}` %>"
+          src="<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_SAMPLE_IMAGES_BUCKET}/${results[0].tests[0].elements[32].value}` %>"
           style="border: 1px solid blue; border-radius: 10px; object-fit: cover; width: 400px; height: 230px;"
         />
       </div>
       <div>
         <div>
           <img
-            src="<%= `http://localhost:9000/bathanghai-result-image/${results[0].tests[0].elements[33].value}` %>"
+            src="<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_SAMPLE_IMAGES_BUCKET}/${results[0].tests[0].elements[33].value}` %>"
             style="border: 1px solid blue; border-radius: 10px; object-fit: cover; width: 400px; height: 230px;"
           />
         </div>

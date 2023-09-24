@@ -1,24 +1,29 @@
-// import { registerAs } from '@nestjs/config'
 import { makeConfigLoader } from '@diut/server-core'
-import { IsNumber, IsOptional, IsString, MinLength } from 'class-validator'
+import { IsNumber, IsString, MinLength } from 'class-validator'
 
 export class MinioConfig {
-  @IsOptional()
   @IsString()
-  @MinLength(3)
-  MINIO_ENDPOINT = 'localhost'
+  @MinLength(1)
+  MINIO_ENDPOINT: string
 
-  @IsOptional()
   @IsNumber()
-  MINIO_PORT = 9000
+  MINIO_PORT: number
 
   @IsString()
-  @MinLength(3)
+  @MinLength(1)
   MINIO_ACCESS_KEY: string
 
   @IsString()
-  @MinLength(3)
+  @MinLength(1)
   MINIO_SECRET_KEY: string
+
+  @IsString()
+  @MinLength(1)
+  MINIO_SAMPLE_IMAGES_BUCKET: string
+
+  @IsString()
+  @MinLength(1)
+  MINIO_PUBLIC_BUCKET: string
 }
 
 export const loadMinioConfig = makeConfigLoader(MinioConfig)

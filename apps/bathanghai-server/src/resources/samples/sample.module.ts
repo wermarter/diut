@@ -13,11 +13,13 @@ import { SampleController } from './sample.controller'
 import { Sample } from './sample.schema'
 import { SampleService } from './sample.service'
 import { loadAppConfig } from 'src/configs/app.config'
+import { loadMinioConfig } from 'src/configs'
 
 @Module({
   imports: [
     ConfigModule.forFeature(loadAppConfig),
-    MongoModule.forFeature([Sample]),
+    ConfigModule.forFeature(loadMinioConfig),
+    MongoModule.forFeature(Sample),
     DoctorModule,
     IndicationModule,
     forwardRef(() => PatientModule),

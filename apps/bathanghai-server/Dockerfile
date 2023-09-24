@@ -18,6 +18,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
+RUN corepack prepare pnpm@8.7.6 --activate
 RUN corepack enable
 
 COPY . /usr/src/app
@@ -32,7 +33,7 @@ FROM base AS development
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
-CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-common" --filter "@diut/bathanghai-server" run --parallel dev
+CMD pnpm --filter "@diut/bathanghai-server..." run --parallel dev
 
 ###################
 # build 
@@ -40,7 +41,8 @@ CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-common" --filter "@d
 
 FROM development AS build
 
-RUN pnpm run -r build
+CMD pnpm --filter "@diut/bathanghai-server..." run build
+
 RUN pnpm prune --prod
 
 ###################

@@ -3,6 +3,7 @@ import {
   Model,
   PipelineStage,
   QueryOptions,
+  Require_id,
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
@@ -14,10 +15,25 @@ import { BaseSchema } from './mongo.common'
 export abstract class MongoRepository<Entity extends BaseSchema> {
   constructor(private readonly model: Model<Entity>) {}
 
+  private cleanEntity(object: Require_id<Entity>) {
+    if (object == null) {
+      return object
+    }
+
+    // stringify ID
+    const id = object._id.toString()
+    object._id = id
+
+    // @ts-ignore
+    delete object.__v!
+
+    return object
+  }
+
   public async findById(id: string): Promise<Entity> {
     const item = await this.model.findById(id).exec()
 
-    return item?.toObject<Entity>() ?? null
+    return this.cleanEntity(item?.toObject<Entity>()) ?? null
   }
 
   public async findOne(options?: {
@@ -38,7 +54,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
 
     const item = await query.exec()
 
-    return item?.toObject<Entity>() ?? null
+    return this.cleanEntity(item?.toObject<Entity>()) ?? null
   }
 
   public async exists(filter: FilterQuery<Entity>): Promise<boolean> {
@@ -48,7 +64,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
   public async create(data: Omit<Entity, keyof BaseSchema>): Promise<Entity> {
     const item = await this.model.create(data)
 
-    return item.toObject<Entity>()
+    return this.cleanEntity(item.toObject<Entity>())
   }
 
   public async count(filter: FilterQuery<Entity>): Promise<number> {
@@ -119,7 +135,8 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
       total,
       offset,
       limit,
-      items: items.map((item) => item.toObject<Entity>()) ?? [],
+      items:
+        items.map((item) => this.cleanEntity(item.toObject<Entity>())) ?? [],
     }
   }
 
@@ -130,7 +147,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
   ): Promise<Entity> {
     const item = await this.model.findByIdAndUpdate(id, data, options).exec()
 
-    return item?.toObject<Entity>() ?? null
+    return this.cleanEntity(item?.toObject<Entity>()) ?? null
   }
 
   public async update(
@@ -140,7 +157,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
   ): Promise<Entity> {
     const item = await this.model.findOneAndUpdate(filter, data, options).exec()
 
-    return item?.toObject<Entity>() ?? null
+    return this.cleanEntity(item?.toObject<Entity>()) ?? null
   }
 
   public async updateMany(
@@ -154,7 +171,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
   public async deleteById(id: string): Promise<Entity> {
     const item = await this.model.findByIdAndDelete(id).exec()
 
-    return item?.toObject<Entity>() ?? null
+    return this.cleanEntity(item?.toObject<Entity>()) ?? null
   }
 
   public async deleteMany(filter: FilterQuery<Entity>): Promise<DeleteResult> {

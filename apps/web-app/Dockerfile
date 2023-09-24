@@ -4,17 +4,21 @@
 
 FROM node:20-alpine AS development
 
-WORKDIR /usr/src/app
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
-COPY . .
-
+RUN corepack prepare pnpm@8.7.6 --activate
 RUN corepack enable
+
+COPY . /usr/src/app
+
+WORKDIR /usr/src/app
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
-EXPOSE 5173
+CMD pnpm --filter "@diut/web-app..." run --parallel dev
 
-CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-common" --filter "@diut/web-app" run --parallel dev
+EXPOSE 5173
 
 ###################
 # BUILD
@@ -22,7 +26,7 @@ CMD pnpm --filter "@diut/common" --filter "@diut/bathanghai-common" --filter "@d
 
 FROM development AS build
 
-CMD pnpm --filter "@diut/common" --filter "@diut/web-app" run --stream build
+CMD pnpm --filter "@diut/web-app..." run build
 
 ###################
 # FINAL

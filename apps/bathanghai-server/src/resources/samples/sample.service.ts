@@ -40,6 +40,7 @@ import { getPatientCategory, UPLOAD_CONFIG } from './sample.common'
 import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
 import { AuthTokenPayload } from 'src/auth'
 import { AppConfig, loadAppConfig } from 'src/configs/app.config'
+import { loadMinioConfig, MinioConfig } from 'src/configs'
 
 @Injectable()
 export class SampleService
@@ -62,6 +63,7 @@ export class SampleService
     private readonly sampleTypeService: SampleTypeService,
     private readonly printFormService: PrintFormService,
     private readonly minioService: MinioService,
+    @Inject(loadMinioConfig.KEY) private readonly minioConfig: MinioConfig,
   ) {
     super(model)
   }
@@ -144,20 +146,23 @@ export class SampleService
     }
 
     await this.minioService.client.putObject(
-      UPLOAD_CONFIG.BUCKET,
+      this.minioConfig.MINIO_SAMPLE_IMAGES_BUCKET,
       filename,
       file.buffer,
       metaData,
     )
 
     return {
-      bucket: UPLOAD_CONFIG.BUCKET,
+      bucket: this.minioConfig.MINIO_SAMPLE_IMAGES_BUCKET,
       path: filename,
     }
   }
 
   async downloadFile({ path }: SampleDownloadRequestDto) {
-    return await this.minioService.client.getObject(UPLOAD_CONFIG.BUCKET, path)
+    return await this.minioService.client.getObject(
+      this.minioConfig.MINIO_SAMPLE_IMAGES_BUCKET,
+      path,
+    )
   }
 
   async updateSampleInfo(

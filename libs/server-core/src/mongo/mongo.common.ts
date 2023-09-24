@@ -47,9 +47,7 @@ export const baseSchemaOptions: SchemaOptions = {
 }
 
 export class BaseSchema {
-  get _id(): string {
-    return this._id.toString()
-  }
+  _id: string
 
   createdAt: Date
   updatedAt: Date

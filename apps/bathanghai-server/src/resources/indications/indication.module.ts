@@ -6,7 +6,7 @@ import { Indication } from './indication.schema'
 import { IndicationService } from './indication.service'
 
 @Module({
-  imports: [MongoModule.forFeature([Indication])],
+  imports: [MongoModule.forFeature(Indication)],
   providers: [IndicationService],
   controllers: [IndicationController],
   exports: [IndicationService],

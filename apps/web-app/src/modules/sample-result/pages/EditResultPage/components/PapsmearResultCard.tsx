@@ -205,7 +205,7 @@ export const PapsmearResultCard = ({
         {generateCheckboxes(belowTitleElements)}
       </Paper>
       <Box sx={{ display: 'flex' }}>
-        <Box>
+        <Box sx={{ flexGrow: 1 }}>
           <Paper sx={{ p: 1, my: 1, mr: 1 }} variant="outlined">
             <FormGroup>
               <FormLabel>TB Vi sinh:</FormLabel>
@@ -219,7 +219,7 @@ export const PapsmearResultCard = ({
             </FormGroup>
           </Paper>
         </Box>
-        <Box>
+        <Box sx={{ flexGrow: 1 }}>
           <Paper sx={{ p: 1, my: 1 }} variant="outlined">
             <FormGroup>
               <FormLabel>TB Gai:</FormLabel>

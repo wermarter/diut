@@ -7,7 +7,7 @@ import { Patient } from './patient.schema'
 import { PatientService } from './patient.service'
 
 @Module({
-  imports: [MongoModule.forFeature([Patient]), forwardRef(() => SampleModule)],
+  imports: [MongoModule.forFeature(Patient), forwardRef(() => SampleModule)],
   providers: [PatientService],
   controllers: [PatientController],
   exports: [PatientService],

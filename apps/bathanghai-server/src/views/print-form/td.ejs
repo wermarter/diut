@@ -61,7 +61,7 @@
       <div class="flex flex-col">
         <div class="flex flex-row">
           <img
-            src="http://localhost:9000/public/logo.png"
+            src=<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_PUBLIC_BUCKET}/logo.png` %>
             style="width: 90px; object-fit: contain"
           />
           <div class="text-center ml-1 text-base">

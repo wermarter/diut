@@ -12,5 +12,12 @@
   "devDependencies": {
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "dev": "pnpm --filter \"./libs/**\" run --parallel dev:local",
+    "postinstall": "syncpack list-mismatches"
+  },
+  "dependencies": {
+    "syncpack": "^11.2.1"
   }
 }

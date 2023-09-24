@@ -7,8 +7,6 @@ import {
 import { ClassConstructor } from 'class-transformer'
 import mongoose from 'mongoose'
 
-import { BaseSchema } from './mongo.common'
-
 export type MongoModuleExtraOptions = {}
 
 type MongoModuleOptions = Omit<
@@ -61,15 +59,23 @@ export class MongoModule {
     })
   }
 
-  static forFeature(SchemaClasses: ClassConstructor<BaseSchema>[]) {
-    return MongooseModule.forFeatureAsync(
-      SchemaClasses.map((SchemaClass) => ({
+  static forFeature(
+    SchemaClass: ClassConstructor<unknown>,
+    useAutopopulate = false,
+  ) {
+    return MongooseModule.forFeatureAsync([
+      {
         name: SchemaClass.name,
         useFactory: () => {
           const schema = SchemaFactory.createForClass(SchemaClass)
+
+          if (useAutopopulate === true) {
+            schema.plugin(require('mongoose-autopopulate'))
+          }
+
           return schema
         },
-      })),
-    )
+      },
+    ])
   }
 }

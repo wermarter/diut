@@ -1,3 +1,6 @@
+// import { BATHANGHAI_COMMON } from '@diut/bathanghai-common'
+// import { COMMON_TEST } from '@diut/common'
+
 export default function HomePage() {
   return (
     <iframe
@@ -5,5 +8,9 @@ export default function HomePage() {
       style={{ width: '100%', height: '100%' }}
       frameBorder="0"
     ></iframe>
+    // <h1>
+    //   {COMMON_TEST}
+    //   {BATHANGHAI_COMMON}
+    // </h1>
   )
 }

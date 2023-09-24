@@ -1,6 +1,5 @@
 {
   "name": "@diut/bathanghai-common",
-  "version": "1.0.0",
   "description": "Common constants, enums, types and utils shared in this project",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",

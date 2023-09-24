@@ -1,6 +1,5 @@
 {
   "name": "@diut/server-core",
-  "version": "1.0.0",
   "description": "server-core",
   "repository": "https://github.com/wermarter/diut",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
@@ -19,7 +18,7 @@
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.2.6",
     "@nestjs/mongoose": "^10.0.1",
-    "@nestjs/swagger": "^7.1.8",
+    "@nestjs/swagger": "^7.1.12",
     "@opentelemetry/api": "1.4.1",
     "@opentelemetry/auto-instrumentations-node": "^0.36.6",
     "@opentelemetry/context-async-hooks": "^1.12.0",

@@ -6,7 +6,7 @@ import { Doctor } from './doctor.schema'
 import { DoctorService } from './doctor.service'
 
 @Module({
-  imports: [MongoModule.forFeature([Doctor])],
+  imports: [MongoModule.forFeature(Doctor)],
   providers: [DoctorService],
   controllers: [DoctorController],
   exports: [DoctorService],

@@ -6,7 +6,7 @@ import { BioProduct } from './bio-product.schema'
 import { BioProductService } from './bio-product.service'
 
 @Module({
-  imports: [MongoModule.forFeature([BioProduct])],
+  imports: [MongoModule.forFeature(BioProduct)],
   providers: [BioProductService],
   controllers: [BioProductController],
   exports: [BioProductService],

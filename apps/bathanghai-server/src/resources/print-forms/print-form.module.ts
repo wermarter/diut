@@ -6,7 +6,7 @@ import { PrintForm } from './print-form.schema'
 import { PrintFormService } from './print-form.service'
 
 @Module({
-  imports: [MongoModule.forFeature([PrintForm])],
+  imports: [MongoModule.forFeature(PrintForm)],
   providers: [PrintFormService],
   controllers: [PrintFormController],
   exports: [PrintFormService],

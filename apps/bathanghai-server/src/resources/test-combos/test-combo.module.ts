@@ -6,7 +6,7 @@ import { TestCombo } from './test-combo.schema'
 import { TestComboService } from './test-combo.service'
 
 @Module({
-  imports: [MongoModule.forFeature([TestCombo])],
+  imports: [MongoModule.forFeature(TestCombo)],
   providers: [TestComboService],
   controllers: [TestComboController],
   exports: [TestComboService],

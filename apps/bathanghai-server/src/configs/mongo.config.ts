@@ -1,4 +1,3 @@
-// import { registerAs } from '@nestjs/config'
 import { makeConfigLoader } from '@diut/server-core'
 import { IsString, MinLength } from 'class-validator'
 

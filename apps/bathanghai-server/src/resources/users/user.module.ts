@@ -6,7 +6,7 @@ import { User } from './user.schema'
 import { UserService } from './user.service'
 
 @Module({
-  imports: [MongoModule.forFeature([User])],
+  imports: [MongoModule.forFeature(User)],
   providers: [UserService],
   controllers: [UserController],
   exports: [UserService],

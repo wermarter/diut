@@ -6,7 +6,7 @@ import { Test } from './test.schema'
 import { TestService } from './test.service'
 
 @Module({
-  imports: [MongoModule.forFeature([Test])],
+  imports: [MongoModule.forFeature(Test, true)],
   providers: [TestService],
   controllers: [TestController],
   exports: [TestService],
