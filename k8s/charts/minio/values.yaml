@@ -1,0 +1,9 @@
+minio:
+  fullnameOverride: diut-common-minio
+  auth:
+    rootUser: minioadmin
+    rootPassword: minioadmin
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hostname: localhost
