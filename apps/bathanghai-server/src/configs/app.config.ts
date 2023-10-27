@@ -8,7 +8,7 @@ export class AppConfig {
 
   @IsString()
   @MinLength(3)
-  APP_SERVICE_NAME: string
+  SERVICE_NAME: string
 
   @IsEnum(NodeEnv)
   NODE_ENV: NodeEnv

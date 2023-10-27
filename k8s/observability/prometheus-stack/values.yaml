@@ -35,10 +35,6 @@ kube-prometheus-stack:
 
   kubeControllerManager:
     enabled: true
-    # endpoints: # ips of servers
-    #   - 192.168.30.38
-    #   - 192.168.30.39
-    #   - 192.168.30.40
 
   coreDns:
     enabled: true
@@ -47,29 +43,13 @@ kube-prometheus-stack:
     enabled: false
 
   kubeEtcd:
-    enabled: true
-    # endpoints: # ips of servers
-    # - 192.168.30.38
-    # - 192.168.30.39
-    # - 192.168.30.40
-    # service:
-    #   enabled: true
-    #   port: 2381
-    #   targetPort: 2381
+    enabled: false
 
   kubeScheduler:
     enabled: true
-    # endpoints: # ips of servers
-    #   - 192.168.30.38
-    #   - 192.168.30.39
-    #   - 192.168.30.40
 
   kubeProxy:
     enabled: true
-    # endpoints: # ips of servers
-    #   - 192.168.30.38
-    #   - 192.168.30.39
-    #   - 192.168.30.40
 
   kubeStateMetrics:
     enabled: true
@@ -145,7 +125,7 @@ kube-prometheus-stack:
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
-      retention: 6h
+      retention: 12h
       enableAdminAPI: true
       walCompression: true
 

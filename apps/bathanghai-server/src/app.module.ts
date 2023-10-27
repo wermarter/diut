@@ -20,8 +20,8 @@ const coreModules: ModuleMetadata['imports'] = [
       ConfigModule.forFeature(loadLogConfig),
     ],
     inject: [loadAppConfig.KEY, loadLogConfig.KEY],
-    useFactory: async (serviceConfig: AppConfig, logConfig: LogConfig) => ({
-      serviceName: serviceConfig.APP_SERVICE_NAME,
+    useFactory: async (appConfig: AppConfig, logConfig: LogConfig) => ({
+      serviceName: appConfig.SERVICE_NAME,
       lokiUrl: logConfig.LOKI_URL,
     }),
   }),

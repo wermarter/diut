@@ -25,12 +25,13 @@ export async function bootstrapApp(
 ) {
   const bootstrapContext = clone(context)
   let initOptions: NestApplicationContextOptions = {}
+  const beforeInitHooks: BootstrapConfig['beforeInit'][] = []
   const afterInitHooks: BootstrapConfig['afterInit'][] = []
   const onExitHooks: BootstrapConfig['onExit'][] = []
 
   for (const bootstrapConfig of bootstrapConfigs) {
     if (bootstrapConfig.beforeInit !== undefined) {
-      await bootstrapConfig.beforeInit(bootstrapContext)
+      beforeInitHooks.push(bootstrapConfig.beforeInit)
     }
     if (bootstrapConfig.initOptions !== undefined) {
       initOptions = merge(initOptions, bootstrapConfig.initOptions)
@@ -41,6 +42,12 @@ export async function bootstrapApp(
     if (bootstrapConfig.onExit !== undefined) {
       onExitHooks.push(bootstrapConfig.onExit)
     }
+  }
+
+  // START
+
+  for (const beforeInitHook of beforeInitHooks) {
+    await beforeInitHook(bootstrapContext)
   }
 
   const app = await NestFactory.create(AppModule, initOptions)
