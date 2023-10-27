@@ -1,0 +1,56 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: diut-common-mongodb-0-ingress
+  namespace: diut
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: primary.mongodb.diut.k8s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: diut-common-mongodb-0-svc
+                port:
+                  name: mongodb
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: diut-common-mongodb-1-ingress
+  namespace: diut
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: secondary-0.mongodb.diut.k8s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: diut-common-mongodb-1-svc
+                port:
+                  name: mongodb
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: diut-common-mongodb-2-ingress
+  namespace: diut
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: secondary-1.mongodb.diut.k8s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: diut-common-mongodb-2-svc
+                port:
+                  name: mongodb

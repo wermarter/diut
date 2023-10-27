@@ -6,4 +6,4 @@ minio:
   ingress:
     enabled: true
     ingressClassName: traefik
-    hostname: localhost
+    hostname: minio.diut.k8s.local

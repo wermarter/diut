@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: diut-common-mongodb-0-svc
+  namespace: diut
+spec:
+  selector:
+    statefulset.kubernetes.io/pod-name: diut-common-mongodb-0
+  ports:
+    - name: mongodb
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: diut-common-mongodb-1-svc
+  namespace: diut
+spec:
+  selector:
+    statefulset.kubernetes.io/pod-name: diut-common-mongodb-1
+  ports:
+    - name: mongodb
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: diut-common-mongodb-2-svc
+  namespace: diut
+spec:
+  selector:
+    statefulset.kubernetes.io/pod-name: diut-common-mongodb-2
+  ports:
+    - name: mongodb
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
