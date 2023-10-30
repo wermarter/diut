@@ -1,12 +1,19 @@
 mongodb:
-  fullnameOverride: diut-common-mongodb
-  replicaCount: 3
-  architecture: replicaset
+  fullnameOverride: diut-mongodb
   auth:
-    rootUser: chien
-    rootPassword: password
+    rootUser: root
+    existingSecret: mongodb-credentials
+
+  architecture: replicaset
+  replicaCount: 3
   arbiter:
     enabled: false
+
+  externalAccess:
+    enabled: true
+    service:
+      type: ClusterIP
+
   metrics:
     enabled: true
     serviceMonitor:

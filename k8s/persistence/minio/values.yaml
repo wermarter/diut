@@ -1,8 +1,7 @@
 minio:
-  fullnameOverride: diut-common-minio
+  fullnameOverride: diut-minio
   auth:
-    rootUser: minioadmin
-    rootPassword: minioadmin
+    existingSecret: minio-credentials
   ingress:
     enabled: true
     ingressClassName: traefik

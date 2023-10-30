@@ -2,7 +2,9 @@
 import * as mongoose from 'mongoose'
 ;(async function testConnection() {
   await mongoose
-    .createConnection('mongodb://primary.mongodb.diut.k8s.local:8081')
+    .createConnection(
+      'mongodb://root:password@localhost:27017/?retryWrites=true&authSource=admin&authMechanism=SCRAM-SHA-256&directConnection=true',
+    )
     .asPromise()
   console.log('Connected to MongoDB')
 })()
