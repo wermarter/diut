@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - mongodb
   routes:
-    - match: HostSNI("*") # mongodb.diut.k8s.local
+    - match: HostSNI("*")
       services:
         - name: diut-mongodb-0
           port: mongodb

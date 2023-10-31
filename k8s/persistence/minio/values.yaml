@@ -1,8 +1,0 @@
-minio:
-  fullnameOverride: diut-minio
-  auth:
-    existingSecret: minio-credentials
-  ingress:
-    enabled: true
-    ingressClassName: traefik
-    hostname: minio.diut.k8s.local

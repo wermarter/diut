@@ -1,0 +1,23 @@
+minio:
+  fullnameOverride: diut-minio
+  auth:
+    existingSecret: minio-credentials
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hostname: minio.diut.k8s.local
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web
+  metrics:
+    serviceMonitor:
+      enabled: true
+      jobLabel: diut-minio
+      namespace: observability
+    prometheusRule:
+      enabled: true
+      namespace: observability
+  persistence:
+    size: 8Gi
+  extraEnvVars:
+    - name: MINIO_PROMETHEUS_URL
+      value: http://prometheus-operated.observability.svc.cluster.local:9090
