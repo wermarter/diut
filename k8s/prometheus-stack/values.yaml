@@ -28,10 +28,6 @@ kube-prometheus-stack:
         traefik.ingress.kubernetes.io/router.entrypoints: web
     persistence:
       enabled: true
-      type: pvc
-      storageClassName: default
-      accessModes:
-        - ReadWriteOnce
       size: 4Gi
 
   kubeApiServer:
