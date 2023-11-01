@@ -1,3 +1,3 @@
-ns observability: loki, prometheus-stack
-ns diut: mongodb, minio
-ns diut-bathanghai: server, client
+observability: loki, prometheus-stack
+diut: mongodb, minio
+diut-bathanghai: access-service, web-app

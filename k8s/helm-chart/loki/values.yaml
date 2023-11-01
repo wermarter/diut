@@ -11,7 +11,7 @@ loki:
         admin: loki-admin
       type: s3
       s3:
-        endpoint: http://diut-minio.diut.svc.cluster.local:9000
+        endpoint: http://minio.diut.svc.cluster.local:9000
         region: ap-southeast-1
         secretAccessKey: ${LOKI_MINIO_SECRET_KEY}
         accessKeyId: ${LOKI_MINIO_ACCESS_KEY}

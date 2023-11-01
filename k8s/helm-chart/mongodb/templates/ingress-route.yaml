@@ -9,5 +9,5 @@ spec:
   routes:
     - match: HostSNI("*")
       services:
-        - name: diut-mongodb-0
+        - name: mongodb-0
           port: mongodb

@@ -1,5 +1,5 @@
 mongodb:
-  fullnameOverride: diut-mongodb
+  fullnameOverride: mongodb
   auth:
     rootUser: root
     existingSecret: mongodb-credentials
