@@ -20,4 +20,6 @@ minio:
     size: 8Gi
   extraEnvVars:
     - name: MINIO_PROMETHEUS_URL
-      value: http://prometheus-operated.observability.svc.cluster.local:9090
+      value: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090
+    - name: MINIO_PROMETHEUS_JOB_ID
+      value: diut-minio

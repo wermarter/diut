@@ -1,0 +1,12 @@
+apiVersion: 12
+datasources:
+  - name: Loki
+    type: loki
+    uid: loki
+    access: proxy
+    orgId: 1
+    url: http://loki-gateway.observability
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false
