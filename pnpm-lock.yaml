@@ -93,9 +93,6 @@ importers:
       mongoose:
         specifier: ^7.5.2
         version: 7.5.2
-      mongoose-autopopulate:
-        specifier: ^1.0.1
-        version: 1.0.1(mongoose@7.5.2)
       nestjs-minio-client:
         specifier: ^2.1.0
         version: 2.1.0
@@ -422,6 +419,9 @@ importers:
       mongoose:
         specifier: ^7.5.2
         version: 7.5.2
+      mongoose-autopopulate:
+        specifier: ^1.0.1
+        version: 1.0.1(mongoose@7.5.2)
       nest-winston:
         specifier: ^1.9.4
         version: 1.9.4(@nestjs/common@10.2.6)(winston@3.10.0)

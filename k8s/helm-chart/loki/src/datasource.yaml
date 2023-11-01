@@ -5,7 +5,7 @@ datasources:
     uid: loki
     access: proxy
     orgId: 1
-    url: http://loki-gateway.observability
+    url: http://loki-gateway.observability.svc.cluster.local
     basicAuth: false
     isDefault: false
     version: 1

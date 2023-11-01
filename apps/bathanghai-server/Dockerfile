@@ -6,7 +6,7 @@ FROM node:20-alpine AS base
 
 RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-RUN echo "Asia/Ho_Chi_Minh" >  /etc/timezone
+RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
 RUN apk add --no-cache chromium
 RUN apk add --no-cache msttcorefonts-installer fontconfig && \
@@ -43,7 +43,7 @@ CMD pnpm --filter "@diut/bathanghai-server..." run --parallel dev
 
 FROM development AS build
 
-CMD pnpm --filter "@diut/bathanghai-server..." run build
+RUN pnpm --filter "@diut/bathanghai-server..." run build
 
 RUN pnpm prune --prod
 
@@ -72,6 +72,8 @@ USER node
 WORKDIR /usr/src/app
 
 COPY --from=build /usr/src/app .
+
+COPY ./apps/bathanghai-server/.env .
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
