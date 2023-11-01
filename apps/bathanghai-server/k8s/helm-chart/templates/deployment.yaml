@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "bathanghai-server.fullname" . }}
+  name: {{ include "this.fullname" . }}
   labels:
-    {{- include "bathanghai-server.labels" . | nindent 4 }}
+    {{- include "this.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "bathanghai-server.selectorLabels" . | nindent 6 }}
+      {{- include "this.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "bathanghai-server.selectorLabels" . | nindent 8 }}
+        {{- include "this.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "bathanghai-server.serviceAccountName" . }}
+      serviceAccountName: {{ include "this.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
