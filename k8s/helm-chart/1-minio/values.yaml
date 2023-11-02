@@ -1,5 +1,4 @@
 minio:
-  fullnameOverride: diut-minio
   auth:
     existingSecret: minio-credentials
   ingress:
@@ -23,3 +22,4 @@ minio:
       value: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090
     - name: MINIO_PROMETHEUS_JOB_ID
       value: diut-minio
+  defaultBuckets: 'loki-chunks, loki-ruler, loki-admin'

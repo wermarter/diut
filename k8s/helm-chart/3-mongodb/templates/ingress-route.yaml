@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRouteTCP
 metadata:
-  name: diut-mongodb-ingress
+  name: mongodb-primary
   namespace: diut
 spec:
   entryPoints:
