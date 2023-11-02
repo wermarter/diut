@@ -8,7 +8,7 @@ image:
   repository: k3d-registry:5000/diut_bathanghai_server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: '6'
+  tag: ''
 
 imagePullSecrets: []
 nameOverride: ''
@@ -82,3 +82,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+envFrom:
+  - configMapRef:
+      name: access-service-config

@@ -73,8 +73,6 @@ WORKDIR /usr/src/app
 
 COPY --from=build /usr/src/app .
 
-COPY ./apps/bathanghai-server/.env .
-
 ENTRYPOINT ["/sbin/tini", "--"]
 
 CMD ["node", "./apps/bathanghai-server/dist/main.js"]

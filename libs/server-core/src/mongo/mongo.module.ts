@@ -6,6 +6,12 @@ import {
 } from '@nestjs/mongoose'
 import { ClassConstructor } from 'class-transformer'
 import mongoose from 'mongoose'
+import { merge } from 'lodash'
+
+const defaultOptions: MongooseModuleOptions = {
+  retryAttempts: 1,
+  directConnection: true,
+}
 
 export type MongoModuleExtraOptions = {}
 
@@ -32,7 +38,8 @@ export class MongoModule {
       imports,
       inject,
       useFactory: async (...args) => {
-        const options = await useFactory(...args)
+        const userOptions = await useFactory(...args)
+        const options = merge(defaultOptions, userOptions)
 
         const logger = new Logger(MongoModule.name)
         mongoose.set('autoIndex', false)
