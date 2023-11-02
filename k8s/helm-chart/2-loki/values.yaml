@@ -22,6 +22,10 @@ loki:
   monitoring:
     lokiCanary:
       enabled: false
+    selfMonitoring:
+      enabled: false
+      grafanaAgent:
+        installOperator: false
   backend:
     replicas: 1
     extraArgs:

@@ -10,7 +10,7 @@ minio:
   metrics:
     serviceMonitor:
       enabled: true
-      jobLabel: diut-minio
+      jobLabel: minio
       namespace: observability
     prometheusRule:
       enabled: true
@@ -21,5 +21,5 @@ minio:
     - name: MINIO_PROMETHEUS_URL
       value: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090
     - name: MINIO_PROMETHEUS_JOB_ID
-      value: diut-minio
+      value: minio
   defaultBuckets: 'loki-chunks, loki-ruler, loki-admin'
