@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: k3d-registry:5000/diut_bathanghai_server
+  repository: k3d-registry:5000/diut_bathanghai_web
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ''
@@ -40,7 +40,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 5000
+  port: 80
 
 ingress:
   enabled: true
@@ -50,7 +50,7 @@ ingress:
   hosts:
     - host: gateway.diut-bathanghai.svc.cluster.local
       paths:
-        - path: /api
+        - path: /
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
@@ -83,6 +83,4 @@ tolerations: []
 
 affinity: {}
 
-envFrom:
-  - configMapRef:
-      name: access-service-config
+envFrom: []

@@ -33,7 +33,9 @@ FROM base AS development
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
-# build deps?
+RUN pnpm --filter "@diut/bathanghai-server..." run build
+
+RUN cp -R ./apps/bathanghai-server/src/views/* ./apps/bathanghai-server/dist/views 
 
 CMD pnpm --filter "@diut/bathanghai-server..." run --parallel dev
 
@@ -42,8 +44,6 @@ CMD pnpm --filter "@diut/bathanghai-server..." run --parallel dev
 ###################
 
 FROM development AS build
-
-RUN pnpm --filter "@diut/bathanghai-server..." run build
 
 RUN pnpm prune --prod
 

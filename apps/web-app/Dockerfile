@@ -16,6 +16,8 @@ WORKDIR /usr/src/app
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
+RUN pnpm --filter "@diut/web-app^..." run build
+
 CMD pnpm --filter "@diut/web-app..." run --parallel dev
 
 EXPOSE 5173
@@ -26,13 +28,13 @@ EXPOSE 5173
 
 FROM development AS build
 
-CMD pnpm --filter "@diut/web-app..." run build
+RUN pnpm --filter "@diut/web-app" run build
 
 ###################
 # FINAL
 ###################
 
-FROM nginx:alpine AS final
+FROM nginx:alpine AS production
 
 COPY --from=build /usr/src/app/apps/web-app/dist /usr/share/nginx/html
 
