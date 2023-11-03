@@ -1,0 +1,14 @@
+argo-cd:
+  configs:
+    params:
+      server.insecure: true
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: 'traefik'
+      hosts:
+        - argo-cd-argocd-server.core.svc.cluster.local
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: web
+  crds:
+    keep: false
