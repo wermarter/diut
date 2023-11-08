@@ -1,1 +1,1 @@
-k3d cluster create cluster --api-port 6443 --agents 2 --registry-create k3d-registry:0.0.0.0:5000 --image rancher/k3s:v1.28.2-k3s1
+k3d cluster create cluster --api-port 6443 --agents 2 --registry-create k3d-registry:0.0.0.0:5000 --image rancher/k3s:v1.28.2-k3s1 --port 80:80@loadbalancer --port 27017:27017@loadbalancer
