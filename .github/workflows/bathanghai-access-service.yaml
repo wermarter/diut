@@ -23,14 +23,19 @@ jobs:
         with:
           cmd: yq -i '.appVersion = "${{ github.run_number }}"' './apps/bathanghai-server/k8s/helm-chart/Chart.yaml'
 
-      - name: Commit code
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add ./apps/bathanghai-server/k8s/helm-chart/Chart.yaml
-          git commit -m "Increment Helm Chart Version" -m "[skip ci]"
+      # - name: Commit code
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add ./apps/bathanghai-server/k8s/helm-chart/Chart.yaml
+      #     git commit -m "Increment Helm Chart Version" -m "[skip ci]"
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Increment Helm Chart Version
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
