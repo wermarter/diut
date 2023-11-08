@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: k3d-registry:5000/diut_bathanghai_server
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ''
 

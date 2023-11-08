@@ -2,6 +2,7 @@ mongodb:
   fullnameOverride: mongodb
   auth:
     rootUser: root
+    rootPassword: password
     existingSecret: mongodb-credentials
 
   architecture: replicaset
@@ -9,10 +10,22 @@ mongodb:
   arbiter:
     enabled: false
 
+  replicaSetHostnames: false
   externalAccess:
     enabled: true
     service:
       type: ClusterIP
+
+  replicaSetConfigurationSettings:
+    enabled: true
+    configuration:
+      members:
+        - _id: 0
+          host: mongodb-0.diut.svc.cluster.local
+        - _id: 1
+          host: mongodb-1.diut.svc.cluster.local
+        - _id: 2
+          host: mongodb-2.diut.svc.cluster.local
 
   metrics:
     enabled: true

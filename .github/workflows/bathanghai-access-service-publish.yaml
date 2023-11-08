@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - develop # main
+    paths:
+      - apps/access-server/**
 
 jobs:
   increment-version:
