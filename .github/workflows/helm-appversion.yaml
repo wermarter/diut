@@ -6,9 +6,12 @@ on:
       chart-path:
         required: true
         type: string
+      identity:
+        required: true
+        type: string
 
 jobs:
-  update-helm-appversion:
+  helm-appversion:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
@@ -21,7 +24,7 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore(helm): update appVersion'
+          commit_message: 'chore(helm): update ${{ inputs.identity }} appVersion'
 
       - name: Push changes
         uses: ad-m/github-push-action@master

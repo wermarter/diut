@@ -1,4 +1,4 @@
-name: deploy bathanghai access-service
+name: bathanghai-access-service
 
 on:
   workflow_dispatch:
@@ -21,4 +21,5 @@ jobs:
     uses: ./.github/workflows/update-helm-appversion.yaml
     with:
       chart-path: ./apps/bathanghai-server/k8s/helm-chart/Chart.yaml
+      identity: bathanghai-access-service
     secrets: inherit
