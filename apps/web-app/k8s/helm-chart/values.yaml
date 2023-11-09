@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: k3d-registry:5000/diut_bathanghai_web
+  repository: wermarter/diut-bathanghai-web-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ''
