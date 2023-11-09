@@ -2,8 +2,7 @@ mongodb:
   fullnameOverride: mongodb
   auth:
     rootUser: root
-    # rootPassword: password
-    # existingSecret: mongodb-credentials
+    existingSecret: mongodb-credentials
 
   architecture: replicaset
   replicaCount: 3
