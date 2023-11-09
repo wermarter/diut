@@ -1,6 +1,7 @@
 name: deploy bathanghai access-service
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - develop # main
