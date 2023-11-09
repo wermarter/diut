@@ -1,28 +1,29 @@
 name: update Helm appVersion
 
 on:
-  push:
-    branches:
-      - develop # main
-    paths:
-      - apps/access-server/**
+  workflow_call:
+    inputs:
+      chart-path:
+        required: true
+        type: string
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  increment-version:
+  update-helm-appversion:
     runs-on: ubuntu-22.04
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set foobar to cool
+      - name: Edit Chart.yaml file
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.appVersion = "${{ github.run_number }}"' './apps/bathanghai-server/k8s/helm-chart/Chart.yaml'
+          cmd: yq -i '.appVersion = "${{ github.run_number }}"' ${{ inputs.chart-path }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore: update Helm appVersion'
+          commit_message: 'chore(helm): update appVersion'
 
       - name: Push changes
         uses: ad-m/github-push-action@master

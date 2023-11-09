@@ -1,0 +1,24 @@
+name: deploy bathanghai access-service
+
+on:
+  push:
+    branches:
+      - develop # main
+    paths:
+      - 'apps/bathanghai-server/**'
+
+jobs:
+  docker-publish:
+    needs: main
+    uses: ./.github/workflows/reusable/docker-publish.yaml
+    with:
+      dockerfile-path: ./apps/bathanghai-server/Dockerfile
+      docker-image-name: diut-bathanghai-access-service
+    secrets: inherit
+
+  update-helm-appversion:
+    needs: docker-publish
+    uses: ./.github/workflows/reusable/update-helm-appversion.yaml
+    with:
+      chart-path: ./apps/bathanghai-server/k8s/helm-chart/Chart.yaml
+    secrets: inherit
