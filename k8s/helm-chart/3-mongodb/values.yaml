@@ -11,10 +11,10 @@ mongodb:
     enabled: false
 
   # replicaSetHostnames: false
-  externalAccess:
-    enabled: true
-    service:
-      type: ClusterIP
+  # externalAccess:
+  #   enabled: true
+  #   service:
+  #     type: ClusterIP
 
   # replicaSetConfigurationSettings:
   #   enabled: true
