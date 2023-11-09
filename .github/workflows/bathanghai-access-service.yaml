@@ -10,7 +10,6 @@ on:
 
 jobs:
   docker-publish:
-    needs: main
     uses: ./.github/workflows/docker-publish.yaml
     with:
       dockerfile-path: ./apps/bathanghai-server/Dockerfile
