@@ -9,15 +9,15 @@ on:
     #   - 'apps/bathanghai-server/**'
 
 jobs:
-  docker-publish:
+  j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
       dockerfile-path: ./apps/bathanghai-server/Dockerfile
       docker-image-name: diut-bathanghai-access-service
     secrets: inherit
 
-  update-helm-appversion:
-    needs: docker-publish
+  j2:
+    needs: j1
     uses: ./.github/workflows/update-helm-appversion.yaml
     with:
       chart-path: ./apps/bathanghai-server/k8s/helm-chart/Chart.yaml
