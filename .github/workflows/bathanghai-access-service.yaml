@@ -5,8 +5,11 @@ on:
   push:
     branches:
       - develop # main
-    # paths:
-    #   - 'apps/bathanghai-server/**'
+    paths:
+      - 'libs/common/**'
+      - 'libs/server-core/**'
+      - 'libs/bathanghai-common/**'
+      - 'apps/bathanghai-server/**'
 
 jobs:
   j1:

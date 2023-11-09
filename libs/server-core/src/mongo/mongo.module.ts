@@ -10,7 +10,7 @@ import { merge } from 'lodash'
 
 const defaultOptions: MongooseModuleOptions = {
   retryAttempts: 1,
-  directConnection: true,
+  directConnection: false,
 }
 
 export type MongoModuleExtraOptions = {}
