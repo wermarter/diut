@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - develop # main
-    paths:
-      - 'apps/bathanghai-server/**'
+    # paths:
+    #   - 'apps/bathanghai-server/**'
 
 jobs:
   docker-publish:
