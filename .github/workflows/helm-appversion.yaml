@@ -26,6 +26,9 @@ jobs:
         with:
           commit_message: 'chore(helm): update ${{ inputs.identity }} appVersion'
 
+      - name: rebase
+        run: git pull origin ${{github.ref}} --rebase
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
