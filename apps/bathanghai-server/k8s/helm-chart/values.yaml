@@ -48,7 +48,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
   hosts:
-    - host: lab.hcdc.vn:3000
+    - host: lab.hcdc.vn
       paths:
         - path: /api
           pathType: Prefix
