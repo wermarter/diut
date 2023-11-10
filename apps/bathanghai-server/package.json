@@ -8,8 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && nest build",
-    "dev:local": "nest start --watch --preserveWatchOutput",
-    "dev": "concurrently \"nodemon -w ./package.json -x 'pnpm i'\" \"pnpm run dev:local\"",
+    "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist",
     "g:resource": "ts-node generators/resource"
   },
@@ -63,9 +62,7 @@
     "@types/passport": "^1.0.12",
     "@types/passport-jwt": "^3.0.9",
     "@types/passport-local": "^1.0.35",
-    "concurrently": "^8.2.1",
     "dotenv": "^16.3.1",
-    "nodemon": "^3.0.1",
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",

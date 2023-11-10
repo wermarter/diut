@@ -14,7 +14,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "dev": "pnpm --filter \"./libs/**\" run --parallel dev:local",
+    "dev": "pnpm --filter \"./libs/**\" run --parallel dev",
     "postinstall": "syncpack list-mismatches"
   },
   "dependencies": {

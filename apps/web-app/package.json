@@ -8,8 +8,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev:local": "vite",
-    "dev": "concurrently \"nodemon -w ./package.json -x 'pnpm i'\" \"pnpm run dev:local\"",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "tsc",
@@ -49,9 +48,7 @@
     "@types/lodash": "^4.14.198",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
-    "concurrently": "^8.2.1",
     "dotenv": "^16.3.1",
-    "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   },
   "optionalDependencies": {

@@ -14,6 +14,7 @@ import { MinioConfig, loadMinioConfig } from './configs/minio.config'
 import { LogConfig, loadLogConfig } from './configs'
 
 const coreModules: ModuleMetadata['imports'] = [
+  ConfigModule.forRoot({}),
   LogModule.forRootAsync({
     imports: [
       ConfigModule.forFeature(loadAppConfig),

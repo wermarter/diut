@@ -9,8 +9,7 @@
   "types": "dist/index",
   "scripts": {
     "build": "tsc",
-    "dev:local": "tsc --watch --preserveWatchOutput",
-    "dev": "concurrently \"nodemon -w ./package.json -x 'pnpm i'\" \"pnpm run dev:local\""
+    "dev": "tsc --watch --preserveWatchOutput"
   },
   "dependencies": {
     "@diut/common": "workspace:*",

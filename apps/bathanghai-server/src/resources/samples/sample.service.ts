@@ -117,7 +117,7 @@ export class SampleService
 
   async onModuleDestroy() {
     this.logger.log('Closing browser on module destroy...')
-    await this.browser.close()
+    this.browser && (await this.browser.close())
   }
 
   public async create(data: Omit<Sample, keyof BaseSchema>): Promise<Sample> {

@@ -12,16 +12,13 @@
   "scripts": {
     "build": "tsc",
     "lint": "tsc --noEmit",
-    "dev:local": "tsc --watch --preserveWatchOutput",
-    "dev": "concurrently \"nodemon -w ./package.json -x 'pnpm i'\" \"pnpm run dev:local\""
+    "dev": "tsc --watch --preserveWatchOutput"
   },
   "dependencies": {
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.198",
-    "concurrently": "^8.2.1",
-    "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   }
 }

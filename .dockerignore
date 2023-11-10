@@ -1,17 +1,10 @@
 .git
 .github
 .vscode
-dist
+docker-compose.yml
 
-.npmrc
-node_modules
-
-.dockerignore
-.gitignore
-
-npm-debug.log
-*.dockerfile
-
-*.env
-
-Dockerfile
+**/dist
+**/node_modules
+**/.gitignore
+**/Dockerfile
+**/.env

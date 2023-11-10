@@ -163,15 +163,9 @@ importers:
       '@types/passport-local':
         specifier: ^1.0.35
         version: 1.0.35
-      concurrently:
-        specifier: ^8.2.1
-        version: 8.2.1
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
-      nodemon:
-        specifier: ^3.0.1
-        version: 3.0.1
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -291,15 +285,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
-      concurrently:
-        specifier: ^8.2.1
-        version: 8.2.1
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
-      nodemon:
-        specifier: ^3.0.1
-        version: 3.0.1
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -313,12 +301,6 @@ importers:
       '@types/lodash':
         specifier: ^4.14.198
         version: 4.14.198
-      concurrently:
-        specifier: ^8.2.1
-        version: 8.2.1
-      nodemon:
-        specifier: ^3.0.1
-        version: 3.0.1
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -332,12 +314,6 @@ importers:
       '@types/lodash':
         specifier: ^4.14.198
         version: 4.14.198
-      concurrently:
-        specifier: ^8.2.1
-        version: 8.2.1
-      nodemon:
-        specifier: ^3.0.1
-        version: 3.0.1
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -456,8 +432,6 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
-
-  libs/web-core: {}
 
 packages:
 
@@ -800,6 +774,7 @@ packages:
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
+    requiresBuild: true
     dev: false
 
   /@cspotcode/source-map-support@0.8.1:
