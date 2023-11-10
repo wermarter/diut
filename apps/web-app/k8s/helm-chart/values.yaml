@@ -48,7 +48,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
   hosts:
-    - host: gateway.diut-bathanghai.svc.cluster.local
+    - host: lab.hcdc.vn
       paths:
         - path: /
           pathType: Prefix

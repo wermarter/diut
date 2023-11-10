@@ -20,12 +20,12 @@ kube-prometheus-stack:
       existingSecret: grafana-credentials
       userKey: admin-user
       passwordKey: admin-password
-    ingress:
-      enabled: true
-      hosts:
-        - grafana.observability.svc.cluster.local
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: web
+    # ingress:
+    #   enabled: true
+    #   hosts:
+    #     - grafana.observability.svc.cluster.local
+    #   annotations:
+    #     traefik.ingress.kubernetes.io/router.entrypoints: web
     persistence:
       enabled: true
       size: 4Gi

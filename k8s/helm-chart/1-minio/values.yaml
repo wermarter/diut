@@ -1,12 +1,12 @@
 minio:
   auth:
     existingSecret: minio-credentials
-  ingress:
-    enabled: true
-    ingressClassName: traefik
-    hostname: minio.diut.svc.cluster.local
-    annotations:
-      traefik.ingress.kubernetes.io/router.entrypoints: web
+  # ingress:
+  #   enabled: true
+  #   ingressClassName: traefik
+  #   hostname: minio.diut.svc.cluster.local
+  #   annotations:
+  #     traefik.ingress.kubernetes.io/router.entrypoints: web
   metrics:
     serviceMonitor:
       enabled: true
