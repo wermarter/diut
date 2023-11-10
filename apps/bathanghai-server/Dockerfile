@@ -35,7 +35,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm --filter "@diut/bathanghai-server..." run build
 
-RUN cp -R ./apps/bathanghai-server/src/views/* ./apps/bathanghai-server/dist/views 
+# RUN cp -R ./apps/bathanghai-server/src/views/* ./apps/bathanghai-server/dist/views 
 
 CMD pnpm --filter "@diut/bathanghai-server..." run --parallel dev
 
