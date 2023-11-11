@@ -6,7 +6,8 @@ metadata:
 spec:
   valuesContent: |-
     ports:
-      mongodb:
-        port: 27017
+      port8000:
+        port: 8002
+        targetPort: 8001
         expose: true
         protocol: TCP
