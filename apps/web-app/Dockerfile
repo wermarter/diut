@@ -38,7 +38,7 @@ FROM nginx:alpine AS production
 
 COPY --from=build /usr/src/app/apps/web-app/dist /usr/share/nginx/web-app
 
-COPY --from=build /usr/src/app/apps/web-app/nginx.conf /etc/nginx/conf.d
+COPY --from=build /usr/src/app/apps/web-app/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
