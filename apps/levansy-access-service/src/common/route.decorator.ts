@@ -1,4 +1,4 @@
-import { Permission } from '../../../../libs/levansy-common/src'
+import { Permission } from '@diut/levansy-common'
 import {
   applyDecorators,
   Get,

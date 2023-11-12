@@ -1,4 +1,4 @@
-import { LoginExceptionMsg } from '../../../../../libs/levansy-common/src'
+import { LoginExceptionMsg } from '@diut/levansy-common'
 import { Request } from 'express'
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'

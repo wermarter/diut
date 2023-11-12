@@ -1,4 +1,4 @@
-import { ID_TEST_TD } from '../../../../../../libs/levansy-common/src'
+import { ID_TEST_TD } from '@diut/levansy-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'

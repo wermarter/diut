@@ -2,7 +2,7 @@ import {
   Gender,
   ID_INDICATION_PREGNANT,
   PatientCategory,
-} from '../../../../../libs/levansy-common/src'
+} from '@diut/levansy-common'
 
 import { Patient } from '../patients/patient.schema'
 import { Sample } from './sample.schema'

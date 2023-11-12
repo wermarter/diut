@@ -1,7 +1,4 @@
-import {
-  Gender,
-  ID_TEST_URINE10,
-} from '../../../../../../libs/levansy-common/src'
+import { Gender, ID_TEST_URINE10 } from '@diut/levansy-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'

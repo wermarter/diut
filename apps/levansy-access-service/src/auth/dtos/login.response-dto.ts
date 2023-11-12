@@ -1,4 +1,4 @@
-import { LoginExceptionMsg } from '../../../../../libs/levansy-common/src'
+import { LoginExceptionMsg } from '@diut/levansy-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
