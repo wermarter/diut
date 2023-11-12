@@ -1,4 +1,4 @@
-import { Permission } from '../../../../../../libs/levansy-common/src'
+import { Permission } from '@diut/levansy-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 

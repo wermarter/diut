@@ -7,7 +7,7 @@ dotenv.config()
 
 import { COLLECTION } from 'src/common/collections'
 import { Patient } from 'src/resources/patients/patient.schema'
-import { Gender } from '../../../libs/levansy-common/src'
+import { Gender } from '@diut/levansy-common'
 
 async function main() {
   const [sourceDB, targetDB] = await Promise.all([

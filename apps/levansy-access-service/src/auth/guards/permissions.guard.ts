@@ -4,7 +4,7 @@ import {
   checkPermissionAllOf,
   checkPermissionAnyOf,
   Permission,
-} from '../../../../../libs/levansy-common/src'
+} from '@diut/levansy-common'
 
 import {
   AuthTokenPayload,

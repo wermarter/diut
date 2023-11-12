@@ -1,4 +1,4 @@
-import { Permission } from '../../../../../libs/levansy-common/src'
+import { Permission } from '@diut/levansy-common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from '@diut/server-core'

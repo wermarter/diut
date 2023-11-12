@@ -1,4 +1,4 @@
-import { PrintForm } from '../../../../../../libs/levansy-common/src'
+import { PrintForm } from '@diut/levansy-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {

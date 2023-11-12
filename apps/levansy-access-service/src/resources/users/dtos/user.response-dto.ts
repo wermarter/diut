@@ -1,7 +1,4 @@
-import {
-  Permission,
-  UserExceptionMsg,
-} from '../../../../../../libs/levansy-common/src'
+import { Permission, UserExceptionMsg } from '@diut/levansy-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'

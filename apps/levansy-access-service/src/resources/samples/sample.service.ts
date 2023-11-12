@@ -18,7 +18,7 @@ import {
   PatientCategory,
   PrintForm,
   SampleExceptionMsg,
-} from '../../../../../libs/levansy-common/src'
+} from '@diut/levansy-common'
 import { NodeEnv } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq, merge } from 'lodash'
@@ -459,9 +459,8 @@ export class SampleService
       const string = await ejs.renderFile(
         join(
           __dirname,
-          ...Array(
-            this.appConfig.NODE_ENV === NodeEnv.Development ? 2 : 5,
-          ).fill('..'),
+          '..',
+          '..',
           `views/print-form/${printForm.filename}.ejs`,
         ),
         printData,

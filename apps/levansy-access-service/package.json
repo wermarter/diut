@@ -9,12 +9,11 @@
   "scripts": {
     "build": "rimraf dist && nest build",
     "dev": "nest start --watch --preserveWatchOutput",
-    "lint": "tsc && rimraf dist",
-    "g:resource": "ts-node generators/resource"
+    "lint": "tsc && rimraf dist"
   },
   "dependencies": {
-    "@diut/levansy-common": "workspace:*",
     "@diut/common": "workspace:*",
+    "@diut/levansy-common": "workspace:*",
     "@diut/server-core": "workspace:*",
     "@nestjs/cli": "^10.2.1",
     "@nestjs/common": "^10.2.8",

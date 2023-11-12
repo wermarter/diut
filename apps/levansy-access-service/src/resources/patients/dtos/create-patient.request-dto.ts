@@ -1,4 +1,4 @@
-import { Gender } from '../../../../../../libs/levansy-common/src'
+import { Gender } from '@diut/levansy-common'
 import { numericEnumArray } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import {

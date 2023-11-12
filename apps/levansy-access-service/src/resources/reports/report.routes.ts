@@ -1,4 +1,4 @@
-import { Permission } from '../../../../../libs/levansy-common/src'
+import { Permission } from '@diut/levansy-common'
 import { RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions } from '@diut/server-core'
