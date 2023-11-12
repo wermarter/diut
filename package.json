@@ -6,24 +6,18 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "libs/**/*",
-    "apps/**/*"
-  ],
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "devDependencies": {
-    "@nrwl/nx-cloud": "latest",
-    "nx": "15.7.2",
-    "npm-check-updates": "^16.7.9"
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   },
   "scripts": {
-    "be": "nx run @diut/access-server:dev",
-    "common": "nx run @diut/common:dev",
-    "fe": "nx run @diut/web-app:dev",
-    "lint": "nx run-many -t lint",
-    "dev": "nx run-many -t dev",
-    "ncu": "ncu --workspaces"
+    "dev": "pnpm --filter \"./libs/**\" run --parallel dev",
+    "postinstall": "syncpack list-mismatches"
+  },
+  "dependencies": {
+    "syncpack": "^11.2.1"
   }
 }

@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: observability
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: diut
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: diut-levansy

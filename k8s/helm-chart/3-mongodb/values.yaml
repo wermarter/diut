@@ -1,0 +1,19 @@
+mongodb:
+  fullnameOverride: mongodb
+  auth:
+    rootUser: root
+    existingSecret: mongodb-credentials
+
+  architecture: replicaset
+  replicaCount: 3
+  arbiter:
+    enabled: false
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: observability
+    prometheusRule:
+      enabled: true
+      namespace: observability

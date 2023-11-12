@@ -13,9 +13,9 @@ git clone https://github.com/wermarter/diut
 cd diut/ && npm install
 ```
 
-Backend configs in `apps/access-server/config.yml` and `apps/access-server/.env`
+Backend configs in `apps/levansy-access-service/config.yml` and `apps/levansy-access-service/.env`
 
-Frontend configs in `apps/web-app/.env`
+Frontend configs in `apps/levansy-web-app/.env`
 
 Start everything!
 
@@ -28,21 +28,21 @@ yarn dev
 Scaffold new backend API resource in `apps/acess-server/src/resources`
 
 ```bash
-cd apps/access-server
+cd apps/levansy-access-service
 yarn g:resource "new resource" "new resources"
 ```
 
-Auto-generate frontend API code from backend openAPI spec with configs in `apps/web-app/openapi-config.cts`
+Auto-generate frontend API code from backend openAPI spec with configs in `apps/levansy-web-app/openapi-config.cts`
 
 ```bash
-cd apps/web-app
+cd apps/levansy-web-app
 yarn g:api
 ```
 
 ## Database scripting with NestJS
 
-Should be run from `apps/access-server` with MongoDB's URI in `apps/access-server/.env`
+Should be run from `apps/levansy-access-service` with MongoDB's URI in `apps/levansy-access-service/.env`
 
 ```bash
-cd apps/access-server && ./scripts/duplicate-test-element.ts
+cd apps/levansy-access-service && ./scripts/duplicate-test-element.ts
 ```

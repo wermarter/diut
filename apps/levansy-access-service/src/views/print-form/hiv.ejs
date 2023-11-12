@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          // extend: {
+          //   fontSize: {
+          //     sm: '0.8rem',
+          //     base: '1rem',
+          //     xl: '1.25rem',
+          //     '2xl': '1.563rem',
+          //     '3xl': '1.953rem',
+          //     '4xl': '2.441rem',
+          //     '5xl': '3.052rem',
+          //   },
+          // },
+        },
+      }
+    </script>
+    <style>
+      * {
+        font-family: 'Times New Roman', monospace;
+      }
+      html {
+        font-size: 15px;
+      }
+      @page {
+        margin-top: 5mm;
+        margin-bottom: 5mm;
+        margin-left: 15mm;
+        margin-right: 15mm;
+      }
+      p {
+        page-break-inside: avoid;
+      }
+      .print-footer {
+        position: fixed;
+        bottom: 0;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="print-footer">
+      BM.TTXN.04/3
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Phiên bản: 1.0
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Ngày áp dụng: 18/09/2019
+    </div>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-row">
+        <img
+          src=<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_PUBLIC_BUCKET}/logo.png` %>
+          style="width: 90px; object-fit: contain"
+        />
+        <div class="text-center ml-1">
+          <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
+          <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
+          <p>Số 957 Đường 3 Tháng 2, P.7, Q.11, Tp.HCM</p>
+          <p>Website:www.hcdc.gov.vn ; www.hcdc.vn</p>
+        </div>
+      </div>
+      <div class="text-center">
+        <p class="text-xl font-bold my-1">KẾT QUẢ XÉT NGHIỆM HIV</p>
+        <div class="ml-10 text-left">
+          <p class="text-base">
+            Ngày lấy mẫu:
+            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+          </p>
+          <p>Nơi chỉ định: Phòng khám</p>
+          <p>Nơi lấy mẫu: Phòng xét nghiệm</p>
+        </div>
+      </div>
+    </div>
+    <div class="m-4">
+      <div class="flex flex-row justify-between">
+        <div class="flex flex-col">
+          <p class="text-lg">
+            Họ và tên:
+            <span class="font-bold"
+              ><%= patient.name.toLocaleUpperCase() %></span
+            >
+          </p>
+          <p class="text-lg">
+            ID XN: <span class="font-bold"><%= sample.sampleId %></span>
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <p class="text-lg">Năm sinh: <span><%= patient.birthYear %></span></p>
+          <p class="text-lg">Loại bệnh phẩm: Máu</p>
+        </div>
+        <div class="flex flex-col">
+          <p class="text-lg">
+            Giới tính:
+            <span><%= patient.gender === 0 ? "Nam" : "Nữ" %></span>
+          </p>
+          <p class="text-lg">
+            CCCD (nếu có):
+            <span><%= patient.SSN %></span>
+          </p>
+        </div>
+      </div>
+      <p class="text-lg">Địa chỉ: <span><%= patient.address %></span></p>
+      <div class="flex flex-row">
+        <div>
+          <p class="text-lg">Yêu cầu xét nghiệm:</p>
+          <p class="text-lg">Tên sinh phẩm xét nghiệm:</p>
+          <p class="text-lg">Kết luận: Kháng thể kháng HIV</p>
+          <p class="text-lg">Ngày xét nghiệm:</p>
+        </div>
+        <div class="ml-4">
+          <p class="font-bold text-lg">Kháng thể kháng HIV</p>
+          <p class="text-lg"><%= results[0].tests[0].bioProductName %></p>
+          <p class="font-bold text-lg">
+            <%= results[0].tests[0].elements[0].value %>
+          </p>
+          <p class="text-lg"><%= sample.infoAt.toLocaleDateString('vi') %></p>
+        </div>
+      </div>
+      <p class="text-lg">Đề nghị: Tham vấn</p>
+    </div>
+    <div class="flex flex-row justify-between mt-6">
+      <div class="text-sm">
+        <p>
+          <span class="font-bold">Lưu ý: </span> Trường hợp không có giấy CMND
+          hoặc giấy tờ tùy thân
+        </p>
+        <p>để chứng minh đúng người được làm xét nghiệm thì ghi rỏ:</p>
+        <p>không có giấy tờ tùy thân xác thực với tên ghi trên giấy XN.</p>
+      </div>
+      <div
+        class="flex flex-col text-center mr-8"
+        style="page-break-inside: avoid"
+      >
+        <p>
+          Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
+          %> năm <%= new Date().getFullYear() %>
+        </p>
+        <p class="font-bold"><%= authorPosition %></p>
+        <p style="margin-top: 20mm" class="font-bold"><%= authorName %></p>
+      </div>
+    </div>
+  </body>
+</html>

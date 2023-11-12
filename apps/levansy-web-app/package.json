@@ -1,0 +1,57 @@
+{
+  "name": "@diut/levansy-web-app",
+  "version": "1.0.0",
+  "description": "Web client for the project",
+  "repository": "https://github.com/wermarter/diut",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc",
+    "g:api": "npx @rtk-query/codegen-openapi openapi-config.cts"
+  },
+  "dependencies": {
+    "@diut/levansy-common": "workspace:*",
+    "@diut/common": "workspace:*",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.3.2",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/lab": "5.0.0-alpha.152",
+    "@mui/material": "^5.14.17",
+    "@mui/x-data-grid": "^6.18.1",
+    "@reduxjs/toolkit": "^1.9.7",
+    "@vitejs/plugin-react": "^4.1.1",
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-barcode": "^1.4.6",
+    "react-dom": "^18.2.0",
+    "react-easy-crop": "^5.0.2",
+    "react-hook-form": "^7.48.2",
+    "react-redux": "^8.1.3",
+    "react-router-dom": "^6.18.0",
+    "react-to-print": "^2.14.15",
+    "react-toastify": "^9.1.3",
+    "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
+    "vite": "^4.5.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@rtk-query/codegen-openapi": "^1.2.0",
+    "@types/lodash": "^4.14.201",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "dotenv": "^16.3.1",
+    "typescript": "^5.2.2"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-x64": "^0.19.3"
+  }
+}

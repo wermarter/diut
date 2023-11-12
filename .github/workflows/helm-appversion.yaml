@@ -1,0 +1,36 @@
+name: update Helm appVersion
+
+on:
+  workflow_call:
+    inputs:
+      chart-path:
+        required: true
+        type: string
+      identity:
+        required: true
+        type: string
+
+jobs:
+  helm-appversion:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: rebase
+        run: git pull origin ${{github.ref}} --rebase
+
+      - name: Edit Chart.yaml file
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i '.appVersion = "${{ github.run_number }}"' ${{ inputs.chart-path }}
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(helm): update ${{ inputs.identity }} appVersion'
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

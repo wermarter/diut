@@ -1,0 +1,28 @@
+name: levansy-web-app
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'libs/common/**'
+      - 'libs/web-core/**'
+      - 'libs/levansy-common/**'
+      - 'apps/levansy-web-app/**'
+
+jobs:
+  j1:
+    uses: ./.github/workflows/docker-publish.yaml
+    with:
+      dockerfile-path: ./apps/levansy-web-app/Dockerfile
+      docker-image-name: diut-levansy-web-app
+    secrets: inherit
+
+  j2:
+    needs: j1
+    uses: ./.github/workflows/helm-appversion.yaml
+    with:
+      chart-path: ./apps/levansy-web-app/k8s/helm-chart/Chart.yaml
+      identity: levansy-web-app
+    secrets: inherit
