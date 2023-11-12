@@ -75,4 +75,4 @@ COPY --from=build /usr/src/app .
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
-CMD ["node", "./apps/levansy-access-service/dist/main.js"]
+CMD ["node", "./apps/levansy-access-service/dist/apps/levansy-access-service/src/main.js"]
