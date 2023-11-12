@@ -11,6 +11,4 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: diut-bathanghai
----
-
+  name: diut-levansy

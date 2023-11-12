@@ -1,0 +1,24 @@
+{
+  "name": "@diut/levansy-common",
+  "description": "Common constants, enums, types and utils shared in this project",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "tsc --noEmit",
+    "dev": "tsc --watch --preserveWatchOutput"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.201",
+    "typescript": "^5.2.2"
+  }
+}
