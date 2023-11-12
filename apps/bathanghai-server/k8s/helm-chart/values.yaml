@@ -45,8 +45,7 @@ service:
 ingress:
   enabled: true
   className: 'traefik'
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: dev5000
+  entrypoints: dev5000
   hosts:
     - host: lab.hcdc.vn
       paths:
