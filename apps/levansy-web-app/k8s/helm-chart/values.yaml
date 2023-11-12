@@ -45,7 +45,7 @@ service:
 ingress:
   enabled: true
   className: 'traefik'
-  entrypoints: dev5000
+  entrypoints: port8001
   hosts:
     - host: lab.hcdc.vn
       paths:
