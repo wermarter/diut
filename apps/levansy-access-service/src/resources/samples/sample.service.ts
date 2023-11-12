@@ -459,8 +459,9 @@ export class SampleService
       const string = await ejs.renderFile(
         join(
           __dirname,
-          '..',
-          '..',
+          ...Array(
+            this.appConfig.NODE_ENV === NodeEnv.Development ? 2 : 5,
+          ).fill('..'),
           `views/print-form/${printForm.filename}.ejs`,
         ),
         printData,

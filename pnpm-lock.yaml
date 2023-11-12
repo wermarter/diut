@@ -75,6 +75,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
       ejs:
         specifier: ^3.1.9
         version: 3.1.9
@@ -160,9 +163,6 @@ importers:
       '@types/passport-local':
         specifier: ^1.0.38
         version: 1.0.38
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
