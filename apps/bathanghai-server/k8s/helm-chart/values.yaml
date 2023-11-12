@@ -46,7 +46,7 @@ ingress:
   enabled: true
   className: 'traefik'
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: port8000
+    traefik.ingress.kubernetes.io/router.entrypoints: dev5000
   hosts:
     - host: lab.hcdc.vn
       paths:
@@ -85,4 +85,4 @@ affinity: {}
 
 envFrom:
   - configMapRef:
-      name: access-service-config
+      name: access-service-env

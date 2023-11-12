@@ -1,1 +1,1 @@
-kubectl -n diut-bathanghai delete configmap access-service-config
+kubectl -n diut-bathanghai delete configmap access-service-env
