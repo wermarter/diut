@@ -216,10 +216,10 @@ export function CrudTable<R extends GridValidRowModel>({
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={() => {}}
-        components={{
-          Toolbar: CrudToolbar,
+        slots={{
+          toolbar: CrudToolbar,
         }}
-        componentsProps={{
+        slotProps={{
           toolbar: {
             TopRightComponent,
             setRows,
