@@ -23,6 +23,7 @@ export const SwaggerBootstrap: BootstrapConfig = {
       swaggerOptions: {
         docExpansion: 'none',
         filter: true,
+        persistAuthorization: true,
       },
       customCss: swaggerCustomCss,
     })

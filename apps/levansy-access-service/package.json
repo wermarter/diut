@@ -12,6 +12,7 @@
     "lint": "tsc && rimraf dist"
   },
   "dependencies": {
+    "@casl/ability": "^6.5.0",
     "@diut/common": "workspace:*",
     "@diut/levansy-common": "workspace:*",
     "@diut/server-core": "workspace:*",
