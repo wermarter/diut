@@ -80,6 +80,7 @@ export function TestTable() {
               (printForm) => printForm.name === item.printForm,
             )?._id! as PrintForm,
             shouldNotPrint: item.shouldNotPrint ?? false,
+            shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
           },
         }).unwrap()
       }}
@@ -100,6 +101,8 @@ export function TestTable() {
               (printForm) => printForm.name === newItem.printForm,
             )?._id! as PrintForm,
             shouldNotPrint: newItem.shouldNotPrint ?? false,
+            shouldDisplayWithChildren:
+              newItem.shouldDisplayWithChildren ?? false,
           },
         }).unwrap()
       }}

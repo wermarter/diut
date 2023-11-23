@@ -145,17 +145,18 @@
           <td class="pl-2 font-bold"><%= category.categoryName %></td>
         </tr>
         <% category.tests.forEach(test => { %>
-        <tr class="border border-gray-300">
-          <td class="pl-6">
-            <span class="font-bold"> <%= test.name %> </span>
-            <% if (test?.bioProductName?.length > 0) { %>
-            <span class="whitespace-nowrap"
-              >&nbsp;-&nbsp;<%= test?.bioProductName %></span
-            >
-            <% } %>
-          </td>
-        </tr>
-
+          <% if (test?.shouldDisplayWithChildren !== false) { %>
+            <tr class="border border-gray-300">
+              <td class="pl-6">
+                <span class="font-bold"> <%= test.name %> </span>
+                <% if (test?.bioProductName?.length > 0) { %>
+                <span class="whitespace-nowrap"
+                  >&nbsp;-&nbsp;<%= test?.bioProductName %></span
+                >
+                <% } %>
+              </td>
+            </tr>
+          <% } %>
         <% test.elements.forEach(element => { %>
         <tr class="border border-gray-300" style="page-break-before: avoid;">
           <% if (element.isParent) { %>

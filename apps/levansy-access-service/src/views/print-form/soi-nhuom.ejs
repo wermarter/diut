@@ -143,16 +143,18 @@
       <tbody>
         <% results.forEach((category, categoryIndex) => { %> <%
         category.tests.forEach(test => {%>
-        <tr class="border border-gray-300">
-          <td class="pl-2 border border-gray-300">
-            <span class="font-bold"> <%= test.name %> </span>
-            <% if (test?.bioProductName?.length > 0) { %>
-            <span class="whitespace-nowrap"
-              >&nbsp;-&nbsp;<%= test?.bioProductName %></span
-            >
-            <% } %>
-          </td>
-        </tr>
+          <% if (test?.shouldDisplayWithChildren !== false) { %>
+            <tr class="border border-gray-300">
+              <td class="pl-2 border border-gray-300">
+                <span class="font-bold"> <%= test.name %> </span>
+                <% if (test?.bioProductName?.length > 0) { %>
+                <span class="whitespace-nowrap"
+                  >&nbsp;-&nbsp;<%= test?.bioProductName %></span
+                >
+                <% } %>
+              </td>
+            </tr>
+          <% } %>
         <% test.elements.forEach((element, index, arr) => { %> <% if (index <
         Math.ceil(arr.length/2)) { %>
 

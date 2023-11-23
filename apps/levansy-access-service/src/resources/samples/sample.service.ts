@@ -339,6 +339,7 @@ export class SampleService
         index: number
         name: string
         bioProductName: string
+        shouldDisplayWithChildren: boolean
         elements: {
           name: string
           value: string
@@ -383,6 +384,7 @@ export class SampleService
           index: test.index,
           name: test.name,
           bioProductName: result.bioProductName,
+          shouldDisplayWithChildren: test.shouldDisplayWithChildren,
           elements: elements.map((element, index) => ({
             name: element.name,
             value: result.elements[index].value,
@@ -454,6 +456,7 @@ export class SampleService
       authorName,
       titleMargin,
     })
+    console.log(JSON.stringify(sampleData, null, 2))
 
     try {
       const string = await ejs.renderFile(

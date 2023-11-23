@@ -24,6 +24,6 @@ export const HttpListenBootstrap: BootstrapConfig = {
     }
 
     await ctx.app.listen(port)
-    logger.log(`Documentation at http://localhost:${port}/${SWAGGER_ENDPOINT}`)
+    logger.log(`Documentation at ${await ctx.app.getUrl()}/${SWAGGER_ENDPOINT}`)
   },
 }

@@ -35,8 +35,6 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm --filter "@diut/levansy-access-service..." run build
 
-# RUN cp -R ./apps/levansy-access-service/src/views/* ./apps/levansy-access-service/dist/views 
-
 CMD pnpm --filter "@diut/levansy-access-service..." run --parallel dev
 
 ###################

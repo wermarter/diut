@@ -41,6 +41,9 @@ const methodDecorator = {
   [RequestMethod.DELETE]: Delete,
 }
 
+/**
+ * authorization and openapi
+ */
 export function AppRoute({
   isPublic = false,
   permissionAnyOf = [],

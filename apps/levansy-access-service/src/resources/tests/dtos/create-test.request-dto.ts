@@ -52,4 +52,10 @@ export class CreateTestRequestDto {
   })
   @IsBoolean()
   shouldNotPrint: boolean
+
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  shouldDisplayWithChildren: boolean
 }
