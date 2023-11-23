@@ -12,4 +12,5 @@ export enum COLLECTION {
   SAMPLE_TYPE = 'sample_types',
   TEST_COMBO = 'test_combos',
   PRINT_FORM = 'print_forms',
+  SAMPLE_ORIGIN = 'sample_origins',
 }

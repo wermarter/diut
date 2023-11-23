@@ -14,6 +14,7 @@ import { join } from 'path'
 import * as ejs from 'ejs'
 import * as puppeteer from 'puppeteer'
 import {
+  getPatientCategory,
   isAdmin,
   PatientCategory,
   PrintForm,
@@ -36,7 +37,6 @@ import { SampleTypeService } from '../sample-types/sample-type.service'
 import { TestCategory } from '../test-categories/test-category.schema'
 import { PrintFormService } from '../print-forms/print-form.service'
 import { SinglePrintRequestDto } from './dtos/print-sample.request-dto'
-import { getPatientCategory, UPLOAD_CONFIG } from './sample.common'
 import { SampleDownloadRequestDto } from './dtos/sample-download.request-dto'
 import { AuthTokenPayload } from 'src/auth'
 import { AppConfig, loadAppConfig } from 'src/configs/app.config'
@@ -324,7 +324,11 @@ export class SampleService
       this.indicationService.findById(sample.indicationId as string),
     ])
 
-    const patientCategory = getPatientCategory(patient, sample as any)
+    const patientCategory = getPatientCategory(
+      patient.gender,
+      patient.birthYear,
+      sample.indicationId as string,
+    )
 
     const sampleTypes = await Promise.all(
       (sample.sampleTypeIds as string[]).map((id) =>

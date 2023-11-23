@@ -14,6 +14,7 @@ import { TestCombo } from 'src/resources/test-combos/test-combo.schema'
 import { TestElement } from 'src/resources/test-elements/test-element.schema'
 import { User } from 'src/resources/users/user.schema'
 import { PrintForm } from 'src/resources/print-forms/print-form.schema'
+import { SampleOrigin } from 'src/resources/sample-origins/sample-origin.schema'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProduct,
@@ -29,4 +30,5 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.TEST_ELEMENT]: TestElement,
   [COLLECTION.USER]: User,
   [COLLECTION.PRINT_FORM]: PrintForm,
+  [COLLECTION.SAMPLE_ORIGIN]: SampleOrigin,
 }

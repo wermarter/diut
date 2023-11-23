@@ -3,10 +3,11 @@ import { doctorApi } from 'src/api/doctor'
 import { indicationApi } from 'src/api/indication'
 import { patientTypeApi } from 'src/api/patient-type'
 import { testApi } from 'src/api/test'
+import { sampleOriginApi } from 'src/api/sample-origin'
 
 export const infoConfirmPageLoader = async () => {
-  const [indicationRes, doctorRes, patientTypeRes, testRes] = await Promise.all(
-    [
+  const [indicationRes, doctorRes, patientTypeRes, testRes, sampleOriginRes] =
+    await Promise.all([
       appStore
         .dispatch(
           indicationApi.endpoints.indicationSearch.initiate({
@@ -39,17 +40,27 @@ export const infoConfirmPageLoader = async () => {
           }),
         )
         .unwrap(),
-    ],
-  )
+      appStore
+        .dispatch(
+          sampleOriginApi.endpoints.sampleOriginSearch.initiate({
+            searchSampleOriginRequestDto: { sort: { index: 1 } },
+          }),
+        )
+        .unwrap(),
+    ])
 
   const tests = testRes?.items ?? []
   const indications = indicationRes?.items ?? []
+  const sampleOrigins = sampleOriginRes?.items ?? []
   const doctors = doctorRes?.items ?? []
   const patientTypes = patientTypeRes?.items ?? []
 
   return {
     indicationMap: new Map(
       indications.map((indication) => [indication._id, indication]),
+    ),
+    sampleOriginMap: new Map(
+      sampleOrigins.map((sampleOrigin) => [sampleOrigin._id, sampleOrigin]),
     ),
     doctorMap: new Map(doctors.map((doctor) => [doctor._id, doctor])),
     patientTypeMap: new Map(

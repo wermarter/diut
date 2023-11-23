@@ -39,6 +39,9 @@ const ManageTestElementPage = React.lazy(
 const ManageIndicationPage = React.lazy(
   () => import('src/modules/indication/pages/ManageIndicationPage'),
 )
+const ManageSampleOriginPage = React.lazy(
+  () => import('src/modules/sample-origin/pages/ManageSampleOriginPage'),
+)
 const ManageBioProductPage = React.lazy(
   () => import('src/modules/bio-product/pages/ManageBioProductPage'),
 )
@@ -115,6 +118,10 @@ export const appRoutes: CustomRouteObject[] = [
           {
             path: 'indications',
             element: <ManageIndicationPage />,
+          },
+          {
+            path: 'sample-origins',
+            element: <ManageSampleOriginPage />,
           },
           {
             path: 'test-categories',

@@ -50,6 +50,7 @@ export default function InfoEditPage() {
     indications,
     doctors,
     sampleTypes,
+    sampleOrigins,
   } = useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
@@ -239,13 +240,23 @@ export default function InfoEditPage() {
                 label="Tuổi"
               />
             </Grid>
-            <Grid xs={6}>
+            <Grid xs={3}>
               <FormTextField
                 name="address"
                 size="small"
                 control={control}
                 fullWidth
                 label="Địa chỉ"
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                name="sampleOriginId"
+                label="Đơn vị"
+                options={sampleOrigins?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
               />
             </Grid>
             {/* ----------------------------- Row 3 ----------------------------- */}

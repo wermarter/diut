@@ -34,6 +34,7 @@ import { printSelectPageLoader } from './loader'
 import { useCheckPermissionAnyOf } from 'src/modules/auth'
 
 const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+const ANY_SAMPLE_ORIGIN = 'ANY_SAMPLE_ORIGIN'
 
 interface FilterData {
   fromDate: Date
@@ -41,6 +42,7 @@ interface FilterData {
   sampleId: string
   patientId: string
   patientType: string
+  sampleOrigin: string
   testIds: string[]
 }
 
@@ -48,8 +50,16 @@ export default function PrintSelectPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
-  const { printForms, patientTypeMap, testMap, sampleTypeMap, tests } =
-    useLoaderData() as Awaited<ReturnType<typeof printSelectPageLoader>>
+  const sampleOriginParam =
+    searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
+  const {
+    printForms,
+    patientTypeMap,
+    testMap,
+    sampleTypeMap,
+    tests,
+    sampleOriginMap,
+  } = useLoaderData() as Awaited<ReturnType<typeof printSelectPageLoader>>
 
   const userCanPrint = useCheckPermissionAnyOf([Permission.PrintResult])
   const userCanEdit = useCheckPermissionAnyOf([Permission.ManageResult])
@@ -81,12 +91,14 @@ export default function PrintSelectPage() {
       sampleId: searchParams.get('sampleId') ?? '',
       patientId: searchParams.get('patientId') ?? '',
       patientType: patientTypeParam,
+      sampleOrigin: sampleOriginParam,
       testIds: searchParams.getAll('testIds') ?? [],
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const patientType = watch('patientType')
+  const sampleOrigin = watch('sampleOrigin')
 
   useEffect(() => {
     if (toDate < fromDate) {
@@ -94,7 +106,7 @@ export default function PrintSelectPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, patientType])
+  }, [fromDate, toDate, patientType, sampleOrigin])
 
   const {
     data,
@@ -110,6 +122,7 @@ export default function PrintSelectPage() {
     sampleId,
     patientId,
     patientType,
+    sampleOrigin,
     testIds,
   }: FilterData) => {
     setSearchParams(
@@ -119,6 +132,7 @@ export default function PrintSelectPage() {
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
         patientType,
+        sampleOrigin,
         testIds,
       },
       { replace: true },
@@ -142,6 +156,8 @@ export default function PrintSelectPage() {
               },
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
+        sampleOriginId:
+          sampleOrigin !== ANY_SAMPLE_ORIGIN ? sampleOrigin : undefined,
         results:
           testIds?.length > 0
             ? {
@@ -165,7 +181,7 @@ export default function PrintSelectPage() {
 
   async function expandId(samples: SampleResponseDto[]) {
     const promises = samples.map(async (sample) => {
-      const { patientId, results, sampleTypeIds } = sample
+      const { patientId } = sample
       getPatient({ id: patientId }, true).then((res) => {
         setPatients((cache) =>
           Object.assign({}, cache, {
@@ -230,6 +246,17 @@ export default function PrintSelectPage() {
               />
             </Grid>
             <Grid xs={2}>
+              <FormAutocomplete
+                groupBy={(option) => option?.category?.name ?? ''}
+                control={control}
+                name="testIds"
+                options={tests}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option._id}
+                label="Chọn XN"
+              />
+            </Grid>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -246,15 +273,21 @@ export default function PrintSelectPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={4}>
-              <FormAutocomplete
-                groupBy={(option) => option?.category?.name ?? ''}
+            <Grid xs={2}>
+              <FormSelect
                 control={control}
-                name="testIds"
-                options={tests}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option._id}
-                label="Chọn XN"
+                size="medium"
+                name="sampleOrigin"
+                label="Đơn vị"
+                options={[
+                  { label: 'Tất cả', value: ANY_SAMPLE_ORIGIN },
+                  ...[...sampleOriginMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
               />
             </Grid>
             <Grid xs={2}>
