@@ -59,6 +59,12 @@ export class CreateSampleRequestDto {
   indicationId: string
 
   @ApiProperty({
+    example: '634180269de1f07e47bbf494',
+  })
+  @IsObjectId()
+  sampleOriginId: string
+
+  @ApiProperty({
     example: ['634180269de1f07e47bbf494'],
   })
   @IsString({ each: true })

@@ -3,6 +3,7 @@ import {
   ID_TEST_THINPREP,
   ID_TEST_TD,
   PatientCategory,
+  getPatientCategory,
 } from '@diut/levansy-common'
 import { DATETIME_FORMAT } from '@diut/common'
 import {
@@ -38,7 +39,6 @@ import {
   selectUserIsAdmin,
   selectUserName,
 } from 'src/modules/auth'
-import { getPatientCategory } from '../../utils'
 import { editResultPageLoader } from './loader'
 import { CommonResultCard } from './components/CommonResultCard'
 import { TDResultCard } from './components/TDResultCard'
@@ -58,7 +58,11 @@ export default function EditResultPage() {
   >
 
   const patientCategory = useMemo(() => {
-    return getPatientCategory(patient, sample)
+    return getPatientCategory(
+      patient.gender,
+      patient.birthYear,
+      sample.indicationId,
+    )
   }, [sampleId])
 
   const getHighlightRule = useCallback(

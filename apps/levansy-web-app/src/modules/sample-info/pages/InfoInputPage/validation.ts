@@ -25,6 +25,7 @@ const schema = z.object({
 
   patientTypeId: z.string(),
   indicationId: z.string(),
+  sampleOriginId: z.string(),
   doctorId: z.string(),
 
   sampleTypeIds: z.array(z.string()),
@@ -59,6 +60,7 @@ export const formDefaultValues: Partial<FormSchema> = {
 
   patientTypeId: '',
   indicationId: '',
+  sampleOriginId: '',
   doctorId: '',
   sampleTypeIds: [] as any,
   tests: [] as any,

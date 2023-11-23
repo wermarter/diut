@@ -8,6 +8,7 @@ import { patientTypeApi } from 'src/api/patient-type'
 import { sampleApi } from 'src/api/sample'
 import { sampleTypeApi } from 'src/api/sample-type'
 import { userApi } from 'src/api/user'
+import { sampleOriginApi } from 'src/api/sample-origin'
 
 export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
   const { sampleId, patientId } = params
@@ -18,6 +19,7 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
     indications,
     doctors,
     sampleTypes,
+    sampleOrigins,
   ] = await Promise.all([
     appStore
       .dispatch(
@@ -61,6 +63,13 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
         }),
       )
       .unwrap(),
+    appStore
+      .dispatch(
+        sampleOriginApi.endpoints.sampleOriginSearch.initiate({
+          searchSampleOriginRequestDto: { sort: { index: 1 } },
+        }),
+      )
+      .unwrap(),
   ])
 
   const author =
@@ -78,5 +87,6 @@ export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
     indications,
     doctors,
     sampleTypes,
+    sampleOrigins,
   }
 }

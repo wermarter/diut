@@ -9,6 +9,7 @@ import { PatientType } from '../patient-types/patient-type.schema'
 import { Patient } from '../patients/patient.schema'
 import { SampleType } from '../sample-types/sample-type.schema'
 import { User } from '../users/user.schema'
+import { SampleOrigin } from '../sample-origins/sample-origin.schema'
 
 @Schema({
   ...baseSchemaOptions,
@@ -59,6 +60,13 @@ export class Sample extends BaseSchema {
     ref: Indication.name,
   })
   indicationId: string | Indication
+
+  @Prop({
+    required: true,
+    type: Types.ObjectId,
+    ref: SampleOrigin.name,
+  })
+  sampleOriginId: string | SampleOrigin
 
   @Prop({
     required: true,

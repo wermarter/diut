@@ -32,6 +32,7 @@ import { useTypedSelector } from 'src/core'
 import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
 
 const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+const ANY_SAMPLE_ORIGIN = 'ANY_SAMPLE_ORIGIN'
 
 interface FilterData {
   fromDate: Date
@@ -39,16 +40,19 @@ interface FilterData {
   sampleId: string
   sampleCompleted: 'all' | 'true' | 'false'
   patientType: string
+  sampleOrigin: string
 }
 
 export default function EditSelectPage() {
-  const { indicationMap, doctorMap, patientTypeMap, testMap } =
+  const { indicationMap, doctorMap, patientTypeMap, testMap, sampleOriginMap } =
     useLoaderData() as Awaited<ReturnType<typeof editSelectPageLoader>>
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
+  const sampleOriginParam =
+    searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -87,12 +91,14 @@ export default function EditSelectPage() {
           'sampleCompleted',
         ) as FilterData['sampleCompleted']) ?? 'all',
       patientType: patientTypeParam,
+      sampleOrigin: sampleOriginParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const sampleCompleted = watch('sampleCompleted')
   const patientType = watch('patientType')
+  const sampleOrigin = watch('sampleOrigin')
 
   const handleSubmitFilter = ({
     fromDate,
@@ -100,6 +106,7 @@ export default function EditSelectPage() {
     sampleId,
     sampleCompleted,
     patientType,
+    sampleOrigin,
   }: FilterData) => {
     setSearchParams(
       {
@@ -108,6 +115,7 @@ export default function EditSelectPage() {
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
         patientType,
+        sampleOrigin,
       },
       { replace: true },
     )
@@ -118,8 +126,8 @@ export default function EditSelectPage() {
           sampleCompleted === 'all'
             ? undefined
             : sampleCompleted === 'true'
-            ? true
-            : false,
+              ? true
+              : false,
       }
     } else {
       if (sampleCompleted === 'all') {
@@ -167,6 +175,8 @@ export default function EditSelectPage() {
               },
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
+        sampleOriginId:
+          sampleOrigin !== ANY_SAMPLE_ORIGIN ? sampleOrigin : undefined,
         ...sampleCompletedObj,
       },
     }))
@@ -178,7 +188,7 @@ export default function EditSelectPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, sampleCompleted, patientType])
+  }, [fromDate, toDate, sampleCompleted, patientType, sampleOrigin])
 
   const {
     data,
@@ -265,7 +275,7 @@ export default function EditSelectPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -282,7 +292,24 @@ export default function EditSelectPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="sampleOrigin"
+                label="Đơn vị"
+                options={[
+                  { label: 'Tất cả', value: ANY_SAMPLE_ORIGIN },
+                  ...[...sampleOriginMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
               <FormTextField
                 fullWidth
                 control={control}

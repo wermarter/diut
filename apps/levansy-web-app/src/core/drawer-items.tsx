@@ -20,6 +20,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import RuleIcon from '@mui/icons-material/Rule'
 import PersonSearchIcon from '@mui/icons-material/PersonSearch'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork'
 
 export interface MenuItem {
   icon: ReactElement
@@ -108,6 +109,12 @@ export const drawerItems: DrawerItem[] = [
         icon: <ManageAccountsIcon />,
         label: 'Người dùng',
         destination: 'manage/users',
+        permissionAnyOf: [Permission.Admin],
+      },
+      {
+        icon: <MapsHomeWorkIcon />,
+        label: 'Đơn vị',
+        destination: 'manage/sample-origins',
         permissionAnyOf: [Permission.Admin],
       },
       {

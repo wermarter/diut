@@ -23,7 +23,6 @@ import {
 } from 'src/api/patient'
 import { useTypedSelector } from 'src/core'
 import { selectUserId, selectUserIsAdmin } from 'src/modules/auth'
-import { TestResponseDto, useLazyTestFindByIdQuery } from 'src/api/test'
 import { useCrudPagination } from 'src/common/hooks'
 import { infoConfirmPageLoader } from './loader'
 import {
@@ -35,6 +34,7 @@ import {
 import { useForm } from 'react-hook-form'
 
 const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+const ANY_SAMPLE_ORIGIN = 'ANY_SAMPLE_ORIGIN'
 
 interface FilterData {
   fromDate: Date
@@ -42,16 +42,19 @@ interface FilterData {
   sampleId: string
   infoCompleted: 'all' | 'true' | 'false'
   patientType: string
+  sampleOrigin: string
 }
 
 export default function InfoConfirmPage() {
-  const { indicationMap, doctorMap, patientTypeMap, testMap } =
+  const { indicationMap, doctorMap, patientTypeMap, testMap, sampleOriginMap } =
     useLoaderData() as Awaited<ReturnType<typeof infoConfirmPageLoader>>
   const userId = useTypedSelector(selectUserId)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
+  const sampleOriginParam =
+    searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -81,12 +84,14 @@ export default function InfoConfirmPage() {
         (searchParams.get('infoCompleted') as FilterData['infoCompleted']) ??
         'all',
       patientType: patientTypeParam,
+      sampleOrigin: sampleOriginParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const infoCompleted = watch('infoCompleted')
   const patientType = watch('patientType')
+  const sampleOrigin = watch('sampleOrigin')
 
   const {
     data,
@@ -102,6 +107,7 @@ export default function InfoConfirmPage() {
     sampleId,
     infoCompleted,
     patientType,
+    sampleOrigin,
   }: FilterData) => {
     setSearchParams(
       {
@@ -110,6 +116,7 @@ export default function InfoConfirmPage() {
         fromDate: fromDate.toISOString(),
         toDate: toDate.toISOString(),
         patientType,
+        sampleOrigin,
       },
       { replace: true },
     )
@@ -132,10 +139,12 @@ export default function InfoConfirmPage() {
           infoCompleted === 'all'
             ? undefined
             : infoCompleted === 'true'
-            ? true
-            : false,
+              ? true
+              : false,
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
+        sampleOriginId:
+          sampleOrigin !== ANY_SAMPLE_ORIGIN ? sampleOrigin : undefined,
       },
     }))
   }
@@ -146,7 +155,7 @@ export default function InfoConfirmPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, infoCompleted, patientType])
+  }, [fromDate, toDate, infoCompleted, patientType, sampleOrigin])
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
@@ -236,7 +245,7 @@ export default function InfoConfirmPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -253,7 +262,24 @@ export default function InfoConfirmPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="sampleOrigin"
+                label="Đơn vị"
+                options={[
+                  { label: 'Tất cả', value: ANY_SAMPLE_ORIGIN },
+                  ...[...sampleOriginMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
               <FormTextField
                 fullWidth
                 control={control}

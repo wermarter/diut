@@ -79,6 +79,13 @@ export class SampleResponseDto extends BaseResourceResponseDto {
 
   @ExposeObjectId()
   @ApiProperty({
+    example: '634180269de1f07e47bbf494',
+  })
+  @IsObjectId()
+  sampleOriginId: string
+
+  @ExposeObjectId()
+  @ApiProperty({
     example: ['634180269de1f07e47bbf494'],
   })
   @IsString({ each: true })

@@ -46,7 +46,7 @@ import { BarcodeModal } from '../../components/BarcodeModal'
 const currentYear = new Date().getFullYear()
 
 export default function InfoInputPage() {
-  const { patientTypes, indications, doctors, sampleTypes } =
+  const { patientTypes, indications, doctors, sampleTypes, sampleOrigins } =
     useLoaderData() as Awaited<ReturnType<typeof infoInputPageLoader>>
 
   const {
@@ -66,6 +66,7 @@ export default function InfoInputPage() {
       patientTypeId: patientTypes.items?.[0]?._id!,
       doctorId: doctors.items?.[0]?._id!,
       indicationId: indications.items?.[0]?._id!,
+      sampleOriginId: sampleOrigins.items?.[0]?._id!,
     },
   })
 
@@ -291,7 +292,7 @@ export default function InfoInputPage() {
                 label="Tuổi"
               />
             </Grid>
-            <Grid xs={6}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="address"
@@ -299,6 +300,16 @@ export default function InfoInputPage() {
                 control={control}
                 fullWidth
                 label="Địa chỉ"
+              />
+            </Grid>
+            <Grid xs={3}>
+              <FormSelect
+                control={control}
+                name="sampleOriginId"
+                label="Đơn vị"
+                options={sampleOrigins?.items!}
+                getOptionValue={(option) => option._id}
+                getOptionLabel={(option) => option.name}
               />
             </Grid>
             {/* ----------------------------- Row 3 ----------------------------- */}
