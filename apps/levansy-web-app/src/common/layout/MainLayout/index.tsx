@@ -19,7 +19,14 @@ export function MainLayout() {
     >
       <AppBar drawerWidth={drawerWidth} />
       <AppDrawer drawerWidth={drawerWidth} />
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          bgcolor: 'background.default',
+          width: `calc(100% - ${drawerWidth}px)`,
+        }}
+      >
         <Toolbar variant="dense" />
         <Outlet />
       </Box>

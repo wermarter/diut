@@ -40,4 +40,7 @@ export class Test extends BaseSchema {
 
   @Prop({ required: true })
   shouldNotPrint: boolean
+
+  @Prop({ required: true })
+  shouldDisplayWithChildren: boolean
 }

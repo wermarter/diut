@@ -65,4 +65,11 @@ export class TestResponseDto extends BaseResourceResponseDto {
   })
   @IsBoolean()
   shouldNotPrint: boolean
+
+  @Expose()
+  @ApiProperty({
+    example: false,
+  })
+  @IsBoolean()
+  shouldDisplayWithChildren: boolean
 }

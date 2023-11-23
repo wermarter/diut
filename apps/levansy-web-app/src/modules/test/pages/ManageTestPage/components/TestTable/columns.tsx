@@ -70,6 +70,14 @@ export function useTestColumns(
       editable: true,
     },
     {
+      field: 'shouldDisplayWithChildren',
+      type: 'boolean',
+      headerName: 'Luôn hiển thị',
+      width: 80,
+      sortable: false,
+      editable: true,
+    },
+    {
       field: 'printForm',
       type: 'singleSelect',
       headerName: 'Form In KQ',

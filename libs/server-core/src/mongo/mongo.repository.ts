@@ -13,7 +13,7 @@ import { DeleteResult } from 'mongodb'
 import { BaseSchema } from './mongo.common'
 
 export abstract class MongoRepository<Entity extends BaseSchema> {
-  constructor(private readonly model: Model<Entity>) {}
+  constructor(public readonly model: Model<Entity>) {}
 
   private cleanEntity(object: Require_id<Entity>) {
     if (object == null) {

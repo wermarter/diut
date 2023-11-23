@@ -85,6 +85,7 @@ export type TestResponseDto = {
   index: number
   printForm: PrintForm
   shouldNotPrint: boolean
+  shouldDisplayWithChildren: boolean
 }
 export type SearchTestResponseDto = {
   total: number
@@ -105,6 +106,7 @@ export type CreateTestRequestDto = {
   index: number
   printForm: PrintForm
   shouldNotPrint: boolean
+  shouldDisplayWithChildren: boolean
 }
 export type UpdateTestRequestDto = {
   category?: string
@@ -113,6 +115,7 @@ export type UpdateTestRequestDto = {
   index?: number
   printForm?: PrintForm
   shouldNotPrint?: boolean
+  shouldDisplayWithChildren?: boolean
 }
 export const {
   useTestSearchQuery,
