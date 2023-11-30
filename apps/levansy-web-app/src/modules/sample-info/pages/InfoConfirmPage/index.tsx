@@ -139,8 +139,8 @@ export default function InfoConfirmPage() {
           infoCompleted === 'all'
             ? undefined
             : infoCompleted === 'true'
-              ? true
-              : false,
+            ? true
+            : false,
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
         sampleOriginId:

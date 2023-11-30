@@ -3,9 +3,10 @@ import { groupBy } from 'lodash'
 import { appStore } from 'src/core'
 import { patientTypeApi } from 'src/api/patient-type'
 import { testApi } from 'src/api/test'
+import { sampleOriginApi } from 'src/api/sample-origin'
 
 export const testReportPageLoader = async () => {
-  const [patientTypes, testRes] = await Promise.all([
+  const [patientTypes, testRes, sampleOriginRes] = await Promise.all([
     appStore
       .dispatch(
         patientTypeApi.endpoints.patientTypeSearch.initiate({
@@ -20,6 +21,13 @@ export const testReportPageLoader = async () => {
         }),
       )
       .unwrap(),
+    appStore
+      .dispatch(
+        sampleOriginApi.endpoints.sampleOriginSearch.initiate({
+          searchSampleOriginRequestDto: { sort: { index: 1 } },
+        }),
+      )
+      .unwrap(),
   ])
 
   const categories: string[] = []
@@ -27,6 +35,7 @@ export const testReportPageLoader = async () => {
     categories[test?.category?.index] = test?.category?.name
     return test?.category?.name
   })
+  const sampleOrigins = sampleOriginRes?.items ?? []
 
   return {
     patientTypeMap: new Map(
@@ -34,6 +43,9 @@ export const testReportPageLoader = async () => {
     ),
     categories: categories.filter(
       (categoryName) => typeof categoryName === 'string',
+    ),
+    sampleOriginMap: new Map(
+      sampleOrigins.map((sampleOrigin) => [sampleOrigin._id, sampleOrigin]),
     ),
     groups,
     tests: [...testRes.items].sort((a, b) => {

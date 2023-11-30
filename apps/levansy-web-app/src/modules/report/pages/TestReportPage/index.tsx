@@ -27,6 +27,7 @@ import {
 } from 'src/common/form-elements'
 
 const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
+const ANY_SAMPLE_ORIGIN = 'ANY_SAMPLE_ORIGIN'
 
 enum IsNgoaiGio {
   Any = 'ANY_NGOAI_GIO',
@@ -39,6 +40,7 @@ interface FilterData {
   toDate: Date
   patientType: string
   isNgoaiGio: IsNgoaiGio
+  sampleOrigin: string
 }
 
 function parseIsNgoaiGio(isNgoaiGioParam: IsNgoaiGio) {
@@ -55,13 +57,15 @@ const BUU_DIEN_SUMMARY = 'BUU_DIEN_SUMMARY'
 const NGOAI_GIO_SUMMARY = 'NGOAI_GIO_SUMMARY'
 
 export default function TestReportPage() {
-  const { patientTypeMap, categories, groups, tests } =
+  const { patientTypeMap, categories, groups, tests, sampleOriginMap } =
     useLoaderData() as Awaited<ReturnType<typeof testReportPageLoader>>
   const [searchParams, setSearchParams] = useSearchParams()
 
   const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
   const isNgoaiGioParam =
     (searchParams.get('isNgoaiGio') as IsNgoaiGio) ?? IsNgoaiGio.Any
+  const sampleOriginParam =
+    searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -85,24 +89,28 @@ export default function TestReportPage() {
           : new Date(),
       patientType: patientTypeParam,
       isNgoaiGio: isNgoaiGioParam,
+      sampleOrigin: sampleOriginParam,
     },
   })
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
   const patientType = watch('patientType')
   const isNgoaiGio = watch('isNgoaiGio')
+  const sampleOrigin = watch('sampleOrigin')
 
   const handleSubmitFilter = ({
     fromDate,
     toDate,
     patientType,
     isNgoaiGio,
+    sampleOrigin,
   }: FilterData) => {
     setSearchParams({
       patientType,
       isNgoaiGio,
       fromDate: fromDate.toISOString(),
       toDate: toDate.toISOString(),
+      sampleOrigin,
     })
 
     return setFilterObj((obj) => ({
@@ -116,6 +124,8 @@ export default function TestReportPage() {
         patientTypeId:
           patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
         isNgoaiGio: parseIsNgoaiGio(isNgoaiGio),
+        sampleOriginId:
+          sampleOrigin !== ANY_SAMPLE_ORIGIN ? sampleOrigin : undefined,
       },
     }))
   }
@@ -126,7 +136,7 @@ export default function TestReportPage() {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, patientType, isNgoaiGio])
+  }, [fromDate, toDate, patientType, isNgoaiGio, sampleOrigin])
 
   const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
     searchSampleRequestDto: filterObj,
@@ -233,7 +243,7 @@ export default function TestReportPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
@@ -250,7 +260,24 @@ export default function TestReportPage() {
                 getOptionValue={({ value }) => value}
               />
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={2}>
+              <FormSelect
+                control={control}
+                size="medium"
+                name="sampleOrigin"
+                label="Đơn vị"
+                options={[
+                  { label: 'Tất cả', value: ANY_SAMPLE_ORIGIN },
+                  ...[...sampleOriginMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: _id,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
               <input type="submit" style={{ display: 'none' }} />
             </Grid>
           </Grid>
