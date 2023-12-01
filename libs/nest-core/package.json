@@ -1,6 +1,6 @@
 {
-  "name": "@diut/server-core",
-  "description": "server-core",
+  "name": "@diut/nest-core",
+  "description": "nest-core",
   "repository": "https://github.com/wermarter/diut",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,

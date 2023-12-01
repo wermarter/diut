@@ -3,8 +3,11 @@ import {
   LogModule,
   MinioModule,
   MongoModule,
-} from '@diut/server-core'
-import { Module, ModuleMetadata } from '@nestjs/common'
+} from '@diut/nest-core'
+import { Inject, Module, ModuleMetadata, OnModuleInit } from '@nestjs/common'
+import { ClientGrpc, ClientsModule, Transport } from '@nestjs/microservices'
+import { ProtoPackage } from '@diut/common'
+import { HELLO_SERVICE_NAME, HelloServiceClient } from '@diut/puppeteer-service'
 
 import { resourceModules } from './resources'
 import { AuthModule } from './auth'
@@ -12,6 +15,7 @@ import { AppConfig, loadAppConfig } from './configs/app.config'
 import { MongoConfig, loadMongoConfig } from './configs/mongo.config'
 import { MinioConfig, loadMinioConfig } from './configs/minio.config'
 import { LogConfig, loadLogConfig } from './configs'
+import { lastValueFrom } from 'rxjs'
 
 const coreModules: ModuleMetadata['imports'] = [
   ConfigModule.forRoot({}),
@@ -44,9 +48,34 @@ const coreModules: ModuleMetadata['imports'] = [
       secretKey: minioConfig.MINIO_SECRET_KEY,
     }),
   }),
+  ClientsModule.register([
+    {
+      name: 'test-say-hello',
+      transport: Transport.GRPC,
+      options: {
+        package: ProtoPackage.PuppeteerService,
+        protoPath:
+          'node_modules/@diut/puppeteer-service/dist/proto/package.proto',
+        url: 'localhost:50051',
+      },
+    },
+  ]),
 ]
 
 @Module({
   imports: [...coreModules, ...resourceModules, AuthModule],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  private helloServiceClient: HelloServiceClient
+
+  constructor(@Inject('test-say-hello') private client: ClientGrpc) {
+    this.helloServiceClient =
+      this.client.getService<HelloServiceClient>(HELLO_SERVICE_NAME)
+  }
+
+  onModuleInit() {
+    lastValueFrom(
+      this.helloServiceClient.sayHello({ name: 'process.env.SERVICE_NAME' }),
+    ).then(console.log)
+  }
+}

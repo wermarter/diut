@@ -9,7 +9,7 @@ import {
   IsString,
   Min,
 } from 'class-validator'
-import { IsObjectId } from '@diut/server-core'
+import { IsObjectId } from '@diut/nest-core'
 
 export class CreateTestRequestDto {
   @ApiProperty({

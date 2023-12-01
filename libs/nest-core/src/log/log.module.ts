@@ -44,10 +44,7 @@ export class LogModule {
 
         return {
           ...options,
-          defaultMeta: merge(
-            options.defaultMeta,
-            buildWinstonDefaultMeta(options.serviceName),
-          ),
+          defaultMeta: merge(options.defaultMeta, buildWinstonDefaultMeta()),
           transports,
         }
       },

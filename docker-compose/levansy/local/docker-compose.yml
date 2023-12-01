@@ -29,8 +29,8 @@ services:
       - ../../apps/levansy-access-service/src:/usr/src/app/apps/levansy-access-service/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
-      - ../../libs/server-core/package.json:/usr/src/app/libs/server-core/package.json
-      - ../../libs/server-core/src:/usr/src/app/libs/server-core/src
+      - ../../libs/nest-core/package.json:/usr/src/app/libs/nest-core/package.json
+      - ../../libs/nest-core/src:/usr/src/app/libs/nest-core/src
       - ../../libs/levansy-common/package.json:/usr/src/app/libs/levansy-common/package.json
       - ../../libs/levansy-common/src:/usr/src/app/libs/levansy-common/src
     networks:

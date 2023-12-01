@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common'
 
-import { ConfigModule, MongoModule } from '@diut/server-core'
+import { ConfigModule, MongoModule } from '@diut/nest-core'
 import { DoctorModule } from '../doctors/doctor.module'
 import { IndicationModule } from '../indications/indication.module'
 import { PatientTypeModule } from '../patient-types/patient-type.module'

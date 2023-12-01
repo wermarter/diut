@@ -15,7 +15,7 @@ import {
   ExposeObjectId,
   IsObjectId,
   BadRequestDto,
-} from '@diut/server-core'
+} from '@diut/nest-core'
 
 export class SampleResponseDto extends BaseResourceResponseDto {
   @Expose()

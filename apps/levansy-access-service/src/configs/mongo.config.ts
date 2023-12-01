@@ -1,4 +1,4 @@
-import { makeConfigLoader } from '@diut/server-core'
+import { makeConfigLoader } from '@diut/nest-core'
 import { IsString, MinLength } from 'class-validator'
 
 export class MongoConfig {

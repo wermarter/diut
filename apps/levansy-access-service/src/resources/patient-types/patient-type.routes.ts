@@ -1,7 +1,7 @@
 import { Permission } from '@diut/levansy-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions } from '@diut/server-core'
+import { AppControllerOptions } from '@diut/nest-core'
 import { AppRouteOptions } from 'src/common/route.decorator'
 import { SearchPatientTypeResponseDto } from './dtos/search-patient-type.response-dto'
 import { PatientTypeResponseDto } from './dtos/patient-type.response-dto'

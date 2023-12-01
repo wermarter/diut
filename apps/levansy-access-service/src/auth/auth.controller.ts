@@ -1,6 +1,6 @@
 import { Body, UseGuards } from '@nestjs/common'
 
-import { AppController } from '@diut/server-core'
+import { AppController } from '@diut/nest-core'
 import { AppRoute } from 'src/common/route.decorator'
 import { User } from 'src/resources/users/user.schema'
 import { ReqUser } from './auth.common'

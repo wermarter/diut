@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { MongoModule } from '@diut/server-core'
+import { MongoModule } from '@diut/nest-core'
 
 import { PatientTypeController } from './patient-type.controller'
 import { PatientType } from './patient-type.schema'

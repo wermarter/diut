@@ -10,7 +10,7 @@ import {
   IsString,
 } from 'class-validator'
 
-import { BaseResourceResponseDto } from '@diut/server-core'
+import { BaseResourceResponseDto } from '@diut/nest-core'
 
 export class PatientResponseDto extends BaseResourceResponseDto {
   @Expose()

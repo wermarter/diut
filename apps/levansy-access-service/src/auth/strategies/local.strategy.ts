@@ -8,7 +8,7 @@ import * as argon2 from 'argon2'
 import { LOCAL_STRATEGY_KEY } from '../auth.common'
 import { UserService } from 'src/resources/users/user.service'
 import { LoginRequestDto } from '../dtos/login.request-dto'
-import { validateDto } from '@diut/server-core'
+import { validateDto } from '@diut/nest-core'
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(

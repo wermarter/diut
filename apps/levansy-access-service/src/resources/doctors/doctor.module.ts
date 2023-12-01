@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 
-import { MongoModule } from '@diut/server-core'
+import { MongoModule } from '@diut/nest-core'
 import { DoctorController } from './doctor.controller'
 import { Doctor } from './doctor.schema'
 import { DoctorService } from './doctor.service'

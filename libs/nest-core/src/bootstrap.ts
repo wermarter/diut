@@ -1,33 +1,44 @@
-import { INestApplication, ShutdownSignal } from '@nestjs/common'
+import { INestApplicationContext, ShutdownSignal } from '@nestjs/common'
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface'
 import { NestFactory } from '@nestjs/core'
 import { clone, merge } from 'lodash'
 
 export type BootstrapContext = {
   serviceName: string
+  NODE_ENV: string
+  HTTP_PORT?: string
 }
 
-export type BootstrapContextWithApp = BootstrapContext & {
-  app: INestApplication
-}
+export type BootstrapContextWithApp<T extends INestApplicationContext> =
+  BootstrapContext & {
+    app: T
+  }
 
-export type BootstrapConfig = {
+export type BootstrapConfig<
+  T extends INestApplicationContext = INestApplicationContext,
+> = {
   initOptions?: NestApplicationContextOptions
   beforeInit?: (ctx: BootstrapContext) => void | Promise<void>
-  afterInit?: (ctx: BootstrapContextWithApp) => void | Promise<void>
-  onExit?: (ctx: BootstrapContextWithApp) => void | Promise<void>
+  afterInit?: (ctx: BootstrapContextWithApp<T>) => void | Promise<void>
+  onExit?: (ctx: BootstrapContextWithApp<T>) => void | Promise<void>
 }
 
-export async function bootstrapApp(
+export async function bootstrapApp<
+  T extends INestApplicationContext = INestApplicationContext,
+>(
   context: BootstrapContext,
   AppModule: unknown,
-  bootstrapConfigs: BootstrapConfig[],
+  bootstrapConfigs: BootstrapConfig<T>[],
+  NestApplicationFactory?: (
+    AppModule: unknown,
+    additionalOptions: NestApplicationContextOptions,
+  ) => Promise<T>,
 ) {
   const bootstrapContext = clone(context)
   let initOptions: NestApplicationContextOptions = {}
-  const beforeInitHooks: BootstrapConfig['beforeInit'][] = []
-  const afterInitHooks: BootstrapConfig['afterInit'][] = []
-  const onExitHooks: BootstrapConfig['onExit'][] = []
+  const beforeInitHooks: BootstrapConfig<T>['beforeInit'][] = []
+  const afterInitHooks: BootstrapConfig<T>['afterInit'][] = []
+  const onExitHooks: BootstrapConfig<T>['onExit'][] = []
 
   for (const bootstrapConfig of bootstrapConfigs) {
     if (bootstrapConfig.beforeInit !== undefined) {
@@ -50,7 +61,12 @@ export async function bootstrapApp(
     await beforeInitHook(bootstrapContext)
   }
 
-  const app = await NestFactory.create(AppModule, initOptions)
+  if (NestApplicationFactory === undefined) {
+    NestApplicationFactory = (AppModule, additionalOptions) =>
+      NestFactory.create(AppModule, additionalOptions) as any
+  }
+
+  const app = await NestApplicationFactory(AppModule, initOptions)
   const bootstrapContextWithApp = merge(bootstrapContext, { app })
 
   for (const afterInitHook of afterInitHooks) {

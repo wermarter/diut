@@ -1,7 +1,7 @@
 import { Gender } from '@diut/levansy-common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
-import { BaseSchema, baseSchemaOptions } from '@diut/server-core'
+import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'
 import { COLLECTION } from 'src/common/collections'
 
 @Schema({

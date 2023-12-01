@@ -1,7 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
 
-import { BaseSchema, baseSchemaOptions } from '@diut/server-core'
+import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'
 import { COLLECTION } from 'src/common/collections'
 import { Test } from '../tests/test.schema'
 

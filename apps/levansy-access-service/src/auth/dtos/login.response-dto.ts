@@ -2,7 +2,7 @@ import { LoginExceptionMsg } from '@diut/levansy-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 
-import { BadRequestDto } from '@diut/server-core'
+import { BadRequestDto } from '@diut/nest-core'
 import { UserResponseDto } from 'src/resources/users/dtos/user.response-dto'
 
 export class LoginResponseDto extends UserResponseDto {

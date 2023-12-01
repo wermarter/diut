@@ -1,7 +1,7 @@
 import { trace, context } from '@opentelemetry/api'
 
-export const buildWinstonDefaultMeta = (serviceName: string) => ({
-  service: serviceName,
+export const buildWinstonDefaultMeta = () => ({
+  // service: serviceName,
   get spanId() {
     // console.log here to debug
     return trace.getSpan(context.active())?.spanContext().spanId

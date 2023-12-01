@@ -1,4 +1,4 @@
-import { PaginatedResponse } from '@diut/server-core'
+import { PaginatedResponse } from '@diut/nest-core'
 import { PatientTypeResponseDto } from './patient-type.response-dto'
 
 export class SearchPatientTypeResponseDto extends PaginatedResponse(

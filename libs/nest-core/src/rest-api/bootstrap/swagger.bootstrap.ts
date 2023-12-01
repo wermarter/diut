@@ -1,9 +1,10 @@
+import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { BootstrapConfig } from '../../bootstrap'
 import { SWAGGER_ENDPOINT } from '../constants'
 
-export const SwaggerBootstrap: BootstrapConfig = {
+export const SwaggerBootstrap: BootstrapConfig<INestApplication> = {
   afterInit(ctx) {
     const swaggerConfig = new DocumentBuilder()
       .setTitle(ctx.serviceName)
