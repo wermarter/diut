@@ -33,8 +33,6 @@ FROM base AS development
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
-RUN pnpm --filter "@diut/levansy-access-service^..." run build
-
 CMD pnpm --filter "@diut/levansy-access-service..." run --parallel dev
 
 ###################

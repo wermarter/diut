@@ -483,6 +483,9 @@ importers:
       nestjs-otel:
         specifier: ^5.1.5
         version: 5.1.5(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)
+      resolve:
+        specifier: ^1.22.8
+        version: 1.22.8
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
@@ -502,6 +505,9 @@ importers:
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
+      '@types/resolve':
+        specifier: ^1.20.6
+        version: 1.20.6
       concurrently:
         specifier: ^8.2.2
         version: 8.2.2
@@ -2165,7 +2171,7 @@ packages:
       rxjs: ^7.0.0
     dependencies:
       '@nestjs/common': 10.2.8(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 10.2.8(@nestjs/common@10.2.8)(@nestjs/microservices@10.2.8)(@nestjs/platform-express@10.2.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 10.2.8(@nestjs/common@10.2.8)(@nestjs/microservices@10.2.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       mongoose: 8.0.2
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
@@ -2245,7 +2251,7 @@ packages:
         optional: true
     dependencies:
       '@nestjs/common': 10.2.8(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 10.2.8(@nestjs/common@10.2.8)(@nestjs/microservices@10.2.8)(@nestjs/platform-express@10.2.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 10.2.8(@nestjs/common@10.2.8)(@nestjs/microservices@10.2.8)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/mapped-types': 2.0.3(@nestjs/common@10.2.8)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
       class-transformer: 0.5.1
       class-validator: 0.14.0
@@ -3997,6 +4003,10 @@ packages:
       '@types/scheduler': 0.16.6
       csstype: 3.1.2
 
+  /@types/resolve@1.20.6:
+    resolution: {integrity: sha512-A4STmOXPhMUtHH+S6ymgE2GiBSMqf4oTvcQZMcHzokuTLVYzXTB8ttjcgxOVaAp2lGwEdzZ0J+cRbbeevQj1UQ==}
+    dev: true
+
   /@types/scheduler@0.16.6:
     resolution: {integrity: sha512-Vlktnchmkylvc9SnwwwozTv04L/e1NykF5vgoQ0XTmI8DD+wxfjQuHuvHS3p0r2jz2x2ghPs2h1FVeDirIteWA==}
 
@@ -5568,10 +5578,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /function-bind@1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
-    dev: false
-
   /function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
@@ -5626,7 +5632,7 @@ packages:
   /get-intrinsic@1.2.1:
     resolution: {integrity: sha512-2DcsyfABl+gVHEfCOaTrWgyt+tb6MSEGmKq+kI5HwLbIYgjgmMcV8KQ41uaKz1xxUcn9tJtgFbQUEVcEbd0FYw==}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
       has: 1.0.3
       has-proto: 1.0.1
       has-symbols: 1.0.3
@@ -5782,7 +5788,7 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
     dev: false
 
   /hasown@2.0.0:
@@ -8927,6 +8933,7 @@ packages:
     resolution: {directory: libs/nest-core, type: directory}
     id: file:libs/nest-core
     name: '@diut/nest-core'
+    requiresBuild: true
     peerDependencies:
       '@nestjs/core': ^10.2.8
     dependencies:
@@ -8963,6 +8970,7 @@ packages:
       nest-winston: 1.9.4(@nestjs/common@10.2.8)(winston@3.11.0)
       nestjs-minio-client: 2.2.0(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)
       nestjs-otel: 5.1.5(@nestjs/common@10.2.8)(@nestjs/core@10.2.8)
+      resolve: 1.22.8
       rxjs: 7.8.1
       winston: 3.11.0
       winston-loki: 6.0.8

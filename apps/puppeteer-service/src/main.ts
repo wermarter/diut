@@ -4,7 +4,8 @@ import {
   LogBootstrap,
   bootstrapApp,
   DIUT_PACKAGE_NAME,
-  PUPPETEER_SERVICE_PROTOPATH,
+  resolveProtoPath,
+  ProtobufService,
 } from '@diut/nest-core'
 import * as dotenv from 'dotenv'
 import { INestMicroservice } from '@nestjs/common'
@@ -17,7 +18,7 @@ bootstrapApp<INestMicroservice>(
   GrpcAppFactory(
     `0.0.0.0:${process.env.GRPC_PORT}`,
     DIUT_PACKAGE_NAME,
-    PUPPETEER_SERVICE_PROTOPATH,
+    resolveProtoPath(ProtobufService.Puppeteer),
   ),
   AppModule,
   { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },

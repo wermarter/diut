@@ -76,4 +76,4 @@ affinity: {}
 
 envFrom:
   - configMapRef:
-      name: access-service-env
+      name: puppeteer-service-env

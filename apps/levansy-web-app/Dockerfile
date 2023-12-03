@@ -16,8 +16,6 @@ WORKDIR /usr/src/app
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
-RUN pnpm --filter "@diut/levansy-web-app^..." run build
-
 CMD pnpm --filter "@diut/levansy-web-app..." run --parallel dev
 
 EXPOSE 5173
