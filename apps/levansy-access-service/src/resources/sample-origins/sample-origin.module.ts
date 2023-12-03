@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { MongoModule } from '@diut/server-core'
+import { MongoModule } from '@diut/nest-core'
 
 import { SampleOriginController } from './sample-origin.controller'
 import { SampleOrigin } from './sample-origin.schema'

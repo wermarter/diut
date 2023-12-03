@@ -3,7 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, QueryOptions, UpdateQuery } from 'mongoose'
 import * as argon2 from 'argon2'
-import { BaseSchema, MongoRepository } from '@diut/server-core'
+import { BaseSchema, MongoRepository } from '@diut/nest-core'
 
 import { User } from './user.schema'
 

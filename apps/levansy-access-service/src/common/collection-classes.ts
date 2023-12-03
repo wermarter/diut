@@ -1,4 +1,4 @@
-import { BaseSchema } from '@diut/server-core'
+import { BaseSchema } from '@diut/nest-core'
 
 import { COLLECTION } from './collections'
 import { BioProduct } from 'src/resources/bio-products/bio-product.schema'

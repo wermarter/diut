@@ -10,6 +10,7 @@
     "dist"
   ],
   "scripts": {
+    "postinstall": "pnpm --filter '@diut/levansy-common...' run build",
     "build": "tsc",
     "lint": "tsc --noEmit",
     "dev": "tsc --watch --preserveWatchOutput"
@@ -18,7 +19,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.201",
-    "typescript": "^5.2.2"
+    "@types/lodash": "^4.14.202",
+    "typescript": "^5.3.2"
   }
 }

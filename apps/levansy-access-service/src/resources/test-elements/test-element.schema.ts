@@ -2,7 +2,7 @@ import { Prop, Schema } from '@nestjs/mongoose'
 import { Schema as MongooseSchema, Types } from 'mongoose'
 import { PatientCategory } from '@diut/levansy-common'
 
-import { BaseSchema, baseSchemaOptions } from '@diut/server-core'
+import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'
 import { COLLECTION } from 'src/common/collections'
 import { Test } from '../tests/test.schema'
 

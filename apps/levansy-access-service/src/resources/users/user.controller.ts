@@ -1,7 +1,7 @@
 import { isAdmin as checkAdmin } from '@diut/levansy-common'
 import { Body, Logger, Param, UnauthorizedException } from '@nestjs/common'
 
-import { AppController, ObjectIdPipe } from '@diut/server-core'
+import { AppController, ObjectIdPipe } from '@diut/nest-core'
 import { AppRoute } from 'src/common/route.decorator'
 import { CreateUserRequestDto } from './dtos/create-user.request-dto'
 import { SearchUserRequestDto } from './dtos/search-user.request-dto'

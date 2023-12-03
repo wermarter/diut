@@ -7,7 +7,7 @@ import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { LocalStrategy } from './strategies/local.strategy'
-import { ConfigModule } from '@diut/server-core'
+import { ConfigModule } from '@diut/nest-core'
 
 @Module({
   imports: [

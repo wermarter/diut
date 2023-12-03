@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
-import { BaseResourceResponseDto } from '@diut/server-core'
+import { BaseResourceResponseDto } from '@diut/nest-core'
 
 export class SampleOriginResponseDto extends BaseResourceResponseDto {
   @Expose()

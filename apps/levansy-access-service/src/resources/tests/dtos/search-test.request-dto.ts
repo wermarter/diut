@@ -1,4 +1,4 @@
-import { SearchRequestDto } from '@diut/server-core'
+import { SearchRequestDto } from '@diut/nest-core'
 import { Test } from '../test.schema'
 
 export class SearchTestRequestDto extends SearchRequestDto<Test> {}

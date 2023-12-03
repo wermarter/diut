@@ -1,5 +1,5 @@
 import { Body, Logger, Param } from '@nestjs/common'
-import { AppController, ObjectIdPipe } from '@diut/server-core'
+import { AppController, ObjectIdPipe } from '@diut/nest-core'
 
 import { AppRoute } from 'src/common/route.decorator'
 import { CreateIndicationRequestDto } from './dtos/create-indication.request-dto'

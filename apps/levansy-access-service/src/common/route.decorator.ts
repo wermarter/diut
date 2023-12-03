@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { ClassConstructor } from 'class-transformer'
-import { AppOpenApi, AppOpenApiOptions, Serialize } from '@diut/server-core'
+import { AppOpenApi, AppOpenApiOptions, Serialize } from '@diut/nest-core'
 
 import { PermissionAllOf, PermissionAnyOf } from 'src/auth/auth.common'
 import {

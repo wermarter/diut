@@ -6,7 +6,7 @@ import {
   VerifiedCallback,
   StrategyOptions,
 } from 'passport-jwt'
-import { loadConfigFromEnv } from '@diut/server-core'
+import { loadConfigFromEnv } from '@diut/nest-core'
 import { NodeEnv } from '@diut/common'
 
 import { AuthTokenPayload, JWT_STRATEGY_KEY } from '../auth.common'

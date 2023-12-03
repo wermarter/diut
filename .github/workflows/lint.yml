@@ -21,13 +21,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build common
-        run: pnpm --filter "*common*" run -r --parallel build
-
-      - name: Build core
-        run: pnpm --filter "*core*" run -r --parallel build
+        run: PUPPETEER_SKIP_DOWNLOAD=true && pnpm install --frozen-lockfile
 
       - name: Lint all
         run: pnpm run -r --parallel lint

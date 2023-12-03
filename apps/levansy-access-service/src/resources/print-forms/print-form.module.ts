@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 
-import { MongoModule } from '@diut/server-core'
+import { MongoModule } from '@diut/nest-core'
 import { PrintFormController } from './print-form.controller'
 import { PrintForm } from './print-form.schema'
 import { PrintFormService } from './print-form.service'

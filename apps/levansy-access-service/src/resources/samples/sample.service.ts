@@ -24,7 +24,7 @@ import { NodeEnv } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq, merge } from 'lodash'
 
-import { BaseSchema, MinioService, MongoRepository } from '@diut/server-core'
+import { BaseSchema, MinioService, MongoRepository } from '@diut/nest-core'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
 import { Sample } from './sample.schema'
 import { PatientService } from '../patients/patient.service'

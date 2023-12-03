@@ -1,5 +1,5 @@
 import { Body, Param } from '@nestjs/common'
-import { AppController, ObjectIdPipe } from '@diut/server-core'
+import { AppController, ObjectIdPipe } from '@diut/nest-core'
 
 import { AppRoute } from 'src/common/route.decorator'
 import { CreateTestCategoryRequestDto } from './dtos/create-test-category.request-dto'

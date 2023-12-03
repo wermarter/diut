@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { MongoRepository } from '@diut/server-core'
+import { MongoRepository } from '@diut/nest-core'
 import { SampleType } from './sample-type.schema'
 
 @Injectable()

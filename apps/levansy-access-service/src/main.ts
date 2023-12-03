@@ -1,5 +1,6 @@
 import {
   CorsBootstrap,
+  HttpAppFactory,
   HttpListenBootstrap,
   InterceptorBootstrap,
   LifecycleBootstrap,
@@ -8,19 +9,28 @@ import {
   PrefixBootstrap,
   SwaggerBootstrap,
   bootstrapApp,
-} from '@diut/server-core'
+} from '@diut/nest-core'
 import * as dotenv from 'dotenv'
 
 import { AppModule } from './app.module'
 
 dotenv.config()
-bootstrapApp({ serviceName: process.env.SERVICE_NAME }, AppModule, [
-  LogBootstrap,
-  CorsBootstrap,
-  InterceptorBootstrap,
-  LifecycleBootstrap,
-  PipeBootstrap,
-  PrefixBootstrap,
-  SwaggerBootstrap,
-  HttpListenBootstrap,
-])
+
+bootstrapApp(
+  HttpAppFactory,
+  AppModule,
+  {
+    serviceName: process.env.SERVICE_NAME,
+    nodeEnv: process.env.NODE_ENV,
+  },
+  [
+    LogBootstrap,
+    CorsBootstrap,
+    InterceptorBootstrap,
+    LifecycleBootstrap,
+    PipeBootstrap,
+    PrefixBootstrap,
+    SwaggerBootstrap,
+    HttpListenBootstrap(process.env.HTTP_PORT),
+  ],
+)

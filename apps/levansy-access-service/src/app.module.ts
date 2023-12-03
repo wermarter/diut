@@ -1,17 +1,39 @@
 import {
   ConfigModule,
+  DIUT_PACKAGE_NAME,
   LogModule,
   MinioModule,
   MongoModule,
-} from '@diut/server-core'
-import { Module, ModuleMetadata } from '@nestjs/common'
+  resolveProtoPath,
+  PUPPETEER_SERVICE_NAME,
+  PuppeteerServiceClient,
+  ProtobufService,
+} from '@diut/nest-core'
+import {
+  Inject,
+  Logger,
+  Module,
+  ModuleMetadata,
+  OnModuleInit,
+} from '@nestjs/common'
+import { ClientGrpc, ClientsModule, Transport } from '@nestjs/microservices'
+import { lastValueFrom } from 'rxjs'
 
 import { resourceModules } from './resources'
 import { AuthModule } from './auth'
-import { AppConfig, loadAppConfig } from './configs/app.config'
-import { MongoConfig, loadMongoConfig } from './configs/mongo.config'
-import { MinioConfig, loadMinioConfig } from './configs/minio.config'
-import { LogConfig, loadLogConfig } from './configs'
+import {
+  Client,
+  LogConfig,
+  loadClientConfig,
+  loadLogConfig,
+  AppConfig,
+  loadAppConfig,
+  MongoConfig,
+  loadMongoConfig,
+  MinioConfig,
+  loadMinioConfig,
+  ClientConfig,
+} from './configs'
 
 const coreModules: ModuleMetadata['imports'] = [
   ConfigModule.forRoot({}),
@@ -44,9 +66,46 @@ const coreModules: ModuleMetadata['imports'] = [
       secretKey: minioConfig.MINIO_SECRET_KEY,
     }),
   }),
+  ClientsModule.registerAsync({
+    isGlobal: true,
+    clients: [
+      {
+        name: Client.PuppeteerService,
+        imports: [ConfigModule.forFeature(loadClientConfig)],
+        inject: [loadClientConfig.KEY],
+        useFactory: async (clientConfig: ClientConfig) => {
+          return {
+            transport: Transport.GRPC,
+            options: {
+              package: DIUT_PACKAGE_NAME,
+              protoPath: resolveProtoPath(ProtobufService.Puppeteer),
+              url: clientConfig.PUPPETEER_SERVICE_URL,
+            },
+          }
+        },
+      },
+    ],
+  }),
 ]
 
 @Module({
   imports: [...coreModules, ...resourceModules, AuthModule],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  private puppeteerService: PuppeteerServiceClient
+  private logger = new Logger(AppModule.name)
+
+  constructor(@Inject(Client.PuppeteerService) private client: ClientGrpc) {
+    this.puppeteerService = this.client.getService<PuppeteerServiceClient>(
+      PUPPETEER_SERVICE_NAME,
+    )
+  }
+
+  async onModuleInit() {
+    const rv = await lastValueFrom(
+      this.puppeteerService.sayHello({ name: process.env.SERVICE_NAME }),
+    )
+
+    this.logger.log(rv.response)
+  }
+}

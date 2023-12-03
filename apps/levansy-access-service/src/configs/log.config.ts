@@ -1,4 +1,4 @@
-import { makeConfigLoader } from '@diut/server-core'
+import { makeConfigLoader } from '@diut/nest-core'
 import { IsOptional, IsString } from 'class-validator'
 
 export class LogConfig {

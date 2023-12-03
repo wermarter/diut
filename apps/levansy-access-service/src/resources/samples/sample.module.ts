@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common'
+import { ConfigModule, MongoModule } from '@diut/nest-core'
 
-import { ConfigModule, MongoModule } from '@diut/server-core'
 import { DoctorModule } from '../doctors/doctor.module'
 import { IndicationModule } from '../indications/indication.module'
 import { PatientTypeModule } from '../patient-types/patient-type.module'
@@ -12,8 +12,7 @@ import { TestModule } from '../tests/test.module'
 import { SampleController } from './sample.controller'
 import { Sample } from './sample.schema'
 import { SampleService } from './sample.service'
-import { loadAppConfig } from 'src/configs/app.config'
-import { loadMinioConfig } from 'src/configs'
+import { loadMinioConfig, loadAppConfig } from 'src/configs'
 
 @Module({
   imports: [

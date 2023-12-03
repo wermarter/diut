@@ -2,7 +2,7 @@ import { Permission, UserExceptionMsg } from '@diut/levansy-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { BaseResourceResponseDto, BadRequestDto } from '@diut/server-core'
+import { BaseResourceResponseDto, BadRequestDto } from '@diut/nest-core'
 
 export class UserResponseDto extends BaseResourceResponseDto {
   @Expose()
