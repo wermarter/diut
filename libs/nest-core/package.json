@@ -8,7 +8,7 @@
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
-    "postinstall": "pnpm run build",
+    "postinstall": "pnpm --filter '@diut/nest-core...' run build",
     "build": "cpy 'src/protobuf/*.proto' 'dist/protobuf/' && tsc",
     "lint": "tsc --noEmit",
     "dev:proto": "nodemon -w src/protobuf/ -e proto -x 'cpy \"src/protobuf/*.proto\" \"dist/protobuf/\"'",

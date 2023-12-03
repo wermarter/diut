@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "postinstall": "pnpm run build",
+    "postinstall": "pnpm --filter '@diut/common...' run build",
     "build": "tsc",
     "lint": "tsc --noEmit",
     "dev": "tsc --watch --preserveWatchOutput"
