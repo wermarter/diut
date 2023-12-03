@@ -2,7 +2,7 @@ import { ConfigModule, LogModule } from '@diut/nest-core'
 import { Module } from '@nestjs/common'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from './configs'
-import { HelloModule } from './modules/hello/hello.module'
+import { PuppeteerModule } from './modules/puppeteer/puppeteer.module'
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { HelloModule } from './modules/hello/hello.module'
         lokiUrl: logConfig.LOKI_URL,
       }),
     }),
-    HelloModule,
+    PuppeteerModule,
   ],
 })
 export class AppModule {}

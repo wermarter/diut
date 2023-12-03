@@ -1,0 +1,1 @@
+kubectl -n diut delete configmap puppeteer-service-env

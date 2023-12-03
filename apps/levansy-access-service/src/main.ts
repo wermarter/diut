@@ -1,5 +1,6 @@
 import {
   CorsBootstrap,
+  HttpAppFactory,
   HttpListenBootstrap,
   InterceptorBootstrap,
   LifecycleBootstrap,
@@ -16,12 +17,12 @@ import { AppModule } from './app.module'
 dotenv.config()
 
 bootstrapApp(
+  HttpAppFactory,
+  AppModule,
   {
     serviceName: process.env.SERVICE_NAME,
-    NODE_ENV: process.env.NODE_ENV,
-    HTTP_PORT: process.env.HTTP_PORT,
+    nodeEnv: process.env.NODE_ENV,
   },
-  AppModule,
   [
     LogBootstrap,
     CorsBootstrap,
@@ -30,6 +31,6 @@ bootstrapApp(
     PipeBootstrap,
     PrefixBootstrap,
     SwaggerBootstrap,
-    HttpListenBootstrap,
+    HttpListenBootstrap(process.env.HTTP_PORT),
   ],
 )

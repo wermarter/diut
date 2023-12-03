@@ -14,7 +14,7 @@ export function MainLayout() {
       sx={{
         display: 'flex',
         minWidth: '800px',
-        minHeight: 'calc(100vh - 48px)',
+        height: 'calc(100vh - 48px)',
       }}
     >
       <AppBar drawerWidth={drawerWidth} />

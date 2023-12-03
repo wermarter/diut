@@ -3,24 +3,25 @@ import { INestApplication, Logger } from '@nestjs/common'
 
 import { BootstrapConfig } from '../../bootstrap'
 import { ConfigurationException } from '../../config'
-import { SWAGGER_ENDPOINT } from '../constants'
 
-const BOOTSTRAP_CONTEXT = 'Bootstrap'
+const BOOTSTRAP_CONTEXT = 'HttpBootstrap'
 
-export const HttpListenBootstrap: BootstrapConfig<INestApplication> = {
+export const HttpListenBootstrap: (
+  httpPort: string,
+) => BootstrapConfig<INestApplication> = (httpPort) => ({
   async afterInit(ctx) {
     const logger = new Logger(BOOTSTRAP_CONTEXT)
 
-    const port = parseInt(ctx.HTTP_PORT)
+    const port = parseInt(httpPort)
     if (isNaN(port) || port < 0 || port > 65535)
       throw new ConfigurationException(`Invalid port ${port}`)
 
-    const isDev = ctx.NODE_ENV === NodeEnv.Development
+    const isDev = ctx.nodeEnv === NodeEnv.Development
     if (isDev) {
       logger.warn('Running in Development mode!')
     }
 
     await ctx.app.listen(port)
-    logger.log(`Documentation at ${await ctx.app.getUrl()}/${SWAGGER_ENDPOINT}`)
+    logger.log(`Listenning at ${await ctx.app.getUrl()}`)
   },
-}
+})

@@ -232,7 +232,12 @@ export default function EditResultPage() {
 
   return (
     <FormContainer sx={{ p: 2 }}>
-      <Box sx={{ position: 'fixed', width: '280px' }}>
+      <Box
+        sx={{
+          position: 'fixed',
+          width: '280px',
+        }}
+      >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             sx={{ mr: 1 }}
@@ -280,6 +285,8 @@ export default function EditResultPage() {
                 color: 'white',
               },
             },
+            overflowY: 'auto',
+            maxHeight: '50vh',
           }}
         >
           {sortedTests.map((test) => {
@@ -307,6 +314,7 @@ export default function EditResultPage() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          overflow: 'auto',
         }}
       >
         {sample?.note?.length! > 0 && (

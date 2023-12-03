@@ -1,18 +1,26 @@
-import { NestFactory } from '@nestjs/core'
-import { LifecycleBootstrap, LogBootstrap, bootstrapApp } from '@diut/nest-core'
-import { MicroserviceOptions, Transport } from '@nestjs/microservices'
+import {
+  GrpcAppFactory,
+  LifecycleBootstrap,
+  LogBootstrap,
+  bootstrapApp,
+  DIUT_PACKAGE_NAME,
+  PUPPETEER_SERVICE_PROTOPATH,
+} from '@diut/nest-core'
 import * as dotenv from 'dotenv'
-import { ProtoPackage } from '@diut/common'
 import { INestMicroservice } from '@nestjs/common'
 
 import { AppModule } from './app.module'
-import { join } from 'path'
 
 dotenv.config()
 
 bootstrapApp<INestMicroservice>(
-  { serviceName: process.env.SERVICE_NAME, NODE_ENV: process.env.NODE_ENV },
+  GrpcAppFactory(
+    `0.0.0.0:${process.env.GRPC_PORT}`,
+    DIUT_PACKAGE_NAME,
+    PUPPETEER_SERVICE_PROTOPATH,
+  ),
   AppModule,
+  { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },
   [
     LogBootstrap,
     LifecycleBootstrap,
@@ -22,14 +30,4 @@ bootstrapApp<INestMicroservice>(
       },
     },
   ],
-  (AppModule, additionalOptions) =>
-    NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-      ...additionalOptions,
-      transport: Transport.GRPC,
-      options: {
-        url: '0.0.0.0:50051',
-        package: ProtoPackage.PuppeteerService,
-        protoPath: join(__dirname, 'proto/package.proto'),
-      },
-    }),
 )

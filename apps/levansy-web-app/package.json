@@ -15,17 +15,17 @@
     "g:api": "npx @rtk-query/codegen-openapi openapi-config.cts"
   },
   "dependencies": {
-    "@diut/levansy-common": "workspace:*",
     "@diut/common": "workspace:*",
+    "@diut/levansy-common": "workspace:*",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
-    "@mui/icons-material": "^5.14.16",
+    "@mui/icons-material": "^5.14.19",
     "@mui/lab": "5.0.0-alpha.152",
-    "@mui/material": "^5.14.17",
-    "@mui/x-data-grid": "^6.18.1",
+    "@mui/material": "^5.14.19",
+    "@mui/x-data-grid": "^6.18.2",
     "@reduxjs/toolkit": "^1.9.7",
-    "@vitejs/plugin-react": "^4.1.1",
+    "@vitejs/plugin-react": "^4.2.0",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
@@ -34,7 +34,7 @@
     "react-easy-crop": "^5.0.2",
     "react-hook-form": "^7.48.2",
     "react-redux": "^8.1.3",
-    "react-router-dom": "^6.18.0",
+    "react-router-dom": "^6.20.1",
     "react-to-print": "^2.14.15",
     "react-toastify": "^9.1.3",
     "redux": "^4.2.1",
@@ -45,13 +45,13 @@
   },
   "devDependencies": {
     "@rtk-query/codegen-openapi": "^1.2.0",
-    "@types/lodash": "^4.14.201",
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
+    "@types/lodash": "^4.14.202",
+    "@types/react": "^18.2.41",
+    "@types/react-dom": "^18.2.17",
     "dotenv": "^16.3.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "optionalDependencies": {
-    "@esbuild/darwin-x64": "^0.19.3"
+    "@esbuild/darwin-x64": "^0.19.8"
   }
 }

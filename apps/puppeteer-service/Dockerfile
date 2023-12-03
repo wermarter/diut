@@ -33,7 +33,7 @@ FROM base AS development
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
 
-RUN pnpm --filter "@diut/puppeteer-service..." run build
+RUN pnpm --filter "@diut/puppeteer-service^..." run build
 
 CMD pnpm --filter "@diut/puppeteer-service..." run --parallel dev
 
@@ -42,6 +42,8 @@ CMD pnpm --filter "@diut/puppeteer-service..." run --parallel dev
 ###################
 
 FROM development AS build
+
+RUN pnpm --filter "@diut/puppeteer-service" run build
 
 RUN pnpm prune --prod
 

@@ -1,12 +1,10 @@
 import { INestApplicationContext, ShutdownSignal } from '@nestjs/common'
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface'
-import { NestFactory } from '@nestjs/core'
 import { clone, merge } from 'lodash'
 
 export type BootstrapContext = {
   serviceName: string
-  NODE_ENV: string
-  HTTP_PORT?: string
+  nodeEnv: string
 }
 
 export type BootstrapContextWithApp<T extends INestApplicationContext> =
@@ -23,16 +21,14 @@ export type BootstrapConfig<
   onExit?: (ctx: BootstrapContextWithApp<T>) => void | Promise<void>
 }
 
-export async function bootstrapApp<
-  T extends INestApplicationContext = INestApplicationContext,
->(
-  context: BootstrapContext,
-  AppModule: unknown,
-  bootstrapConfigs: BootstrapConfig<T>[],
-  NestApplicationFactory?: (
+export async function bootstrapApp<T extends INestApplicationContext>(
+  NestApplicationFactory: (
     AppModule: unknown,
-    additionalOptions: NestApplicationContextOptions,
+    options: NestApplicationContextOptions,
   ) => Promise<T>,
+  AppModule: unknown,
+  context: BootstrapContext,
+  bootstrapConfigs: BootstrapConfig<T>[],
 ) {
   const bootstrapContext = clone(context)
   let initOptions: NestApplicationContextOptions = {}
@@ -59,11 +55,6 @@ export async function bootstrapApp<
 
   for (const beforeInitHook of beforeInitHooks) {
     await beforeInitHook(bootstrapContext)
-  }
-
-  if (NestApplicationFactory === undefined) {
-    NestApplicationFactory = (AppModule, additionalOptions) =>
-      NestFactory.create(AppModule, additionalOptions) as any
   }
 
   const app = await NestApplicationFactory(AppModule, initOptions)
