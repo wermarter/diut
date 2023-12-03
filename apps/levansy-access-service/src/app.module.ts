@@ -4,9 +4,10 @@ import {
   LogModule,
   MinioModule,
   MongoModule,
-  PUPPETEER_SERVICE_PROTOPATH,
+  resolveProtoPath,
   PUPPETEER_SERVICE_NAME,
   PuppeteerServiceClient,
+  ProtobufService,
 } from '@diut/nest-core'
 import {
   Inject,
@@ -77,7 +78,7 @@ const coreModules: ModuleMetadata['imports'] = [
             transport: Transport.GRPC,
             options: {
               package: DIUT_PACKAGE_NAME,
-              protoPath: PUPPETEER_SERVICE_PROTOPATH,
+              protoPath: resolveProtoPath(ProtobufService.Puppeteer),
               url: clientConfig.PUPPETEER_SERVICE_URL,
             },
           }
