@@ -18,7 +18,7 @@ bootstrapApp<INestMicroservice>(
   GrpcAppFactory(
     `0.0.0.0:${process.env.GRPC_PORT}`,
     DIUT_PACKAGE_NAME,
-    resolveProtoPath(ProtobufService.Puppeteer),
+    resolveProtoPath(ProtobufService.Puppeteer, __dirname),
   ),
   AppModule,
   { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },

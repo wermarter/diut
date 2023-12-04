@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from './configs'
 import { PuppeteerModule } from './modules/puppeteer/puppeteer.module'
+import { BrowserModule } from './modules/browser/browser.module'
+import { PdfModule } from './modules/pdf/pdf.module'
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { PuppeteerModule } from './modules/puppeteer/puppeteer.module'
       }),
     }),
     PuppeteerModule,
+    BrowserModule,
+    PdfModule,
   ],
 })
 export class AppModule {}

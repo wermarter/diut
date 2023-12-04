@@ -5,8 +5,6 @@ import {
   MinioModule,
   MongoModule,
   resolveProtoPath,
-  PUPPETEER_SERVICE_NAME,
-  PuppeteerServiceClient,
   ProtobufService,
 } from '@diut/nest-core'
 import {
@@ -17,7 +15,6 @@ import {
   OnModuleInit,
 } from '@nestjs/common'
 import { ClientGrpc, ClientsModule, Transport } from '@nestjs/microservices'
-import { lastValueFrom } from 'rxjs'
 
 import { resourceModules } from './resources'
 import { AuthModule } from './auth'
@@ -78,7 +75,7 @@ const coreModules: ModuleMetadata['imports'] = [
             transport: Transport.GRPC,
             options: {
               package: DIUT_PACKAGE_NAME,
-              protoPath: resolveProtoPath(ProtobufService.Puppeteer),
+              protoPath: resolveProtoPath(ProtobufService.Puppeteer, __dirname),
               url: clientConfig.PUPPETEER_SERVICE_URL,
             },
           }
@@ -92,20 +89,11 @@ const coreModules: ModuleMetadata['imports'] = [
   imports: [...coreModules, ...resourceModules, AuthModule],
 })
 export class AppModule implements OnModuleInit {
-  private puppeteerService: PuppeteerServiceClient
   private logger = new Logger(AppModule.name)
 
-  constructor(@Inject(Client.PuppeteerService) private client: ClientGrpc) {
-    this.puppeteerService = this.client.getService<PuppeteerServiceClient>(
-      PUPPETEER_SERVICE_NAME,
-    )
-  }
+  constructor(@Inject(Client.PuppeteerService) private client: ClientGrpc) {}
 
   async onModuleInit() {
-    const rv = await lastValueFrom(
-      this.puppeteerService.sayHello({ name: process.env.SERVICE_NAME }),
-    )
-
-    this.logger.log(rv.response)
+    return
   }
 }

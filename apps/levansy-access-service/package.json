@@ -11,11 +11,6 @@
     "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist"
   },
-  "dependenciesMeta": {
-    "@diut/nest-core": {
-      "injected": true
-    }
-  },
   "dependencies": {
     "@casl/ability": "^6.5.0",
     "@diut/common": "workspace:*",

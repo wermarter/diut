@@ -10,11 +10,6 @@
     "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist"
   },
-  "dependenciesMeta": {
-    "@diut/nest-core": {
-      "injected": true
-    }
-  },
   "dependencies": {
     "@diut/common": "workspace:*",
     "@diut/nest-core": "workspace:*",
@@ -27,6 +22,7 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.3.1",
     "lodash": "^4.17.21",
+    "pdf-lib": "^1.17.1",
     "puppeteer": "^21.5.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"

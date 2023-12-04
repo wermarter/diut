@@ -11,7 +11,8 @@
     "postinstall": "pnpm --filter '@diut/nest-core...' run build",
     "build": "cpy 'src/protobuf/*.proto' 'dist/protobuf/' && tsc",
     "lint": "tsc --noEmit",
-    "dev:proto": "nodemon -w src/protobuf/ -e proto -x 'cpy \"src/protobuf/*.proto\" \"dist/protobuf/\"'",
+    "dev:proto:command": "concurrently 'cpy \"src/protobuf/*.proto\" \"dist/protobuf/\"' 'pnpm run proto'",
+    "dev:proto": "nodemon -w src/protobuf/ -e proto -x 'pnpm run dev:proto:command'",
     "dev": "concurrently 'pnpm run dev:proto' \"tsc --watch --preserveWatchOutput\"",
     "proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=src/protobuf --ts_proto_out=src/protobuf/generated src/protobuf/*.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional"
   },
