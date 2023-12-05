@@ -6,6 +6,7 @@ import {
   MongoModule,
   resolveProtoPath,
   ProtobufService,
+  PUPPETEER_SERVICE_NAME,
 } from '@diut/nest-core'
 import {
   Inject,
@@ -19,7 +20,6 @@ import { ClientGrpc, ClientsModule, Transport } from '@nestjs/microservices'
 import { resourceModules } from './resources'
 import { AuthModule } from './auth'
 import {
-  Client,
   LogConfig,
   loadClientConfig,
   loadLogConfig,
@@ -67,7 +67,7 @@ const coreModules: ModuleMetadata['imports'] = [
     isGlobal: true,
     clients: [
       {
-        name: Client.PuppeteerService,
+        name: PUPPETEER_SERVICE_NAME,
         imports: [ConfigModule.forFeature(loadClientConfig)],
         inject: [loadClientConfig.KEY],
         useFactory: async (clientConfig: ClientConfig) => {
@@ -91,7 +91,7 @@ const coreModules: ModuleMetadata['imports'] = [
 export class AppModule implements OnModuleInit {
   private logger = new Logger(AppModule.name)
 
-  constructor(@Inject(Client.PuppeteerService) private client: ClientGrpc) {}
+  constructor(@Inject(PUPPETEER_SERVICE_NAME) private client: ClientGrpc) {}
 
   async onModuleInit() {
     return

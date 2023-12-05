@@ -8,7 +8,3 @@ export class ClientConfig {
 }
 
 export const loadClientConfig = makeConfigLoader(ClientConfig)
-
-export enum Client {
-  PuppeteerService = 'PuppeteerService',
-}

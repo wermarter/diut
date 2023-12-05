@@ -11,13 +11,7 @@ export function resolveProtoPath(service: ProtobufService, basedir: string) {
   const PACKAGE_PATH_INDEX_JS = ModuleResolve.sync('@diut/nest-core', {
     basedir,
   })
-  const PROTOPATH = resolve(
-    PACKAGE_PATH_INDEX_JS,
-    '..',
-    '..',
-    'dist',
-    'protobuf',
-  )
+  const PROTOPATH = resolve(PACKAGE_PATH_INDEX_JS, '..', 'protobuf')
 
   return `${PROTOPATH}/${service}.proto`
 }
