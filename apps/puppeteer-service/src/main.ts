@@ -6,6 +6,7 @@ import {
   DIUT_PACKAGE_NAME,
   resolveProtoPath,
   ProtobufService,
+  GrpcListenBootstrap,
 } from '@diut/nest-core'
 import * as dotenv from 'dotenv'
 import { INestMicroservice } from '@nestjs/common'
@@ -22,13 +23,5 @@ bootstrapApp<INestMicroservice>(
   ),
   AppModule,
   { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },
-  [
-    LogBootstrap,
-    LifecycleBootstrap,
-    {
-      async afterInit(ctx) {
-        await ctx.app.listen()
-      },
-    },
-  ],
+  [LogBootstrap, LifecycleBootstrap, GrpcListenBootstrap],
 )

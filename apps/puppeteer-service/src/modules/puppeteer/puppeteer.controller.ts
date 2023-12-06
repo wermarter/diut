@@ -12,6 +12,8 @@ export class PuppeteerController implements PuppeteerServiceController {
   constructor(private readonly helloService: PuppeteerService) {}
 
   sayHello({ name }: HelloDto): HelloResponseDto {
-    return { response: this.helloService.sayHello(name) }
+    return {
+      response: this.helloService.sayHello(name),
+    }
   }
 }
