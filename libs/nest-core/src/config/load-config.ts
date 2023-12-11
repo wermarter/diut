@@ -20,7 +20,8 @@ export function loadConfigFromEnv<T = unknown>(
 ) {
   const config = plainToInstance(ConfigClass, process.env, {
     enableImplicitConversion: true,
-    excludeExtraneousValues: false,
+    excludeExtraneousValues: true,
+    exposeDefaultValues: true,
   })
 
   const errors = validateSync(config as object, {

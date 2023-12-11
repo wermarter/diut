@@ -1,17 +1,18 @@
 import { makeConfigLoader } from '@diut/nest-core'
-import { IsEnum, IsNumber, IsString, MinLength } from 'class-validator'
-import { NodeEnv } from '@diut/common'
-import { registerAs } from '@nestjs/config'
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 import { Expose } from 'class-transformer'
+import { NodeEnv } from '@diut/common'
 
-export class AppConfig {
+import { IAppConfig } from 'src/domain'
+
+export class AppConfig implements IAppConfig {
   @Expose()
   @IsNumber()
-  GRPC_PORT: number
+  HTTP_PORT: number
 
   @Expose()
   @IsString()
-  @MinLength(3)
+  @IsNotEmpty()
   SERVICE_NAME: string
 
   @Expose()

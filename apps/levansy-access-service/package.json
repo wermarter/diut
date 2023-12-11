@@ -16,7 +16,6 @@
     "@diut/common": "workspace:*",
     "@diut/levansy-common": "workspace:*",
     "@diut/nest-core": "workspace:*",
-    "@diut/puppeteer-service": "workspace:*",
     "@nestjs/cli": "^10.2.1",
     "@nestjs/common": "^10.2.8",
     "@nestjs/config": "^3.1.1",

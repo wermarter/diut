@@ -1,7 +1,6 @@
 import { makeConfigLoader } from '@diut/nest-core'
-import { IsOptional, IsString } from 'class-validator'
-import { registerAs } from '@nestjs/config'
 import { Expose } from 'class-transformer'
+import { IsOptional, IsString } from 'class-validator'
 
 export class LogConfig {
   @Expose()
