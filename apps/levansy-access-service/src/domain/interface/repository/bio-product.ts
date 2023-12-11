@@ -3,6 +3,4 @@ import { IRepository } from './interface'
 
 export const BioProductRepositoryToken = Symbol('BioProductRepository')
 
-export interface IBioProductRepository extends IRepository<BioProduct> {
-  helloCleanArchitecture(): string
-}
+export interface IBioProductRepository extends IRepository<BioProduct> {}

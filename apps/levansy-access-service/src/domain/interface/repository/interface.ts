@@ -6,8 +6,9 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
+import { BaseEntity } from 'src/domain/entity'
 
-export interface IRepository<TEntity> {
+export interface IRepository<TEntity extends BaseEntity> {
   findById(id: string): Promise<TEntity>
 
   findOne(options?: {
@@ -20,7 +21,7 @@ export interface IRepository<TEntity> {
 
   exists(filter: FilterQuery<TEntity>): Promise<boolean>
 
-  create(entity: TEntity): Promise<TEntity>
+  create(entity: Omit<TEntity, keyof BaseEntity>): Promise<TEntity>
 
   count(filter: FilterQuery<TEntity>): Promise<number>
 

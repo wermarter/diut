@@ -3,46 +3,39 @@ import {
   Model,
   PipelineStage,
   QueryOptions,
-  Require_id,
   SortOrder,
+  ToObjectOptions,
   UpdateQuery,
 } from 'mongoose'
 import { pick, isNil } from 'lodash'
-import { DeleteResult } from 'mongodb'
 
 import { BaseSchema } from './mongo.common'
 
-export abstract class MongoRepository<Entity extends BaseSchema> {
-  constructor(public readonly model: Model<Entity>) {}
-
-  private cleanEntity(object: Require_id<Entity>) {
-    if (object == null) {
-      return object
-    }
-
-    // stringify ID
-    const id = object._id.toString()
-    object._id = id
-
-    // @ts-ignore
-    delete object.__v!
-
-    return object
+export abstract class MongoRepository<TEntity extends BaseSchema> {
+  private toObjectOptions: ToObjectOptions = {
+    getters: false,
+    virtuals: false,
+    minimize: false,
+    versionKey: false,
+    flattenMaps: true,
+    flattenObjectIds: true,
   }
 
-  public async findById(id: string): Promise<Entity> {
-    const item = await this.model.findById(id).exec()
+  constructor(public readonly model: Model<TEntity>) {}
 
-    return this.cleanEntity(item?.toObject<Entity>()) ?? null
+  public async findById(id: string): Promise<TEntity> {
+    const item: TEntity = await this.model.findById(id).lean()
+
+    return item
   }
 
   public async findOne(options?: {
-    filter?: FilterQuery<Entity>
+    filter?: FilterQuery<TEntity>
     projection?:
-      | keyof Entity
-      | (keyof Entity)[]
-      | Record<keyof Entity, number | boolean | object>
-  }): Promise<Entity> {
+      | keyof TEntity
+      | (keyof TEntity)[]
+      | Record<keyof TEntity, number | boolean | object>
+  }) {
     const { filter, projection } = options ?? {}
 
     const query = this.model.findOne(filter)
@@ -52,29 +45,28 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
       query.select(projection)
     }
 
-    const item = await query.exec()
-
-    return this.cleanEntity(item?.toObject<Entity>()) ?? null
+    const item: TEntity = await query.lean()
+    return item
   }
 
-  public async exists(filter: FilterQuery<Entity>): Promise<boolean> {
-    return !isNil((await this.model.exists(filter).exec())?._id)
+  public async exists(filter: FilterQuery<TEntity>): Promise<boolean> {
+    return !isNil((await this.model.exists(filter).lean())?._id)
   }
 
-  public async create(data: Omit<Entity, keyof BaseSchema>): Promise<Entity> {
+  public async create(data: Omit<TEntity, keyof BaseSchema>): Promise<TEntity> {
     const item = await this.model.create(data)
 
-    return this.cleanEntity(item.toObject<Entity>())
+    return item.toObject<TEntity>(this.toObjectOptions)
   }
 
-  public async count(filter: FilterQuery<Entity>): Promise<number> {
+  public async count(filter: FilterQuery<TEntity>): Promise<number> {
     return await this.model.countDocuments(filter).exec()
   }
 
   private populate(
     query: any,
     populates?: Array<{
-      path: keyof Entity
+      path: keyof TEntity
       fields?: Array<string>
     }>,
   ) {
@@ -94,14 +86,14 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
   public async search(options?: {
     offset?: number
     limit?: number
-    filter?: FilterQuery<Entity>
-    sort?: { [key in keyof Entity]?: SortOrder | { $meta: 'textScore' } }
+    filter?: FilterQuery<TEntity>
+    sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
     projection?:
-      | keyof Entity
-      | (keyof Entity)[]
-      | Record<keyof Entity, number | boolean | object>
+      | keyof TEntity
+      | (keyof TEntity)[]
+      | Record<keyof TEntity, number | boolean | object>
     populates?: Array<{
-      path: keyof Entity
+      path: keyof TEntity
       fields?: Array<string>
     }>
   }) {
@@ -127,7 +119,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
       this.populate(query, populates)
     }
 
-    const items = await query.exec()
+    const items = await query.lean()
 
     const total = await this.count(filter)
 
@@ -135,47 +127,50 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
       total,
       offset,
       limit,
-      items:
-        items.map((item) => this.cleanEntity(item.toObject<Entity>())) ?? [],
+      items: items?.map((item) => item as TEntity) ?? [],
     }
   }
 
   public async updateById(
     id: string,
-    data: UpdateQuery<Entity>,
-    options?: QueryOptions<Entity>,
-  ): Promise<Entity> {
-    const item = await this.model.findByIdAndUpdate(id, data, options).exec()
+    data: UpdateQuery<TEntity>,
+    options?: QueryOptions<TEntity>,
+  ) {
+    const item: TEntity = await this.model
+      .findByIdAndUpdate(id, data, options)
+      .lean()
 
-    return this.cleanEntity(item?.toObject<Entity>()) ?? null
+    return item
   }
 
   public async update(
-    filter: FilterQuery<Entity>,
-    data: UpdateQuery<Entity>,
-    options?: QueryOptions<Entity>,
-  ): Promise<Entity> {
-    const item = await this.model.findOneAndUpdate(filter, data, options).exec()
+    filter: FilterQuery<TEntity>,
+    data: UpdateQuery<TEntity>,
+    options?: QueryOptions<TEntity>,
+  ) {
+    const item: TEntity = await this.model
+      .findOneAndUpdate(filter, data, options)
+      .lean()
 
-    return this.cleanEntity(item?.toObject<Entity>()) ?? null
+    return item
   }
 
   public async updateMany(
-    filter: FilterQuery<Entity>,
-    data: UpdateQuery<Entity>,
-    options?: QueryOptions<Entity>,
-  ): Promise<void> {
-    await this.model.updateMany(filter, data, options).exec()
+    filter: FilterQuery<TEntity>,
+    data: UpdateQuery<TEntity>,
+    options?: QueryOptions<TEntity>,
+  ) {
+    await this.model.updateMany(filter, data, options).lean()
   }
 
-  public async deleteById(id: string): Promise<Entity> {
-    const item = await this.model.findByIdAndDelete(id).exec()
+  public async deleteById(id: string) {
+    const item: TEntity = await this.model.findByIdAndDelete(id).lean()
 
-    return item as unknown as Entity
+    return item
   }
 
-  public async deleteMany(filter: FilterQuery<Entity>): Promise<DeleteResult> {
-    return this.model.deleteMany(filter).exec()
+  public async deleteMany(filter: FilterQuery<TEntity>) {
+    await this.model.deleteMany(filter).exec()
   }
 
   public async bulkUpsert(
@@ -185,7 +180,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
       operator?: string
       selectedFields?: Array<string>
     },
-  ): Promise<void> {
+  ) {
     let { selectedFields, conditions, operator = 'set' } = upsert ?? {}
 
     const writes = docs?.map((doc) => {
@@ -203,7 +198,7 @@ export abstract class MongoRepository<Entity extends BaseSchema> {
     await this.model.bulkWrite(writes)
   }
 
-  public async bulkWrite(data: Array<object>): Promise<void> {
+  public async bulkWrite(data: Array<object>) {
     await this.model.bulkWrite(data as any)
   }
 

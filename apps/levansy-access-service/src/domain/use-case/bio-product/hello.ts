@@ -1,18 +1,14 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
-import { firstValueFrom } from 'rxjs'
 
 import {
-  AppConfigToken,
   BioProductRepositoryToken,
-  IAppConfig,
   IBioProductRepository,
-  IPuppeteerService,
-  PuppeteerServiceToken,
 } from 'src/domain/interface'
 import { IUseCase } from '../interface'
+import { BioProduct } from 'src/domain/entity'
 
-export type BioProductHelloUseCaseInput = void
-export type BioProductHelloUseCaseOutput = string
+export type BioProductHelloUseCaseInput = Omit<BioProduct, '_id'>
+export type BioProductHelloUseCaseOutput = { id: string }
 
 @Injectable()
 export class BioProductHelloUseCase
@@ -23,18 +19,9 @@ export class BioProductHelloUseCase
   constructor(
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
-    @Inject(AppConfigToken) private readonly appConfig: IAppConfig,
-    @Inject(PuppeteerServiceToken)
-    private readonly puppeteerService: IPuppeteerService,
   ) {}
 
   async handle() {
-    const res = await firstValueFrom(
-      this.puppeteerService.sayHello({ name: this.appConfig.SERVICE_NAME }),
-    )
-
-    this.logger.verbose(res.response)
-
-    return this.bioProductRepository.helloCleanArchitecture()
+    return this.bioProductRepository.create({})
   }
 }

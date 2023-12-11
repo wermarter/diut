@@ -4,11 +4,11 @@ import {
   BioProductRepositoryToken,
   IBioProductRepository,
 } from 'src/domain/interface'
-import { BioProduct } from 'src/domain/entity'
+import { BioProduct, BaseEntity } from 'src/domain/entity'
 import { IUseCase } from '../interface'
 
-export type BioProductCreateUseCaseInput = BioProduct
-export type BioProductCreateUseCaseOutput = void
+export type BioProductCreateUseCaseInput = Omit<BioProduct, keyof BaseEntity>
+export type BioProductCreateUseCaseOutput = BioProduct
 
 @Injectable()
 export class BioProductCreateUseCase
@@ -21,6 +21,6 @@ export class BioProductCreateUseCase
   ) {}
 
   handle(input: BioProductCreateUseCaseInput) {
-    this.bioProductRepository.create(input)
+    return this.bioProductRepository.create(input)
   }
 }

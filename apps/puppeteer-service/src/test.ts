@@ -1,38 +1,63 @@
-import { Observable, concat, from, mergeMap, of, reduce } from 'rxjs'
+import {
+  Observable,
+  concat,
+  firstValueFrom,
+  from,
+  lastValueFrom,
+  mergeMap,
+  of,
+  reduce,
+} from 'rxjs'
+import { setTimeout } from 'timers/promises'
 
-let workCount = 0
-function doWork() {
-  const result = ++workCount
-
-  return new Observable<number>((subscriber) => {
-    setTimeout(() => {
-      subscriber.next(result)
+function makeWork<TReturn>(
+  targetFunction: () => Promise<TReturn>,
+  abortController?: AbortController,
+) {
+  return new Observable<TReturn>((subscriber) => {
+    if (abortController && abortController?.signal?.aborted) {
       subscriber.complete()
-    }, 1000)
+      return
+    }
+
+    targetFunction()
+      .then((value) => {
+        subscriber.next(value)
+      })
+      .catch(subscriber.error.bind(subscriber))
+      .finally(() => subscriber.complete())
+
+    return () => {}
   })
 }
 
-async function doAdditionalWork(workObservable: Observable<number>) {
-  let sum = 0
-
-  await workObservable.forEach((value) => {
-    sum += value
-    console.log(`+${value}=${sum}`)
-  })
-
-  return sum
+function doAdditionalWork(workObservable: Observable<number>) {
+  return workObservable.pipe(
+    reduce((acc, value) => {
+      console.log(`${acc}+${value}=${acc + value}`)
+      return acc + value
+    }, 0),
+  )
 }
 
 ;(async function main() {
   console.log('LOADED')
-  const workObservable = concat(
-    doWork(),
-    doWork(),
-    doWork(),
-    doWork(),
-    doWork(),
+  let counter = 1
+  const abortController = new AbortController()
+
+  const work$ = concat(
+    makeWork(() => setTimeout(1000, counter++)),
+    makeWork(() => setTimeout(1000, counter++)),
+    makeWork(() => setTimeout(1000, counter++)),
+    makeWork(() => setTimeout(1000, counter++)),
+    makeWork(() => setTimeout(1000, counter++), abortController),
   )
 
   console.log('START')
-  doAdditionalWork(workObservable)
+  const subscription = work$.pipe(doAdditionalWork).subscribe({
+    complete: () => console.log('DONE'),
+  })
+  console.log('AFTER_START')
+
+  setTimeout(3000).then(() => abortController.abort())
 })()
