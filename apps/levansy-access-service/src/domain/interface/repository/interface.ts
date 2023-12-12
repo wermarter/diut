@@ -1,4 +1,3 @@
-import { DeleteResult } from 'mongodb'
 import {
   FilterQuery,
   PipelineStage,
@@ -6,7 +5,30 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
+
 import { BaseEntity } from 'src/domain/entity'
+
+export type SearchOptions<TEntity> = {
+  offset?: number
+  limit?: number
+  filter?: FilterQuery<TEntity>
+  sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
+  projection?:
+    | keyof TEntity
+    | (keyof TEntity)[]
+    | Record<keyof TEntity, number | boolean | object>
+  populates?: Array<{
+    path: keyof TEntity
+    fields?: Array<string>
+  }>
+}
+
+export type SearchResult<TEntity extends BaseEntity> = {
+  total: number
+  offset: number
+  limit: number
+  items: TEntity[]
+}
 
 export interface IRepository<TEntity extends BaseEntity> {
   findById(id: string): Promise<TEntity>
@@ -25,25 +47,7 @@ export interface IRepository<TEntity extends BaseEntity> {
 
   count(filter: FilterQuery<TEntity>): Promise<number>
 
-  search(options?: {
-    offset?: number
-    limit?: number
-    filter?: FilterQuery<TEntity>
-    sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
-    projection?:
-      | keyof TEntity
-      | (keyof TEntity)[]
-      | Record<keyof TEntity, number | boolean | object>
-    populates?: Array<{
-      path: keyof TEntity
-      fields?: Array<string>
-    }>
-  }): Promise<{
-    total: number
-    offset: number
-    limit: number
-    items: TEntity[]
-  }>
+  search(options?: SearchOptions<TEntity>): Promise<SearchResult<TEntity>>
 
   updateById(
     id: string,
@@ -65,7 +69,7 @@ export interface IRepository<TEntity extends BaseEntity> {
 
   deleteById(id: string): Promise<TEntity>
 
-  deleteMany(filter: FilterQuery<TEntity>): Promise<DeleteResult>
+  deleteMany(filter: FilterQuery<TEntity>): Promise<void>
 
   bulkUpsert(
     docs: unknown[],

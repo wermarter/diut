@@ -1,7 +1,7 @@
-import { concatModuleMetadata } from '@diut/nest-core'
+import { ModuleMetadata } from '@nestjs/common'
 
-import { v1BioProductMetadata } from './bio-product'
+import { BioProductController } from './bio-product/controller'
 
-export const httpControllerV1Metadata = concatModuleMetadata([
-  v1BioProductMetadata,
-])
+export const httpControllerV1Metadata: ModuleMetadata = {
+  controllers: [BioProductController],
+}

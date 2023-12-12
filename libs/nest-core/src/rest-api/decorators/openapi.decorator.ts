@@ -5,15 +5,15 @@ import {
   ApiResponseMetadata,
 } from '@nestjs/swagger'
 
-export interface AppOpenApiOptions {
+export interface CustomOpenApiOptions {
   isPublic?: boolean
   responses?: ApiResponseMetadata[]
 }
 
-export const AppOpenApi = ({
+export const CustomOpenApi = ({
   isPublic = false,
   responses,
-}: AppOpenApiOptions) => {
+}: CustomOpenApiOptions) => {
   const decorators: MethodDecorator[] = []
 
   if (!isPublic) {

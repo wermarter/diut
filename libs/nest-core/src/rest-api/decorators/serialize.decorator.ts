@@ -12,12 +12,12 @@ export function Serialize(dto: ClassConstructor<unknown>) {
 }
 
 class SerializeInterceptor implements NestInterceptor {
-  constructor(private dto: ClassConstructor<unknown>) {}
+  constructor(private dtoClass: ClassConstructor<unknown>) {}
 
   intercept(context: ExecutionContext, next: CallHandler<unknown>) {
     return next.handle().pipe(
       map((response) => {
-        return plainToClass(this.dto, response, {
+        return plainToClass(this.dtoClass, response, {
           excludeExtraneousValues: true,
         })
       }),

@@ -7,7 +7,7 @@ dotenv.config()
 
 import { TestElement } from 'src/resources/test-elements/test-element.schema'
 import { TestElementService } from 'src/resources/test-elements/test-element.service'
-import { COLLECTION } from 'src/common/collections'
+import { COLLECTION } from 'src/infrastructure/mongo/collections'
 
 async function main(srcTestId: string, destTestId: string) {
   const db = await mongoose.connect(process.env.PROD_MONGO_URI)

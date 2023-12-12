@@ -5,7 +5,7 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { COLLECTION } from 'src/common/collections'
+import { COLLECTION } from 'src/infrastructure/mongo/collections'
 import { Patient } from 'src/resources/patients/patient.schema'
 import { Gender } from '@diut/levansy-common'
 

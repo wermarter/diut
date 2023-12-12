@@ -5,7 +5,7 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { COLLECTION } from 'src/common/collections'
+import { COLLECTION } from 'src/infrastructure/mongo/collections'
 import { COLLECTION_CLASS } from 'src/common/collection-classes'
 
 async function main(collections: COLLECTION[]) {

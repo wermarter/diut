@@ -1,21 +1,18 @@
-import { Permission } from '@diut/levansy-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
-import { AppControllerOptions } from '@diut/nest-core'
+import {
+  CustomHttpControllerOptions,
+  CustomHttpRouteOptions,
+} from '@diut/nest-core'
 
-import { AppRouteOptions } from 'src/common/route.decorator'
-import { BioProductSearchResponseDto, BioProductResponseDto } from './dto'
+import { BioProductSearchResponseDto } from './dto/search.response-dto'
+import { BioProductResponseDto } from './dto/response-dto'
 
 export const bioProductRoutes = {
-  controller: <AppControllerOptions>{
+  controller: <CustomHttpControllerOptions>{
     basePath: 'v1/bio-products',
   },
 
-  hello: <AppRouteOptions>{
-    path: 'hello',
-    isPublic: true,
-  },
-
-  search: <AppRouteOptions>{
+  search: <CustomHttpRouteOptions>{
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -29,8 +26,7 @@ export const bioProductRoutes = {
     },
   },
 
-  create: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  create: <CustomHttpRouteOptions>{
     method: RequestMethod.POST,
     serialize: BioProductResponseDto,
     openApi: {
@@ -43,8 +39,7 @@ export const bioProductRoutes = {
     },
   },
 
-  updateById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  updateById: <CustomHttpRouteOptions>{
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: BioProductResponseDto,
@@ -57,7 +52,7 @@ export const bioProductRoutes = {
     },
   },
 
-  findById: <AppRouteOptions>{
+  findById: <CustomHttpRouteOptions>{
     path: ':id',
     method: RequestMethod.GET,
     serialize: BioProductResponseDto,
@@ -70,8 +65,7 @@ export const bioProductRoutes = {
     },
   },
 
-  deleteById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  deleteById: <CustomHttpRouteOptions>{
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: BioProductResponseDto,

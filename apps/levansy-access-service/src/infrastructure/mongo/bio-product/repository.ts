@@ -14,10 +14,4 @@ export class BioProductRepository
   ) {
     super(model)
   }
-
-  helloCleanArchitecture() {
-    console.log('helloCleanArchitecture')
-
-    return 'helloCleanArchitecture'
-  }
 }

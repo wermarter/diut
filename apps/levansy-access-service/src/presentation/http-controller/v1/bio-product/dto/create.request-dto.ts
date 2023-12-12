@@ -1,17 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 
+import { exampleBioProduct } from 'src/domain'
+
 export class BioProductCreateRequestDto {
-  @ApiProperty({
-    example: 'CHIV Advia centaur',
-  })
+  @ApiProperty(exampleBioProduct.name)
   @IsString()
   @IsNotEmpty()
   name: string
 
-  @ApiProperty({
-    example: 2,
-  })
+  @ApiProperty(exampleBioProduct.index)
   @IsNumber()
   @Min(1)
   index: number

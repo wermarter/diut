@@ -7,20 +7,23 @@ import {
 import { BioProduct, EntityData } from 'src/domain/entity'
 import { IUseCase } from '../interface'
 
-export type BioProductCreateUseCaseInput = EntityData<BioProduct>
-export type BioProductCreateUseCaseOutput = BioProduct
+export type BioProductUpdateUseCaseInput = Partial<EntityData<BioProduct>> & {
+  id: string
+}
+export type BioProductUpdateUseCaseOutput = BioProduct
 
 @Injectable()
-export class BioProductCreateUseCase
+export class BioProductUpdateUseCase
   implements
-    IUseCase<BioProductCreateUseCaseInput, BioProductCreateUseCaseOutput>
+    IUseCase<BioProductUpdateUseCaseInput, BioProductUpdateUseCaseOutput>
 {
   constructor(
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  handle(input: BioProductCreateUseCaseInput) {
-    return this.bioProductRepository.create(input)
+  handle(input: BioProductUpdateUseCaseInput) {
+    const { id, ...data } = input
+    return this.bioProductRepository.updateById(id, data)
   }
 }
