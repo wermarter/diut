@@ -7,12 +7,12 @@ import { ConfigurationException } from '../../config'
 const BOOTSTRAP_CONTEXT = 'HttpBootstrap'
 
 export const HttpListenBootstrap: (
-  httpPort: string,
+  httpPort?: string,
 ) => BootstrapConfig<INestApplication> = (httpPort) => ({
   async afterInit(ctx) {
     const logger = new Logger(BOOTSTRAP_CONTEXT)
 
-    const port = parseInt(httpPort)
+    const port = parseInt(httpPort ?? '5000')
     if (isNaN(port) || port < 0 || port > 65535)
       throw new ConfigurationException(`Invalid port ${port}`)
 

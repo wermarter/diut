@@ -34,7 +34,7 @@ export class LogModule {
           ? options.transports
           : []
 
-        if (options?.lokiUrl?.length > 0) {
+        if (options?.lokiUrl?.length && options.lokiUrl.length > 0) {
           transports.push(
             buildLokiTransport(options.lokiUrl, options.serviceName),
           )

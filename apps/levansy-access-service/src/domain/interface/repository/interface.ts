@@ -12,7 +12,7 @@ export type SearchOptions<TEntity> = {
   offset?: number
   limit?: number
   filter?: FilterQuery<TEntity>
-  sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
+  sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
   projection?:
     | keyof TEntity
     | (keyof TEntity)[]
@@ -31,7 +31,7 @@ export type SearchResult<TEntity extends BaseEntity> = {
 }
 
 export interface IRepository<TEntity extends BaseEntity> {
-  findById(id: string): Promise<TEntity>
+  findById(id: string): Promise<TEntity | null>
 
   findOne(options?: {
     filter?: FilterQuery<TEntity>
@@ -39,7 +39,7 @@ export interface IRepository<TEntity extends BaseEntity> {
       | keyof TEntity
       | (keyof TEntity)[]
       | Record<keyof TEntity, number | boolean | object>
-  }): Promise<TEntity>
+  }): Promise<TEntity | null>
 
   exists(filter: FilterQuery<TEntity>): Promise<boolean>
 
@@ -53,13 +53,13 @@ export interface IRepository<TEntity extends BaseEntity> {
     id: string,
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
-  ): Promise<TEntity>
+  ): Promise<TEntity | null>
 
   update(
     filter: FilterQuery<TEntity>,
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
-  ): Promise<TEntity>
+  ): Promise<TEntity | null>
 
   updateMany(
     filter: FilterQuery<TEntity>,

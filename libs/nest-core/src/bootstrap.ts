@@ -3,8 +3,8 @@ import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-ap
 import { clone, merge } from 'lodash'
 
 export type BootstrapContext = {
-  serviceName: string
-  nodeEnv: string
+  serviceName?: string
+  nodeEnv?: string
 }
 
 export type BootstrapContextWithApp<T extends INestApplicationContext> =
@@ -54,14 +54,14 @@ export async function bootstrapApp<T extends INestApplicationContext>(
   // START
 
   for (const beforeInitHook of beforeInitHooks) {
-    await beforeInitHook(bootstrapContext)
+    await beforeInitHook?.(bootstrapContext)
   }
 
   const app = await NestApplicationFactory(AppModule, initOptions)
   const bootstrapContextWithApp = merge(bootstrapContext, { app })
 
   for (const afterInitHook of afterInitHooks) {
-    await afterInitHook(bootstrapContextWithApp)
+    await afterInitHook?.(bootstrapContextWithApp)
   }
 
   process.on(ShutdownSignal.SIGTERM, () => {

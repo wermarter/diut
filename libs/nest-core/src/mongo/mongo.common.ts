@@ -1,12 +1,7 @@
 import { SchemaOptions } from '@nestjs/mongoose'
-import { Expose, Transform } from 'class-transformer'
+import { Expose } from 'class-transformer'
 import { ApiProperty } from '@nestjs/swagger'
-import {
-  applyDecorators,
-  BadRequestException,
-  Injectable,
-  PipeTransform,
-} from '@nestjs/common'
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common'
 import { ObjectId, Types } from 'mongoose'
 import {
   registerDecorator,
@@ -14,31 +9,26 @@ import {
   ValidationOptions,
 } from 'class-validator'
 
-// https://github.com/typestack/class-transformer/issues/494
-export const ExposeObjectId = () =>
-  applyDecorators(
-    Expose(),
-    Transform(
-      ({ obj, key }) => {
-        return obj[key]
-      },
-      { toClassOnly: true },
-    ),
-  )
+export const exampleMongoObjectId = {
+  example: '634180269de1f07e47bbf494',
+  description: 'MongoDB ObjectId',
+}
+
+export const exampleDate = {
+  format: 'date-time',
+  example: '2018-03-20T09:12:28Z',
+}
 
 export class BaseResourceResponseDto {
-  @ExposeObjectId()
-  @ApiProperty({
-    example: '634180269de1f07e47bbf494',
-  })
+  @ApiProperty(exampleMongoObjectId)
   _id: string
 
   @Expose()
-  @ApiProperty({ format: 'date-time', example: '2018-03-20T09:12:28Z' })
+  @ApiProperty(exampleDate)
   createdAt: Date
 
   @Expose()
-  @ApiProperty({ format: 'date-time', example: '2018-03-20T09:12:28Z' })
+  @ApiProperty(exampleDate)
   updatedAt: Date
 }
 

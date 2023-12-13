@@ -23,8 +23,8 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
 
   constructor(public readonly model: Model<TEntity>) {}
 
-  public async findById(id: string): Promise<TEntity> {
-    const item: TEntity = await this.model.findById(id).lean()
+  public async findById(id: string) {
+    const item: TEntity | null = await this.model.findById(id).lean()
 
     return item
   }
@@ -45,11 +45,11 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       query.select(projection)
     }
 
-    const item: TEntity = await query.lean()
+    const item: TEntity | null = await query.lean()
     return item
   }
 
-  public async exists(filter: FilterQuery<TEntity>): Promise<boolean> {
+  public async exists(filter: FilterQuery<TEntity>) {
     return !isNil((await this.model.exists(filter).lean())?._id)
   }
 
@@ -59,13 +59,13 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     return item.toObject<TEntity>(this.toObjectOptions)
   }
 
-  public async count(filter: FilterQuery<TEntity>): Promise<number> {
+  public async count(filter: FilterQuery<TEntity>) {
     return await this.model.countDocuments(filter).exec()
   }
 
   private populate(
     query: any,
-    populates?: Array<{
+    populates: Array<{
       path: keyof TEntity
       fields?: Array<string>
     }>,
@@ -87,7 +87,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     offset?: number
     limit?: number
     filter?: FilterQuery<TEntity>
-    sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
+    sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
     projection?:
       | keyof TEntity
       | (keyof TEntity)[]
@@ -99,13 +99,13 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   }) {
     const { offset, limit, filter, sort, projection, populates } = options ?? {}
 
-    const query = this.model.find(filter)
+    const query = this.model.find(filter ?? {})
 
     if (sort) {
       query.sort(sort)
     }
 
-    if (offset !== undefined) {
+    if (offset !== undefined && limit !== undefined) {
       query.skip(offset * limit)
       query.limit(limit)
     }
@@ -121,12 +121,12 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
 
     const items = await query.lean()
 
-    const total = await this.count(filter)
+    const total = await this.count(filter ?? {})
 
     return {
       total,
-      offset,
-      limit,
+      offset: offset ?? 0,
+      limit: limit ?? -1,
       items: items?.map((item) => item as TEntity) ?? [],
     }
   }
@@ -136,7 +136,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
   ) {
-    const item: TEntity = await this.model
+    const item: TEntity | null = await this.model
       .findByIdAndUpdate(id, data, options)
       .lean()
 
@@ -148,7 +148,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
   ) {
-    const item: TEntity = await this.model
+    const item: TEntity | null = await this.model
       .findOneAndUpdate(filter, data, options)
       .lean()
 

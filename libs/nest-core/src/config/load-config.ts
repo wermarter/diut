@@ -9,7 +9,7 @@ import { ConfigurationException } from './config.exception'
  *
  * `import { registerAs } from '@nestjs/config'`
  */
-export function makeConfigLoader(ConfigClass: ClassConstructor<unknown>) {
+export function makeConfigLoader(ConfigClass: ClassConstructor<any>) {
   return registerAs(ConfigClass.name, () => {
     return loadConfigFromEnv(ConfigClass)
   })

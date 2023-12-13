@@ -1,7 +1,8 @@
 import { BaseSchema } from '@diut/nest-core'
 
 import { COLLECTION } from './collections'
-import { BioProductSchema } from './bio-product/schema'
+import { BioProductSchema } from './bio-product'
+import { TestCategorySchema } from './test-category'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
@@ -12,7 +13,7 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   // [COLLECTION.SAMPLE]: Sample,
   // [COLLECTION.SAMPLE_TYPE]: SampleType,
   // [COLLECTION.TEST]: Test,
-  // [COLLECTION.TEST_CATEGORY]: TestCategory,
+  [COLLECTION.TEST_CATEGORY]: TestCategorySchema,
   // [COLLECTION.TEST_COMBO]: TestCombo,
   // [COLLECTION.TEST_ELEMENT]: TestElement,
   // [COLLECTION.USER]: User,

@@ -3,18 +3,24 @@ import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 import { BaseResourceResponseDto } from '@diut/nest-core'
 
-import { exampleBioProduct } from 'src/domain'
+import { exampleTestCategory } from 'src/domain'
 
-export class BioProductResponseDto extends BaseResourceResponseDto {
+export class TestCategoryResponseDto extends BaseResourceResponseDto {
   @Expose()
-  @ApiProperty(exampleBioProduct.index)
+  @ApiProperty(exampleTestCategory.index)
   @IsNumber()
   @Min(1)
   index: number
 
   @Expose()
-  @ApiProperty(exampleBioProduct.name)
+  @ApiProperty(exampleTestCategory.name)
   @IsString()
   @IsNotEmpty()
   name: string
+
+  @Expose()
+  @ApiProperty(exampleTestCategory.reportIndex)
+  @IsNumber()
+  @Min(1)
+  reportIndex: number
 }

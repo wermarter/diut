@@ -7,7 +7,7 @@ import { SWAGGER_ENDPOINT } from '../constants'
 export const SwaggerBootstrap: BootstrapConfig<INestApplication> = {
   afterInit(ctx) {
     const swaggerConfig = new DocumentBuilder()
-      .setTitle(ctx.serviceName)
+      .setTitle(ctx.serviceName ?? 'NestJS API')
       .addBearerAuth()
       .build()
 

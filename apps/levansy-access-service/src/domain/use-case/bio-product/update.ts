@@ -10,7 +10,7 @@ import { IUseCase } from '../interface'
 export type BioProductUpdateUseCaseInput = Partial<EntityData<BioProduct>> & {
   id: string
 }
-export type BioProductUpdateUseCaseOutput = BioProduct
+export type BioProductUpdateUseCaseOutput = BioProduct | null
 
 @Injectable()
 export class BioProductUpdateUseCase

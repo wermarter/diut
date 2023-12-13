@@ -12,7 +12,7 @@ export const validateDto = async <T extends object>(
   if (errors.length > 0) {
     throw new BadRequestException({
       errors: errors.map(({ constraints }) => {
-        return Object.values(constraints)[0]
+        return Object.values(constraints ?? {})[0]
       }),
     })
   }

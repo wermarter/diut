@@ -10,7 +10,7 @@ import { IUseCase } from '../interface'
 export type BioProductFindByIdUseCaseInput = {
   id: string
 }
-export type BioProductFindByIdUseCaseOutput = BioProduct
+export type BioProductFindByIdUseCaseOutput = BioProduct | null
 
 @Injectable()
 export class BioProductFindByIdUseCase

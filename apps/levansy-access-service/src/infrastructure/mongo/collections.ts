@@ -2,7 +2,7 @@ export enum COLLECTION {
   // USER = 'users',
   // PATIENT = 'patients',
   // DOCTOR = 'doctors',
-  // TEST_CATEGORY = 'test_categories',
+  TEST_CATEGORY = 'test_categories',
   // TEST = 'tests',
   // TEST_ELEMENT = 'test_elements',
   // PATIENT_TYPE = 'patient_types',
