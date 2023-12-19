@@ -1,6 +1,10 @@
 export * from './interface'
 export * from './module'
 
+export * from './auth/me'
+
+export * from './user/find-one'
+
 export * from './bio-product/create'
 export * from './bio-product/find-by-id'
 export * from './bio-product/update'

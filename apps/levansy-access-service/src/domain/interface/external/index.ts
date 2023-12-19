@@ -1,2 +1,2 @@
 export * from './puppeteer-service'
-export * from './minio-service'
+export * from './storage-service'

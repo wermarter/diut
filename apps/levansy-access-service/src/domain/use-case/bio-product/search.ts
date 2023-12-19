@@ -22,7 +22,7 @@ export class BioProductSearchUseCase
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  handle(input: BioProductSearchUseCaseInput) {
+  execute(input: BioProductSearchUseCaseInput) {
     return this.bioProductRepository.search(input)
   }
 }

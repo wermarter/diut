@@ -22,7 +22,7 @@ export class TestCategorySearchUseCase
     private readonly testCategoryRepository: ITestCategoryRepository,
   ) {}
 
-  handle(input: TestCategorySearchUseCaseInput) {
+  execute(input: TestCategorySearchUseCaseInput) {
     return this.testCategoryRepository.search(input)
   }
 }

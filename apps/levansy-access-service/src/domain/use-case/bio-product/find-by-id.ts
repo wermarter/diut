@@ -22,7 +22,7 @@ export class BioProductFindByIdUseCase
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  handle(input: BioProductFindByIdUseCaseInput) {
+  execute(input: BioProductFindByIdUseCaseInput) {
     return this.bioProductRepository.findById(input.id)
   }
 }

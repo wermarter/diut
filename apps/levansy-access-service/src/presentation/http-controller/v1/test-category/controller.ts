@@ -29,17 +29,17 @@ export class TestCategoryController {
 
   @CustomHttpRoute(testCategoryRoutes.search)
   search(@Body() body: TestCategorySearchRequestDto) {
-    return this.testCategorySearchUseCase.handle(body)
+    return this.testCategorySearchUseCase.execute(body)
   }
 
   @CustomHttpRoute(testCategoryRoutes.create)
   create(@Body() body: TestCategoryCreateRequestDto) {
-    return this.testCategoryCreateUseCase.handle(body)
+    return this.testCategoryCreateUseCase.execute(body)
   }
 
   @CustomHttpRoute(testCategoryRoutes.findById)
   findById(@Param('id', ObjectIdPipe) id: string) {
-    return this.testCategoryFindByIdUseCase.handle({ id })
+    return this.testCategoryFindByIdUseCase.execute({ id })
   }
 
   @CustomHttpRoute(testCategoryRoutes.updateById)
@@ -47,11 +47,11 @@ export class TestCategoryController {
     @Param('id', ObjectIdPipe) id: string,
     @Body() body: TestCategoryUpdateRequestDto,
   ) {
-    return this.testCategoryUpdateUseCase.handle({ id, ...body })
+    return this.testCategoryUpdateUseCase.execute({ id, ...body })
   }
 
   @CustomHttpRoute(testCategoryRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.testCategoryDeleteUseCase.handle({ id })
+    return this.testCategoryDeleteUseCase.execute({ id })
   }
 }

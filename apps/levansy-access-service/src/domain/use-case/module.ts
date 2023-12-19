@@ -10,9 +10,15 @@ import { TestCategoryUpdateUseCase } from './test-category/update'
 import { TestCategoryFindByIdUseCase } from './test-category/find-by-id'
 import { TestCategoryDeleteUseCase } from './test-category/delete'
 import { TestCategorySearchUseCase } from './test-category/search'
+import { AuthMeUseCase } from './auth/me'
+import { UserFindOneUseCase } from './user/find-one'
 
 export const useCaseMetadata: ModuleMetadata = {
   providers: [
+    AuthMeUseCase,
+
+    UserFindOneUseCase,
+
     BioProductCreateUseCase,
     BioProductFindByIdUseCase,
     BioProductUpdateUseCase,

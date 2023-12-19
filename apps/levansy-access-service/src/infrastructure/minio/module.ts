@@ -2,7 +2,7 @@ import { ConfigModule, MinioModule, MinioService } from '@diut/nest-core'
 import { ModuleMetadata } from '@nestjs/common'
 
 import { MinioConfig, loadMinioConfig } from '../config'
-import { IMinioService, MinioServiceToken } from 'src/domain'
+import { IStorageService, StorageServiceToken } from 'src/domain'
 
 export const minioServiceMetadata: ModuleMetadata = {
   imports: [
@@ -20,8 +20,8 @@ export const minioServiceMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: MinioServiceToken,
-      useClass: MinioService satisfies IMinioService,
+      provide: StorageServiceToken,
+      useClass: MinioService satisfies IStorageService,
     },
   ],
 }

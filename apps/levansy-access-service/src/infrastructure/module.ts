@@ -5,6 +5,7 @@ import { configMetadata } from './config'
 import { logMetadata } from './log'
 import { puppeteerServiceMetadata } from './puppeteer-service'
 import { minioServiceMetadata } from './minio'
+import { authMetadata } from './auth'
 
 export const infrastructureMetadata = concatModuleMetadata([
   configMetadata,
@@ -12,4 +13,5 @@ export const infrastructureMetadata = concatModuleMetadata([
   mongoMetadata,
   puppeteerServiceMetadata,
   minioServiceMetadata,
+  authMetadata,
 ])

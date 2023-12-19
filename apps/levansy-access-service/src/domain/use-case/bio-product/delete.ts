@@ -22,7 +22,7 @@ export class BioProductDeleteUseCase
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  handle(input: BioProductDeleteUseCaseInput) {
+  execute(input: BioProductDeleteUseCaseInput) {
     return this.bioProductRepository.deleteById(input.id)
   }
 }

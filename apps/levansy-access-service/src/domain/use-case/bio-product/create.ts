@@ -20,7 +20,7 @@ export class BioProductCreateUseCase
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  handle(input: BioProductCreateUseCaseInput) {
+  execute(input: BioProductCreateUseCaseInput) {
     return this.bioProductRepository.create(input)
   }
 }

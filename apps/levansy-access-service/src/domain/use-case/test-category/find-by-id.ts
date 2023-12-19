@@ -25,7 +25,7 @@ export class TestCategoryFindByIdUseCase
     private readonly testCategoryRepository: ITestCategoryRepository,
   ) {}
 
-  handle(input: TestCategoryFindByIdUseCaseInput) {
+  execute(input: TestCategoryFindByIdUseCaseInput) {
     return this.testCategoryRepository.findById(input.id)
   }
 }

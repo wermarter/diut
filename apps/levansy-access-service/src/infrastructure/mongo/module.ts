@@ -5,9 +5,11 @@ import { MongoConfig, loadMongoConfig } from '../config'
 import {
   BioProductRepositoryToken,
   TestCategoryRepositoryToken,
+  UserRepositoryToken,
 } from 'src/domain'
 import { BioProductSchema, BioProductRepository } from './bio-product'
 import { TestCategoryRepository, TestCategorySchema } from './test-category'
+import { UserRepository, UserSchema } from './user'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [
@@ -20,6 +22,7 @@ export const mongoMetadata: ModuleMetadata = {
     }),
     MongoModule.forFeature(BioProductSchema),
     MongoModule.forFeature(TestCategorySchema),
+    MongoModule.forFeature(UserSchema),
   ],
   providers: [
     {
@@ -29,6 +32,10 @@ export const mongoMetadata: ModuleMetadata = {
     {
       provide: TestCategoryRepositoryToken,
       useClass: TestCategoryRepository,
+    },
+    {
+      provide: UserRepositoryToken,
+      useClass: UserRepository,
     },
   ],
 }

@@ -22,7 +22,7 @@ export class BioProductUpdateUseCase
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  handle(input: BioProductUpdateUseCaseInput) {
+  execute(input: BioProductUpdateUseCaseInput) {
     const { id, ...data } = input
     return this.bioProductRepository.updateById(id, data)
   }

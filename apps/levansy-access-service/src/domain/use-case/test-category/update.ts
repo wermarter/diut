@@ -24,7 +24,7 @@ export class TestCategoryUpdateUseCase
     private readonly testCategoryRepository: ITestCategoryRepository,
   ) {}
 
-  handle(input: TestCategoryUpdateUseCaseInput) {
+  execute(input: TestCategoryUpdateUseCaseInput) {
     const { id, ...data } = input
     return this.testCategoryRepository.updateById(id, data)
   }

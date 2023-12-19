@@ -20,7 +20,7 @@ export class TestCategoryCreateUseCase
     private readonly testCategoryRepository: ITestCategoryRepository,
   ) {}
 
-  async handle(input: TestCategoryCreateUseCaseInput) {
+  async execute(input: TestCategoryCreateUseCaseInput) {
     return this.testCategoryRepository.create(input)
   }
 }

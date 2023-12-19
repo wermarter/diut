@@ -1,31 +1,26 @@
-import { MongoQuery } from '@ucast/mongo'
+import { MongoQuery } from '@casl/ability'
 
 import { BaseEntity } from './base-entity'
+import { AuthSubject } from './auth-subject'
 
-export type Permission = BaseEntity & {
+export type BasePermissionMapping<
+  TSubject extends AuthSubject = AuthSubject,
+  TAction extends string = string,
+> = {
+  subject: TSubject
+  actions: TAction[]
+}
+
+export type Permission<
+  TMapping extends BasePermissionMapping = BasePermissionMapping,
+> = BaseEntity & {
   index: number
   name: string
   description: string
   rule: {
-    inverted: boolean
-    actions: string[]
-    subjects: string[]
-    conditions: MongoQuery
+    subject: TMapping['subject']
+    action: TMapping['actions'][number]
+    inverted?: boolean
+    conditions?: MongoQuery<TMapping['subject']>
   }
-}
-
-export enum Action {
-  Manage = 'manage',
-  Create = 'create',
-  Read = 'read',
-  Update = 'update',
-  Delete = 'delete',
-}
-
-export enum Subject {
-  WebApp = 'web-app',
-  BioProduct = 'bio-product',
-  Permission = 'permission',
-  Role = 'role',
-  User = 'user',
 }

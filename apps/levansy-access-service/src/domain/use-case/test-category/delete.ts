@@ -22,7 +22,7 @@ export class TestCategoryDeleteUseCase
     private readonly testCategoryRepository: ITestCategoryRepository,
   ) {}
 
-  handle(input: TestCategoryDeleteUseCaseInput) {
+  execute(input: TestCategoryDeleteUseCaseInput) {
     return this.testCategoryRepository.deleteById(input.id)
   }
 }

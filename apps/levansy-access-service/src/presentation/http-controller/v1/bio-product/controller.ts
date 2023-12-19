@@ -29,17 +29,17 @@ export class BioProductController {
 
   @CustomHttpRoute(bioProductRoutes.search)
   search(@Body() body: BioProductSearchRequestDto) {
-    return this.bioProductSearchUseCase.handle(body)
+    return this.bioProductSearchUseCase.execute(body)
   }
 
   @CustomHttpRoute(bioProductRoutes.create)
   create(@Body() body: BioProductCreateRequestDto) {
-    return this.bioProductCreateUseCase.handle(body)
+    return this.bioProductCreateUseCase.execute(body)
   }
 
   @CustomHttpRoute(bioProductRoutes.findById)
   findById(@Param('id', ObjectIdPipe) id: string) {
-    return this.bioProductFindByIdUseCase.handle({ id })
+    return this.bioProductFindByIdUseCase.execute({ id })
   }
 
   @CustomHttpRoute(bioProductRoutes.updateById)
@@ -47,11 +47,11 @@ export class BioProductController {
     @Param('id', ObjectIdPipe) id: string,
     @Body() body: BioProductUpdateRequestDto,
   ) {
-    return this.bioProductUpdateUseCase.handle({ id, ...body })
+    return this.bioProductUpdateUseCase.execute({ id, ...body })
   }
 
   @CustomHttpRoute(bioProductRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.bioProductDeleteUseCase.handle({ id })
+    return this.bioProductDeleteUseCase.execute({ id })
   }
 }
