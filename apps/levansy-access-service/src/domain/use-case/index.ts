@@ -2,6 +2,7 @@ export * from './interface'
 export * from './module'
 
 export * from './auth/me'
+export * from './auth/login'
 
 export * from './user/find-one'
 

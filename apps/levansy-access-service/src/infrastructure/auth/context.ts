@@ -1,15 +1,32 @@
-import { ExecutionContext, Injectable, Scope } from '@nestjs/common'
+import {
+  ExecutionContext,
+  Injectable,
+  Scope,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { Request as ExpressRequest } from 'express'
 
-import { ContextData, IAuthContext, User } from 'src/domain'
+import {
+  AuthPayload,
+  ContextData,
+  IAuthContext,
+  UserFindOneUseCase,
+} from 'src/domain'
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthContext implements IAuthContext {
   private contextData: ContextData
 
-  async ensureContextData(executionContext: ExecutionContext) {
+  constructor(private userFindOneUseCase: UserFindOneUseCase) {}
+
+  async populateContextData(executionContext: ExecutionContext) {
     const request = executionContext.switchToHttp().getRequest<ExpressRequest>()
-    const user = request.user as User
+    const payload = request.user as AuthPayload
+
+    const user = await this.userFindOneUseCase.execute({ _id: payload.userId })
+    if (!user) {
+      throw new UnauthorizedException('JWT_USERID_NOT_FOUND')
+    }
 
     this.contextData = { user }
   }

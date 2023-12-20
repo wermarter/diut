@@ -16,7 +16,7 @@ export const authRoutes = {
     path: 'login',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: LoginResponseDto,
+    // serialize: LoginResponseDto,
     openApi: {
       responses: [
         {

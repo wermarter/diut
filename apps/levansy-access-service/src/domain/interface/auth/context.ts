@@ -5,7 +5,7 @@ import { User } from 'src/domain/entity'
 export const AuthContextToken = Symbol('AuthContext')
 
 export interface IAuthContext {
-  ensureContextData(context: ExecutionContext): Promise<void>
+  populateContextData(context: ExecutionContext): Promise<void>
   getData(): ContextData
 }
 

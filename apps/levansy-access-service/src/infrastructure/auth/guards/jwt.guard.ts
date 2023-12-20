@@ -6,7 +6,7 @@ import { JWT_STRATEGY_KEY, SKIP_JWT_KEY } from '../common'
 import { Reflector } from '@nestjs/core'
 
 @Injectable()
-export class JwtAuthGuard
+export class JwtGuard
   extends AuthGuard(JWT_STRATEGY_KEY)
   implements CanActivate
 {

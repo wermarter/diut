@@ -8,8 +8,8 @@ import {
 } from 'passport-jwt'
 import { NodeEnv } from '@diut/common'
 
-import { AuthTokenPayload, JWT_STRATEGY_KEY } from '../common'
-import { AppConfigToken, AuthConfigToken } from 'src/domain'
+import { JWT_STRATEGY_KEY } from '../common'
+import { AppConfigToken, AuthConfigToken, AuthPayload } from 'src/domain'
 import { AppConfig, AuthConfig } from 'src/infrastructure/config'
 
 @Injectable()
@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_KEY) {
     } satisfies StrategyOptions)
   }
 
-  validate(payload: AuthTokenPayload, done: VerifiedCallback) {
+  validate(payload: AuthPayload, done: VerifiedCallback) {
     done(null, payload)
   }
 }
