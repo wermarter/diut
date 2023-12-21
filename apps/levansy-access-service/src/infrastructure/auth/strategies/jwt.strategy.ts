@@ -9,14 +9,19 @@ import {
 import { NodeEnv } from '@diut/common'
 
 import { JWT_STRATEGY_KEY } from '../common'
-import { AppConfigToken, AuthConfigToken, AuthPayload } from 'src/domain'
-import { AppConfig, AuthConfig } from 'src/infrastructure/config'
+import { AuthPayload } from 'src/domain'
+import {
+  AppConfig,
+  AuthConfig,
+  loadAppConfig,
+  loadAuthConfig,
+} from 'src/infrastructure/config'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_KEY) {
   constructor(
-    @Inject(AppConfigToken) appConfig: AppConfig,
-    @Inject(AuthConfigToken) authConfig: AuthConfig,
+    @Inject(loadAppConfig.KEY) appConfig: AppConfig,
+    @Inject(loadAuthConfig.KEY) authConfig: AuthConfig,
   ) {
     super({
       ignoreExpiration: appConfig.NODE_ENV !== NodeEnv.Development,

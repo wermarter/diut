@@ -6,4 +6,5 @@ import { AuthController } from './auth/controller'
 
 export const httpControllerV1Metadata: ModuleMetadata = {
   controllers: [BioProductController, TestCategoryController, AuthController],
+  providers: [],
 }
