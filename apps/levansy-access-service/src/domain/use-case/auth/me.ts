@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { IUseCase } from '../interface'
-import { AuthContextToken, IAuthContext } from 'src/domain/interface'
-
-export type AuthMeUseCaseInput = void
-export type AuthMeUseCaseOutput = unknown
+import {
+  AuthorizationContextToken,
+  IAuthorizationContext,
+} from 'src/domain/interface'
 
 @Injectable()
-export class AuthMeUseCase
-  implements IUseCase<AuthMeUseCaseInput, AuthMeUseCaseOutput>
-{
-  constructor(@Inject(AuthContextToken) private authContext: IAuthContext) {}
+export class AuthMeUseCase {
+  constructor(
+    @Inject(AuthorizationContextToken)
+    private authContext: IAuthorizationContext,
+  ) {}
 
-  async execute(input: AuthMeUseCaseInput) {
+  async execute() {
     return this.authContext.getData()
   }
 }

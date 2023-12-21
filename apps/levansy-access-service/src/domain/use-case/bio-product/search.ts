@@ -4,25 +4,17 @@ import {
   BioProductRepositoryToken,
   IBioProductRepository,
   SearchOptions,
-  SearchResult,
 } from 'src/domain/interface'
 import { BioProduct } from 'src/domain/entity'
-import { IUseCase } from '../interface'
-
-export type BioProductSearchUseCaseInput = SearchOptions<BioProduct>
-export type BioProductSearchUseCaseOutput = SearchResult<BioProduct>
 
 @Injectable()
-export class BioProductSearchUseCase
-  implements
-    IUseCase<BioProductSearchUseCaseInput, BioProductSearchUseCaseOutput>
-{
+export class BioProductSearchUseCase {
   constructor(
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 
-  execute(input: BioProductSearchUseCaseInput) {
+  execute(input: SearchOptions<BioProduct>) {
     return this.bioProductRepository.search(input)
   }
 }

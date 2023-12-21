@@ -4,14 +4,9 @@ import { ConfigModule } from '@diut/nest-core'
 
 import { BioProductCreateUseCase } from './bio-product/create'
 import { BioProductUpdateUseCase } from './bio-product/update'
-import { BioProductFindByIdUseCase } from './bio-product/find-by-id'
+import { BioProductFindOneUseCase } from './bio-product/find-one'
 import { BioProductDeleteUseCase } from './bio-product/delete'
 import { BioProductSearchUseCase } from './bio-product/search'
-import { TestCategoryCreateUseCase } from './test-category/create'
-import { TestCategoryUpdateUseCase } from './test-category/update'
-import { TestCategoryFindByIdUseCase } from './test-category/find-by-id'
-import { TestCategoryDeleteUseCase } from './test-category/delete'
-import { TestCategorySearchUseCase } from './test-category/search'
 import { AuthMeUseCase } from './auth/me'
 import { UserFindOneUseCase } from './user/find-one'
 import { AuthLoginUseCase } from './auth/login'
@@ -24,15 +19,9 @@ export const useCaseMetadata: ModuleMetadata = {
     UserFindOneUseCase,
 
     BioProductCreateUseCase,
-    BioProductFindByIdUseCase,
+    BioProductFindOneUseCase,
     BioProductUpdateUseCase,
     BioProductDeleteUseCase,
     BioProductSearchUseCase,
-
-    TestCategoryCreateUseCase,
-    TestCategoryFindByIdUseCase,
-    TestCategoryUpdateUseCase,
-    TestCategoryDeleteUseCase,
-    TestCategorySearchUseCase,
   ],
 }

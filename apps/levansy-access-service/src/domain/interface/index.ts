@@ -1,4 +1,3 @@
-export * from './config'
 export * from './repository'
-export * from './external'
-export * from './auth'
+export * from './service'
+export * from './authorization'

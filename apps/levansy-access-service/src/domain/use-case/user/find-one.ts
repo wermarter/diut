@@ -1,25 +1,14 @@
 import { Inject } from '@nestjs/common'
 
-import { IUseCase } from '../interface'
-import {
-  IUserRepository,
-  UserRepositoryToken,
-} from 'src/domain/interface/repository/user'
-import { User } from 'src/domain/entity'
-import { FilterQuery } from 'mongoose'
+import { IUserRepository, UserRepositoryToken } from 'src/domain/interface'
 
-export type UserFindOneUseCaseInput = FilterQuery<User>
-export type UserFindOneUseCaseOutput = User | null
-
-export class UserFindOneUseCase
-  implements IUseCase<UserFindOneUseCaseInput, UserFindOneUseCaseOutput>
-{
+export class UserFindOneUseCase {
   constructor(
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(input: UserFindOneUseCaseInput) {
-    return await this.userRepository.findOne({ filter: input })
+  async execute(input: Parameters<IUserRepository['findOne']>[0]) {
+    return await this.userRepository.findOne(input)
   }
 }
