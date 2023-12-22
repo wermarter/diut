@@ -7,6 +7,10 @@ export const LogBootstrap: BootstrapConfig = {
   initOptions: { bufferLogs: true },
   afterInit(ctx) {
     const logger: LoggerService = ctx.app.get(WINSTON_MODULE_NEST_PROVIDER)
+    if (logger === undefined) {
+      console.log('logger missing')
+    }
+
     ctx.app.useLogger(logger)
     ctx.app.flushLogs()
   },

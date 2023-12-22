@@ -1,4 +1,5 @@
 export * from './module'
 
-export * from './authorization'
 export * from './adapter'
+export * from './authentication'
+export * from './authorization'

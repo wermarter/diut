@@ -2,7 +2,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 
-import { JWT_STRATEGY_KEY, SKIP_JWT_KEY } from '../common'
+import { JWT_STRATEGY_KEY, SKIP_JWT_KEY } from './common'
 
 @Injectable()
 export class JwtGuard

@@ -10,11 +10,11 @@ import { Request as ExpressRequest } from 'express'
 
 import {
   ContextData,
+  EAuthenticationPayloadNotFound,
   IAuthorizationContext,
   UserFindOneUseCase,
 } from 'src/domain'
-import { UnauthenticatedException } from './exception'
-import { AuthPayload } from '../authentication/common'
+import { AuthPayload } from '../authentication'
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthorizationContext
@@ -56,7 +56,7 @@ export class AuthorizationContext
       filter: { _id: payload.userId },
     })
     if (!user) {
-      throw new UnauthenticatedException('JWT_USERID_NOT_FOUND')
+      throw new EAuthenticationPayloadNotFound()
     }
 
     this.contextData = { user }

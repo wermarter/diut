@@ -8,13 +8,14 @@ import {
 } from 'passport-jwt'
 import { NodeEnv } from '@diut/common'
 
-import { AuthPayload, JWT_STRATEGY_KEY } from '../common'
+import { JWT_STRATEGY_KEY } from './common'
 import {
   AppConfig,
   AuthConfig,
   loadAppConfig,
   loadAuthConfig,
 } from 'src/config'
+import { AuthPayload } from '../common'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_KEY) {

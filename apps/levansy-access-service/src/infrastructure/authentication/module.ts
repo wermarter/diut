@@ -3,8 +3,7 @@ import { ModuleMetadata } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@diut/nest-core'
 
-import { JwtStrategy } from './strategy'
-import { JwtGuard } from './guard'
+import { JwtStrategy, JwtGuard } from './jwt'
 import { AuthConfig, loadAuthConfig } from 'src/config'
 
 export const authenticationMetadata: ModuleMetadata = {
