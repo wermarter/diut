@@ -2,6 +2,7 @@ export * from './module'
 
 export * from './auth/me'
 export * from './auth/login'
+export * from './auth/populate-context'
 
 export * from './user/find-one'
 

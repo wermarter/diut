@@ -1,9 +1,9 @@
 import { UseFilters, UseGuards } from '@nestjs/common'
 
 import { authGuards } from '../auth'
-import { DomainExceptionFilter } from '../exception-filter'
+import { exceptionFilters } from '../exception'
 
 export const controllerDecorators: ClassDecorator[] = [
   UseGuards(...authGuards),
-  UseFilters(DomainExceptionFilter),
+  UseFilters(...exceptionFilters),
 ]

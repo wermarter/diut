@@ -20,7 +20,7 @@ bootstrapApp(
   HttpAppFactory,
   AppModule,
   {
-    serviceName: process.env.SERVICE_NAME,
+    serviceName: 'process.env.SERVICE_NAME',
     nodeEnv: process.env.NODE_ENV,
   },
   [

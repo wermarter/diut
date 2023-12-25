@@ -8,8 +8,9 @@ import {
 import { Reflector } from '@nestjs/core'
 import { firstValueFrom, isObservable } from 'rxjs'
 
-import { AUTH_JWT_STRATEGY_KEY, SKIP_AUTH_JWT_GUARD } from './common'
+import { AUTH_JWT_STRATEGY_KEY } from './common'
 import { EAuthnInvalidJwtToken, EUnknown } from 'src/domain'
+import { HTTP_PUBLIC_ROUTE } from '../common'
 
 @Injectable()
 export class AuthJwtGuard
@@ -22,13 +23,14 @@ export class AuthJwtGuard
 
   async canActivate(context: ExecutionContext) {
     const shouldSkip = this.reflector.getAllAndOverride<boolean>(
-      SKIP_AUTH_JWT_GUARD,
+      HTTP_PUBLIC_ROUTE,
       [context.getHandler(), context.getClass()],
     )
 
     if (shouldSkip === true) {
       return true
     }
+
     let isValid: boolean = false
 
     try {
@@ -51,6 +53,6 @@ export class AuthJwtGuard
       throw new EAuthnInvalidJwtToken()
     }
 
-    return isValid
+    return true
   }
 }

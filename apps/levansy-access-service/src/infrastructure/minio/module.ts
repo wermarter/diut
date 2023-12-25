@@ -4,7 +4,7 @@ import { ModuleMetadata } from '@nestjs/common'
 import { IStorageService, StorageServiceToken } from 'src/domain'
 import { MinioConfig, loadMinioConfig } from 'src/config'
 
-export const minioServiceMetadata: ModuleMetadata = {
+export const minioMetadata: ModuleMetadata = {
   imports: [
     MinioModule.forRootAsync({
       imports: [ConfigModule.forFeature(loadMinioConfig)],

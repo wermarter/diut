@@ -1,4 +1,4 @@
-import { AuthzGuard } from './authz.guard'
+import { AuthContextGuard } from './context.guard'
 import { AuthJwtGuard } from './jwt'
 
-export const authGuards = [AuthJwtGuard, AuthzGuard]
+export const authGuards = [AuthJwtGuard, AuthContextGuard]

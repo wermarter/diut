@@ -12,7 +12,7 @@ import { ClientsModule, Transport, ClientGrpc } from '@nestjs/microservices'
 import { ClientConfig, loadClientConfig } from 'src/config'
 import { IPuppeteerService, PuppeteerServiceToken } from 'src/domain'
 
-export const puppeteerServiceMetadata: ModuleMetadata = {
+export const puppeteerMetadata: ModuleMetadata = {
   imports: [
     ClientsModule.registerAsync({
       isGlobal: true,

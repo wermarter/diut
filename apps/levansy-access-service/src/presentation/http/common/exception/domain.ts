@@ -10,6 +10,7 @@ import {
 
 import { AppConfig, loadAppConfig } from 'src/config'
 import { EDomain } from 'src/domain'
+import { HttpErrorResponse } from '../dto'
 
 @Catch(EDomain)
 export class DomainExceptionFilter implements ExceptionFilter {
@@ -20,11 +21,11 @@ export class DomainExceptionFilter implements ExceptionFilter {
   ) {}
 
   catch(exception: EDomain, host: ArgumentsHost) {
+    this.logger.error(exception)
+
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()
     const isDevelopment = this.appConfig.NODE_ENV === NodeEnv.Development
-
-    this.logger.error(exception)
 
     response
       .status(exception.httpStatus ?? HttpStatus.INTERNAL_SERVER_ERROR)
@@ -32,6 +33,6 @@ export class DomainExceptionFilter implements ExceptionFilter {
         errorCode: exception.errorCode,
         message: exception.message,
         stack: isDevelopment ? exception.stack : undefined,
-      })
+      } satisfies HttpErrorResponse)
   }
 }

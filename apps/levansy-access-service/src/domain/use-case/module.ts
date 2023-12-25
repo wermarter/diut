@@ -1,6 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-import { JwtModule } from '@nestjs/jwt'
-import { ConfigModule } from '@diut/nest-core'
 
 import { BioProductCreateUseCase } from './bio-product/create'
 import { BioProductUpdateUseCase } from './bio-product/update'
@@ -10,11 +8,13 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { AuthMeUseCase } from './auth/me'
 import { UserFindOneUseCase } from './user/find-one'
 import { AuthLoginUseCase } from './auth/login'
+import { AuthPopulateContextUseCase } from './auth/populate-context'
 
 export const useCaseMetadata: ModuleMetadata = {
   providers: [
     AuthMeUseCase,
     AuthLoginUseCase,
+    AuthPopulateContextUseCase,
 
     UserFindOneUseCase,
 

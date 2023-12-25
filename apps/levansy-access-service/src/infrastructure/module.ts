@@ -1,9 +1,12 @@
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule, concatModuleMetadata } from '@diut/nest-core'
 
-import { authorizationMetadata } from './authz'
-import { adapterMetadata } from './adapter'
 import { AuthConfig, loadAuthConfig } from 'src/config'
+import { authMetadata } from './auth'
+import { logMetadata } from './log'
+import { minioMetadata } from './minio'
+import { mongoMetadata } from './mongo'
+import { puppeteerMetadata } from './puppeteer'
 
 export const infrastructureMetadata = concatModuleMetadata([
   {
@@ -22,6 +25,9 @@ export const infrastructureMetadata = concatModuleMetadata([
       }),
     ],
   },
-  authorizationMetadata,
-  adapterMetadata,
+  authMetadata,
+  logMetadata,
+  minioMetadata,
+  mongoMetadata,
+  puppeteerMetadata,
 ])

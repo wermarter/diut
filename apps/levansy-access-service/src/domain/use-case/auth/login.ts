@@ -1,10 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { LoginExceptionMsg } from '@diut/levansy-common'
+import { Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt'
 
 import { UserFindOneUseCase } from '../user/find-one'
 import { AuthPayload } from 'src/domain/interface'
+import {
+  EAuthnLoginInvalidPassword,
+  EAuthnLoginInvalidUsername,
+} from 'src/domain'
 
 @Injectable()
 export class AuthLoginUseCase {
@@ -22,13 +25,12 @@ export class AuthLoginUseCase {
   }) {
     const user = await this.userFindOneUseCase.execute({ filter: { username } })
     if (!user) {
-      // TODO: abtract domain exception and logging
-      throw new BadRequestException(LoginExceptionMsg.USERNAME_NOT_EXIST)
+      throw new EAuthnLoginInvalidUsername()
     }
 
     const isCorrect = await argon2.verify(user.password, password)
     if (!isCorrect) {
-      throw new BadRequestException(LoginExceptionMsg.WRONG_PASSWORD)
+      throw new EAuthnLoginInvalidPassword()
     }
 
     const authPayload: AuthPayload = {
