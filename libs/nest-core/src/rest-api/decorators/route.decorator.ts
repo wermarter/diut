@@ -22,6 +22,7 @@ export interface CustomHttpRouteOptions {
   code?: HttpStatus
   serialize?: ClassConstructor<unknown>
   openApi?: CustomOpenApiOptions
+  routeDecorators?: MethodDecorator[]
 }
 
 const methodDecorator = {
@@ -39,6 +40,7 @@ export function CustomHttpRoute({
   code,
   openApi,
   serialize,
+  routeDecorators: additionalDecorators,
 }: CustomHttpRouteOptions) {
   const decorators: MethodDecorator[] = [methodDecorator[method](path)]
 
@@ -54,6 +56,10 @@ export function CustomHttpRoute({
 
   if (serialize !== undefined) {
     decorators.push(Serialize(serialize))
+  }
+
+  if (additionalDecorators !== undefined) {
+    decorators.push(...additionalDecorators)
   }
 
   return applyDecorators(...decorators)

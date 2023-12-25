@@ -5,10 +5,12 @@ import {
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { LoginBadRequestDto, LoginResponseDto } from './dto/login.response-dto'
+import { controllerDecorators } from '../../common'
 
 export const authRoutes = {
   controller: <CustomHttpControllerOptions>{
     basePath: 'auth',
+    controllerDecorators,
   },
 
   login: <CustomHttpRouteOptions>{

@@ -8,17 +8,20 @@ import {
 } from 'passport-jwt'
 import { NodeEnv } from '@diut/common'
 
-import { JWT_STRATEGY_KEY } from './common'
+import { AUTH_JWT_STRATEGY_KEY } from './common'
 import {
   AppConfig,
   AuthConfig,
   loadAppConfig,
   loadAuthConfig,
 } from 'src/config'
-import { AuthPayload } from '../common'
+import { AuthPayload } from 'src/domain'
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_KEY) {
+export class JwtStrategy extends PassportStrategy(
+  Strategy,
+  AUTH_JWT_STRATEGY_KEY,
+) {
   constructor(
     @Inject(loadAppConfig.KEY) appConfig: AppConfig,
     @Inject(loadAuthConfig.KEY) authConfig: AuthConfig,
@@ -31,6 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_KEY) {
   }
 
   validate(payload: AuthPayload, done: VerifiedCallback) {
+    // verify auth payload with typia
     done(null, payload)
   }
 }

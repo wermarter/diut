@@ -1,14 +1,15 @@
 import { HttpStatus } from '@nestjs/common'
+import { DomainErrorCode } from '@diut/levansy-common'
 
 import { EDomain } from '../base'
 
 export class EEntity extends EDomain {
   constructor(
-    errorCode?: string,
+    errorCode?: DomainErrorCode,
     message?: string,
     cause?: unknown,
     httpStatus?: HttpStatus,
   ) {
-    super(errorCode ?? 'E3000', message, cause, httpStatus)
+    super(errorCode ?? DomainErrorCode.ENTITY, message, cause, httpStatus)
   }
 }

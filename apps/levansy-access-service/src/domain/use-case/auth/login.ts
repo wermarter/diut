@@ -4,7 +4,7 @@ import * as argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt'
 
 import { UserFindOneUseCase } from '../user/find-one'
-import { AuthPayload } from 'src/infrastructure/authentication'
+import { AuthPayload } from 'src/domain/interface'
 
 @Injectable()
 export class AuthLoginUseCase {

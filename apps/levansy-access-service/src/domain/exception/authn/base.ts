@@ -3,13 +3,13 @@ import { DomainErrorCode } from '@diut/levansy-common'
 
 import { EDomain } from '../base'
 
-export class EService extends EDomain {
+export class EAuthn extends EDomain {
   constructor(
     errorCode?: DomainErrorCode,
     message?: string,
     cause?: unknown,
     httpStatus?: HttpStatus,
   ) {
-    super(errorCode ?? DomainErrorCode.SERVICE, message, cause, httpStatus)
+    super(errorCode ?? DomainErrorCode.AUTHN, message, cause, httpStatus)
   }
 }

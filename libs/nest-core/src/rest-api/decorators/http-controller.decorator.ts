@@ -3,11 +3,13 @@ import { ApiTags } from '@nestjs/swagger'
 
 export type CustomHttpControllerOptions = {
   basePath: string
+  controllerDecorators?: ClassDecorator[]
 }
 
 export function CustomHttpController(options: CustomHttpControllerOptions) {
   return applyDecorators(
     ApiTags(options.basePath),
     Controller(options.basePath),
+    ...(options.controllerDecorators ?? []),
   )
 }

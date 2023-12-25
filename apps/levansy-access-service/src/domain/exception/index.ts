@@ -1,5 +1,5 @@
 export * from './base'
-export * from './authentication'
-export * from './authorization'
+export * from './authn'
+export * from './authz'
 export * from './entity'
 export * from './service'

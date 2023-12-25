@@ -15,7 +15,9 @@ import { EDomain } from 'src/domain'
 export class DomainExceptionFilter implements ExceptionFilter {
   private logger = new Logger(DomainExceptionFilter.name)
 
-  constructor(@Inject(loadAppConfig) private readonly appConfig: AppConfig) {}
+  constructor(
+    @Inject(loadAppConfig.KEY) private readonly appConfig: AppConfig,
+  ) {}
 
   catch(exception: EDomain, host: ArgumentsHost) {
     const ctx = host.switchToHttp()

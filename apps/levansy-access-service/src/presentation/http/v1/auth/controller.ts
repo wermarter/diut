@@ -6,7 +6,7 @@ import { AuthLoginRequestDto } from './dto/login.request-dto'
 import { authRoutes } from './routes'
 import { LoginResponseDto } from './dto/login.response-dto'
 import { AuthMeResponseDto } from './dto/me.response-dto'
-import { SkipJWTGuard } from 'src/infrastructure/authentication'
+import { SkipAuthJWTGuard } from '../../common'
 
 @CustomHttpController(authRoutes.controller)
 export class AuthController {
@@ -16,7 +16,7 @@ export class AuthController {
   ) {}
 
   @CustomHttpRoute(authRoutes.login)
-  @SkipJWTGuard
+  @SkipAuthJWTGuard
   async login(@Body() body: AuthLoginRequestDto): Promise<LoginResponseDto> {
     return this.authLoginUseCase.execute(body)
   }
