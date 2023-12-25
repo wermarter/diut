@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common'
 
-import { BootstrapConfig } from '../../bootstrap'
+import { BootstrapConfig } from '../../../bootstrap'
 
 export const CorsBootstrap: BootstrapConfig<INestApplication> = {
   afterInit(ctx) {

@@ -9,7 +9,7 @@ import { Reflector } from '@nestjs/core'
 import { firstValueFrom, isObservable } from 'rxjs'
 
 import { AUTH_JWT_STRATEGY_KEY } from './common'
-import { EAuthnInvalidJwtToken, EUnknown } from 'src/domain'
+import { EAuthnInvalidJwtToken, EUnknown, EDomain } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from '../common'
 
 @Injectable()
@@ -42,6 +42,9 @@ export class AuthJwtGuard
         isValid = await canActivateReturnValue
       }
     } catch (e) {
+      if (e instanceof EDomain) {
+        throw e
+      }
       if (e instanceof UnauthorizedException) {
         isValid = false
       } else {

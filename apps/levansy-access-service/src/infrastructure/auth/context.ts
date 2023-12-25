@@ -4,7 +4,6 @@ import {
   AuthPayload,
   AuthContextData,
   IAuthContext,
-  EAuthzPayloadNotFound,
   AuthPopulateContextUseCase,
 } from 'src/domain'
 
@@ -15,10 +14,6 @@ export class AuthContext implements IAuthContext {
   constructor(private authPopulateContextUseCase: AuthPopulateContextUseCase) {}
 
   async prepareData(payload: AuthPayload) {
-    if (!payload) {
-      throw new EAuthzPayloadNotFound()
-    }
-
     this.contextData = await this.authPopulateContextUseCase.execute(payload)
   }
 

@@ -1,8 +1,8 @@
 import { NodeEnv } from '@diut/common'
 import { INestApplication, Logger } from '@nestjs/common'
 
-import { BootstrapConfig } from '../../bootstrap'
-import { ConfigurationException } from '../../config'
+import { BootstrapConfig } from '../../../bootstrap'
+import { ConfigurationException } from '../../../config'
 
 const BOOTSTRAP_CONTEXT = 'HttpBootstrap'
 

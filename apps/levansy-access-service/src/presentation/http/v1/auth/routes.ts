@@ -4,12 +4,12 @@ import {
 } from '@diut/nest-core'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { LoginBadRequestDto, LoginResponseDto } from './dto/login.response-dto'
+import { LoginResponseDto } from './dto/login.response'
 import { controllerDecorators } from '../../common'
 
 export const authRoutes = {
   controller: <CustomHttpControllerOptions>{
-    basePath: 'auth',
+    basePath: 'v1/auth',
     controllerDecorators,
   },
 
@@ -23,10 +23,6 @@ export const authRoutes = {
       responses: [
         {
           type: LoginResponseDto,
-        },
-        {
-          status: HttpStatus.BAD_REQUEST,
-          type: LoginBadRequestDto,
         },
       ],
     },

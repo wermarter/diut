@@ -1,15 +1,15 @@
 import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
-import { BootstrapConfig } from '../../bootstrap'
+import { BootstrapConfig } from '../../../bootstrap'
 import { SWAGGER_ENDPOINT } from '../constants'
 
 export const SwaggerBootstrap: BootstrapConfig<INestApplication> = {
   afterInit(ctx) {
-    const swaggerConfig = new DocumentBuilder()
-      .setTitle(ctx.serviceName ?? 'NestJS API')
-      .addBearerAuth()
-      .build()
+    const builder = new DocumentBuilder().setTitle(
+      ctx.serviceName ?? 'NestJS API',
+    )
+    const swaggerConfig = builder.build()
 
     const swaggerDocument = SwaggerModule.createDocument(
       ctx.app,

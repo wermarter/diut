@@ -18,7 +18,7 @@ export const infrastructureMetadata = concatModuleMetadata([
           return {
             secret: authConfig.AUTH_JWT_SECRET,
             signOptions: {
-              expiresIn: authConfig.AUTH_JWT_EXPIRES_IN,
+              expiresIn: parseInt(authConfig.AUTH_JWT_EXPIRE_SECONDS),
             },
           }
         },

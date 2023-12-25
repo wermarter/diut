@@ -1,6 +1,6 @@
 import { makeConfigLoader } from '@diut/nest-core'
 import { Expose } from 'class-transformer'
-import { IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumberString, IsString } from 'class-validator'
 
 export class AuthConfig {
   @Expose()
@@ -9,9 +9,14 @@ export class AuthConfig {
   AUTH_JWT_SECRET: string
 
   @Expose()
+  @IsNumberString()
+  @IsNotEmpty()
+  AUTH_JWT_EXPIRE_SECONDS: string
+
+  @Expose()
   @IsString()
   @IsNotEmpty()
-  AUTH_JWT_EXPIRES_IN: string
+  COOKIE_SECRET: string
 }
 
 export const loadAuthConfig = makeConfigLoader(AuthConfig)

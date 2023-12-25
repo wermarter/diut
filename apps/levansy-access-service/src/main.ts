@@ -1,4 +1,5 @@
 import {
+  CookieBootstrap,
   CorsBootstrap,
   HttpAppFactory,
   HttpListenBootstrap,
@@ -31,6 +32,7 @@ bootstrapApp(
     PipeBootstrap,
     PrefixBootstrap,
     SwaggerBootstrap,
+    CookieBootstrap(process.env.COOKIE_SECRET),
     HttpListenBootstrap(process.env.HTTP_PORT),
   ],
 )
