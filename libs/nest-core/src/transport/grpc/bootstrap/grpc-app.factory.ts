@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { INestMicroservice } from '@nestjs/common'
 import { MicroserviceOptions, Transport } from '@nestjs/microservices'
 
-import { bootstrapApp } from '../../bootstrap'
+import { bootstrapApp } from '../../../bootstrap'
 
 export const GrpcAppFactory: (
   listenUrl: string,
@@ -14,8 +14,8 @@ export const GrpcAppFactory: (
       ...options,
       transport: Transport.GRPC,
       options: {
-        url: listenUrl, //`0.0.0.0:${process.env.GRPC_PORT}`,
-        package: packageName, //PUPPETEER_SERVICE_PACKAGE_NAME,
-        protoPath, //join(__dirname, 'protobuf/package.proto'),
+        url: listenUrl,
+        package: packageName,
+        protoPath,
       },
     })
