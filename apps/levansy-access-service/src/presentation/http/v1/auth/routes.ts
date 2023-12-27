@@ -5,12 +5,10 @@ import {
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { LoginResponseDto } from './dto/login.response'
-import { controllerDecorators } from '../../common'
 
 export const authRoutes = {
   controller: <CustomHttpControllerOptions>{
     basePath: 'v1/auth',
-    controllerDecorators,
   },
 
   login: <CustomHttpRouteOptions>{
@@ -18,7 +16,7 @@ export const authRoutes = {
     path: 'login',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    // serialize: LoginResponseDto,
+    serialize: LoginResponseDto,
     openApi: {
       responses: [
         {
@@ -37,5 +35,11 @@ export const authRoutes = {
         },
       ],
     },
+  },
+
+  logout: <CustomHttpRouteOptions>{
+    path: 'logout',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
   },
 }

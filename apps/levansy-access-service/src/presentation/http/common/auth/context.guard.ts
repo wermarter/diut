@@ -11,7 +11,7 @@ import { AuthPayload, AuthContextToken, IAuthContext } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from './common'
 
 @Injectable({ scope: Scope.REQUEST })
-export class AuthContextGuard implements CanActivate {
+export class HttpAuthContextGuard implements CanActivate {
   constructor(
     @Inject(AuthContextToken)
     private authContext: IAuthContext,

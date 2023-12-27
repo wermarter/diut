@@ -1,2 +1,2 @@
-export * from './controller-decorators'
-export * from './route-decorators'
+export * from './http-controller.decorator'
+export * from './http-route.decorator'

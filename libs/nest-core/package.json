@@ -9,7 +9,7 @@
   "types": "dist/index",
   "scripts": {
     "postinstall": "pnpm --filter '@diut/nest-core...' run build",
-    "build": "cpy 'src/protobuf/*.proto' 'dist/protobuf/' && tsc",
+    "build": "rimraf dist && cpy 'src/protobuf/*.proto' 'dist/protobuf/' && tsc",
     "lint": "tsc --noEmit",
     "dev:proto:command": "concurrently 'cpy \"src/protobuf/*.proto\" \"dist/protobuf/\"' 'pnpm run proto'",
     "dev:proto": "nodemon -w src/protobuf/ -e proto -x 'pnpm run dev:proto:command'",

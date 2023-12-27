@@ -1,40 +1,35 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy, VerifiedCallback, StrategyOptions } from 'passport-jwt'
-import { NodeEnv } from '@diut/common'
 import { Request } from 'express'
 
-import { AUTH_JWT_ACCESS_TOKEN_COOKIE, AUTH_JWT_STRATEGY_KEY } from './common'
-import {
-  AppConfig,
-  AuthConfig,
-  loadAppConfig,
-  loadAuthConfig,
-} from 'src/config'
+import { AUTH_JWT_STRATEGY_KEY } from './common'
+import { AuthConfig, loadAuthConfig } from 'src/config'
 import {
   AuthPayload,
   EAuthnAccessTokenCookieExpired,
   EAuthzPayloadNotFound,
 } from 'src/domain'
+import { AuthCookieService } from '../cookie.service'
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(
+export class HttpJwtStrategy extends PassportStrategy(
   Strategy,
   AUTH_JWT_STRATEGY_KEY,
 ) {
   constructor(
-    @Inject(loadAppConfig.KEY) appConfig: AppConfig,
     @Inject(loadAuthConfig.KEY) authConfig: AuthConfig,
+    authCookieService: AuthCookieService,
   ) {
     super({
-      // ignoreExpiration: appConfig.NODE_ENV === NodeEnv.Development,
       jwtFromRequest: (req: Request) => {
-        const jwtAccessToken = req.signedCookies[AUTH_JWT_ACCESS_TOKEN_COOKIE]
-        if (!jwtAccessToken) {
+        const { accessToken } = authCookieService.getAuthCookie(req)
+
+        if (!accessToken) {
           throw new EAuthnAccessTokenCookieExpired()
         }
 
-        return jwtAccessToken
+        return accessToken
       },
       secretOrKey: authConfig.AUTH_JWT_SECRET,
     } satisfies StrategyOptions)

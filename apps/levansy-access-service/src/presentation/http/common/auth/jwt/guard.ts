@@ -13,7 +13,7 @@ import { EAuthnInvalidJwtToken, EUnknown, EDomain } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from '../common'
 
 @Injectable()
-export class AuthJwtGuard
+export class HttpJwtGuard
   extends AuthGuard(AUTH_JWT_STRATEGY_KEY)
   implements CanActivate
 {

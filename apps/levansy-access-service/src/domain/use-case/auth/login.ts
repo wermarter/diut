@@ -36,8 +36,8 @@ export class AuthLoginUseCase {
     const authPayload: AuthPayload = {
       userId: user._id,
     }
-    const jwtAccessToken = await this.jwtService.signAsync(authPayload)
+    const accessToken = await this.jwtService.signAsync(authPayload)
 
-    return { user, jwtAccessToken }
+    return { user, accessToken }
   }
 }
