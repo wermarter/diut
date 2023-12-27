@@ -1,3 +1,5 @@
+import { MongoAbility } from '@casl/ability'
+
 import { User } from 'src/domain/entity'
 
 export const AuthContextToken = Symbol('AuthContext')
@@ -11,8 +13,7 @@ export type AuthPayload = {
   userId: string
 }
 
-export type AuthContextData =
-  | undefined // public handler
-  | {
-      user: User
-    }
+export type AuthContextData = {
+  user: User
+  ability: MongoAbility
+}

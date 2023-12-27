@@ -1,9 +1,5 @@
 import { Body, Param } from '@nestjs/common'
-import {
-  CustomHttpController,
-  CustomHttpRoute,
-  ObjectIdPipe,
-} from '@diut/nest-core'
+import { ObjectIdPipe } from '@diut/nest-core'
 
 import { bioProductRoutes } from './routes'
 import {
@@ -16,8 +12,9 @@ import {
 import { BioProductCreateRequestDto } from './dto/create.request-dto'
 import { BioProductUpdateRequestDto } from './dto/update.request-dto'
 import { BioProductSearchRequestDto } from './dto/search.request-dto'
+import { HttpController, HttpRoute } from '../../common'
 
-@CustomHttpController(bioProductRoutes.controller)
+@HttpController(bioProductRoutes.controller)
 export class BioProductController {
   constructor(
     private readonly bioProductCreateUseCase: BioProductCreateUseCase,
@@ -27,22 +24,22 @@ export class BioProductController {
     private readonly bioProductSearchUseCase: BioProductSearchUseCase,
   ) {}
 
-  @CustomHttpRoute(bioProductRoutes.search)
+  @HttpRoute(bioProductRoutes.search)
   search(@Body() body: BioProductSearchRequestDto) {
     return this.bioProductSearchUseCase.execute(body)
   }
 
-  @CustomHttpRoute(bioProductRoutes.create)
+  @HttpRoute(bioProductRoutes.create)
   create(@Body() body: BioProductCreateRequestDto) {
     return this.bioProductCreateUseCase.execute(body)
   }
 
-  @CustomHttpRoute(bioProductRoutes.findById)
+  @HttpRoute(bioProductRoutes.findById)
   findById(@Param('id', ObjectIdPipe) id: string) {
     return this.bioProductFindOneUseCase.execute({ filter: { _id: id } })
   }
 
-  @CustomHttpRoute(bioProductRoutes.updateById)
+  @HttpRoute(bioProductRoutes.updateById)
   updateById(
     @Param('id', ObjectIdPipe) id: string,
     @Body() body: BioProductUpdateRequestDto,
@@ -50,7 +47,7 @@ export class BioProductController {
     return this.bioProductUpdateUseCase.execute({ _id: id }, body)
   }
 
-  @CustomHttpRoute(bioProductRoutes.deleteById)
+  @HttpRoute(bioProductRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
     return this.bioProductDeleteUseCase.execute({ id })
   }

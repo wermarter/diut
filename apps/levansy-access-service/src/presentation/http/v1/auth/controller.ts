@@ -1,7 +1,7 @@
 import { Body, Res } from '@nestjs/common'
 import { Response } from 'express'
 
-import { AuthMeUseCase, AuthLoginUseCase, EAuthzUserNotFound } from 'src/domain'
+import { AuthMeUseCase, AuthLoginUseCase } from 'src/domain'
 import { AuthLoginRequestDto } from './dto/login.request'
 import { authRoutes } from './routes'
 import { LoginResponseDto } from './dto/login.response'
@@ -28,20 +28,15 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<LoginResponseDto> {
     const { user, accessToken } = await this.authLoginUseCase.execute(body)
+
     this.authCookieService.setAuthCookie(res, { accessToken })
 
     return user
   }
 
   @HttpRoute(authRoutes.me)
-  async me(): Promise<AuthMeResponseDto> {
-    const info = await this.authMeUseCase.execute()
-
-    if (info === undefined) {
-      throw new EAuthzUserNotFound()
-    }
-
-    return info
+  me(): AuthMeResponseDto {
+    return this.authMeUseCase.execute()
   }
 
   @HttpRoute(authRoutes.logout)

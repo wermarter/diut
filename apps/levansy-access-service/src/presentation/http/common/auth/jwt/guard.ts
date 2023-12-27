@@ -9,7 +9,7 @@ import { Reflector } from '@nestjs/core'
 import { firstValueFrom, isObservable } from 'rxjs'
 
 import { AUTH_JWT_STRATEGY_KEY } from './common'
-import { EAuthnInvalidJwtToken, EUnknown, EDomain } from 'src/domain'
+import { EAuthnJwtInvalidToken, EUnknown, EDomain } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from '../common'
 
 @Injectable()
@@ -53,7 +53,7 @@ export class HttpJwtGuard
     }
 
     if (isValid === false) {
-      throw new EAuthnInvalidJwtToken()
+      throw new EAuthnJwtInvalidToken()
     }
 
     return true

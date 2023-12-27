@@ -5,6 +5,7 @@ import {
   AuthContextData,
   IAuthContext,
   AuthPopulateContextUseCase,
+  EAuthzAuthenticationRequired,
 } from 'src/domain'
 
 @Injectable({ scope: Scope.REQUEST })
@@ -18,6 +19,10 @@ export class AuthContext implements IAuthContext {
   }
 
   getData() {
+    if (this.contextData === undefined) {
+      throw new EAuthzAuthenticationRequired()
+    }
+
     return this.contextData
   }
 }

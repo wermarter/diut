@@ -1,17 +1,16 @@
 import { MongoQuery } from '@casl/ability'
 
 import { BaseEntity } from '../base-entity'
-import { EntityPermission } from './mapping'
+import { AuthSubject } from '../auth'
 
-export type Permission<TMapping extends EntityPermission = EntityPermission> =
-  BaseEntity & {
-    index: number
-    name: string
-    description: string
-    rule: {
-      subject: TMapping['subject']
-      action: TMapping['actions'][number]
-      inverted?: boolean
-      conditions?: MongoQuery<TMapping['subject']>
-    }
+export type Permission = BaseEntity & {
+  index: number
+  name: string
+  description: string
+  rule: {
+    subject: AuthSubject
+    action: string
+    inverted?: boolean
+    conditions?: MongoQuery
   }
+}

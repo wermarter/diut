@@ -1,6 +1,8 @@
+import { MongoAbility, MongoQuery, createMongoAbility } from '@casl/ability'
 import { Inject } from '@nestjs/common'
+import { AuthSubject, BioProductAction } from 'src/domain/entity'
 
-import { EAuthzUserNotFound } from 'src/domain/exception'
+import { EAuthnPayloadUserNotFound } from 'src/domain/exception'
 import {
   AuthContextData,
   AuthPayload,
@@ -20,9 +22,16 @@ export class AuthPopulateContextUseCase {
     })
 
     if (!user) {
-      throw new EAuthzUserNotFound()
+      throw new EAuthnPayloadUserNotFound()
     }
 
-    return { user }
+    const ability = createMongoAbility([
+      {
+        action: BioProductAction.Delete,
+        subject: AuthSubject.BioProduct,
+      },
+    ])
+
+    return { user, ability }
   }
 }
