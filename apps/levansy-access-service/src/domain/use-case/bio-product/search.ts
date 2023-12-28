@@ -6,10 +6,12 @@ import {
   IAuthContext,
   IBioProductRepository,
   SearchOptions,
-  checkPermission,
 } from 'src/domain/interface'
-import { AuthSubject, BioProduct, BioProductAction } from 'src/domain/entity'
-import { EAuthzPermissionDeny } from 'src/domain/exception'
+import {
+  BioProduct,
+  BioProductAction,
+  assertPermission,
+} from 'src/domain/entity'
 
 @Injectable()
 export class BioProductSearchUseCase {
@@ -22,11 +24,7 @@ export class BioProductSearchUseCase {
   execute(input: SearchOptions<BioProduct>) {
     const { ability } = this.authContext.getData()
 
-    if (
-      !checkPermission(ability, AuthSubject.BioProduct, BioProductAction.Read)
-    ) {
-      throw new EAuthzPermissionDeny()
-    }
+    assertPermission(ability, 'BioProduct', BioProductAction.Manage)
 
     return this.bioProductRepository.search(input)
   }

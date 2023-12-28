@@ -1,4 +1,4 @@
-import { MongoAbility, MongoQuery, createMongoAbility } from '@casl/ability'
+import { createMongoAbility } from '@casl/ability'
 import { Inject } from '@nestjs/common'
 import { AuthSubject, BioProductAction } from 'src/domain/entity'
 
@@ -25,6 +25,7 @@ export class AuthPopulateContextUseCase {
       throw new EAuthnPayloadUserNotFound()
     }
 
+    // create from user role and direct ability
     const ability = createMongoAbility([
       {
         action: BioProductAction.Delete,

@@ -1,3 +1,3 @@
 export * from './entity'
 export * from './example'
-export * from './action'
+export * from './auth'
