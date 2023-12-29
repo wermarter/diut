@@ -1,4 +1,4 @@
-import { MongoAbility } from '@casl/ability'
+import { MongoAbility, subject } from '@casl/ability'
 import { RecordTypes } from '@casl/mongoose'
 
 import { AuthAction } from './action'
@@ -11,9 +11,13 @@ export function checkPermission<TSubject extends keyof RecordTypes>(
   action: (typeof AuthAction)[TSubject][number],
   object?: AuthSubjectType[TSubject],
 ) {
-  const subject = AuthSubject[subjectType]
-  // object type injection
-  return ability.can(action, subject)
+  const subjectName = AuthSubject[subjectType]
+
+  if (object !== undefined) {
+    return ability.can(action, subject(subjectName, object))
+  }
+
+  return ability.can(action, subjectName)
 }
 
 export function assertPermission<TSubject extends keyof RecordTypes>(
@@ -24,7 +28,9 @@ export function assertPermission<TSubject extends keyof RecordTypes>(
 ) {
   if (!checkPermission(ability, subjectType, action, object)) {
     throw new EAuthzPermissionDeny(
-      `subject=${AuthSubject[subjectType]} action=${action} object=${object}`,
+      `subject=${
+        AuthSubject[subjectType]
+      } action=${action} object=${JSON.stringify(object)}`,
     )
   }
 }

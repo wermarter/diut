@@ -24,7 +24,7 @@ export class BioProductSearchUseCase {
   execute(input: SearchOptions<BioProduct>) {
     const { ability } = this.authContext.getData()
 
-    assertPermission(ability, 'BioProduct', BioProductAction.Manage)
+    assertPermission(ability, 'BioProduct', BioProductAction.Read)
 
     return this.bioProductRepository.search(input)
   }

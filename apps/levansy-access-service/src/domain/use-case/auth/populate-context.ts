@@ -28,8 +28,15 @@ export class AuthPopulateContextUseCase {
     // create from user role and direct ability
     const ability = createMongoAbility([
       {
-        action: BioProductAction.Delete,
+        action: BioProductAction.Read,
         subject: AuthSubject.BioProduct,
+      },
+      {
+        action: BioProductAction.Update,
+        subject: AuthSubject.BioProduct,
+        conditions: {
+          index: 2,
+        },
       },
     ])
 

@@ -3,7 +3,7 @@ import '@casl/mongoose'
 export enum BioProductAction {
   Manage = 'manage',
   Read = 'read',
-  Delete = 'delete',
+  Update = 'update',
 }
 
 declare module '@casl/mongoose' {

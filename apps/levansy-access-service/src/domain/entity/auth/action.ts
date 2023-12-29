@@ -11,6 +11,7 @@ export const AuthAction = {
   BioProduct: extractSecondHalf(
     Object.values(BioProductAction),
   ) as `${BioProductAction}`[],
+
   TestCategory: extractSecondHalf(
     Object.values(TestCategoryAction),
   ) as `${TestCategoryAction}`[],
