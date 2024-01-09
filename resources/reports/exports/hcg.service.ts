@@ -1,4 +1,4 @@
-import { ID_TEST_HCG } from '@diut/levansy-common'
+import { ID_TEST_HCG } from '@diut/hcdc-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'

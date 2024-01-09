@@ -4,7 +4,7 @@ import {
   checkPermissionAllOf,
   checkPermissionAnyOf,
   Permission,
-} from '@diut/levansy-common'
+} from '@diut/hcdc-common'
 
 import {
   AuthTokenPayload,

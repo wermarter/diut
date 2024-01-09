@@ -29,7 +29,7 @@ import {
   ID_TEST_DIENDI,
   ID_TEST_GLUCOSE,
   ID_TEST_NHOMMAU,
-} from '@diut/levansy-common'
+} from '@diut/hcdc-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'

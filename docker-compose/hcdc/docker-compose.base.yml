@@ -1,0 +1,27 @@
+services:
+  client:
+    restart: unless-stopped
+    build:
+      context: ../../
+      dockerfile: ./apps/hcdc-web-app/Dockerfile
+    env_file:
+      - ../../apps/hcdc-web-app/.env
+    expose:
+      - 80
+
+  server:
+    restart: unless-stopped
+    build:
+      context: ../../
+      dockerfile: ./apps/hcdc-access-service/Dockerfile
+    expose:
+      - 5000
+      # - 8081
+    networks:
+      diut_infrastructure_network:
+
+networks:
+  diut_monitoring_network:
+    external: true
+  diut_infrastructure_network:
+    external: true

@@ -19,7 +19,7 @@ import {
   PatientCategory,
   PrintForm,
   SampleExceptionMsg,
-} from '@diut/levansy-common'
+} from '@diut/hcdc-common'
 import { NodeEnv } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq, merge } from 'lodash'

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
-import { PrintForm } from '@diut/levansy-common'
+import { PrintForm } from '@diut/hcdc-common'
 import { NodeEnv } from '@diut/common'
 import { AppController, ObjectIdPipe } from '@diut/nest-core'
 import { FileInterceptor } from '@nestjs/platform-express'

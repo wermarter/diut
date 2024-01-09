@@ -1,4 +1,4 @@
-import { Permission } from '@diut/levansy-common'
+import { Permission } from '@diut/hcdc-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { AppControllerOptions } from '@diut/nest-core'

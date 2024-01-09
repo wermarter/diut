@@ -1,4 +1,4 @@
-import { Permission, UserExceptionMsg } from '@diut/levansy-common'
+import { Permission, UserExceptionMsg } from '@diut/hcdc-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'

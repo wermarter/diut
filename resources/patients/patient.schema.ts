@@ -1,4 +1,4 @@
-import { Gender } from '@diut/levansy-common'
+import { Gender } from '@diut/hcdc-common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'

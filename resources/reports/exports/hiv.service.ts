@@ -1,4 +1,4 @@
-import { Gender, ID_TEST_HIV } from '@diut/levansy-common'
+import { Gender, ID_TEST_HIV } from '@diut/hcdc-common'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'

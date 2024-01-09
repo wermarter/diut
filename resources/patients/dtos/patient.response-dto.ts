@@ -1,5 +1,5 @@
 import { numericEnumArray } from '@diut/common'
-import { Gender } from '@diut/levansy-common'
+import { Gender } from '@diut/hcdc-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import {

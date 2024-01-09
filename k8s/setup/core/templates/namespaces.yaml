@@ -11,4 +11,4 @@ metadata:
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: diut-levansy
+  name: diut-hcdc

@@ -1,4 +1,4 @@
-import { Permission } from '@diut/levansy-common'
+import { Permission } from '@diut/hcdc-common'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'

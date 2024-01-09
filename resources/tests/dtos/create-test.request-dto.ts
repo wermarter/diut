@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/levansy-common'
+import { PrintForm } from '@diut/hcdc-common'
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsBoolean,

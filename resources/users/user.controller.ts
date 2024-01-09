@@ -1,4 +1,4 @@
-import { isAdmin as checkAdmin } from '@diut/levansy-common'
+import { isAdmin as checkAdmin } from '@diut/hcdc-common'
 import { Body, Logger, Param, UnauthorizedException } from '@nestjs/common'
 
 import { AppController, ObjectIdPipe } from '@diut/nest-core'

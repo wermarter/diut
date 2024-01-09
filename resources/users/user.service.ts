@@ -1,4 +1,4 @@
-import { UserExceptionMsg } from '@diut/levansy-common'
+import { UserExceptionMsg } from '@diut/hcdc-common'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, QueryOptions, UpdateQuery } from 'mongoose'

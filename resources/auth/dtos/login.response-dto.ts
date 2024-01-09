@@ -1,4 +1,4 @@
-import { LoginExceptionMsg } from '@diut/levansy-common'
+import { LoginExceptionMsg } from '@diut/hcdc-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 

@@ -1,4 +1,4 @@
-import { SampleExceptionMsg } from '@diut/levansy-common'
+import { SampleExceptionMsg } from '@diut/hcdc-common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {

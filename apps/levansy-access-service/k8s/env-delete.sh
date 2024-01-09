@@ -1,1 +1,0 @@
-kubectl -n diut-levansy delete configmap access-service-env

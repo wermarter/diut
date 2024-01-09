@@ -1,4 +1,4 @@
-import { Gender } from '@diut/levansy-common'
+import { Gender } from '@diut/hcdc-common'
 import { numericEnumArray } from '@diut/common'
 import { ApiProperty } from '@nestjs/swagger'
 import {
