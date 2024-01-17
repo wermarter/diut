@@ -72,11 +72,11 @@ export default function InfoConfirmPage() {
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
       fromDate:
-        searchParams.get('fromDate') !== null
+        searchParams.get('fromDate') != null
           ? new Date(searchParams.get('fromDate')!)
           : new Date(),
       toDate:
-        searchParams.get('toDate') !== null
+        searchParams.get('toDate') != null
           ? new Date(searchParams.get('toDate')!)
           : new Date(),
       sampleId: searchParams.get('sampleId') ?? '',

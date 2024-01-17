@@ -74,7 +74,7 @@ export default function SearchPatientPage() {
   const [openDeleteItem, setOpenDeleteItem] = useState<string | null>(null)
 
   const handleDeleteClick = (patientId: string) => {
-    if (patientId !== undefined) {
+    if (patientId != undefined) {
       setOpenDeleteItem(patientId)
     }
   }
@@ -216,14 +216,14 @@ export default function SearchPatientPage() {
         />
       </Box>
       <ConfirmDialog
-        open={openDeleteItem !== null}
+        open={openDeleteItem != null}
         onClose={() => {
           setOpenDeleteItem(null)
         }}
         content="Tất cả các mẫu XN liên kết với bệnh nhân này cũng sẽ bị xoá!"
         onConfirm={() => {
           // this should be async, but i like this behavior better
-          if (openDeleteItem !== null) {
+          if (openDeleteItem != null) {
             handleDeletePatient(openDeleteItem)
           }
           setOpenDeleteItem(null)

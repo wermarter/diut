@@ -29,7 +29,7 @@ export function UserTable() {
 
   const [openChangePassword, setOpenChangePassword] = React.useState('')
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <>
       <CrudTable
         items={data?.items}

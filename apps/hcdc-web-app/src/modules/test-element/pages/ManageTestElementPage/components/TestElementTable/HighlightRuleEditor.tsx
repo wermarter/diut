@@ -103,7 +103,7 @@ export function HighlightRuleEditor({
   const [items, setItems] = React.useState<HighlightRuleDtoWithId[]>([])
 
   React.useEffect(() => {
-    if (element?.highlightRules !== undefined) {
+    if (element?.highlightRules != undefined) {
       setItems(
         element.highlightRules.map((rule) => ({
           id: JSON.stringify(rule),
@@ -131,7 +131,7 @@ export function HighlightRuleEditor({
   return (
     <SideAction
       fullWidth
-      open={element !== null}
+      open={element != null}
       onClose={onClose}
       title={element?.name}
       disableClickOutside={isSubmitting}

@@ -8,6 +8,7 @@ import {
   IBioProductRepository,
 } from 'src/domain/interface'
 import { BioProductFindOneUseCase } from './find-one'
+import { EEntityNotFound } from 'src/domain/exception'
 
 @Injectable()
 export class BioProductUpdateUseCase {
@@ -21,15 +22,15 @@ export class BioProductUpdateUseCase {
   async execute(...input: Parameters<IBioProductRepository['update']>) {
     const { ability } = this.authContext.getData()
 
-    const target = await this.bioProductFindOneUseCase.execute({
+    const entity = await this.bioProductFindOneUseCase.execute({
       filter: input[0],
     })
 
-    if (target === null) {
-      throw new Error('not found')
+    if (entity === null) {
+      throw new EEntityNotFound(input[0])
     }
 
-    assertPermission(ability, 'BioProduct', BioProductAction.Update, target)
+    assertPermission(ability, 'BioProduct', BioProductAction.Update, entity)
 
     return this.bioProductRepository.update(...input)
   }

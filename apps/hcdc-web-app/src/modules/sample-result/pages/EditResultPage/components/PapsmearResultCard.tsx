@@ -299,7 +299,7 @@ export const PapsmearResultCard = ({
               </Button>
               <Typography fontStyle="italic">{leftUploadFile?.name}</Typography>
             </Box>
-            {leftDisplayImageURL !== null ? (
+            {leftDisplayImageURL != null ? (
               <img
                 src={leftDisplayImageURL}
                 width="500px"
@@ -335,7 +335,7 @@ export const PapsmearResultCard = ({
                 {rightUploadFile?.name}
               </Typography>
             </Box>
-            {shouldCrop && leftDisplayImageURL !== null ? (
+            {shouldCrop && leftDisplayImageURL != null ? (
               <Box
                 sx={{
                   position: 'relative',
@@ -353,7 +353,7 @@ export const PapsmearResultCard = ({
                   onCropComplete={onCropComplete}
                 />
               </Box>
-            ) : rightDisplayImageURL !== null ? (
+            ) : rightDisplayImageURL != null ? (
               <img
                 src={rightDisplayImageURL!}
                 width="500px"
@@ -376,7 +376,7 @@ export const PapsmearResultCard = ({
             const promises: Promise<unknown>[] = []
             const testId = currentTestInfo._id
 
-            if (leftUploadFile !== null) {
+            if (leftUploadFile != null) {
               // NEW IMAGE
               const { formData, filename } = prepareFormData(
                 leftUploadFile,
@@ -395,8 +395,8 @@ export const PapsmearResultCard = ({
 
             if (
               shouldCrop &&
-              leftDisplayImageURL !== null &&
-              croppedAreaPixels !== null
+              leftDisplayImageURL != null &&
+              croppedAreaPixels != null
             ) {
               // NEW CROP
               const croppedFile = await getCroppedImg(
@@ -418,7 +418,7 @@ export const PapsmearResultCard = ({
                 value: filename,
               })
             } else {
-              if (rightUploadFile !== null) {
+              if (rightUploadFile != null) {
                 // NO CROP, JUST UPLOAD
                 const { formData, filename } = prepareFormData(
                   rightUploadFile,

@@ -37,16 +37,16 @@ export async function bootstrapApp<T extends INestApplicationContext>(
   const onExitHooks: BootstrapConfig<T>['onExit'][] = []
 
   for (const bootstrapConfig of bootstrapConfigs) {
-    if (bootstrapConfig.beforeInit !== undefined) {
+    if (bootstrapConfig.beforeInit != undefined) {
       beforeInitHooks.push(bootstrapConfig.beforeInit)
     }
-    if (bootstrapConfig.initOptions !== undefined) {
+    if (bootstrapConfig.initOptions != undefined) {
       initOptions = merge(initOptions, bootstrapConfig.initOptions)
     }
-    if (bootstrapConfig.afterInit !== undefined) {
+    if (bootstrapConfig.afterInit != undefined) {
       afterInitHooks.push(bootstrapConfig.afterInit)
     }
-    if (bootstrapConfig.onExit !== undefined) {
+    if (bootstrapConfig.onExit != undefined) {
       onExitHooks.push(bootstrapConfig.onExit)
     }
   }

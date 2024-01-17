@@ -29,7 +29,7 @@ export function IndicationTable() {
   const [deleteIndication, { isLoading: isDeleting }] =
     useIndicationDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

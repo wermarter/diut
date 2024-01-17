@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { accessibleBy } from '@casl/mongoose'
 
 import {
   AuthContextToken,
@@ -21,11 +22,23 @@ export class BioProductSearchUseCase {
     @Inject(AuthContextToken) private readonly authContext: IAuthContext,
   ) {}
 
-  execute(input: SearchOptions<BioProduct>) {
+  async execute(input: SearchOptions<BioProduct>) {
     const { ability } = this.authContext.getData()
 
     assertPermission(ability, 'BioProduct', BioProductAction.Read)
 
-    return this.bioProductRepository.search(input)
+    console.log(accessibleBy(ability, BioProductAction.Read).BioProduct)
+
+    const paginationResult = await this.bioProductRepository.search({
+      ...input,
+      filter: {
+        $and: [
+          input.filter ?? {},
+          accessibleBy(ability, BioProductAction.Read)['bio-product'],
+        ],
+      },
+    })
+
+    return paginationResult
   }
 }

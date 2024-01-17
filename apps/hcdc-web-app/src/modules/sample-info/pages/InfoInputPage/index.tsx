@@ -174,7 +174,7 @@ export default function InfoInputPage() {
     handleSubmit(async (values) => {
       let patient: PatientResponseDto
 
-      if (shouldUpdatePatient !== null) {
+      if (shouldUpdatePatient != null) {
         patient = await updatePatient({
           id: shouldUpdatePatient,
           updatePatientRequestDto: values,

@@ -29,7 +29,7 @@ export function TestCategoryTable() {
   const [deleteTestCategory, { isLoading: isDeleting }] =
     useTestCategoryDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

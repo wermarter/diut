@@ -49,5 +49,5 @@ export function useDrawerItems() {
     }
   })
 
-  return result.filter((group): group is DrawerItem => group !== null)
+  return result.filter((group): group is DrawerItem => group != null)
 }

@@ -56,7 +56,7 @@ export function TestTable() {
   const [updateTest, { isLoading: isUpdating }] = useTestUpdateByIdMutation()
   const [deleteTest, { isLoading: isDeleting }] = useTestDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

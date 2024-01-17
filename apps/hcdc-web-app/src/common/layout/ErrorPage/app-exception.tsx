@@ -8,7 +8,7 @@ import { ErrorLayout } from './error-layout'
 export function AppExceptionPage() {
   const exception = useRouteError() as AppException
 
-  if (exception.action !== undefined && exception.actionLabel !== undefined) {
+  if (exception.action != undefined && exception.actionLabel != undefined) {
     return (
       <ErrorLayout>
         <Alert icon={false} severity="error">

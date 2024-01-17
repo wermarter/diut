@@ -29,7 +29,7 @@ export function SampleOriginTable() {
   const [deleteSampleOrigin, { isLoading: isDeleting }] =
     useSampleOriginDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

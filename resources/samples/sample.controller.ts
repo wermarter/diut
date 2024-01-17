@@ -72,7 +72,7 @@ export class SampleController {
     @Body() body: UpdateSampleRequestDto,
     @ReqUser() user: AuthTokenPayload,
   ) {
-    if (body.tests !== undefined || body.infoCompleted !== undefined) {
+    if (body.tests != undefined || body.infoCompleted != undefined) {
       return this.sampleService.updateSampleInfo(id, body, user)
     } else {
       return this.sampleService.updateSampleResults(id, body, user)

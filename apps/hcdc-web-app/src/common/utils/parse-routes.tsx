@@ -61,7 +61,7 @@ export function parseRoutes(
     if (isAuthenticated) {
       injectors.push(makeInjector(authenticationInjector, {}))
     }
-    if (permissionAllOf !== undefined || permissionAnyOf !== undefined) {
+    if (permissionAllOf != undefined || permissionAnyOf != undefined) {
       injectors.push(
         makeInjector(authorizationInjector, {
           permissionAllOf,
@@ -73,7 +73,7 @@ export function parseRoutes(
 
     // Recursive call for children
     let customChildren: RouteObject[] = []
-    if (children !== undefined && Array.isArray(children)) {
+    if (children != undefined && Array.isArray(children)) {
       customChildren = parseRoutes(children, injectors)
     }
 

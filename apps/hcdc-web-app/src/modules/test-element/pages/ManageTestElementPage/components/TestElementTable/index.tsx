@@ -113,7 +113,7 @@ export function TestElementTable() {
   const [deleteTestElement, { isLoading: isDeleting }] =
     useTestElementDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <>
       <CrudTable
         items={data?.items}
@@ -223,7 +223,7 @@ export function TestElementTable() {
           },
         ]}
       />
-      {ruleRow !== null && (
+      {ruleRow != null && (
         <HighlightRuleEditor
           element={ruleRow}
           onClose={() => {
@@ -250,7 +250,7 @@ function processHighlightRules(item: any): HighlightRuleDto[] {
   const firstRule = item.highlightRules?.[0]
 
   if (
-    firstRule?.category !== undefined &&
+    firstRule?.category != undefined &&
     firstRule?.category !== PatientCategory.Any
   ) {
     return item.highlightRules.map((rule: HighlightRuleDto) => ({

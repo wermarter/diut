@@ -1,7 +1,7 @@
 import { createMongoAbility } from '@casl/ability'
 import { Inject } from '@nestjs/common'
-import { AuthSubject, BioProductAction } from 'src/domain/entity'
 
+import { AuthSubject, BioProductAction } from 'src/domain/entity'
 import { EAuthnPayloadUserNotFound } from 'src/domain/exception'
 import {
   AuthContextData,
@@ -19,6 +19,7 @@ export class AuthPopulateContextUseCase {
   async execute(input: AuthPayload): Promise<AuthContextData> {
     const user = await this.userRepository.findOne({
       filter: { _id: input.userId },
+      populates: [{ path: 'branch' }],
     })
 
     if (!user) {
@@ -28,15 +29,26 @@ export class AuthPopulateContextUseCase {
     // create from user role and direct ability
     const ability = createMongoAbility([
       {
-        action: BioProductAction.Read,
+        action: BioProductAction.Create,
         subject: AuthSubject.BioProduct,
       },
       {
-        action: BioProductAction.Update,
+        action: BioProductAction.Read,
         subject: AuthSubject.BioProduct,
         conditions: {
           index: 2,
         },
+      },
+      {
+        action: BioProductAction.Update,
+        subject: AuthSubject.BioProduct,
+        // conditions: {
+        //   index: 2,
+        // },
+      },
+      {
+        action: BioProductAction.Delete,
+        subject: AuthSubject.BioProduct,
       },
     ])
 

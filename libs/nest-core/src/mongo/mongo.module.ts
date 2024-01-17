@@ -47,7 +47,7 @@ export class MongoModule {
         return {
           ...options,
           connectionFactory: (connection, name) => {
-            if (options.connectionFactory !== undefined) {
+            if (options.connectionFactory != undefined) {
               connection = options.connectionFactory(connection, name)
             }
 

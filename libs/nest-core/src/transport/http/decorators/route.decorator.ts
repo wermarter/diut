@@ -44,21 +44,21 @@ export function CustomHttpRoute({
 }: CustomHttpRouteOptions) {
   const decorators: MethodDecorator[] = [methodDecorator[method](path)]
 
-  if (code !== undefined) {
+  if (code != undefined) {
     decorators.push(HttpCode(code))
   }
 
-  if (openApi !== undefined) {
+  if (openApi != undefined) {
     decorators.push(CustomOpenApi({ isPublic, ...openApi }))
   } else if (!isPublic) {
     decorators.push(ApiBearerAuth())
   }
 
-  if (serialize !== undefined) {
+  if (serialize != undefined) {
     decorators.push(Serialize(serialize))
   }
 
-  if (additionalDecorators !== undefined) {
+  if (additionalDecorators != undefined) {
     decorators.push(...additionalDecorators)
   }
 

@@ -180,7 +180,7 @@ export function SinglePrintDialog({
   return (
     <Dialog
       TransitionComponent={Transition}
-      open={sample !== null}
+      open={sample != null}
       onClose={(e, reason) => {
         if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
           return

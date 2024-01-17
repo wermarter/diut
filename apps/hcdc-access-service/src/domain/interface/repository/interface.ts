@@ -39,6 +39,10 @@ export interface IRepository<TEntity extends BaseEntity> {
       | keyof TEntity
       | (keyof TEntity)[]
       | Record<keyof TEntity, number | boolean | object>
+    populates?: Array<{
+      path: keyof TEntity
+      fields?: Array<string>
+    }>
   }): Promise<TEntity | null>
 
   exists(filter: FilterQuery<TEntity>): Promise<boolean>

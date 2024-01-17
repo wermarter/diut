@@ -29,7 +29,7 @@ export function BioProductTable() {
   const [deleteBioProduct, { isLoading: isDeleting }] =
     useBioProductDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

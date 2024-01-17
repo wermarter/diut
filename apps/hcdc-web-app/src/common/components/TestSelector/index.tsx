@@ -72,7 +72,7 @@ export function TestSelector({
   const toggleSelected = (testId: string) => () => {
     setSelectedIds((ids) => {
       const target = ids.find((selectedId) => selectedId === testId)
-      if (target !== undefined) {
+      if (target != undefined) {
         return ids.filter((selectedId) => selectedId !== testId)
       } else {
         return ids.concat(testId)

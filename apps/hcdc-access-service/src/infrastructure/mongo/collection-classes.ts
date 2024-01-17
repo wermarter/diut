@@ -4,6 +4,7 @@ import { COLLECTION } from './collections'
 import { BioProductSchema } from './bio-product'
 import { TestCategorySchema } from './test-category'
 import { UserSchema } from './user'
+import { BranchSchema } from './branch'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
@@ -20,4 +21,5 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.USER]: UserSchema,
   // [COLLECTION.PRINT_FORM]: PrintForm,
   // [COLLECTION.SAMPLE_ORIGIN]: SampleOrigin,
+  [COLLECTION.BRANCH]: BranchSchema,
 }

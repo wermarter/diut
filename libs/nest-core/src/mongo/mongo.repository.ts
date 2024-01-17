@@ -13,8 +13,8 @@ import { BaseSchema } from './mongo.common'
 
 export abstract class MongoRepository<TEntity extends BaseSchema> {
   private toObjectOptions: ToObjectOptions = {
-    getters: false,
-    virtuals: false,
+    getters: true,
+    virtuals: true,
     minimize: false,
     versionKey: false,
     flattenMaps: true,
@@ -35,14 +35,22 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | keyof TEntity
       | (keyof TEntity)[]
       | Record<keyof TEntity, number | boolean | object>
+    populates?: Array<{
+      path: keyof TEntity
+      fields?: Array<string>
+    }>
   }) {
-    const { filter, projection } = options ?? {}
+    const { filter, projection, populates } = options ?? {}
 
     const query = this.model.findOne(filter)
 
-    if (projection !== undefined) {
+    if (projection != undefined) {
       // @ts-ignore
       query.select(projection)
+    }
+
+    if (populates != undefined) {
+      this.populate(query, populates)
     }
 
     const item: TEntity | null = await query.lean()
@@ -105,12 +113,12 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       query.sort(sort)
     }
 
-    if (offset !== undefined && limit !== undefined) {
+    if (offset != undefined && limit != undefined) {
       query.skip(offset * limit)
       query.limit(limit)
     }
 
-    if (projection !== undefined) {
+    if (projection != undefined) {
       // @ts-ignore
       query.select(projection)
     }

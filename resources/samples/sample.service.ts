@@ -178,7 +178,7 @@ export class SampleService
 
     let results = found.results ?? []
 
-    if (tests !== undefined) {
+    if (tests != undefined) {
       const keptResults = results.filter(({ testId }) =>
         body.tests.some(({ id }) => id === testId),
       )
@@ -196,7 +196,7 @@ export class SampleService
 
       results = [...keptResults, ...newResults]
       resultBy = uniq(results.map(({ resultBy }) => resultBy)).filter(
-        (x) => x !== undefined,
+        (x) => x != undefined,
       )
 
       sampleCompleted = !results.some(
@@ -368,7 +368,7 @@ export class SampleService
           return
         }
 
-        if (printForm !== undefined && test.printForm !== printForm) {
+        if (printForm != undefined && test.printForm !== printForm) {
           return
         }
 

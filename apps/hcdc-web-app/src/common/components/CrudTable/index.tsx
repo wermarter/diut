@@ -68,7 +68,7 @@ export function CrudTable<R extends GridValidRowModel>({
   )
 
   React.useEffect(() => {
-    if (items?.length !== undefined) {
+    if (items?.length != undefined) {
       setRows(items)
     }
   }, [items])
@@ -107,7 +107,7 @@ export function CrudTable<R extends GridValidRowModel>({
   const [openDeleteItem, setOpenDeleteItem] = React.useState<R | null>(null)
 
   const handleDeleteClick = (item: R) => () => {
-    if (onItemDelete !== undefined) {
+    if (onItemDelete != undefined) {
       setOpenDeleteItem(item)
     }
   }
@@ -126,7 +126,7 @@ export function CrudTable<R extends GridValidRowModel>({
 
   const processRowUpdate = async (newRow: R, oldRow: R) => {
     if (newRow[itemIdField] === NEW_ID_VALUE) {
-      if (onItemCreate !== undefined) {
+      if (onItemCreate != undefined) {
         await onItemCreate(newRow)
       }
     } else {
@@ -184,7 +184,7 @@ export function CrudTable<R extends GridValidRowModel>({
                 />
               )
             }),
-            onItemDelete !== undefined ? (
+            onItemDelete != undefined ? (
               <GridActionsCellItem
                 label="Xoá"
                 onClick={handleDeleteClick(row)}
@@ -228,7 +228,7 @@ export function CrudTable<R extends GridValidRowModel>({
             onRefresh,
             isLoading,
             firstField: columns?.[0]?.field,
-            allowAddNew: onItemCreate !== undefined,
+            allowAddNew: onItemCreate != undefined,
           },
           pagination: {
             showFirstButton: true,
@@ -237,7 +237,7 @@ export function CrudTable<R extends GridValidRowModel>({
         }}
         cellOutline
         loading={isLoading}
-        paginationMode={rowCount !== undefined ? 'server' : undefined}
+        paginationMode={rowCount != undefined ? 'server' : undefined}
         rowCount={rowCount}
         page={page}
         onPageChange={onPageChange}
@@ -246,12 +246,12 @@ export function CrudTable<R extends GridValidRowModel>({
       />
       <ConfirmDialog
         content={JSON.stringify(openDeleteItem)}
-        open={openDeleteItem !== null}
+        open={openDeleteItem != null}
         onClose={() => {
           setOpenDeleteItem(null)
         }}
         onConfirm={() => {
-          if (openDeleteItem !== null && onItemDelete !== undefined) {
+          if (openDeleteItem != null && onItemDelete != undefined) {
             onItemDelete(openDeleteItem)
           }
           setOpenDeleteItem(null)

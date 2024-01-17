@@ -80,11 +80,11 @@ export default function TestReportPage() {
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {
       fromDate:
-        searchParams.get('fromDate') !== null
+        searchParams.get('fromDate') != null
           ? new Date(searchParams.get('fromDate')!)
           : new Date(),
       toDate:
-        searchParams.get('toDate') !== null
+        searchParams.get('toDate') != null
           ? new Date(searchParams.get('toDate')!)
           : new Date(),
       patientType: patientTypeParam,
@@ -412,7 +412,7 @@ export default function TestReportPage() {
 
                   const { testId } =
                     row.results.find(({ testId }) => testId === _id) ?? {}
-                  if (testId !== undefined) {
+                  if (testId != undefined) {
                     return '✓'
                   }
 

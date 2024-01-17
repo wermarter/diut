@@ -13,7 +13,7 @@ export function checkPermission<TSubject extends keyof RecordTypes>(
 ) {
   const subjectName = AuthSubject[subjectType]
 
-  if (object !== undefined) {
+  if (object != undefined) {
     return ability.can(action, subject(subjectName, object))
   }
 

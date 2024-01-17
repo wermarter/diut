@@ -59,7 +59,7 @@ export function CrudToolbar<R extends GridValidRowModel>({
       sx={{ display: 'flex', justifyContent: 'space-between' }}
     >
       <Box sx={{ m: 1 }}>
-        {onRefresh !== undefined && (
+        {onRefresh != undefined && (
           <Button
             sx={{ mr: 1 }}
             onClick={onRefresh}

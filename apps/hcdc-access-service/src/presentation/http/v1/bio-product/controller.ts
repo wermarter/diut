@@ -8,6 +8,7 @@ import {
   BioProductFindOneUseCase,
   BioProductSearchUseCase,
   BioProductUpdateUseCase,
+  EEntityNotFound,
 } from 'src/domain'
 import { BioProductCreateRequestDto } from './dto/create.request-dto'
 import { BioProductUpdateRequestDto } from './dto/update.request-dto'
@@ -35,8 +36,16 @@ export class BioProductController {
   }
 
   @HttpRoute(bioProductRoutes.findById)
-  findById(@Param('id', ObjectIdPipe) id: string) {
-    return this.bioProductFindOneUseCase.execute({ filter: { _id: id } })
+  async findById(@Param('id', ObjectIdPipe) id: string) {
+    const rv = await this.bioProductFindOneUseCase.execute({
+      filter: { _id: id },
+    })
+
+    if (rv == null) {
+      throw new EEntityNotFound({ id })
+    }
+
+    return rv
   }
 
   @HttpRoute(bioProductRoutes.updateById)

@@ -29,7 +29,7 @@ export function PatientTypeTable() {
   const [deletePatientType, { isLoading: isDeleting }] =
     usePatientTypeDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

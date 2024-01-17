@@ -23,7 +23,7 @@ export function PrintFormTable() {
   const [updatePrintForm, { isLoading: isUpdating }] =
     usePrintFormUpdateByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

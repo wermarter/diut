@@ -29,7 +29,7 @@ export function SampleTypeTable() {
   const [deleteSampleType, { isLoading: isDeleting }] =
     useSampleTypeDeleteByIdMutation()
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <CrudTable
       items={data?.items}
       itemIdField="_id"

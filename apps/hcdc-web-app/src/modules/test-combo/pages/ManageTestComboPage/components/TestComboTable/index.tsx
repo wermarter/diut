@@ -35,7 +35,7 @@ export function TestComboTable() {
   const [selectedCombo, setSelectedCombo] =
     React.useState<TestComboResponseDto | null>(null)
 
-  return data?.items !== undefined ? (
+  return data?.items != undefined ? (
     <>
       <CrudTable
         items={data?.items}
@@ -85,7 +85,7 @@ export function TestComboTable() {
         ]}
       />
       <TestSelector
-        open={selectedCombo !== null}
+        open={selectedCombo != null}
         previousState={selectedCombo?.children ?? []}
         onClose={() => {
           setSelectedCombo(null)
