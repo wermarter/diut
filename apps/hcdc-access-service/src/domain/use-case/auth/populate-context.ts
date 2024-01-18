@@ -19,7 +19,7 @@ export class AuthPopulateContextUseCase {
   async execute(input: AuthPayload): Promise<AuthContextData> {
     const user = await this.userRepository.findOne({
       filter: { _id: input.userId },
-      populates: [{ path: 'branch' }],
+      populates: [{ path: 'branches' }],
     })
 
     if (!user) {

@@ -28,7 +28,7 @@ export class AuthLoginUseCase {
       throw new EAuthnLoginInvalidUsername()
     }
 
-    const isCorrect = await argon2.verify(user.password, password)
+    const isCorrect = await argon2.verify(user.passwordHash, password)
     if (!isCorrect) {
       throw new EAuthnLoginInvalidPassword()
     }

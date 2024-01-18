@@ -5,12 +5,13 @@ import { Branch } from '../branch'
 
 export type User = BaseEntity & {
   username: string
-  password: string
+  passwordHash: string
+
   name: string
   phoneNumber: string
 
-  branchId: string
-  branch?: Branch | null
+  branchIds: string[]
+  branches?: (Branch | null)[]
 
   // roles: string[] | Role[]
   // inlinePermissions: string[] | Permission[]

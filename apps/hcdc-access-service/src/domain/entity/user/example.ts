@@ -1,4 +1,4 @@
-import { exampleMongoObjectId } from '@diut/nest-core'
+import { exampleMongoObjectIds } from '@diut/nest-core'
 
 import { EntityExample } from '../base-entity'
 import { User } from './entity'
@@ -16,9 +16,9 @@ export const exampleUser: EntityExample<User> = {
     example: '1234567890',
     description: 'phoneNumber',
   },
-  password: {
+  passwordHash: {
     example: 'hashed_password',
-    description: 'password',
+    description: 'passwordHash',
   },
-  branchId: exampleMongoObjectId,
+  branchIds: exampleMongoObjectIds,
 }

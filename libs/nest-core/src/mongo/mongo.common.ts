@@ -19,6 +19,11 @@ export const exampleMongoObjectId = {
   description: 'MongoDB ObjectId',
 }
 
+export const exampleMongoObjectIds = {
+  example: ['634180269de1f07e47bbf494'],
+  description: 'MongoDB ObjectIds',
+}
+
 export const exampleDate = {
   format: 'date-time',
   example: '2018-03-20T09:12:28Z',

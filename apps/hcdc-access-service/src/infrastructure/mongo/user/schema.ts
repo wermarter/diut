@@ -9,12 +9,12 @@ import { BranchSchema } from '../branch'
   ...baseSchemaOptions,
   collection: COLLECTION.USER,
   virtuals: {
-    branch: {
+    branches: {
       options: {
         ref: BranchSchema.name,
-        localField: 'branchId',
+        localField: 'branchIds',
         foreignField: '_id',
-        justOne: true,
+        justOne: false,
       },
     },
   },
@@ -24,7 +24,7 @@ export class UserSchema extends BaseSchema {
   username: string
 
   @Prop({ required: true })
-  password: string
+  passwordHash: string
 
   @Prop({ required: true })
   name: string
@@ -32,8 +32,8 @@ export class UserSchema extends BaseSchema {
   @Prop({ required: true })
   phoneNumber: string
 
-  @Prop({ required: true, type: Types.ObjectId })
-  branchId: string
+  @Prop({ required: true, type: [Types.ObjectId] })
+  branchIds: string[]
 
-  branch?: BranchSchema | null
+  branches?: (BranchSchema | null)[]
 }
