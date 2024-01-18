@@ -20,6 +20,14 @@ export const numericEnumArray = (targetEnum: object) => {
   return Object.values(targetEnum).filter((elm) => !isNaN(Number(elm)))
 }
 
+function extractSecondHalf(items: string[]) {
+  return items.slice(items.length / 2)
+}
+
+export function stringEnumValues<TEnum>(targetEnum: TEnum) {
+  return extractSecondHalf(Object.values(targetEnum)) as (keyof TEnum)[]
+}
+
 export function stalkEmitter(emitter: any) {
   var oldEmit = emitter.emit
   emitter.emit = function () {

@@ -1,7 +1,7 @@
 import '@casl/mongoose'
 
 export enum TestCategoryAction {
-  Create = 'create',
+  Create = 'Create',
 }
 
 declare module '@casl/mongoose' {

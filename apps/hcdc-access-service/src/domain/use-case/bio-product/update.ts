@@ -1,13 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { BioProductAction, assertPermission } from 'src/domain/entity'
+import {
+  AuthSubject,
+  BioProductAction,
+  assertPermission,
+} from 'src/domain/entity'
 import {
   AuthContextToken,
   BioProductRepositoryToken,
   IAuthContext,
   IBioProductRepository,
 } from 'src/domain/interface'
-import { BioProductFindOneUseCase } from './find-one'
 import { EEntityNotFound } from 'src/domain/exception'
 
 @Injectable()
@@ -16,13 +19,12 @@ export class BioProductUpdateUseCase {
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
     @Inject(AuthContextToken) private readonly authContext: IAuthContext,
-    private readonly bioProductFindOneUseCase: BioProductFindOneUseCase,
   ) {}
 
   async execute(...input: Parameters<IBioProductRepository['update']>) {
     const { ability } = this.authContext.getData()
 
-    const entity = await this.bioProductFindOneUseCase.execute({
+    const entity = await this.bioProductRepository.findOne({
       filter: input[0],
     })
 
@@ -30,7 +32,12 @@ export class BioProductUpdateUseCase {
       throw new EEntityNotFound(input[0])
     }
 
-    assertPermission(ability, 'BioProduct', BioProductAction.Update, entity)
+    assertPermission(
+      ability,
+      AuthSubject.BioProduct,
+      BioProductAction.Update,
+      entity,
+    )
 
     return this.bioProductRepository.update(...input)
   }

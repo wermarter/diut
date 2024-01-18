@@ -6,9 +6,10 @@ import {
   BioProductRepositoryToken,
   IAuthContext,
   IBioProductRepository,
-  SearchOptions,
+  EntitySearchOptions,
 } from 'src/domain/interface'
 import {
+  AuthSubject,
   BioProduct,
   BioProductAction,
   assertPermission,
@@ -22,19 +23,17 @@ export class BioProductSearchUseCase {
     @Inject(AuthContextToken) private readonly authContext: IAuthContext,
   ) {}
 
-  async execute(input: SearchOptions<BioProduct>) {
+  async execute(input: EntitySearchOptions<BioProduct>) {
     const { ability } = this.authContext.getData()
 
-    assertPermission(ability, 'BioProduct', BioProductAction.Read)
-
-    console.log(accessibleBy(ability, BioProductAction.Read).BioProduct)
+    assertPermission(ability, AuthSubject.BioProduct, BioProductAction.Read)
 
     const paginationResult = await this.bioProductRepository.search({
       ...input,
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, BioProductAction.Read)['bio-product'],
+          accessibleBy(ability, BioProductAction.Read).BioProduct,
         ],
       },
     })

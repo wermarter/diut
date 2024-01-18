@@ -7,6 +7,7 @@ import {
   IBioProductRepository,
 } from 'src/domain/interface'
 import {
+  AuthSubject,
   BioProduct,
   BioProductAction,
   EntityData,
@@ -24,7 +25,12 @@ export class BioProductCreateUseCase {
   async execute(input: EntityData<BioProduct>) {
     const { ability } = this.authContext.getData()
 
-    assertPermission(ability, 'BioProduct', BioProductAction.Create)
+    assertPermission(
+      ability,
+      AuthSubject.BioProduct,
+      BioProductAction.Create,
+      input,
+    )
 
     const entity = await this.bioProductRepository.create(input)
 

@@ -31,24 +31,36 @@ export class AuthPopulateContextUseCase {
       {
         action: BioProductAction.Create,
         subject: AuthSubject.BioProduct,
+        conditions: {
+          index: {
+            $lt: 1000,
+          },
+        },
       },
       {
         action: BioProductAction.Read,
         subject: AuthSubject.BioProduct,
         conditions: {
-          index: 2,
+          index: {
+            $gt: 0,
+          },
         },
       },
       {
         action: BioProductAction.Update,
         subject: AuthSubject.BioProduct,
-        // conditions: {
-        //   index: 2,
-        // },
+        conditions: {
+          index: {
+            $gt: 2,
+          },
+        },
       },
       {
         action: BioProductAction.Delete,
         subject: AuthSubject.BioProduct,
+        conditions: {
+          index: 5,
+        },
       },
     ])
 

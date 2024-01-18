@@ -8,7 +8,7 @@ import {
 
 import { BaseEntity } from 'src/domain/entity'
 
-export type SearchOptions<TEntity> = {
+export type EntitySearchOptions<TEntity> = {
   offset?: number
   limit?: number
   filter?: FilterQuery<TEntity>
@@ -30,20 +30,22 @@ export type SearchResult<TEntity extends BaseEntity> = {
   items: TEntity[]
 }
 
+export type EntityFindOneOptions<TEntity> = {
+  filter?: FilterQuery<TEntity>
+  projection?:
+    | keyof TEntity
+    | (keyof TEntity)[]
+    | Record<keyof TEntity, number | boolean | object>
+  populates?: Array<{
+    path: keyof TEntity
+    fields?: Array<string>
+  }>
+}
+
 export interface IRepository<TEntity extends BaseEntity> {
   findById(id: string): Promise<TEntity | null>
 
-  findOne(options?: {
-    filter?: FilterQuery<TEntity>
-    projection?:
-      | keyof TEntity
-      | (keyof TEntity)[]
-      | Record<keyof TEntity, number | boolean | object>
-    populates?: Array<{
-      path: keyof TEntity
-      fields?: Array<string>
-    }>
-  }): Promise<TEntity | null>
+  findOne(options?: EntityFindOneOptions<TEntity>): Promise<TEntity | null>
 
   exists(filter: FilterQuery<TEntity>): Promise<boolean>
 
@@ -51,7 +53,7 @@ export interface IRepository<TEntity extends BaseEntity> {
 
   count(filter: FilterQuery<TEntity>): Promise<number>
 
-  search(options?: SearchOptions<TEntity>): Promise<SearchResult<TEntity>>
+  search(options?: EntitySearchOptions<TEntity>): Promise<SearchResult<TEntity>>
 
   updateById(
     id: string,

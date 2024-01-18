@@ -9,7 +9,7 @@ export class EAuthzPermissionDeny extends EAuthz {
       DomainErrorCode.AUTHZ_PERMISSION_DENY,
       `Permission denied: ${message}`,
       undefined,
-      HttpStatus.UNAUTHORIZED,
+      HttpStatus.FORBIDDEN,
     )
   }
 }

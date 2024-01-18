@@ -1,6 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { BioProductAction, assertPermission } from 'src/domain/entity'
 
+import {
+  AuthSubject,
+  BioProductAction,
+  assertPermission,
+} from 'src/domain/entity'
 import {
   AuthContextToken,
   BioProductRepositoryToken,
@@ -30,7 +34,12 @@ export class BioProductDeleteUseCase {
       throw new EEntityNotFound(input)
     }
 
-    assertPermission(ability, 'BioProduct', BioProductAction.Delete, entity)
+    assertPermission(
+      ability,
+      AuthSubject.BioProduct,
+      BioProductAction.Delete,
+      entity,
+    )
 
     await this.bioProductRepository.deleteById(input.id)
 

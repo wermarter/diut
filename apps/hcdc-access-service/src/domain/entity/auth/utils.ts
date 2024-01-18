@@ -2,17 +2,15 @@ import { MongoAbility, subject } from '@casl/ability'
 import { RecordTypes } from '@casl/mongoose'
 
 import { AuthAction } from './action'
-import { AuthSubject, AuthSubjectType } from './subject'
+import { SubjectEntityMapping } from './subject'
 import { EAuthzPermissionDeny } from 'src/domain/exception'
 
 export function checkPermission<TSubject extends keyof RecordTypes>(
   ability: MongoAbility,
-  subjectType: TSubject,
+  subjectName: TSubject,
   action: (typeof AuthAction)[TSubject][number],
-  object?: AuthSubjectType[TSubject],
+  object?: Partial<SubjectEntityMapping[TSubject]>,
 ) {
-  const subjectName = AuthSubject[subjectType]
-
   if (object != undefined) {
     return ability.can(action, subject(subjectName, object))
   }
@@ -22,15 +20,15 @@ export function checkPermission<TSubject extends keyof RecordTypes>(
 
 export function assertPermission<TSubject extends keyof RecordTypes>(
   ability: MongoAbility,
-  subjectType: TSubject,
+  subjectName: TSubject,
   action: (typeof AuthAction)[TSubject][number],
-  object?: AuthSubjectType[TSubject],
+  object?: Partial<SubjectEntityMapping[TSubject]>,
 ) {
-  if (!checkPermission(ability, subjectType, action, object)) {
+  if (!checkPermission(ability, subjectName, action, object)) {
     throw new EAuthzPermissionDeny(
-      `subject=${
-        AuthSubject[subjectType]
-      } action=${action} object=${JSON.stringify(object)}`,
+      `subject=${subjectName} action=${action} object=${JSON.stringify(
+        object,
+      )}`,
     )
   }
 }
