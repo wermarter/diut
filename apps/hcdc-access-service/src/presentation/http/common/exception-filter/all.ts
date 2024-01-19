@@ -28,12 +28,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR
     const message = String(exception)
-    const stack = exception instanceof Error ? exception.stack : undefined
 
     const responseBody: HttpErrorResponse = {
       errorCode: DomainErrorCode.UNKNOWN,
       message,
-      stack,
     }
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus)

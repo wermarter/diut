@@ -1,7 +1,7 @@
 import { DomainErrorCode } from '@diut/hcdc-common'
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsEnum, IsOptional, IsString } from 'class-validator'
+import { IsEnum, IsString } from 'class-validator'
 
 export class HttpErrorResponse {
   @Expose()
@@ -13,10 +13,4 @@ export class HttpErrorResponse {
   @ApiProperty()
   @IsString()
   message: string
-
-  @Expose()
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  stack?: string
 }

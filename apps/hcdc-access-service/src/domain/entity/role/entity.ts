@@ -1,10 +1,18 @@
+import { RecordTypes } from '@casl/mongoose'
+import { MongoQuery, RawRule } from '@casl/ability'
+
 import { BaseEntity } from '../base-entity'
-import { Permission } from '../permission/entity'
 
 export type Role = BaseEntity & {
   index: string
   name: string
+
   description: string
 
-  permissions: string[] | Permission[]
+  policy: {
+    subject: keyof RecordTypes
+    action: string
+    inverted?: boolean
+    conditions?: MongoQuery
+  }
 }

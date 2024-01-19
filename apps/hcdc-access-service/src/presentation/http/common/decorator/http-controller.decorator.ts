@@ -5,7 +5,7 @@ import {
 } from '@diut/nest-core'
 
 import { authGuards } from '../auth'
-import { exceptionFilters } from '../exception'
+import { exceptionFilters } from '../exception-filter'
 
 export const HttpController = (options: CustomHttpControllerOptions) => {
   const customOptions: CustomHttpControllerOptions = {

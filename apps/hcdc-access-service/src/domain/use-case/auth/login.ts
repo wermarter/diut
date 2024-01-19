@@ -1,18 +1,21 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt'
 
-import { UserFindOneUseCase } from '../user/find-one'
-import { AuthPayload } from 'src/domain/interface'
+import {
+  AuthPayload,
+  IUserRepository,
+  UserRepositoryToken,
+} from 'src/domain/interface'
 import {
   EAuthnLoginInvalidPassword,
   EAuthnLoginInvalidUsername,
-} from 'src/domain'
+} from 'src/domain/exception'
 
 @Injectable()
 export class AuthLoginUseCase {
   constructor(
-    private userFindOneUseCase: UserFindOneUseCase,
+    @Inject(UserRepositoryToken) private userRepository: IUserRepository,
     private jwtService: JwtService,
   ) {}
 
@@ -23,7 +26,7 @@ export class AuthLoginUseCase {
     username: string
     password: string
   }) {
-    const user = await this.userFindOneUseCase.execute({ filter: { username } })
+    const user = await this.userRepository.findOne({ filter: { username } })
     if (!user) {
       throw new EAuthnLoginInvalidUsername()
     }
