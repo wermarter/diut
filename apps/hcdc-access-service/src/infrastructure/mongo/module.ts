@@ -5,6 +5,7 @@ import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
   BioProductRepositoryToken,
   BranchRepositoryToken,
+  RoleRepositoryToken,
   TestCategoryRepositoryToken,
   UserRepositoryToken,
 } from 'src/domain'
@@ -12,6 +13,7 @@ import { BioProductSchema, BioProductRepository } from './bio-product'
 import { TestCategoryRepository, TestCategorySchema } from './test-category'
 import { UserRepository, UserSchema } from './user'
 import { BranchRepository, BranchSchema } from './branch'
+import { RoleRepository, RoleSchema } from './role'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [
@@ -26,6 +28,7 @@ export const mongoMetadata: ModuleMetadata = {
     MongoModule.forFeature(TestCategorySchema),
     MongoModule.forFeature(UserSchema),
     MongoModule.forFeature(BranchSchema),
+    MongoModule.forFeature(RoleSchema),
   ],
   providers: [
     {
@@ -43,6 +46,10 @@ export const mongoMetadata: ModuleMetadata = {
     {
       provide: BranchRepositoryToken,
       useClass: BranchRepository,
+    },
+    {
+      provide: RoleRepositoryToken,
+      useClass: RoleRepository,
     },
   ],
 }

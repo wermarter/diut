@@ -1,5 +1,6 @@
 export enum COLLECTION {
   USER = 'user',
+  ROLE = 'role',
   // PATIENT = 'patient',
   // DOCTOR = 'doctor',
   TEST_CATEGORY = 'test_category',

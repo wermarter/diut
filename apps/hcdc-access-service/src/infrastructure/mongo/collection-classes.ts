@@ -5,9 +5,11 @@ import { BioProductSchema } from './bio-product'
 import { TestCategorySchema } from './test-category'
 import { UserSchema } from './user'
 import { BranchSchema } from './branch'
+import { RoleSchema } from './role'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
+  [COLLECTION.ROLE]: RoleSchema,
   // [COLLECTION.DOCTOR]: Doctor,
   // [COLLECTION.INDICATION]: Indication,
   // [COLLECTION.PATIENT]: Patient,
