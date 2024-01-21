@@ -4,7 +4,7 @@ import { CustomHttpRouteOptions } from '@diut/nest-core'
 import { BranchSearchResponseDto } from './dto/search.response-dto'
 import { BranchResponseDto } from './dto/response-dto'
 
-export const branchRoutes: Record<string, CustomHttpRouteOptions> = {
+export const branchRoutes = {
   search: {
     path: 'search',
     method: RequestMethod.POST,
@@ -70,4 +70,4 @@ export const branchRoutes: Record<string, CustomHttpRouteOptions> = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>

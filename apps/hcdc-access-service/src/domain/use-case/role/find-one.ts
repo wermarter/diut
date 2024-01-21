@@ -24,6 +24,7 @@ export class RoleFindOneUseCase {
     const entity = await this.roleRepository.findOne(input)
 
     if (entity != null) {
+      // TODO: check this in assert exists
       assertPermission(ability, 'Role', RoleAction.Read, entity)
     }
 

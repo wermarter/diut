@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNumber, IsObject, IsOptional, Min } from 'class-validator'
+import { IsArray, IsNumber, IsObject, IsOptional, Min } from 'class-validator'
 import { FilterQuery, SortOrder } from 'mongoose'
 
-export class SearchRequestDto<Entity> {
+export class SearchRequestDto<TEntity> {
   @ApiProperty({
     default: 0,
     required: false,
@@ -30,7 +30,7 @@ export class SearchRequestDto<Entity> {
   })
   @IsOptional()
   @IsObject()
-  sort?: { [key in keyof Entity]: SortOrder | { $meta: 'textScore' } }
+  sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
 
   @ApiProperty({
     example: {},
@@ -39,5 +39,17 @@ export class SearchRequestDto<Entity> {
   })
   @IsOptional()
   @IsObject()
-  filter?: FilterQuery<Entity>
+  filter?: FilterQuery<TEntity>
+
+  @ApiProperty({
+    example: [],
+    isArray: true,
+    required: false,
+  })
+  @IsOptional()
+  @IsArray()
+  populates?: Array<{
+    path: keyof TEntity
+    fields?: Array<string>
+  }>
 }

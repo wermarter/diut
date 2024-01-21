@@ -20,6 +20,7 @@ export const exampleMongoObjectId = {
 
 export const exampleMongoObjectIds = {
   example: ['634180269de1f07e47bbf494'],
+  type: () => 'string',
   isArray: true,
 }
 

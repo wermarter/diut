@@ -7,7 +7,8 @@ import {
   BranchDeleteUseCase,
   BranchSearchUseCase,
   BranchUpdateUseCase,
-  BranchAssertExistsUseCase,
+  BranchFindOneUseCase,
+  EEntityNotFound,
 } from 'src/domain'
 import { BranchCreateRequestDto } from './dto/create.request-dto'
 import { BranchUpdateRequestDto } from './dto/update.request-dto'
@@ -23,7 +24,7 @@ export class BranchController {
     private readonly branchUpdateUseCase: BranchUpdateUseCase,
     private readonly branchDeleteUseCase: BranchDeleteUseCase,
     private readonly branchSearchUseCase: BranchSearchUseCase,
-    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
+    private readonly branchFindOneUseCase: BranchFindOneUseCase,
   ) {}
 
   @HttpRoute(branchRoutes.search)
@@ -37,8 +38,14 @@ export class BranchController {
   }
 
   @HttpRoute(branchRoutes.findById)
-  findById(@Param('id', ObjectIdPipe) id: string) {
-    return this.branchAssertExistsUseCase.execute({ _id: id })
+  async findById(@Param('id', ObjectIdPipe) id: string) {
+    const rv = await this.branchFindOneUseCase.execute({ filter: { _id: id } })
+
+    if (rv == null) {
+      throw new EEntityNotFound(`Branch id=${id}`)
+    }
+
+    return rv
   }
 
   @HttpRoute(branchRoutes.updateById)

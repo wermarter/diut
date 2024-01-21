@@ -7,7 +7,8 @@ import {
   BioProductDeleteUseCase,
   BioProductSearchUseCase,
   BioProductUpdateUseCase,
-  BioProductAssertExistsUseCase,
+  BioProductFindOneUseCase,
+  EEntityNotFound,
 } from 'src/domain'
 import { BioProductCreateRequestDto } from './dto/create.request-dto'
 import { BioProductUpdateRequestDto } from './dto/update.request-dto'
@@ -23,7 +24,7 @@ export class BioProductController {
     private readonly bioProductUpdateUseCase: BioProductUpdateUseCase,
     private readonly bioProductDeleteUseCase: BioProductDeleteUseCase,
     private readonly bioProductSearchUseCase: BioProductSearchUseCase,
-    private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
+    private readonly bioProductFindOneUseCase: BioProductFindOneUseCase,
   ) {}
 
   @HttpRoute(bioProductRoutes.search)
@@ -37,8 +38,16 @@ export class BioProductController {
   }
 
   @HttpRoute(bioProductRoutes.findById)
-  findById(@Param('id', ObjectIdPipe) id: string) {
-    return this.bioProductAssertExistsUseCase.execute({ _id: id })
+  async findById(@Param('id', ObjectIdPipe) id: string) {
+    const rv = await this.bioProductFindOneUseCase.execute({
+      filter: { _id: id },
+    })
+
+    if (rv == null) {
+      throw new EEntityNotFound(`BioProduct id=${id}`)
+    }
+
+    return rv
   }
 
   @HttpRoute(bioProductRoutes.updateById)

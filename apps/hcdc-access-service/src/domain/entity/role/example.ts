@@ -1,9 +1,7 @@
 import { exampleMongoObjectIds } from '@diut/nest-core'
 
-import { EntityDataExample, extractExampleEntity } from '../base-entity'
+import { EntityDataExample } from '../base-entity'
 import { Role } from './entity'
-import { examplePermissionRule } from '../auth'
-import { exampleBranch } from '../branch'
 
 export const exampleRole = {
   index: {
@@ -16,11 +14,11 @@ export const exampleRole = {
     example: 'phân quyền cao nhất',
   },
   policy: {
-    example: [extractExampleEntity(examplePermissionRule, false)],
+    isArray: true,
   },
   branchIds: exampleMongoObjectIds,
   branches: {
-    example: [extractExampleEntity(exampleBranch)],
     required: false,
+    isArray: true,
   },
 } satisfies EntityDataExample<Role>

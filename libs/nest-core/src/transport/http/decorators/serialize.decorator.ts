@@ -17,6 +17,7 @@ class SerializeInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler<unknown>) {
     return next.handle().pipe(
       map((response) => {
+        // TODO: validate response DTO?
         return plainToClass(this.dtoClass, response, {
           excludeExtraneousValues: true,
         })

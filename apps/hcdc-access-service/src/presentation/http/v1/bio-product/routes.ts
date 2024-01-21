@@ -4,7 +4,7 @@ import { CustomHttpRouteOptions } from '@diut/nest-core'
 import { BioProductSearchResponseDto } from './dto/search.response-dto'
 import { BioProductResponseDto } from './dto/response-dto'
 
-export const bioProductRoutes: Record<string, CustomHttpRouteOptions> = {
+export const bioProductRoutes = {
   search: {
     path: 'search',
     method: RequestMethod.POST,
@@ -70,4 +70,4 @@ export const bioProductRoutes: Record<string, CustomHttpRouteOptions> = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>

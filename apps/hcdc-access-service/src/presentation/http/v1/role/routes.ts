@@ -4,7 +4,7 @@ import { CustomHttpRouteOptions } from '@diut/nest-core'
 import { RoleSearchResponseDto } from './dto/search.response-dto'
 import { RoleResponseDto } from './dto/response-dto'
 
-export const roleRoutes: Record<string, CustomHttpRouteOptions> = {
+export const roleRoutes = {
   search: {
     path: 'search',
     method: RequestMethod.POST,
@@ -70,4 +70,4 @@ export const roleRoutes: Record<string, CustomHttpRouteOptions> = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>
