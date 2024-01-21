@@ -7,7 +7,7 @@ export class EAuthnCookieAccessTokenNotFound extends EAuthn {
   constructor() {
     super(
       DomainErrorCode.AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND,
-      'Access token cookie not found',
+      'access token cookie not found',
       undefined,
       HttpStatus.UNAUTHORIZED,
     )

@@ -18,7 +18,8 @@ export class BioProductUpdateUseCase {
   constructor(
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
   async execute(...input: Parameters<IBioProductRepository['update']>) {
@@ -29,7 +30,7 @@ export class BioProductUpdateUseCase {
     })
 
     if (entity === null) {
-      throw new EEntityNotFound(input[0])
+      throw new EEntityNotFound(`BioProduct ${JSON.stringify(input[0])}`)
     }
 
     assertPermission(

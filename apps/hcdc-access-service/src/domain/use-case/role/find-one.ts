@@ -13,14 +13,15 @@ import {
 export class RoleFindOneUseCase {
   constructor(
     @Inject(RoleRepositoryToken)
-    private readonly bioProductRepository: IRoleRepository,
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    private readonly roleRepository: IRoleRepository,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
   async execute(input: EntityFindOneOptions<Role>) {
     const { ability } = this.authContext.getData()
 
-    const entity = await this.bioProductRepository.findOne(input)
+    const entity = await this.roleRepository.findOne(input)
 
     if (entity != null) {
       assertPermission(ability, 'Role', RoleAction.Read, entity)

@@ -17,7 +17,8 @@ import {
 @Injectable()
 export class BioProductCreateUseCase {
   constructor(
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
   ) {}

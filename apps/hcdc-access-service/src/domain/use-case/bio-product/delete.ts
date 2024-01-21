@@ -17,7 +17,8 @@ import { EEntityNotFound } from 'src/domain/exception'
 @Injectable()
 export class BioProductDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
     private readonly bioProductFindOneUseCase: BioProductFindOneUseCase,
@@ -31,7 +32,7 @@ export class BioProductDeleteUseCase {
     })
 
     if (entity == null) {
-      throw new EEntityNotFound(input)
+      throw new EEntityNotFound(`BioProduct ${JSON.stringify(input)}`)
     }
 
     assertPermission(

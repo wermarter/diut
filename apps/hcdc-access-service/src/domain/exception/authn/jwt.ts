@@ -7,7 +7,7 @@ export class EAuthnJwtInvalidToken extends EAuthn {
   constructor() {
     super(
       DomainErrorCode.AUTHN_JWT_INVALID_TOKEN,
-      'Invalid JWT token',
+      'invalid JWT token',
       undefined,
       HttpStatus.UNAUTHORIZED,
     )

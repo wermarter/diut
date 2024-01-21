@@ -28,7 +28,7 @@ export function assertPermission<TSubject extends keyof typeof AuthSubject>(
 ) {
   if (!checkPermission(ability, subject, action, object)) {
     logger.warn(
-      `assertPermission failed:\n ${JSON.stringify(
+      `assertPermission failed: ${JSON.stringify(
         {
           ability,
           subject,

@@ -20,7 +20,8 @@ export class BioProductSearchUseCase {
   constructor(
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
   async execute(input: EntitySearchOptions<BioProduct>) {

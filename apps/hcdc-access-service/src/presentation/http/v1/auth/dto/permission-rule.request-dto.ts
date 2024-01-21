@@ -1,36 +1,30 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsBoolean, IsEnum, IsOptional } from 'class-validator'
+import { MongoQuery } from '@casl/ability'
+import { ApiProperty } from '@nestjs/swagger'
+import { IsBoolean, IsEnum, IsObject, IsOptional } from 'class-validator'
 
 import {
   AuthActionUnionType,
-  AuthActions,
-  AuthSubject,
+  AuthActionValues,
   AuthSubjectUnionType,
-  AuthSubjects,
-  RoleAction,
+  AuthSubjectValues,
+  examplePermissionRule,
 } from 'src/domain'
 
 export class PermissionRuleRequestDto {
-  @ApiProperty({
-    example: AuthSubject.Role,
-    enum: AuthSubjects,
-  })
-  @IsEnum(AuthSubject)
+  @ApiProperty(examplePermissionRule.subject)
+  @IsEnum(AuthSubjectValues)
   subject: AuthSubjectUnionType
 
-  @ApiProperty({
-    example: RoleAction.Manage,
-    enum: AuthActions,
-  })
-  @IsEnum(AuthSubject)
+  @ApiProperty(examplePermissionRule.action)
+  @IsEnum(AuthActionValues)
   action: AuthActionUnionType
 
-  @ApiPropertyOptional({
-    example: false,
-  })
+  @ApiProperty(examplePermissionRule.inverted)
   @IsOptional()
   @IsBoolean()
   inverted: boolean
 
-  type conditions please
+  @ApiProperty(examplePermissionRule.conditions)
+  @IsObject()
+  conditions: MongoQuery
 }

@@ -4,10 +4,10 @@ import { DomainErrorCode } from '@diut/hcdc-common'
 import { EEntity } from './base'
 
 export class EEntityNotFound extends EEntity {
-  constructor(entity: unknown) {
+  constructor(reason: string) {
     super(
       DomainErrorCode.ENTITY_NOT_FOUND,
-      `Cannot find entity: ${JSON.stringify(entity)}`,
+      `entity not found: ${reason}`,
       undefined,
       HttpStatus.NOT_FOUND,
     )

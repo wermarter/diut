@@ -18,7 +18,7 @@ export class EAuthzAuthenticationRequired extends EAuthz {
   constructor() {
     super(
       DomainErrorCode.AUTHZ_AUTHENTICATION_REQUIRED,
-      'Authentication required',
+      'authentication required',
       undefined,
       HttpStatus.UNAUTHORIZED,
     )

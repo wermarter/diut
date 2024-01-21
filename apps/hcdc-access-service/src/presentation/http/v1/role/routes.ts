@@ -1,18 +1,11 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
-import {
-  CustomHttpControllerOptions,
-  CustomHttpRouteOptions,
-} from '@diut/nest-core'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { RoleSearchResponseDto } from './dto/search.response-dto'
 import { RoleResponseDto } from './dto/response-dto'
 
-export const roleRoutes = {
-  controller: <CustomHttpControllerOptions>{
-    basePath: 'v1/bio-products',
-  },
-
-  search: <CustomHttpRouteOptions>{
+export const roleRoutes: Record<string, CustomHttpRouteOptions> = {
+  search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -26,7 +19,7 @@ export const roleRoutes = {
     },
   },
 
-  create: <CustomHttpRouteOptions>{
+  create: {
     method: RequestMethod.POST,
     serialize: RoleResponseDto,
     openApi: {
@@ -39,7 +32,7 @@ export const roleRoutes = {
     },
   },
 
-  updateById: <CustomHttpRouteOptions>{
+  updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: RoleResponseDto,
@@ -52,7 +45,7 @@ export const roleRoutes = {
     },
   },
 
-  findById: <CustomHttpRouteOptions>{
+  findById: {
     path: ':id',
     method: RequestMethod.GET,
     serialize: RoleResponseDto,
@@ -65,7 +58,7 @@ export const roleRoutes = {
     },
   },
 
-  deleteById: <CustomHttpRouteOptions>{
+  deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: RoleResponseDto,

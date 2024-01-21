@@ -33,9 +33,7 @@ export class SearchRequestDto<Entity> {
   sort?: { [key in keyof Entity]: SortOrder | { $meta: 'textScore' } }
 
   @ApiProperty({
-    example: {
-      $and: [{ someField: 18 }, { randomField: 'will be ignored' }],
-    },
+    example: {},
     description: 'mongoose FilterQuery',
     required: false,
   })

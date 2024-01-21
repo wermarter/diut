@@ -1,18 +1,11 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
-import {
-  CustomHttpControllerOptions,
-  CustomHttpRouteOptions,
-} from '@diut/nest-core'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { BioProductSearchResponseDto } from './dto/search.response-dto'
 import { BioProductResponseDto } from './dto/response-dto'
 
-export const bioProductRoutes = {
-  controller: <CustomHttpControllerOptions>{
-    basePath: 'v1/bio-products',
-  },
-
-  search: <CustomHttpRouteOptions>{
+export const bioProductRoutes: Record<string, CustomHttpRouteOptions> = {
+  search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
@@ -26,7 +19,7 @@ export const bioProductRoutes = {
     },
   },
 
-  create: <CustomHttpRouteOptions>{
+  create: {
     method: RequestMethod.POST,
     serialize: BioProductResponseDto,
     openApi: {
@@ -39,7 +32,7 @@ export const bioProductRoutes = {
     },
   },
 
-  updateById: <CustomHttpRouteOptions>{
+  updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: BioProductResponseDto,
@@ -52,7 +45,7 @@ export const bioProductRoutes = {
     },
   },
 
-  findById: <CustomHttpRouteOptions>{
+  findById: {
     path: ':id',
     method: RequestMethod.GET,
     serialize: BioProductResponseDto,
@@ -65,7 +58,7 @@ export const bioProductRoutes = {
     },
   },
 
-  deleteById: <CustomHttpRouteOptions>{
+  deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: BioProductResponseDto,

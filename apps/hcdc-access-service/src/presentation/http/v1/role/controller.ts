@@ -5,24 +5,23 @@ import { roleRoutes } from './routes'
 import {
   RoleCreateUseCase,
   RoleDeleteUseCase,
-  RoleFindOneUseCase,
   RoleSearchUseCase,
   RoleUpdateUseCase,
-  EEntityNotFound,
+  RoleAssertExistsUseCase,
 } from 'src/domain'
 import { RoleCreateRequestDto } from './dto/create.request-dto'
 import { RoleUpdateRequestDto } from './dto/update.request-dto'
 import { RoleSearchRequestDto } from './dto/search.request-dto'
 import { HttpController, HttpRoute } from '../../common'
 
-@HttpController(roleRoutes.controller)
+@HttpController({ basePath: 'v1/roles' })
 export class RoleController {
   constructor(
     private readonly roleCreateUseCase: RoleCreateUseCase,
-    private readonly roleFindOneUseCase: RoleFindOneUseCase,
     private readonly roleUpdateUseCase: RoleUpdateUseCase,
     private readonly roleDeleteUseCase: RoleDeleteUseCase,
     private readonly roleSearchUseCase: RoleSearchUseCase,
+    private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
   ) {}
 
   @HttpRoute(roleRoutes.search)
@@ -36,16 +35,8 @@ export class RoleController {
   }
 
   @HttpRoute(roleRoutes.findById)
-  async findById(@Param('id', ObjectIdPipe) id: string) {
-    const rv = await this.roleFindOneUseCase.execute({
-      filter: { _id: id },
-    })
-
-    if (rv == null) {
-      throw new EEntityNotFound({ id })
-    }
-
-    return rv
+  findById(@Param('id', ObjectIdPipe) id: string) {
+    return this.roleAssertExistsUseCase.execute({ _id: id })
   }
 
   @HttpRoute(roleRoutes.updateById)

@@ -16,12 +16,11 @@ import {
 
 export const exampleMongoObjectId = {
   example: '634180269de1f07e47bbf494',
-  description: 'MongoDB ObjectId',
 }
 
 export const exampleMongoObjectIds = {
   example: ['634180269de1f07e47bbf494'],
-  description: 'MongoDB ObjectIds',
+  isArray: true,
 }
 
 export const exampleDate = {

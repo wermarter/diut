@@ -13,23 +13,24 @@ import { EEntityNotFound } from 'src/domain/exception'
 export class RoleUpdateUseCase {
   constructor(
     @Inject(RoleRepositoryToken)
-    private readonly bioProductRepository: IRoleRepository,
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    private readonly roleRepository: IRoleRepository,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
   async execute(...input: Parameters<IRoleRepository['update']>) {
     const { ability } = this.authContext.getData()
 
-    const entity = await this.bioProductRepository.findOne({
+    const entity = await this.roleRepository.findOne({
       filter: input[0],
     })
 
     if (entity === null) {
-      throw new EEntityNotFound(input[0])
+      throw new EEntityNotFound(`Role ${JSON.stringify(input[0])}`)
     }
 
     assertPermission(ability, AuthSubject.Role, RoleAction.Update, entity)
 
-    return this.bioProductRepository.update(...input)
+    return this.roleRepository.update(...input)
   }
 }

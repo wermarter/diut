@@ -7,7 +7,7 @@ export class EAuthnPayloadNotFound extends EAuthn {
   constructor() {
     super(
       DomainErrorCode.AUTHN_PAYLOAD_NOT_FOUND,
-      'Auth payload not found',
+      'auth payload not found',
       undefined,
       HttpStatus.BAD_REQUEST,
     )
@@ -18,7 +18,7 @@ export class EAuthnPayloadUserNotFound extends EAuthn {
   constructor() {
     super(
       DomainErrorCode.AUTHN_PAYLOAD_USER_NOT_FOUND,
-      'User not found, HttpPublicRoute is used where it should not be?',
+      'user not found, HttpPublicRoute is applied where it should not be?',
       undefined,
       HttpStatus.BAD_REQUEST,
     )

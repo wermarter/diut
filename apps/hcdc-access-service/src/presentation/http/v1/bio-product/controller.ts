@@ -5,24 +5,25 @@ import { bioProductRoutes } from './routes'
 import {
   BioProductCreateUseCase,
   BioProductDeleteUseCase,
-  BioProductFindOneUseCase,
   BioProductSearchUseCase,
   BioProductUpdateUseCase,
-  EEntityNotFound,
+  BioProductAssertExistsUseCase,
 } from 'src/domain'
 import { BioProductCreateRequestDto } from './dto/create.request-dto'
 import { BioProductUpdateRequestDto } from './dto/update.request-dto'
 import { BioProductSearchRequestDto } from './dto/search.request-dto'
 import { HttpController, HttpRoute } from '../../common'
 
-@HttpController(bioProductRoutes.controller)
+@HttpController({
+  basePath: 'v1/bio-products',
+})
 export class BioProductController {
   constructor(
     private readonly bioProductCreateUseCase: BioProductCreateUseCase,
-    private readonly bioProductFindOneUseCase: BioProductFindOneUseCase,
     private readonly bioProductUpdateUseCase: BioProductUpdateUseCase,
     private readonly bioProductDeleteUseCase: BioProductDeleteUseCase,
     private readonly bioProductSearchUseCase: BioProductSearchUseCase,
+    private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
   ) {}
 
   @HttpRoute(bioProductRoutes.search)
@@ -36,16 +37,8 @@ export class BioProductController {
   }
 
   @HttpRoute(bioProductRoutes.findById)
-  async findById(@Param('id', ObjectIdPipe) id: string) {
-    const rv = await this.bioProductFindOneUseCase.execute({
-      filter: { _id: id },
-    })
-
-    if (rv == null) {
-      throw new EEntityNotFound({ id })
-    }
-
-    return rv
+  findById(@Param('id', ObjectIdPipe) id: string) {
+    return this.bioProductAssertExistsUseCase.execute({ _id: id })
   }
 
   @HttpRoute(bioProductRoutes.updateById)

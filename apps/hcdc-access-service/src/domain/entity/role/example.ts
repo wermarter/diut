@@ -1,28 +1,26 @@
 import { exampleMongoObjectIds } from '@diut/nest-core'
 
-import { EntityExample } from '../base-entity'
+import { EntityDataExample, extractExampleEntity } from '../base-entity'
 import { Role } from './entity'
+import { examplePermissionRule } from '../auth'
+import { exampleBranch } from '../branch'
 
-export const exampleRole: EntityExample<Role> = {
+export const exampleRole = {
   index: {
     example: 1,
-    description: 'index',
   },
   name: {
     example: 'Admin',
-    description: 'tên phân quyền',
   },
   description: {
     example: 'phân quyền cao nhất',
-    description: 'mô tả',
   },
   policy: {
-    example: [],
-    description: 'policy',
+    example: [extractExampleEntity(examplePermissionRule, false)],
   },
   branchIds: exampleMongoObjectIds,
   branches: {
-    example: [],
-    description: 'các chi nhánh khả dụng cho phân quyền này',
+    example: [extractExampleEntity(exampleBranch)],
+    required: false,
   },
-}
+} satisfies EntityDataExample<Role>

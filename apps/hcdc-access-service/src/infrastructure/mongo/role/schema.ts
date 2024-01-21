@@ -6,22 +6,22 @@ import { MongoQuery } from '@casl/ability'
 import { COLLECTION } from '../collections'
 import {
   AuthActionUnionType,
-  AuthActions,
+  AuthActionValues,
   AuthSubjectUnionType,
-  AuthSubjects,
+  AuthSubjectValues,
   PermissionRule,
 } from 'src/domain'
 import { BranchSchema } from '../branch'
 
 @Schema({ _id: false })
 export class PermissionRuleSchema {
-  @Prop({ required: true, type: String, enum: AuthSubjects })
+  @Prop({ required: true, type: String, enum: AuthSubjectValues })
   subject: AuthSubjectUnionType
 
   @Prop({
     required: true,
     type: String,
-    enum: AuthActions,
+    enum: AuthActionValues,
   })
   action: AuthActionUnionType
 

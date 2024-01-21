@@ -1,13 +1,11 @@
-import { EntityExample } from '../base-entity'
+import { EntityDataExample } from '../base-entity'
 import { BioProduct } from './entity'
 
-export const exampleBioProduct: EntityExample<BioProduct> = {
+export const exampleBioProduct = {
   index: {
     example: 1,
-    description: 'index',
   },
   name: {
     example: 'CHIV Advia centaur',
-    description: 'name',
   },
-}
+} satisfies EntityDataExample<BioProduct>

@@ -24,8 +24,17 @@ function extractSecondHalf(items: string[]) {
   return items.slice(items.length / 2)
 }
 
-export function stringEnumValues<TEnum>(targetEnum: TEnum) {
-  return extractSecondHalf(Object.values(targetEnum)) as (keyof TEnum)[]
+export function stringEnumValues<TEnum>(
+  targetEnum: TEnum,
+  isSameKeyValue = true,
+) {
+  const values = Object.values(targetEnum)
+
+  if (isSameKeyValue) {
+    return values as (keyof TEnum)[]
+  }
+
+  return extractSecondHalf(values) as (keyof TEnum)[]
 }
 
 export function stalkEmitter(emitter: any) {

@@ -1,18 +1,17 @@
-import { exampleMongoObjectIds } from '@diut/nest-core'
-import { EntityExample } from '../base-entity'
-import { Branch } from './entity'
+import { EntityDataExample } from '../base-entity'
+import { Branch, BranchType } from './entity'
 
-export const exampleBranch: EntityExample<Branch> = {
+export const exampleBranch = {
   index: {
     example: 1,
-    description: 'index',
   },
   name: {
     example: 'HCDC Ba tháng hai',
-    description: 'tên chi nhánh',
   },
   address: {
-    example: 'Ba tháng hai',
-    description: 'địa chỉ chi nhánh',
+    example: 'đường 3/2',
   },
-}
+  type: {
+    enum: BranchType,
+  },
+} satisfies EntityDataExample<Branch>

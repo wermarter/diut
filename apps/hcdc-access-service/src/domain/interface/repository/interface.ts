@@ -31,7 +31,7 @@ export type SearchResult<TEntity extends BaseEntity> = {
 }
 
 export type EntityFindOneOptions<TEntity> = {
-  filter?: FilterQuery<TEntity>
+  filter: FilterQuery<TEntity>
   projection?:
     | keyof TEntity
     | (keyof TEntity)[]

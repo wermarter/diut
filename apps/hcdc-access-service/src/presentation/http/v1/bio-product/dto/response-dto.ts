@@ -1,20 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { Expose } from 'class-transformer'
-import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import { IntersectionType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nest-core'
 
-import { exampleBioProduct } from 'src/domain'
+import { BioProductCreateRequestDto } from './create.request-dto'
 
-export class BioProductResponseDto extends BaseResourceResponseDto {
-  @Expose()
-  @ApiProperty(exampleBioProduct.index)
-  @IsNumber()
-  @Min(1)
-  index: number
-
-  @Expose()
-  @ApiProperty(exampleBioProduct.name)
-  @IsString()
-  @IsNotEmpty()
-  name: string
-}
+export class BioProductResponseDto extends IntersectionType(
+  BaseResourceResponseDto,
+  BioProductCreateRequestDto,
+) {}

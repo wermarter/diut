@@ -30,7 +30,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   }
 
   public async findOne(options?: {
-    filter?: FilterQuery<TEntity>
+    filter: FilterQuery<TEntity>
     projection?:
       | keyof TEntity
       | (keyof TEntity)[]

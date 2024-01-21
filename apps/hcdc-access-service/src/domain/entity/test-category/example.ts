@@ -1,17 +1,14 @@
-import { EntityExample } from '../base-entity'
+import { EntityDataExample } from '../base-entity'
 import { TestCategory } from './entity'
 
-export const exampleTestCategory: EntityExample<TestCategory> = {
+export const exampleTestCategory = {
   index: {
     example: 1,
-    description: 'thứ tự in trong kết quả',
   },
   name: {
     example: 'XN Huyết học - Đông máu',
-    description: 'name',
   },
   reportIndex: {
     example: 1,
-    description: 'thứ tự in trong báo cáo',
   },
-}
+} satisfies EntityDataExample<TestCategory>

@@ -1,10 +1,12 @@
 import { stringEnumValues } from '@diut/common'
 
 import { AuthSubject, AuthSubjectUnionType } from './subject'
-import { BioProductAction } from '../bio-product'
-import { TestCategoryAction } from '../test-category'
-import { BranchAction } from '../branch'
-import { RoleAction } from '../role'
+
+// NOTE: beware of circular dependency
+import { BioProductAction } from '../bio-product/auth'
+import { TestCategoryAction } from '../test-category/auth'
+import { BranchAction } from '../branch/auth'
+import { RoleAction } from '../role/auth'
 
 export const AuthAction = {
   BioProduct: stringEnumValues(BioProductAction),
@@ -13,7 +15,7 @@ export const AuthAction = {
   Role: stringEnumValues(RoleAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
-export const AuthActions = Object.values(AuthAction).flat()
+export const AuthActionValues = Object.values(AuthAction).flat()
 
 export type AuthActionUnionType =
   (typeof AuthAction)[AuthSubjectUnionType][number]

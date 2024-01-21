@@ -1,20 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { Expose } from 'class-transformer'
-import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nest-core'
+import { Expose } from 'class-transformer'
 
-import { exampleRole } from 'src/domain'
+import { RoleCreateRequestDto } from './create.request-dto'
+import { Branch, exampleRole } from 'src/domain'
 
-export class RoleResponseDto extends BaseResourceResponseDto {
+export class RoleResponseDto extends IntersectionType(
+  BaseResourceResponseDto,
+  RoleCreateRequestDto,
+) {
   @Expose()
-  @ApiProperty(exampleRole.index)
-  @IsNumber()
-  @Min(1)
-  index: number
-
-  @Expose()
-  @ApiProperty(exampleRole.name)
-  @IsString()
-  @IsNotEmpty()
-  name: string
+  @ApiProperty(exampleRole.branches)
+  branches?: Branch[]
 }

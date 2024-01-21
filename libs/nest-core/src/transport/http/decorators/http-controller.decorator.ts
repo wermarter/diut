@@ -8,7 +8,7 @@ export type CustomHttpControllerOptions = {
 
 export function CustomHttpController(options: CustomHttpControllerOptions) {
   return applyDecorators(
-    ApiTags(options.basePath),
+    ApiTags(options.basePath.replaceAll('/', '-')),
     Controller(options.basePath),
     ...(options.controllerDecorators ?? []),
   )

@@ -15,7 +15,9 @@ export const AuthSubject = {
 
 export type AuthSubjectUnionType = keyof typeof AuthSubject
 
-export const AuthSubjects = Object.keys(AuthSubject)
+export const AuthSubjectValues = Object.keys(
+  AuthSubject,
+) as AuthSubjectUnionType[]
 
 export type SubjectEntityMapping = {
   BioProduct: BioProduct

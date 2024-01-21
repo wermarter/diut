@@ -19,8 +19,9 @@ import {
 export class RoleSearchUseCase {
   constructor(
     @Inject(RoleRepositoryToken)
-    private readonly bioProductRepository: IRoleRepository,
-    @Inject(AuthContextToken) private readonly authContext: IAuthContext,
+    private readonly roleRepository: IRoleRepository,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
   async execute(input: EntitySearchOptions<Role>) {
@@ -28,7 +29,7 @@ export class RoleSearchUseCase {
 
     assertPermission(ability, AuthSubject.Role, RoleAction.Read)
 
-    const paginationResult = await this.bioProductRepository.search({
+    const paginationResult = await this.roleRepository.search({
       ...input,
       filter: {
         $and: [input.filter ?? {}, accessibleBy(ability, RoleAction.Read).Role],

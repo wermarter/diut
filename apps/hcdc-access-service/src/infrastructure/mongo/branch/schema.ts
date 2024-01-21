@@ -2,6 +2,7 @@ import { Prop, Schema } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'
 
 import { COLLECTION } from '../collections'
+import { BranchType } from 'src/domain'
 
 @Schema({
   ...baseSchemaOptions,
@@ -16,4 +17,7 @@ export class BranchSchema extends BaseSchema {
 
   @Prop({ required: true })
   address: string
+
+  @Prop({ required: true, enum: BranchType })
+  type: BranchType
 }
