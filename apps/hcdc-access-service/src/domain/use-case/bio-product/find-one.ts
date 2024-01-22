@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 
 import {
+  AuthSubject,
   BioProduct,
   BioProductAction,
   assertPermission,
@@ -28,7 +29,12 @@ export class BioProductFindOneUseCase {
     const entity = await this.bioProductRepository.findOne(input)
 
     if (entity != null) {
-      assertPermission(ability, 'BioProduct', BioProductAction.Read, entity)
+      assertPermission(
+        ability,
+        AuthSubject.BioProduct,
+        BioProductAction.Read,
+        entity,
+      )
     }
 
     return entity

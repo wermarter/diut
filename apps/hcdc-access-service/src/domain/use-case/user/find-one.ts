@@ -1,14 +1,37 @@
-import { Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { IUserRepository, UserRepositoryToken } from 'src/domain/interface'
+import {
+  AuthSubject,
+  User,
+  UserAction,
+  assertPermission,
+} from 'src/domain/entity'
+import {
+  AuthContextToken,
+  UserRepositoryToken,
+  EntityFindOneOptions,
+  IAuthContext,
+  IUserRepository,
+} from 'src/domain/interface'
 
+@Injectable()
 export class UserFindOneUseCase {
   constructor(
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
-  async execute(input: Parameters<IUserRepository['findOne']>[0]) {
-    return await this.userRepository.findOne(input)
+  async execute(input: EntityFindOneOptions<User>) {
+    const { ability } = this.authContext.getData()
+
+    const entity = await this.userRepository.findOne(input)
+
+    if (entity != null) {
+      assertPermission(ability, AuthSubject.User, UserAction.Read, entity)
+    }
+
+    return entity
   }
 }

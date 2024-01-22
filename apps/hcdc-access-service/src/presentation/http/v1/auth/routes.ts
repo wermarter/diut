@@ -1,17 +1,11 @@
-import {
-  CustomHttpControllerOptions,
-  CustomHttpRouteOptions,
-} from '@diut/nest-core'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { LoginResponseDto } from './dto/login.response'
+import { LoginResponseDto } from './dto/login.response-dto'
+import { AuthMeResponseDto } from './dto/me.response-dto'
 
 export const authRoutes = {
-  controller: <CustomHttpControllerOptions>{
-    basePath: 'v1/auth',
-  },
-
-  login: <CustomHttpRouteOptions>{
+  login: {
     isPublic: true,
     path: 'login',
     method: RequestMethod.POST,
@@ -26,20 +20,20 @@ export const authRoutes = {
     },
   },
 
-  me: <CustomHttpRouteOptions>{
+  me: {
     path: 'me',
     openApi: {
       responses: [
         {
-          type: LoginResponseDto,
+          type: AuthMeResponseDto,
         },
       ],
     },
   },
 
-  logout: <CustomHttpRouteOptions>{
+  logout: {
     path: 'logout',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>

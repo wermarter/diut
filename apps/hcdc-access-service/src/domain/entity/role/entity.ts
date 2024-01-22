@@ -1,6 +1,6 @@
 import { BaseEntity } from '../base-entity'
 import { Branch } from '../branch'
-import { PermissionRule } from '../auth'
+import { PermissionRule } from '../permission-rule'
 
 export type Role = BaseEntity & {
   index: number

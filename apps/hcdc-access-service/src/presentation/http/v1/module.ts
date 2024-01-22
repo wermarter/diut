@@ -4,6 +4,7 @@ import { BioProductController } from './bio-product/controller'
 import { AuthController } from './auth/controller'
 import { RoleController } from './role/controller'
 import { BranchController } from './branch/controller'
+import { UserController } from './user/controller'
 
 export const httpControllerV1Metadata: ModuleMetadata = {
   controllers: [
@@ -11,6 +12,7 @@ export const httpControllerV1Metadata: ModuleMetadata = {
     AuthController,
     RoleController,
     BranchController,
+    UserController,
   ],
   providers: [],
 }

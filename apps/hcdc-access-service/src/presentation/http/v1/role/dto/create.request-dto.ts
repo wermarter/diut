@@ -11,7 +11,7 @@ import {
 import { IsObjectId } from '@diut/nest-core'
 
 import { PermissionRule, exampleRole } from 'src/domain'
-import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.request-dto'
+import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'
 
 export class RoleCreateRequestDto {
   @Expose()

@@ -1,7 +1,7 @@
 import { createMongoAbility } from '@casl/ability'
 import { Inject } from '@nestjs/common'
 
-import { AuthSubject, BioProductAction } from 'src/domain/entity'
+import { PermissionRule, Role } from 'src/domain/entity'
 import { EAuthnPayloadUserNotFound } from 'src/domain/exception'
 import {
   AuthContextData,
@@ -19,54 +19,24 @@ export class AuthPopulateContextUseCase {
   async execute(input: AuthPayload): Promise<AuthContextData> {
     const user = await this.userRepository.findOne({
       filter: { _id: input.userId },
-      populates: [{ path: 'branches' }],
+      populates: [{ path: 'roles', fields: ['permissions'] as (keyof Role)[] }],
     })
 
     if (!user) {
       throw new EAuthnPayloadUserNotFound()
     }
 
+    const rolesPermissions: PermissionRule[] = []
+    user.roles?.forEach((role) => {
+      if (role != null) {
+        rolesPermissions.push(...role.permissions)
+      }
+    })
+    const { inlinePermissions } = user
+    const permissions = [...rolesPermissions, ...inlinePermissions]
+
     // create from user role and direct ability
-    const ability = createMongoAbility([
-      {
-        action: 'manage',
-        subject: 'all',
-      },
-      {
-        action: BioProductAction.Create,
-        subject: AuthSubject.BioProduct,
-        conditions: {
-          index: {
-            $lt: 1000,
-          },
-        },
-      },
-      {
-        action: BioProductAction.Read,
-        subject: AuthSubject.BioProduct,
-        conditions: {
-          index: {
-            $gt: 0,
-          },
-        },
-      },
-      {
-        action: BioProductAction.Update,
-        subject: AuthSubject.BioProduct,
-        conditions: {
-          index: {
-            $gt: 2,
-          },
-        },
-      },
-      {
-        action: BioProductAction.Delete,
-        subject: AuthSubject.BioProduct,
-        conditions: {
-          index: 5,
-        },
-      },
-    ])
+    const ability = createMongoAbility(permissions)
 
     return { user, ability }
   }

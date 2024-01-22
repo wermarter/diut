@@ -1,6 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { Branch, BranchAction, assertPermission } from 'src/domain/entity'
+import {
+  AuthSubject,
+  Branch,
+  BranchAction,
+  assertPermission,
+} from 'src/domain/entity'
 import {
   AuthContextToken,
   BranchRepositoryToken,
@@ -24,7 +29,7 @@ export class BranchFindOneUseCase {
     const entity = await this.branchRepository.findOne(input)
 
     if (entity != null) {
-      assertPermission(ability, 'Branch', BranchAction.Read, entity)
+      assertPermission(ability, AuthSubject.Branch, BranchAction.Read, entity)
     }
 
     return entity

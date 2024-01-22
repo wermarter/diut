@@ -1,6 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { Role, RoleAction, assertPermission } from 'src/domain/entity'
+import {
+  AuthSubject,
+  Role,
+  RoleAction,
+  assertPermission,
+} from 'src/domain/entity'
 import {
   AuthContextToken,
   RoleRepositoryToken,
@@ -24,8 +29,7 @@ export class RoleFindOneUseCase {
     const entity = await this.roleRepository.findOne(input)
 
     if (entity != null) {
-      // TODO: check this in assert exists
-      assertPermission(ability, 'Role', RoleAction.Read, entity)
+      assertPermission(ability, AuthSubject.Role, RoleAction.Read, entity)
     }
 
     return entity

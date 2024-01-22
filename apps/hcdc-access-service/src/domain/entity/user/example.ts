@@ -1,12 +1,14 @@
 import { exampleMongoObjectIds } from '@diut/nest-core'
 
-import { EntityDataExample, extractExampleEntity } from '../base-entity'
+import { EntityDataExample } from '../base-entity'
 import { User } from './entity'
-import { exampleBranch } from '../branch'
 
 export const exampleUser = {
   username: {
     example: 'levana',
+  },
+  passwordHash: {
+    example: 'hashed_password',
   },
   name: {
     example: 'Lê Văn A',
@@ -14,12 +16,17 @@ export const exampleUser = {
   phoneNumber: {
     example: '1234567890',
   },
-  passwordHash: {
-    example: 'hashed_password',
+  inlinePermissions: {
+    isArray: true,
   },
   branchIds: exampleMongoObjectIds,
   branches: {
-    example: [extractExampleEntity(exampleBranch)],
+    required: false,
+    isArray: true,
+  },
+  roleIds: exampleMongoObjectIds,
+  roles: {
+    required: false,
     isArray: true,
   },
 } satisfies EntityDataExample<User>

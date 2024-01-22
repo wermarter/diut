@@ -2,10 +2,8 @@ import { Body, Res } from '@nestjs/common'
 import { Response } from 'express'
 
 import { AuthMeUseCase, AuthLoginUseCase } from 'src/domain'
-import { AuthLoginRequestDto } from './dto/login.request'
+import { AuthLoginRequestDto } from './dto/login.request-dto'
 import { authRoutes } from './routes'
-import { LoginResponseDto } from './dto/login.response'
-import { AuthMeResponseDto } from './dto/me.response'
 import {
   AuthCookieService,
   HttpController,
@@ -13,7 +11,7 @@ import {
   HttpRoute,
 } from '../../common'
 
-@HttpController(authRoutes.controller)
+@HttpController({ basePath: 'v1/auth' })
 export class AuthController {
   constructor(
     private authMeUseCase: AuthMeUseCase,
@@ -26,7 +24,7 @@ export class AuthController {
   async login(
     @Body() body: AuthLoginRequestDto,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<LoginResponseDto> {
+  ) {
     const { user, accessToken } = await this.authLoginUseCase.execute(body)
 
     this.authCookieService.setAuthCookie(res, { accessToken })
@@ -35,7 +33,7 @@ export class AuthController {
   }
 
   @HttpRoute(authRoutes.me)
-  me(): AuthMeResponseDto {
+  me() {
     return this.authMeUseCase.execute()
   }
 

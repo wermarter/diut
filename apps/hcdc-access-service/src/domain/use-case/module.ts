@@ -21,8 +21,14 @@ import { BranchDeleteUseCase } from './branch/delete'
 import { BranchSearchUseCase } from './branch/search'
 import { BranchAssertExistsUseCase } from './branch/assert-exists'
 
-import { AuthMeUseCase } from './auth/me'
+import { UserCreateUseCase } from './user/create'
+import { UserUpdateUseCase } from './user/update'
 import { UserFindOneUseCase } from './user/find-one'
+import { UserDeleteUseCase } from './user/delete'
+import { UserSearchUseCase } from './user/search'
+import { UserAssertExistsUseCase } from './user/assert-exists'
+
+import { AuthMeUseCase } from './auth/me'
 import { AuthLoginUseCase } from './auth/login'
 import { AuthPopulateContextUseCase } from './auth/populate-context'
 
@@ -54,5 +60,12 @@ export const useCaseMetadata: ModuleMetadata = {
     RoleDeleteUseCase,
     RoleSearchUseCase,
     RoleAssertExistsUseCase,
+
+    UserCreateUseCase,
+    UserFindOneUseCase,
+    UserUpdateUseCase,
+    UserDeleteUseCase,
+    UserSearchUseCase,
+    UserAssertExistsUseCase,
   ],
 }

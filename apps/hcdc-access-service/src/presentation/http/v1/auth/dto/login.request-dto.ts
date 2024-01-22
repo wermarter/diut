@@ -9,7 +9,7 @@ export class AuthLoginRequestDto {
   @IsNotEmpty()
   username: string
 
-  @ApiProperty(exampleUser.passwordHash)
+  @ApiProperty({ example: 'password' })
   @IsString()
   @IsNotEmpty()
   password: string
