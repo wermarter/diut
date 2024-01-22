@@ -29,7 +29,12 @@ export class BranchFindOneUseCase {
     const entity = await this.branchRepository.findOne(input)
 
     if (entity != null) {
-      assertPermission(ability, AuthSubject.Branch, BranchAction.Read, entity)
+      assertPermission(
+        ability,
+        AuthSubject.Branch,
+        BranchAction.Read,
+        entity ?? {},
+      )
     }
 
     return entity

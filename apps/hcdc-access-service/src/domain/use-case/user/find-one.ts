@@ -28,9 +28,7 @@ export class UserFindOneUseCase {
 
     const entity = await this.userRepository.findOne(input)
 
-    if (entity != null) {
-      assertPermission(ability, AuthSubject.User, UserAction.Read, entity)
-    }
+    assertPermission(ability, AuthSubject.User, UserAction.Read, entity ?? {})
 
     return entity
   }
