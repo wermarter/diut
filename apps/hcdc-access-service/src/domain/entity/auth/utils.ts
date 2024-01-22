@@ -1,11 +1,8 @@
 import { MongoAbility, subject as assignSubject } from '@casl/ability'
-import { Logger } from '@nestjs/common'
 
 import { AuthAction } from './action'
 import { AuthSubject, SubjectEntityMapping } from './subject'
 import { EAuthzPermissionDenied } from 'src/domain/exception'
-
-const logger = new Logger('AuthUtil')
 
 export function checkPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,
@@ -27,19 +24,8 @@ export function assertPermission<TSubject extends keyof typeof AuthSubject>(
   object?: Partial<SubjectEntityMapping[TSubject]>,
 ) {
   if (!checkPermission(ability, subject, action, object)) {
-    logger.warn(
-      `assertPermission failed: ${JSON.stringify(
-        {
-          ability,
-          subject,
-          action,
-          object,
-        },
-        null,
-        2,
-      )}`,
+    throw new EAuthzPermissionDenied(
+      `${action} -> ${object != undefined ? 'this' : 'any'} ${subject}`,
     )
-
-    throw new EAuthzPermissionDenied(`${action} -> ${subject}`)
   }
 }
