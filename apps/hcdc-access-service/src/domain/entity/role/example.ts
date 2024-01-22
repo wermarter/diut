@@ -13,7 +13,7 @@ export const exampleRole = {
   description: {
     example: 'phân quyền cao nhất',
   },
-  policy: {
+  permissions: {
     isArray: true,
   },
   branchIds: exampleMongoObjectIds,

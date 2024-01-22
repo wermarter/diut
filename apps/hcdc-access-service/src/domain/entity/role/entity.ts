@@ -8,7 +8,7 @@ export type Role = BaseEntity & {
 
   description: string
 
-  policy: PermissionRule[]
+  permissions: PermissionRule[]
 
   branchIds: string[]
   branches?: (Branch | null)[]

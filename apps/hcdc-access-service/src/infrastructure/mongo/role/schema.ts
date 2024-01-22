@@ -60,7 +60,7 @@ export class RoleSchema extends BaseSchema {
     required: true,
     type: [SchemaFactory.createForClass(PermissionRuleSchema)],
   })
-  policy: PermissionRule[]
+  permissions: PermissionRule[]
 
   @Prop({ required: true, type: [Types.ObjectId] })
   branchIds: string[]

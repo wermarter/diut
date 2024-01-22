@@ -33,11 +33,14 @@ export class RoleCreateRequestDto {
   description: string
 
   @Expose()
-  @ApiProperty({ ...exampleRole.policy, type: () => PermissionRuleRequestDto })
+  @ApiProperty({
+    ...exampleRole.permissions,
+    type: () => PermissionRuleRequestDto,
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PermissionRuleRequestDto)
-  policy: PermissionRule[]
+  permissions: PermissionRule[]
 
   @Expose()
   @ApiProperty(exampleRole.branchIds)
