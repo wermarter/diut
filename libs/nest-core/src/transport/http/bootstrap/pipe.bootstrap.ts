@@ -8,6 +8,7 @@ export const PipeBootstrap: BootstrapConfig<INestApplication> = {
       new ValidationPipe({
         // convert to DTO to class instance for applying default value
         transform: true,
+        transformOptions: { excludeExtraneousValues: true },
       }),
     )
   },

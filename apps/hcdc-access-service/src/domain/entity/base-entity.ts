@@ -7,6 +7,9 @@ export type BaseEntity = {
 
   createdAt: Date
   updatedAt: Date
+
+  isDeleted: boolean
+  deletedAt?: Date
 }
 
 export const exampleBaseEntity = {
@@ -19,12 +22,22 @@ export const exampleBaseEntity = {
     format: 'date-time',
     example: '2022-08-20T16:00:00.000Z',
   },
+  isDeleted: {
+    type: 'boolean',
+  },
+  deletedAt: {
+    required: false,
+    format: 'date-time',
+    example: '2022-08-20T16:00:00.000Z',
+  },
 } satisfies EntityExample<BaseEntity>
 
 export const baseEntityKeys: (keyof BaseEntity)[] = [
   '_id',
   'createdAt',
   'updatedAt',
+  'isDeleted',
+  'deletedAt',
 ]
 
 export type EntityData<TEntity> = Omit<TEntity, keyof BaseEntity>

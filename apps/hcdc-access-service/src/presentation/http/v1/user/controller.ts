@@ -42,7 +42,7 @@ export class UserController {
       populates: [{ path: 'roles' }, { path: 'branches' }],
     })
 
-    if (rv == null) {
+    if (rv === null) {
       throw new EEntityNotFound(`User id=${id}`)
     }
 

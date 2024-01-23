@@ -25,7 +25,7 @@ export class RoleUpdateUseCase {
     const entity = await this.roleAssertExistsUseCase.execute(input[0])
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Role, RoleAction.Update, entity)
-    await this.roleValidateUseCase.execute(input[0])
+    await this.roleValidateUseCase.execute(input[1])
 
     return this.roleRepository.update(...input)
   }

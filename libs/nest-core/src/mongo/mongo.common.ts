@@ -1,4 +1,4 @@
-import { SchemaOptions } from '@nestjs/mongoose'
+import { Prop, SchemaOptions } from '@nestjs/mongoose'
 import { Expose, Transform } from 'class-transformer'
 import { ApiProperty } from '@nestjs/swagger'
 import {
@@ -46,13 +46,13 @@ export class BaseResourceResponseDto {
   @ApiProperty(exampleMongoObjectId)
   _id: string
 
-  @Expose()
-  @ApiProperty(exampleDate)
-  createdAt: Date
+  // @Expose()
+  // @ApiProperty(exampleDate)
+  // createdAt: Date
 
-  @Expose()
-  @ApiProperty(exampleDate)
-  updatedAt: Date
+  // @Expose()
+  // @ApiProperty(exampleDate)
+  // updatedAt: Date
 }
 
 export const baseSchemaOptions: SchemaOptions = {
@@ -64,6 +64,12 @@ export class BaseSchema {
 
   createdAt: Date
   updatedAt: Date
+
+  @Prop({ required: true, default: false })
+  isDeleted: boolean
+
+  @Prop({ required: false })
+  deletedAt: Date
 }
 
 @Injectable()

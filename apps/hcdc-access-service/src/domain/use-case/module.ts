@@ -13,6 +13,7 @@ import { RoleFindOneUseCase } from './role/find-one'
 import { RoleDeleteUseCase } from './role/delete'
 import { RoleSearchUseCase } from './role/search'
 import { RoleAssertExistsUseCase } from './role/assert-exists'
+import { RoleValidateUseCase } from './role/validate'
 
 import { BranchCreateUseCase } from './branch/create'
 import { BranchUpdateUseCase } from './branch/update'
@@ -27,6 +28,7 @@ import { UserFindOneUseCase } from './user/find-one'
 import { UserDeleteUseCase } from './user/delete'
 import { UserSearchUseCase } from './user/search'
 import { UserAssertExistsUseCase } from './user/assert-exists'
+import { UserValidateUseCase } from './user/validate'
 
 import { AuthMeUseCase } from './auth/me'
 import { AuthLoginUseCase } from './auth/login'
@@ -60,6 +62,7 @@ export const useCaseMetadata: ModuleMetadata = {
     RoleDeleteUseCase,
     RoleSearchUseCase,
     RoleAssertExistsUseCase,
+    RoleValidateUseCase,
 
     UserCreateUseCase,
     UserFindOneUseCase,
@@ -67,5 +70,6 @@ export const useCaseMetadata: ModuleMetadata = {
     UserDeleteUseCase,
     UserSearchUseCase,
     UserAssertExistsUseCase,
+    UserValidateUseCase,
   ],
 }

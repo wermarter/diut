@@ -19,8 +19,11 @@ export type EntitySearchOptions<TEntity> = {
     | Record<keyof TEntity, number | boolean | object>
   populates?: Array<{
     path: keyof TEntity
+    isDeleted?: boolean | null
     fields?: Array<string>
+    match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
   }>
+  isDeleted?: boolean | null
 }
 
 export type SearchResult<TEntity extends BaseEntity> = {
@@ -38,24 +41,33 @@ export type EntityFindOneOptions<TEntity> = {
     | Record<keyof TEntity, number | boolean | object>
   populates?: Array<{
     path: keyof TEntity
+    isDeleted?: boolean | null
     fields?: Array<string>
+    match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
   }>
+  isDeleted?: boolean | null
 }
 
 export interface IRepository<TEntity extends BaseEntity> {
-  findById(id: string): Promise<TEntity | null>
+  findById(id: string, isDeleted?: boolean | null): Promise<TEntity | null>
 
   findOne(options?: EntityFindOneOptions<TEntity>): Promise<TEntity | null>
 
-  exists(filter: FilterQuery<TEntity>): Promise<boolean>
+  exists(
+    filter: FilterQuery<TEntity>,
+    isDeleted?: boolean | null,
+  ): Promise<boolean>
 
   create(entity: Omit<TEntity, keyof BaseEntity>): Promise<TEntity>
 
-  count(filter: FilterQuery<TEntity>): Promise<number>
+  count(
+    filter: FilterQuery<TEntity>,
+    isDeleted?: boolean | null,
+  ): Promise<number>
 
   search(options?: EntitySearchOptions<TEntity>): Promise<SearchResult<TEntity>>
 
-  updateById(
+  updateByIdIgnoreSoftDelete(
     id: string,
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
@@ -65,19 +77,21 @@ export interface IRepository<TEntity extends BaseEntity> {
     filter: FilterQuery<TEntity>,
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
+    isDeleted?: boolean | null,
   ): Promise<TEntity | null>
 
   updateMany(
     filter: FilterQuery<TEntity>,
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
+    isDeleted?: boolean | null,
   ): Promise<void>
 
-  deleteById(id: string): Promise<TEntity>
+  deleteById(id: string, softDelete?: boolean): Promise<TEntity | null>
 
-  deleteMany(filter: FilterQuery<TEntity>): Promise<void>
+  deleteMany(filter: FilterQuery<TEntity>, softDelete?: boolean): Promise<void>
 
-  bulkUpsert(
+  bulkUpsertIgnoreSoftDelete(
     docs: unknown[],
     upsert?: {
       conditions?: Array<string>
@@ -86,9 +100,9 @@ export interface IRepository<TEntity extends BaseEntity> {
     },
   ): Promise<void>
 
-  bulkWrite(data: Array<object>): Promise<void>
+  bulkWriteIgnoreSoftDelete(data: Array<object>): Promise<void>
 
-  aggregate<Result = any>(
+  aggregateIgnoreSoftDelete<Result = any>(
     pipelines: Array<PipelineStage>,
     allowDiskUse?: boolean,
   ): Promise<Array<Result>>

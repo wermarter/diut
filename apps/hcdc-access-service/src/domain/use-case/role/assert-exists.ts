@@ -18,7 +18,7 @@ export class RoleAssertExistsUseCase {
   async execute(input: EntityFindOneOptions<Role>['filter']) {
     const rv = await this.roleRepository.findOne({ filter: input })
 
-    if (rv == null) {
+    if (rv === null) {
       throw new EEntityNotFound(`Role ${JSON.stringify(input)}`)
     }
 

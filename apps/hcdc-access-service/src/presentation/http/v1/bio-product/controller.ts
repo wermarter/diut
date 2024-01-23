@@ -43,7 +43,7 @@ export class BioProductController {
       filter: { _id: id },
     })
 
-    if (rv == null) {
+    if (rv === null) {
       throw new EEntityNotFound(`BioProduct id=${id}`)
     }
 

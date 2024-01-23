@@ -31,7 +31,7 @@ export function SideAction({
 }: SideActionProps) {
   const handleClose = useCallback(
     (event: object, reason: 'backdropClick' | 'escapeKeyDown') => {
-      if (disableClickOutside && reason && reason == 'backdropClick') {
+      if (disableClickOutside && reason && reason === 'backdropClick') {
         return
       }
       onClose()

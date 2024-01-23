@@ -18,7 +18,7 @@ export class BioProductAssertExistsUseCase {
   async execute(input: EntityFindOneOptions<BioProduct>['filter']) {
     const rv = await this.bioProductRepository.findOne({ filter: input })
 
-    if (rv == null) {
+    if (rv === null) {
       throw new EEntityNotFound(`BioProduct ${JSON.stringify(input)}`)
     }
 
