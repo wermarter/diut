@@ -1,7 +1,6 @@
 import '@casl/mongoose'
 
 export enum RoleAction {
-  Manage = 'Manage',
   Create = 'Create',
   Read = 'Read',
   Update = 'Update',

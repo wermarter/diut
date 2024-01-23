@@ -1,5 +1,6 @@
 import { createMongoAbility } from '@casl/ability'
 import { Inject } from '@nestjs/common'
+const buildJSONTemplate = require('json-templates')
 
 import { PermissionRule, Role } from 'src/domain/entity'
 import { EAuthnPayloadUserNotFound } from 'src/domain/exception'
@@ -33,8 +34,12 @@ export class AuthPopulateContextUseCase {
       }
     })
     const { inlinePermissions } = user
-    const permissions = [...rolesPermissions, ...inlinePermissions]
 
+    const permissionTemplate = buildJSONTemplate([
+      ...rolesPermissions,
+      ...inlinePermissions,
+    ])
+    const permissions = permissionTemplate({ user }) as PermissionRule[]
     const ability = createMongoAbility(permissions)
 
     return { user, ability }

@@ -81,6 +81,9 @@ importers:
       ejs:
         specifier: ^3.1.9
         version: 3.1.9
+      json-templates:
+        specifier: ^5.0.0
+        version: 5.0.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -6144,6 +6147,12 @@ packages:
     resolution: {integrity: sha512-H/ZGY0nIAg3QcOwE1QN/rK/Fa7gJn7Ii5obwp6zyPO4xiPNwpIMjqy2gwjBEGqzkF/vSWEIBQCBuN19hYiL6Qg==}
     dev: false
 
+  /json-templates@5.0.0:
+    resolution: {integrity: sha512-oQ9FrrwX1GmACI1iXZpUEaM+32NS5K9NtQDeQc6e1N950w/3D5VNjpq/otXwNqdv3DfLK85AdYWQZ6oBwqA1aw==}
+    dependencies:
+      object-path: 0.11.8
+    dev: false
+
   /json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
@@ -6884,6 +6893,11 @@ packages:
 
   /object-inspect@1.13.1:
     resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==}
+    dev: false
+
+  /object-path@0.11.8:
+    resolution: {integrity: sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==}
+    engines: {node: '>= 10.12.0'}
     dev: false
 
   /on-finished@2.4.1:
