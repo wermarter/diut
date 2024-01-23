@@ -1,19 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   UserRepositoryToken,
   IAuthContext,
   IUserRepository,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  User,
-  UserAction,
-  EntityData,
-  assertPermission,
-} from 'src/domain/entity'
+import { User, UserAction, EntityData } from 'src/domain/entity'
 import { UserValidateUseCase } from './validate'
 
 @Injectable()

@@ -1,13 +1,13 @@
 import { stringEnumValues } from '@diut/common'
 
 import { AuthSubject, AuthSubjectUnionType } from './subject'
-
-// NOTE: beware of circular dependency
-import { BioProductAction } from '../bio-product/auth'
-import { TestCategoryAction } from '../test-category/auth'
-import { BranchAction } from '../branch/auth'
-import { RoleAction } from '../role/auth'
-import { UserAction } from '../user/auth'
+import {
+  BioProductAction,
+  BranchAction,
+  RoleAction,
+  TestCategoryAction,
+  UserAction,
+} from '../entity'
 
 export const AuthAction = {
   BioProduct: stringEnumValues(BioProductAction),

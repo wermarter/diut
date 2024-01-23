@@ -1,7 +1,6 @@
+import { AuthActionValues, AuthSubjectValues } from 'src/domain/auth'
 import { EntityDataExample } from '../base-entity'
-import { AuthActionValues } from '../auth/action'
 import { PermissionRule } from './entity'
-import { AuthSubjectValues } from '../auth/subject'
 
 export const examplePermissionRule = {
   subject: {

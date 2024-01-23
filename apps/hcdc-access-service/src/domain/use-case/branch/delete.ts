@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { AuthSubject, BranchAction, assertPermission } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
+import { BranchAction } from 'src/domain/entity'
 import {
   AuthContextToken,
   BranchRepositoryToken,

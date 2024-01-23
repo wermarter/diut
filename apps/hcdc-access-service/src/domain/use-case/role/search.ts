@@ -8,12 +8,8 @@ import {
   IRoleRepository,
   EntitySearchOptions,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  Role,
-  RoleAction,
-  assertPermission,
-} from 'src/domain/entity'
+import { Role, RoleAction } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class RoleSearchUseCase {

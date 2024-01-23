@@ -1,10 +1,6 @@
 import { RecordTypes } from '@casl/mongoose'
 
-import { BioProduct } from '../bio-product'
-import { TestCategory } from '../test-category'
-import { Branch } from '../branch'
-import { Role } from '../role'
-import { User } from '../user'
+import { BioProduct, Branch, Role, TestCategory, User } from '../entity'
 
 // key-value must be identical for working with '@casl/mongoose'.accessibleBy()
 export const AuthSubject = {

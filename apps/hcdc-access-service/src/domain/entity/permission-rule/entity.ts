@@ -1,7 +1,6 @@
 import { MongoQuery } from '@casl/ability'
 
-import { AuthSubject, SubjectEntityMapping } from '../auth/subject'
-import { AuthAction } from '../auth/action'
+import { AuthAction, AuthSubject, SubjectEntityMapping } from 'src/domain/auth'
 
 export type PermissionRule<
   TSubject extends keyof typeof AuthSubject = keyof typeof AuthSubject,

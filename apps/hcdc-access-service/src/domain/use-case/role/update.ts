@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { AuthSubject, RoleAction, assertPermission } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
+import { RoleAction } from 'src/domain/entity'
 import {
   AuthContextToken,
   RoleRepositoryToken,

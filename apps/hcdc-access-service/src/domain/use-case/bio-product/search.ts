@@ -8,12 +8,8 @@ import {
   IBioProductRepository,
   EntitySearchOptions,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  BioProduct,
-  BioProductAction,
-  assertPermission,
-} from 'src/domain/entity'
+import { BioProduct, BioProductAction } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class BioProductSearchUseCase {

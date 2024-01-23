@@ -6,13 +6,8 @@ import {
   IAuthContext,
   IRoleRepository,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  Role,
-  RoleAction,
-  EntityData,
-  assertPermission,
-} from 'src/domain/entity'
+import { Role, RoleAction, EntityData } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 import { RoleValidateUseCase } from './validate'
 
 @Injectable()

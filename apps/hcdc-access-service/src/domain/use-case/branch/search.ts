@@ -8,12 +8,8 @@ import {
   IBranchRepository,
   EntitySearchOptions,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  Branch,
-  BranchAction,
-  assertPermission,
-} from 'src/domain/entity'
+import { Branch, BranchAction } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class BranchSearchUseCase {

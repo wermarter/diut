@@ -8,12 +8,8 @@ import {
   IUserRepository,
   EntitySearchOptions,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  User,
-  UserAction,
-  assertPermission,
-} from 'src/domain/entity'
+import { User, UserAction } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class UserSearchUseCase {

@@ -6,13 +6,8 @@ import {
   IAuthContext,
   IBranchRepository,
 } from 'src/domain/interface'
-import {
-  AuthSubject,
-  Branch,
-  BranchAction,
-  EntityData,
-  assertPermission,
-} from 'src/domain/entity'
+import { Branch, BranchAction, EntityData } from 'src/domain/entity'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class BranchCreateUseCase {
