@@ -8,7 +8,7 @@ export function checkPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,
   subject: TSubject,
   action: (typeof AuthAction)[TSubject][number],
-  object?: Partial<SubjectEntityMapping[TSubject]>,
+  object?: Partial<SubjectEntityMapping[TSubject]> | null,
 ) {
   if (object != undefined) {
     return ability.can(action, assignSubject(subject, object))
@@ -21,7 +21,7 @@ export function assertPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,
   subject: TSubject,
   action: (typeof AuthAction)[TSubject][number],
-  object?: Partial<SubjectEntityMapping[TSubject]>,
+  object?: Partial<SubjectEntityMapping[TSubject]> | null,
 ) {
   if (!checkPermission(ability, subject, action, object)) {
     throw new EAuthzPermissionDenied(

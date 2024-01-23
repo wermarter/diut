@@ -35,7 +35,6 @@ export class AuthPopulateContextUseCase {
     const { inlinePermissions } = user
     const permissions = [...rolesPermissions, ...inlinePermissions]
 
-    // create from user role and direct ability
     const ability = createMongoAbility(permissions)
 
     return { user, ability }

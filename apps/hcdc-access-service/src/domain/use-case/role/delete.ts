@@ -7,8 +7,7 @@ import {
   IAuthContext,
   IRoleRepository,
 } from 'src/domain/interface'
-import { RoleFindOneUseCase } from './find-one'
-import { EEntityNotFound } from 'src/domain/exception'
+import { RoleAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class RoleDeleteUseCase {
@@ -17,20 +16,14 @@ export class RoleDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(RoleRepositoryToken)
     private readonly roleRepository: IRoleRepository,
-    private readonly roleFindOneUseCase: RoleFindOneUseCase,
+    private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
   ) {}
 
   async execute(input: { id: string }) {
-    const { ability } = this.authContext.getData()
-
-    const entity = await this.roleFindOneUseCase.execute({
-      filter: { _id: input.id },
+    const entity = await this.roleAssertExistsUseCase.execute({
+      _id: input.id,
     })
-
-    if (entity == null) {
-      throw new EEntityNotFound(`Role ${JSON.stringify(input)}`)
-    }
-
+    const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Role, RoleAction.Delete, entity)
 
     await this.roleRepository.deleteById(input.id)

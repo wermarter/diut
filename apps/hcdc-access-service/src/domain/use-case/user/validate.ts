@@ -1,51 +1,31 @@
-import { Inject, Injectable } from '@nestjs/common'
-import * as argon2 from 'argon2'
+import { Injectable } from '@nestjs/common'
 
-import {
-  AuthContextToken,
-  UserRepositoryToken,
-  IAuthContext,
-  IUserRepository,
-} from 'src/domain/interface'
-import {
-  AuthSubject,
-  User,
-  UserAction,
-  EntityData,
-  assertPermission,
-} from 'src/domain/entity'
+import { User, EntityData } from 'src/domain/entity'
 import { BranchAssertExistsUseCase } from '../branch/assert-exists'
 import { RoleAssertExistsUseCase } from '../role/assert-exists'
 
 @Injectable()
 export class UserValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
-    private readonly authContext: IAuthContext,
-    @Inject(UserRepositoryToken)
-    private readonly userRepository: IUserRepository,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
     private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
   ) {}
 
   async execute(
-    input: Omit<EntityData<User>, 'passwordHash'> & { password: string },
+    input: Partial<Pick<EntityData<User>, 'branchIds' | 'roleIds'>>,
   ) {
-    const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.User, UserAction.Create, input)
+    const { branchIds, roleIds } = input
 
-    for (const branchId of input.branchIds) {
-      await this.branchAssertExistsUseCase.execute({ _id: branchId })
+    if (branchIds) {
+      for (const branchId of branchIds) {
+        await this.branchAssertExistsUseCase.execute({ _id: branchId })
+      }
     }
 
-    for (const roleId of input.roleIds) {
-      await this.roleAssertExistsUseCase.execute({ _id: roleId })
+    if (roleIds) {
+      for (const roleId of roleIds) {
+        await this.roleAssertExistsUseCase.execute({ _id: roleId })
+      }
     }
-
-    const passwordHash = await argon2.hash(input.password)
-
-    const entity = await this.userRepository.create({ ...input, passwordHash })
-
-    return entity
   }
 }

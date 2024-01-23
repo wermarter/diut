@@ -25,7 +25,6 @@ export class BioProductCreateUseCase {
 
   async execute(input: EntityData<BioProduct>) {
     const { ability } = this.authContext.getData()
-
     assertPermission(
       ability,
       AuthSubject.BioProduct,

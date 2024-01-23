@@ -26,7 +26,6 @@ export class RoleSearchUseCase {
 
   async execute(input: EntitySearchOptions<Role>) {
     const { ability } = this.authContext.getData()
-
     assertPermission(ability, AuthSubject.Role, RoleAction.Read)
 
     const paginationResult = await this.roleRepository.search({

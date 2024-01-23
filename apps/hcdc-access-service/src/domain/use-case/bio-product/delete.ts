@@ -11,8 +11,7 @@ import {
   IAuthContext,
   IBioProductRepository,
 } from 'src/domain/interface'
-import { BioProductFindOneUseCase } from './find-one'
-import { EEntityNotFound } from 'src/domain/exception'
+import { BioProductAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class BioProductDeleteUseCase {
@@ -21,20 +20,14 @@ export class BioProductDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
-    private readonly bioProductFindOneUseCase: BioProductFindOneUseCase,
+    private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
   ) {}
 
   async execute(input: { id: string }) {
-    const { ability } = this.authContext.getData()
-
-    const entity = await this.bioProductFindOneUseCase.execute({
-      filter: { _id: input.id },
+    const entity = await this.bioProductAssertExistsUseCase.execute({
+      _id: input.id,
     })
-
-    if (entity == null) {
-      throw new EEntityNotFound(`BioProduct ${JSON.stringify(input)}`)
-    }
-
+    const { ability } = this.authContext.getData()
     assertPermission(
       ability,
       AuthSubject.BioProduct,

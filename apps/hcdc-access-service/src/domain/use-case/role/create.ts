@@ -13,7 +13,7 @@ import {
   EntityData,
   assertPermission,
 } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { RoleValidateUseCase } from './validate'
 
 @Injectable()
 export class RoleCreateUseCase {
@@ -22,16 +22,13 @@ export class RoleCreateUseCase {
     private readonly authContext: IAuthContext,
     @Inject(RoleRepositoryToken)
     private readonly roleRepository: IRoleRepository,
-    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
+    private readonly roleValidateUseCase: RoleValidateUseCase,
   ) {}
 
   async execute(input: EntityData<Role>) {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Role, RoleAction.Create, input)
-
-    for (const branchId of input.branchIds) {
-      await this.branchAssertExistsUseCase.execute({ _id: branchId })
-    }
+    await this.roleValidateUseCase.execute(input)
 
     const entity = await this.roleRepository.create(input)
 

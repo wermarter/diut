@@ -7,8 +7,7 @@ import {
   IAuthContext,
   IUserRepository,
 } from 'src/domain/interface'
-import { UserFindOneUseCase } from './find-one'
-import { EEntityNotFound } from 'src/domain/exception'
+import { UserAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class UserDeleteUseCase {
@@ -17,20 +16,14 @@ export class UserDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
-    private readonly userFindOneUseCase: UserFindOneUseCase,
+    private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
   ) {}
 
   async execute(input: { id: string }) {
-    const { ability } = this.authContext.getData()
-
-    const entity = await this.userFindOneUseCase.execute({
-      filter: { _id: input.id },
+    const entity = await this.userAssertExistsUseCase.execute({
+      _id: input.id,
     })
-
-    if (entity == null) {
-      throw new EEntityNotFound(`User ${JSON.stringify(input)}`)
-    }
-
+    const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.User, UserAction.Delete, entity)
 
     await this.userRepository.deleteById(input.id)

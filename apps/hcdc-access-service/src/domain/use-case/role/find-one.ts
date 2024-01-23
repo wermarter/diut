@@ -24,11 +24,9 @@ export class RoleFindOneUseCase {
   ) {}
 
   async execute(input: EntityFindOneOptions<Role>) {
-    const { ability } = this.authContext.getData()
-
     const entity = await this.roleRepository.findOne(input)
-
-    assertPermission(ability, AuthSubject.Role, RoleAction.Read, entity ?? {})
+    const { ability } = this.authContext.getData()
+    assertPermission(ability, AuthSubject.Role, RoleAction.Read, entity)
 
     return entity
   }

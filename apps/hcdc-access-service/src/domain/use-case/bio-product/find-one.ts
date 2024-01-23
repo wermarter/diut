@@ -24,15 +24,13 @@ export class BioProductFindOneUseCase {
   ) {}
 
   async execute(input: EntityFindOneOptions<BioProduct>) {
-    const { ability } = this.authContext.getData()
-
     const entity = await this.bioProductRepository.findOne(input)
-
+    const { ability } = this.authContext.getData()
     assertPermission(
       ability,
       AuthSubject.BioProduct,
       BioProductAction.Read,
-      entity ?? {},
+      entity,
     )
 
     return entity

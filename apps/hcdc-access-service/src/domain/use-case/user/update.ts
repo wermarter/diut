@@ -7,9 +7,8 @@ import {
   IAuthContext,
   IUserRepository,
 } from 'src/domain/interface'
-import { EEntityNotFound } from 'src/domain/exception'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
-import { RoleAssertExistsUseCase } from '../role/assert-exists'
+import { UserValidateUseCase } from './validate'
+import { UserAssertExistsUseCase } from './assert-exists'
 
 type InputFilter = Parameters<IUserRepository['update']>[0]
 type InputData = Parameters<IUserRepository['update']>[1]
@@ -22,8 +21,8 @@ export class UserUpdateUseCase {
     private readonly userRepository: IUserRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
-    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
-    private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
+    private readonly userValidateUseCase: UserValidateUseCase,
+    private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
   ) {}
 
   async execute(
@@ -31,33 +30,13 @@ export class UserUpdateUseCase {
     data: Omit<InputData, 'passwordHash'>,
     options?: InputOptions,
   ) {
+    const entity = await this.userAssertExistsUseCase.execute(filter)
     const { ability } = this.authContext.getData()
-
-    const entity = await this.userRepository.findOne({
-      filter,
-    })
-
-    if (entity === null) {
-      throw new EEntityNotFound(`User ${JSON.stringify(filter)}`)
-    }
-
     assertPermission(ability, AuthSubject.User, UserAction.Update, entity)
-
-    if (data?.branchIds?.length! > 0) {
-      for (const branchId of data.branchIds) {
-        await this.branchAssertExistsUseCase.execute({
-          _id: branchId,
-        })
-      }
-    }
-
-    if (data?.roleIds?.length! > 0) {
-      for (const roleId of data.roleIds) {
-        await this.roleAssertExistsUseCase.execute({
-          _id: roleId,
-        })
-      }
-    }
+    await this.userValidateUseCase.execute({
+      branchIds: data?.branchIds,
+      roleIds: data?.roleIds,
+    })
 
     return this.userRepository.update(filter, data, options)
   }

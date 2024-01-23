@@ -26,7 +26,6 @@ export class BranchSearchUseCase {
 
   async execute(input: EntitySearchOptions<Branch>) {
     const { ability } = this.authContext.getData()
-
     assertPermission(ability, AuthSubject.Branch, BranchAction.Read)
 
     const paginationResult = await this.branchRepository.search({

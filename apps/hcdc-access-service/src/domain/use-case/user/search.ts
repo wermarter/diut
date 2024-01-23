@@ -26,7 +26,6 @@ export class UserSearchUseCase {
 
   async execute(input: EntitySearchOptions<User>) {
     const { ability } = this.authContext.getData()
-
     assertPermission(ability, AuthSubject.User, UserAction.Read)
 
     const paginationResult = await this.userRepository.search({

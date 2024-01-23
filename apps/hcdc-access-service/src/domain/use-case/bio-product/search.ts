@@ -26,7 +26,6 @@ export class BioProductSearchUseCase {
 
   async execute(input: EntitySearchOptions<BioProduct>) {
     const { ability } = this.authContext.getData()
-
     assertPermission(ability, AuthSubject.BioProduct, BioProductAction.Read)
 
     const paginationResult = await this.bioProductRepository.search({

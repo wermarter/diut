@@ -14,8 +14,7 @@ import {
   EntityData,
   assertPermission,
 } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
-import { RoleAssertExistsUseCase } from '../role/assert-exists'
+import { UserValidateUseCase } from './validate'
 
 @Injectable()
 export class UserCreateUseCase {
@@ -24,8 +23,7 @@ export class UserCreateUseCase {
     private readonly authContext: IAuthContext,
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
-    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
-    private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
+    private readonly userValidateUseCase: UserValidateUseCase,
   ) {}
 
   async execute(
@@ -33,17 +31,9 @@ export class UserCreateUseCase {
   ) {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.User, UserAction.Create, input)
-
-    for (const branchId of input.branchIds) {
-      await this.branchAssertExistsUseCase.execute({ _id: branchId })
-    }
-
-    for (const roleId of input.roleIds) {
-      await this.roleAssertExistsUseCase.execute({ _id: roleId })
-    }
+    await this.userValidateUseCase.execute(input)
 
     const passwordHash = await argon2.hash(input.password)
-
     const entity = await this.userRepository.create({ ...input, passwordHash })
 
     return entity

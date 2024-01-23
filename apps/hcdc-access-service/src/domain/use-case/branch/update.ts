@@ -7,7 +7,7 @@ import {
   IAuthContext,
   IBranchRepository,
 } from 'src/domain/interface'
-import { EEntityNotFound } from 'src/domain/exception'
+import { BranchAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class BranchUpdateUseCase {
@@ -16,19 +16,12 @@ export class BranchUpdateUseCase {
     private readonly branchRepository: IBranchRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
   async execute(...input: Parameters<IBranchRepository['update']>) {
+    const entity = await this.branchAssertExistsUseCase.execute(input[0])
     const { ability } = this.authContext.getData()
-
-    const entity = await this.branchRepository.findOne({
-      filter: input[0],
-    })
-
-    if (entity === null) {
-      throw new EEntityNotFound(`Branch ${JSON.stringify(input[0])}`)
-    }
-
     assertPermission(ability, AuthSubject.Branch, BranchAction.Update, entity)
 
     return this.branchRepository.update(...input)

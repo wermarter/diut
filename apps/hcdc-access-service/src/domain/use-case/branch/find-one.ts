@@ -24,18 +24,9 @@ export class BranchFindOneUseCase {
   ) {}
 
   async execute(input: EntityFindOneOptions<Branch>) {
-    const { ability } = this.authContext.getData()
-
     const entity = await this.branchRepository.findOne(input)
-
-    if (entity != null) {
-      assertPermission(
-        ability,
-        AuthSubject.Branch,
-        BranchAction.Read,
-        entity ?? {},
-      )
-    }
+    const { ability } = this.authContext.getData()
+    assertPermission(ability, AuthSubject.Branch, BranchAction.Read, entity)
 
     return entity
   }

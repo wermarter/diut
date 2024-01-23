@@ -7,8 +7,8 @@ import {
   IAuthContext,
   IRoleRepository,
 } from 'src/domain/interface'
-import { EEntityNotFound } from 'src/domain/exception'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { RoleAssertExistsUseCase } from './assert-exists'
+import { RoleValidateUseCase } from './validate'
 
 @Injectable()
 export class RoleUpdateUseCase {
@@ -17,29 +17,15 @@ export class RoleUpdateUseCase {
     private readonly roleRepository: IRoleRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
-    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
+    private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
+    private readonly roleValidateUseCase: RoleValidateUseCase,
   ) {}
 
   async execute(...input: Parameters<IRoleRepository['update']>) {
+    const entity = await this.roleAssertExistsUseCase.execute(input[0])
     const { ability } = this.authContext.getData()
-
-    const entity = await this.roleRepository.findOne({
-      filter: input[0],
-    })
-
-    if (entity === null) {
-      throw new EEntityNotFound(`Role ${JSON.stringify(input[0])}`)
-    }
-
     assertPermission(ability, AuthSubject.Role, RoleAction.Update, entity)
-
-    if (input[1]?.branchIds?.length! > 0) {
-      for (const branchId of input[1].branchIds) {
-        await this.branchAssertExistsUseCase.execute({
-          _id: branchId,
-        })
-      }
-    }
+    await this.roleValidateUseCase.execute(input[0])
 
     return this.roleRepository.update(...input)
   }

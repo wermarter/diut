@@ -25,7 +25,6 @@ export class BranchCreateUseCase {
 
   async execute(input: EntityData<Branch>) {
     const { ability } = this.authContext.getData()
-
     assertPermission(ability, AuthSubject.Branch, BranchAction.Create, input)
 
     const entity = await this.branchRepository.create(input)

@@ -7,8 +7,7 @@ import {
   IAuthContext,
   IBranchRepository,
 } from 'src/domain/interface'
-import { BranchFindOneUseCase } from './find-one'
-import { EEntityNotFound } from 'src/domain/exception'
+import { BranchAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class BranchDeleteUseCase {
@@ -17,20 +16,14 @@ export class BranchDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(BranchRepositoryToken)
     private readonly branchRepository: IBranchRepository,
-    private readonly branchFindOneUseCase: BranchFindOneUseCase,
+    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
   async execute(input: { id: string }) {
-    const { ability } = this.authContext.getData()
-
-    const entity = await this.branchFindOneUseCase.execute({
-      filter: { _id: input.id },
+    const entity = await this.branchAssertExistsUseCase.execute({
+      _id: input.id,
     })
-
-    if (entity == null) {
-      throw new EEntityNotFound(`Branch ${JSON.stringify(input)}`)
-    }
-
+    const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Branch, BranchAction.Delete, entity)
 
     await this.branchRepository.deleteById(input.id)
