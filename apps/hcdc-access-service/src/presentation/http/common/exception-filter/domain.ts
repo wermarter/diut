@@ -16,7 +16,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
   constructor() {}
 
   catch(exception: EDomain, host: ArgumentsHost) {
-    this.logger.error(exception)
+    this.logger.warn(exception)
 
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()

@@ -1,8 +1,10 @@
+import { exampleMongoObjectIds } from '@diut/nest-core'
+
 import { EntityDataExample } from '../base-entity'
 import { Branch, BranchType } from './entity'
 
 export const exampleBranch = {
-  index: {
+  displayIndex: {
     example: 1,
   },
   name: {
@@ -13,5 +15,10 @@ export const exampleBranch = {
   },
   type: {
     enum: BranchType,
+  },
+  sampleOriginIds: exampleMongoObjectIds,
+  sampleOrigins: {
+    required: false,
+    isArray: true,
   },
 } satisfies EntityDataExample<Branch>

@@ -37,6 +37,7 @@ export class UserUpdateUseCase {
     await this.userValidateUseCase.execute({
       branchIds: data?.branchIds,
       roleIds: data?.roleIds,
+      inlinePermissions: data?.inlinePermissions,
     })
 
     return this.userRepository.update(filter, data, options)

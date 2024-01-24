@@ -12,9 +12,8 @@ export class RoleResponseDto extends IntersectionType(
   RoleCreateRequestDto,
 ) {
   @Expose()
-  @ApiProperty({ ...exampleRole.branches, type: () => BranchResponseDto })
-  @IsArray()
+  @ApiProperty({ ...exampleRole.branch, type: () => BranchResponseDto })
   @ValidateNested({ each: true })
   @Type(() => BranchResponseDto)
-  branches?: Branch[]
+  branch?: Branch
 }

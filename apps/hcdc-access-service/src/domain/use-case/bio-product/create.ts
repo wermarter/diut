@@ -8,6 +8,7 @@ import {
 } from 'src/domain/interface'
 import { BioProduct, BioProductAction, EntityData } from 'src/domain/entity'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
+import { BioProductValidateUseCase } from './validate'
 
 @Injectable()
 export class BioProductCreateUseCase {
@@ -16,6 +17,7 @@ export class BioProductCreateUseCase {
     private readonly authContext: IAuthContext,
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
+    private readonly bioProductValidateUseCase: BioProductValidateUseCase,
   ) {}
 
   async execute(input: EntityData<BioProduct>) {
@@ -26,6 +28,7 @@ export class BioProductCreateUseCase {
       BioProductAction.Create,
       input,
     )
+    await this.bioProductValidateUseCase.execute(input)
 
     const entity = await this.bioProductRepository.create(input)
 

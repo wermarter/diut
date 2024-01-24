@@ -9,6 +9,7 @@ import {
   IBioProductRepository,
 } from 'src/domain/interface'
 import { BioProductAssertExistsUseCase } from './assert-exists'
+import { BioProductValidateUseCase } from './validate'
 
 @Injectable()
 export class BioProductUpdateUseCase {
@@ -18,6 +19,7 @@ export class BioProductUpdateUseCase {
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
     private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
+    private readonly bioProductValidateUseCase: BioProductValidateUseCase,
   ) {}
 
   async execute(...input: Parameters<IBioProductRepository['update']>) {
@@ -29,6 +31,7 @@ export class BioProductUpdateUseCase {
       BioProductAction.Update,
       entity,
     )
+    await this.bioProductValidateUseCase.execute(input[1])
 
     return this.bioProductRepository.update(...input)
   }

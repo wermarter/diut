@@ -20,7 +20,7 @@ export class EAuthnPayloadUserNotFound extends EAuthn {
       DomainErrorCode.AUTHN_PAYLOAD_USER_NOT_FOUND,
       'user not found, HttpPublicRoute is applied where it should not be?',
       undefined,
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.UNAUTHORIZED,
     )
   }
 }

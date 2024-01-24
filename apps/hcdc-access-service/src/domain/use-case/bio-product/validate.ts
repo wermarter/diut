@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common'
 
-import { Role, EntityData } from 'src/domain/entity'
+import { BioProduct, EntityData } from 'src/domain/entity'
 import { BranchAssertExistsUseCase } from '../branch/assert-exists'
 
 @Injectable()
-export class RoleValidateUseCase {
+export class BioProductValidateUseCase {
   constructor(
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
-  async execute(input: Partial<Pick<EntityData<Role>, 'branchId'>>) {
+  async execute(input: Partial<Pick<EntityData<BioProduct>, 'branchId'>>) {
     const { branchId } = input
 
     if (branchId !== undefined) {

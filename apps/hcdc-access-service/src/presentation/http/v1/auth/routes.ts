@@ -22,6 +22,7 @@ export const authRoutes = {
 
   me: {
     path: 'me',
+    serialize: AuthMeResponseDto,
     openApi: {
       responses: [
         {

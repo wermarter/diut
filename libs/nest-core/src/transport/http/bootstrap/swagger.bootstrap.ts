@@ -22,7 +22,6 @@ export const SwaggerBootstrap: BootstrapConfig<INestApplication> = {
 
     SwaggerModule.setup(SWAGGER_ENDPOINT, ctx.app, swaggerDocument, {
       swaggerOptions: {
-        docExpansion: 'none',
         filter: true,
         persistAuthorization: true,
       },

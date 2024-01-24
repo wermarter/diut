@@ -39,7 +39,10 @@ export class BranchController {
 
   @HttpRoute(branchRoutes.findById)
   async findById(@Param('id', ObjectIdPipe) id: string) {
-    const rv = await this.branchFindOneUseCase.execute({ filter: { _id: id } })
+    const rv = await this.branchFindOneUseCase.execute({
+      filter: { _id: id },
+      populates: [{ path: 'sampleOrigins' }],
+    })
 
     if (rv == null) {
       throw new EEntityNotFound(`Branch id=${id}`)

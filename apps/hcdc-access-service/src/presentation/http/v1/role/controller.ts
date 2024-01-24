@@ -39,7 +39,7 @@ export class RoleController {
   async findById(@Param('id', ObjectIdPipe) id: string) {
     const rv = await this.roleFindOneUseCase.execute({
       filter: { _id: id },
-      populates: [{ path: 'branches' }],
+      populates: [{ path: 'branch' }],
     })
 
     if (rv === null) {

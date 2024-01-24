@@ -3,11 +3,12 @@ import { MongoAbility, subject as assignSubject } from '@casl/ability'
 import { AuthAction } from './action'
 import { AuthSubject, SubjectEntityMapping } from './subject'
 import { EAuthzPermissionDenied } from 'src/domain/exception'
+import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
 
 export function checkPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,
-  subject: TSubject,
-  action: (typeof AuthAction)[TSubject][number],
+  subject: TSubject | typeof AUTH_SUBJECT_ALL,
+  action: (typeof AuthAction)[TSubject][number] | typeof AUTH_ACTION_ALL,
   object?: Partial<SubjectEntityMapping[TSubject]> | null,
 ) {
   if (object != undefined) {
@@ -19,8 +20,8 @@ export function checkPermission<TSubject extends keyof typeof AuthSubject>(
 
 export function assertPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,
-  subject: TSubject,
-  action: (typeof AuthAction)[TSubject][number],
+  subject: TSubject | typeof AUTH_SUBJECT_ALL,
+  action: (typeof AuthAction)[TSubject][number] | typeof AUTH_ACTION_ALL,
   object?: Partial<SubjectEntityMapping[TSubject]> | null,
 ) {
   if (!checkPermission(ability, subject, action, object)) {

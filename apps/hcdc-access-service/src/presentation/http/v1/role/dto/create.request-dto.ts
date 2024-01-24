@@ -15,10 +15,10 @@ import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'
 
 export class RoleCreateRequestDto {
   @Expose()
-  @ApiProperty(exampleRole.index)
+  @ApiProperty(exampleRole.displayIndex)
   @IsNumber()
   @Min(1)
-  index: number
+  displayIndex: number
 
   @Expose()
   @ApiProperty(exampleRole.name)
@@ -43,8 +43,7 @@ export class RoleCreateRequestDto {
   permissions: PermissionRule[]
 
   @Expose()
-  @ApiProperty(exampleRole.branchIds)
-  @IsArray()
-  @IsObjectId({ each: true })
-  branchIds: string[]
+  @ApiProperty(exampleRole.branchId)
+  @IsObjectId()
+  branchId: string
 }

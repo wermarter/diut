@@ -11,19 +11,19 @@ import { PermissionRuleSchema } from '../auth'
   ...baseSchemaOptions,
   collection: COLLECTION.ROLE,
   virtuals: {
-    branches: {
+    branch: {
       options: {
         ref: BranchSchema.name,
-        localField: 'branchIds',
+        localField: 'branchId',
         foreignField: '_id',
-        justOne: false,
+        justOne: true,
       },
     },
   },
 })
 export class RoleSchema extends BaseSchema {
   @Prop({ required: true })
-  index: number
+  displayIndex: number
 
   @Prop({ required: true })
   name: string
@@ -37,7 +37,7 @@ export class RoleSchema extends BaseSchema {
   })
   permissions: PermissionRule[]
 
-  @Prop({ required: true, type: [Types.ObjectId] })
-  branchIds: string[]
-  branches?: (BranchSchema | null)[]
+  @Prop({ required: true, type: Types.ObjectId })
+  branchId: string
+  branch?: BranchSchema | null
 }

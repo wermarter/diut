@@ -10,10 +10,11 @@ export enum BranchType {
 export const BranchTypeValues = stringEnumValues(BranchType)
 
 export type Branch = BaseEntity & {
-  index: number
+  displayIndex: number
   name: string
-
   address: string
-
   type: BranchType
+
+  sampleOriginIds: string[]
+  sampleOrigins?: (Omit<Branch, 'sampleOrigins'> | null)[]
 }

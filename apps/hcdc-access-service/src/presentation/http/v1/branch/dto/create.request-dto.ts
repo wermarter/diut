@@ -1,15 +1,23 @@
+import { IsObjectId } from '@diut/nest-core'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsEnum, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Min,
+} from 'class-validator'
 
 import { BranchType, exampleBranch } from 'src/domain'
 
 export class BranchCreateRequestDto {
   @Expose()
-  @ApiProperty(exampleBranch.index)
+  @ApiProperty(exampleBranch.displayIndex)
   @IsNumber()
   @Min(1)
-  index: number
+  displayIndex: number
 
   @Expose()
   @ApiProperty(exampleBranch.name)
@@ -27,4 +35,10 @@ export class BranchCreateRequestDto {
   @ApiProperty(exampleBranch.type)
   @IsEnum(BranchType)
   type: BranchType
+
+  @Expose()
+  @ApiProperty(exampleBranch.sampleOriginIds)
+  @IsArray()
+  @IsObjectId({ each: true })
+  sampleOriginIds: string[]
 }

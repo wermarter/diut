@@ -8,6 +8,7 @@ import {
   TestCategoryAction,
   UserAction,
 } from '../entity'
+import { AUTH_ACTION_ALL } from './constants'
 
 export const AuthAction = {
   BioProduct: stringEnumValues(BioProductAction),
@@ -17,7 +18,10 @@ export const AuthAction = {
   User: stringEnumValues(UserAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
-export const AuthActionValues = [...new Set(Object.values(AuthAction).flat())]
+export const AuthActionValues = [
+  ...new Set(Object.values(AuthAction).flat()),
+  AUTH_ACTION_ALL,
+]
 
 export type AuthActionUnionType =
   (typeof AuthAction)[AuthSubjectUnionType][number]

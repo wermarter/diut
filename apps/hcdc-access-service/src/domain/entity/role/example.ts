@@ -1,10 +1,10 @@
-import { exampleMongoObjectIds } from '@diut/nest-core'
+import { exampleMongoObjectId } from '@diut/nest-core'
 
 import { EntityDataExample } from '../base-entity'
 import { Role } from './entity'
 
 export const exampleRole = {
-  index: {
+  displayIndex: {
     example: 1,
   },
   name: {
@@ -16,9 +16,8 @@ export const exampleRole = {
   permissions: {
     isArray: true,
   },
-  branchIds: exampleMongoObjectIds,
-  branches: {
+  branchId: exampleMongoObjectId,
+  branch: {
     required: false,
-    isArray: true,
   },
 } satisfies EntityDataExample<Role>

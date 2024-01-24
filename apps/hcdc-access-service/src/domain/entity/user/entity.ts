@@ -6,10 +6,8 @@ import { Role } from '../role'
 export type User = BaseEntity & {
   username: string
   passwordHash: string
-
   name: string
   phoneNumber: string
-
   inlinePermissions: PermissionRule[]
 
   branchIds: string[]

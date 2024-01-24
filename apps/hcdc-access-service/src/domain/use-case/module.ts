@@ -2,6 +2,7 @@ import { ModuleMetadata } from '@nestjs/common'
 
 import { BioProductCreateUseCase } from './bio-product/create'
 import { BioProductUpdateUseCase } from './bio-product/update'
+import { BioProductValidateUseCase } from './bio-product/validate'
 import { BioProductFindOneUseCase } from './bio-product/find-one'
 import { BioProductDeleteUseCase } from './bio-product/delete'
 import { BioProductSearchUseCase } from './bio-product/search'
@@ -17,6 +18,7 @@ import { RoleValidateUseCase } from './role/validate'
 
 import { BranchCreateUseCase } from './branch/create'
 import { BranchUpdateUseCase } from './branch/update'
+import { BranchValidateUseCase } from './branch/validate'
 import { BranchFindOneUseCase } from './branch/find-one'
 import { BranchDeleteUseCase } from './branch/delete'
 import { BranchSearchUseCase } from './branch/search'
@@ -48,6 +50,7 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductDeleteUseCase,
     BioProductSearchUseCase,
     BioProductAssertExistsUseCase,
+    BioProductValidateUseCase,
 
     BranchCreateUseCase,
     BranchFindOneUseCase,
@@ -55,6 +58,7 @@ export const useCaseMetadata: ModuleMetadata = {
     BranchDeleteUseCase,
     BranchSearchUseCase,
     BranchAssertExistsUseCase,
+    BranchValidateUseCase,
 
     RoleCreateUseCase,
     RoleFindOneUseCase,
