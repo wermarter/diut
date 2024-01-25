@@ -1,8 +1,10 @@
+import { exampleMongoObjectId } from '@diut/nest-core'
+
 import { EntityDataExample } from '../base-entity'
 import { TestCategory } from './entity'
 
 export const exampleTestCategory = {
-  index: {
+  displayIndex: {
     example: 1,
   },
   name: {
@@ -10,5 +12,9 @@ export const exampleTestCategory = {
   },
   reportIndex: {
     example: 1,
+  },
+  branchId: exampleMongoObjectId,
+  branch: {
+    required: false,
   },
 } satisfies EntityDataExample<TestCategory>

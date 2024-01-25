@@ -26,7 +26,7 @@ export class BioProductSchema extends BaseSchema {
   @Prop({ required: true })
   name: string
 
-  @Prop({ required: true, type: [Types.ObjectId] })
+  @Prop({ required: true, type: Types.ObjectId })
   branchId: string
   branch?: BranchSchema | null
 }

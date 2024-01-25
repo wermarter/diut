@@ -5,6 +5,7 @@ export enum UserAction {
   Read = 'Read',
   Update = 'Update',
   Delete = 'Delete',
+  ChangePassword = 'ChangePassword',
 }
 
 declare module '@casl/mongoose' {

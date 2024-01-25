@@ -1,7 +1,11 @@
 import { BaseEntity } from '../base-entity'
+import { Branch } from '../branch'
 
 export type TestCategory = BaseEntity & {
-  index: number
+  displayIndex: number
   name: string
   reportIndex: number
+
+  branchId: string
+  branch?: Branch | null
 }

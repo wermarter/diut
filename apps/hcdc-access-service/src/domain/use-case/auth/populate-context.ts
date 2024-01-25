@@ -38,7 +38,16 @@ export class AuthPopulateContextUseCase {
     ])
     const permissions = permissionTemplate({ user }) as PermissionRule[]
 
-    const ability = createAbility(permissions)
+    // const ability = createAbility(permissions)
+    const ability = createAbility([
+      {
+        subject: 'all',
+        action: 'manage',
+        // conditions: {
+        //   name: { $ne: 'E2' },
+        // },
+      },
+    ])
 
     return { user, ability }
   }

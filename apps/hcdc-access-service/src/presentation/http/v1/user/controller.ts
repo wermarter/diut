@@ -9,10 +9,12 @@ import {
   UserUpdateUseCase,
   UserFindOneUseCase,
   EEntityNotFound,
+  UserChangePasswordUseCase,
 } from 'src/domain'
 import { UserCreateRequestDto } from './dto/create.request-dto'
 import { UserUpdateRequestDto } from './dto/update.request-dto'
 import { UserSearchRequestDto } from './dto/search.request-dto'
+import { UserChangePasswordRequestDto } from './dto/change-password.request-dto'
 import { HttpController, HttpRoute } from '../../common'
 
 @HttpController({ basePath: 'v1/users' })
@@ -23,6 +25,7 @@ export class UserController {
     private readonly userDeleteUseCase: UserDeleteUseCase,
     private readonly userSearchUseCase: UserSearchUseCase,
     private readonly userFindOneUseCase: UserFindOneUseCase,
+    private readonly userChangePasswordUseCase: UserChangePasswordUseCase,
   ) {}
 
   @HttpRoute(userRoutes.search)
@@ -55,6 +58,14 @@ export class UserController {
     @Body() body: UserUpdateRequestDto,
   ) {
     return this.userUpdateUseCase.execute({ _id: id }, body)
+  }
+
+  @HttpRoute(userRoutes.changePassword)
+  changePassword(
+    @Param('id', ObjectIdPipe) id: string,
+    @Body() body: UserChangePasswordRequestDto,
+  ) {
+    return this.userChangePasswordUseCase.execute(id, body.password)
   }
 
   @HttpRoute(userRoutes.deleteById)

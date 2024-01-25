@@ -1,19 +1,19 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
-import { UserSearchResponseDto } from './dto/search.response-dto'
-import { UserResponseDto } from './dto/response-dto'
+import { TestCategorySearchResponseDto } from './dto/search.response-dto'
+import { TestCategoryResponseDto } from './dto/response-dto'
 
-export const userRoutes = {
+export const testCategoryRoutes = {
   search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: UserSearchResponseDto,
+    serialize: TestCategorySearchResponseDto,
     openApi: {
       responses: [
         {
-          type: UserSearchResponseDto,
+          type: TestCategorySearchResponseDto,
         },
       ],
     },
@@ -21,11 +21,11 @@ export const userRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: UserResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: UserResponseDto,
+          type: TestCategoryResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,24 +35,11 @@ export const userRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: UserResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: UserResponseDto,
-        },
-      ],
-    },
-  },
-
-  changePassword: {
-    path: ':id/change-password',
-    method: RequestMethod.POST,
-    serialize: UserResponseDto,
-    openApi: {
-      responses: [
-        {
-          type: UserResponseDto,
+          type: TestCategoryResponseDto,
         },
       ],
     },
@@ -61,11 +48,11 @@ export const userRoutes = {
   findById: {
     path: ':id',
     method: RequestMethod.GET,
-    serialize: UserResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: UserResponseDto,
+          type: TestCategoryResponseDto,
         },
       ],
     },
@@ -74,11 +61,11 @@ export const userRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: UserResponseDto,
+    serialize: TestCategoryResponseDto,
     openApi: {
       responses: [
         {
-          type: UserResponseDto,
+          type: TestCategoryResponseDto,
         },
       ],
     },

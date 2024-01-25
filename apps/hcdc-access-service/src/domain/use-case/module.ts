@@ -9,6 +9,15 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { BioProductAssertExistsUseCase } from './bio-product/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './bio-product/authorize-populates'
 
+import { TestCategoryCreateUseCase } from './test-category/create'
+import { TestCategoryUpdateUseCase } from './test-category/update'
+import { TestCategoryValidateUseCase } from './test-category/validate'
+import { TestCategoryFindOneUseCase } from './test-category/find-one'
+import { TestCategoryDeleteUseCase } from './test-category/delete'
+import { TestCategorySearchUseCase } from './test-category/search'
+import { TestCategoryAssertExistsUseCase } from './test-category/assert-exists'
+import { TestCategoryAuthorizePopulatesUseCase } from './test-category/authorize-populates'
+
 import { RoleCreateUseCase } from './role/create'
 import { RoleUpdateUseCase } from './role/update'
 import { RoleFindOneUseCase } from './role/find-one'
@@ -35,6 +44,7 @@ import { UserSearchUseCase } from './user/search'
 import { UserAssertExistsUseCase } from './user/assert-exists'
 import { UserValidateUseCase } from './user/validate'
 import { UserAuthorizePopulatesUseCase } from './user/authorize-populates'
+import { UserChangePasswordUseCase } from './user/change-password'
 
 import { AuthMeUseCase } from './auth/me'
 import { AuthLoginUseCase } from './auth/login'
@@ -56,6 +66,15 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductAssertExistsUseCase,
     BioProductValidateUseCase,
     BioProductAuthorizePopulatesUseCase,
+
+    TestCategoryCreateUseCase,
+    TestCategoryFindOneUseCase,
+    TestCategoryUpdateUseCase,
+    TestCategoryDeleteUseCase,
+    TestCategorySearchUseCase,
+    TestCategoryAssertExistsUseCase,
+    TestCategoryValidateUseCase,
+    TestCategoryAuthorizePopulatesUseCase,
 
     BranchCreateUseCase,
     BranchFindOneUseCase,
@@ -83,5 +102,6 @@ export const useCaseMetadata: ModuleMetadata = {
     UserAssertExistsUseCase,
     UserValidateUseCase,
     UserAuthorizePopulatesUseCase,
+    UserChangePasswordUseCase,
   ],
 }

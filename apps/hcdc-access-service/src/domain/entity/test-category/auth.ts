@@ -1,7 +1,10 @@
 import '@casl/mongoose'
 
 export enum TestCategoryAction {
-  Danger = 'Danger',
+  Create = 'Create',
+  Read = 'Read',
+  Update = 'Update',
+  Delete = 'Delete',
 }
 
 declare module '@casl/mongoose' {
