@@ -9,6 +9,7 @@ import {
   IAuthContext,
   IUserRepository,
 } from 'src/domain/interface'
+import { UserAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class UserFindOneUseCase {
@@ -17,10 +18,13 @@ export class UserFindOneUseCase {
     private readonly userRepository: IUserRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    private readonly userAuthorizePopulatesUseCase: UserAuthorizePopulatesUseCase,
   ) {}
 
   async execute(input: EntityFindOneOptions<User>) {
-    // TODO: check auth and apply populate matcher (+ search API)
+    input.populates = this.userAuthorizePopulatesUseCase.execute(
+      input.populates,
+    )
     const entity = await this.userRepository.findOne(input)
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.User, UserAction.Read, entity)

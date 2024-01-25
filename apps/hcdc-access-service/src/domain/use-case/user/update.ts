@@ -34,11 +34,7 @@ export class UserUpdateUseCase {
     const entity = await this.userAssertExistsUseCase.execute(filter)
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.User, UserAction.Update, entity)
-    await this.userValidateUseCase.execute({
-      branchIds: data?.branchIds,
-      roleIds: data?.roleIds,
-      inlinePermissions: data?.inlinePermissions,
-    })
+    await this.userValidateUseCase.execute(data)
 
     return this.userRepository.update(filter, data, options)
   }

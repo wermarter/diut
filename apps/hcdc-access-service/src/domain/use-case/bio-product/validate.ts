@@ -1,19 +1,32 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { BioProduct, EntityData } from 'src/domain/entity'
+import { BioProduct, BranchAction, EntityData } from 'src/domain/entity'
 import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { AuthContextToken, IAuthContext } from 'src/domain/interface'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class BioProductValidateUseCase {
   constructor(
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
-  async execute(input: Partial<Pick<EntityData<BioProduct>, 'branchId'>>) {
+  async execute(input: Partial<EntityData<BioProduct>>) {
+    const { ability } = this.authContext.getData()
     const { branchId } = input
 
     if (branchId !== undefined) {
-      await this.branchAssertExistsUseCase.execute({ _id: branchId })
+      const branch = await this.branchAssertExistsUseCase.execute({
+        _id: branchId,
+      })
+      assertPermission(
+        ability,
+        AuthSubject.Branch,
+        BranchAction.AssignToSubject,
+        branch,
+      )
     }
   }
 }

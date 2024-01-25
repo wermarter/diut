@@ -10,6 +10,7 @@ import {
 } from 'src/domain/interface'
 import { BioProduct, BioProductAction } from 'src/domain/entity'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
+import { BioProductAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class BioProductSearchUseCase {
@@ -18,11 +19,15 @@ export class BioProductSearchUseCase {
     private readonly bioProductRepository: IBioProductRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    private readonly bioProductAuthorizePopulatesUseCase: BioProductAuthorizePopulatesUseCase,
   ) {}
 
   async execute(input: EntitySearchOptions<BioProduct>) {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.BioProduct, BioProductAction.Read)
+    input.populates = this.bioProductAuthorizePopulatesUseCase.execute(
+      input.populates,
+    )
 
     const paginationResult = await this.bioProductRepository.search({
       ...input,

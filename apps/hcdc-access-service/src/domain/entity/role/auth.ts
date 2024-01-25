@@ -5,6 +5,8 @@ export enum RoleAction {
   Read = 'Read',
   Update = 'Update',
   Delete = 'Delete',
+  AssignToUser = 'AssignToUser',
+  AssignUserInline = 'AssignUserInline',
 }
 
 declare module '@casl/mongoose' {

@@ -13,3 +13,14 @@ export class EEntityNotFound extends EEntity {
     )
   }
 }
+
+export class EEntityPopulatePathUnknown extends EEntity {
+  constructor(reason: string) {
+    super(
+      DomainErrorCode.ENTITY_POPULATE_PATH_UNKNOWN,
+      `populate path unknown: ${reason}`,
+      undefined,
+      HttpStatus.BAD_REQUEST,
+    )
+  }
+}

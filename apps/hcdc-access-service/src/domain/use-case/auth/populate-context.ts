@@ -37,6 +37,7 @@ export class AuthPopulateContextUseCase {
       ...user.inlinePermissions,
     ])
     const permissions = permissionTemplate({ user }) as PermissionRule[]
+
     const ability = createAbility(permissions)
 
     return { user, ability }

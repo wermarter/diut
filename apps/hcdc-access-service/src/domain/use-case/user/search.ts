@@ -10,6 +10,7 @@ import {
 } from 'src/domain/interface'
 import { User, UserAction } from 'src/domain/entity'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
+import { UserAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class UserSearchUseCase {
@@ -18,11 +19,15 @@ export class UserSearchUseCase {
     private readonly userRepository: IUserRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    private readonly userAuthorizePopulatesUseCase: UserAuthorizePopulatesUseCase,
   ) {}
 
   async execute(input: EntitySearchOptions<User>) {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.User, UserAction.Read)
+    input.populates = this.userAuthorizePopulatesUseCase.execute(
+      input.populates,
+    )
 
     const paginationResult = await this.userRepository.search({
       ...input,

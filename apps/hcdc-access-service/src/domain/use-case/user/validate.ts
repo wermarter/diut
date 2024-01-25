@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { User, EntityData } from 'src/domain/entity'
+import { User, EntityData, RoleAction, BranchAction } from 'src/domain/entity'
 import { BranchAssertExistsUseCase } from '../branch/assert-exists'
 import { RoleAssertExistsUseCase } from '../role/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
-import { AUTH_ACTION_ALL, AuthSubject, assertPermission } from 'src/domain/auth'
+import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class UserValidateUseCase {
@@ -15,27 +15,39 @@ export class UserValidateUseCase {
     private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
   ) {}
 
-  async execute(
-    input: Partial<
-      Pick<EntityData<User>, 'branchIds' | 'roleIds' | 'inlinePermissions'>
-    >,
-  ) {
+  async execute(input: Partial<EntityData<User>>) {
     const { ability } = this.authContext.getData()
     const { branchIds, roleIds, inlinePermissions } = input
 
-    if (inlinePermissions !== undefined) {
-      assertPermission(ability, AuthSubject.Role, AUTH_ACTION_ALL)
+    if (inlinePermissions?.length) {
+      assertPermission(ability, AuthSubject.Role, RoleAction.AssignUserInline, {
+        permissions: inlinePermissions,
+      })
     }
 
-    if (branchIds !== undefined) {
+    if (branchIds?.length) {
       for (const branchId of branchIds) {
-        await this.branchAssertExistsUseCase.execute({ _id: branchId })
+        const branch = await this.branchAssertExistsUseCase.execute({
+          _id: branchId,
+        })
+        assertPermission(
+          ability,
+          AuthSubject.Branch,
+          BranchAction.AssignToSubject,
+          branch,
+        )
       }
     }
 
-    if (roleIds !== undefined) {
+    if (roleIds?.length) {
       for (const roleId of roleIds) {
-        await this.roleAssertExistsUseCase.execute({ _id: roleId })
+        const role = await this.roleAssertExistsUseCase.execute({ _id: roleId })
+        assertPermission(
+          ability,
+          AuthSubject.Role,
+          RoleAction.AssignToUser,
+          role,
+        )
       }
     }
   }

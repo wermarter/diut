@@ -9,6 +9,7 @@ import {
   IAuthContext,
   IBranchRepository,
 } from 'src/domain/interface'
+import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class BranchFindOneUseCase {
@@ -17,9 +18,13 @@ export class BranchFindOneUseCase {
     private readonly branchRepository: IBranchRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    private readonly branchAuthorizePopulatesUseCase: BranchAuthorizePopulatesUseCase,
   ) {}
 
   async execute(input: EntityFindOneOptions<Branch>) {
+    input.populates = this.branchAuthorizePopulatesUseCase.execute(
+      input.populates,
+    )
     const entity = await this.branchRepository.findOne(input)
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Branch, BranchAction.Read, entity)

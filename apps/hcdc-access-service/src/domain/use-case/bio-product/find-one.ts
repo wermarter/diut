@@ -9,6 +9,7 @@ import {
   IAuthContext,
   IBioProductRepository,
 } from 'src/domain/interface'
+import { BioProductAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class BioProductFindOneUseCase {
@@ -17,9 +18,13 @@ export class BioProductFindOneUseCase {
     private readonly bioProductRepository: IBioProductRepository,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    private readonly bioProductAuthorizePopulatesUseCase: BioProductAuthorizePopulatesUseCase,
   ) {}
 
   async execute(input: EntityFindOneOptions<BioProduct>) {
+    input.populates = this.bioProductAuthorizePopulatesUseCase.execute(
+      input.populates,
+    )
     const entity = await this.bioProductRepository.findOne(input)
     const { ability } = this.authContext.getData()
     assertPermission(

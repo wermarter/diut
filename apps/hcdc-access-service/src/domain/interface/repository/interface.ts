@@ -8,11 +8,8 @@ import {
 
 import { BaseEntity } from 'src/domain/entity'
 
-export type EntitySearchOptions<TEntity> = {
-  offset?: number
-  limit?: number
+export type EntityFindOneOptions<TEntity extends BaseEntity = BaseEntity> = {
   filter?: FilterQuery<TEntity>
-  sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
   projection?:
     | keyof TEntity
     | (keyof TEntity)[]
@@ -25,6 +22,13 @@ export type EntitySearchOptions<TEntity> = {
   }>
   isDeleted?: boolean | null
 }
+
+export type EntitySearchOptions<TEntity extends BaseEntity = BaseEntity> =
+  EntityFindOneOptions<TEntity> & {
+    offset?: number
+    limit?: number
+    sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
+  }
 
 export type SearchResult<TEntity extends BaseEntity> = {
   total: number
@@ -33,22 +37,7 @@ export type SearchResult<TEntity extends BaseEntity> = {
   items: TEntity[]
 }
 
-export type EntityFindOneOptions<TEntity> = {
-  filter: FilterQuery<TEntity>
-  projection?:
-    | keyof TEntity
-    | (keyof TEntity)[]
-    | Record<keyof TEntity, number | boolean | object>
-  populates?: Array<{
-    path: keyof TEntity
-    isDeleted?: boolean | null
-    fields?: Array<string>
-    match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
-  }>
-  isDeleted?: boolean | null
-}
-
-export interface IRepository<TEntity extends BaseEntity> {
+export interface IRepository<TEntity extends BaseEntity = BaseEntity> {
   findById(id: string, isDeleted?: boolean | null): Promise<TEntity | null>
 
   findOne(options?: EntityFindOneOptions<TEntity>): Promise<TEntity | null>

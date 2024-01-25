@@ -5,6 +5,7 @@ export enum BranchAction {
   Read = 'Read',
   Update = 'Update',
   Delete = 'Delete',
+  AssignToSubject = 'AssignToSubject',
 }
 
 declare module '@casl/mongoose' {
