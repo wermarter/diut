@@ -9,15 +9,17 @@ import { RoleSchema } from './role'
 import { InstrumentSchema } from './instrument'
 import { SampleTypeSchema } from './sample-type'
 import { DoctorSchema } from './doctor'
+import { PatientTypeSchema } from './patient-type'
+import { DiagnosisSchema } from './diagnosis'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
   [COLLECTION.INSTRUMENT]: InstrumentSchema,
   [COLLECTION.ROLE]: RoleSchema,
   [COLLECTION.DOCTOR]: DoctorSchema,
-  // [COLLECTION.INDICATION]: Indication,
+  [COLLECTION.DIAGNOSIS]: DiagnosisSchema,
   // [COLLECTION.PATIENT]: Patient,
-  // [COLLECTION.PATIENT_TYPE]: PatientType,
+  [COLLECTION.PATIENT_TYPE]: PatientTypeSchema,
   // [COLLECTION.SAMPLE]: Sample,
   [COLLECTION.SAMPLE_TYPE]: SampleTypeSchema,
   // [COLLECTION.TEST]: Test,

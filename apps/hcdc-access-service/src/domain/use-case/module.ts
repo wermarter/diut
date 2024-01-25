@@ -9,6 +9,24 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { BioProductAssertExistsUseCase } from './bio-product/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './bio-product/authorize-populates'
 
+import { PatientTypeCreateUseCase } from './patient-type/create'
+import { PatientTypeUpdateUseCase } from './patient-type/update'
+import { PatientTypeValidateUseCase } from './patient-type/validate'
+import { PatientTypeFindOneUseCase } from './patient-type/find-one'
+import { PatientTypeDeleteUseCase } from './patient-type/delete'
+import { PatientTypeSearchUseCase } from './patient-type/search'
+import { PatientTypeAssertExistsUseCase } from './patient-type/assert-exists'
+import { PatientTypeAuthorizePopulatesUseCase } from './patient-type/authorize-populates'
+
+import { DiagnosisCreateUseCase } from './diagnosis/create'
+import { DiagnosisUpdateUseCase } from './diagnosis/update'
+import { DiagnosisValidateUseCase } from './diagnosis/validate'
+import { DiagnosisFindOneUseCase } from './diagnosis/find-one'
+import { DiagnosisDeleteUseCase } from './diagnosis/delete'
+import { DiagnosisSearchUseCase } from './diagnosis/search'
+import { DiagnosisAssertExistsUseCase } from './diagnosis/assert-exists'
+import { DiagnosisAuthorizePopulatesUseCase } from './diagnosis/authorize-populates'
+
 import { DoctorCreateUseCase } from './doctor/create'
 import { DoctorUpdateUseCase } from './doctor/update'
 import { DoctorValidateUseCase } from './doctor/validate'
@@ -93,6 +111,24 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductAssertExistsUseCase,
     BioProductValidateUseCase,
     BioProductAuthorizePopulatesUseCase,
+
+    PatientTypeCreateUseCase,
+    PatientTypeFindOneUseCase,
+    PatientTypeUpdateUseCase,
+    PatientTypeDeleteUseCase,
+    PatientTypeSearchUseCase,
+    PatientTypeAssertExistsUseCase,
+    PatientTypeValidateUseCase,
+    PatientTypeAuthorizePopulatesUseCase,
+
+    DiagnosisCreateUseCase,
+    DiagnosisFindOneUseCase,
+    DiagnosisUpdateUseCase,
+    DiagnosisDeleteUseCase,
+    DiagnosisSearchUseCase,
+    DiagnosisAssertExistsUseCase,
+    DiagnosisValidateUseCase,
+    DiagnosisAuthorizePopulatesUseCase,
 
     DoctorCreateUseCase,
     DoctorFindOneUseCase,

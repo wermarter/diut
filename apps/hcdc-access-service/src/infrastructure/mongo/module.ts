@@ -5,8 +5,10 @@ import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
   BioProductRepositoryToken,
   BranchRepositoryToken,
+  DiagnosisRepositoryToken,
   DoctorRepositoryToken,
   InstrumentRepositoryToken,
+  PatientTypeRepositoryToken,
   RoleRepositoryToken,
   SampleTypeRepositoryToken,
   TestCategoryRepositoryToken,
@@ -20,6 +22,8 @@ import { RoleRepository, RoleSchema } from './role'
 import { InstrumentRepository, InstrumentSchema } from './instrument'
 import { SampleTypeRepository, SampleTypeSchema } from './sample-type'
 import { DoctorRepository, DoctorSchema } from './doctor'
+import { PatientTypeRepository, PatientTypeSchema } from './patient-type'
+import { DiagnosisRepository, DiagnosisSchema } from './diagnosis'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [
@@ -31,6 +35,8 @@ export const mongoMetadata: ModuleMetadata = {
       }),
     }),
     MongoModule.forFeature(BioProductSchema),
+    MongoModule.forFeature(PatientTypeSchema),
+    MongoModule.forFeature(DiagnosisSchema),
     MongoModule.forFeature(TestCategorySchema),
     MongoModule.forFeature(UserSchema),
     MongoModule.forFeature(BranchSchema),
@@ -43,6 +49,14 @@ export const mongoMetadata: ModuleMetadata = {
     {
       provide: BioProductRepositoryToken,
       useClass: BioProductRepository,
+    },
+    {
+      provide: PatientTypeRepositoryToken,
+      useClass: PatientTypeRepository,
+    },
+    {
+      provide: DiagnosisRepositoryToken,
+      useClass: DiagnosisRepository,
     },
     {
       provide: DoctorRepositoryToken,

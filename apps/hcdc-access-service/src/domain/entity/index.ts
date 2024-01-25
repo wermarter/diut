@@ -1,6 +1,8 @@
 export * from './base-entity'
 
 export * from './bio-product'
+export * from './diagnosis'
+export * from './patient-type'
 export * from './doctor'
 export * from './instrument'
 export * from './sample-type'
