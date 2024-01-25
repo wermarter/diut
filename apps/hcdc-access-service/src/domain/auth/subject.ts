@@ -3,6 +3,7 @@ import { RecordTypes } from '@casl/mongoose'
 import {
   BioProduct,
   Branch,
+  Doctor,
   Instrument,
   Role,
   SampleType,
@@ -20,6 +21,7 @@ export const AuthSubject = {
   User: 'User',
   Instrument: 'Instrument',
   SampleType: 'SampleType',
+  Doctor: 'Doctor',
 } satisfies Record<keyof RecordTypes, keyof RecordTypes>
 
 export type AuthSubjectUnionType = keyof typeof AuthSubject
@@ -37,4 +39,5 @@ export type SubjectEntityMapping = {
   User: User
   Instrument: Instrument
   SampleType: SampleType
+  Doctor: Doctor
 }

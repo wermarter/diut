@@ -5,6 +5,7 @@ import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
   BioProductRepositoryToken,
   BranchRepositoryToken,
+  DoctorRepositoryToken,
   InstrumentRepositoryToken,
   RoleRepositoryToken,
   SampleTypeRepositoryToken,
@@ -18,6 +19,7 @@ import { BranchRepository, BranchSchema } from './branch'
 import { RoleRepository, RoleSchema } from './role'
 import { InstrumentRepository, InstrumentSchema } from './instrument'
 import { SampleTypeRepository, SampleTypeSchema } from './sample-type'
+import { DoctorRepository, DoctorSchema } from './doctor'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [
@@ -35,11 +37,16 @@ export const mongoMetadata: ModuleMetadata = {
     MongoModule.forFeature(RoleSchema),
     MongoModule.forFeature(InstrumentSchema),
     MongoModule.forFeature(SampleTypeSchema),
+    MongoModule.forFeature(DoctorSchema),
   ],
   providers: [
     {
       provide: BioProductRepositoryToken,
       useClass: BioProductRepository,
+    },
+    {
+      provide: DoctorRepositoryToken,
+      useClass: DoctorRepository,
     },
     {
       provide: InstrumentRepositoryToken,

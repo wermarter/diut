@@ -9,6 +9,15 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { BioProductAssertExistsUseCase } from './bio-product/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './bio-product/authorize-populates'
 
+import { DoctorCreateUseCase } from './doctor/create'
+import { DoctorUpdateUseCase } from './doctor/update'
+import { DoctorValidateUseCase } from './doctor/validate'
+import { DoctorFindOneUseCase } from './doctor/find-one'
+import { DoctorDeleteUseCase } from './doctor/delete'
+import { DoctorSearchUseCase } from './doctor/search'
+import { DoctorAssertExistsUseCase } from './doctor/assert-exists'
+import { DoctorAuthorizePopulatesUseCase } from './doctor/authorize-populates'
+
 import { SampleTypeCreateUseCase } from './sample-type/create'
 import { SampleTypeUpdateUseCase } from './sample-type/update'
 import { SampleTypeValidateUseCase } from './sample-type/validate'
@@ -84,6 +93,15 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductAssertExistsUseCase,
     BioProductValidateUseCase,
     BioProductAuthorizePopulatesUseCase,
+
+    DoctorCreateUseCase,
+    DoctorFindOneUseCase,
+    DoctorUpdateUseCase,
+    DoctorDeleteUseCase,
+    DoctorSearchUseCase,
+    DoctorAssertExistsUseCase,
+    DoctorValidateUseCase,
+    DoctorAuthorizePopulatesUseCase,
 
     SampleTypeCreateUseCase,
     SampleTypeFindOneUseCase,

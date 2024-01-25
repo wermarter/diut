@@ -8,10 +8,12 @@ import { UserController } from './user/controller'
 import { TestCategoryController } from './test-category/controller'
 import { InstrumentController } from './instrument/controller'
 import { SampleTypeController } from './sample-type/controller'
+import { DoctorController } from './doctor/controller'
 
 export const httpControllerV1Metadata: ModuleMetadata = {
   controllers: [
     BioProductController,
+    DoctorController,
     InstrumentController,
     SampleTypeController,
     AuthController,

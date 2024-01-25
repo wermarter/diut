@@ -4,6 +4,7 @@ import { AuthSubject, AuthSubjectUnionType } from './subject'
 import {
   BioProductAction,
   BranchAction,
+  DoctorAction,
   InstrumentAction,
   RoleAction,
   SampleTypeAction,
@@ -20,6 +21,7 @@ export const AuthAction = {
   User: stringEnumValues(UserAction),
   Instrument: stringEnumValues(InstrumentAction),
   SampleType: stringEnumValues(SampleTypeAction),
+  Doctor: stringEnumValues(DoctorAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [

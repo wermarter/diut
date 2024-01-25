@@ -1,32 +1,25 @@
-import { Permission } from '@diut/hcdc-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 
-import { AppControllerOptions } from '@diut/nest-core'
-import { AppRouteOptions } from 'src/common/route.decorator'
-import { SearchDoctorResponseDto } from './dtos/search-doctor.response-dto'
-import { DoctorResponseDto } from './dtos/doctor.response-dto'
+import { DoctorSearchResponseDto } from './dto/search.response-dto'
+import { DoctorResponseDto } from './dto/response-dto'
 
 export const doctorRoutes = {
-  controller: <AppControllerOptions>{
-    basePath: 'doctors',
-  },
-
-  search: <AppRouteOptions>{
+  search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: SearchDoctorResponseDto,
+    serialize: DoctorSearchResponseDto,
     openApi: {
       responses: [
         {
-          type: SearchDoctorResponseDto,
+          type: DoctorSearchResponseDto,
         },
       ],
     },
   },
 
-  create: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  create: {
     method: RequestMethod.POST,
     serialize: DoctorResponseDto,
     openApi: {
@@ -39,8 +32,7 @@ export const doctorRoutes = {
     },
   },
 
-  updateById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: DoctorResponseDto,
@@ -53,7 +45,7 @@ export const doctorRoutes = {
     },
   },
 
-  findById: <AppRouteOptions>{
+  findById: {
     path: ':id',
     method: RequestMethod.GET,
     serialize: DoctorResponseDto,
@@ -66,8 +58,7 @@ export const doctorRoutes = {
     },
   },
 
-  deleteById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: DoctorResponseDto,
@@ -79,4 +70,4 @@ export const doctorRoutes = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>
