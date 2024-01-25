@@ -20,6 +20,7 @@ export class UserFindOneUseCase {
   ) {}
 
   async execute(input: EntityFindOneOptions<User>) {
+    // TODO: check auth and apply populate matcher (+ search API)
     const entity = await this.userRepository.findOne(input)
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.User, UserAction.Read, entity)
