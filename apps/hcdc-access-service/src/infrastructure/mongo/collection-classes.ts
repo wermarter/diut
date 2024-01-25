@@ -6,16 +6,19 @@ import { TestCategorySchema } from './test-category'
 import { UserSchema } from './user'
 import { BranchSchema } from './branch'
 import { RoleSchema } from './role'
+import { InstrumentSchema } from './instrument'
+import { SampleTypeSchema } from './sample-type'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
+  [COLLECTION.INSTRUMENT]: InstrumentSchema,
   [COLLECTION.ROLE]: RoleSchema,
   // [COLLECTION.DOCTOR]: Doctor,
   // [COLLECTION.INDICATION]: Indication,
   // [COLLECTION.PATIENT]: Patient,
   // [COLLECTION.PATIENT_TYPE]: PatientType,
   // [COLLECTION.SAMPLE]: Sample,
-  // [COLLECTION.SAMPLE_TYPE]: SampleType,
+  [COLLECTION.SAMPLE_TYPE]: SampleTypeSchema,
   // [COLLECTION.TEST]: Test,
   [COLLECTION.TEST_CATEGORY]: TestCategorySchema,
   // [COLLECTION.TEST_COMBO]: TestCombo,

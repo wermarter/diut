@@ -1,6 +1,8 @@
 export * from './base-entity'
 
 export * from './bio-product'
+export * from './instrument'
+export * from './sample-type'
 export * from './test-category'
 export * from './role'
 export * from './user'

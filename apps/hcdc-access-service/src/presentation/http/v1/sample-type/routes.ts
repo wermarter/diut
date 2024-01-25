@@ -1,32 +1,25 @@
-import { Permission } from '@diut/hcdc-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 
-import { AppControllerOptions } from '@diut/nest-core'
-import { AppRouteOptions } from 'src/common/route.decorator'
-import { SearchSampleTypeResponseDto } from './dtos/search-sample-type.response-dto'
-import { SampleTypeResponseDto } from './dtos/sample-type.response-dto'
+import { SampleTypeSearchResponseDto } from './dto/search.response-dto'
+import { SampleTypeResponseDto } from './dto/response-dto'
 
 export const sampleTypeRoutes = {
-  controller: <AppControllerOptions>{
-    basePath: 'sample-types',
-  },
-
-  search: <AppRouteOptions>{
+  search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: SearchSampleTypeResponseDto,
+    serialize: SampleTypeSearchResponseDto,
     openApi: {
       responses: [
         {
-          type: SearchSampleTypeResponseDto,
+          type: SampleTypeSearchResponseDto,
         },
       ],
     },
   },
 
-  create: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  create: {
     method: RequestMethod.POST,
     serialize: SampleTypeResponseDto,
     openApi: {
@@ -39,8 +32,7 @@ export const sampleTypeRoutes = {
     },
   },
 
-  updateById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: SampleTypeResponseDto,
@@ -53,7 +45,7 @@ export const sampleTypeRoutes = {
     },
   },
 
-  findById: <AppRouteOptions>{
+  findById: {
     path: ':id',
     method: RequestMethod.GET,
     serialize: SampleTypeResponseDto,
@@ -66,8 +58,7 @@ export const sampleTypeRoutes = {
     },
   },
 
-  deleteById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: SampleTypeResponseDto,
@@ -79,4 +70,4 @@ export const sampleTypeRoutes = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>

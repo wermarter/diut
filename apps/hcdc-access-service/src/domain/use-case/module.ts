@@ -9,6 +9,24 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { BioProductAssertExistsUseCase } from './bio-product/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './bio-product/authorize-populates'
 
+import { SampleTypeCreateUseCase } from './sample-type/create'
+import { SampleTypeUpdateUseCase } from './sample-type/update'
+import { SampleTypeValidateUseCase } from './sample-type/validate'
+import { SampleTypeFindOneUseCase } from './sample-type/find-one'
+import { SampleTypeDeleteUseCase } from './sample-type/delete'
+import { SampleTypeSearchUseCase } from './sample-type/search'
+import { SampleTypeAssertExistsUseCase } from './sample-type/assert-exists'
+import { SampleTypeAuthorizePopulatesUseCase } from './sample-type/authorize-populates'
+
+import { InstrumentCreateUseCase } from './instrument/create'
+import { InstrumentUpdateUseCase } from './instrument/update'
+import { InstrumentValidateUseCase } from './instrument/validate'
+import { InstrumentFindOneUseCase } from './instrument/find-one'
+import { InstrumentDeleteUseCase } from './instrument/delete'
+import { InstrumentSearchUseCase } from './instrument/search'
+import { InstrumentAssertExistsUseCase } from './instrument/assert-exists'
+import { InstrumentAuthorizePopulatesUseCase } from './instrument/authorize-populates'
+
 import { TestCategoryCreateUseCase } from './test-category/create'
 import { TestCategoryUpdateUseCase } from './test-category/update'
 import { TestCategoryValidateUseCase } from './test-category/validate'
@@ -66,6 +84,24 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductAssertExistsUseCase,
     BioProductValidateUseCase,
     BioProductAuthorizePopulatesUseCase,
+
+    SampleTypeCreateUseCase,
+    SampleTypeFindOneUseCase,
+    SampleTypeUpdateUseCase,
+    SampleTypeDeleteUseCase,
+    SampleTypeSearchUseCase,
+    SampleTypeAssertExistsUseCase,
+    SampleTypeValidateUseCase,
+    SampleTypeAuthorizePopulatesUseCase,
+
+    InstrumentCreateUseCase,
+    InstrumentFindOneUseCase,
+    InstrumentUpdateUseCase,
+    InstrumentDeleteUseCase,
+    InstrumentSearchUseCase,
+    InstrumentAssertExistsUseCase,
+    InstrumentValidateUseCase,
+    InstrumentAuthorizePopulatesUseCase,
 
     TestCategoryCreateUseCase,
     TestCategoryFindOneUseCase,
