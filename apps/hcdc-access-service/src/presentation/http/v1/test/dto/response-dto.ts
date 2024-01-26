@@ -20,10 +20,12 @@ import { SampleTypeResponseDto } from '../../sample-type/dto/response-dto'
 import { TestCategoryResponseDto } from '../../test-category/dto/response-dto'
 import { PrintFormResponseDto } from '../../print-form/dto/response-dto'
 
-export class TestResponseDto extends IntersectionType(
+export class TestUnpopulatedResponse extends IntersectionType(
   BaseResourceResponseDto,
   TestCreateRequestDto,
-) {
+) {}
+
+export class TestResponseDto extends TestUnpopulatedResponse {
   @Expose()
   @ApiProperty({ ...exampleTest.bioProduct, type: () => BioProductResponseDto })
   @ValidateNested({ each: true })

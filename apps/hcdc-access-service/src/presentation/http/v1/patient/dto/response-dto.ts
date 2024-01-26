@@ -7,10 +7,12 @@ import { PatientCreateRequestDto } from './create.request-dto'
 import { Branch, examplePatient } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 
-export class PatientResponseDto extends IntersectionType(
+export class PatientUnpopulatedResponse extends IntersectionType(
   BaseResourceResponseDto,
   PatientCreateRequestDto,
-) {
+) {}
+
+export class PatientResponseDto extends PatientUnpopulatedResponse {
   @Expose()
   @ApiProperty({ ...examplePatient.branch, type: () => BranchResponseDto })
   @ValidateNested({ each: true })
