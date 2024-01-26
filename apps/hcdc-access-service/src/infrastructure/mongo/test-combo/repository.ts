@@ -1,0 +1,17 @@
+import { InjectModel } from '@nestjs/mongoose'
+import { MongoRepository } from '@diut/nest-core'
+import { Model } from 'mongoose'
+
+import { ITestComboRepository } from 'src/domain'
+import { TestComboSchema } from './schema'
+
+export class TestComboRepository
+  extends MongoRepository<TestComboSchema>
+  implements ITestComboRepository
+{
+  constructor(
+    @InjectModel(TestComboSchema.name) model: Model<TestComboSchema>,
+  ) {
+    super(model)
+  }
+}

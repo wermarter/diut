@@ -14,6 +14,7 @@ import {
   SampleTypeAction,
   TestAction,
   TestCategoryAction,
+  TestComboAction,
   TestElementAction,
   UserAction,
 } from '../entity'
@@ -34,6 +35,7 @@ export const AuthAction = {
   Test: stringEnumValues(TestAction),
   TestElement: stringEnumValues(TestElementAction),
   Patient: stringEnumValues(PatientAction),
+  TestCombo: stringEnumValues(TestComboAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [

@@ -14,6 +14,7 @@ import {
   RoleRepositoryToken,
   SampleTypeRepositoryToken,
   TestCategoryRepositoryToken,
+  TestComboRepositoryToken,
   TestElementRepositoryToken,
   TestRepositoryToken,
   UserRepositoryToken,
@@ -32,6 +33,7 @@ import { PrintFormRepository, PrintFormSchema } from './print-form'
 import { TestRepository, TestSchema } from './test'
 import { TestElementRepository, TestElementSchema } from './test-element'
 import { PatientRepository, PatientSchema } from './patient'
+import { TestComboRepository, TestComboSchema } from './test-combo'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [
@@ -56,6 +58,7 @@ export const mongoMetadata: ModuleMetadata = {
     MongoModule.forFeature(TestSchema),
     MongoModule.forFeature(TestElementSchema),
     MongoModule.forFeature(PatientSchema),
+    MongoModule.forFeature(TestComboSchema),
   ],
   providers: [
     {
@@ -113,6 +116,10 @@ export const mongoMetadata: ModuleMetadata = {
     {
       provide: PatientRepositoryToken,
       useClass: PatientRepository,
+    },
+    {
+      provide: TestComboRepositoryToken,
+      useClass: TestComboRepository,
     },
   ],
 }

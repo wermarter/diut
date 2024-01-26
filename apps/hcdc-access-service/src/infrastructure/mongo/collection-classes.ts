@@ -15,6 +15,7 @@ import { PrintFormSchema } from './print-form'
 import { TestSchema } from './test'
 import { TestElementSchema } from './test-element'
 import { PatientSchema } from './patient'
+import { TestComboSchema } from './test-combo'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
@@ -28,7 +29,7 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.SAMPLE_TYPE]: SampleTypeSchema,
   [COLLECTION.TEST]: TestSchema,
   [COLLECTION.TEST_CATEGORY]: TestCategorySchema,
-  // [COLLECTION.TEST_COMBO]: TestCombo,
+  [COLLECTION.TEST_COMBO]: TestComboSchema,
   [COLLECTION.TEST_ELEMENT]: TestElementSchema,
   [COLLECTION.USER]: UserSchema,
   [COLLECTION.PRINT_FORM]: PrintFormSchema,

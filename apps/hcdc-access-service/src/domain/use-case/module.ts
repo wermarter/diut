@@ -45,6 +45,15 @@ import { TestSearchUseCase } from './test/search'
 import { TestAssertExistsUseCase } from './test/assert-exists'
 import { TestAuthorizePopulatesUseCase } from './test/authorize-populates'
 
+import { TestComboCreateUseCase } from './test-combo/create'
+import { TestComboUpdateUseCase } from './test-combo/update'
+import { TestComboValidateUseCase } from './test-combo/validate'
+import { TestComboFindOneUseCase } from './test-combo/find-one'
+import { TestComboDeleteUseCase } from './test-combo/delete'
+import { TestComboSearchUseCase } from './test-combo/search'
+import { TestComboAssertExistsUseCase } from './test-combo/assert-exists'
+import { TestComboAuthorizePopulatesUseCase } from './test-combo/authorize-populates'
+
 import { PatientTypeCreateUseCase } from './patient-type/create'
 import { PatientTypeUpdateUseCase } from './patient-type/update'
 import { PatientTypeValidateUseCase } from './patient-type/validate'
@@ -156,6 +165,15 @@ export const useCaseMetadata: ModuleMetadata = {
     TestElementAssertExistsUseCase,
     TestElementValidateUseCase,
     TestElementAuthorizePopulatesUseCase,
+
+    TestComboCreateUseCase,
+    TestComboFindOneUseCase,
+    TestComboUpdateUseCase,
+    TestComboDeleteUseCase,
+    TestComboSearchUseCase,
+    TestComboAssertExistsUseCase,
+    TestComboValidateUseCase,
+    TestComboAuthorizePopulatesUseCase,
 
     PatientCreateUseCase,
     PatientFindOneUseCase,

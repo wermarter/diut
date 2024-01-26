@@ -1,6 +1,6 @@
 import '@casl/mongoose'
 
-export enum BranchAction {
+export enum TestComboAction {
   Create = 'Create',
   Read = 'Read',
   Update = 'Update',
@@ -9,6 +9,6 @@ export enum BranchAction {
 
 declare module '@casl/mongoose' {
   interface RecordTypes {
-    Branch: true
+    TestCombo: true
   }
 }

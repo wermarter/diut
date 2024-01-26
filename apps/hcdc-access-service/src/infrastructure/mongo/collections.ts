@@ -12,7 +12,7 @@ export enum COLLECTION {
   BIO_PRODUCT = 'bio_product',
   INSTRUMENT = 'instrument',
   SAMPLE_TYPE = 'sample_type',
-  // TEST_COMBO = 'test_combo',
+  TEST_COMBO = 'test_combo',
   PRINT_FORM = 'print_form',
   BRANCH = 'branch',
 }

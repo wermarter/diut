@@ -21,12 +21,7 @@ export class SampleTypeValidateUseCase {
       const branch = await this.branchAssertExistsUseCase.execute({
         _id: branchId,
       })
-      assertPermission(
-        ability,
-        AuthSubject.Branch,
-        BranchAction.AssignToSubject,
-        branch,
-      )
+      assertPermission(ability, AuthSubject.Branch, BranchAction.Read, branch)
     }
   }
 }

@@ -14,6 +14,7 @@ export * from './print-form'
 export * from './patient'
 export * from './test'
 export * from './test-element'
+export * from './test-combo'
 
 // put 'permission-rule' at bottom to avoid circular dependencies
 export * from './permission-rule'
