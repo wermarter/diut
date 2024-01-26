@@ -41,7 +41,14 @@ export class TestController {
   async findById(@Param('id', ObjectIdPipe) id: string) {
     const rv = await this.testFindOneUseCase.execute({
       filter: { _id: id },
-      populates: [{ path: 'branch' }],
+      populates: [
+        { path: 'bioProduct' },
+        { path: 'instrument' },
+        { path: 'sampleType' },
+        { path: 'testCategory' },
+        { path: 'printForm' },
+        { path: 'branch' },
+      ],
     })
 
     if (rv === null) {

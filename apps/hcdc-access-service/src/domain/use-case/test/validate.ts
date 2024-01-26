@@ -1,6 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { Test, BranchAction, EntityData } from 'src/domain/entity'
+import {
+  Test,
+  BranchAction,
+  EntityData,
+  BioProductAction,
+  InstrumentAction,
+  SampleTypeAction,
+  TestCategoryAction,
+  PrintFormAction,
+} from 'src/domain/entity'
 import { BranchAssertExistsUseCase } from '../branch/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
@@ -40,8 +49,8 @@ export class TestValidateUseCase {
       })
       assertPermission(
         ability,
-        AuthSubject.Branch,
-        BranchAction.AssignToSubject,
+        AuthSubject.BioProduct,
+        BioProductAction.Read,
         bioProduct,
       )
     }
@@ -52,8 +61,8 @@ export class TestValidateUseCase {
       })
       assertPermission(
         ability,
-        AuthSubject.Branch,
-        BranchAction.AssignToSubject,
+        AuthSubject.Instrument,
+        InstrumentAction.Read,
         instrument,
       )
     }
@@ -64,8 +73,8 @@ export class TestValidateUseCase {
       })
       assertPermission(
         ability,
-        AuthSubject.Branch,
-        BranchAction.AssignToSubject,
+        AuthSubject.SampleType,
+        SampleTypeAction.Read,
         sampleType,
       )
     }
@@ -76,8 +85,8 @@ export class TestValidateUseCase {
       })
       assertPermission(
         ability,
-        AuthSubject.Branch,
-        BranchAction.AssignToSubject,
+        AuthSubject.TestCategory,
+        TestCategoryAction.Read,
         testCategory,
       )
     }
@@ -88,8 +97,8 @@ export class TestValidateUseCase {
       })
       assertPermission(
         ability,
-        AuthSubject.Branch,
-        BranchAction.AssignToSubject,
+        AuthSubject.PrintForm,
+        PrintFormAction.Read,
         printForm,
       )
     }

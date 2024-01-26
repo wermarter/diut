@@ -8,11 +8,13 @@ import {
   DiagnosisRepositoryToken,
   DoctorRepositoryToken,
   InstrumentRepositoryToken,
+  PatientRepositoryToken,
   PatientTypeRepositoryToken,
   PrintFormRepositoryToken,
   RoleRepositoryToken,
   SampleTypeRepositoryToken,
   TestCategoryRepositoryToken,
+  TestElementRepositoryToken,
   TestRepositoryToken,
   UserRepositoryToken,
 } from 'src/domain'
@@ -28,6 +30,8 @@ import { PatientTypeRepository, PatientTypeSchema } from './patient-type'
 import { DiagnosisRepository, DiagnosisSchema } from './diagnosis'
 import { PrintFormRepository, PrintFormSchema } from './print-form'
 import { TestRepository, TestSchema } from './test'
+import { TestElementRepository, TestElementSchema } from './test-element'
+import { PatientRepository, PatientSchema } from './patient'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [
@@ -50,6 +54,8 @@ export const mongoMetadata: ModuleMetadata = {
     MongoModule.forFeature(DoctorSchema),
     MongoModule.forFeature(PrintFormSchema),
     MongoModule.forFeature(TestSchema),
+    MongoModule.forFeature(TestElementSchema),
+    MongoModule.forFeature(PatientSchema),
   ],
   providers: [
     {
@@ -99,6 +105,14 @@ export const mongoMetadata: ModuleMetadata = {
     {
       provide: TestRepositoryToken,
       useClass: TestRepository,
+    },
+    {
+      provide: TestElementRepositoryToken,
+      useClass: TestElementRepository,
+    },
+    {
+      provide: PatientRepositoryToken,
+      useClass: PatientRepository,
     },
   ],
 }

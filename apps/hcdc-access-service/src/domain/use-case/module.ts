@@ -9,6 +9,24 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { BioProductAssertExistsUseCase } from './bio-product/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './bio-product/authorize-populates'
 
+import { TestElementCreateUseCase } from './test-element/create'
+import { TestElementUpdateUseCase } from './test-element/update'
+import { TestElementValidateUseCase } from './test-element/validate'
+import { TestElementFindOneUseCase } from './test-element/find-one'
+import { TestElementDeleteUseCase } from './test-element/delete'
+import { TestElementSearchUseCase } from './test-element/search'
+import { TestElementAssertExistsUseCase } from './test-element/assert-exists'
+import { TestElementAuthorizePopulatesUseCase } from './test-element/authorize-populates'
+
+import { PatientCreateUseCase } from './patient/create'
+import { PatientUpdateUseCase } from './patient/update'
+import { PatientValidateUseCase } from './patient/validate'
+import { PatientFindOneUseCase } from './patient/find-one'
+import { PatientDeleteUseCase } from './patient/delete'
+import { PatientSearchUseCase } from './patient/search'
+import { PatientAssertExistsUseCase } from './patient/assert-exists'
+import { PatientAuthorizePopulatesUseCase } from './patient/authorize-populates'
+
 import { PrintFormCreateUseCase } from './print-form/create'
 import { PrintFormUpdateUseCase } from './print-form/update'
 import { PrintFormValidateUseCase } from './print-form/validate'
@@ -129,6 +147,24 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductAssertExistsUseCase,
     BioProductValidateUseCase,
     BioProductAuthorizePopulatesUseCase,
+
+    TestElementCreateUseCase,
+    TestElementFindOneUseCase,
+    TestElementUpdateUseCase,
+    TestElementDeleteUseCase,
+    TestElementSearchUseCase,
+    TestElementAssertExistsUseCase,
+    TestElementValidateUseCase,
+    TestElementAuthorizePopulatesUseCase,
+
+    PatientCreateUseCase,
+    PatientFindOneUseCase,
+    PatientUpdateUseCase,
+    PatientDeleteUseCase,
+    PatientSearchUseCase,
+    PatientAssertExistsUseCase,
+    PatientValidateUseCase,
+    PatientAuthorizePopulatesUseCase,
 
     PrintFormCreateUseCase,
     PrintFormFindOneUseCase,

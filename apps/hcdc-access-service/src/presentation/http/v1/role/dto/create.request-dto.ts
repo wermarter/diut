@@ -10,7 +10,7 @@ import {
 } from 'class-validator'
 import { IsObjectId } from '@diut/nest-core'
 
-import { PermissionRule, exampleRole } from 'src/domain'
+import { exampleRole } from 'src/domain'
 import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'
 
 export class RoleCreateRequestDto {
@@ -40,7 +40,7 @@ export class RoleCreateRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PermissionRuleRequestDto)
-  permissions: PermissionRule[]
+  permissions: PermissionRuleRequestDto[]
 
   @Expose()
   @ApiProperty(exampleRole.branchId)

@@ -13,6 +13,8 @@ import { PatientTypeController } from './patient-type/controller'
 import { DiagnosisController } from './diagnosis/controller'
 import { PrintFormController } from './print-form/controller'
 import { TestController } from './test/controller'
+import { TestElementController } from './test-element/controller'
+import { PatientController } from './patient/controller'
 
 export const httpControllerV1Metadata: ModuleMetadata = {
   controllers: [
@@ -29,6 +31,8 @@ export const httpControllerV1Metadata: ModuleMetadata = {
     TestCategoryController,
     PrintFormController,
     TestController,
+    TestElementController,
+    PatientController,
   ],
   providers: [],
 }

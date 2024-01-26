@@ -6,12 +6,14 @@ import {
   Diagnosis,
   Doctor,
   Instrument,
+  Patient,
   PatientType,
   PrintForm,
   Role,
   SampleType,
   Test,
   TestCategory,
+  TestElement,
   User,
 } from '../entity'
 import { AUTH_SUBJECT_ALL } from './constants'
@@ -30,6 +32,8 @@ export const AuthSubject = {
   Diagnosis: 'Diagnosis',
   PrintForm: 'PrintForm',
   Test: 'Test',
+  TestElement: 'TestElement',
+  Patient: 'Patient',
 } satisfies Record<keyof RecordTypes, keyof RecordTypes>
 
 export type AuthSubjectUnionType = keyof typeof AuthSubject
@@ -52,4 +56,6 @@ export type SubjectEntityMapping = {
   Diagnosis: Diagnosis
   PrintForm: PrintForm
   Test: Test
+  TestElement: TestElement
+  Patient: Patient
 }

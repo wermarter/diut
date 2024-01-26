@@ -7,12 +7,14 @@ import {
   DiagnosisAction,
   DoctorAction,
   InstrumentAction,
+  PatientAction,
   PatientTypeAction,
   PrintFormAction,
   RoleAction,
   SampleTypeAction,
   TestAction,
   TestCategoryAction,
+  TestElementAction,
   UserAction,
 } from '../entity'
 import { AUTH_ACTION_ALL } from './constants'
@@ -30,6 +32,8 @@ export const AuthAction = {
   Diagnosis: stringEnumValues(DiagnosisAction),
   PrintForm: stringEnumValues(PrintFormAction),
   Test: stringEnumValues(TestAction),
+  TestElement: stringEnumValues(TestElementAction),
+  Patient: stringEnumValues(PatientAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [

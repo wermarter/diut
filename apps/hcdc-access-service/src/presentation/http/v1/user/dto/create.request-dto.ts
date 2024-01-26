@@ -3,7 +3,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
 import { IsObjectId } from '@diut/nest-core'
 
-import { PermissionRule, exampleUser } from 'src/domain'
+import { exampleUser } from 'src/domain'
 import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'
 
 export class UserCreateRequestDto {
@@ -38,7 +38,7 @@ export class UserCreateRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PermissionRuleRequestDto)
-  inlinePermissions: PermissionRule[]
+  inlinePermissions: PermissionRuleRequestDto[]
 
   @Expose()
   @ApiProperty(exampleUser.branchIds)

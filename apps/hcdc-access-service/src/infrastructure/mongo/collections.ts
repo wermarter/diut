@@ -1,11 +1,11 @@
 export enum COLLECTION {
   USER = 'user',
   ROLE = 'role',
-  // PATIENT = 'patient',
+  PATIENT = 'patient',
   DOCTOR = 'doctor',
   TEST_CATEGORY = 'test_category',
   TEST = 'test',
-  // TEST_ELEMENT = 'test_element',
+  TEST_ELEMENT = 'test_element',
   PATIENT_TYPE = 'patient_type',
   DIAGNOSIS = 'diagnosis',
   // SAMPLE = 'sample',
@@ -14,6 +14,5 @@ export enum COLLECTION {
   SAMPLE_TYPE = 'sample_type',
   // TEST_COMBO = 'test_combo',
   PRINT_FORM = 'print_form',
-  // SAMPLE_ORIGIN = 'sample_origin',
   BRANCH = 'branch',
 }
