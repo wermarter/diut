@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { InstrumentSearchResponseDto } from './dto/search.response-dto'
-import { InstrumentResponseDto } from './dto/response-dto'
+import {
+  InstrumentResponseDto,
+  InstrumentUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const instrumentRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const instrumentRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: InstrumentResponseDto,
+    serialize: InstrumentUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: InstrumentResponseDto,
+          type: InstrumentUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const instrumentRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: InstrumentResponseDto,
+    serialize: InstrumentUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: InstrumentResponseDto,
+          type: InstrumentUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const instrumentRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: InstrumentResponseDto,
+    serialize: InstrumentUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: InstrumentResponseDto,
+          type: InstrumentUnpopulatedResponseDto,
         },
       ],
     },

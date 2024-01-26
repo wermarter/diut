@@ -5,8 +5,8 @@ import { ValidateNested } from 'class-validator'
 
 import { TestElementCreateRequestDto } from './create.request-dto'
 import { exampleTestElement } from 'src/domain'
-import { BranchResponseDto } from '../../branch/dto/response-dto'
-import { TestResponseDto } from '../../test/dto/response-dto'
+import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
+import { TestUnpopulatedResponseDto } from '../../test/dto/response-dto'
 
 export class TestElementUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
@@ -15,14 +15,20 @@ export class TestElementUnpopulatedResponseDto extends IntersectionType(
 
 export class TestElementResponseDto extends TestElementUnpopulatedResponseDto {
   @Expose()
-  @ApiProperty({ ...exampleTestElement.test, type: () => TestResponseDto })
+  @ApiProperty({
+    ...exampleTestElement.test,
+    type: () => TestUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => TestResponseDto)
-  test?: TestResponseDto
+  @Type(() => TestUnpopulatedResponseDto)
+  test?: TestUnpopulatedResponseDto
 
   @Expose()
-  @ApiProperty({ ...exampleTestElement.branch, type: () => BranchResponseDto })
+  @ApiProperty({
+    ...exampleTestElement.branch,
+    type: () => BranchUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => BranchResponseDto)
-  branch?: BranchResponseDto
+  @Type(() => BranchUnpopulatedResponseDto)
+  branch?: BranchUnpopulatedResponseDto
 }

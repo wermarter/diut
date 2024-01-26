@@ -2,7 +2,7 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { RoleSearchResponseDto } from './dto/search.response-dto'
-import { RoleResponseDto } from './dto/response-dto'
+import { RoleResponseDto, RoleUnpopulatedResponseDto } from './dto/response-dto'
 
 export const roleRoutes = {
   search: {
@@ -21,11 +21,11 @@ export const roleRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: RoleResponseDto,
+    serialize: RoleUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: RoleResponseDto,
+          type: RoleUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +35,11 @@ export const roleRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: RoleResponseDto,
+    serialize: RoleUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: RoleResponseDto,
+          type: RoleUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +61,11 @@ export const roleRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: RoleResponseDto,
+    serialize: RoleUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: RoleResponseDto,
+          type: RoleUnpopulatedResponseDto,
         },
       ],
     },

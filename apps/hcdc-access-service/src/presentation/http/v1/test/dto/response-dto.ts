@@ -4,21 +4,13 @@ import { Expose, Type } from 'class-transformer'
 import { ValidateNested } from 'class-validator'
 
 import { TestCreateRequestDto } from './create.request-dto'
-import {
-  BioProduct,
-  Branch,
-  Instrument,
-  PrintForm,
-  SampleType,
-  TestCategory,
-  exampleTest,
-} from 'src/domain'
-import { BranchResponseDto } from '../../branch/dto/response-dto'
-import { BioProductResponseDto } from '../../bio-product/dto/response-dto'
-import { InstrumentResponseDto } from '../../instrument/dto/response-dto'
-import { SampleTypeResponseDto } from '../../sample-type/dto/response-dto'
-import { TestCategoryResponseDto } from '../../test-category/dto/response-dto'
-import { PrintFormResponseDto } from '../../print-form/dto/response-dto'
+import { exampleTest } from 'src/domain'
+import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
+import { BioProductUnpopulatedResponseDto } from '../../bio-product/dto/response-dto'
+import { InstrumentUnpopulatedResponseDto } from '../../instrument/dto/response-dto'
+import { SampleTypeUnpopulatedResponseDto } from '../../sample-type/dto/response-dto'
+import { TestCategoryUnpopulatedResponseDto } from '../../test-category/dto/response-dto'
+import { PrintFormUnpopulatedResponseDto } from '../../print-form/dto/response-dto'
 
 export class TestUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
@@ -27,41 +19,56 @@ export class TestUnpopulatedResponseDto extends IntersectionType(
 
 export class TestResponseDto extends TestUnpopulatedResponseDto {
   @Expose()
-  @ApiProperty({ ...exampleTest.bioProduct, type: () => BioProductResponseDto })
+  @ApiProperty({
+    ...exampleTest.bioProduct,
+    type: () => BioProductUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => BioProductResponseDto)
-  bioProduct?: BioProduct
+  @Type(() => BioProductUnpopulatedResponseDto)
+  bioProduct?: BioProductUnpopulatedResponseDto
 
   @Expose()
-  @ApiProperty({ ...exampleTest.instrument, type: () => InstrumentResponseDto })
+  @ApiProperty({
+    ...exampleTest.instrument,
+    type: () => InstrumentUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => InstrumentResponseDto)
-  instrument?: Instrument
+  @Type(() => InstrumentUnpopulatedResponseDto)
+  instrument?: InstrumentUnpopulatedResponseDto
 
   @Expose()
-  @ApiProperty({ ...exampleTest.sampleType, type: () => SampleTypeResponseDto })
+  @ApiProperty({
+    ...exampleTest.sampleType,
+    type: () => SampleTypeUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => SampleTypeResponseDto)
-  sampleType?: SampleType
+  @Type(() => SampleTypeUnpopulatedResponseDto)
+  sampleType?: SampleTypeUnpopulatedResponseDto
 
   @Expose()
   @ApiProperty({
     ...exampleTest.testCategory,
-    type: () => TestCategoryResponseDto,
+    type: () => TestCategoryUnpopulatedResponseDto,
   })
   @ValidateNested({ each: true })
-  @Type(() => TestCategoryResponseDto)
-  testCategory?: TestCategory
+  @Type(() => TestCategoryUnpopulatedResponseDto)
+  testCategory?: TestCategoryUnpopulatedResponseDto
 
   @Expose()
-  @ApiProperty({ ...exampleTest.printForm, type: () => PrintFormResponseDto })
+  @ApiProperty({
+    ...exampleTest.printForm,
+    type: () => PrintFormUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => PrintFormResponseDto)
-  printForm?: PrintForm
+  @Type(() => PrintFormUnpopulatedResponseDto)
+  printForm?: PrintFormUnpopulatedResponseDto
 
   @Expose()
-  @ApiProperty({ ...exampleTest.branch, type: () => BranchResponseDto })
+  @ApiProperty({
+    ...exampleTest.branch,
+    type: () => BranchUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => BranchResponseDto)
-  branch?: Branch
+  @Type(() => BranchUnpopulatedResponseDto)
+  branch?: BranchUnpopulatedResponseDto
 }

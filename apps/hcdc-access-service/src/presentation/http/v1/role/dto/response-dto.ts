@@ -4,8 +4,8 @@ import { Expose, Type } from 'class-transformer'
 import { IsArray, ValidateNested } from 'class-validator'
 
 import { RoleCreateRequestDto } from './create.request-dto'
-import { Branch, exampleRole } from 'src/domain'
-import { BranchResponseDto } from '../../branch/dto/response-dto'
+import { exampleRole } from 'src/domain'
+import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class RoleUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
@@ -14,8 +14,11 @@ export class RoleUnpopulatedResponseDto extends IntersectionType(
 
 export class RoleResponseDto extends RoleUnpopulatedResponseDto {
   @Expose()
-  @ApiProperty({ ...exampleRole.branch, type: () => BranchResponseDto })
+  @ApiProperty({
+    ...exampleRole.branch,
+    type: () => BranchUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => BranchResponseDto)
-  branch?: Branch
+  @Type(() => BranchUnpopulatedResponseDto)
+  branch?: BranchUnpopulatedResponseDto
 }

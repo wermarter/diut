@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { TestComboSearchResponseDto } from './dto/search.response-dto'
-import { TestComboResponseDto } from './dto/response-dto'
+import {
+  TestComboResponseDto,
+  TestComboUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const testComboRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const testComboRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: TestComboResponseDto,
+    serialize: TestComboUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: TestComboResponseDto,
+          type: TestComboUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const testComboRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: TestComboResponseDto,
+    serialize: TestComboUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: TestComboResponseDto,
+          type: TestComboUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const testComboRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: TestComboResponseDto,
+    serialize: TestComboUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: TestComboResponseDto,
+          type: TestComboUnpopulatedResponseDto,
         },
       ],
     },

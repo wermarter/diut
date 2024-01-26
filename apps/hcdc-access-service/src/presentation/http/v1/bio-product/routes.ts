@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { BioProductSearchResponseDto } from './dto/search.response-dto'
-import { BioProductResponseDto } from './dto/response-dto'
+import {
+  BioProductResponseDto,
+  BioProductUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const bioProductRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const bioProductRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: BioProductResponseDto,
+    serialize: BioProductUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: BioProductResponseDto,
+          type: BioProductUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const bioProductRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: BioProductResponseDto,
+    serialize: BioProductUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: BioProductResponseDto,
+          type: BioProductUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const bioProductRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: BioProductResponseDto,
+    serialize: BioProductUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: BioProductResponseDto,
+          type: BioProductUnpopulatedResponseDto,
         },
       ],
     },

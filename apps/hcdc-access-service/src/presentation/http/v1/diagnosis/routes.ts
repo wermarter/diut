@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { DiagnosisSearchResponseDto } from './dto/search.response-dto'
-import { DiagnosisResponseDto } from './dto/response-dto'
+import {
+  DiagnosisResponseDto,
+  DiagnosisUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const diagnosisRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const diagnosisRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: DiagnosisResponseDto,
+    serialize: DiagnosisUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: DiagnosisResponseDto,
+          type: DiagnosisUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const diagnosisRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: DiagnosisResponseDto,
+    serialize: DiagnosisUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: DiagnosisResponseDto,
+          type: DiagnosisUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const diagnosisRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: DiagnosisResponseDto,
+    serialize: DiagnosisUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: DiagnosisResponseDto,
+          type: DiagnosisUnpopulatedResponseDto,
         },
       ],
     },

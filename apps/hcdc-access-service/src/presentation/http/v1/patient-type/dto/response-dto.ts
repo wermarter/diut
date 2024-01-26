@@ -4,8 +4,8 @@ import { Expose, Type } from 'class-transformer'
 import { ValidateNested } from 'class-validator'
 
 import { PatientTypeCreateRequestDto } from './create.request-dto'
-import { Branch, examplePatientType } from 'src/domain'
-import { BranchResponseDto } from '../../branch/dto/response-dto'
+import { examplePatientType } from 'src/domain'
+import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class PatientTypeUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
@@ -14,8 +14,11 @@ export class PatientTypeUnpopulatedResponseDto extends IntersectionType(
 
 export class PatientTypeResponseDto extends PatientTypeUnpopulatedResponseDto {
   @Expose()
-  @ApiProperty({ ...examplePatientType.branch, type: () => BranchResponseDto })
+  @ApiProperty({
+    ...examplePatientType.branch,
+    type: () => BranchUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => BranchResponseDto)
-  branch?: Branch
+  @Type(() => BranchUnpopulatedResponseDto)
+  branch?: BranchUnpopulatedResponseDto
 }

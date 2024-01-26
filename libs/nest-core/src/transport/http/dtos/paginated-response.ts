@@ -23,7 +23,7 @@ export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
       isArray: true,
     })
     @Type(() => ItemClass)
-    items: ItemType[]
+    items: (typeof ItemClass)[]
   }
 
   return PaginationDtoClass

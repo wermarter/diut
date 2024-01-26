@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { PrintFormSearchResponseDto } from './dto/search.response-dto'
-import { PrintFormResponseDto } from './dto/response-dto'
+import {
+  PrintFormResponseDto,
+  PrintFormUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const printFormRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const printFormRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: PrintFormResponseDto,
+    serialize: PrintFormUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: PrintFormResponseDto,
+          type: PrintFormUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const printFormRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: PrintFormResponseDto,
+    serialize: PrintFormUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: PrintFormResponseDto,
+          type: PrintFormUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const printFormRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: PrintFormResponseDto,
+    serialize: PrintFormUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: PrintFormResponseDto,
+          type: PrintFormUnpopulatedResponseDto,
         },
       ],
     },

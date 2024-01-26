@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { BranchSearchResponseDto } from './dto/search.response-dto'
-import { BranchResponseDto } from './dto/response-dto'
+import {
+  BranchResponseDto,
+  BranchUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const branchRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const branchRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: BranchResponseDto,
+    serialize: BranchUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: BranchResponseDto,
+          type: BranchUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const branchRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: BranchResponseDto,
+    serialize: BranchUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: BranchResponseDto,
+          type: BranchUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const branchRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: BranchResponseDto,
+    serialize: BranchUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: BranchResponseDto,
+          type: BranchUnpopulatedResponseDto,
         },
       ],
     },

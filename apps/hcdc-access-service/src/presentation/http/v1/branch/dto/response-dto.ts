@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsArray, ValidateNested } from 'class-validator'
 
 import { BranchCreateRequestDto } from './create.request-dto'
-import { Branch, exampleBranch } from 'src/domain'
+import { exampleBranch } from 'src/domain'
 
 export class BranchUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
@@ -15,13 +15,10 @@ export class BranchResponseDto extends BranchUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({
     ...exampleBranch.sampleOrigins,
-    type: () =>
-      class OmittedBranchResponseDto extends OmitType(BranchResponseDto, [
-        'sampleOrigins',
-      ]) {},
+    type: () => BranchUnpopulatedResponseDto,
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => BranchResponseDto)
-  sampleOrigins?: (Branch | null)[]
+  @Type(() => BranchUnpopulatedResponseDto)
+  sampleOrigins?: BranchUnpopulatedResponseDto[]
 }

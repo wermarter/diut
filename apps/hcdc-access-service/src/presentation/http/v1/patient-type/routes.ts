@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { PatientTypeSearchResponseDto } from './dto/search.response-dto'
-import { PatientTypeResponseDto } from './dto/response-dto'
+import {
+  PatientTypeResponseDto,
+  PatientTypeUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const patientTypeRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const patientTypeRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: PatientTypeResponseDto,
+    serialize: PatientTypeUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: PatientTypeUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const patientTypeRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: PatientTypeResponseDto,
+    serialize: PatientTypeUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: PatientTypeUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const patientTypeRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: PatientTypeResponseDto,
+    serialize: PatientTypeUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: PatientTypeResponseDto,
+          type: PatientTypeUnpopulatedResponseDto,
         },
       ],
     },

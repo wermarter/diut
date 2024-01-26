@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { SampleTypeSearchResponseDto } from './dto/search.response-dto'
-import { SampleTypeResponseDto } from './dto/response-dto'
+import {
+  SampleTypeResponseDto,
+  SampleTypeUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const sampleTypeRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const sampleTypeRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: SampleTypeResponseDto,
+    serialize: SampleTypeUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: SampleTypeResponseDto,
+          type: SampleTypeUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const sampleTypeRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: SampleTypeResponseDto,
+    serialize: SampleTypeUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: SampleTypeResponseDto,
+          type: SampleTypeUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const sampleTypeRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: SampleTypeResponseDto,
+    serialize: SampleTypeUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: SampleTypeResponseDto,
+          type: SampleTypeUnpopulatedResponseDto,
         },
       ],
     },

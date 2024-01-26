@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { ValidateNested } from 'class-validator'
 
 import { BioProductCreateRequestDto } from './create.request-dto'
-import { Branch, exampleBioProduct } from 'src/domain'
+import { exampleBioProduct } from 'src/domain'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class BioProductUnpopulatedResponseDto extends IntersectionType(
@@ -20,5 +20,5 @@ export class BioProductResponseDto extends BioProductUnpopulatedResponseDto {
   })
   @ValidateNested({ each: true })
   @Type(() => BranchUnpopulatedResponseDto)
-  branch?: Branch
+  branch?: BranchUnpopulatedResponseDto
 }

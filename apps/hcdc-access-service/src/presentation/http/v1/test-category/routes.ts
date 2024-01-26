@@ -2,7 +2,10 @@ import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nest-core'
 
 import { TestCategorySearchResponseDto } from './dto/search.response-dto'
-import { TestCategoryResponseDto } from './dto/response-dto'
+import {
+  TestCategoryResponseDto,
+  TestCategoryUnpopulatedResponseDto,
+} from './dto/response-dto'
 
 export const testCategoryRoutes = {
   search: {
@@ -21,11 +24,11 @@ export const testCategoryRoutes = {
 
   create: {
     method: RequestMethod.POST,
-    serialize: TestCategoryResponseDto,
+    serialize: TestCategoryUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: TestCategoryResponseDto,
+          type: TestCategoryUnpopulatedResponseDto,
           status: HttpStatus.CREATED,
         },
       ],
@@ -35,11 +38,11 @@ export const testCategoryRoutes = {
   updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
-    serialize: TestCategoryResponseDto,
+    serialize: TestCategoryUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: TestCategoryResponseDto,
+          type: TestCategoryUnpopulatedResponseDto,
         },
       ],
     },
@@ -61,11 +64,11 @@ export const testCategoryRoutes = {
   deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
-    serialize: TestCategoryResponseDto,
+    serialize: TestCategoryUnpopulatedResponseDto,
     openApi: {
       responses: [
         {
-          type: TestCategoryResponseDto,
+          type: TestCategoryUnpopulatedResponseDto,
         },
       ],
     },
