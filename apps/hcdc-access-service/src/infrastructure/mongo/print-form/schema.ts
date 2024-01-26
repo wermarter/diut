@@ -4,10 +4,11 @@ import { Types } from 'mongoose'
 
 import { COLLECTION } from '../collections'
 import { BranchSchema } from '../branch'
+import { PrintTemplate, PrintTemplateValues } from 'src/domain'
 
 @Schema({
   ...baseSchemaOptions,
-  collection: COLLECTION.BIO_PRODUCT,
+  collection: COLLECTION.PRINT_FORM,
   virtuals: {
     branch: {
       options: {
@@ -25,6 +26,24 @@ export class PrintFormSchema extends BaseSchema {
 
   @Prop({ required: true })
   name: string
+
+  @Prop({ required: true })
+  isA4: boolean
+
+  @Prop({ required: true })
+  isAuthorLocked: boolean
+
+  @Prop({ required: true })
+  authorTitle: string
+
+  @Prop({ required: true })
+  authorName: string
+
+  @Prop({ required: true })
+  titleMargin: number
+
+  @Prop({ required: true, enum: PrintTemplateValues })
+  template: PrintTemplate
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string

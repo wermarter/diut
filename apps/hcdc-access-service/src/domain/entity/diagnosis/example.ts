@@ -8,7 +8,7 @@ export const exampleDiagnosis = {
     example: 1,
   },
   name: {
-    example: 'CHIV Advia centaur',
+    example: 'kiểm tra sức khỏe',
   },
   branchId: exampleMongoObjectId,
   branch: {

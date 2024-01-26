@@ -8,7 +8,7 @@ export const examplePatientType = {
     example: 1,
   },
   name: {
-    example: 'CHIV Advia centaur',
+    example: 'dịch vụ',
   },
   branchId: exampleMongoObjectId,
   branch: {

@@ -11,6 +11,8 @@ import { SampleTypeSchema } from './sample-type'
 import { DoctorSchema } from './doctor'
 import { PatientTypeSchema } from './patient-type'
 import { DiagnosisSchema } from './diagnosis'
+import { PrintFormSchema } from './print-form'
+import { TestSchema } from './test'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
@@ -22,12 +24,12 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.PATIENT_TYPE]: PatientTypeSchema,
   // [COLLECTION.SAMPLE]: Sample,
   [COLLECTION.SAMPLE_TYPE]: SampleTypeSchema,
-  // [COLLECTION.TEST]: Test,
+  [COLLECTION.TEST]: TestSchema,
   [COLLECTION.TEST_CATEGORY]: TestCategorySchema,
   // [COLLECTION.TEST_COMBO]: TestCombo,
   // [COLLECTION.TEST_ELEMENT]: TestElement,
   [COLLECTION.USER]: UserSchema,
-  // [COLLECTION.PRINT_FORM]: PrintForm,
+  [COLLECTION.PRINT_FORM]: PrintFormSchema,
   // [COLLECTION.SAMPLE_ORIGIN]: SampleOrigin,
   [COLLECTION.BRANCH]: BranchSchema,
 }

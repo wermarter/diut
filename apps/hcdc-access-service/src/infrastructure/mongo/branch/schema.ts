@@ -3,7 +3,7 @@ import { BaseSchema, baseSchemaOptions } from '@diut/nest-core'
 import { Types } from 'mongoose'
 
 import { COLLECTION } from '../collections'
-import { BranchType } from 'src/domain'
+import { BranchType, BranchTypeValues } from 'src/domain'
 
 @Schema({
   ...baseSchemaOptions,
@@ -29,7 +29,7 @@ export class BranchSchema extends BaseSchema {
   @Prop({ required: true })
   address: string
 
-  @Prop({ required: true, enum: BranchType })
+  @Prop({ required: true, enum: BranchTypeValues })
   type: BranchType
 
   @Prop({ required: true, type: [Types.ObjectId] })

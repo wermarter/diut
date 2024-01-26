@@ -1,32 +1,25 @@
-import { Permission } from '@diut/hcdc-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 
-import { AppControllerOptions } from '@diut/nest-core'
-import { AppRouteOptions } from 'src/common/route.decorator'
-import { SearchTestResponseDto } from './dtos/search-test.response-dto'
-import { TestResponseDto } from './dtos/test.response-dto'
+import { TestSearchResponseDto } from './dto/search.response-dto'
+import { TestResponseDto } from './dto/response-dto'
 
 export const testRoutes = {
-  controller: <AppControllerOptions>{
-    basePath: 'tests',
-  },
-
-  search: <AppRouteOptions>{
+  search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: SearchTestResponseDto,
+    serialize: TestSearchResponseDto,
     openApi: {
       responses: [
         {
-          type: SearchTestResponseDto,
+          type: TestSearchResponseDto,
         },
       ],
     },
   },
 
-  create: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  create: {
     method: RequestMethod.POST,
     serialize: TestResponseDto,
     openApi: {
@@ -39,8 +32,7 @@ export const testRoutes = {
     },
   },
 
-  updateById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: TestResponseDto,
@@ -53,7 +45,7 @@ export const testRoutes = {
     },
   },
 
-  findById: <AppRouteOptions>{
+  findById: {
     path: ':id',
     method: RequestMethod.GET,
     serialize: TestResponseDto,
@@ -66,8 +58,7 @@ export const testRoutes = {
     },
   },
 
-  deleteById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: TestResponseDto,
@@ -79,4 +70,4 @@ export const testRoutes = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>

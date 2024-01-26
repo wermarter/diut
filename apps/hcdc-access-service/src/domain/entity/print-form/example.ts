@@ -8,7 +8,7 @@ export const examplePrintForm = {
     example: 1,
   },
   name: {
-    example: 'CHIV Advia centaur',
+    example: 'form chung',
   },
   isA4: {},
   isAuthorLocked: {},

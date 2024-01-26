@@ -1,32 +1,25 @@
-import { Permission } from '@diut/hcdc-common'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
+import { CustomHttpRouteOptions } from '@diut/nest-core'
 
-import { AppControllerOptions } from '@diut/nest-core'
-import { AppRouteOptions } from 'src/common/route.decorator'
-import { SearchPrintFormResponseDto } from './dtos/search-print-form.response-dto'
-import { PrintFormResponseDto } from './dtos/print-form.response-dto'
+import { PrintFormSearchResponseDto } from './dto/search.response-dto'
+import { PrintFormResponseDto } from './dto/response-dto'
 
 export const printFormRoutes = {
-  controller: <AppControllerOptions>{
-    basePath: 'print-forms',
-  },
-
-  search: <AppRouteOptions>{
+  search: {
     path: 'search',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: SearchPrintFormResponseDto,
+    serialize: PrintFormSearchResponseDto,
     openApi: {
       responses: [
         {
-          type: SearchPrintFormResponseDto,
+          type: PrintFormSearchResponseDto,
         },
       ],
     },
   },
 
-  create: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  create: {
     method: RequestMethod.POST,
     serialize: PrintFormResponseDto,
     openApi: {
@@ -39,8 +32,7 @@ export const printFormRoutes = {
     },
   },
 
-  updateById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  updateById: {
     path: ':id',
     method: RequestMethod.PATCH,
     serialize: PrintFormResponseDto,
@@ -53,7 +45,7 @@ export const printFormRoutes = {
     },
   },
 
-  findById: <AppRouteOptions>{
+  findById: {
     path: ':id',
     method: RequestMethod.GET,
     serialize: PrintFormResponseDto,
@@ -66,8 +58,7 @@ export const printFormRoutes = {
     },
   },
 
-  deleteById: <AppRouteOptions>{
-    permissionAnyOf: [Permission.Admin],
+  deleteById: {
     path: ':id',
     method: RequestMethod.DELETE,
     serialize: PrintFormResponseDto,
@@ -79,4 +70,4 @@ export const printFormRoutes = {
       ],
     },
   },
-}
+} satisfies Record<string, CustomHttpRouteOptions>

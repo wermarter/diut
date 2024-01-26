@@ -9,6 +9,24 @@ import { BioProductSearchUseCase } from './bio-product/search'
 import { BioProductAssertExistsUseCase } from './bio-product/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './bio-product/authorize-populates'
 
+import { PrintFormCreateUseCase } from './print-form/create'
+import { PrintFormUpdateUseCase } from './print-form/update'
+import { PrintFormValidateUseCase } from './print-form/validate'
+import { PrintFormFindOneUseCase } from './print-form/find-one'
+import { PrintFormDeleteUseCase } from './print-form/delete'
+import { PrintFormSearchUseCase } from './print-form/search'
+import { PrintFormAssertExistsUseCase } from './print-form/assert-exists'
+import { PrintFormAuthorizePopulatesUseCase } from './print-form/authorize-populates'
+
+import { TestCreateUseCase } from './test/create'
+import { TestUpdateUseCase } from './test/update'
+import { TestValidateUseCase } from './test/validate'
+import { TestFindOneUseCase } from './test/find-one'
+import { TestDeleteUseCase } from './test/delete'
+import { TestSearchUseCase } from './test/search'
+import { TestAssertExistsUseCase } from './test/assert-exists'
+import { TestAuthorizePopulatesUseCase } from './test/authorize-populates'
+
 import { PatientTypeCreateUseCase } from './patient-type/create'
 import { PatientTypeUpdateUseCase } from './patient-type/update'
 import { PatientTypeValidateUseCase } from './patient-type/validate'
@@ -111,6 +129,24 @@ export const useCaseMetadata: ModuleMetadata = {
     BioProductAssertExistsUseCase,
     BioProductValidateUseCase,
     BioProductAuthorizePopulatesUseCase,
+
+    PrintFormCreateUseCase,
+    PrintFormFindOneUseCase,
+    PrintFormUpdateUseCase,
+    PrintFormDeleteUseCase,
+    PrintFormSearchUseCase,
+    PrintFormAssertExistsUseCase,
+    PrintFormValidateUseCase,
+    PrintFormAuthorizePopulatesUseCase,
+
+    TestCreateUseCase,
+    TestFindOneUseCase,
+    TestUpdateUseCase,
+    TestDeleteUseCase,
+    TestSearchUseCase,
+    TestAssertExistsUseCase,
+    TestValidateUseCase,
+    TestAuthorizePopulatesUseCase,
 
     PatientTypeCreateUseCase,
     PatientTypeFindOneUseCase,

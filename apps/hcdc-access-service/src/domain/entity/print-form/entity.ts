@@ -1,3 +1,4 @@
+import { stringEnumValues } from '@diut/common'
 import { BaseEntity } from '../base-entity'
 import { Branch } from '../branch'
 
@@ -8,6 +9,8 @@ export enum PrintTemplate {
   FormSoiNhuom = 'FormSoiNhuom',
   FormTD = 'FormTD',
 }
+
+export const PrintTemplateValues = stringEnumValues(PrintTemplate)
 
 export type PrintForm = BaseEntity & {
   displayIndex: number

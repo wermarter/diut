@@ -10,6 +10,8 @@ export * from './test-category'
 export * from './role'
 export * from './user'
 export * from './branch'
-export * from './permission-rule'
 export * from './print-form'
 export * from './test'
+
+// put 'permission-rule' at bottom to avoid circular dependencies
+export * from './permission-rule'

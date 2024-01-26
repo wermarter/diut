@@ -1,3 +1,5 @@
+Error.stackTraceLimit = Infinity
+
 import {
   CookieBootstrap,
   CorsBootstrap,

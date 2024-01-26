@@ -11,6 +11,8 @@ import { SampleTypeController } from './sample-type/controller'
 import { DoctorController } from './doctor/controller'
 import { PatientTypeController } from './patient-type/controller'
 import { DiagnosisController } from './diagnosis/controller'
+import { PrintFormController } from './print-form/controller'
+import { TestController } from './test/controller'
 
 export const httpControllerV1Metadata: ModuleMetadata = {
   controllers: [
@@ -25,6 +27,8 @@ export const httpControllerV1Metadata: ModuleMetadata = {
     BranchController,
     UserController,
     TestCategoryController,
+    PrintFormController,
+    TestController,
   ],
   providers: [],
 }
