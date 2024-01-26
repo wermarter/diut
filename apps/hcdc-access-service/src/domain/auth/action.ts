@@ -8,8 +8,10 @@ import {
   DoctorAction,
   InstrumentAction,
   PatientTypeAction,
+  PrintFormAction,
   RoleAction,
   SampleTypeAction,
+  TestAction,
   TestCategoryAction,
   UserAction,
 } from '../entity'
@@ -26,6 +28,8 @@ export const AuthAction = {
   Doctor: stringEnumValues(DoctorAction),
   PatientType: stringEnumValues(PatientTypeAction),
   Diagnosis: stringEnumValues(DiagnosisAction),
+  PrintForm: stringEnumValues(PrintFormAction),
+  Test: stringEnumValues(TestAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [
