@@ -8,12 +8,12 @@ import { exampleTestElement } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 import { TestResponseDto } from '../../test/dto/response-dto'
 
-export class TestElementUnpopulatedResponse extends IntersectionType(
+export class TestElementUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   TestElementCreateRequestDto,
 ) {}
 
-export class TestElementResponseDto extends TestElementUnpopulatedResponse {
+export class TestElementResponseDto extends TestElementUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({ ...exampleTestElement.test, type: () => TestResponseDto })
   @ValidateNested({ each: true })

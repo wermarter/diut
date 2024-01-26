@@ -8,12 +8,12 @@ import { Branch, Test, exampleTestCombo } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 import { TestResponseDto } from '../../test/dto/response-dto'
 
-export class TestComboUnpopulatedResponse extends IntersectionType(
+export class TestComboUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   TestComboCreateRequestDto,
 ) {}
 
-export class TestComboResponseDto extends TestComboUnpopulatedResponse {
+export class TestComboResponseDto extends TestComboUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({
     ...exampleTestCombo.tests,

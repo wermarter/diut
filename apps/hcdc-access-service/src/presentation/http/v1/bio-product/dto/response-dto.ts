@@ -5,17 +5,20 @@ import { ValidateNested } from 'class-validator'
 
 import { BioProductCreateRequestDto } from './create.request-dto'
 import { Branch, exampleBioProduct } from 'src/domain'
-import { BranchResponseDto } from '../../branch/dto/response-dto'
+import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
-export class BioProductUnpopulatedResponse extends IntersectionType(
+export class BioProductUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   BioProductCreateRequestDto,
 ) {}
 
-export class BioProductResponseDto extends BioProductUnpopulatedResponse {
+export class BioProductResponseDto extends BioProductUnpopulatedResponseDto {
   @Expose()
-  @ApiProperty({ ...exampleBioProduct.branch, type: () => BranchResponseDto })
+  @ApiProperty({
+    ...exampleBioProduct.branch,
+    type: () => BranchUnpopulatedResponseDto,
+  })
   @ValidateNested({ each: true })
-  @Type(() => BranchResponseDto)
+  @Type(() => BranchUnpopulatedResponseDto)
   branch?: Branch
 }

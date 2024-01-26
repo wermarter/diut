@@ -7,12 +7,12 @@ import { PrintFormCreateRequestDto } from './create.request-dto'
 import { Branch, examplePrintForm } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 
-export class PrintFormUnpopulatedResponse extends IntersectionType(
+export class PrintFormUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   PrintFormCreateRequestDto,
 ) {}
 
-export class PrintFormResponseDto extends PrintFormUnpopulatedResponse {
+export class PrintFormResponseDto extends PrintFormUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({ ...examplePrintForm.branch, type: () => BranchResponseDto })
   @ValidateNested({ each: true })

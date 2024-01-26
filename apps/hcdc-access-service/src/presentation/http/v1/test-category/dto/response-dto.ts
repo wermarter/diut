@@ -7,12 +7,12 @@ import { TestCategoryCreateRequestDto } from './create.request-dto'
 import { Branch, exampleTestCategory } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 
-export class TestCategoryUnpopulatedResponse extends IntersectionType(
+export class TestCategoryUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   TestCategoryCreateRequestDto,
 ) {}
 
-export class TestCategoryResponseDto extends TestCategoryUnpopulatedResponse {
+export class TestCategoryResponseDto extends TestCategoryUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({ ...exampleTestCategory.branch, type: () => BranchResponseDto })
   @ValidateNested({ each: true })

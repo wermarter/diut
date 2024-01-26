@@ -7,12 +7,12 @@ import { SampleTypeCreateRequestDto } from './create.request-dto'
 import { Branch, exampleSampleType } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 
-export class SampleTypeUnpopulatedResponse extends IntersectionType(
+export class SampleTypeUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   SampleTypeCreateRequestDto,
 ) {}
 
-export class SampleTypeResponseDto extends SampleTypeUnpopulatedResponse {
+export class SampleTypeResponseDto extends SampleTypeUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({ ...exampleSampleType.branch, type: () => BranchResponseDto })
   @ValidateNested({ each: true })

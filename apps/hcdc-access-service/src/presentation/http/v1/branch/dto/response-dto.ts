@@ -6,12 +6,12 @@ import { IsArray, ValidateNested } from 'class-validator'
 import { BranchCreateRequestDto } from './create.request-dto'
 import { Branch, exampleBranch } from 'src/domain'
 
-export class BranchUnpopulatedResponse extends IntersectionType(
+export class BranchUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   BranchCreateRequestDto,
 ) {}
 
-export class BranchResponseDto extends BranchUnpopulatedResponse {
+export class BranchResponseDto extends BranchUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({
     ...exampleBranch.sampleOrigins,

@@ -7,12 +7,12 @@ import { RoleCreateRequestDto } from './create.request-dto'
 import { Branch, exampleRole } from 'src/domain'
 import { BranchResponseDto } from '../../branch/dto/response-dto'
 
-export class RoleUnpopulatedResponse extends IntersectionType(
+export class RoleUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   RoleCreateRequestDto,
 ) {}
 
-export class RoleResponseDto extends RoleUnpopulatedResponse {
+export class RoleResponseDto extends RoleUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({ ...exampleRole.branch, type: () => BranchResponseDto })
   @ValidateNested({ each: true })
