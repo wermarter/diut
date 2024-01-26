@@ -12,15 +12,6 @@ import { pick, isNil } from 'lodash'
 import { BaseSchema } from './mongo.common'
 
 export abstract class MongoRepository<TEntity extends BaseSchema> {
-  private toObjectOptions: ToObjectOptions = {
-    getters: true,
-    virtuals: true,
-    minimize: false,
-    versionKey: false,
-    flattenMaps: true,
-    flattenObjectIds: true,
-  }
-
   constructor(public readonly model: Model<TEntity>) {}
 
   public async findById(id: string, isDeleted: boolean | null = false) {
@@ -87,7 +78,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   public async create(data: Omit<TEntity, keyof BaseSchema>): Promise<TEntity> {
     const item = await this.model.create(data)
 
-    return item.toObject<TEntity>(this.toObjectOptions)
+    return item.toObject<TEntity>()
   }
 
   public async count(
