@@ -13,5 +13,6 @@ export const exampleInstrument = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
+    nullable: true,
   },
 } satisfies EntityDataExample<Instrument>

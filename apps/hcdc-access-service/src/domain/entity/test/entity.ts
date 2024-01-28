@@ -9,13 +9,12 @@ import { TestCategory } from '../test-category'
 export type Test = BaseEntity & {
   displayIndex: number
   name: string
-  shouldNotPrint: boolean
   shouldDisplayWithChildren: boolean
 
-  bioProductId: string
+  bioProductId?: string
   bioProduct?: BioProduct | null
 
-  instrumentId: string
+  instrumentId?: string
   instrument?: Instrument | null
 
   sampleTypeId: string
@@ -24,7 +23,7 @@ export type Test = BaseEntity & {
   testCategoryId: string
   testCategory?: TestCategory | null
 
-  printFormId: string
+  printFormId?: string
   printForm?: PrintForm | null
 
   branchId: string

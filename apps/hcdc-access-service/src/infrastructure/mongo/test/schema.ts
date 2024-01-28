@@ -12,8 +12,48 @@ import { PrintFormSchema } from '../print-form'
 
 @Schema({
   ...baseSchemaOptions,
-  collection: COLLECTION.BIO_PRODUCT,
+  collection: COLLECTION.TEST,
   virtuals: {
+    bioProduct: {
+      options: {
+        ref: BioProductSchema.name,
+        localField: 'bioProductId',
+        foreignField: '_id',
+        justOne: true,
+      },
+    },
+    instrument: {
+      options: {
+        ref: InstrumentSchema.name,
+        localField: 'instrumentId',
+        foreignField: '_id',
+        justOne: true,
+      },
+    },
+    sampleType: {
+      options: {
+        ref: SampleTypeSchema.name,
+        localField: 'sampleTypeId',
+        foreignField: '_id',
+        justOne: true,
+      },
+    },
+    testCategory: {
+      options: {
+        ref: TestCategorySchema.name,
+        localField: 'testCategoryId',
+        foreignField: '_id',
+        justOne: true,
+      },
+    },
+    printForm: {
+      options: {
+        ref: PrintFormSchema.name,
+        localField: 'printFormId',
+        foreignField: '_id',
+        justOne: true,
+      },
+    },
     branch: {
       options: {
         ref: BranchSchema.name,
@@ -32,17 +72,14 @@ export class TestSchema extends BaseSchema {
   name: string
 
   @Prop({ required: true })
-  shouldNotPrint: boolean
-
-  @Prop({ required: true })
   shouldDisplayWithChildren: boolean
 
-  @Prop({ required: true, type: Types.ObjectId })
-  bioProductId: string
+  @Prop({ required: false, type: Types.ObjectId })
+  bioProductId?: string
   bioProduct?: BioProductSchema | null
 
-  @Prop({ required: true, type: Types.ObjectId })
-  instrumentId: string
+  @Prop({ required: false, type: Types.ObjectId })
+  instrumentId?: string
   instrument?: InstrumentSchema | null
 
   @Prop({ required: true, type: Types.ObjectId })
@@ -53,8 +90,8 @@ export class TestSchema extends BaseSchema {
   testCategoryId: string
   testCategory?: TestCategorySchema | null
 
-  @Prop({ required: true, type: Types.ObjectId })
-  printFormId: string
+  @Prop({ required: false, type: Types.ObjectId })
+  printFormId?: string
   printForm?: PrintFormSchema | null
 
   @Prop({ required: true, type: Types.ObjectId })

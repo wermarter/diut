@@ -4,6 +4,33 @@ import { EntityDataExample } from '../base-entity'
 import { TestElement } from './entity'
 import { PatientCategory } from '../patient'
 
+export const exampleNormalRule = {
+  category: {
+    enum: PatientCategory,
+  },
+  defaultChecked: {
+    required: false,
+  },
+  normalValue: {
+    required: false,
+    example: 'Neg',
+  },
+  normalUpperBound: {
+    required: false,
+    example: 10,
+  },
+  normalLowerBound: {
+    required: false,
+    example: 8,
+  },
+  description: {
+    example: 'printed to result',
+  },
+  note: {
+    example: 'note to lab user',
+  },
+} satisfies EntityDataExample<TestElement['normalRules'][number]>
+
 export const exampleTestElement = {
   displayIndex: {
     example: 1,
@@ -23,24 +50,15 @@ export const exampleTestElement = {
   isParent: {},
   normalRules: {
     isArray: true,
-    example: [
-      {
-        category: PatientCategory.Any,
-        defaultChecked: false,
-        normalValue: 'Neg',
-        normalLowerBound: 8,
-        normalUpperBound: 10,
-        description: 'printed to result',
-        note: 'note to lab user',
-      },
-    ],
   },
   testId: exampleMongoObjectId,
   test: {
     required: false,
+    nullable: true,
   },
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
+    nullable: true,
   },
 } satisfies EntityDataExample<TestElement>

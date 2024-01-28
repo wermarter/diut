@@ -18,6 +18,7 @@ import { EAuthzPermissionDenied } from 'src/domain/exception'
 import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
 import { BaseEntity, PermissionRule } from '../entity'
 import { EntityFindOneOptions } from '../interface'
+import { PopulatePath } from '@diut/nest-core'
 
 const conditionsMatcher = buildMongoQueryMatcher({ $or }, { or })
 
@@ -51,7 +52,7 @@ export function assertPermission<TSubject extends keyof typeof AuthSubject>(
   }
 }
 
-export type AuthMappingFn<TEntity> = (path: keyof TEntity) => {
+export type AuthMappingFn<TEntity> = (path: PopulatePath<TEntity>) => {
   subject: AuthSubjectUnionType
   action: AuthActionUnionType
 }

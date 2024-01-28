@@ -11,6 +11,7 @@ import {
   PatientTypeAction,
   PrintFormAction,
   RoleAction,
+  SampleAction,
   SampleTypeAction,
   TestAction,
   TestCategoryAction,
@@ -36,6 +37,7 @@ export const AuthAction = {
   TestElement: stringEnumValues(TestElementAction),
   Patient: stringEnumValues(PatientAction),
   TestCombo: stringEnumValues(TestComboAction),
+  Sample: stringEnumValues(SampleAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [

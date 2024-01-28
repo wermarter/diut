@@ -1,6 +1,38 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsNumber, IsObject, IsOptional, Min } from 'class-validator'
+import {
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  Min,
+  ValidateNested,
+} from 'class-validator'
 import { FilterQuery, SortOrder } from 'mongoose'
+
+import { PopulatePath } from '../../../mongo'
+import { Type } from 'class-transformer'
+
+class PopulateOptionDto<TEntity> {
+  @ApiProperty({
+    example: 'results.elements.testElementId',
+  })
+  @IsString()
+  path: PopulatePath<TEntity>
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  isDeleted?: boolean | null
+
+  @ApiProperty({ required: false, isArray: true, type: 'string' })
+  @IsOptional()
+  @IsString({ each: true })
+  fields?: string[]
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsObject()
+  match?: FilterQuery<unknown>
+}
 
 export class SearchRequestDto<TEntity> {
   @ApiProperty({
@@ -45,11 +77,10 @@ export class SearchRequestDto<TEntity> {
     example: [],
     isArray: true,
     required: false,
+    type: () => PopulateOptionDto,
   })
   @IsOptional()
-  @IsArray()
-  populates?: Array<{
-    path: keyof TEntity
-    fields?: Array<string>
-  }>
+  @ValidateNested({ each: true })
+  @Type(() => PopulateOptionDto)
+  populates?: PopulateOptionDto<TEntity>[]
 }

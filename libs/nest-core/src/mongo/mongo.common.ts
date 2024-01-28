@@ -26,7 +26,8 @@ export const exampleMongoObjectIds = {
 
 export const exampleDate = {
   format: 'date-time',
-  example: '2018-03-20T09:12:28Z',
+  // example: '2018-03-20T09:12:28Z',
+  example: new Date('2018-03-20T09:12:28Z'),
 }
 
 // https://github.com/typestack/class-transformer/issues/494
@@ -119,3 +120,6 @@ export function IsObjectId(validationOptions?: ValidationOptions) {
     })
   }
 }
+
+// Beware of nested populate path
+export type PopulatePath<TEntity> = `${string & keyof TEntity}${string}`

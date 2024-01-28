@@ -1,7 +1,7 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nest-core'
 import { Expose, Type } from 'class-transformer'
-import { ValidateNested } from 'class-validator'
+import { IsOptional, ValidateNested } from 'class-validator'
 
 import { BioProductCreateRequestDto } from './create.request-dto'
 import { exampleBioProduct } from 'src/domain'
@@ -18,7 +18,8 @@ export class BioProductResponseDto extends BioProductUnpopulatedResponseDto {
     ...exampleBioProduct.branch,
     type: () => BranchUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
-  branch?: BranchUnpopulatedResponseDto
+  @IsOptional()
+  branch?: BranchUnpopulatedResponseDto | null
 }

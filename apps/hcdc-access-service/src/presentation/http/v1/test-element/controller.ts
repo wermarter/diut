@@ -41,7 +41,7 @@ export class TestElementController {
   async findById(@Param('id', ObjectIdPipe) id: string) {
     const rv = await this.testElementFindOneUseCase.execute({
       filter: { _id: id },
-      populates: [{ path: 'branch' }],
+      populates: [{ path: 'branch' }, { path: 'test' }],
     })
 
     if (rv === null) {

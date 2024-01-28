@@ -10,6 +10,7 @@ import {
   PatientType,
   PrintForm,
   Role,
+  Sample,
   SampleType,
   Test,
   TestCategory,
@@ -36,6 +37,7 @@ export const AuthSubject = {
   TestElement: 'TestElement',
   Patient: 'Patient',
   TestCombo: 'TestCombo',
+  Sample: 'Sample',
 } satisfies Record<keyof RecordTypes, keyof RecordTypes>
 
 export type AuthSubjectUnionType = keyof typeof AuthSubject
@@ -61,4 +63,5 @@ export type SubjectEntityMapping = {
   TestElement: TestElement
   Patient: Patient
   TestCombo: TestCombo
+  Sample: Sample
 }

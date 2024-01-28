@@ -4,12 +4,11 @@ import {
   PipelineStage,
   QueryOptions,
   SortOrder,
-  ToObjectOptions,
   UpdateQuery,
 } from 'mongoose'
 import { pick, isNil } from 'lodash'
 
-import { BaseSchema } from './mongo.common'
+import { BaseSchema, PopulatePath } from './mongo.common'
 
 export abstract class MongoRepository<TEntity extends BaseSchema> {
   constructor(public readonly model: Model<TEntity>) {}
@@ -29,10 +28,10 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | (keyof TEntity)[]
       | Record<keyof TEntity, number | boolean | object>
     populates?: Array<{
-      path: keyof TEntity
+      path: PopulatePath<TEntity>
       isDeleted?: boolean | null
       fields?: Array<string>
-      match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
+      match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
     }>
     isDeleted?: boolean | null
   }) {
@@ -99,10 +98,10 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   private populate(
     query: any,
     populates: Array<{
-      path: keyof TEntity
+      path: PopulatePath<TEntity>
       isDeleted?: boolean | null
       fields?: Array<string>
-      match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
+      match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
     }>,
   ) {
     populates.forEach((populate) => {
@@ -152,10 +151,10 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | (keyof TEntity)[]
       | Record<keyof TEntity, number | boolean | object>
     populates?: Array<{
-      path: keyof TEntity
+      path: PopulatePath<TEntity>
       isDeleted?: boolean | null
       fields?: Array<string>
-      match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
+      match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
     }>
     isDeleted?: boolean | null
   }) {

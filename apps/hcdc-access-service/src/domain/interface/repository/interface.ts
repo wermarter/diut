@@ -1,3 +1,4 @@
+import { PopulatePath } from '@diut/nest-core'
 import {
   FilterQuery,
   PipelineStage,
@@ -15,7 +16,7 @@ export type EntityFindOneOptions<TEntity extends BaseEntity = BaseEntity> = {
     | (keyof TEntity)[]
     | Record<keyof TEntity, number | boolean | object>
   populates?: Array<{
-    path: keyof TEntity
+    path: PopulatePath<TEntity>
     isDeleted?: boolean | null
     fields?: Array<string>
     match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)

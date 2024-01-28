@@ -8,7 +8,7 @@ export enum COLLECTION {
   TEST_ELEMENT = 'test_element',
   PATIENT_TYPE = 'patient_type',
   DIAGNOSIS = 'diagnosis',
-  // SAMPLE = 'sample',
+  SAMPLE = 'sample',
   BIO_PRODUCT = 'bio_product',
   INSTRUMENT = 'instrument',
   SAMPLE_TYPE = 'sample_type',

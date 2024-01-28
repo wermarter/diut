@@ -7,7 +7,7 @@ import { BranchSchema } from '../branch'
 
 @Schema({
   ...baseSchemaOptions,
-  collection: COLLECTION.BIO_PRODUCT,
+  collection: COLLECTION.DIAGNOSIS,
   virtuals: {
     branch: {
       options: {

@@ -1,7 +1,7 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nest-core'
 import { Expose, Type } from 'class-transformer'
-import { ValidateNested } from 'class-validator'
+import { IsOptional, ValidateNested } from 'class-validator'
 
 import { TestCreateRequestDto } from './create.request-dto'
 import { exampleTest } from 'src/domain'
@@ -23,52 +23,58 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
     ...exampleTest.bioProduct,
     type: () => BioProductUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => BioProductUnpopulatedResponseDto)
-  bioProduct?: BioProductUnpopulatedResponseDto
+  @IsOptional()
+  bioProduct?: BioProductUnpopulatedResponseDto | null
 
   @Expose()
   @ApiProperty({
     ...exampleTest.instrument,
     type: () => InstrumentUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => InstrumentUnpopulatedResponseDto)
-  instrument?: InstrumentUnpopulatedResponseDto
+  @IsOptional()
+  instrument?: InstrumentUnpopulatedResponseDto | null
 
   @Expose()
   @ApiProperty({
     ...exampleTest.sampleType,
     type: () => SampleTypeUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => SampleTypeUnpopulatedResponseDto)
-  sampleType?: SampleTypeUnpopulatedResponseDto
+  @IsOptional()
+  sampleType?: SampleTypeUnpopulatedResponseDto | null
 
   @Expose()
   @ApiProperty({
     ...exampleTest.testCategory,
     type: () => TestCategoryUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => TestCategoryUnpopulatedResponseDto)
-  testCategory?: TestCategoryUnpopulatedResponseDto
+  @IsOptional()
+  testCategory?: TestCategoryUnpopulatedResponseDto | null
 
   @Expose()
   @ApiProperty({
     ...exampleTest.printForm,
     type: () => PrintFormUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => PrintFormUnpopulatedResponseDto)
-  printForm?: PrintFormUnpopulatedResponseDto
+  @IsOptional()
+  printForm?: PrintFormUnpopulatedResponseDto | null
 
   @Expose()
   @ApiProperty({
     ...exampleTest.branch,
     type: () => BranchUnpopulatedResponseDto,
   })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
-  branch?: BranchUnpopulatedResponseDto
+  @IsOptional()
+  branch?: BranchUnpopulatedResponseDto | null
 }

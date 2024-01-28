@@ -16,6 +16,7 @@ import { TestSchema } from './test'
 import { TestElementSchema } from './test-element'
 import { PatientSchema } from './patient'
 import { TestComboSchema } from './test-combo'
+import { SampleSchema } from './sample'
 
 export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
@@ -25,7 +26,7 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.DIAGNOSIS]: DiagnosisSchema,
   [COLLECTION.PATIENT]: PatientSchema,
   [COLLECTION.PATIENT_TYPE]: PatientTypeSchema,
-  // [COLLECTION.SAMPLE]: Sample,
+  [COLLECTION.SAMPLE]: SampleSchema,
   [COLLECTION.SAMPLE_TYPE]: SampleTypeSchema,
   [COLLECTION.TEST]: TestSchema,
   [COLLECTION.TEST_CATEGORY]: TestCategorySchema,

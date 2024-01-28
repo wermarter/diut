@@ -8,7 +8,7 @@ import { UserResponseDto } from '../../user/dto/response-dto'
 export class AuthMeResponseDto {
   @Expose()
   @ApiProperty({ type: () => UserResponseDto })
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => UserResponseDto)
   user: UserResponseDto
 

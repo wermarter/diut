@@ -25,5 +25,6 @@ export const examplePrintForm = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
+    nullable: true,
   },
 } satisfies EntityDataExample<PrintForm>

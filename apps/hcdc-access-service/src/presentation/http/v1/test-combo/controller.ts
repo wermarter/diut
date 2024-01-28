@@ -41,7 +41,7 @@ export class TestComboController {
   async findById(@Param('id', ObjectIdPipe) id: string) {
     const rv = await this.testComboFindOneUseCase.execute({
       filter: { _id: id },
-      populates: [{ path: 'branch' }],
+      populates: [{ path: 'branch' }, { path: 'tests' }],
     })
 
     if (rv === null) {

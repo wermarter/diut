@@ -10,30 +10,35 @@ export const exampleTest = {
   name: {
     example: 'tên xét nghiệm',
   },
-  shouldNotPrint: {},
   shouldDisplayWithChildren: {},
-  bioProductId: exampleMongoObjectId,
+  bioProductId: { ...exampleMongoObjectId, required: false },
   bioProduct: {
     required: false,
+    nullable: true,
   },
-  instrumentId: exampleMongoObjectId,
+  instrumentId: { ...exampleMongoObjectId, required: false },
   instrument: {
     required: false,
+    nullable: true,
   },
   sampleTypeId: exampleMongoObjectId,
   sampleType: {
     required: false,
+    nullable: true,
   },
   testCategoryId: exampleMongoObjectId,
   testCategory: {
     required: false,
+    nullable: true,
   },
-  printFormId: exampleMongoObjectId,
+  printFormId: { ...exampleMongoObjectId, required: false },
   printForm: {
     required: false,
+    nullable: true,
   },
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
+    nullable: true,
   },
 } satisfies EntityDataExample<Test>

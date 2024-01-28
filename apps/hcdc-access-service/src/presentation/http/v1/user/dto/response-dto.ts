@@ -1,17 +1,19 @@
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nest-core'
 import { Expose, Type } from 'class-transformer'
-import { IsArray, ValidateNested } from 'class-validator'
+import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
 import { UserCreateRequestDto } from './create.request-dto'
 import { exampleUser } from 'src/domain'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { RoleUnpopulatedResponseDto } from '../../role/dto/response-dto'
 
-export class UserResponseDto extends IntersectionType(
+export class UserUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   OmitType(UserCreateRequestDto, ['password']),
-) {
+) {}
+
+export class UserResponseDto extends UserUnpopulatedResponseDto {
   @Expose()
   @ApiProperty({
     ...exampleUser.branches,
@@ -20,6 +22,7 @@ export class UserResponseDto extends IntersectionType(
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => BranchUnpopulatedResponseDto)
+  @IsOptional()
   branches?: BranchUnpopulatedResponseDto[]
 
   @Expose()
@@ -27,5 +30,6 @@ export class UserResponseDto extends IntersectionType(
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => RoleUnpopulatedResponseDto)
+  @IsOptional()
   roles?: RoleUnpopulatedResponseDto[]
 }

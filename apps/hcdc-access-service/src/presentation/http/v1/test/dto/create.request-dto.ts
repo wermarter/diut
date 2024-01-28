@@ -1,7 +1,14 @@
 import { IsObjectId } from '@diut/nest-core'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsBoolean, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator'
 
 import { exampleTest } from 'src/domain'
 
@@ -19,24 +26,21 @@ export class TestCreateRequestDto {
   name: string
 
   @Expose()
-  @ApiProperty(exampleTest.shouldNotPrint)
-  @IsBoolean()
-  shouldNotPrint: boolean
-
-  @Expose()
   @ApiProperty(exampleTest.shouldDisplayWithChildren)
   @IsBoolean()
   shouldDisplayWithChildren: boolean
 
   @Expose()
   @ApiProperty(exampleTest.bioProductId)
+  @IsOptional()
   @IsObjectId()
-  bioProductId: string
+  bioProductId?: string
 
   @Expose()
   @ApiProperty(exampleTest.instrumentId)
+  @IsOptional()
   @IsObjectId()
-  instrumentId: string
+  instrumentId?: string
 
   @Expose()
   @ApiProperty(exampleTest.sampleTypeId)
@@ -50,8 +54,9 @@ export class TestCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleTest.printFormId)
+  @IsOptional()
   @IsObjectId()
-  printFormId: string
+  printFormId?: string
 
   @Expose()
   @ApiProperty(exampleTest.branchId)
