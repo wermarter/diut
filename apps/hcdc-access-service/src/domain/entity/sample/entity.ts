@@ -70,3 +70,24 @@ export type Sample = BaseEntity & {
   branchId: string
   branch?: Branch | null
 }
+
+export type SampleInfo = Pick<
+  Sample,
+  | 'sampleId'
+  | 'note'
+  | 'isNgoaiGio'
+  | 'isTraBuuDien'
+  | 'infoAt'
+  | 'sampledAt'
+  | 'patientId'
+  | 'doctorId'
+  | 'patientTypeId'
+  | 'diagnosisId'
+  | 'originId'
+  | 'sampleTypeIds'
+  | 'branchId'
+> & {
+  testIds: string[]
+}
+
+export type SampleResult = Pick<Sample, 'results'>

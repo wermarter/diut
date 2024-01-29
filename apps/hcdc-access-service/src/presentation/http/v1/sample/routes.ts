@@ -6,6 +6,8 @@ import {
   SampleResponseDto,
   SampleUnpopulatedResponseDto,
 } from './dto/response-dto'
+import { SampleUpdateInfoResponseDto } from './dto/update-info.dto'
+import { SampleUpdateResultResponseDto } from './dto/update-result.dto'
 
 export const sampleRoutes = {
   search: {
@@ -35,14 +37,27 @@ export const sampleRoutes = {
     },
   },
 
-  updateById: {
-    path: ':id',
+  updateInfoById: {
+    path: ':id/info',
     method: RequestMethod.PATCH,
-    serialize: SampleUnpopulatedResponseDto,
+    serialize: SampleUpdateInfoResponseDto,
     openApi: {
       responses: [
         {
-          type: SampleUnpopulatedResponseDto,
+          type: SampleUpdateInfoResponseDto,
+        },
+      ],
+    },
+  },
+
+  updateResultById: {
+    path: ':id/result',
+    method: RequestMethod.PATCH,
+    serialize: SampleUpdateResultResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: SampleUpdateResultResponseDto,
         },
       ],
     },

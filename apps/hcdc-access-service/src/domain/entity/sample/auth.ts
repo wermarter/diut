@@ -4,6 +4,8 @@ export enum SampleAction {
   Create = 'Create',
   Read = 'Read',
   Update = 'Update',
+  UpdateInfo = 'UpdateInfo',
+  UpdateResult = 'UpdateResult',
   Delete = 'Delete',
 }
 

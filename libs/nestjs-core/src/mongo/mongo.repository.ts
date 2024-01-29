@@ -26,7 +26,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     projection?:
       | keyof TEntity
       | (keyof TEntity)[]
-      | Record<keyof TEntity, number | boolean | object>
+      | Partial<Record<keyof TEntity, number | boolean | object>>
     populates?: Array<{
       path: PopulatePath<TEntity>
       isDeleted?: boolean | null
@@ -149,7 +149,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     projection?:
       | keyof TEntity
       | (keyof TEntity)[]
-      | Record<keyof TEntity, number | boolean | object>
+      | Partial<Record<keyof TEntity, number | boolean | object>>
     populates?: Array<{
       path: PopulatePath<TEntity>
       isDeleted?: boolean | null

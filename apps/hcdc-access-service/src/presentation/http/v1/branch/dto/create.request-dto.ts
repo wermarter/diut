@@ -38,7 +38,6 @@ export class BranchCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleBranch.sampleOriginIds)
-  @IsArray()
   @IsObjectId({ each: true })
   sampleOriginIds: string[]
 }

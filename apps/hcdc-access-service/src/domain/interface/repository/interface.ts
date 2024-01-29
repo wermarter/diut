@@ -14,7 +14,7 @@ export type EntityFindOneOptions<TEntity extends BaseEntity = BaseEntity> = {
   projection?:
     | keyof TEntity
     | (keyof TEntity)[]
-    | Record<keyof TEntity, number | boolean | object>
+    | Partial<Record<keyof TEntity, number | boolean | object>>
   populates?: Array<{
     path: PopulatePath<TEntity>
     isDeleted?: boolean | null

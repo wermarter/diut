@@ -14,7 +14,7 @@ import {
 import { exampleSample } from 'src/domain'
 import { SampleResultTestRequestDto } from './result-test.dto'
 
-export class SampleCreateRequestDto {
+export class SampleRequestDto {
   @Expose()
   @ApiProperty(exampleSample.sampleId)
   @IsString()
@@ -37,16 +37,6 @@ export class SampleCreateRequestDto {
   isTraBuuDien: boolean
 
   @Expose()
-  @ApiProperty(exampleSample.isConfirmed)
-  @IsBoolean()
-  isConfirmed: boolean
-
-  @Expose()
-  @ApiProperty(exampleSample.sampleCompleted)
-  @IsBoolean()
-  sampleCompleted: boolean
-
-  @Expose()
   @ApiProperty(exampleSample.infoAt)
   @IsDateString()
   infoAt: Date
@@ -55,33 +45,6 @@ export class SampleCreateRequestDto {
   @ApiProperty(exampleSample.sampledAt)
   @IsDateString()
   sampledAt: Date
-
-  @Expose()
-  @ApiProperty(exampleSample.printedAt)
-  @IsOptional()
-  @IsDateString()
-  printedAt?: Date
-
-  @Expose()
-  @ApiProperty({
-    ...exampleSample.results,
-    type: () => SampleResultTestRequestDto,
-  })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => SampleResultTestRequestDto)
-  results: SampleResultTestRequestDto[]
-
-  @Expose()
-  @ApiProperty(exampleSample.infoById)
-  @IsObjectId()
-  infoById: string
-
-  @Expose()
-  @ApiProperty(exampleSample.printedById)
-  @IsOptional()
-  @IsObjectId()
-  printedById?: string
 
   @Expose()
   @ApiProperty(exampleSample.patientId)
@@ -110,7 +73,6 @@ export class SampleCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleSample.sampleTypeIds)
-  @IsArray()
   @IsObjectId({ each: true })
   sampleTypeIds: string[]
 
@@ -118,4 +80,41 @@ export class SampleCreateRequestDto {
   @ApiProperty(exampleSample.branchId)
   @IsObjectId()
   branchId: string
+
+  @Expose()
+  @ApiProperty({
+    ...exampleSample.results,
+    type: () => SampleResultTestRequestDto,
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => SampleResultTestRequestDto)
+  results: SampleResultTestRequestDto[]
+
+  @Expose()
+  @ApiProperty(exampleSample.isConfirmed)
+  @IsBoolean()
+  isConfirmed: boolean
+
+  @Expose()
+  @ApiProperty(exampleSample.sampleCompleted)
+  @IsBoolean()
+  sampleCompleted: boolean
+
+  @Expose()
+  @ApiProperty(exampleSample.printedAt)
+  @IsOptional()
+  @IsDateString()
+  printedAt?: Date
+
+  @Expose()
+  @ApiProperty(exampleSample.infoById)
+  @IsObjectId()
+  infoById: string
+
+  @Expose()
+  @ApiProperty(exampleSample.printedById)
+  @IsOptional()
+  @IsObjectId()
+  printedById?: string
 }

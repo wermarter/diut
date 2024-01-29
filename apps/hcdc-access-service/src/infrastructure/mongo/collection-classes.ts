@@ -18,7 +18,7 @@ import { PatientSchema } from './patient'
 import { TestComboSchema } from './test-combo'
 import { SampleSchema } from './sample'
 
-export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
+export const COLLECTION_CLASS = {
   [COLLECTION.BIO_PRODUCT]: BioProductSchema,
   [COLLECTION.INSTRUMENT]: InstrumentSchema,
   [COLLECTION.ROLE]: RoleSchema,
@@ -35,4 +35,4 @@ export const COLLECTION_CLASS: Record<COLLECTION, typeof BaseSchema> = {
   [COLLECTION.USER]: UserSchema,
   [COLLECTION.PRINT_FORM]: PrintFormSchema,
   [COLLECTION.BRANCH]: BranchSchema,
-}
+} satisfies Record<COLLECTION, typeof BaseSchema>

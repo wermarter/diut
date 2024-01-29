@@ -3,7 +3,6 @@ import { BaseResourceResponseDto } from '@diut/nestjs-core'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
-import { SampleCreateRequestDto } from './create.request-dto'
 import { exampleSample } from 'src/domain'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { SampleTypeUnpopulatedResponseDto } from '../../sample-type/dto/response-dto'
@@ -13,10 +12,11 @@ import { PatientUnpopulatedResponseDto } from '../../patient/dto/response-dto'
 import { DoctorUnpopulatedResponseDto } from '../../doctor/dto/response-dto'
 import { PatientTypeUnpopulatedResponseDto } from '../../patient-type/dto/response-dto'
 import { DiagnosisUnpopulatedResponseDto } from '../../diagnosis/dto/response-dto'
+import { SampleRequestDto } from './request-dto'
 
 export class SampleUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
-  SampleCreateRequestDto,
+  SampleRequestDto,
 ) {}
 
 export class SampleResponseDto extends SampleUnpopulatedResponseDto {

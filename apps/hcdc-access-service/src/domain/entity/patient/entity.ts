@@ -12,8 +12,8 @@ export enum PatientCategory {
   Any = 'Any',
   YoungMale = 'YoungMale',
   YoungFemale = 'YoungFemale',
-  Male = 'Male',
-  Female = 'Female',
+  MatureMale = 'MatureMale',
+  MatureFemale = 'MatureFemale',
   Pregnant = 'Pregnant',
 }
 

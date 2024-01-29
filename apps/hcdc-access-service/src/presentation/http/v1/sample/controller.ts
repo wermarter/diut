@@ -6,14 +6,16 @@ import {
   SampleCreateUseCase,
   SampleDeleteUseCase,
   SampleSearchUseCase,
-  SampleUpdateUseCase,
   SampleFindOneUseCase,
   EEntityNotFound,
+  SampleUpdateResultUseCase,
 } from 'src/domain'
-import { SampleCreateRequestDto } from './dto/create.request-dto'
-import { SampleUpdateRequestDto } from './dto/update.request-dto'
+import { SampleCreateRequestDto } from './dto/create.dto'
+import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
 import { SampleSearchRequestDto } from './dto/search.request-dto'
 import { HttpController, HttpRoute } from '../../common'
+import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
+import { SampleUpdateInfoUseCase } from 'src/domain/use-case/sample/update-info'
 
 @HttpController({
   basePath: 'v1/samples',
@@ -21,7 +23,8 @@ import { HttpController, HttpRoute } from '../../common'
 export class SampleController {
   constructor(
     private readonly sampleCreateUseCase: SampleCreateUseCase,
-    private readonly sampleUpdateUseCase: SampleUpdateUseCase,
+    private readonly sampleUpdateInfoUseCase: SampleUpdateInfoUseCase,
+    private readonly sampleUpdateResultUseCase: SampleUpdateResultUseCase,
     private readonly sampleDeleteUseCase: SampleDeleteUseCase,
     private readonly sampleSearchUseCase: SampleSearchUseCase,
     private readonly sampleFindOneUseCase: SampleFindOneUseCase,
@@ -64,12 +67,26 @@ export class SampleController {
     return rv
   }
 
-  @HttpRoute(sampleRoutes.updateById)
-  updateById(
+  @HttpRoute(sampleRoutes.updateInfoById)
+  updateInfoById(
     @Param('id', ObjectIdPipe) id: string,
-    @Body() body: SampleUpdateRequestDto,
+    @Body() body: SampleUpdateInfoRequestDto,
   ) {
-    return this.sampleUpdateUseCase.execute({ _id: id }, body)
+    return this.sampleUpdateInfoUseCase.execute({
+      filter: { _id: id },
+      data: body,
+    })
+  }
+
+  @HttpRoute(sampleRoutes.updateResultById)
+  updateResultById(
+    @Param('id', ObjectIdPipe) id: string,
+    @Body() body: SampleUpdateResultRequestDto,
+  ) {
+    return this.sampleUpdateResultUseCase.execute({
+      filter: { _id: id },
+      data: body,
+    })
   }
 
   @HttpRoute(sampleRoutes.deleteById)

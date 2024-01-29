@@ -26,6 +26,7 @@ import { PatientDeleteUseCase } from './patient/delete'
 import { PatientSearchUseCase } from './patient/search'
 import { PatientAssertExistsUseCase } from './patient/assert-exists'
 import { PatientAuthorizePopulatesUseCase } from './patient/authorize-populates'
+import { PatientGetCategoryUseCase } from './patient/get-category'
 
 import { PrintFormCreateUseCase } from './print-form/create'
 import { PrintFormUpdateUseCase } from './print-form/update'
@@ -56,6 +57,8 @@ import { TestComboAuthorizePopulatesUseCase } from './test-combo/authorize-popul
 
 import { SampleCreateUseCase } from './sample/create'
 import { SampleUpdateUseCase } from './sample/update'
+import { SampleUpdateInfoUseCase } from './sample/update-info'
+import { SampleUpdateResultUseCase } from './sample/update-result'
 import { SampleValidateUseCase } from './sample/validate'
 import { SampleFindOneUseCase } from './sample/find-one'
 import { SampleDeleteUseCase } from './sample/delete'
@@ -188,6 +191,8 @@ export const useCaseMetadata: ModuleMetadata = {
     SampleCreateUseCase,
     SampleFindOneUseCase,
     SampleUpdateUseCase,
+    SampleUpdateInfoUseCase,
+    SampleUpdateResultUseCase,
     SampleDeleteUseCase,
     SampleDeleteManyUseCase,
     SampleSearchUseCase,
@@ -203,6 +208,7 @@ export const useCaseMetadata: ModuleMetadata = {
     PatientAssertExistsUseCase,
     PatientValidateUseCase,
     PatientAuthorizePopulatesUseCase,
+    PatientGetCategoryUseCase,
 
     PrintFormCreateUseCase,
     PrintFormFindOneUseCase,
