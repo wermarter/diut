@@ -1,4 +1,4 @@
-import { Permission, LoginExceptionMsg } from '@diut/hcdc-common'
+import { Permission, LoginExceptionMsg } from '@diut/hcdc'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['auth'] as const
 const injectedRtkApi = api

@@ -1,4 +1,4 @@
-import { Gender, SampleExceptionMsg } from '@diut/hcdc-common'
+import { Gender, SampleExceptionMsg } from '@diut/hcdc'
 import { useCallback, useDeferredValue, useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {

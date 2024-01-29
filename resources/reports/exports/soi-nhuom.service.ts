@@ -1,4 +1,4 @@
-import { ID_TEST_SOINHUOM_DM, ID_TEST_SOINHUOM_HT } from '@diut/hcdc-common'
+import { ID_TEST_SOINHUOM_DM, ID_TEST_SOINHUOM_HT } from '@diut/hcdc'
 import { Injectable } from '@nestjs/common'
 
 import { SampleService } from 'src/resources/samples/sample.service'

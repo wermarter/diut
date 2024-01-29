@@ -1,4 +1,4 @@
-import { PrintForm, SampleExceptionMsg } from '@diut/hcdc-common'
+import { PrintForm, SampleExceptionMsg } from '@diut/hcdc'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['samples'] as const
 const injectedRtkApi = api

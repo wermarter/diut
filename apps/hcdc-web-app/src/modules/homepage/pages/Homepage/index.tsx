@@ -1,4 +1,4 @@
-// import { BATHANGHAI_COMMON } from '@diut/hcdc-common'
+// import { BATHANGHAI_COMMON } from '@diut/hcdc'
 // import { COMMON_TEST } from '@diut/common'
 
 export default function HomePage() {

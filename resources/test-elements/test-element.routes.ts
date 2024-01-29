@@ -1,7 +1,7 @@
-import { Permission } from '@diut/hcdc-common'
+import { Permission } from '@diut/hcdc'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions } from '@diut/nest-core'
+import { AppControllerOptions } from '@diut/nestjs-core'
 import { AppRouteOptions } from 'src/common/route.decorator'
 import { SearchTestElementResponseDto } from './dtos/search-test-element.response-dto'
 import { TestElementResponseDto } from './dtos/test-element.response-dto'

@@ -4,7 +4,7 @@ import {
   ID_TEST_TD,
   PatientCategory,
   getPatientCategory,
-} from '@diut/hcdc-common'
+} from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import {
   Alert,

@@ -5,7 +5,7 @@ import { endOfDay, startOfDay } from 'date-fns'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { checkPermissionAnyOf, Permission } from '@diut/hcdc-common'
+import { checkPermissionAnyOf, Permission } from '@diut/hcdc'
 import { useLoaderData } from 'react-router-dom'
 
 import { FormAutocomplete, FormDateTimePicker } from 'src/common/form-elements'

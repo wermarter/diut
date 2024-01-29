@@ -7,8 +7,8 @@ on:
       - main
     paths:
       - 'libs/common/**'
-      - 'libs/nest-core/**'
-      - 'libs/hcdc-common/**'
+      - 'libs/nestjs-core/**'
+      - 'libs/hcdc/**'
       - 'apps/hcdc-access-service/**'
 
 jobs:

@@ -8,7 +8,7 @@ import {
   Skeleton,
 } from '@mui/material'
 import { toast } from 'react-toastify'
-import { PatientCategory } from '@diut/hcdc-common'
+import { PatientCategory } from '@diut/hcdc'
 import { useLoaderData } from 'react-router-dom'
 
 import {

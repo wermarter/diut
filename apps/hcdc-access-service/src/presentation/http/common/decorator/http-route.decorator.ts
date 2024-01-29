@@ -1,4 +1,4 @@
-import { CustomHttpRoute, CustomHttpRouteOptions } from '@diut/nest-core'
+import { CustomHttpRoute, CustomHttpRouteOptions } from '@diut/nestjs-core'
 
 import { HttpErrorResponse } from '../dto'
 

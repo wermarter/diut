@@ -1,4 +1,4 @@
-import { DomainErrorCode } from '@diut/hcdc-common'
+import { DomainErrorCode } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsString } from 'class-validator'

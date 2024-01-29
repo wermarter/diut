@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@diut/nest-core'
+import { ConfigModule } from '@diut/nestjs-core'
 
 import { BrowserService } from './browser.service'
 import { loadAppConfig } from 'src/configs'

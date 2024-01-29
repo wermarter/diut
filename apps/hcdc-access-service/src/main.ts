@@ -11,7 +11,7 @@ import {
   PrefixBootstrap,
   SwaggerBootstrap,
   bootstrapApp,
-} from '@diut/nest-core'
+} from '@diut/nestjs-core'
 import * as dotenv from 'dotenv'
 
 import { AppModule } from './app.module'

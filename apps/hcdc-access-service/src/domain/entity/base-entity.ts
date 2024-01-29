@@ -1,4 +1,4 @@
-import { exampleMongoObjectId } from '@diut/nest-core'
+import { exampleMongoObjectId } from '@diut/nestjs-core'
 import { ApiPropertyOptions } from '@nestjs/swagger'
 import { omit } from 'lodash'
 

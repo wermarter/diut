@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Gender } from '@diut/hcdc-common'
+import { Gender } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'

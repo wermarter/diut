@@ -1,4 +1,4 @@
-import { SampleExceptionMsg } from '@diut/hcdc-common'
+import { SampleExceptionMsg } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
@@ -15,7 +15,7 @@ import {
   ExposeObjectId,
   IsObjectId,
   BadRequestDto,
-} from '@diut/nest-core'
+} from '@diut/nestjs-core'
 
 export class SampleResponseDto extends BaseResourceResponseDto {
   @Expose()

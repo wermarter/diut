@@ -1,5 +1,5 @@
 import { Body, Param } from '@nestjs/common'
-import { AppController, ObjectIdPipe } from '@diut/nest-core'
+import { AppController, ObjectIdPipe } from '@diut/nestjs-core'
 
 import { AppRoute } from 'src/common/route.decorator'
 import { CreateTestElementRequestDto } from './dtos/create-test-element.request-dto'

@@ -4,7 +4,7 @@ import {
   bootstrapApp,
   HttpAppFactory,
   HttpListenBootstrap,
-} from '@diut/nest-core'
+} from '@diut/nestjs-core'
 import * as dotenv from 'dotenv'
 import { INestApplication } from '@nestjs/common'
 

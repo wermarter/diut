@@ -1,4 +1,4 @@
-import { PopulatePath } from '@diut/nest-core'
+import { PopulatePath } from '@diut/nestjs-core'
 import {
   FilterQuery,
   PipelineStage,

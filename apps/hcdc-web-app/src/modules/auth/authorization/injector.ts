@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import { Permission } from '@diut/hcdc-common'
+import { Permission } from '@diut/hcdc'
 
 import { checkPermissionAllOfSync, checkPermissionAnyOfSync } from './utils'
 import { UnauthorizedException } from './exceptions'

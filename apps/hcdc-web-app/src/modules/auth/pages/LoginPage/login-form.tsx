@@ -1,4 +1,4 @@
-import { LoginExceptionMsg } from '@diut/hcdc-common'
+import { LoginExceptionMsg } from '@diut/hcdc'
 import { Alert, IconButton, InputAdornment, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'

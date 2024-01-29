@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Gender } from '@diut/hcdc-common'
+import { Gender } from '@diut/hcdc'
 
 const schema = z.object({
   externalId: z.string().optional(),

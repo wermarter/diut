@@ -1,4 +1,4 @@
-import { PatientCategory } from '@diut/hcdc-common'
+import { PatientCategory } from '@diut/hcdc'
 import { HighlightRuleDto } from 'src/api/test-element'
 
 export function getTechnicalHint(

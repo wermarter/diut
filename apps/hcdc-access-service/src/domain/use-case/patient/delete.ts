@@ -9,6 +9,7 @@ import {
   IPatientRepository,
 } from 'src/domain/interface'
 import { PatientAssertExistsUseCase } from './assert-exists'
+import { SampleDeleteManyUseCase } from '../sample/delete-many'
 
 @Injectable()
 export class PatientDeleteUseCase {
@@ -18,6 +19,7 @@ export class PatientDeleteUseCase {
     @Inject(PatientRepositoryToken)
     private readonly patientRepository: IPatientRepository,
     private readonly patientAssertExistsUseCase: PatientAssertExistsUseCase,
+    private readonly sampleDeleteManyUseCase: SampleDeleteManyUseCase,
   ) {}
 
   async execute(input: { id: string }) {
@@ -27,7 +29,8 @@ export class PatientDeleteUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Patient, PatientAction.Delete, entity)
 
-    // TODO: delete related sample here: call delete sample use case for auth
+    // TODO: DB transaction
+    await this.sampleDeleteManyUseCase.execute({ patientId: input.id })
     await this.patientRepository.deleteById(input.id)
 
     return entity

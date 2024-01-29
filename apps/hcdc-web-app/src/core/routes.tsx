@@ -1,5 +1,5 @@
 import React from 'react'
-import { Permission } from '@diut/hcdc-common'
+import { Permission } from '@diut/hcdc'
 import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from 'src/common/layout/MainLayout'

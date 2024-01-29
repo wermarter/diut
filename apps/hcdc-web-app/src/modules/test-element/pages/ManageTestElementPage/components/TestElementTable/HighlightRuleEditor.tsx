@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PatientCategory } from '@diut/hcdc-common'
+import { PatientCategory } from '@diut/hcdc'
 import { Box, Button } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 

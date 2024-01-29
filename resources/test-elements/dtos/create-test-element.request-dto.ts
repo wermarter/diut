@@ -1,4 +1,4 @@
-import { PatientCategory } from '@diut/hcdc-common'
+import { PatientCategory } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
@@ -13,7 +13,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { IsObjectId } from '@diut/nest-core'
+import { IsObjectId } from '@diut/nestjs-core'
 import { DISABLED_REPORT_ORDER } from '../test-element.common'
 
 export class CreateTestElementRequestDto {

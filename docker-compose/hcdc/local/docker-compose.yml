@@ -10,8 +10,8 @@ services:
       - ../../apps/hcdc-web-app/src:/usr/src/app/apps/hcdc-web-app/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
-      - ../../libs/hcdc-common/package.json:/usr/src/app/libs/hcdc-common/package.json
-      - ../../libs/hcdc-common/src:/usr/src/app/libs/hcdc-common/src
+      - ../../libs/hcdc/package.json:/usr/src/app/libs/hcdc/package.json
+      - ../../libs/hcdc/src:/usr/src/app/libs/hcdc/src
     ports:
       - '5173:5173'
 
@@ -29,10 +29,10 @@ services:
       - ../../apps/hcdc-access-service/src:/usr/src/app/apps/hcdc-access-service/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
-      - ../../libs/nest-core/package.json:/usr/src/app/libs/nest-core/package.json
-      - ../../libs/nest-core/src:/usr/src/app/libs/nest-core/src
-      - ../../libs/hcdc-common/package.json:/usr/src/app/libs/hcdc-common/package.json
-      - ../../libs/hcdc-common/src:/usr/src/app/libs/hcdc-common/src
+      - ../../libs/nestjs-core/package.json:/usr/src/app/libs/nestjs-core/package.json
+      - ../../libs/nestjs-core/src:/usr/src/app/libs/nestjs-core/src
+      - ../../libs/hcdc/package.json:/usr/src/app/libs/hcdc/package.json
+      - ../../libs/hcdc/src:/usr/src/app/libs/hcdc/src
     networks:
       diut_monitoring_network:
         aliases:

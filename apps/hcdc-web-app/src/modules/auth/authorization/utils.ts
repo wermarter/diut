@@ -2,7 +2,7 @@ import {
   Permission,
   checkPermissionAnyOf,
   checkPermissionAllOf,
-} from '@diut/hcdc-common'
+} from '@diut/hcdc'
 
 import { appStore, useTypedSelector } from 'src/core'
 import { selectUserPermissions } from '../slice'

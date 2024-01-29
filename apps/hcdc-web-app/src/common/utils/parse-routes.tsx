@@ -5,7 +5,7 @@ import {
   NonIndexRouteObject,
   RouteObject,
 } from 'react-router-dom'
-import { Permission } from '@diut/hcdc-common'
+import { Permission } from '@diut/hcdc'
 
 import {
   AuthenticationCheck,

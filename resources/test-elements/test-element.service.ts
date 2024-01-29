@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { MongoRepository } from '@diut/nest-core'
+import { MongoRepository } from '@diut/nestjs-core'
 import { DISABLED_REPORT_ORDER } from './test-element.common'
 import { TestElement } from './test-element.schema'
 

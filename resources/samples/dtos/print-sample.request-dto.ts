@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/hcdc-common'
+import { PrintForm } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import {

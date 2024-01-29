@@ -1,7 +1,7 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { Gender } from '@diut/hcdc-common'
+import { Gender } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'

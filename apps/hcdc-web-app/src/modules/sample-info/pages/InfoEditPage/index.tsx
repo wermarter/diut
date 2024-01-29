@@ -1,4 +1,4 @@
-import { Gender } from '@diut/hcdc-common'
+import { Gender } from '@diut/hcdc'
 import { useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {

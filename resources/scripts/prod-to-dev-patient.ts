@@ -7,7 +7,7 @@ dotenv.config()
 
 import { COLLECTION } from 'src/infrastructure/mongo/collections'
 import { Patient } from 'src/resources/patients/patient.schema'
-import { Gender } from '@diut/hcdc-common'
+import { Gender } from '@diut/hcdc'
 
 async function main() {
   const [sourceDB, targetDB] = await Promise.all([

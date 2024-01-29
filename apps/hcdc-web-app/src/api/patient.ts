@@ -1,4 +1,4 @@
-import { Gender } from '@diut/hcdc-common'
+import { Gender } from '@diut/hcdc'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['patients', 'samples'] as const
 const injectedRtkApi = api

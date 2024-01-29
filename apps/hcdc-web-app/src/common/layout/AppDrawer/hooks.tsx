@@ -1,4 +1,4 @@
-import { checkPermissionAllOf, checkPermissionAnyOf } from '@diut/hcdc-common'
+import { checkPermissionAllOf, checkPermissionAnyOf } from '@diut/hcdc'
 
 import { useTypedSelector, drawerItems, DrawerItem } from 'src/core'
 import { selectUserPermissions } from 'src/modules/auth'

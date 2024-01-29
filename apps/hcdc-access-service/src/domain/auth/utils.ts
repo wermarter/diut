@@ -18,7 +18,7 @@ import { EAuthzPermissionDenied } from 'src/domain/exception'
 import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
 import { BaseEntity, PermissionRule } from '../entity'
 import { EntityFindOneOptions } from '../interface'
-import { PopulatePath } from '@diut/nest-core'
+import { PopulatePath } from '@diut/nestjs-core'
 
 const conditionsMatcher = buildMongoQueryMatcher({ $or }, { or })
 

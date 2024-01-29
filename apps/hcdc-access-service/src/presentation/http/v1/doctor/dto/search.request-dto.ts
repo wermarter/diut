@@ -1,4 +1,4 @@
-import { SearchRequestDto } from '@diut/nest-core'
+import { SearchRequestDto } from '@diut/nestjs-core'
 
 import { Doctor } from 'src/domain'
 

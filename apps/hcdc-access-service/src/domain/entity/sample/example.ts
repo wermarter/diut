@@ -2,7 +2,7 @@ import {
   exampleDate,
   exampleMongoObjectId,
   exampleMongoObjectIds,
-} from '@diut/nest-core'
+} from '@diut/nestjs-core'
 
 import { EntityDataExample } from '../base-entity'
 import { SampleResultTestElement, SampleResultTest, Sample } from './entity'

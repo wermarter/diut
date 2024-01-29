@@ -1,4 +1,4 @@
-import { ConfigModule } from '@diut/nest-core'
+import { ConfigModule } from '@diut/nestjs-core'
 import { ModuleMetadata } from '@nestjs/common'
 
 import { loadAppConfig } from './app.config'

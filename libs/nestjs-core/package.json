@@ -1,6 +1,6 @@
 {
-  "name": "@diut/nest-core",
-  "description": "nest-core",
+  "name": "@diut/nestjs-core",
+  "description": "nestjs-core",
   "repository": "https://github.com/wermarter/diut",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,
@@ -8,7 +8,7 @@
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
-    "postinstall": "pnpm --filter '@diut/nest-core...' run build",
+    "postinstall": "pnpm --filter '@diut/nestjs-core...' run build",
     "build": "rimraf dist && cpy 'src/protobuf/*.proto' 'dist/protobuf/' && tsc",
     "lint": "tsc --noEmit",
     "dev:proto:command": "concurrently 'cpy \"src/protobuf/*.proto\" \"dist/protobuf/\"' 'pnpm run proto'",

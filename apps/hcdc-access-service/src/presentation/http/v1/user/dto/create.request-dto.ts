@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
-import { IsObjectId } from '@diut/nest-core'
+import { IsObjectId } from '@diut/nestjs-core'
 
 import { exampleUser } from 'src/domain'
 import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'

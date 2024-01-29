@@ -1,4 +1,4 @@
-import { CustomHttpRouteOptions } from '@diut/nest-core'
+import { CustomHttpRouteOptions } from '@diut/nestjs-core'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
 import { LoginResponseDto } from './dto/login.response-dto'

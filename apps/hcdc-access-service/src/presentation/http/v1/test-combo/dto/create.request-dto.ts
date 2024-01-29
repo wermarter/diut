@@ -1,4 +1,4 @@
-import { IsObjectId } from '@diut/nest-core'
+import { IsObjectId } from '@diut/nestjs-core'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'

@@ -8,7 +8,7 @@ export enum ProtobufService {
 export * from './generated/puppeteer.pb'
 
 export function resolveProtoPath(service: ProtobufService, basedir: string) {
-  const PACKAGE_PATH_INDEX_JS = ModuleResolve.sync('@diut/nest-core', {
+  const PACKAGE_PATH_INDEX_JS = ModuleResolve.sync('@diut/nestjs-core', {
     basedir,
   })
   const PROTOPATH = resolve(PACKAGE_PATH_INDEX_JS, '..', 'protobuf')

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@diut/common": "workspace:*",
-    "@diut/nest-core": "workspace:*",
+    "@diut/nestjs-core": "workspace:*",
     "@nestjs/cli": "^10.2.1",
     "@nestjs/common": "^10.2.8",
     "@nestjs/config": "^3.1.1",

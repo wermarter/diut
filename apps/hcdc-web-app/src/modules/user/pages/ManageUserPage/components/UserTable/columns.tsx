@@ -1,4 +1,4 @@
-import { isAdmin, Permission } from '@diut/hcdc-common'
+import { isAdmin, Permission } from '@diut/hcdc'
 import { GridColDef, GridValueSetterParams } from '@mui/x-data-grid'
 
 import { UserResponseDto } from 'src/api/user'

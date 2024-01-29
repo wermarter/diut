@@ -16,8 +16,8 @@ export default defineConfig({
         replacement: path.resolve(__dirname, '../../libs/common/src'),
       },
       {
-        find: '@diut/hcdc-common',
-        replacement: path.resolve(__dirname, '../../libs/hcdc-common/src'),
+        find: '@diut/hcdc',
+        replacement: path.resolve(__dirname, '../../libs/hcdc/src'),
       },
     ],
   },

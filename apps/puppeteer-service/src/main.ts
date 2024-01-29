@@ -7,7 +7,7 @@ import {
   resolveProtoPath,
   ProtobufService,
   GrpcListenBootstrap,
-} from '@diut/nest-core'
+} from '@diut/nestjs-core'
 import * as dotenv from 'dotenv'
 import { INestMicroservice } from '@nestjs/common'
 

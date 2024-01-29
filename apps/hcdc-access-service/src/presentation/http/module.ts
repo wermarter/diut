@@ -1,4 +1,4 @@
-import { concatModuleMetadata } from '@diut/nest-core'
+import { concatModuleMetadata } from '@diut/nestjs-core'
 
 import { httpControllerV1Metadata } from './v1'
 import { authMetadata } from './common'

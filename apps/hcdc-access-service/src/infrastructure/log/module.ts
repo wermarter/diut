@@ -1,4 +1,8 @@
-import { ConfigModule, LogModule, concatModuleMetadata } from '@diut/nest-core'
+import {
+  ConfigModule,
+  LogModule,
+  concatModuleMetadata,
+} from '@diut/nestjs-core'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from 'src/config'
 

@@ -1,5 +1,5 @@
 {
-  "name": "@diut/hcdc-common",
+  "name": "@diut/hcdc",
   "description": "Common constants, enums, types and utils shared in this project",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "postinstall": "pnpm --filter '@diut/hcdc-common...' run build",
+    "postinstall": "pnpm --filter '@diut/hcdc...' run build",
     "build": "tsc",
     "lint": "tsc --noEmit",
     "dev": "tsc --watch --preserveWatchOutput"

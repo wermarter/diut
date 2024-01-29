@@ -1,7 +1,7 @@
 import { Body, Logger, Res, StreamableFile } from '@nestjs/common'
 import { Response } from 'express'
 
-import { AppController } from '@diut/nest-core'
+import { AppController } from '@diut/nestjs-core'
 import { AppRoute } from 'src/common/route.decorator'
 import { ExportCTMRequestDto } from './dtos/export-ctm.request-dto'
 import { ExportGiaoNhanRequestDto } from './dtos/export-giao-nhan.request-dto'

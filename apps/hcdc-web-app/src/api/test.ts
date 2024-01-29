@@ -1,4 +1,4 @@
-import { PrintForm } from '@diut/hcdc-common'
+import { PrintForm } from '@diut/hcdc'
 import { BioProductResponseDto } from './bio-product'
 import { apiSlice as api } from './slice'
 import { TestCategoryResponseDto } from './test-category'

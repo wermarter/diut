@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - 'libs/common/**'
-      - 'libs/nest-core/**'
+      - 'libs/nestjs-core/**'
       - 'apps/puppeteer-service/**'
 
 jobs:

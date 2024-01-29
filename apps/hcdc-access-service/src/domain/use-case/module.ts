@@ -59,6 +59,7 @@ import { SampleUpdateUseCase } from './sample/update'
 import { SampleValidateUseCase } from './sample/validate'
 import { SampleFindOneUseCase } from './sample/find-one'
 import { SampleDeleteUseCase } from './sample/delete'
+import { SampleDeleteManyUseCase } from './sample/delete-many'
 import { SampleSearchUseCase } from './sample/search'
 import { SampleAssertExistsUseCase } from './sample/assert-exists'
 import { SampleAuthorizePopulatesUseCase } from './sample/authorize-populates'
@@ -188,6 +189,7 @@ export const useCaseMetadata: ModuleMetadata = {
     SampleFindOneUseCase,
     SampleUpdateUseCase,
     SampleDeleteUseCase,
+    SampleDeleteManyUseCase,
     SampleSearchUseCase,
     SampleAssertExistsUseCase,
     SampleValidateUseCase,

@@ -8,7 +8,7 @@ on:
     paths:
       - 'libs/common/**'
       - 'libs/web-core/**'
-      - 'libs/hcdc-common/**'
+      - 'libs/hcdc/**'
       - 'apps/hcdc-web-app/**'
 
 jobs:

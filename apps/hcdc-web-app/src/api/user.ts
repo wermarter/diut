@@ -1,4 +1,4 @@
-import { Permission, UserExceptionMsg } from '@diut/hcdc-common'
+import { Permission, UserExceptionMsg } from '@diut/hcdc'
 import { apiSlice as api } from './slice'
 export const addTagTypes = ['users'] as const
 const injectedRtkApi = api

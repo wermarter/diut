@@ -7,7 +7,7 @@ import {
   Logger,
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
-import { DomainErrorCode } from '@diut/hcdc-common'
+import { DomainErrorCode } from '@diut/hcdc'
 
 import { HttpErrorResponse } from '../dto'
 

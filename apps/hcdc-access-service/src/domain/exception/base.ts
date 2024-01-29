@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
-import { DomainErrorCode } from '@diut/hcdc-common'
+import { DomainErrorCode } from '@diut/hcdc'
 
 export class EDomain extends Error {
   errorCode: DomainErrorCode

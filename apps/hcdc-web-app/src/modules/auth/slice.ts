@@ -1,4 +1,4 @@
-import { Permission, isAdmin } from '@diut/hcdc-common'
+import { Permission, isAdmin } from '@diut/hcdc'
 import {
   createAction,
   createSlice,

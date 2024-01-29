@@ -4,7 +4,7 @@ import {
   ID_SAMPLE_TYPE_HUYET_TRANG,
   ID_SAMPLE_TYPE_DICH_MU,
   ID_SAMPLE_TYPE_MAU,
-} from '@diut/hcdc-common'
+} from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { forwardRef, ReactElement, Ref, useEffect, useState } from 'react'
 import Button from '@mui/material/Button'

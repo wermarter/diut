@@ -6,7 +6,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common'
-import { DomainErrorCode } from '@diut/hcdc-common'
+import { DomainErrorCode } from '@diut/hcdc'
 
 import { ERequestInvalidInput } from 'src/domain'
 import { HttpErrorResponse } from '../dto'
