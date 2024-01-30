@@ -7,6 +7,7 @@ import {
 import { $or, or } from '@ucast/mongo2js'
 import { FilterQuery } from 'mongoose'
 import { accessibleBy } from '@casl/mongoose'
+import { PopulatePath } from '@diut/nestjs-core'
 
 import { AuthAction, AuthActionUnionType } from './action'
 import {
@@ -18,7 +19,6 @@ import { EAuthzPermissionDenied } from 'src/domain/exception'
 import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
 import { BaseEntity, PermissionRule } from '../entity'
 import { EntityFindOneOptions } from '../interface'
-import { PopulatePath } from '@diut/nestjs-core'
 
 const conditionsMatcher = buildMongoQueryMatcher({ $or }, { or })
 

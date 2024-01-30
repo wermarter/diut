@@ -190,7 +190,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       this.populate(query, populates)
     }
 
-    const items = await query.lean()
+    const items = await query.exec()
 
     const total = await this.count(filter ?? {})
 
@@ -198,7 +198,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       total,
       offset: offset ?? 0,
       limit: limit ?? -1,
-      items: items?.map((item) => item as TEntity) ?? [],
+      items: items?.map((item) => item.toObject()) ?? [],
     }
   }
 

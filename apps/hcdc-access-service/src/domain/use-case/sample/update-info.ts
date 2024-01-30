@@ -11,6 +11,8 @@ import {
 } from 'src/domain/interface'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { SampleValidateUseCase } from './validate'
+import { SampleInitResultUseCase } from './init-result'
+import { PatientGetCategoryUseCase } from '../patient/get-category'
 
 @Injectable()
 export class SampleUpdateInfoUseCase {
@@ -21,11 +23,16 @@ export class SampleUpdateInfoUseCase {
     private readonly authContext: IAuthContext,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly sampleValidateUseCase: SampleValidateUseCase,
+    private readonly sampleInitResultUseCase: SampleInitResultUseCase,
+    private readonly patientGetCategoryUseCase: PatientGetCategoryUseCase,
   ) {}
 
   async execute(input: {
     filter: FilterQuery<Sample>
-    data: UpdateQuery<SampleInfo>
+    data: UpdateQuery<SampleInfo & Pick<Sample, 'isConfirmed'>> & {
+      addedTestIds?: string[]
+      removedTestIds?: string[]
+    }
   }) {
     const entity = await this.sampleAssertExistsUseCase.execute(input.filter)
     const { ability } = this.authContext.getData()
@@ -36,9 +43,32 @@ export class SampleUpdateInfoUseCase {
       entity,
     )
 
-    if (input.data.testIds?.length) {
-      input.data.results = input.data.testIds
+    let modifiedResults = entity.results
+
+    if (input.data.removedTestIds?.length) {
+      modifiedResults = entity.results.filter(
+        ({ testId }) => !input.data.removedTestIds?.includes(testId),
+      )
     }
+
+    const newTestIds = (input.data.addedTestIds ?? []).filter((addedTestId) =>
+      entity.results.every(({ testId }) => testId !== addedTestId),
+    )
+
+    if (newTestIds.length > 0) {
+      const patientCategory = await this.patientGetCategoryUseCase.execute({
+        patientId: entity.patientId,
+      })
+
+      const newResults = await this.sampleInitResultUseCase.execute({
+        testIds: newTestIds,
+        patientCategory,
+      })
+
+      modifiedResults.push(...newResults)
+    }
+
+    input.data.results = modifiedResults
 
     await this.sampleValidateUseCase.execute(input.data)
 

@@ -22,6 +22,7 @@ export * from './sample/search'
 export * from './sample/assert-exists'
 export * from './sample/validate'
 export * from './sample/authorize-populates'
+export * from './sample/init-result'
 
 export * from './print-form/create'
 export * from './print-form/find-one'

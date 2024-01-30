@@ -58,6 +58,7 @@ export class BaseResourceResponseDto {
 
 export const baseSchemaOptions: SchemaOptions = {
   timestamps: true,
+  minimize: false,
   toObject: {
     getters: true,
     virtuals: true,

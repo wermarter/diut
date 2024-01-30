@@ -75,6 +75,7 @@ export class SampleValidateUseCase {
           const { testElementId } = element
           const sample = await this.testElementAssertExistsUseCase.execute({
             _id: testElementId,
+            testId,
           })
           assertPermission(
             ability,

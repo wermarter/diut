@@ -66,6 +66,7 @@ import { SampleDeleteManyUseCase } from './sample/delete-many'
 import { SampleSearchUseCase } from './sample/search'
 import { SampleAssertExistsUseCase } from './sample/assert-exists'
 import { SampleAuthorizePopulatesUseCase } from './sample/authorize-populates'
+import { SampleInitResultUseCase } from './sample/init-result'
 
 import { PatientTypeCreateUseCase } from './patient-type/create'
 import { PatientTypeUpdateUseCase } from './patient-type/update'
@@ -199,6 +200,7 @@ export const useCaseMetadata: ModuleMetadata = {
     SampleAssertExistsUseCase,
     SampleValidateUseCase,
     SampleAuthorizePopulatesUseCase,
+    SampleInitResultUseCase,
 
     PatientCreateUseCase,
     PatientFindOneUseCase,

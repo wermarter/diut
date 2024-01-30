@@ -14,6 +14,7 @@ import { PatientTypeSchema } from '../patient-type'
 import { DiagnosisSchema } from '../diagnosis'
 
 @Schema({
+  _id: false,
   virtuals: {
     testElement: {
       options: {
@@ -30,7 +31,8 @@ export class SampleResultTestElementSchema {
   testElementId: string
   testElement?: TestElementSchema | null
 
-  @Prop({ required: true })
+  // The required validator will fail for empty strings.
+  @Prop({ required: false })
   value: string
 
   @Prop({ required: true })
@@ -38,6 +40,7 @@ export class SampleResultTestElementSchema {
 }
 
 @Schema({
+  _id: false,
   virtuals: {
     test: {
       options: {
@@ -201,8 +204,8 @@ export class SampleSchema extends BaseSchema {
   infoById: string
   infoBy?: UserSchema | null
 
-  @Prop({ required: true, type: Types.ObjectId })
-  printedById: string
+  @Prop({ required: false, type: Types.ObjectId })
+  printedById?: string
   printedBy?: UserSchema | null
 
   @Prop({ required: true, type: Types.ObjectId })
