@@ -12,7 +12,7 @@ import {
 } from 'src/domain'
 import { SampleCreateRequestDto } from './dto/create.dto'
 import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
-import { SampleSearchRequestDto } from './dto/search.request-dto'
+import { SampleSearchRequestDto } from './dto/search.dto'
 import { HttpController, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
 import { SampleUpdateInfoUseCase } from 'src/domain/use-case/sample/update-info'

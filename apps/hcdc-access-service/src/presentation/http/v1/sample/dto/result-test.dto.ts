@@ -1,5 +1,5 @@
 import { IsObjectId } from '@diut/nestjs-core'
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
   IsArray,
@@ -94,3 +94,8 @@ export class SampleResultTestResponseDto extends SampleResultTestRequestDto {
   @Type(() => SampleResultTestElementResponseDto)
   elements: SampleResultTestElementResponseDto[] = []
 }
+
+export class OmittedTestResponseDto extends OmitType(
+  SampleResultTestResponseDto,
+  ['elements'],
+) {}

@@ -1,4 +1,4 @@
-import { ApiProperty, IntersectionType } from '@nestjs/swagger'
+import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nestjs-core'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
@@ -7,7 +7,10 @@ import { exampleSample } from 'src/domain'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { SampleTypeUnpopulatedResponseDto } from '../../sample-type/dto/response-dto'
 import { UserUnpopulatedResponseDto } from '../../user/dto/response-dto'
-import { SampleResultTestResponseDto } from './result-test.dto'
+import {
+  OmittedTestResponseDto,
+  SampleResultTestResponseDto,
+} from './result-test.dto'
 import { PatientUnpopulatedResponseDto } from '../../patient/dto/response-dto'
 import { DoctorUnpopulatedResponseDto } from '../../doctor/dto/response-dto'
 import { PatientTypeUnpopulatedResponseDto } from '../../patient-type/dto/response-dto'
@@ -120,4 +123,18 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   @Type(() => BranchUnpopulatedResponseDto)
   @IsOptional()
   branch?: BranchUnpopulatedResponseDto | null
+}
+
+export class OmittedSampleResponseDto extends OmitType(SampleResponseDto, [
+  'results',
+]) {
+  @Expose()
+  @ApiProperty({
+    ...exampleSample.results,
+    type: () => OmittedTestResponseDto,
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => OmittedTestResponseDto)
+  results: OmittedTestResponseDto[]
 }

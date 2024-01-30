@@ -71,23 +71,22 @@ export type Sample = BaseEntity & {
   branch?: Branch | null
 }
 
-export type SampleInfo = Pick<
-  Sample,
-  | 'sampleId'
-  | 'note'
-  | 'isNgoaiGio'
-  | 'isTraBuuDien'
-  | 'infoAt'
-  | 'sampledAt'
-  | 'patientId'
-  | 'doctorId'
-  | 'patientTypeId'
-  | 'diagnosisId'
-  | 'originId'
-  | 'sampleTypeIds'
-  | 'branchId'
-> & {
-  testIds: string[]
-}
+export const sampleInfoFieldNames = [
+  'sampleId',
+  'note',
+  'isNgoaiGio',
+  'isTraBuuDien',
+  'infoAt',
+  'sampledAt',
+  'patientId',
+  'doctorId',
+  'patientTypeId',
+  'diagnosisId',
+  'originId',
+  'sampleTypeIds',
+  'branchId',
+] as const
+
+export type SampleInfo = Pick<Sample, (typeof sampleInfoFieldNames)[number]>
 
 export type SampleResult = Pick<Sample, 'results'>

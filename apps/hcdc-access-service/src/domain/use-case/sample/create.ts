@@ -27,7 +27,11 @@ export class SampleCreateUseCase {
     private readonly patientGetCategoryUseCase: PatientGetCategoryUseCase,
   ) {}
 
-  async execute(input: EntityData<SampleInfo>) {
+  async execute(
+    input: EntityData<SampleInfo> & {
+      testIds: string[]
+    },
+  ) {
     const { ability, user } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Sample, SampleAction.Create, input)
 

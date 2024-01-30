@@ -1,4 +1,8 @@
-import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-core'
+import {
+  BaseResourceResponseDto,
+  IsObjectId,
+  exampleMongoObjectIds,
+} from '@diut/nestjs-core'
 import {
   ApiProperty,
   IntersectionType,
@@ -8,25 +12,15 @@ import {
 import { Expose } from 'class-transformer'
 
 import { SampleRequestDto } from './request-dto'
-import { SampleResponseDto } from './response-dto'
+import { sampleInfoFieldNames } from 'src/domain'
+import { OmittedSampleResponseDto } from './response-dto'
 
-export class SampleCreateRequestDto extends PickType(SampleRequestDto, [
-  'sampleId',
-  'note',
-  'isNgoaiGio',
-  'isTraBuuDien',
-  'infoAt',
-  'sampledAt',
-  'patientId',
-  'doctorId',
-  'patientTypeId',
-  'diagnosisId',
-  'originId',
-  'sampleTypeIds',
-  'branchId',
-]) {
+export class SampleCreateRequestDto extends PickType(
+  SampleRequestDto,
+  sampleInfoFieldNames,
+) {
   @Expose()
-  @ApiProperty({ isArray: true })
+  @ApiProperty(exampleMongoObjectIds)
   @IsObjectId({ each: true })
   testIds: string[]
 }
@@ -34,5 +28,5 @@ export class SampleCreateRequestDto extends PickType(SampleRequestDto, [
 export class SampleCreateResponseDto extends IntersectionType(
   BaseResourceResponseDto,
   OmitType(SampleCreateRequestDto, ['testIds']),
-  PickType(SampleResponseDto, ['results']),
+  PickType(OmittedSampleResponseDto, ['results']),
 ) {}
