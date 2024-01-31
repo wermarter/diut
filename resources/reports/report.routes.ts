@@ -1,7 +1,7 @@
 import { Permission } from '@diut/hcdc'
 import { RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions } from '@diut/nestjs-core'
+import { AppControllerOptions } from '@diut/nestjs-infra'
 import { AppRouteOptions } from 'src/common/route.decorator'
 
 export const reportRoutes = {

@@ -1,5 +1,5 @@
 import { ModuleMetadata } from '@nestjs/common'
-import { ConfigModule, MongoModule } from '@diut/nestjs-core'
+import { ConfigModule, MongoModule } from '@diut/nestjs-infra'
 
 import { MongoConfig, loadMongoConfig } from 'src/config'
 import {

@@ -15,7 +15,7 @@ import {
   BaseResourceResponseDto,
   ExposeObjectId,
   IsObjectId,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 import { TestResponseDto } from 'src/resources/tests/dtos/test.response-dto'
 import { HighlightRuleDto } from './create-test-element.request-dto'
 

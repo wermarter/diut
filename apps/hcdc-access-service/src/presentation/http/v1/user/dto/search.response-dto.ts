@@ -1,4 +1,4 @@
-import { PaginatedResponse } from '@diut/nestjs-core'
+import { PaginatedResponse } from '@diut/nestjs-infra'
 
 import { UserResponseDto } from './response-dto'
 

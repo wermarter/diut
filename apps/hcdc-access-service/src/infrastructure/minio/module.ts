@@ -1,4 +1,4 @@
-import { ConfigModule, MinioModule, MinioService } from '@diut/nestjs-core'
+import { ConfigModule, MinioModule, MinioService } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
 import { IStorageService, StorageServiceToken } from 'src/domain'

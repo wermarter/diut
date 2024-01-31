@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose'
-import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-core'
+import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
 import { Types } from 'mongoose'
 
 import { COLLECTION } from '../collections'

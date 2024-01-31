@@ -1,4 +1,4 @@
-import { makeConfigLoader } from '@diut/nestjs-core'
+import { makeConfigLoader } from '@diut/nestjs-infra'
 import { IsEnum, IsNumber, IsString, MinLength } from 'class-validator'
 import { NodeEnv } from '@diut/common'
 import { Expose } from 'class-transformer'

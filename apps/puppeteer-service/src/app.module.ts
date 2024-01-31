@@ -1,4 +1,4 @@
-import { ConfigModule, LogModule } from '@diut/nestjs-core'
+import { ConfigModule, LogModule } from '@diut/nestjs-infra'
 import { Module } from '@nestjs/common'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from './configs'

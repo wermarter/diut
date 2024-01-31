@@ -1,5 +1,5 @@
 import { Body, Param } from '@nestjs/common'
-import { ObjectIdPipe } from '@diut/nestjs-core'
+import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { patientRoutes } from './routes'
 import {

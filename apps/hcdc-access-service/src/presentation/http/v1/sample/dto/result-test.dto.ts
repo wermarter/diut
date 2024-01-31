@@ -1,4 +1,4 @@
-import { IsObjectId } from '@diut/nestjs-core'
+import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {

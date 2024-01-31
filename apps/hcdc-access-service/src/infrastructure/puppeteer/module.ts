@@ -5,7 +5,7 @@ import {
   ProtobufService,
   PuppeteerServiceClient,
   resolveProtoPath,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 import { ClientsModule, Transport, ClientGrpc } from '@nestjs/microservices'
 

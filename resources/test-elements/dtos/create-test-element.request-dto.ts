@@ -13,7 +13,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { IsObjectId } from '@diut/nestjs-core'
+import { IsObjectId } from '@diut/nestjs-infra'
 import { DISABLED_REPORT_ORDER } from '../test-element.common'
 
 export class CreateTestElementRequestDto {

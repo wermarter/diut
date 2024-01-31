@@ -1,5 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common'
-import { ConfigModule, MongoModule } from '@diut/nestjs-core'
+import { ConfigModule, MongoModule } from '@diut/nestjs-infra'
 
 import { DoctorModule } from '../doctors/doctor.module'
 import { IndicationModule } from '../indications/indication.module'

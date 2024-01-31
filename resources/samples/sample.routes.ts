@@ -1,7 +1,7 @@
 import { Permission } from '@diut/hcdc'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { AppControllerOptions } from '@diut/nestjs-core'
+import { AppControllerOptions } from '@diut/nestjs-infra'
 import { AppRouteOptions } from 'src/common/route.decorator'
 import { SearchSampleResponseDto } from './dtos/search-sample.response-dto'
 import {

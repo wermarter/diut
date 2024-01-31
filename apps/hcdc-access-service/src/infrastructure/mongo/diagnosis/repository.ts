@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose'
-import { MongoRepository } from '@diut/nestjs-core'
+import { MongoRepository } from '@diut/nestjs-infra'
 import { Model } from 'mongoose'
 
 import { IDiagnosisRepository } from 'src/domain'

@@ -7,7 +7,7 @@ import {
 import { $or, or } from '@ucast/mongo2js'
 import { FilterQuery } from 'mongoose'
 import { accessibleBy } from '@casl/mongoose'
-import { PopulatePath } from '@diut/nestjs-core'
+import { PopulatePath } from '@diut/nestjs-infra'
 
 import { AuthAction, AuthActionUnionType } from './action'
 import {

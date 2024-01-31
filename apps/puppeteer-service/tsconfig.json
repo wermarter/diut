@@ -1,5 +1,5 @@
 {
-  "extends": "../../libs/nestjs-core/base.tsconfig.json",
+  "extends": "../../libs/nestjs-infra/base.tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
     "baseUrl": "."

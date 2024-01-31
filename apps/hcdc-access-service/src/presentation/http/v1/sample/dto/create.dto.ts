@@ -2,7 +2,7 @@ import {
   BaseResourceResponseDto,
   IsObjectId,
   exampleMongoObjectIds,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 import {
   ApiProperty,
   IntersectionType,

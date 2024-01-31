@@ -1,4 +1,4 @@
-import { SearchRequestDto, PaginatedResponse } from '@diut/nestjs-core'
+import { SearchRequestDto, PaginatedResponse } from '@diut/nestjs-infra'
 
 import { Sample } from 'src/domain'
 import { OmittedSampleResponseDto } from './response-dto'

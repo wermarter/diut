@@ -3,7 +3,7 @@ import {
   HelloResponseDto,
   PuppeteerServiceController,
   PuppeteerServiceControllerMethods,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 
 import { PuppeteerService } from './puppeteer.service'
 

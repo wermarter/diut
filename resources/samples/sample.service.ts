@@ -24,7 +24,7 @@ import { NodeEnv } from '@diut/common'
 import { PDFDocument } from 'pdf-lib'
 import { omit, uniq, merge } from 'lodash'
 
-import { BaseSchema, MinioService, MongoRepository } from '@diut/nestjs-core'
+import { BaseSchema, MinioService, MongoRepository } from '@diut/nestjs-infra'
 import { UpdateSampleRequestDto } from './dtos/update-sample.request-dto'
 import { Sample } from './sample.schema'
 import { PatientService } from '../patients/patient.service'
@@ -118,14 +118,6 @@ export class SampleService
   async onModuleDestroy() {
     this.logger.log('Closing browser on module destroy...')
     this.browser && (await this.browser.close())
-  }
-
-  public async create(data: Omit<Sample, keyof BaseSchema>): Promise<Sample> {
-    if (await this.exists({ sampleId: data.sampleId })) {
-      throw new BadRequestException(SampleExceptionMsg.SAMPLE_ID_EXISTED)
-    }
-
-    return super.create(data)
   }
 
   async uploadFile(file: Express.Multer.File) {

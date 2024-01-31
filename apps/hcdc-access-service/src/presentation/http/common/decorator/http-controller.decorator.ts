@@ -2,7 +2,7 @@ import { UseFilters, UseGuards } from '@nestjs/common'
 import {
   CustomHttpController,
   CustomHttpControllerOptions,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 
 import { authGuards } from '../auth'
 import { exceptionFilters } from '../exception-filter'

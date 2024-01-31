@@ -1,5 +1,5 @@
 import { JwtModule } from '@nestjs/jwt'
-import { ConfigModule, concatModuleMetadata } from '@diut/nestjs-core'
+import { ConfigModule, concatModuleMetadata } from '@diut/nestjs-infra'
 
 import { AuthConfig, loadAuthConfig } from 'src/config'
 import { authMetadata } from './auth'

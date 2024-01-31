@@ -8,7 +8,7 @@ import {
   BaseResourceResponseDto,
   IsObjectId,
   exampleMongoObjectIds,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
 import { IsOptional } from 'class-validator'
 

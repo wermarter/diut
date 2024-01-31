@@ -15,7 +15,7 @@ import { ConfigService } from '@nestjs/config'
 import { Response } from 'express'
 import { PrintForm } from '@diut/hcdc'
 import { NodeEnv } from '@diut/common'
-import { AppController, ObjectIdPipe } from '@diut/nestjs-core'
+import { AppController, ObjectIdPipe } from '@diut/nestjs-infra'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
 

@@ -2,7 +2,7 @@ import {
   ConfigModule,
   LogModule,
   concatModuleMetadata,
-} from '@diut/nestjs-core'
+} from '@diut/nestjs-infra'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from 'src/config'
 

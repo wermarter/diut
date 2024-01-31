@@ -1,5 +1,5 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
-import { CustomHttpRouteOptions } from '@diut/nestjs-core'
+import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
 import { TestSearchResponseDto } from './dto/search.response-dto'
 import { TestResponseDto, TestUnpopulatedResponseDto } from './dto/response-dto'

@@ -1,4 +1,4 @@
-import { BaseSchema } from '@diut/nestjs-core'
+import { BaseSchema } from '@diut/nestjs-infra'
 
 import { COLLECTION } from './collections'
 import { BioProductSchema } from './bio-product'

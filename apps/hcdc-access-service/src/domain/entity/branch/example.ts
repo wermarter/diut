@@ -1,4 +1,4 @@
-import { exampleMongoObjectIds } from '@diut/nestjs-core'
+import { exampleMongoObjectIds } from '@diut/nestjs-infra'
 
 import { EntityDataExample } from '../base-entity'
 import { Branch, BranchType } from './entity'

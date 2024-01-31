@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { IsObjectId } from '@diut/nestjs-core'
+import { IsObjectId } from '@diut/nestjs-infra'
 
 export class CreateSampleRequestDto {
   @ApiProperty({

@@ -29,8 +29,8 @@ services:
       - ../../apps/hcdc-access-service/src:/usr/src/app/apps/hcdc-access-service/src
       - ../../libs/common/package.json:/usr/src/app/libs/common/package.json
       - ../../libs/common/src:/usr/src/app/libs/common/src
-      - ../../libs/nestjs-core/package.json:/usr/src/app/libs/nestjs-core/package.json
-      - ../../libs/nestjs-core/src:/usr/src/app/libs/nestjs-core/src
+      - ../../libs/nestjs-infra/package.json:/usr/src/app/libs/nestjs-infra/package.json
+      - ../../libs/nestjs-infra/src:/usr/src/app/libs/nestjs-infra/src
       - ../../libs/hcdc/package.json:/usr/src/app/libs/hcdc/package.json
       - ../../libs/hcdc/src:/usr/src/app/libs/hcdc/src
     networks:

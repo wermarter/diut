@@ -1,5 +1,5 @@
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
-import { BaseResourceResponseDto } from '@diut/nestjs-core'
+import { BaseResourceResponseDto } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 

@@ -1,4 +1,4 @@
-import { SearchRequestDto } from '@diut/nestjs-core'
+import { SearchRequestDto } from '@diut/nestjs-infra'
 
 import { PatientType } from 'src/domain'
 

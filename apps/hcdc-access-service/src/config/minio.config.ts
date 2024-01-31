@@ -1,4 +1,4 @@
-import { makeConfigLoader } from '@diut/nestjs-core'
+import { makeConfigLoader } from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
 import { IsNumber, IsString, MinLength } from 'class-validator'
 

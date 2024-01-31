@@ -1,4 +1,4 @@
-import { concatModuleMetadata } from '@diut/nestjs-core'
+import { concatModuleMetadata } from '@diut/nestjs-infra'
 
 import { logMetadata } from './log'
 
