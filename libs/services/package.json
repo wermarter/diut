@@ -1,0 +1,39 @@
+{
+  "name": "@diut/services",
+  "description": "services",
+  "repository": "https://github.com/wermarter/diut",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "main": "dist/index",
+  "types": "dist/index",
+  "scripts": {
+    "postinstall": "pnpm --filter '@diut/services...' run build",
+    "build": "rimraf dist && cpy 'src/grpc/proto/*.proto' 'dist/grpc/proto/' && tsc",
+    "lint": "tsc --noEmit",
+    "dev:proto:command": "concurrently 'cpy \"src/grpc/proto/*.proto\" \"dist/grpc/proto/\"' 'pnpm run proto'",
+    "dev:proto": "nodemon -w src/grpc/proto/ -e proto -x 'pnpm run dev:proto:command'",
+    "dev": "concurrently 'pnpm run dev:proto' \"tsc --watch --preserveWatchOutput\"",
+    "proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=src/grpc/proto/ --ts_proto_out=src/grpc src/grpc/proto/*.proto --ts_proto_opt=nestJs=true --experimental_allow_proto3_optional"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.2.8",
+    "@nestjs/core": "^10.2.8"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.12",
+    "@grpc/proto-loader": "^0.7.10",
+    "@nestjs/microservices": "^10.2.8",
+    "resolve": "^1.22.8",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@types/resolve": "^1.20.6",
+    "concurrently": "^8.2.2",
+    "cpy-cli": "^5.0.0",
+    "nodemon": "^3.0.2",
+    "rimraf": "^5.0.5",
+    "ts-proto": "^1.165.0",
+    "typescript": "^5.3.2"
+  }
+}

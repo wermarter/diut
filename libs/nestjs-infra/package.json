@@ -9,12 +9,9 @@
   "types": "dist/index",
   "scripts": {
     "postinstall": "pnpm --filter '@diut/nestjs-infra...' run build",
-    "build": "rimraf dist && cpy 'src/protobuf/*.proto' 'dist/protobuf/' && tsc",
+    "build": "rimraf dist && tsc",
     "lint": "tsc --noEmit",
-    "dev:proto:command": "concurrently 'cpy \"src/protobuf/*.proto\" \"dist/protobuf/\"' 'pnpm run proto'",
-    "dev:proto": "nodemon -w src/protobuf/ -e proto -x 'pnpm run dev:proto:command'",
-    "dev": "concurrently 'pnpm run dev:proto' \"tsc --watch --preserveWatchOutput\"",
-    "proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=src/protobuf --ts_proto_out=src/protobuf/generated src/protobuf/*.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional"
+    "dev": "tsc --watch --preserveWatchOutput"
   },
   "peerDependencies": {
     "@nestjs/core": "^10.2.8",
@@ -22,8 +19,6 @@
   },
   "dependencies": {
     "@diut/common": "workspace:*",
-    "@grpc/grpc-js": "^1.9.12",
-    "@grpc/proto-loader": "^0.7.10",
     "@nestjs/common": "^10.2.8",
     "@nestjs/microservices": "^10.2.8",
     "@nestjs/mongoose": "^10.0.2",
@@ -59,16 +54,10 @@
     "winston-loki": "^6.0.8"
   },
   "devDependencies": {
-    "@nestjs/cli": "^10.2.1",
     "@types/cookie-parser": "^1.4.6",
     "@types/express": "^4.17.21",
     "@types/lodash": "^4.14.202",
-    "@types/resolve": "^1.20.6",
-    "concurrently": "^8.2.2",
-    "cpy-cli": "^5.0.0",
-    "nodemon": "^3.0.2",
     "rimraf": "^5.0.5",
-    "ts-proto": "^1.165.0",
     "typescript": "^5.3.2"
   }
 }

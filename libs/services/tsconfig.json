@@ -1,0 +1,7 @@
+{
+  "extends": "../nestjs-infra/base.tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+    // "baseUrl": "." this will break dependency resolution in consuming modules
+  }
+}

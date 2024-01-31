@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package DiutExcelService;
+
+message HelloDto {
+  string name = 1;
+}
+
+message HelloResponseDto {
+  string response = 1;
+}
+
+service ExcelService {
+  rpc sayHello (HelloDto) returns (HelloResponseDto) {}
+}

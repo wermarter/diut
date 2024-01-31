@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package DiutBrowserService;
+
+message HelloDto {
+  string name = 1;
+}
+
+message HelloResponseDto {
+  string response = 1;
+}
+
+service BrowserService {
+  rpc sayHello (HelloDto) returns (HelloResponseDto) {}
+}

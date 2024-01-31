@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package DiutExampleService;
+
+message HelloDto {
+  string name = 1;
+}
+
+message HelloResponseDto {
+  string response = 1;
+}
+
+service ExampleService {
+  rpc sayHello (HelloDto) returns (HelloResponseDto) {}
+}

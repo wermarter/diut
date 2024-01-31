@@ -3,8 +3,8 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 import { SchemaFactory } from '@nestjs/mongoose'
 
-import { SampleSchema } from 'src/infrastructure/mongo/sample'
-import { COLLECTION } from 'src/infrastructure'
+import { SampleSchema } from 'src/infra/mongo/sample'
+import { COLLECTION } from 'src/infra'
 dotenv.config()
 
 mongoose.set('debug', true)
