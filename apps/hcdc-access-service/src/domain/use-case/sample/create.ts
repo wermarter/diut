@@ -37,7 +37,7 @@ export class SampleCreateUseCase {
       sampleId: input.sampleId,
     })
     if (existed === true) {
-      throw new EEntitySampleIdAlreadyExists('cannot create duplicate samples')
+      throw new EEntitySampleIdAlreadyExists(input.sampleId)
     }
 
     const patientCategory = await this.patientGetCategoryUseCase.execute({
