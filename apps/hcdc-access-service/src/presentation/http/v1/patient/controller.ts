@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { patientRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   PatientCreateUseCase,
   PatientDeleteUseCase,
   PatientSearchUseCase,
   PatientUpdateUseCase,
   PatientFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { PatientCreateRequestDto } from './dto/create.request-dto'
 import { PatientUpdateRequestDto } from './dto/update.request-dto'
 import { PatientSearchRequestDto } from './dto/search.request-dto'

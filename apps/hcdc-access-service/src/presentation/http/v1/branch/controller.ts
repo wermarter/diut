@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { branchRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   BranchCreateUseCase,
   BranchDeleteUseCase,
   BranchSearchUseCase,
   BranchUpdateUseCase,
   BranchFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { BranchCreateRequestDto } from './dto/create.request-dto'
 import { BranchUpdateRequestDto } from './dto/update.request-dto'
 import { BranchSearchRequestDto } from './dto/search.request-dto'

@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { roleRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   RoleCreateUseCase,
   RoleDeleteUseCase,
   RoleSearchUseCase,
   RoleUpdateUseCase,
   RoleFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { RoleCreateRequestDto } from './dto/create.request-dto'
 import { RoleUpdateRequestDto } from './dto/update.request-dto'
 import { RoleSearchRequestDto } from './dto/search.request-dto'

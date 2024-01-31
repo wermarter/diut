@@ -1,7 +1,7 @@
 import { Body, Res } from '@nestjs/common'
 import { Response } from 'express'
 
-import { AuthMeUseCase, AuthLoginUseCase } from 'src/domain'
+import { AuthMeUseCase, AuthLoginUseCase } from 'src/app'
 import { AuthLoginRequestDto } from './dto/login.request-dto'
 import { authRoutes } from './routes'
 import {

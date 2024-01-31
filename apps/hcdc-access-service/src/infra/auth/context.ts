@@ -1,10 +1,10 @@
 import { Injectable, Scope } from '@nestjs/common'
 
+import { AuthPopulateContextUseCase } from 'src/app'
 import {
   AuthPayload,
   AuthContextData,
   IAuthContext,
-  AuthPopulateContextUseCase,
   EAuthzAuthenticationRequired,
 } from 'src/domain'
 

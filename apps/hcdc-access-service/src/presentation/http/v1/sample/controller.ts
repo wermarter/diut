@@ -2,20 +2,20 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { sampleRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   SampleCreateUseCase,
   SampleDeleteUseCase,
   SampleSearchUseCase,
   SampleFindOneUseCase,
-  EEntityNotFound,
   SampleUpdateResultUseCase,
-} from 'src/domain'
+  SampleUpdateInfoUseCase,
+} from 'src/app'
 import { SampleCreateRequestDto } from './dto/create.dto'
 import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
 import { SampleSearchRequestDto } from './dto/search.dto'
 import { HttpController, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
-import { SampleUpdateInfoUseCase } from 'src/domain/use-case/sample/update-info'
 
 @HttpController({
   basePath: 'v1/samples',

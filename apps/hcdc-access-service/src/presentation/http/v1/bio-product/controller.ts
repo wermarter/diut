@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { bioProductRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   BioProductCreateUseCase,
   BioProductDeleteUseCase,
   BioProductSearchUseCase,
   BioProductUpdateUseCase,
   BioProductFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { BioProductCreateRequestDto } from './dto/create.request-dto'
 import { BioProductUpdateRequestDto } from './dto/update.request-dto'
 import { BioProductSearchRequestDto } from './dto/search.request-dto'

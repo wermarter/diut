@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { instrumentRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   InstrumentCreateUseCase,
   InstrumentDeleteUseCase,
   InstrumentSearchUseCase,
   InstrumentUpdateUseCase,
   InstrumentFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { InstrumentCreateRequestDto } from './dto/create.request-dto'
 import { InstrumentUpdateRequestDto } from './dto/update.request-dto'
 import { InstrumentSearchRequestDto } from './dto/search.request-dto'

@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { printFormRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   PrintFormCreateUseCase,
   PrintFormDeleteUseCase,
   PrintFormSearchUseCase,
   PrintFormUpdateUseCase,
   PrintFormFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { PrintFormCreateRequestDto } from './dto/create.request-dto'
 import { PrintFormUpdateRequestDto } from './dto/update.request-dto'
 import { PrintFormSearchRequestDto } from './dto/search.request-dto'

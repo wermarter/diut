@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { testComboRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   TestComboCreateUseCase,
   TestComboDeleteUseCase,
   TestComboSearchUseCase,
   TestComboUpdateUseCase,
   TestComboFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { TestComboCreateRequestDto } from './dto/create.request-dto'
 import { TestComboUpdateRequestDto } from './dto/update.request-dto'
 import { TestComboSearchRequestDto } from './dto/search.request-dto'

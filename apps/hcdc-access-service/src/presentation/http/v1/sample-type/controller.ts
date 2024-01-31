@@ -2,14 +2,14 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { sampleTypeRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   SampleTypeCreateUseCase,
   SampleTypeDeleteUseCase,
   SampleTypeSearchUseCase,
   SampleTypeUpdateUseCase,
   SampleTypeFindOneUseCase,
-  EEntityNotFound,
-} from 'src/domain'
+} from 'src/app'
 import { SampleTypeCreateRequestDto } from './dto/create.request-dto'
 import { SampleTypeUpdateRequestDto } from './dto/update.request-dto'
 import { SampleTypeSearchRequestDto } from './dto/search.request-dto'

@@ -2,15 +2,15 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { userRoutes } from './routes'
+import { EEntityNotFound } from 'src/domain'
 import {
   UserCreateUseCase,
   UserDeleteUseCase,
   UserSearchUseCase,
   UserUpdateUseCase,
   UserFindOneUseCase,
-  EEntityNotFound,
   UserChangePasswordUseCase,
-} from 'src/domain'
+} from 'src/app'
 import { UserCreateRequestDto } from './dto/create.request-dto'
 import { UserUpdateRequestDto } from './dto/update.request-dto'
 import { UserSearchRequestDto } from './dto/search.request-dto'

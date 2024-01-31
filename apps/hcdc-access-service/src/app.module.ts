@@ -2,7 +2,7 @@ import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { Module } from '@nestjs/common'
 
 import { infraMetadata } from './infra'
-import { useCaseMetadata } from './domain'
+import { appMetadata } from './app'
 import { presentationMetadata } from './presentation'
 import { configMetadata } from './config'
 
@@ -10,7 +10,7 @@ import { configMetadata } from './config'
   concatModuleMetadata([
     configMetadata,
     infraMetadata,
-    useCaseMetadata,
+    appMetadata,
     presentationMetadata,
   ]),
 )
