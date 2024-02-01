@@ -12,9 +12,15 @@ import { SampleSearchUseCase } from './use-case/search'
 import { SampleAssertExistsUseCase } from './use-case/assert-exists'
 import { SampleAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { SampleInitResultUseCase } from './use-case/init-result'
+import { SamplePrintUseCase } from './use-case/print'
+import { SamplePrintContext } from './print-strategy/context'
+import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
 
 export const sampleMetadata: ModuleMetadata = {
   providers: [
+    SamplePrintContext,
+    SamplePrintFormChungStrategy,
+
     SampleCreateUseCase,
     SampleFindOneUseCase,
     SampleUpdateUseCase,
@@ -27,5 +33,6 @@ export const sampleMetadata: ModuleMetadata = {
     SampleValidateUseCase,
     SampleAuthorizePopulatesUseCase,
     SampleInitResultUseCase,
+    SamplePrintUseCase,
   ],
 }

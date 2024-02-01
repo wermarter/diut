@@ -7,6 +7,8 @@ export enum SampleAction {
   UpdateInfo = 'UpdateInfo',
   UpdateResult = 'UpdateResult',
   Delete = 'Delete',
+  ExportReport = 'ExportReport',
+  PrintResult = 'PrintResult',
 }
 
 declare module '@casl/mongoose' {

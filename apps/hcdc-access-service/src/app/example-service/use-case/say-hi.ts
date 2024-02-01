@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { lastValueFrom } from 'rxjs'
 
 import { AppConfig, loadAppConfig } from 'src/config'
@@ -14,12 +14,12 @@ export class ExampleServiceSayHiUsecase {
     private readonly exampleService: IExampleService,
   ) {}
 
-  // async onModuleInit() {
-  //   const reply$ = this.exampleService.sayHello({
-  //     myNameIs: this.appConfig.SERVICE_NAME,
-  //   })
+  async execute(input: { myNameIs?: string }) {
+    const reply$ = this.exampleService.sayHello({
+      myNameIs: input.myNameIs ?? this.appConfig.SERVICE_NAME,
+    })
 
-  //   const { response } = await lastValueFrom(reply$)
-  //   this.logger.verbose(response)
-  // }
+    const { response } = await lastValueFrom(reply$)
+    this.logger.verbose(response)
+  }
 }
