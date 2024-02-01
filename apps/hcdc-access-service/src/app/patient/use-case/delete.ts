@@ -9,7 +9,7 @@ import {
   IPatientRepository,
 } from 'src/domain/interface'
 import { PatientAssertExistsUseCase } from './assert-exists'
-import { SampleDeleteManyUseCase } from '../sample/delete-many'
+import { SampleDeleteManyUseCase } from '../../sample/use-case/delete-many'
 
 @Injectable()
 export class PatientDeleteUseCase {

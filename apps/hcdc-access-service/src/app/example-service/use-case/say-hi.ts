@@ -5,7 +5,7 @@ import { AppConfig, loadAppConfig } from 'src/config'
 import { ExampleServiceToken, IExampleService } from 'src/domain'
 
 @Injectable()
-export class ExampleServiceSayHiUsecase implements OnModuleInit {
+export class ExampleServiceSayHiUsecase {
   private readonly logger = new Logger(ExampleServiceSayHiUsecase.name)
 
   constructor(
@@ -14,12 +14,12 @@ export class ExampleServiceSayHiUsecase implements OnModuleInit {
     private readonly exampleService: IExampleService,
   ) {}
 
-  async onModuleInit() {
-    const reply$ = this.exampleService.sayHello({
-      myNameIs: this.appConfig.SERVICE_NAME,
-    })
+  // async onModuleInit() {
+  //   const reply$ = this.exampleService.sayHello({
+  //     myNameIs: this.appConfig.SERVICE_NAME,
+  //   })
 
-    const { response } = await lastValueFrom(reply$)
-    this.logger.verbose(response)
-  }
+  //   const { response } = await lastValueFrom(reply$)
+  //   this.logger.verbose(response)
+  // }
 }

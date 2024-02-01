@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  TestElement,
+  TestCombo,
   BranchAction,
   EntityData,
   TestAction,
 } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
-import { TestAssertExistsUseCase } from '../test/assert-exists'
+import { TestAssertExistsUseCase } from '../../test/use-case/assert-exists'
 
 @Injectable()
-export class TestElementValidateUseCase {
+export class TestComboValidateUseCase {
   constructor(
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
@@ -20,15 +20,17 @@ export class TestElementValidateUseCase {
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
   ) {}
 
-  async execute(input: Partial<EntityData<TestElement>>) {
+  async execute(input: Partial<EntityData<TestCombo>>) {
     const { ability } = this.authContext.getData()
-    const { branchId, testId } = input
+    const { branchId, testIds } = input
 
-    if (testId !== undefined) {
-      const test = await this.testAssertExistsUseCase.execute({
-        _id: testId,
-      })
-      assertPermission(ability, AuthSubject.Test, TestAction.Read, test)
+    if (testIds?.length) {
+      for (const testId of testIds) {
+        const test = await this.testAssertExistsUseCase.execute({
+          _id: testId,
+        })
+        assertPermission(ability, AuthSubject.Test, TestAction.Read, test)
+      }
     }
 
     if (branchId !== undefined) {

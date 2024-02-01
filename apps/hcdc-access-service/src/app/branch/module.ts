@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { BranchCreateUseCase } from './create'
-import { BranchFindOneUseCase } from './find-one'
-import { BranchUpdateUseCase } from './update'
-import { BranchDeleteUseCase } from './delete'
-import { BranchSearchUseCase } from './search'
-import { BranchAssertExistsUseCase } from './assert-exists'
-import { BranchValidateUseCase } from './validate'
-import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
+import { BranchCreateUseCase } from './use-case/create'
+import { BranchFindOneUseCase } from './use-case/find-one'
+import { BranchUpdateUseCase } from './use-case/update'
+import { BranchDeleteUseCase } from './use-case/delete'
+import { BranchSearchUseCase } from './use-case/search'
+import { BranchAssertExistsUseCase } from './use-case/assert-exists'
+import { BranchValidateUseCase } from './use-case/validate'
+import { BranchAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const branchMetadata: ModuleMetadata = {
   providers: [

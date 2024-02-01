@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { TestCategoryCreateUseCase } from './create'
-import { TestCategoryUpdateUseCase } from './update'
-import { TestCategoryValidateUseCase } from './validate'
-import { TestCategoryFindOneUseCase } from './find-one'
-import { TestCategoryDeleteUseCase } from './delete'
-import { TestCategorySearchUseCase } from './search'
-import { TestCategoryAssertExistsUseCase } from './assert-exists'
-import { TestCategoryAuthorizePopulatesUseCase } from './authorize-populates'
+import { TestCategoryCreateUseCase } from './use-case/create'
+import { TestCategoryUpdateUseCase } from './use-case/update'
+import { TestCategoryValidateUseCase } from './use-case/validate'
+import { TestCategoryFindOneUseCase } from './use-case/find-one'
+import { TestCategoryDeleteUseCase } from './use-case/delete'
+import { TestCategorySearchUseCase } from './use-case/search'
+import { TestCategoryAssertExistsUseCase } from './use-case/assert-exists'
+import { TestCategoryAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const testCategoryMetadata: ModuleMetadata = {
   providers: [

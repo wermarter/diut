@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { SampleType, BranchAction, EntityData } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { PrintForm, BranchAction, EntityData } from 'src/domain/entity'
+import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
-export class SampleTypeValidateUseCase {
+export class PrintFormValidateUseCase {
   constructor(
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
-  async execute(input: Partial<EntityData<SampleType>>) {
+  async execute(input: Partial<EntityData<PrintForm>>) {
     const { ability } = this.authContext.getData()
     const { branchId } = input
 

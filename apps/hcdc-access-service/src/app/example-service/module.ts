@@ -1,6 +1,6 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { ExampleServiceSayHiUsecase } from './say-hi.use-case'
+import { ExampleServiceSayHiUsecase } from './use-case/say-hi'
 
 export const exampleServiceMetadata: ModuleMetadata = {
   providers: [ExampleServiceSayHiUsecase],

@@ -12,7 +12,7 @@ import {
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { SampleValidateUseCase } from './validate'
 import { SampleInitResultUseCase } from './init-result'
-import { PatientGetCategoryUseCase } from '../patient/get-category'
+import { PatientGetCategoryUseCase } from '../../patient/use-case/get-category'
 
 @Injectable()
 export class SampleUpdateResultUseCase {

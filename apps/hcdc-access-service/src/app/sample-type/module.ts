@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { SampleTypeCreateUseCase } from './create'
-import { SampleTypeUpdateUseCase } from './update'
-import { SampleTypeValidateUseCase } from './validate'
-import { SampleTypeFindOneUseCase } from './find-one'
-import { SampleTypeDeleteUseCase } from './delete'
-import { SampleTypeSearchUseCase } from './search'
-import { SampleTypeAssertExistsUseCase } from './assert-exists'
-import { SampleTypeAuthorizePopulatesUseCase } from './authorize-populates'
+import { SampleTypeCreateUseCase } from './use-case/create'
+import { SampleTypeUpdateUseCase } from './use-case/update'
+import { SampleTypeValidateUseCase } from './use-case/validate'
+import { SampleTypeFindOneUseCase } from './use-case/find-one'
+import { SampleTypeDeleteUseCase } from './use-case/delete'
+import { SampleTypeSearchUseCase } from './use-case/search'
+import { SampleTypeAssertExistsUseCase } from './use-case/assert-exists'
+import { SampleTypeAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const sampleTypeMetadata: ModuleMetadata = {
   providers: [

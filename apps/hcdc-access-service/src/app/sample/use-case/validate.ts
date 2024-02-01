@@ -12,17 +12,17 @@ import {
   PatientTypeAction,
   DiagnosisAction,
 } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
-import { SampleTypeAssertExistsUseCase } from '../sample-type/assert-exists'
-import { TestAssertExistsUseCase } from '../test/assert-exists'
-import { TestElementAssertExistsUseCase } from '../test-element/assert-exists'
-import { UserAssertExistsUseCase } from '../user/assert-exists'
-import { PatientAssertExistsUseCase } from '../patient/assert-exists'
-import { DoctorAssertExistsUseCase } from '../doctor/assert-exists'
-import { PatientTypeAssertExistsUseCase } from '../patient-type/assert-exists'
-import { DiagnosisAssertExistsUseCase } from '../diagnosis/assert-exists'
+import { SampleTypeAssertExistsUseCase } from '../../sample-type/use-case/assert-exists'
+import { TestAssertExistsUseCase } from '../../test/use-case/assert-exists'
+import { TestElementAssertExistsUseCase } from '../../test-element/use-case/assert-exists'
+import { UserAssertExistsUseCase } from '../../user/use-case/assert-exists'
+import { PatientAssertExistsUseCase } from '../../patient/use-case/assert-exists'
+import { DoctorAssertExistsUseCase } from '../../doctor/use-case/assert-exists'
+import { PatientTypeAssertExistsUseCase } from '../../patient-type/use-case/assert-exists'
+import { DiagnosisAssertExistsUseCase } from '../../diagnosis/use-case/assert-exists'
 
 @Injectable()
 export class SampleValidateUseCase {

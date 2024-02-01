@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { PatientTypeCreateUseCase } from './create'
-import { PatientTypeFindOneUseCase } from './find-one'
-import { PatientTypeUpdateUseCase } from './update'
-import { PatientTypeDeleteUseCase } from './delete'
-import { PatientTypeSearchUseCase } from './search'
-import { PatientTypeAssertExistsUseCase } from './assert-exists'
-import { PatientTypeValidateUseCase } from './validate'
-import { PatientTypeAuthorizePopulatesUseCase } from './authorize-populates'
+import { PatientTypeCreateUseCase } from './use-case/create'
+import { PatientTypeFindOneUseCase } from './use-case/find-one'
+import { PatientTypeUpdateUseCase } from './use-case/update'
+import { PatientTypeDeleteUseCase } from './use-case/delete'
+import { PatientTypeSearchUseCase } from './use-case/search'
+import { PatientTypeAssertExistsUseCase } from './use-case/assert-exists'
+import { PatientTypeValidateUseCase } from './use-case/validate'
+import { PatientTypeAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const patientTypeMetadata: ModuleMetadata = {
   providers: [

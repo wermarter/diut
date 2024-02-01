@@ -9,7 +9,7 @@ import {
 import { Sample, SampleAction, EntityData, SampleInfo } from 'src/domain/entity'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
 import { SampleValidateUseCase } from './validate'
-import { PatientGetCategoryUseCase } from '../patient/get-category'
+import { PatientGetCategoryUseCase } from '../../patient/use-case/get-category'
 import { EEntitySampleIdAlreadyExists } from 'src/domain/exception'
 import { SampleInitResultUseCase } from './init-result'
 

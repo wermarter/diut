@@ -1,12 +1,12 @@
 import { ModuleMetadata } from '@nestjs/common'
-import { DiagnosisCreateUseCase } from './create'
-import { DiagnosisFindOneUseCase } from './find-one'
-import { DiagnosisUpdateUseCase } from './update'
-import { DiagnosisDeleteUseCase } from './delete'
-import { DiagnosisSearchUseCase } from './search'
-import { DiagnosisAssertExistsUseCase } from './assert-exists'
-import { DiagnosisValidateUseCase } from './validate'
-import { DiagnosisAuthorizePopulatesUseCase } from './authorize-populates'
+import { DiagnosisCreateUseCase } from './use-case/create'
+import { DiagnosisFindOneUseCase } from './use-case/find-one'
+import { DiagnosisUpdateUseCase } from './use-case/update'
+import { DiagnosisDeleteUseCase } from './use-case/delete'
+import { DiagnosisSearchUseCase } from './use-case/search'
+import { DiagnosisAssertExistsUseCase } from './use-case/assert-exists'
+import { DiagnosisValidateUseCase } from './use-case/validate'
+import { DiagnosisAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const diagnosisMetadata: ModuleMetadata = {
   providers: [

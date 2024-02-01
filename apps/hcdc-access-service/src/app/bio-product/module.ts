@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { BioProductCreateUseCase } from './create'
-import { BioProductFindOneUseCase } from './find-one'
-import { BioProductUpdateUseCase } from './update'
-import { BioProductDeleteUseCase } from './delete'
-import { BioProductSearchUseCase } from './search'
-import { BioProductAssertExistsUseCase } from './assert-exists'
-import { BioProductValidateUseCase } from './validate'
-import { BioProductAuthorizePopulatesUseCase } from './authorize-populates'
+import { BioProductCreateUseCase } from './use-case/create'
+import { BioProductFindOneUseCase } from './use-case/find-one'
+import { BioProductUpdateUseCase } from './use-case/update'
+import { BioProductDeleteUseCase } from './use-case/delete'
+import { BioProductSearchUseCase } from './use-case/search'
+import { BioProductAssertExistsUseCase } from './use-case/assert-exists'
+import { BioProductValidateUseCase } from './use-case/validate'
+import { BioProductAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const bioProductMetadata: ModuleMetadata = {
   providers: [

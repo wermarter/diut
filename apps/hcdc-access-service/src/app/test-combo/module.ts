@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { TestComboCreateUseCase } from './create'
-import { TestComboUpdateUseCase } from './update'
-import { TestComboValidateUseCase } from './validate'
-import { TestComboFindOneUseCase } from './find-one'
-import { TestComboDeleteUseCase } from './delete'
-import { TestComboSearchUseCase } from './search'
-import { TestComboAssertExistsUseCase } from './assert-exists'
-import { TestComboAuthorizePopulatesUseCase } from './authorize-populates'
+import { TestComboCreateUseCase } from './use-case/create'
+import { TestComboUpdateUseCase } from './use-case/update'
+import { TestComboValidateUseCase } from './use-case/validate'
+import { TestComboFindOneUseCase } from './use-case/find-one'
+import { TestComboDeleteUseCase } from './use-case/delete'
+import { TestComboSearchUseCase } from './use-case/search'
+import { TestComboAssertExistsUseCase } from './use-case/assert-exists'
+import { TestComboAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const testComboMetadata: ModuleMetadata = {
   providers: [

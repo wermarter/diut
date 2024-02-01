@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { PrintFormCreateUseCase } from './create'
-import { PrintFormFindOneUseCase } from './find-one'
-import { PrintFormUpdateUseCase } from './update'
-import { PrintFormDeleteUseCase } from './delete'
-import { PrintFormSearchUseCase } from './search'
-import { PrintFormAssertExistsUseCase } from './assert-exists'
-import { PrintFormValidateUseCase } from './validate'
-import { PrintFormAuthorizePopulatesUseCase } from './authorize-populates'
+import { PrintFormCreateUseCase } from './use-case/create'
+import { PrintFormFindOneUseCase } from './use-case/find-one'
+import { PrintFormUpdateUseCase } from './use-case/update'
+import { PrintFormDeleteUseCase } from './use-case/delete'
+import { PrintFormSearchUseCase } from './use-case/search'
+import { PrintFormAssertExistsUseCase } from './use-case/assert-exists'
+import { PrintFormValidateUseCase } from './use-case/validate'
+import { PrintFormAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const printFormMetadata: ModuleMetadata = {
   providers: [

@@ -1,3 +1,3 @@
 export * from './module'
 
-export * from './say-hi.use-case'
+export * from './use-case/say-hi'

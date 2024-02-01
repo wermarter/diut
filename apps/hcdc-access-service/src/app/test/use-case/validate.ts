@@ -10,14 +10,14 @@ import {
   TestCategoryAction,
   PrintFormAction,
 } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
+import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
-import { BioProductAssertExistsUseCase } from '../bio-product/assert-exists'
-import { InstrumentAssertExistsUseCase } from '../instrument/assert-exists'
-import { SampleTypeAssertExistsUseCase } from '../sample-type/assert-exists'
-import { TestCategoryAssertExistsUseCase } from '../test-category/assert-exists'
-import { PrintFormAssertExistsUseCase } from '../print-form/assert-exists'
+import { BioProductAssertExistsUseCase } from '../../bio-product/use-case/assert-exists'
+import { InstrumentAssertExistsUseCase } from '../../instrument/use-case/assert-exists'
+import { SampleTypeAssertExistsUseCase } from '../../sample-type/use-case/assert-exists'
+import { TestCategoryAssertExistsUseCase } from '../../test-category/use-case/assert-exists'
+import { PrintFormAssertExistsUseCase } from '../../print-form/use-case/assert-exists'
 
 @Injectable()
 export class TestValidateUseCase {

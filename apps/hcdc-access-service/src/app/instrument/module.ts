@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { InstrumentCreateUseCase } from './create'
-import { InstrumentFindOneUseCase } from './find-one'
-import { InstrumentUpdateUseCase } from './update'
-import { InstrumentDeleteUseCase } from './delete'
-import { InstrumentSearchUseCase } from './search'
-import { InstrumentAssertExistsUseCase } from './assert-exists'
-import { InstrumentValidateUseCase } from './validate'
-import { InstrumentAuthorizePopulatesUseCase } from './authorize-populates'
+import { InstrumentCreateUseCase } from './use-case/create'
+import { InstrumentFindOneUseCase } from './use-case/find-one'
+import { InstrumentUpdateUseCase } from './use-case/update'
+import { InstrumentDeleteUseCase } from './use-case/delete'
+import { InstrumentSearchUseCase } from './use-case/search'
+import { InstrumentAssertExistsUseCase } from './use-case/assert-exists'
+import { InstrumentValidateUseCase } from './use-case/validate'
+import { InstrumentAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 
 export const instrumentMetadata: ModuleMetadata = {
   providers: [

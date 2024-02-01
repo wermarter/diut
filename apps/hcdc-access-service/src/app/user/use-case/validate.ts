@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
 
 import { User, EntityData, RoleAction, BranchAction } from 'src/domain/entity'
-import { BranchAssertExistsUseCase } from '../branch/assert-exists'
-import { RoleAssertExistsUseCase } from '../role/assert-exists'
+import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
+import { RoleAssertExistsUseCase } from '../../role/use-case/assert-exists'
 import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 import { AuthSubject, assertPermission } from 'src/domain/auth'
 
