@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package DiutExampleService;
+package diut;
 
-message HelloDto {
-  string name = 1;
+message ExampleServiceHelloDto {
+  string my_name_is = 1;
 }
 
-message HelloResponseDto {
+message ExampleServiceHelloResponseDto {
   string response = 1;
 }
 
 service ExampleService {
-  rpc sayHello (HelloDto) returns (HelloResponseDto) {}
+  rpc sayHello (ExampleServiceHelloDto) returns (ExampleServiceHelloResponseDto) {}
 }

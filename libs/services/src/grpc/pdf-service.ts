@@ -2,24 +2,22 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "diut";
-
-export interface HelloDto {
+export interface PdfServiceHelloDto {
   name: string;
 }
 
-export interface HelloResponseDto {
+export interface PdfServiceHelloResponseDto {
   response: string;
 }
 
-export const DIUT_PACKAGE_NAME = "diut";
-
 export interface PDFServiceClient {
-  sayHello(request: HelloDto): Observable<HelloResponseDto>;
+  sayHello(request: PdfServiceHelloDto): Observable<PdfServiceHelloResponseDto>;
 }
 
 export interface PDFServiceController {
-  sayHello(request: HelloDto): Promise<HelloResponseDto> | Observable<HelloResponseDto> | HelloResponseDto;
+  sayHello(
+    request: PdfServiceHelloDto,
+  ): Promise<PdfServiceHelloResponseDto> | Observable<PdfServiceHelloResponseDto> | PdfServiceHelloResponseDto;
 }
 
 export function PDFServiceControllerMethods() {

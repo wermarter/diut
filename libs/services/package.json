@@ -14,7 +14,7 @@
     "dev:proto:command": "concurrently 'cpy \"src/grpc/proto/*.proto\" \"dist/grpc/proto/\"' 'pnpm run proto'",
     "dev:proto": "nodemon -w src/grpc/proto/ -e proto -x 'pnpm run dev:proto:command'",
     "dev": "concurrently 'pnpm run dev:proto' \"tsc --watch --preserveWatchOutput\"",
-    "proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=src/grpc/proto/ --ts_proto_out=src/grpc src/grpc/proto/*.proto --ts_proto_opt=nestJs=true --experimental_allow_proto3_optional"
+    "proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=src/grpc/proto/ --ts_proto_out=src/grpc src/grpc/proto/*.proto --ts_proto_opt=nestJs=true --ts_proto_opt=exportCommonSymbols=false"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.2.8",

@@ -1,3 +1,4 @@
 export * from './repository'
-export * from './service'
+export * from './external-service'
 export * from './auth'
+export * from './storage'

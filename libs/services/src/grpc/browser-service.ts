@@ -2,24 +2,25 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "DiutBrowserService";
-
-export interface HelloDto {
+export interface BrowserServiceHelloDto {
   name: string;
 }
 
-export interface HelloResponseDto {
+export interface BrowserServiceHelloResponseDto {
   response: string;
 }
 
-export const DIUT_BROWSER_SERVICE_PACKAGE_NAME = "DiutBrowserService";
-
 export interface BrowserServiceClient {
-  sayHello(request: HelloDto): Observable<HelloResponseDto>;
+  sayHello(request: BrowserServiceHelloDto): Observable<BrowserServiceHelloResponseDto>;
 }
 
 export interface BrowserServiceController {
-  sayHello(request: HelloDto): Promise<HelloResponseDto> | Observable<HelloResponseDto> | HelloResponseDto;
+  sayHello(
+    request: BrowserServiceHelloDto,
+  ):
+    | Promise<BrowserServiceHelloResponseDto>
+    | Observable<BrowserServiceHelloResponseDto>
+    | BrowserServiceHelloResponseDto;
 }
 
 export function BrowserServiceControllerMethods() {

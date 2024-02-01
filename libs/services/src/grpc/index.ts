@@ -1,10 +1,12 @@
 import * as ModuleResolve from 'resolve'
 import { resolve } from 'path'
 
-export * as ExampleServiceConfig from './example-service'
-export * as BrowserServiceConfig from './browser-service'
-export * as ExcelServiceConfig from './excel-service'
-export * as PDFServiceConfig from './pdf-service'
+export * from './example-service'
+export * from './browser-service'
+export * from './excel-service'
+export * from './pdf-service'
+
+export const DIUT_PACKAGE_NAME = 'diut'
 
 export enum DiutGrpcService {
   Example = 'example-service',

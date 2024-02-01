@@ -6,7 +6,7 @@ export class ClientConfig {
   @Expose()
   @IsString()
   @MinLength(3)
-  PUPPETEER_SERVICE_URL: string
+  EXAMPLE_SERVICE_URL: string
 }
 
 export const loadClientConfig = makeConfigLoader(ClientConfig)

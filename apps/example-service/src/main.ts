@@ -7,8 +7,8 @@ import {
 } from '@diut/nestjs-infra'
 import {
   DiutGrpcService,
-  ExampleServiceConfig,
   resolveProtoPath,
+  DIUT_PACKAGE_NAME,
 } from '@diut/services'
 import * as dotenv from 'dotenv'
 import { INestMicroservice } from '@nestjs/common'
@@ -20,7 +20,7 @@ dotenv.config()
 bootstrapApp<INestMicroservice>(
   GrpcAppFactory(
     `0.0.0.0:${process.env.GRPC_PORT}`,
-    ExampleServiceConfig.DIUT_EXAMPLE_SERVICE_PACKAGE_NAME,
+    DIUT_PACKAGE_NAME,
     resolveProtoPath(DiutGrpcService.Example, __dirname),
   ),
   AppModule,

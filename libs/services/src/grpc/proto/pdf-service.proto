@@ -2,14 +2,14 @@ syntax = "proto3";
 
 package diut;
 
-message HelloDto {
+message PdfServiceHelloDto {
   string name = 1;
 }
 
-message HelloResponseDto {
+message PdfServiceHelloResponseDto {
   string response = 1;
 }
 
 service PDFService {
-  rpc sayHello (HelloDto) returns (HelloResponseDto) {}
+  rpc sayHello (PdfServiceHelloDto) returns (PdfServiceHelloResponseDto) {}
 }

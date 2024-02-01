@@ -2,24 +2,22 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "DiutExcelService";
-
-export interface HelloDto {
+export interface ExcelServiceHelloDto {
   name: string;
 }
 
-export interface HelloResponseDto {
+export interface ExcelServiceHelloResponseDto {
   response: string;
 }
 
-export const DIUT_EXCEL_SERVICE_PACKAGE_NAME = "DiutExcelService";
-
 export interface ExcelServiceClient {
-  sayHello(request: HelloDto): Observable<HelloResponseDto>;
+  sayHello(request: ExcelServiceHelloDto): Observable<ExcelServiceHelloResponseDto>;
 }
 
 export interface ExcelServiceController {
-  sayHello(request: HelloDto): Promise<HelloResponseDto> | Observable<HelloResponseDto> | HelloResponseDto;
+  sayHello(
+    request: ExcelServiceHelloDto,
+  ): Promise<ExcelServiceHelloResponseDto> | Observable<ExcelServiceHelloResponseDto> | ExcelServiceHelloResponseDto;
 }
 
 export function ExcelServiceControllerMethods() {

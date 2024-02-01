@@ -5,9 +5,9 @@ import {
   createMongoAbility,
 } from '@casl/ability'
 import { $or, or } from '@ucast/mongo2js'
-import { FilterQuery } from 'mongoose'
+import type { FilterQuery } from 'mongoose'
 import { accessibleBy } from '@casl/mongoose'
-import { PopulatePath } from '@diut/nestjs-infra'
+import type { PopulatePath } from '@diut/nestjs-infra'
 
 import { AuthAction, AuthActionUnionType } from './action'
 import {

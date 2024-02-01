@@ -2,24 +2,25 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "DiutExampleService";
-
-export interface HelloDto {
-  name: string;
+export interface ExampleServiceHelloDto {
+  myNameIs: string;
 }
 
-export interface HelloResponseDto {
+export interface ExampleServiceHelloResponseDto {
   response: string;
 }
 
-export const DIUT_EXAMPLE_SERVICE_PACKAGE_NAME = "DiutExampleService";
-
 export interface ExampleServiceClient {
-  sayHello(request: HelloDto): Observable<HelloResponseDto>;
+  sayHello(request: ExampleServiceHelloDto): Observable<ExampleServiceHelloResponseDto>;
 }
 
 export interface ExampleServiceController {
-  sayHello(request: HelloDto): Promise<HelloResponseDto> | Observable<HelloResponseDto> | HelloResponseDto;
+  sayHello(
+    request: ExampleServiceHelloDto,
+  ):
+    | Promise<ExampleServiceHelloResponseDto>
+    | Observable<ExampleServiceHelloResponseDto>
+    | ExampleServiceHelloResponseDto;
 }
 
 export function ExampleServiceControllerMethods() {
