@@ -1,27 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { AbstractSamplePrintStrategy, ISamplePrintStrategy } from './common'
+import { AbstractSamplePrintStrategy } from './common'
 import {
   ISampleRepository,
+  ITestCategoryRepository,
   PrintTemplate,
   SampleRepositoryToken,
+  TestCategoryRepositoryToken,
 } from 'src/domain'
 
-type PrintDataFormChung = {}
-
 @Injectable()
-export class SamplePrintFormChungStrategy
-  extends AbstractSamplePrintStrategy
-  implements ISamplePrintStrategy
-{
+export class SamplePrintFormChungStrategy extends AbstractSamplePrintStrategy {
   constructor(
     @Inject(SampleRepositoryToken)
     sampleRepository: ISampleRepository,
+    @Inject(TestCategoryRepositoryToken)
+    testCategoryRepository: ITestCategoryRepository,
   ) {
-    super(sampleRepository, PrintTemplate.FormChung)
-  }
-
-  getPrintConfig(): unknown {
-    return {}
+    super(sampleRepository, testCategoryRepository, PrintTemplate.FormChung)
   }
 }

@@ -24,3 +24,14 @@ export class EEntityPopulatePathUnknown extends EEntity {
     )
   }
 }
+
+export class EEntityCannotDelete extends EEntity {
+  constructor(reason: string) {
+    super(
+      DomainErrorCode.ENTITY_CANNOT_DELETE,
+      `cannot delete: ${reason}`,
+      undefined,
+      HttpStatus.BAD_REQUEST,
+    )
+  }
+}

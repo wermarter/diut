@@ -7,7 +7,7 @@ import {
   PipeTransform,
   applyDecorators,
 } from '@nestjs/common'
-import { ObjectId, Types } from 'mongoose'
+import { FilterQuery, ObjectId, PopulateOptions, Types } from 'mongoose'
 import {
   registerDecorator,
   ValidationArguments,
@@ -124,3 +124,11 @@ export function IsObjectId(validationOptions?: ValidationOptions) {
 
 // Beware of nested populate path
 export type PopulatePath<TEntity> = `${string & keyof TEntity}${string}`
+
+export type PopulateConfig<TEntity> = {
+  path: PopulatePath<TEntity>
+  isDeleted?: boolean | null
+  fields?: Array<string>
+  match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
+  populate?: PopulateOptions
+}

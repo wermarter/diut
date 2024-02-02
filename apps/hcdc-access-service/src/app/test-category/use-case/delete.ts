@@ -7,8 +7,11 @@ import {
   TestCategoryRepositoryToken,
   IAuthContext,
   ITestCategoryRepository,
+  TestRepositoryToken,
+  ITestRepository,
 } from 'src/domain/interface'
 import { TestCategoryAssertExistsUseCase } from './assert-exists'
+import { EEntityCannotDelete } from 'src/domain'
 
 @Injectable()
 export class TestCategoryDeleteUseCase {
@@ -17,6 +20,8 @@ export class TestCategoryDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(TestCategoryRepositoryToken)
     private readonly testCategoryRepository: ITestCategoryRepository,
+    @Inject(TestRepositoryToken)
+    private readonly testRepository: ITestRepository,
     private readonly testCategoryAssertExistsUseCase: TestCategoryAssertExistsUseCase,
   ) {}
 
@@ -31,6 +36,15 @@ export class TestCategoryDeleteUseCase {
       TestCategoryAction.Delete,
       entity,
     )
+
+    const connectedTestCount = await this.testRepository.count({
+      testCategoryId: input.id,
+    })
+    if (connectedTestCount > 0) {
+      throw new EEntityCannotDelete(
+        `there are ${connectedTestCount} connected Test`,
+      )
+    }
 
     await this.testCategoryRepository.deleteById(input.id)
 

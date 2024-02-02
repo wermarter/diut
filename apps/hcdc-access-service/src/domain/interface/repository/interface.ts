@@ -1,4 +1,4 @@
-import { PopulatePath } from '@diut/nestjs-infra'
+import { PopulateConfig } from '@diut/nestjs-infra'
 import {
   FilterQuery,
   PipelineStage,
@@ -15,12 +15,7 @@ export type EntityFindOneOptions<TEntity extends BaseEntity = BaseEntity> = {
     | keyof TEntity
     | (keyof TEntity)[]
     | Partial<Record<keyof TEntity, number | boolean | object>>
-  populates?: Array<{
-    path: PopulatePath<TEntity>
-    isDeleted?: boolean | null
-    fields?: Array<string>
-    match?: FilterQuery<TEntity> | (() => FilterQuery<TEntity>)
-  }>
+  populates?: PopulateConfig<TEntity>[]
   isDeleted?: boolean | null
 }
 

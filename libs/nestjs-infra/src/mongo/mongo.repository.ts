@@ -8,7 +8,7 @@ import {
 } from 'mongoose'
 import { pick, isNil } from 'lodash'
 
-import { BaseSchema, PopulatePath } from './mongo.common'
+import { BaseSchema, PopulateConfig } from './mongo.common'
 
 export abstract class MongoRepository<TEntity extends BaseSchema> {
   constructor(public readonly model: Model<TEntity>) {}
@@ -27,12 +27,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | keyof TEntity
       | (keyof TEntity)[]
       | Partial<Record<keyof TEntity, number | boolean | object>>
-    populates?: Array<{
-      path: PopulatePath<TEntity>
-      isDeleted?: boolean | null
-      fields?: Array<string>
-      match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
-    }>
+    populates?: PopulateConfig<TEntity>[]
     isDeleted?: boolean | null
   }) {
     const { filter, projection, populates, isDeleted } = options ?? {}
@@ -95,15 +90,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     return await this.model.countDocuments(filterObj).exec()
   }
 
-  private populate(
-    query: any,
-    populates: Array<{
-      path: PopulatePath<TEntity>
-      isDeleted?: boolean | null
-      fields?: Array<string>
-      match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
-    }>,
-  ) {
+  private populate(query: any, populates: PopulateConfig<TEntity>[]) {
     populates.forEach((populate) => {
       const isDeleted =
         populate.isDeleted !== null ? populate.isDeleted ?? false : null
@@ -150,12 +137,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | keyof TEntity
       | (keyof TEntity)[]
       | Partial<Record<keyof TEntity, number | boolean | object>>
-    populates?: Array<{
-      path: PopulatePath<TEntity>
-      isDeleted?: boolean | null
-      fields?: Array<string>
-      match?: FilterQuery<unknown> | (() => FilterQuery<unknown>)
-    }>
+    populates?: PopulateConfig<TEntity>[]
     isDeleted?: boolean | null
   }) {
     const { offset, limit, filter, sort, projection, populates } = options ?? {}

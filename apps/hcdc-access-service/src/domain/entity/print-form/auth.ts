@@ -5,6 +5,7 @@ export enum PrintFormAction {
   Read = 'Read',
   Update = 'Update',
   Delete = 'Delete',
+  OverrideAuthor = 'OverrideAuthor',
 }
 
 declare module '@casl/mongoose' {

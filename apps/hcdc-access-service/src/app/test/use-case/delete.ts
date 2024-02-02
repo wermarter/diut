@@ -7,8 +7,11 @@ import {
   TestRepositoryToken,
   IAuthContext,
   ITestRepository,
+  TestElementRepositoryToken,
+  ITestElementRepository,
 } from 'src/domain/interface'
 import { TestAssertExistsUseCase } from './assert-exists'
+import { EEntityCannotDelete } from 'src/domain'
 
 @Injectable()
 export class TestDeleteUseCase {
@@ -17,6 +20,8 @@ export class TestDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(TestRepositoryToken)
     private readonly testRepository: ITestRepository,
+    @Inject(TestElementRepositoryToken)
+    private readonly testElementRepository: ITestElementRepository,
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
   ) {}
 
@@ -26,6 +31,15 @@ export class TestDeleteUseCase {
     })
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Test, TestAction.Delete, entity)
+
+    const connectedElementCount = await this.testElementRepository.count({
+      testId: input.id,
+    })
+    if (connectedElementCount > 0) {
+      throw new EEntityCannotDelete(
+        `there are ${connectedElementCount} connected TestElement`,
+      )
+    }
 
     await this.testRepository.deleteById(input.id)
 

@@ -38,6 +38,11 @@ export const sampleRoutes = {
     },
   },
 
+  print: {
+    path: 'print',
+    method: RequestMethod.POST,
+  },
+
   updateInfoById: {
     path: ':id/info',
     method: RequestMethod.PATCH,

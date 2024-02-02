@@ -2,7 +2,7 @@ import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { sampleRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
+import { EEntityNotFound, PrintTemplate } from 'src/domain'
 import {
   SampleCreateUseCase,
   SampleDeleteUseCase,
@@ -14,8 +14,9 @@ import {
 import { SampleCreateRequestDto } from './dto/create.dto'
 import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
 import { SampleSearchRequestDto } from './dto/search.dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpPublicRoute, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
+import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
 
 @HttpController({
   basePath: 'v1/samples',
@@ -28,6 +29,7 @@ export class SampleController {
     private readonly sampleDeleteUseCase: SampleDeleteUseCase,
     private readonly sampleSearchUseCase: SampleSearchUseCase,
     private readonly sampleFindOneUseCase: SampleFindOneUseCase,
+    private readonly samplePrintUseCase: SamplePrintUseCase,
   ) {}
 
   @HttpRoute(sampleRoutes.search)
@@ -92,5 +94,15 @@ export class SampleController {
   @HttpRoute(sampleRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
     return this.sampleDeleteUseCase.execute({ id })
+  }
+
+  @HttpRoute(sampleRoutes.print)
+  print() {
+    return this.samplePrintUseCase.execute([
+      {
+        printFormId: '65b5a131b38d78ce25a5513d',
+        sampleId: '65b89ee3b7b38de822f4c374',
+      },
+    ])
   }
 }

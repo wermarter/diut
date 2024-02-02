@@ -10,5 +10,5 @@
   // "explorer.fileNesting.patterns": {
   //   "package.json": "pnpm-workspace.yaml, pnpm-lock.yaml"
   // },
-  "typescript.tsdk": "node_modules/.pnpm/typescript@5.3.2/node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/.pnpm/typescript@5.3.3/node_modules/typescript/lib"
 }
