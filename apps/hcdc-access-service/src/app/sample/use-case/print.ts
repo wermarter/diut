@@ -1,10 +1,11 @@
-import { OnModuleInit } from '@nestjs/common'
+import { Injectable, OnModuleInit } from '@nestjs/common'
 
 import { PrintTemplate } from 'src/domain'
 import { SamplePrintContext } from '../print-strategy/context'
 import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
 import { ISamplePrintStrategy } from '../print-strategy/common'
 
+@Injectable()
 export class SamplePrintUseCase implements OnModuleInit {
   constructor(
     private readonly samplePrintContext: SamplePrintContext,

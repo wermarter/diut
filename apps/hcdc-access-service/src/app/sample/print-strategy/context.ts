@@ -52,8 +52,10 @@ export class SamplePrintContext {
     }
 
     const printConfig = this.printStrategy.getPrintConfig()
-    this.exampleServiceSayHiUsecase.execute({
+    const result = await this.exampleServiceSayHiUsecase.execute({
       myNameIs: JSON.stringify({ printConfig, printDataArray }, null, 2),
     })
+
+    console.log(result)
   }
 }
