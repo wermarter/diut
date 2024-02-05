@@ -95,7 +95,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       const isDeleted =
         populate.isDeleted !== null ? populate.isDeleted ?? false : null
       if (populate.path) {
-        let populateObj = { path: populate.path }
+        let populateObj = { path: populate.path, populate: populate.populate }
 
         if (populate.fields) {
           populateObj['select'] = populate.fields.join(' ')

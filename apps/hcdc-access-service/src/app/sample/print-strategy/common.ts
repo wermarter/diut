@@ -6,14 +6,13 @@ import {
   SampleResultTestElement,
   Test,
   TestCategory,
-  TestElement,
 } from 'src/domain'
 
 export type AbstractPrintData = {
   sample: Sample
   categories: (TestCategory & {
     tests: (Test & {
-      elements: (TestElement & SampleResultTestElement)[]
+      elements: SampleResultTestElement[]
     })[]
   })[]
 }
@@ -69,7 +68,7 @@ export abstract class AbstractSamplePrintStrategy
     }))!
 
     const testCategoryIds = Array.from(
-      new Set(sample.results.map(({ test }) => test?.testCategoryId!)),
+      new Set(sample.results.map(({ test }) => test?.testCategoryId)),
     )
 
     const categories: AbstractPrintData['categories'] = []
@@ -93,7 +92,7 @@ export abstract class AbstractSamplePrintStrategy
 
           for (const elementResult of testResult.elements) {
             if (elementResult.testElement) {
-              elements.push({ ...elementResult.testElement, ...elementResult })
+              elements.push(elementResult)
             }
           }
 
@@ -101,7 +100,8 @@ export abstract class AbstractSamplePrintStrategy
             tests.push({
               ...test,
               elements: elements.toSorted(
-                (a, b) => a.printIndex - b.printIndex,
+                (a, b) =>
+                  a.testElement?.printIndex! - b.testElement?.printIndex!,
               ),
             })
           }

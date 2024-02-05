@@ -4,6 +4,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import {
   AuthContextToken,
   AuthSubject,
+  EEntityNotFound,
   IAuthContext,
   PrintFormAction,
   PrintTemplate,
@@ -48,7 +49,12 @@ export class SamplePrintUseCase {
       const printForm = await this.printFormAssertExistsUseCase.execute({
         _id: printOptions.printFormId,
       })
-      // TODO: check read permission
+      assertPermission(
+        ability,
+        AuthSubject.PrintForm,
+        PrintFormAction.Read,
+        printForm,
+      )
       if (printOptions.overrideAuthor) {
         assertPermission(
           ability,
@@ -62,23 +68,25 @@ export class SamplePrintUseCase {
         await this.moduleRef.resolve(SamplePrintContext)
       let strategy: ISamplePrintStrategy
 
-      switch (printOptions.printFormId) {
+      switch (printForm.template) {
         case PrintTemplate.FormChung:
           strategy = await this.moduleRef.resolve(SamplePrintFormChungStrategy)
           break
         default:
-          throw new Error()
+          throw new EEntityNotFound(`PrintForm id=${printOptions.printFormId}`)
       }
 
       samplePrintContext.setStrategy(strategy)
       printContextes.push(samplePrintContext)
     }
 
-    // combine pdf here
-    return Promise.all(
+    const binaryArray = await Promise.all(
       printContextes.map((printContext, index) =>
         printContext.execute(input[index]),
       ),
     )
+
+    // combine pdf here
+    return binaryArray
   }
 }
