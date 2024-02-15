@@ -1,43 +1,21 @@
-import {
-  MongoAbility,
-  subject as assignSubject,
-  buildMongoQueryMatcher,
-  createMongoAbility,
-} from '@casl/ability'
-import { $or, or } from '@ucast/mongo2js'
+import { MongoAbility } from '@casl/ability'
 import type { FilterQuery } from 'mongoose'
 import { accessibleBy } from '@casl/mongoose'
 import type { PopulatePath } from '@diut/nestjs-infra'
-
-import { AuthAction, AuthActionUnionType } from './action'
 import {
+  AUTH_ACTION_ALL,
+  AUTH_SUBJECT_ALL,
+  AuthAction,
+  AuthActionUnionType,
   AuthSubject,
   AuthSubjectUnionType,
+  BaseEntity,
   SubjectEntityMapping,
-} from './subject'
+  checkPermission,
+} from '@diut/hcdc'
+
 import { EAuthzPermissionDenied } from 'src/domain/exception'
-import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
-import { BaseEntity, PermissionRule } from '../entity'
 import { EntityFindOneOptions } from '../interface'
-
-const conditionsMatcher = buildMongoQueryMatcher({ $or }, { or })
-
-export function createAbility(permissionRules: PermissionRule[]) {
-  return createMongoAbility(permissionRules, { conditionsMatcher })
-}
-
-export function checkPermission<TSubject extends keyof typeof AuthSubject>(
-  ability: MongoAbility,
-  subject: TSubject | typeof AUTH_SUBJECT_ALL,
-  action: (typeof AuthAction)[TSubject][number] | typeof AUTH_ACTION_ALL,
-  object?: Partial<SubjectEntityMapping[TSubject]> | null,
-) {
-  if (object != undefined) {
-    return ability.can(action, assignSubject(subject, object))
-  }
-
-  return ability.can(action, subject)
-}
 
 export function assertPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,

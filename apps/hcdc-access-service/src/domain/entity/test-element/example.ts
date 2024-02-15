@@ -1,8 +1,7 @@
-import { exampleMongoObjectId } from '@diut/nestjs-infra'
+import { exampleMongoObjectId } from '@diut/common'
+import { TestElement, PatientCategory } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
-import { TestElement } from './entity'
-import { PatientCategory } from '../patient'
 
 export const exampleNormalRule = {
   category: {

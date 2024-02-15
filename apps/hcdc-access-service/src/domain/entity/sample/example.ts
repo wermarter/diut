@@ -2,10 +2,10 @@ import {
   exampleDate,
   exampleMongoObjectId,
   exampleMongoObjectIds,
-} from '@diut/nestjs-infra'
+} from '@diut/common'
+import { SampleResultTestElement, SampleResultTest, Sample } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
-import { SampleResultTestElement, SampleResultTest, Sample } from './entity'
 import { exampleBioProduct } from '../bio-product'
 import { exampleInstrument } from '../instrument'
 

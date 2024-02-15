@@ -1,16 +1,7 @@
-import { exampleMongoObjectId } from '@diut/nestjs-infra'
+import { exampleMongoObjectId } from '@diut/common'
+import { BaseEntity } from '@diut/hcdc'
 import { ApiPropertyOptions } from '@nestjs/swagger'
 import { omit } from 'lodash'
-
-export type BaseEntity = {
-  _id: string
-
-  createdAt: Date
-  updatedAt: Date
-
-  isDeleted: boolean
-  deletedAt?: Date
-}
 
 export const exampleBaseEntity = {
   _id: exampleMongoObjectId,

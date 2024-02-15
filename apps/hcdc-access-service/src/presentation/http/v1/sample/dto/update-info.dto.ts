@@ -4,13 +4,10 @@ import {
   PartialType,
   PickType,
 } from '@nestjs/swagger'
-import {
-  BaseResourceResponseDto,
-  IsObjectId,
-  exampleMongoObjectIds,
-} from '@diut/nestjs-infra'
+import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
 import { IsOptional } from 'class-validator'
+import { exampleMongoObjectIds } from '@diut/common'
 
 import { SampleRequestDto } from './request-dto'
 import { sampleInfoFieldNames } from 'src/domain'

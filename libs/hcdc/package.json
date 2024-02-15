@@ -16,6 +16,9 @@
     "dev": "tsc --watch --preserveWatchOutput"
   },
   "dependencies": {
+    "@diut/common": "workspace:*",
+    "@casl/ability": "^6.5.0",
+    "@ucast/mongo2js": "^1.3.4",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
-import { exampleMongoObjectIds } from '@diut/nestjs-infra'
+import { exampleMongoObjectIds } from '@diut/common'
+import { User } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
-import { User } from './entity'
 
 export const exampleUser = {
   username: {

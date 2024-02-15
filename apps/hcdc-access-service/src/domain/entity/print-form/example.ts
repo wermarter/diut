@@ -1,7 +1,7 @@
-import { exampleMongoObjectId } from '@diut/nestjs-infra'
+import { exampleMongoObjectId } from '@diut/common'
+import { PrintForm, PrintTemplate } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
-import { PrintForm, PrintTemplate } from './entity'
 
 export const examplePrintForm = {
   displayIndex: {

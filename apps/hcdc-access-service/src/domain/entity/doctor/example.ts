@@ -1,7 +1,7 @@
-import { exampleMongoObjectId } from '@diut/nestjs-infra'
+import { exampleMongoObjectId } from '@diut/common'
+import { Doctor } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
-import { Doctor } from './entity'
 
 export const exampleDoctor = {
   displayIndex: {

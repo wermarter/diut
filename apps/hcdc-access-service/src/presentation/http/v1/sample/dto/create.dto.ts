@@ -1,8 +1,4 @@
-import {
-  BaseResourceResponseDto,
-  IsObjectId,
-  exampleMongoObjectIds,
-} from '@diut/nestjs-infra'
+import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import {
   ApiProperty,
   IntersectionType,
@@ -10,6 +6,7 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
+import { exampleMongoObjectIds } from '@diut/common'
 
 import { SampleRequestDto } from './request-dto'
 import { sampleInfoFieldNames } from 'src/domain'
