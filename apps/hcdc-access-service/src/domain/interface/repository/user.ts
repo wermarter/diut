@@ -1,4 +1,5 @@
-import { User } from 'src/domain/entity'
+import { User } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const UserRepositoryToken = Symbol('UserRepository')

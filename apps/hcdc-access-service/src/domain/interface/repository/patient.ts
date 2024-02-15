@@ -1,4 +1,5 @@
-import { Patient } from 'src/domain/entity'
+import { Patient } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const PatientRepositoryToken = Symbol('PatientRepository')

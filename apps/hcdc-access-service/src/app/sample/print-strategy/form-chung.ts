@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { PrintTemplate } from '@diut/hcdc'
 
 import { AbstractSamplePrintStrategy } from './common'
 import {
   ISampleRepository,
   ITestCategoryRepository,
-  PrintTemplate,
   SampleRepositoryToken,
   TestCategoryRepositoryToken,
 } from 'src/domain'

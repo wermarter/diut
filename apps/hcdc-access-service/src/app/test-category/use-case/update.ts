@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
-import { TestCategoryAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   TestCategoryRepositoryToken,
   IAuthContext,
   ITestCategoryRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { TestCategoryAssertExistsUseCase } from './assert-exists'
 import { TestCategoryValidateUseCase } from './validate'
 

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { accessibleBy } from '@casl/mongoose'
+import { PrintForm, PrintFormAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
@@ -7,9 +8,8 @@ import {
   IAuthContext,
   IPrintFormRepository,
   EntitySearchOptions,
-} from 'src/domain/interface'
-import { PrintForm, PrintFormAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  assertPermission,
+} from 'src/domain'
 import { PrintFormAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

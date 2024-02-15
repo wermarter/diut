@@ -1,9 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Role, AuthSubject, BranchAction } from '@diut/hcdc'
 
-import { Role, EntityData, BranchAction } from 'src/domain/entity'
+import {
+  AuthContextToken,
+  IAuthContext,
+  assertPermission,
+  EntityData,
+} from 'src/domain'
 import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
-import { AuthContextToken, IAuthContext } from 'src/domain/interface'
 
 @Injectable()
 export class RoleValidateUseCase {

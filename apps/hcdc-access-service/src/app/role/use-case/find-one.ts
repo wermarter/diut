@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Role, RoleAction, AuthSubject } from '@diut/hcdc'
 
-import { Role, RoleAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   RoleRepositoryToken,
   EntityFindOneOptions,
   IAuthContext,
   IRoleRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { RoleAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

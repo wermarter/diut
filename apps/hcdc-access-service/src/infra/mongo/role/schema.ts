@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
 import { Types } from 'mongoose'
+import { PermissionRule } from '@diut/hcdc'
 
 import { COLLECTION } from '../collections'
-import { PermissionRule } from 'src/domain'
 import { BranchSchema } from '../branch'
 import { PermissionRuleSchema } from '../auth'
 

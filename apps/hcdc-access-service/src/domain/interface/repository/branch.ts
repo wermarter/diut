@@ -1,4 +1,5 @@
-import { Branch } from 'src/domain/entity'
+import { Branch } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const BranchRepositoryToken = Symbol('BranchRepository')

@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Diagnosis, DiagnosisAction, AuthSubject } from '@diut/hcdc'
 
-import { Diagnosis, DiagnosisAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   DiagnosisRepositoryToken,
   EntityFindOneOptions,
   IAuthContext,
   IDiagnosisRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { DiagnosisAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

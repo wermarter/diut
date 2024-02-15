@@ -1,3 +1,4 @@
+import { PrintTemplate } from '@diut/hcdc'
 import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
@@ -10,7 +11,7 @@ import {
   Min,
 } from 'class-validator'
 
-import { PrintTemplate, examplePrintForm } from 'src/domain'
+import { examplePrintForm } from 'src/domain'
 
 export class PrintFormCreateRequestDto {
   @Expose()

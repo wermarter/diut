@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Role } from '@diut/hcdc'
 
-import { Role } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   RoleRepositoryToken,
   EntityFindOneOptions,
   IRoleRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class RoleAssertExistsUseCase {

@@ -1,14 +1,16 @@
 import { ModuleRef } from '@nestjs/core'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
-  AuthContextToken,
   AuthSubject,
-  EEntityNotFound,
-  IAuthContext,
   PrintFormAction,
   PrintTemplate,
   SampleAction,
+} from '@diut/hcdc'
+
+import {
+  AuthContextToken,
+  EEntityNotFound,
+  IAuthContext,
   assertPermission,
 } from 'src/domain'
 import {
@@ -18,7 +20,7 @@ import {
 import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
 import { ISamplePrintStrategy } from '../print-strategy/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
-import { PrintFormAssertExistsUseCase } from 'src/app/print-form'
+import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
 
 @Injectable()
 export class SamplePrintUseCase {

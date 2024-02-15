@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Doctor } from '@diut/hcdc'
 
-import { Doctor } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   DoctorRepositoryToken,
   EntityFindOneOptions,
   IDoctorRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class DoctorAssertExistsUseCase {

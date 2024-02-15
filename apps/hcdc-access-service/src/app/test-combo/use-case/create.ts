@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { TestCombo, TestComboAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
   TestComboRepositoryToken,
   IAuthContext,
   ITestComboRepository,
-} from 'src/domain/interface'
-import { TestCombo, TestComboAction, EntityData } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  EntityData,
+  assertPermission,
+} from 'src/domain'
 import { TestComboValidateUseCase } from './validate'
 
 @Injectable()

@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
+  AuthSubject,
   Sample,
   BranchAction,
-  EntityData,
   SampleTypeAction,
   TestAction,
   TestElementAction,
@@ -11,10 +10,15 @@ import {
   PatientAction,
   PatientTypeAction,
   DiagnosisAction,
-} from 'src/domain/entity'
+} from '@diut/hcdc'
+
+import {
+  EntityData,
+  assertPermission,
+  AuthContextToken,
+  IAuthContext,
+} from 'src/domain'
 import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
-import { AuthContextToken, IAuthContext } from 'src/domain/interface'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import { SampleTypeAssertExistsUseCase } from '../../sample-type/use-case/assert-exists'
 import { TestAssertExistsUseCase } from '../../test/use-case/assert-exists'
 import { TestElementAssertExistsUseCase } from '../../test-element/use-case/assert-exists'

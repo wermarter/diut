@@ -1,6 +1,5 @@
-import { PermissionRule } from '@diut/hcdc'
+import { PermissionRule, AuthActionValues, AuthSubjectValues } from '@diut/hcdc'
 
-import { AuthActionValues, AuthSubjectValues } from 'src/domain/auth'
 import { EntityDataExample } from '../base-entity'
 
 export const examplePermissionRule = {

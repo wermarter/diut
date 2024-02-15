@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { BranchAction, Role, AuthSubject } from '@diut/hcdc'
 
-import { AuthSubject, authorizePopulates } from 'src/domain/auth'
-import { BranchAction, Role } from 'src/domain/entity'
-import { EEntityPopulatePathUnknown } from 'src/domain/exception'
 import {
   AuthContextToken,
   EntityFindOneOptions,
   IAuthContext,
-} from 'src/domain/interface'
+  authorizePopulates,
+  EEntityPopulatePathUnknown,
+} from 'src/domain'
 
 @Injectable()
 export class RoleAuthorizePopulatesUseCase {

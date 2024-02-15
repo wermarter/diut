@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { TestCombo } from '@diut/hcdc'
 
-import { TestCombo } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   TestComboRepositoryToken,
   EntityFindOneOptions,
   ITestComboRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class TestComboAssertExistsUseCase {

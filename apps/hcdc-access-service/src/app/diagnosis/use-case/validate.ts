@@ -1,9 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Diagnosis, BranchAction, AuthSubject } from '@diut/hcdc'
 
-import { Diagnosis, BranchAction, EntityData } from 'src/domain/entity'
+import {
+  AuthContextToken,
+  IAuthContext,
+  assertPermission,
+  EntityData,
+} from 'src/domain'
 import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
-import { AuthContextToken, IAuthContext } from 'src/domain/interface'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 
 @Injectable()
 export class DiagnosisValidateUseCase {

@@ -6,11 +6,9 @@ import {
   AuthPayload,
   IUserRepository,
   UserRepositoryToken,
-} from 'src/domain/interface'
-import {
   EAuthnLoginInvalidPassword,
   EAuthnLoginInvalidUsername,
-} from 'src/domain/exception'
+} from 'src/domain'
 
 @Injectable()
 export class AuthLoginUseCase {

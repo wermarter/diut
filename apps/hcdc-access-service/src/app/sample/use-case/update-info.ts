@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { FilterQuery, UpdateQuery } from 'mongoose'
+import { AuthSubject, Sample, SampleAction, SampleInfo } from '@diut/hcdc'
 
-import { Sample, SampleAction, SampleInfo } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   SampleRepositoryToken,
   IAuthContext,
   ISampleRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { SampleValidateUseCase } from './validate'
 import { SampleInitResultUseCase } from './init-result'

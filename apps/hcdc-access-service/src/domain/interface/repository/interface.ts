@@ -8,8 +8,7 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
-
-import { BaseEntity } from 'src/domain/entity'
+import { BaseEntity } from '@diut/hcdc'
 
 export type EntityFindOneOptions<TEntity extends BaseEntity = BaseEntity> = {
   filter?: FilterQuery<TEntity>

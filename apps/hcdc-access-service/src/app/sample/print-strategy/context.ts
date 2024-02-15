@@ -1,12 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { PrintForm } from '@diut/hcdc'
 
-import { ExampleServiceSayHiUsecase } from 'src/app/example-service'
+import { ExampleServiceSayHiUsecase } from 'src/app/example-service/use-case/say-hi'
 import { ISamplePrintStrategy } from './common'
-import {
-  IPrintFormRepository,
-  PrintForm,
-  PrintFormRepositoryToken,
-} from 'src/domain'
+import { IPrintFormRepository, PrintFormRepositoryToken } from 'src/domain'
 
 // TODO: move to @diut/chrome-service
 export type PrintMetadata = {

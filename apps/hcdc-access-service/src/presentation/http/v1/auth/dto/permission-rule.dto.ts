@@ -2,14 +2,14 @@ import { MongoQuery } from '@casl/ability'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsBoolean, IsEnum, IsObject, IsOptional } from 'class-validator'
-
 import {
   AuthActionUnionType,
   AuthActionValues,
   AuthSubjectUnionType,
   AuthSubjectValues,
-  examplePermissionRule,
-} from 'src/domain'
+} from '@diut/hcdc'
+
+import { examplePermissionRule } from 'src/domain'
 
 export class PermissionRuleRequestDto {
   @Expose()

@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { PatientTypeAction, AuthSubject } from '@diut/hcdc'
 
-import { PatientTypeAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   PatientTypeRepositoryToken,
   IAuthContext,
   IPatientTypeRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { PatientTypeAssertExistsUseCase } from './assert-exists'
 import { PatientTypeValidateUseCase } from './validate'
 

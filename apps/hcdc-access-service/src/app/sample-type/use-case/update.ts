@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
-import { SampleTypeAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   SampleTypeRepositoryToken,
   IAuthContext,
   ISampleTypeRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { SampleTypeAssertExistsUseCase } from './assert-exists'
 import { SampleTypeValidateUseCase } from './validate'
 

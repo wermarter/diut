@@ -1,12 +1,12 @@
 import {
-  ISampleRepository,
-  ITestCategoryRepository,
   PrintTemplate,
   Sample,
   SampleResultTestElement,
   Test,
   TestCategory,
-} from 'src/domain'
+} from '@diut/hcdc'
+
+import { ISampleRepository, ITestCategoryRepository } from 'src/domain'
 
 export type AbstractPrintData = {
   sample: Sample

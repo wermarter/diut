@@ -1,4 +1,5 @@
-import { BioProduct } from 'src/domain/entity'
+import { BioProduct } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const BioProductRepositoryToken = Symbol('BioProductRepository')

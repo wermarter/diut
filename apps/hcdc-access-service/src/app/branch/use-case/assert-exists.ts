@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Branch } from '@diut/hcdc'
 
-import { Branch } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   BranchRepositoryToken,
   EntityFindOneOptions,
   IBranchRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class BranchAssertExistsUseCase {

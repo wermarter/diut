@@ -1,4 +1,5 @@
-import { Sample } from 'src/domain/entity'
+import { Sample } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const SampleRepositoryToken = Symbol('SampleRepository')

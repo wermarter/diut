@@ -1,7 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { EAuthnPayloadUserNotFound } from 'src/domain/exception'
-import { AuthContextToken, IAuthContext } from 'src/domain/interface'
+import {
+  EAuthnPayloadUserNotFound,
+  AuthContextToken,
+  IAuthContext,
+} from 'src/domain'
 
 @Injectable()
 export class AuthMeUseCase {

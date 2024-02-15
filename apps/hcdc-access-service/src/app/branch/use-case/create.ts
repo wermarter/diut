@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Branch, BranchAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
   BranchRepositoryToken,
   IAuthContext,
   IBranchRepository,
-} from 'src/domain/interface'
-import { Branch, BranchAction, EntityData } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  EntityData,
+  assertPermission,
+} from 'src/domain'
 import { BranchValidateUseCase } from './validate'
 
 @Injectable()

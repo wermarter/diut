@@ -1,6 +1,6 @@
 import { SearchRequestDto, PaginatedResponse } from '@diut/nestjs-infra'
+import { Sample } from '@diut/hcdc'
 
-import { Sample } from 'src/domain'
 import { OmittedSampleResponseDto } from './response-dto'
 
 export class SampleSearchRequestDto extends SearchRequestDto<Sample> {}

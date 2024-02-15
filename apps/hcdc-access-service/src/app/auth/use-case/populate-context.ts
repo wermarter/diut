@@ -1,15 +1,14 @@
+import { createAbility, PermissionRule, Role } from '@diut/hcdc'
 import { Inject } from '@nestjs/common'
 const buildJSONTemplate = require('json-templates')
 
-import { createAbility } from 'src/domain/auth'
-import { PermissionRule, Role } from 'src/domain/entity'
-import { EAuthnPayloadUserNotFound } from 'src/domain/exception'
 import {
   AuthContextData,
   AuthPayload,
   IUserRepository,
   UserRepositoryToken,
-} from 'src/domain/interface'
+  EAuthnPayloadUserNotFound,
+} from 'src/domain'
 
 export class AuthPopulateContextUseCase {
   constructor(

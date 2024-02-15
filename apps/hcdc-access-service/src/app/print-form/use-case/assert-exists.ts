@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { PrintForm } from '@diut/hcdc'
 
-import { PrintForm } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   PrintFormRepositoryToken,
   EntityFindOneOptions,
   IPrintFormRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class PrintFormAssertExistsUseCase {

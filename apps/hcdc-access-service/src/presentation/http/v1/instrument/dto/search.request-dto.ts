@@ -1,5 +1,4 @@
 import { SearchRequestDto } from '@diut/nestjs-infra'
-
-import { Instrument } from 'src/domain'
+import { Instrument } from '@diut/hcdc'
 
 export class InstrumentSearchRequestDto extends SearchRequestDto<Instrument> {}

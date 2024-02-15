@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
 import { Types } from 'mongoose'
+import { NormalRule, PatientCategory, PatientCategoryValues } from '@diut/hcdc'
 
 import { COLLECTION } from '../collections'
 import { BranchSchema } from '../branch'
-import { NormalRule, PatientCategory, PatientCategoryValues } from 'src/domain'
 import { TestSchema } from '../test/schema'
 
 @Schema({ _id: false })

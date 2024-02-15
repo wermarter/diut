@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { accessibleBy } from '@casl/mongoose'
+import { TestCategory, TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
@@ -7,9 +8,8 @@ import {
   IAuthContext,
   ITestCategoryRepository,
   EntitySearchOptions,
-} from 'src/domain/interface'
-import { TestCategory, TestCategoryAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  assertPermission,
+} from 'src/domain'
 import { TestCategoryAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

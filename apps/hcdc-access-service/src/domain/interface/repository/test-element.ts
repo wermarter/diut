@@ -1,4 +1,5 @@
-import { TestElement } from 'src/domain/entity'
+import { TestElement } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const TestElementRepositoryToken = Symbol('TestElementRepository')

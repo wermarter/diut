@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Diagnosis } from '@diut/hcdc'
 
-import { Diagnosis } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   DiagnosisRepositoryToken,
   EntityFindOneOptions,
   IDiagnosisRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class DiagnosisAssertExistsUseCase {

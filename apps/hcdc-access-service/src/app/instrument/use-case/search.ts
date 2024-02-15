@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { accessibleBy } from '@casl/mongoose'
+import { Instrument, InstrumentAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
@@ -7,9 +8,8 @@ import {
   IAuthContext,
   IInstrumentRepository,
   EntitySearchOptions,
-} from 'src/domain/interface'
-import { Instrument, InstrumentAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  assertPermission,
+} from 'src/domain'
 import { InstrumentAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

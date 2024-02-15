@@ -8,9 +8,9 @@ import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
 import { IsOptional } from 'class-validator'
 import { exampleMongoObjectIds } from '@diut/common'
+import { sampleInfoFieldNames } from '@diut/hcdc'
 
 import { SampleRequestDto } from './request-dto'
-import { sampleInfoFieldNames } from 'src/domain'
 import { OmittedSampleResponseDto } from './response-dto'
 
 class SampleInfoDto extends PickType(SampleRequestDto, [

@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { TestCategory, TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
-import { TestCategory, TestCategoryAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   TestCategoryRepositoryToken,
   EntityFindOneOptions,
   IAuthContext,
   ITestCategoryRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { TestCategoryAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

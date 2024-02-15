@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { AuthSubject, BranchAction } from '@diut/hcdc'
 
-import { AuthSubject, assertPermission } from 'src/domain/auth'
-import { BranchAction } from 'src/domain/entity'
 import {
   AuthContextToken,
   BranchRepositoryToken,
   IAuthContext,
   IBranchRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { BranchAssertExistsUseCase } from './assert-exists'
 
 @Injectable()

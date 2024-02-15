@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { FilterQuery } from 'mongoose'
 import { accessibleBy } from '@casl/mongoose'
+import { AuthSubject, Sample, SampleAction } from '@diut/hcdc'
 
-import { Sample, SampleAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   SampleRepositoryToken,
   IAuthContext,
   ISampleRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 
 @Injectable()
 export class SampleDeleteManyUseCase {

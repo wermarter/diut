@@ -1,6 +1,5 @@
 import { MongoAbility } from '@casl/ability'
-
-import { User } from 'src/domain/entity'
+import { User } from '@diut/hcdc'
 
 export const AuthContextToken = Symbol('AuthContext')
 

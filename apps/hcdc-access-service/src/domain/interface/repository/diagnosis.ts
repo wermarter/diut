@@ -1,4 +1,5 @@
-import { Diagnosis } from 'src/domain/entity'
+import { Diagnosis } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const DiagnosisRepositoryToken = Symbol('DiagnosisRepository')

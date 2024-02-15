@@ -1,5 +1,4 @@
 import { SearchRequestDto } from '@diut/nestjs-infra'
-
-import { Doctor } from 'src/domain'
+import { Doctor } from '@diut/hcdc'
 
 export class DoctorSearchRequestDto extends SearchRequestDto<Doctor> {}

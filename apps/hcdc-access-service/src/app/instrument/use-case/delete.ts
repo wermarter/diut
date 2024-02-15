@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { InstrumentAction, AuthSubject } from '@diut/hcdc'
 
-import { InstrumentAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   InstrumentRepositoryToken,
   IAuthContext,
   IInstrumentRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { InstrumentAssertExistsUseCase } from './assert-exists'
 
 @Injectable()

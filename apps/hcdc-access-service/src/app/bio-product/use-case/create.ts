@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { BioProduct, BioProductAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
   BioProductRepositoryToken,
   IAuthContext,
   IBioProductRepository,
-} from 'src/domain/interface'
-import { BioProduct, BioProductAction, EntityData } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  EntityData,
+  assertPermission,
+} from 'src/domain'
 import { BioProductValidateUseCase } from './validate'
 
 @Injectable()

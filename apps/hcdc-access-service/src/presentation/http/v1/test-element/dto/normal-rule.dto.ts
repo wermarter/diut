@@ -1,3 +1,4 @@
+import { PatientCategory } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import {
@@ -8,7 +9,7 @@ import {
   IsString,
 } from 'class-validator'
 
-import { PatientCategory, exampleNormalRule } from 'src/domain'
+import { exampleNormalRule } from 'src/domain'
 
 export class TestElementNormalRuleDto {
   @Expose()

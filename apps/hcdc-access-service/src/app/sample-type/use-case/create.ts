@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { SampleType, SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
   SampleTypeRepositoryToken,
   IAuthContext,
   ISampleTypeRepository,
-} from 'src/domain/interface'
-import { SampleType, SampleTypeAction, EntityData } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  EntityData,
+  assertPermission,
+} from 'src/domain'
 import { SampleTypeValidateUseCase } from './validate'
 
 @Injectable()

@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { SampleType, SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
-import { SampleType, SampleTypeAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   SampleTypeRepositoryToken,
   EntityFindOneOptions,
   IAuthContext,
   ISampleTypeRepository,
-} from 'src/domain/interface'
+  assertPermission,
+} from 'src/domain'
 import { SampleTypeAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

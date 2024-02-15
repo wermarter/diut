@@ -1,4 +1,5 @@
-import { TestCategory } from 'src/domain/entity'
+import { TestCategory } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const TestCategoryRepositoryToken = Symbol('TestCategoryRepository')

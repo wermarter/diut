@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Sample } from '@diut/hcdc'
 
-import { Sample } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   SampleRepositoryToken,
   EntityFindOneOptions,
   ISampleRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class SampleAssertExistsUseCase {

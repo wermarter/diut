@@ -1,4 +1,5 @@
-import { Instrument } from 'src/domain/entity'
+import { Instrument } from '@diut/hcdc'
+
 import { IRepository } from './interface'
 
 export const InstrumentRepositoryToken = Symbol('InstrumentRepository')

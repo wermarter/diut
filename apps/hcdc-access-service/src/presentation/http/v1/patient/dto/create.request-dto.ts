@@ -1,9 +1,10 @@
+import { PatientGender } from '@diut/hcdc'
 import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 
-import { PatientGender, examplePatient } from 'src/domain'
+import { examplePatient } from 'src/domain'
 
 export class PatientCreateRequestDto {
   @Expose()

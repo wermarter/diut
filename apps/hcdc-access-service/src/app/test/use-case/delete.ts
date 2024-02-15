@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { TestAction, AuthSubject } from '@diut/hcdc'
 
-import { TestAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
 import {
   AuthContextToken,
   TestRepositoryToken,
@@ -9,9 +8,10 @@ import {
   ITestRepository,
   TestElementRepositoryToken,
   ITestElementRepository,
-} from 'src/domain/interface'
+  assertPermission,
+  EEntityCannotDelete,
+} from 'src/domain'
 import { TestAssertExistsUseCase } from './assert-exists'
-import { EEntityCannotDelete } from 'src/domain'
 
 @Injectable()
 export class TestDeleteUseCase {

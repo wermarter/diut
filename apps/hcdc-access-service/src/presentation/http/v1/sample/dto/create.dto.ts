@@ -7,9 +7,9 @@ import {
 } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { exampleMongoObjectIds } from '@diut/common'
+import { sampleInfoFieldNames } from '@diut/hcdc'
 
 import { SampleRequestDto } from './request-dto'
-import { sampleInfoFieldNames } from 'src/domain'
 import { OmittedSampleResponseDto } from './response-dto'
 
 export class SampleCreateRequestDto extends PickType(

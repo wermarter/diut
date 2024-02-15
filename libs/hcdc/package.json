@@ -1,6 +1,6 @@
 {
   "name": "@diut/hcdc",
-  "description": "Common constants, enums, types and utils shared in this project",
+  "description": "HCDC Domain",
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
   "private": true,

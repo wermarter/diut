@@ -1,9 +1,9 @@
 import { Prop, Schema } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
 import { Types } from 'mongoose'
+import { BranchType, BranchTypeValues } from '@diut/hcdc'
 
 import { COLLECTION } from '../collections'
-import { BranchType, BranchTypeValues } from 'src/domain'
 
 @Schema({
   ...baseSchemaOptions,

@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Instrument } from '@diut/hcdc'
 
-import { Instrument } from 'src/domain/entity'
-import { EEntityNotFound } from 'src/domain/exception'
 import {
   InstrumentRepositoryToken,
   EntityFindOneOptions,
   IInstrumentRepository,
-} from 'src/domain/interface'
+  EEntityNotFound,
+} from 'src/domain'
 
 @Injectable()
 export class InstrumentAssertExistsUseCase {

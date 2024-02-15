@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { accessibleBy } from '@casl/mongoose'
+import { Branch, BranchAction, AuthSubject } from '@diut/hcdc'
 
 import {
   AuthContextToken,
@@ -7,9 +8,8 @@ import {
   IAuthContext,
   IBranchRepository,
   EntitySearchOptions,
-} from 'src/domain/interface'
-import { Branch, BranchAction } from 'src/domain/entity'
-import { AuthSubject, assertPermission } from 'src/domain/auth'
+  assertPermission,
+} from 'src/domain'
 import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

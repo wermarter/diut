@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 
-import { PatientCategory, Sample, Test } from 'src/domain/entity'
+import { PatientCategory, Sample, Test } from '@diut/hcdc'
 import { TestSearchUseCase } from '../../test/use-case/search'
 import { TestElementSearchUseCase } from '../../test-element/use-case/search'
-import { EEntityNotFound } from 'src/domain/exception'
+import { EEntityNotFound } from 'src/domain'
 
 @Injectable()
 export class SampleInitResultUseCase {
