@@ -1,12 +1,14 @@
 import {
   FilterQuery,
   Model,
+  MongooseQueryOptions,
   PipelineStage,
   QueryOptions,
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
 import { pick, isNil } from 'lodash'
+import { UpdateOptions } from 'mongodb'
 
 import { BaseSchema, PopulateConfig } from './mongo.common'
 
@@ -220,7 +222,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   public async updateMany(
     filter: FilterQuery<TEntity>,
     data: UpdateQuery<TEntity>,
-    options?: QueryOptions<TEntity>,
+    options?: UpdateOptions & Omit<MongooseQueryOptions<TEntity>, 'lean'>,
     isDeleted: boolean | null = false,
   ) {
     let filterObj = filter

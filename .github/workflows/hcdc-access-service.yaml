@@ -15,7 +15,7 @@ jobs:
   j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
-      dockerfile-path: ./apps/hcdc-access-service/Dockerfile
+      dockerfile-path: ./apps/hcdc-access-service/k8s/Dockerfile
       docker-image-name: diut-hcdc-access-service
     secrets: inherit
 

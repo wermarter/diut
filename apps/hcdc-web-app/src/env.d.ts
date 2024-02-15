@@ -5,5 +5,4 @@ interface ImportMeta {
 
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string
-  // add more here...
 }

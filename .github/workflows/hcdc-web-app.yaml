@@ -7,7 +7,6 @@ on:
       - main
     paths:
       - 'libs/common/**'
-      - 'libs/web-core/**'
       - 'libs/hcdc/**'
       - 'apps/hcdc-web-app/**'
 
@@ -15,7 +14,7 @@ jobs:
   j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
-      dockerfile-path: ./apps/hcdc-web-app/Dockerfile
+      dockerfile-path: ./apps/hcdc-web-app/k8s/Dockerfile
       docker-image-name: diut-hcdc-web-app
     secrets: inherit
 

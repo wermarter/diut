@@ -32,7 +32,7 @@ export class SamplePrintUseCase {
 
   async execute(input: SamplePrintOptions[]) {
     const { ability } = this.authContext.getData()
-    const printContextes: SamplePrintContext[] = []
+    const printContexts: SamplePrintContext[] = []
 
     for (const printOptions of input) {
       const sample = await this.sampleAssertExistsUseCase.execute({
@@ -77,11 +77,11 @@ export class SamplePrintUseCase {
       }
 
       samplePrintContext.setStrategy(strategy)
-      printContextes.push(samplePrintContext)
+      printContexts.push(samplePrintContext)
     }
 
     const binaryArray = await Promise.all(
-      printContextes.map((printContext, index) =>
+      printContexts.map((printContext, index) =>
         printContext.execute(input[index]),
       ),
     )
