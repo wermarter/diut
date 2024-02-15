@@ -1,7 +1,7 @@
 import { appStore } from 'src/infra/redux'
-import { testCategoryApi } from 'src/infra/api/test-category'
-import { bioProductApi } from 'src/infra/api/bio-product'
-import { printFormApi } from 'src/infra/api/print-form'
+import { testCategoryApi } from 'src/infra/api/access-service/test-category'
+import { bioProductApi } from 'src/infra/api/access-service/bio-product'
+import { printFormApi } from 'src/infra/api/access-service/print-form'
 
 export const manageTestPageLoader = async () => {
   const [categoryRes, bioProductRes, printFormRes] = await Promise.all([

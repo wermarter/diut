@@ -6,8 +6,8 @@ import {
   useIndicationSearchQuery,
   useIndicationUpdateByIdMutation,
   useLazyIndicationSearchQuery,
-} from 'src/infra/api/indication'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/indication'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { indicationColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function IndicationTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useIndicationSearchQuery({
-    searchIndicationRequestDto: filterObj,
-  })
+  const { data, isFetching } = useIndicationSearchQuery(filterObj)
   const [searchIndications] = useLazyIndicationSearchQuery()
 
   const [createIndication, { isLoading: isCreating }] =

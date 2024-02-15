@@ -1,9 +1,9 @@
 import { groupBy } from 'lodash'
 
 import { appStore } from 'src/infra/redux'
-import { patientTypeApi } from 'src/infra/api/patient-type'
-import { testApi } from 'src/infra/api/test'
-import { sampleOriginApi } from 'src/infra/api/sample-origin'
+import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
+import { testApi } from 'src/infra/api/access-service/test'
+import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
 
 export const testReportPageLoader = async () => {
   const [patientTypes, testRes, sampleOriginRes] = await Promise.all([

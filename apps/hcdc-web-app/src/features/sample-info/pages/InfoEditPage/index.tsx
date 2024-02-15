@@ -30,8 +30,8 @@ import { TestSelector } from 'src/features/test/components/TestSelector'
 import {
   useSampleDeleteByIdMutation,
   useSampleUpdateByIdMutation,
-} from 'src/infra/api/sample'
-import { usePatientUpdateByIdMutation } from 'src/infra/api/patient'
+} from 'src/infra/api/access-service/sample'
+import { usePatientUpdateByIdMutation } from 'src/infra/api/access-service/patient'
 import { infoEditPageLoader } from './loader'
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin } from 'src/infra/auth'

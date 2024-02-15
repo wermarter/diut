@@ -18,7 +18,10 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
 import { format } from 'date-fns'
 
-import { SampleResponseDto, useSamplePrintMutation } from 'src/infra/api/sample'
+import {
+  SampleResponseDto,
+  useSamplePrintMutation,
+} from 'src/infra/api/access-service/sample'
 import {
   FormAutocomplete,
   FormContainer,
@@ -27,9 +30,9 @@ import {
 } from 'src/components/form'
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin, selectUserName } from 'src/infra/auth'
-import { PrintFormResponseDto } from 'src/infra/api/print-form'
-import { SampleTypeResponseDto } from 'src/infra/api/sample-type'
-import { useUserFindByIdQuery } from 'src/infra/api/user'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
+import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
+import { useUserFindByIdQuery } from 'src/infra/api/access-service/user'
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -107,7 +110,10 @@ export function SinglePrintDialog({
             .map(({ name }) => name),
         )
       } else {
-        setValue('sampleTypes', sampleTypes?.map(({ name }) => name))
+        setValue(
+          'sampleTypes',
+          sampleTypes?.map(({ name }) => name),
+        )
       }
 
       setSelectedPrintForm(printForm)
@@ -149,7 +155,10 @@ export function SinglePrintDialog({
             .map(({ name }) => name),
         )
       } else {
-        setValue('sampleTypes', sampleTypes?.map(({ name }) => name))
+        setValue(
+          'sampleTypes',
+          sampleTypes?.map(({ name }) => name),
+        )
       }
     }
   }, [JSON.stringify(sampleTypes)])

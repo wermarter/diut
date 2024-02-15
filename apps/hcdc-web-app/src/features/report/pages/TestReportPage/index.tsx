@@ -10,14 +10,14 @@ import { useForm } from 'react-hook-form'
 
 import {
   SampleResponseDto,
-  SearchSampleResponseDto,
+  SampleSearchResponseDto,
   useSampleSearchQuery,
-} from 'src/infra/api/sample'
-import { DataTable } from 'src/components/DataTable'
+} from 'src/infra/api/access-service/sample'
+import { DataTable } from 'src/components/table'
 import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
-} from 'src/infra/api/patient'
+} from 'src/infra/api/access-service/patient'
 import { useCrudPagination } from 'src/shared/hooks'
 import { testReportPageLoader } from './loader'
 import {
@@ -138,14 +138,13 @@ export default function TestReportPage() {
     }
   }, [fromDate, toDate, patientType, isNgoaiGio, sampleOrigin])
 
-  const { data, isFetching: isFetchingSamples } = useSampleSearchQuery({
-    searchSampleRequestDto: filterObj,
-  })
+  const { data, isFetching: isFetchingSamples } =
+    useSampleSearchQuery(filterObj)
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()
 
-  const [samples, setSamples] = useState<SearchSampleResponseDto>()
+  const [samples, setSamples] = useState<SampleSearchResponseDto>()
   const [patients, setPatients] = useState<{
     [id: string]: PatientResponseDto
   }>({})

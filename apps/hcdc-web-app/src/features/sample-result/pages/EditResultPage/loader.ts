@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
 
 import { appStore } from 'src/infra/redux'
-import { patientApi } from 'src/infra/api/patient'
-import { sampleApi } from 'src/infra/api/sample'
-import { userApi } from 'src/infra/api/user'
+import { patientApi } from 'src/infra/api/access-service/patient'
+import { sampleApi } from 'src/infra/api/access-service/sample'
+import { userApi } from 'src/infra/api/access-service/user'
 
 export const editResultPageLoader = async ({ params }: LoaderFunctionArgs) => {
   const { sampleId, patientId } = params

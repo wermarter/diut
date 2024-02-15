@@ -6,8 +6,8 @@ import {
   useDoctorSearchQuery,
   useDoctorUpdateByIdMutation,
   useLazyDoctorSearchQuery,
-} from 'src/infra/api/doctor'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/doctor'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { doctorColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function DoctorTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useDoctorSearchQuery({
-    searchDoctorRequestDto: filterObj,
-  })
+  const { data, isFetching } = useDoctorSearchQuery(filterObj)
   const [searchDoctors] = useLazyDoctorSearchQuery()
 
   const [createDoctor, { isLoading: isCreating }] = useDoctorCreateMutation()

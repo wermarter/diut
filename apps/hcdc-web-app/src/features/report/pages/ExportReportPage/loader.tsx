@@ -1,7 +1,7 @@
 import { appStore } from 'src/infra/redux'
-import { testApi } from 'src/infra/api/test'
-import { testComboApi } from 'src/infra/api/test-combo'
-import { patientTypeApi } from 'src/infra/api/patient-type'
+import { testApi } from 'src/infra/api/access-service/test'
+import { testComboApi } from 'src/infra/api/access-service/test-combo'
+import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
 
 export const exportReportPageLoader = async () => {
   const [testRes, testComboRes, patientTypeRes] = await Promise.all([

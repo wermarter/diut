@@ -9,10 +9,7 @@ import { TransitionProps } from '@mui/material/transitions'
 import { ReactElement, Ref, forwardRef } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 
-import {
-  PrintBarcode,
-  PrintBarcodeProps,
-} from 'src/feature/sample-info/components/PrintBarcode'
+import { PrintBarcode, PrintBarcodeProps } from '../PrintBarcode'
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {

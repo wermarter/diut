@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
+  IsBoolean,
   IsNumber,
   IsObject,
   IsOptional,
@@ -19,8 +20,9 @@ class PopulateOptionDto<TEntity> {
   @IsString()
   path: PopulatePath<TEntity>
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: false, nullable: true, type: 'boolean' })
   @IsOptional()
+  @IsBoolean()
   isDeleted?: boolean | null
 
   @ApiProperty({ required: false, isArray: true, type: 'string' })

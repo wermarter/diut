@@ -1,8 +1,8 @@
 import { PatientCategory } from '@diut/hcdc'
 import { GridColDef } from '@mui/x-data-grid'
 
-import { TestResponseDto } from 'src/infra/api/test'
-import { TestElementResponseDto } from 'src/infra/api/test-element'
+import { TestResponseDto } from 'src/infra/api/access-service/test'
+import { TestElementResponseDto } from 'src/infra/api/access-service/test-element'
 
 export const NO_MIN = -1
 export const NO_MAX = -1

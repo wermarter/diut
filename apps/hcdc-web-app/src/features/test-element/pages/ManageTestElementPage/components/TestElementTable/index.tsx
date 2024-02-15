@@ -19,8 +19,8 @@ import {
   useLazyTestElementSearchQuery,
   TestElementResponseDto,
   HighlightRuleDto,
-} from 'src/infra/api/test-element'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/test-element'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import {
   NO_MIN,
@@ -30,7 +30,7 @@ import {
   useTestElementColumns,
   NO_NOTE,
 } from './columns'
-import { useLazyTestSearchQuery } from 'src/infra/api/test'
+import { useLazyTestSearchQuery } from 'src/infra/api/access-service/test'
 import { HighlightRuleEditor } from './HighlightRuleEditor'
 import { manageTestElemenentPageLoader } from '../../loader'
 
@@ -101,9 +101,7 @@ export function TestElementTable() {
       offset: 0,
     })
 
-  const { data, isFetching } = useTestElementSearchQuery({
-    searchTestElementRequestDto: filterObj,
-  })
+  const { data, isFetching } = useTestElementSearchQuery(filterObj)
   const [searchTestElements] = useLazyTestElementSearchQuery()
 
   const [createTestElement, { isLoading: isCreating }] =

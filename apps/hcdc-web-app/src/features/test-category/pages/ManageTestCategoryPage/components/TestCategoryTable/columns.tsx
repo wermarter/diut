@@ -1,6 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { TestCategoryResponseDto } from 'src/infra/api/test-category'
+import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 
 export const testCategoryColumns: GridColDef<TestCategoryResponseDto>[] = [
   {

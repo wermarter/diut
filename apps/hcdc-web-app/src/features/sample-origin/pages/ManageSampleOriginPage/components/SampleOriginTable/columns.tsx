@@ -1,6 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { SampleOriginResponseDto } from 'src/infra/api/sample-origin'
+import { SampleOriginResponseDto } from 'src/infra/api/access-service/sample-origin'
 
 export const sampleOriginColumns: GridColDef<SampleOriginResponseDto>[] = [
   {

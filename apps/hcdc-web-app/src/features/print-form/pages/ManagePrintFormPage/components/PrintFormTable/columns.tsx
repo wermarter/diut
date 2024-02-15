@@ -1,6 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { PrintFormResponseDto } from 'src/infra/api/print-form'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 
 export const printFormColumns: GridColDef<PrintFormResponseDto>[] = [
   {

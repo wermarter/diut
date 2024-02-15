@@ -34,14 +34,14 @@ import { TestSelector } from 'src/features/test/components/TestSelector'
 import {
   SampleBadRequestDto,
   useSampleCreateMutation,
-} from 'src/infra/api/sample'
+} from 'src/infra/api/access-service/sample'
 import {
   PatientResponseDto,
   usePatientCreateMutation,
   usePatientSearchQuery,
   usePatientUpdateByIdMutation,
-} from 'src/infra/api/patient'
-import { DataTable } from 'src/components/DataTable'
+} from 'src/infra/api/access-service/patient'
+import { DataTable } from 'src/components/table'
 import { useDebouncedValue } from 'src/shared/hooks'
 import { infoInputPageLoader } from './loader'
 import { BarcodeModal } from '../../components/BarcodeModal'

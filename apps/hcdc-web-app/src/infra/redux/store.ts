@@ -12,7 +12,7 @@ import {
 } from 'redux-persist'
 
 import { accessServiceApiSlice } from 'src/infra/api'
-import { authReducer, authSlice, authMiddleware } from 'src/infra/auth'
+import { authReducer, authSlice, authMiddleware } from 'src/features/auth'
 
 const reducers = {
   [accessServiceApiSlice.reducerPath]: accessServiceApiSlice.reducer,

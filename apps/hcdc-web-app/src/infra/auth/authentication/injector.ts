@@ -2,7 +2,7 @@ import { LoaderFunctionArgs } from 'react-router-dom'
 
 import { appStore } from 'src/infra/redux'
 import { AppNavigate, InjectorFunction } from 'src/shared/utils'
-import { selectIsAuthenticated } from '../slice'
+import { selectIsAuthenticated } from '../../../features/auth/slice'
 
 export const authenticationInjector: InjectorFunction<{}> = (
   args: LoaderFunctionArgs,

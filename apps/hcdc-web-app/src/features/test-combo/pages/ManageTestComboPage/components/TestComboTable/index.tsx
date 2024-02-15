@@ -8,8 +8,8 @@ import {
   useTestComboUpdateByIdMutation,
   useLazyTestComboSearchQuery,
   TestComboResponseDto,
-} from 'src/infra/api/test-combo'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/test-combo'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { testComboColumns } from './columns'
 import { TestSelector } from 'src/features/test/components/TestSelector'
@@ -20,9 +20,7 @@ export function TestComboTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useTestComboSearchQuery({
-    searchTestComboRequestDto: filterObj,
-  })
+  const { data, isFetching } = useTestComboSearchQuery(filterObj)
   const [searchTestCombos] = useLazyTestComboSearchQuery()
 
   const [createTestCombo, { isLoading: isCreating }] =

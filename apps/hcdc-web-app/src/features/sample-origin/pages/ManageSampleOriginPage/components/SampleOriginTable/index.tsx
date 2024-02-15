@@ -6,8 +6,8 @@ import {
   useSampleOriginSearchQuery,
   useSampleOriginUpdateByIdMutation,
   useLazySampleOriginSearchQuery,
-} from 'src/infra/api/sample-origin'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/sample-origin'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { sampleOriginColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function SampleOriginTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useSampleOriginSearchQuery({
-    searchSampleOriginRequestDto: filterObj,
-  })
+  const { data, isFetching } = useSampleOriginSearchQuery(filterObj)
   const [searchSampleOrigins] = useLazySampleOriginSearchQuery()
 
   const [createSampleOrigin, { isLoading: isCreating }] =

@@ -12,7 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "tsc",
-    "api:access-service": "npx @rtk-query/codegen-openapi api-config/access-service.cts"
+    "api:access-service": "npx @rtk-query/codegen-openapi api-codegen/access-service.cts"
   },
   "dependencies": {
     "@diut/common": "workspace:*",

@@ -1,14 +1,14 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
 
 import { appStore } from 'src/infra/redux'
-import { doctorApi } from 'src/infra/api/doctor'
-import { indicationApi } from 'src/infra/api/indication'
-import { patientApi } from 'src/infra/api/patient'
-import { patientTypeApi } from 'src/infra/api/patient-type'
-import { sampleApi } from 'src/infra/api/sample'
-import { sampleTypeApi } from 'src/infra/api/sample-type'
-import { userApi } from 'src/infra/api/user'
-import { sampleOriginApi } from 'src/infra/api/sample-origin'
+import { doctorApi } from 'src/infra/api/access-service/doctor'
+import { indicationApi } from 'src/infra/api/access-service/indication'
+import { patientApi } from 'src/infra/api/access-service/patient'
+import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
+import { sampleApi } from 'src/infra/api/access-service/sample'
+import { sampleTypeApi } from 'src/infra/api/access-service/sample-type'
+import { userApi } from 'src/infra/api/access-service/user'
+import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
 
 export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
   const { sampleId, patientId } = params

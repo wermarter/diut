@@ -17,8 +17,8 @@ import { LoadingButton } from '@mui/lab'
 import {
   useSampleDownloadFileQuery,
   useSampleUploadFileMutation,
-} from 'src/infra/api/sample'
-import { TestElementResponseDto } from 'src/infra/api/test-element'
+} from 'src/infra/api/access-service/sample'
+import { TestElementResponseDto } from 'src/infra/api/access-service/test-element'
 import { SideAction } from 'src/components/ui/SideAction'
 import { readFileToURL } from 'src/shared/utils'
 import { getCroppedImg } from 'src/shared/utils/image-crop'

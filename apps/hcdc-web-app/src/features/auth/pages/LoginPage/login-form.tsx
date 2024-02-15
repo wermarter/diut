@@ -10,7 +10,10 @@ import { toast } from 'react-toastify'
 import { fullLogo } from 'src/assets/images'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { FormTextField, FormContainer } from 'src/components/form'
-import { LoginBadRequestDto, useAuthLoginMutation } from 'src/infra/api/auth'
+import {
+  LoginBadRequestDto,
+  useAuthLoginMutation,
+} from 'src/infra/api/access-service/auth'
 
 interface LoginPageProps {
   reason?: string

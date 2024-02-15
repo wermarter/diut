@@ -12,8 +12,11 @@ import {
 import { groupBy } from 'lodash'
 
 import { SideAction } from 'src/components/ui/SideAction'
-import { useTestSearchQuery, TestResponseDto } from 'src/infra/api/test'
-import { useTestComboSearchQuery } from 'src/infra/api/test-combo'
+import {
+  useTestSearchQuery,
+  TestResponseDto,
+} from 'src/infra/api/access-service/test'
+import { useTestComboSearchQuery } from 'src/infra/api/access-service/test-combo'
 
 interface TestSelectorProps {
   open: boolean
@@ -46,9 +49,8 @@ export function TestSelector({
   React.useEffect(() => {
     if (isFetching === false) {
       setSelectedIds(
-        previousState.filter(
-          (testId) =>
-            data?.items.some((test) => test.category && test._id === testId),
+        previousState.filter((testId) =>
+          data?.items.some((test) => test.category && test._id === testId),
         ),
       )
     }

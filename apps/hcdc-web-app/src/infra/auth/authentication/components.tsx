@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 import { AppNavigate } from 'src/shared/utils'
 import { useTypedSelector } from 'src/core'
-import { selectIsAuthenticated } from '../slice'
+import { selectIsAuthenticated } from '../../../features/auth/slice'
 
 export type AuthenticationCheckProps = PropsWithChildren
 

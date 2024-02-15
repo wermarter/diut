@@ -6,8 +6,8 @@ import {
   useSampleTypeSearchQuery,
   useSampleTypeUpdateByIdMutation,
   useLazySampleTypeSearchQuery,
-} from 'src/infra/api/sample-type'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/sample-type'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { sampleTypeColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function SampleTypeTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useSampleTypeSearchQuery({
-    searchSampleTypeRequestDto: filterObj,
-  })
+  const { data, isFetching } = useSampleTypeSearchQuery(filterObj)
   const [searchSampleTypes] = useLazySampleTypeSearchQuery()
 
   const [createSampleType, { isLoading: isCreating }] =

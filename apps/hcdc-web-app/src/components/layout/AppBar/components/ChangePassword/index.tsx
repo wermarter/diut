@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 
-import { useUserUpdateByIdMutation } from 'src/infra/api/user'
+import { useUserUpdateByIdMutation } from 'src/infra/api/access-service/user'
 import { SideAction } from 'src/components/ui/SideAction'
 import { useTypedSelector } from 'src/infra/redux'
 import { selectUserId } from 'src/infra/auth'

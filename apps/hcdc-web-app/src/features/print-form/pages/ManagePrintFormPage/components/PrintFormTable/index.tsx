@@ -4,8 +4,8 @@ import {
   usePrintFormSearchQuery,
   usePrintFormUpdateByIdMutation,
   useLazyPrintFormSearchQuery,
-} from 'src/infra/api/print-form'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/print-form'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { printFormColumns } from './columns'
 
@@ -15,9 +15,7 @@ export function PrintFormTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = usePrintFormSearchQuery({
-    searchPrintFormRequestDto: filterObj,
-  })
+  const { data, isFetching } = usePrintFormSearchQuery(filterObj)
   const [searchPrintForms] = useLazyPrintFormSearchQuery()
 
   const [updatePrintForm, { isLoading: isUpdating }] =

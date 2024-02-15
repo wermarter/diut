@@ -13,8 +13,8 @@ import { format } from 'date-fns'
 import {
   usePatientDeleteByIdMutation,
   usePatientSearchQuery,
-} from 'src/infra/api/patient'
-import { DataTable } from 'src/components/DataTable'
+} from 'src/infra/api/access-service/patient'
+import { DataTable } from 'src/components/table'
 import { FormContainer, FormTextField } from 'src/components/form'
 import { useCrudPagination } from 'src/shared/hooks'
 import { ConfirmDialog } from 'src/components/ui/ConfirmDialog'
@@ -45,9 +45,7 @@ export default function SearchPatientPage() {
     },
   })
 
-  const { data, isFetching } = usePatientSearchQuery({
-    searchPatientRequestDto: filterObj,
-  })
+  const { data, isFetching } = usePatientSearchQuery(filterObj)
   const [deletePatient, { isLoading: isDeleting }] =
     usePatientDeleteByIdMutation()
 

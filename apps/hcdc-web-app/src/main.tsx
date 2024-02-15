@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { checkEnvVariables } from './config'
-import { AppThemeProvider } from './infra/theme/provider'
-import { AppReduxProvider } from './infra/redux/provider'
-import { AppRouterProvider } from './infra/router/provider'
+import { AppThemeProvider } from './infra/theme'
+import { AppReduxProvider } from './infra/redux'
+import { AppRouterProvider } from './infra/router'
 
 checkEnvVariables()
 

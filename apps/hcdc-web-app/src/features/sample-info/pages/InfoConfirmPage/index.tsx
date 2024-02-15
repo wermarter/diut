@@ -15,12 +15,12 @@ import {
   SearchSampleResponseDto,
   useSampleSearchQuery,
   useSampleUpdateByIdMutation,
-} from 'src/infra/api/sample'
-import { DataTable } from 'src/components/DataTable'
+} from 'src/infra/api/access-service/sample'
+import { DataTable } from 'src/components/table'
 import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
-} from 'src/infra/api/patient'
+} from 'src/infra/api/access-service/patient'
 import { useTypedSelector } from 'src/core'
 import { selectUserId, selectUserIsAdmin } from 'src/infra/auth'
 import { useCrudPagination } from 'src/shared/hooks'
@@ -97,9 +97,7 @@ export default function InfoConfirmPage() {
     data,
     isFetching: isFetchingSamples,
     refetch,
-  } = useSampleSearchQuery({
-    searchSampleRequestDto: filterObj,
-  })
+  } = useSampleSearchQuery(filterObj)
 
   const handleSubmitFilter = ({
     fromDate,

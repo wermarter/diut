@@ -1,9 +1,9 @@
 import { appStore } from 'src/infra/redux'
-import { doctorApi } from 'src/infra/api/doctor'
-import { indicationApi } from 'src/infra/api/indication'
-import { patientTypeApi } from 'src/infra/api/patient-type'
-import { sampleTypeApi } from 'src/infra/api/sample-type'
-import { sampleOriginApi } from 'src/infra/api/sample-origin'
+import { doctorApi } from 'src/infra/api/access-service/doctor'
+import { indicationApi } from 'src/infra/api/access-service/indication'
+import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
+import { sampleTypeApi } from 'src/infra/api/access-service/sample-type'
+import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
 
 export const infoInputPageLoader = async () => {
   const [patientTypes, indications, doctors, sampleTypes, sampleOrigins] =

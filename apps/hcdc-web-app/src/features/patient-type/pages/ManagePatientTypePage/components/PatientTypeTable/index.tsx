@@ -6,8 +6,8 @@ import {
   usePatientTypeSearchQuery,
   usePatientTypeUpdateByIdMutation,
   useLazyPatientTypeSearchQuery,
-} from 'src/infra/api/patient-type'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/patient-type'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { patientTypeColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function PatientTypeTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = usePatientTypeSearchQuery({
-    searchPatientTypeRequestDto: filterObj,
-  })
+  const { data, isFetching } = usePatientTypeSearchQuery(filterObj)
   const [searchPatientTypes] = useLazyPatientTypeSearchQuery()
 
   const [createPatientType, { isLoading: isCreating }] =

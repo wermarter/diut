@@ -6,8 +6,8 @@ import {
   useBioProductSearchQuery,
   useBioProductUpdateByIdMutation,
   useLazyBioProductSearchQuery,
-} from 'src/infra/api/bio-product'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/bio-product'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { bioProductColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function BioProductTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useBioProductSearchQuery({
-    searchBioProductRequestDto: filterObj,
-  })
+  const { data, isFetching } = useBioProductSearchQuery(filterObj)
   const [searchBioProducts] = useLazyBioProductSearchQuery()
 
   const [createBioProduct, { isLoading: isCreating }] =
@@ -42,16 +40,14 @@ export function BioProductTable() {
       onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
         await createBioProduct({
-          createBioProductRequestDto: {
-            name: item.name,
-            index: item.index,
-          },
+          name: item.name,
+          index: item.index,
         }).unwrap()
       }}
       onItemUpdate={async (newItem, oldItem) => {
         await updateBioProduct({
           id: newItem._id,
-          updateBioProductRequestDto: {
+          bioProductUpdateRequestDto: {
             name: newItem.name,
             index: newItem.index,
           },

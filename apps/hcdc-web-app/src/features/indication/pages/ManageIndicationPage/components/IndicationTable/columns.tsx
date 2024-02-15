@@ -1,6 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { IndicationResponseDto } from 'src/infra/api/indication'
+import { IndicationResponseDto } from 'src/infra/api/access-service/indication'
 
 export const indicationColumns: GridColDef<IndicationResponseDto>[] = [
   {

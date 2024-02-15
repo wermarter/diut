@@ -6,8 +6,8 @@ import {
   useTestCategorySearchQuery,
   useTestCategoryUpdateByIdMutation,
   useLazyTestCategorySearchQuery,
-} from 'src/infra/api/test-category'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/test-category'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { testCategoryColumns } from './columns'
 
@@ -17,9 +17,7 @@ export function TestCategoryTable() {
     offset: 0,
   })
 
-  const { data, isFetching } = useTestCategorySearchQuery({
-    searchTestCategoryRequestDto: filterObj,
-  })
+  const { data, isFetching } = useTestCategorySearchQuery(filterObj)
   const [searchTestCategorys] = useLazyTestCategorySearchQuery()
 
   const [createTestCategory, { isLoading: isCreating }] =

@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
 import { LoadingPage } from 'src/components/layout/LoadingPage'
 
 export function AppRouterProvider() {

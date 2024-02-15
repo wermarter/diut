@@ -24,14 +24,17 @@ import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { merge } from 'lodash'
 
-import { useSampleUpdateByIdMutation } from 'src/infra/api/sample'
-import { TestResponseDto } from 'src/infra/api/test'
+import { useSampleUpdateByIdMutation } from 'src/infra/api/access-service/sample'
+import { TestResponseDto } from 'src/infra/api/access-service/test'
 import {
   HighlightRuleDto,
   TestElementResponseDto,
   useLazyTestElementSearchQuery,
-} from 'src/infra/api/test-element'
-import { useLazyUserFindByIdQuery, UserResponseDto } from 'src/infra/api/user'
+} from 'src/infra/api/access-service/test-element'
+import {
+  useLazyUserFindByIdQuery,
+  UserResponseDto,
+} from 'src/infra/api/access-service/user'
 import { FormContainer } from 'src/components/form'
 import { useTypedSelector } from 'src/core'
 import { selectUserId, selectUserIsAdmin, selectUserName } from 'src/infra/auth'

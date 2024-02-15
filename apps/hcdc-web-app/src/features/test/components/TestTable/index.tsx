@@ -8,15 +8,15 @@ import {
 } from '@mui/material'
 import { useLoaderData } from 'react-router-dom'
 
-import { BioProductResponseDto } from 'src/infra/api/bio-product'
+import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 import {
   useTestCreateMutation,
   useTestDeleteByIdMutation,
   useTestSearchQuery,
   useTestUpdateByIdMutation,
   useLazyTestSearchQuery,
-} from 'src/infra/api/test'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/test'
+import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { manageTestPageLoader } from '../../pages/ManageTestPage/loader'
 import { NO_BIOPRODUCT, useTestColumns } from './columns'
@@ -47,9 +47,7 @@ export function TestTable() {
       offset: 0,
     })
 
-  const { data, isFetching } = useTestSearchQuery({
-    searchTestRequestDto: filterObj,
-  })
+  const { data, isFetching } = useTestSearchQuery(filterObj)
   const [searchTests] = useLazyTestSearchQuery()
 
   const [createTest, { isLoading: isCreating }] = useTestCreateMutation()

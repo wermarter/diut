@@ -1,6 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { TestComboResponseDto } from 'src/infra/api/test-combo'
+import { TestComboResponseDto } from 'src/infra/api/access-service/test-combo'
 
 export const testComboColumns: GridColDef<TestComboResponseDto>[] = [
   {

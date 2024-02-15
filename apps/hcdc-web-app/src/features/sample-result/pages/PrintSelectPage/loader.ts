@@ -1,9 +1,9 @@
 import { appStore } from 'src/infra/redux'
-import { printFormApi } from 'src/infra/api/print-form'
-import { patientTypeApi } from 'src/infra/api/patient-type'
-import { testApi } from 'src/infra/api/test'
-import { sampleTypeApi } from 'src/infra/api/sample-type'
-import { sampleOriginApi } from 'src/infra/api/sample-origin'
+import { printFormApi } from 'src/infra/api/access-service/print-form'
+import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
+import { testApi } from 'src/infra/api/access-service/test'
+import { sampleTypeApi } from 'src/infra/api/access-service/sample-type'
+import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
 
 export const printSelectPageLoader = async () => {
   const [

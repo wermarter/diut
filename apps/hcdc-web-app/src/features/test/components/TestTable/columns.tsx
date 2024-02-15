@@ -1,9 +1,9 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { BioProductResponseDto } from 'src/infra/api/bio-product'
-import { PrintFormResponseDto } from 'src/infra/api/print-form'
-import { TestResponseDto } from 'src/infra/api/test'
-import { TestCategoryResponseDto } from 'src/infra/api/test-category'
+import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
+import { TestResponseDto } from 'src/infra/api/access-service/test'
+import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 
 export const NO_BIOPRODUCT = 'NO_BIOPRODUCT'
 

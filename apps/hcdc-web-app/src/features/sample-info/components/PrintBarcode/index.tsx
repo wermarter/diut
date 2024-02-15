@@ -14,7 +14,7 @@ export interface PrintBarcodeProps extends PropsWithChildren {
 export function PrintBarcode({
   sampleId,
   quantity = 12,
-  name = 'chiến',
+  name = 'bệnh nhân',
   birthYear = 2000,
   children,
 }: PrintBarcodeProps) {

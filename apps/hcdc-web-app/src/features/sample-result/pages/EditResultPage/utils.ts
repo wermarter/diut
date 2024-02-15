@@ -1,5 +1,5 @@
 import { PatientCategory } from '@diut/hcdc'
-import { HighlightRuleDto } from 'src/infra/api/test-element'
+import { HighlightRuleDto } from 'src/infra/api/access-service/test-element'
 
 export function getTechnicalHint(
   patientCategory: PatientCategory,

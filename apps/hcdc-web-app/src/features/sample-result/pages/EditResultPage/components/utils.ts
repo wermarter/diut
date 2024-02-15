@@ -1,13 +1,13 @@
 import { PrintForm } from '@diut/hcdc'
 
-import { BioProductResponseDto } from 'src/infra/api/bio-product'
-import { TestResultDto } from 'src/infra/api/sample'
-import { TestCategoryResponseDto } from 'src/infra/api/test-category'
+import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
+import { TestResultDto } from 'src/infra/api/access-service/sample'
+import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 import {
   HighlightRuleDto,
   TestElementResponseDto,
-} from 'src/infra/api/test-element'
-import { UserResponseDto } from 'src/infra/api/user'
+} from 'src/infra/api/access-service/test-element'
+import { UserResponseDto } from 'src/infra/api/access-service/user'
 
 export interface ResultCardProps {
   currentTestInfo: {

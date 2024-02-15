@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from 'src/components/layout/MainLayout'
-import { CustomRouteObject } from 'src/shared/utils'
+import { CustomRouteObject } from 'src/infra/router'
 import LoginPage, { loginPageLoader } from 'src/features/auth/pages/LoginPage'
 import HomePage from 'src/features/homepage/pages/Homepage'
 import { infoEditPageLoader } from 'src/features/sample-info/pages/InfoEditPage/loader'

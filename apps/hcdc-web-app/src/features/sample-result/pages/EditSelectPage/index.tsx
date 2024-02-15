@@ -13,12 +13,12 @@ import {
   SampleResponseDto,
   SearchSampleResponseDto,
   useSampleSearchQuery,
-} from 'src/infra/api/sample'
-import { DataTable } from 'src/components/DataTable'
+} from 'src/infra/api/access-service/sample'
+import { DataTable } from 'src/components/table'
 import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
-} from 'src/infra/api/patient'
+} from 'src/infra/api/access-service/patient'
 import { useCrudPagination } from 'src/shared/hooks'
 import { editSelectPageLoader } from './loader'
 import { useForm } from 'react-hook-form'
@@ -194,9 +194,7 @@ export default function EditSelectPage() {
     data,
     isFetching: isFetchingSamples,
     refetch,
-  } = useSampleSearchQuery({
-    searchSampleRequestDto: filterObj,
-  })
+  } = useSampleSearchQuery(filterObj)
 
   const [getPatient, { isFetching: isFetchingPatients }] =
     useLazyPatientFindByIdQuery()

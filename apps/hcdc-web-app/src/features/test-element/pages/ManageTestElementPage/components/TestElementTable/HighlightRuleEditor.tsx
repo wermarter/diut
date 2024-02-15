@@ -6,8 +6,8 @@ import { GridColDef } from '@mui/x-data-grid'
 import {
   HighlightRuleDto,
   TestElementResponseDto,
-} from 'src/infra/api/test-element'
-import { CrudTable } from 'src/components/CrudTable'
+} from 'src/infra/api/access-service/test-element'
+import { CrudTable } from 'src/components/table'
 import { SideAction } from 'src/components/ui/SideAction'
 
 const patientCategories = {

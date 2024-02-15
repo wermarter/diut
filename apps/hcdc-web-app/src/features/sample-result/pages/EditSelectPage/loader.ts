@@ -1,9 +1,9 @@
 import { appStore } from 'src/infra/redux'
-import { doctorApi } from 'src/infra/api/doctor'
-import { indicationApi } from 'src/infra/api/indication'
-import { patientTypeApi } from 'src/infra/api/patient-type'
-import { testApi } from 'src/infra/api/test'
-import { sampleOriginApi } from 'src/infra/api/sample-origin'
+import { doctorApi } from 'src/infra/api/access-service/doctor'
+import { indicationApi } from 'src/infra/api/access-service/indication'
+import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
+import { testApi } from 'src/infra/api/access-service/test'
+import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
 
 export const editSelectPageLoader = async () => {
   const [indicationRes, doctorRes, patientTypeRes, testRes, sampleOriginRes] =
