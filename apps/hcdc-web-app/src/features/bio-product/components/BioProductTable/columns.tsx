@@ -4,7 +4,7 @@ import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 
 export const bioProductColumns: GridColDef<BioProductResponseDto>[] = [
   {
-    field: 'index',
+    field: 'displayIndex',
     headerName: 'Thứ tự',
     type: 'number',
     minWidth: 100,

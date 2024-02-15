@@ -15,9 +15,9 @@ import {
 import { useNavigation } from 'react-router-dom'
 
 import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
-import { selectUserName, userLogout } from 'src/infra/auth/slice'
-import { ProgressBar } from 'src/components/ui/ProgressBar'
-import { ChangePassword } from './components/ChangePassword'
+import { selectUserName, userLogout } from 'src/features/auth'
+import { ProgressBar } from 'src/components/ui'
+import { ChangePassword } from 'src/features/auth'
 
 interface AppBarProps {
   drawerWidth: number

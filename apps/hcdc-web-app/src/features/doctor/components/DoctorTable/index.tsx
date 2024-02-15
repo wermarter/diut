@@ -39,10 +39,8 @@ export function DoctorTable() {
       onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
         await createDoctor({
-          createDoctorRequestDto: {
-            name: item.name,
-            index: item.index,
-          },
+          name: item.name,
+          index: item.index,
         }).unwrap()
       }}
       onItemUpdate={async (newItem, oldItem) => {

@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify'
 
 import { useUserUpdateByIdMutation } from 'src/infra/api/access-service/user'
-import { SideAction } from 'src/components/ui/SideAction'
+import { SideAction } from 'src/components/ui'
 import { useTypedSelector } from 'src/infra/redux'
-import { selectUserId } from 'src/infra/auth'
+import { selectUserId } from 'src/features/auth'
 import { ChangePasswordForm } from './form'
 
 interface ChangePasswordProps {
@@ -21,7 +21,7 @@ export function ChangePassword({ open, onClose, userId }: ChangePasswordProps) {
   const handleChangePassword = async (newPassword: string) => {
     return updateUser({
       id: targetId,
-      updateUserRequestDto: { password: newPassword },
+      userUpdateRequestDto: { password: newPassword },
     }).then(() => {
       toast.success('Thay đổi thành công!')
       onClose()

@@ -41,7 +41,7 @@ export function BioProductTable() {
       onItemCreate={async (item) => {
         await createBioProduct({
           name: item.name,
-          index: item.index,
+          displayIndex: item.displayIndex,
         }).unwrap()
       }}
       onItemUpdate={async (newItem, oldItem) => {
@@ -49,19 +49,15 @@ export function BioProductTable() {
           id: newItem._id,
           bioProductUpdateRequestDto: {
             name: newItem.name,
-            index: newItem.index,
+            displayIndex: newItem.displayIndex,
           },
         }).unwrap()
       }}
       onItemDelete={async (item) => {
-        await deleteBioProduct({
-          id: item._id,
-        }).unwrap()
+        await deleteBioProduct(item._id).unwrap()
       }}
       onRefresh={async () => {
-        await searchBioProducts({
-          searchBioProductRequestDto: filterObj,
-        }).unwrap()
+        await searchBioProducts(filterObj).unwrap()
       }}
     />
   ) : (
