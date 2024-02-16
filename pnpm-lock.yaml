@@ -60,6 +60,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
+      xstate:
+        specifier: ^5.6.2
+        version: 5.6.2
     devDependencies:
       '@nestjs/schematics':
         specifier: ^10.1.1
@@ -9079,6 +9082,10 @@ packages:
 
   /xorshift@1.2.0:
     resolution: {integrity: sha512-iYgNnGyeeJ4t6U11NpA/QiKy+PXn5Aa3Azg5qkwIFz1tBLllQrjjsk9yzD7IAK0naNU4JxdeDgqW9ov4u/hc4g==}
+    dev: false
+
+  /xstate@5.6.2:
+    resolution: {integrity: sha512-cXYrnP5vrlY4PFkS1l8uP+LY9XAX/7rdVQlWfqfi/gQJEJgCX5AYk5UI/QQfewQ2mrPREBVTmy4QeMlSubepxw==}
     dev: false
 
   /xtend@4.0.2:

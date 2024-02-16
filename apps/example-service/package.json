@@ -24,7 +24,8 @@
     "dotenv": "^16.4.4",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.14",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "xstate": "^5.6.2"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.1.1",
