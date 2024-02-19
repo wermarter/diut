@@ -1,7 +1,6 @@
-import { checkPermissionAllOf, checkPermissionAnyOf } from '@diut/hcdc'
+import { checkPermission } from '@diut/hcdc'
 
-import { useTypedSelector, drawerItems, DrawerItem } from 'src/core'
-import { selectUserPermissions } from 'src/infra/auth'
+import { useTypedSelector } from 'src/infra/redux'
 
 export function useDrawerItems() {
   const userPermissions = useTypedSelector(selectUserPermissions)

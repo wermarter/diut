@@ -21,8 +21,8 @@ export class UserChangePasswordUseCase {
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
   ) {}
 
-  async execute(id: string, newPassword: string) {
-    const entity = await this.userAssertExistsUseCase.execute({ _id: id })
+  async execute(input: { id: string; newPassword: string }) {
+    const entity = await this.userAssertExistsUseCase.execute({ _id: input.id })
     const { ability } = this.authContext.getData()
     assertPermission(
       ability,
@@ -31,7 +31,7 @@ export class UserChangePasswordUseCase {
       entity,
     )
 
-    const passwordHash = await argon2.hash(newPassword)
-    return this.userRepository.update({ _id: id }, { passwordHash })
+    const passwordHash = await argon2.hash(input.newPassword)
+    return this.userRepository.update({ _id: input.id }, { passwordHash })
   }
 }

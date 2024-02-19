@@ -108,7 +108,9 @@ export function IsObjectId(validationOptions?: ValidationOptions) {
 }
 
 // Beware of nested populate path
-export type PopulatePath<TEntity> = `${string & keyof TEntity}${string}`
+export type PopulatePath<TEntity> =
+  | keyof TEntity
+  | `${string & keyof TEntity}.${string}`
 
 export type PopulateConfig<TEntity> = {
   path: PopulatePath<TEntity>

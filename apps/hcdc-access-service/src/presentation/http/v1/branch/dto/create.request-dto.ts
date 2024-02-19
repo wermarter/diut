@@ -2,7 +2,14 @@ import { BranchType } from '@diut/hcdc'
 import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsEnum, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Min,
+} from 'class-validator'
 
 import { exampleBranch } from 'src/domain'
 
@@ -32,6 +39,7 @@ export class BranchCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleBranch.sampleOriginIds)
+  @IsArray()
   @IsObjectId({ each: true })
   sampleOriginIds: string[]
 }

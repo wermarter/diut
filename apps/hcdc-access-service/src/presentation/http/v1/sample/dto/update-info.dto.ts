@@ -6,7 +6,7 @@ import {
 } from '@nestjs/swagger'
 import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
-import { IsOptional } from 'class-validator'
+import { IsArray, IsOptional } from 'class-validator'
 import { exampleMongoObjectIds } from '@diut/common'
 import { sampleInfoFieldNames } from '@diut/hcdc'
 
@@ -22,12 +22,14 @@ export class SampleUpdateInfoRequestDto extends PartialType(SampleInfoDto) {
   @Expose()
   @ApiPropertyOptional(exampleMongoObjectIds)
   @IsOptional()
+  @IsArray()
   @IsObjectId({ each: true })
   addedTestIds?: string[]
 
   @Expose()
   @ApiPropertyOptional(exampleMongoObjectIds)
   @IsOptional()
+  @IsArray()
   @IsObjectId({ each: true })
   removedTestIds?: string[]
 }

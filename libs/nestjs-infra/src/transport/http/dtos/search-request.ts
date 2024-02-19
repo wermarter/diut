@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
+  IsArray,
   IsBoolean,
   IsNumber,
   IsObject,
@@ -27,6 +28,7 @@ class PopulateOptionDto<TEntity> {
 
   @ApiProperty({ required: false, isArray: true, type: 'string' })
   @IsOptional()
+  @IsArray()
   @IsString({ each: true })
   fields?: string[]
 
@@ -82,6 +84,7 @@ export class SearchRequestDto<TEntity> {
     type: () => PopulateOptionDto,
   })
   @IsOptional()
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PopulateOptionDto)
   populates?: PopulateOptionDto<TEntity>[]

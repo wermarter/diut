@@ -6,6 +6,7 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
+import { IsArray } from 'class-validator'
 import { exampleMongoObjectIds } from '@diut/common'
 import { sampleInfoFieldNames } from '@diut/hcdc'
 
@@ -18,6 +19,7 @@ export class SampleCreateRequestDto extends PickType(
 ) {
   @Expose()
   @ApiProperty(exampleMongoObjectIds)
+  @IsArray()
   @IsObjectId({ each: true })
   testIds: string[]
 }

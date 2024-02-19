@@ -25,11 +25,12 @@ export class AuthController {
     @Body() body: AuthLoginRequestDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { user, accessToken } = await this.authLoginUseCase.execute(body)
+    const { user, accessToken, compiledPermissions } =
+      await this.authLoginUseCase.execute(body)
 
     this.authCookieService.setAuthCookie(res, { accessToken })
 
-    return user
+    return { user, permissions: compiledPermissions }
   }
 
   @HttpRoute(authRoutes.me)

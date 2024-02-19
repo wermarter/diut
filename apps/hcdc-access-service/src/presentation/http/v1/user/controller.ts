@@ -65,7 +65,10 @@ export class UserController {
     @Param('id', ObjectIdPipe) id: string,
     @Body() body: UserChangePasswordRequestDto,
   ) {
-    return this.userChangePasswordUseCase.execute(id, body.password)
+    return this.userChangePasswordUseCase.execute({
+      id,
+      newPassword: body.password,
+    })
   }
 
   @HttpRoute(userRoutes.deleteById)

@@ -10,12 +10,24 @@ import {
   AuthSubject,
   AuthSubjectUnionType,
   BaseEntity,
+  PermissionRule,
   SubjectEntityMapping,
+  User,
   checkPermission,
 } from '@diut/hcdc'
+const buildJSONTemplate = require('json-templates')
 
 import { EAuthzPermissionDenied } from 'src/domain/exception'
 import { EntityFindOneOptions } from '../interface'
+
+export type PermissionRuleTemplateContext = { user: User }
+export function compilePermissionRules(
+  templates: PermissionRule[],
+  context: PermissionRuleTemplateContext,
+) {
+  const templateFn = buildJSONTemplate(templates)
+  return templateFn(context) as PermissionRule[]
+}
 
 export function assertPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,

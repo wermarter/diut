@@ -42,11 +42,13 @@ export class UserCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleUser.branchIds)
+  @IsArray()
   @IsObjectId({ each: true })
   branchIds: string[]
 
   @Expose()
   @ApiProperty(exampleUser.roleIds)
+  @IsArray()
   @IsObjectId({ each: true })
   roleIds: string[]
 }

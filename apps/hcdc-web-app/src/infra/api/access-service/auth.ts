@@ -84,7 +84,7 @@ export type RoleUnpopulatedResponseDto = {
   permissions: PermissionRuleRequestDto[]
   branchId: string
 }
-export type LoginResponseDto = {
+export type UserResponseDto = {
   _id: string
   username: string
   name: string
@@ -94,6 +94,10 @@ export type LoginResponseDto = {
   roleIds: string[]
   branches?: BranchUnpopulatedResponseDto[]
   roles?: RoleUnpopulatedResponseDto[]
+}
+export type LoginResponseDto = {
+  user: UserResponseDto
+  permissions: PermissionRuleRequestDto[]
 }
 export type HttpErrorResponse = {
   errorCode:
@@ -121,17 +125,6 @@ export type HttpErrorResponse = {
 export type AuthLoginRequestDto = {
   username: string
   password: string
-}
-export type UserResponseDto = {
-  _id: string
-  username: string
-  name: string
-  phoneNumber: string
-  inlinePermissions: PermissionRuleRequestDto[]
-  branchIds: string[]
-  roleIds: string[]
-  branches?: BranchUnpopulatedResponseDto[]
-  roles?: RoleUnpopulatedResponseDto[]
 }
 export type AuthMeResponseDto = {
   user: UserResponseDto

@@ -1,6 +1,5 @@
 import { createAbility, PermissionRule, Role } from '@diut/hcdc'
 import { Inject } from '@nestjs/common'
-const buildJSONTemplate = require('json-templates')
 
 import {
   AuthContextData,
@@ -8,6 +7,7 @@ import {
   IUserRepository,
   UserRepositoryToken,
   EAuthnPayloadUserNotFound,
+  compilePermissionRules,
 } from 'src/domain'
 
 export class AuthPopulateContextUseCase {
@@ -19,7 +19,9 @@ export class AuthPopulateContextUseCase {
   async execute(input: AuthPayload): Promise<AuthContextData> {
     const user = await this.userRepository.findOne({
       filter: { _id: input.userId },
-      populates: [{ path: 'roles', fields: ['permissions'] as (keyof Role)[] }],
+      populates: [
+        { path: 'roles', fields: ['permissions'] satisfies (keyof Role)[] },
+      ],
     })
     if (!user) {
       throw new EAuthnPayloadUserNotFound()
@@ -31,13 +33,13 @@ export class AuthPopulateContextUseCase {
         rolesPermissions.push(...role.permissions)
       }
     })
-    const permissionTemplate = buildJSONTemplate([
-      ...rolesPermissions,
-      ...user.inlinePermissions,
-    ])
-    const permissions = permissionTemplate({ user }) as PermissionRule[]
 
-    // const ability = createAbility(permissions)
+    const compiledPermissions = compilePermissionRules(
+      [...rolesPermissions, ...user.inlinePermissions],
+      { user },
+    )
+
+    // const ability = createAbility(compiledPermissions)
     const ability = createAbility([
       {
         subject: 'all',
