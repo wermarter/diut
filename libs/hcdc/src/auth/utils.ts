@@ -6,8 +6,12 @@ import {
 } from '@casl/ability'
 import { $or, or } from '@ucast/mongo2js'
 
-import { AuthAction } from './action'
-import { AuthSubject, SubjectEntityMapping } from './subject'
+import { AuthAction, AuthActionUnionType } from './action'
+import {
+  AuthSubject,
+  AuthSubjectUnionType,
+  SubjectEntityMapping,
+} from './subject'
 import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
 import { PermissionRule } from '../entity'
 
@@ -28,4 +32,19 @@ export function checkPermission<TSubject extends keyof typeof AuthSubject>(
   }
 
   return ability.can(action, subject)
+}
+
+export function isAuthorizedOneOf(
+  userPermissions: PermissionRule[],
+  authDetails: {
+    subject: AuthSubjectUnionType
+    action: AuthActionUnionType
+    filterObj?: unknown
+  }[],
+): boolean {
+  const ability = createAbility(userPermissions)
+
+  return authDetails.some(({ subject, action, filterObj }) =>
+    checkPermission(ability, subject, action, filterObj),
+  )
 }

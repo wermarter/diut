@@ -1,5 +1,4 @@
-import { ReactElement } from 'react'
-import { To } from 'react-router-dom'
+import { AuthSubject, PatientAction, SampleAction } from '@diut/hcdc'
 import AccountBoxIcon from '@mui/icons-material/AccountBoxOutlined'
 import HomeIcon from '@mui/icons-material/HomeOutlined'
 import VaccinesIcon from '@mui/icons-material/VaccinesOutlined'
@@ -21,16 +20,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork'
 
-export interface MenuItem {
-  icon: ReactElement
-  label: string
-  destination: To
-}
-
-export interface DrawerItem {
-  title: string
-  children: MenuItem[]
-}
+import { DrawerItem, authOneOf } from './utils'
 
 export const drawerItems: DrawerItem[] = [
   {
@@ -45,21 +35,34 @@ export const drawerItems: DrawerItem[] = [
         icon: <AirlineSeatReclineNormalIcon />,
         label: 'Nhập TT',
         destination: 'info',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Sample, action: SampleAction.UpdateInfo },
+        ]),
       },
       {
         icon: <FaceRetouchingNaturalIcon />,
         label: 'Xác nhận TT',
         destination: 'info/confirm',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Sample, action: SampleAction.UpdateInfo },
+        ]),
       },
       {
         icon: <AppRegistrationIcon />,
         label: 'Nhập KQ',
         destination: 'result',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Sample, action: SampleAction.UpdateResult },
+        ]),
       },
       {
         icon: <PrintIcon />,
         label: 'In KQ',
         destination: 'result/print',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Sample, action: SampleAction.UpdateResult },
+          { subject: AuthSubject.Sample, action: SampleAction.PrintResult },
+        ]),
       },
       {
         icon: <RuleIcon />,
@@ -70,6 +73,9 @@ export const drawerItems: DrawerItem[] = [
         icon: <PersonSearchIcon />,
         label: 'Tìm kiếm',
         destination: 'patient/search',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Patient, action: PatientAction.Read },
+        ]),
       },
       {
         icon: <FileDownloadIcon />,

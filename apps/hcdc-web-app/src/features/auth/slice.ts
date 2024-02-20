@@ -7,6 +7,7 @@ import {
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { toast } from 'react-toastify'
+import { PermissionRule } from '@diut/hcdc'
 
 import { authApi } from 'src/infra/api/access-service/auth'
 import { RootState } from 'src/infra/redux'
@@ -14,8 +15,7 @@ import { RootState } from 'src/infra/redux'
 interface AuthState {
   id?: string
   name?: string
-  accessToken?: string
-  permissions?: Permission[]
+  permissions?: PermissionRule[]
 }
 
 // Reset store state on user logout or token expiration
