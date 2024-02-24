@@ -15,8 +15,6 @@ import { HttpErrorResponse } from '../dto'
 export class BadRequestExceptionFilter implements ExceptionFilter {
   private logger = new Logger(BadRequestExceptionFilter.name)
 
-  constructor() {}
-
   catch(exception: BadRequestException, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()

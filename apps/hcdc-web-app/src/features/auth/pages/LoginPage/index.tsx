@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useTypedSelector } from 'src/core'
-import { selectIsAuthenticated } from '../../slice'
+import { useTypedSelector } from 'src/infra/redux'
 import { LoginForm } from './login-form'
+import { authSlice } from '../../state'
 
 export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const isAuthenticated = useTypedSelector(selectIsAuthenticated)
+  const isAuthenticated = useTypedSelector(
+    authSlice.selectors.selectIsAuthenticated,
+  )
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -18,5 +20,3 @@ export default function LoginPage() {
 
   return <LoginForm reason={location.state?.reason} />
 }
-
-export { loginPageLoader } from './loader'

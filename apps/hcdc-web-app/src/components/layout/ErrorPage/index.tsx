@@ -1,6 +1,6 @@
-import { isRouteErrorResponse, Navigate, useRouteError } from 'react-router-dom'
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
-import { AppException, AppNavigate } from 'src/shared/utils'
+import { AppException } from 'src/shared/utils'
 import { AppExceptionPage } from './app-exception'
 import { NotFoundPage } from './not-found'
 import { UnknownExceptionPage } from './unknown-exception'
@@ -14,11 +14,6 @@ export function ErrorPage() {
     return <NotFoundPage />
   }
 
-  if (error instanceof AppNavigate) {
-    return <Navigate {...error.props} />
-  }
-
-  // ------------------------------------------------------------------------------
   if (!(error instanceof Error)) {
     return <WeirdExceptionPage />
   }

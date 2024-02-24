@@ -38,6 +38,6 @@ export const combineInjectors = (
   loader: LoaderFunction,
   injectors: RouteInjectors,
 ) =>
-  injectors.reverse().reduce((cumloader, { injector, args }) => {
+  injectors.toReversed().reduce((cumloader, { injector, args }) => {
     return injectLoader(cumloader, injector, args)
   }, loader)

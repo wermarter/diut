@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { useUserUpdateByIdMutation } from 'src/infra/api/access-service/user'
 import { SideAction } from 'src/components/ui'
 import { useTypedSelector } from 'src/infra/redux'
-import { selectUserId } from 'src/features/auth'
+import { authSlice } from 'src/features/auth'
 import { ChangePasswordForm } from './form'
 
 interface ChangePasswordProps {
@@ -14,13 +14,13 @@ interface ChangePasswordProps {
 
 export function ChangePassword({ open, onClose, userId }: ChangePasswordProps) {
   const [updateUser, { isLoading }] = useUserUpdateByIdMutation()
-  const currentUserId = useTypedSelector(selectUserId)
+  const currentUserId = useTypedSelector(authSlice.selectors.selectUserId)
 
-  const targetId = userId ?? currentUserId!
+  const targetUserId = userId ?? currentUserId!
 
   const handleChangePassword = async (newPassword: string) => {
     return updateUser({
-      id: targetId,
+      id: targetUserId,
       userUpdateRequestDto: { password: newPassword },
     }).then(() => {
       toast.success('Thay đổi thành công!')

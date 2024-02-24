@@ -15,7 +15,7 @@ import {
 import { useNavigation } from 'react-router-dom'
 
 import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
-import { selectUserName, userLogout, ChangePassword } from 'src/features/auth'
+import { ChangePassword, authSlice } from 'src/features/auth'
 import { ProgressBar } from 'src/components/ui'
 
 interface AppBarProps {
@@ -24,7 +24,7 @@ interface AppBarProps {
 
 export function AppBar({ drawerWidth }: AppBarProps) {
   const dispatch = useTypedDispatch()
-  const name = useTypedSelector(selectUserName)
+  const name = useTypedSelector(authSlice.selectors.selectUserName)
   const navigation = useNavigation()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -40,7 +40,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
 
   const handleLogout = () => {
     handleClose()
-    dispatch(userLogout())
+    dispatch(authSlice.actions.handleLogout())
   }
 
   const handleChangePassword = () => {

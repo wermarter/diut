@@ -5,7 +5,7 @@ import {
 } from '@diut/hcdc'
 
 import { appStore, useTypedSelector } from 'src/core'
-import { selectUserPermissions } from '../../../features/auth/slice'
+import { selectUserPermissions } from '../../../features/auth/state/slice'
 
 export function useCheckPermissionAnyOf(requiredPermissions: Permission[]) {
   const userPermissions = useTypedSelector(selectUserPermissions)

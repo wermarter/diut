@@ -3,9 +3,10 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react'
+import { toast } from 'react-toastify'
 
 import { appConfig } from 'src/config'
-import { userLogout } from 'src/infra/auth'
+import { authSlice } from 'src/features/auth'
 
 const authorizedBaseQuery = fetchBaseQuery({
   baseUrl: appConfig.apiBaseUrl,
@@ -17,8 +18,20 @@ const authorizedBaseQuery = fetchBaseQuery({
 const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
   let result = await authorizedBaseQuery(args, api, extraOptions)
 
-  if (result.error && result.error.status === 401) {
-    api.dispatch(userLogout())
+  if (result.error) {
+    const { message } = result.data as any
+
+    switch (result.error.status) {
+      case 400:
+        toast.error(`Thông tin không hợp lệ\n${message}`)
+      case 401:
+        toast.error(`Phiên đăng nhập hết hạn\n${message}`)
+        api.dispatch(authSlice.actions.handleLogout())
+      case 403:
+        toast.error(`Bạn không có quyền này\n${message}`)
+      default:
+        toast.error(`Lỗi hệ thống\n${message}`)
+    }
   }
 
   return result

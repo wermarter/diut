@@ -11,8 +11,8 @@ import { fullLogo } from 'src/assets/images'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { FormTextField, FormContainer } from 'src/components/form'
 import {
-  LoginBadRequestDto,
   useAuthLoginMutation,
+  HttpErrorResponse,
 } from 'src/infra/api/access-service/auth'
 
 interface LoginPageProps {
@@ -20,7 +20,7 @@ interface LoginPageProps {
 }
 
 export function LoginForm({ reason }: LoginPageProps) {
-  const [contextText, setContextText] = useState(reason)
+  const [contextText] = useState(reason)
   const [showPassword, setShowPassword] = useState(false)
   const [login, { error }] = useAuthLoginMutation()
 
@@ -35,29 +35,26 @@ export function LoginForm({ reason }: LoginPageProps) {
   })
 
   useEffect(() => {
-    const response = (error as any)?.data as LoginBadRequestDto
-    if (response?.message?.length > 0) {
-      const { message } = response
-      if (message === DomainErrorCode.AUTHN_LOGIN_INVALID_USERNAME) {
-        toast.dismiss()
-        setError(
-          'username',
-          { message: 'Sai tên đăng nhập' },
-          { shouldFocus: true },
-        )
-        return
-      }
-      if (message === DomainErrorCode.AUTHN_LOGIN_INVALID_PASSWORD) {
-        toast.dismiss()
-        setError('password', { message: 'Sai mật khẩu' }, { shouldFocus: true })
-        return
-      }
-      setContextText(message)
+    const response = (error as any)?.data as HttpErrorResponse
+    const { errorCode } = response
+    if (errorCode === DomainErrorCode.AUTHN_LOGIN_INVALID_USERNAME) {
+      toast.dismiss()
+      setError(
+        'username',
+        { message: 'Sai tên đăng nhập' },
+        { shouldFocus: true },
+      )
+      return
+    }
+    if (errorCode === DomainErrorCode.AUTHN_LOGIN_INVALID_PASSWORD) {
+      toast.dismiss()
+      setError('password', { message: 'Sai mật khẩu' }, { shouldFocus: true })
+      return
     }
   }, [error])
 
   const handleLogin = async ({ username, password }: FormSchema) =>
-    login({ loginRequestDto: { username, password } })
+    login({ username, password })
 
   const handleToggleShowPassword = () => {
     setShowPassword((current) => !current)

@@ -12,7 +12,7 @@ import {
 } from 'redux-persist'
 
 import { accessServiceApiSlice } from 'src/infra/api'
-import { authReducer, authSlice, authMiddleware } from 'src/features/auth'
+import { authReducer, authSlice } from 'src/features/auth'
 
 const reducers = {
   [accessServiceApiSlice.reducerPath]: accessServiceApiSlice.reducer,
@@ -26,7 +26,7 @@ export const appStore = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([authMiddleware, accessServiceApiSlice.middleware]),
+    }).concat([accessServiceApiSlice.middleware]),
 })
 
 // allow API slice refetchOnReconnect

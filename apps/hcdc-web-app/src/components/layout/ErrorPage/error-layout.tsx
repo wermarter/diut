@@ -23,7 +23,7 @@ export function ErrorLayout({ children }: ErrorLayoutProps) {
       }}
     >
       <Typography variant="h2" component="h1">
-        Đã xảy ra lỗi !
+        Đã xảy ra lỗi
       </Typography>
       <Button sx={{ my: 3 }} variant="contained" onClick={handleNavigateHome}>
         Quay về trang chủ
