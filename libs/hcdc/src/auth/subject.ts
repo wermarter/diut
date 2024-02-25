@@ -15,6 +15,7 @@ import {
   TestCombo,
   TestElement,
   User,
+  WebApp,
 } from '../entity'
 import { AUTH_SUBJECT_ALL } from './constants'
 
@@ -36,6 +37,7 @@ export const AuthSubject = {
   Patient: 'Patient',
   TestCombo: 'TestCombo',
   Sample: 'Sample',
+  WebApp: 'WebApp',
 } as const
 
 export type AuthSubjectUnionType = keyof typeof AuthSubject
@@ -62,4 +64,5 @@ export type SubjectEntityMapping = {
   Patient: Patient
   TestCombo: TestCombo
   Sample: Sample
+  WebApp: WebApp
 }

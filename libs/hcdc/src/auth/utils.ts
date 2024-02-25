@@ -48,3 +48,18 @@ export function isAuthorizedOneOf(
     checkPermission(ability, subject, action, filterObj),
   )
 }
+
+export function isAuthorizedAllOf(
+  userPermissions: PermissionRule[],
+  authDetails: {
+    subject: AuthSubjectUnionType
+    action: AuthActionUnionType
+    filterObj?: unknown
+  }[],
+): boolean {
+  const ability = createAbility(userPermissions)
+
+  return authDetails.every(({ subject, action, filterObj }) =>
+    checkPermission(ability, subject, action, filterObj),
+  )
+}

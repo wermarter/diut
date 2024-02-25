@@ -1,4 +1,10 @@
-import { AuthSubject, PatientAction, SampleAction } from '@diut/hcdc'
+import {
+  AuthSubject,
+  SampleAction,
+  WebApp,
+  WebAppAction,
+  WebAppPage,
+} from '@diut/hcdc'
 import AccountBoxIcon from '@mui/icons-material/AccountBoxOutlined'
 import HomeIcon from '@mui/icons-material/HomeOutlined'
 import VaccinesIcon from '@mui/icons-material/VaccinesOutlined'
@@ -20,9 +26,9 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork'
 
-import { DrawerItem, authOneOf } from './utils'
+import { DrawerItemGroup, authOneOf } from './utils'
 
-export const drawerItems: DrawerItem[] = [
+export const drawerItems: DrawerItemGroup[] = [
   {
     title: '',
     children: [
@@ -60,7 +66,6 @@ export const drawerItems: DrawerItem[] = [
         label: 'In KQ',
         destination: 'result/print',
         isAuthorized: authOneOf([
-          { subject: AuthSubject.Sample, action: SampleAction.UpdateResult },
           { subject: AuthSubject.Sample, action: SampleAction.PrintResult },
         ]),
       },
@@ -68,13 +73,24 @@ export const drawerItems: DrawerItem[] = [
         icon: <RuleIcon />,
         label: 'Sổ nhận mẫu',
         destination: 'report/test',
+        isAuthorized: authOneOf([
+          {
+            subject: AuthSubject.WebApp,
+            action: WebAppAction.View,
+            filterObj: { page: WebAppPage.SoNhanMau } as WebApp,
+          },
+        ]),
       },
       {
         icon: <PersonSearchIcon />,
         label: 'Tìm kiếm',
         destination: 'patient/search',
         isAuthorized: authOneOf([
-          { subject: AuthSubject.Patient, action: PatientAction.Read },
+          {
+            subject: AuthSubject.WebApp,
+            action: WebAppAction.View,
+            filterObj: { page: WebAppPage.TimKiemBenhNhan } as WebApp,
+          },
         ]),
       },
       {

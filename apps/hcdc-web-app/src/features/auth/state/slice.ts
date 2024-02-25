@@ -22,9 +22,13 @@ export const authSlice = createSlice({
     selectUserId: (state) =>
       state.isAuthenticated === true ? state.data.id : null,
     selectAbility: (state) =>
-      state.isAuthenticated === true
-        ? createAbility(state.data.permissions)
-        : null,
+      createAbility(
+        state.isAuthenticated === true ? state.data.permissions : [],
+      ),
+    selectUserPermissions: (state) =>
+      state.isAuthenticated === true ? state.data.permissions : [],
+    selectActiveBranchId: (state) =>
+      state.isAuthenticated === true ? state.data.activeBranchId : null,
   },
   reducers: {
     handleLogout: (state) => {

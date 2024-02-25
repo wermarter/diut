@@ -1,8 +1,12 @@
-import { PermissionRule, isAuthorizedOneOf } from '@diut/hcdc'
+import {
+  PermissionRule,
+  isAuthorizedAllOf,
+  isAuthorizedOneOf,
+} from '@diut/hcdc'
 import { ReactElement } from 'react'
 import { To } from 'react-router-dom'
 
-export interface MenuItem {
+export interface DrawerItem {
   icon: ReactElement
   label: string
   destination: To
@@ -12,9 +16,9 @@ export interface MenuItem {
   ) => boolean
 }
 
-export interface DrawerItem {
+export interface DrawerItemGroup {
   title: string
-  children: MenuItem[]
+  children: DrawerItem[]
 }
 
 export function authOneOf(
@@ -32,5 +36,23 @@ export function authOneOf(
     }
 
     return isAuthorizedOneOf(userPermissions, authDetails)
+  }
+}
+
+export function authAllOf(
+  authDetails: Parameters<typeof isAuthorizedAllOf>[1],
+) {
+  return (userPermissions: PermissionRule[], branchId: string) => {
+    if (branchId) {
+      return isAuthorizedAllOf(
+        userPermissions,
+        authDetails.map(({ filterObj: originalFilterObj, ...details }) => ({
+          ...details,
+          filterObj: { ...(originalFilterObj ?? {}), branchId },
+        })),
+      )
+    }
+
+    return isAuthorizedAllOf(userPermissions, authDetails)
   }
 }

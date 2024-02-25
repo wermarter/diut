@@ -16,7 +16,7 @@ import {
 
 import { DataTable } from '../DataTable'
 import { CrudToolbar, NEW_ID_VALUE } from './components/CrudToolbar'
-import { ConfirmDialog } from '../ConfirmDialog'
+import { ConfirmDialog } from 'src/components/ui'
 
 interface CustomRowAction<R extends GridValidRowModel> {
   label: string

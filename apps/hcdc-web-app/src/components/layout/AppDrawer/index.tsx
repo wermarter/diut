@@ -15,11 +15,7 @@ import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { fullLogo } from 'src/assets/images'
 import { useDrawerItems } from './hooks'
 
-interface AppDrawerProps {
-  drawerWidth: number
-}
-
-export function AppDrawer({ drawerWidth }: AppDrawerProps) {
+export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const drawerItems = useDrawerItems()

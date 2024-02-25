@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 
 import { appConfig } from 'src/config'
 import { authSlice } from 'src/features/auth'
+import { HttpErrorResponse } from './auth'
 
 const authorizedBaseQuery = fetchBaseQuery({
   baseUrl: appConfig.apiBaseUrl,
@@ -15,11 +16,15 @@ const authorizedBaseQuery = fetchBaseQuery({
 })
 
 // https://redux-toolkit.js.org/rtk-query/usage/customizing-queries
-const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
+const baseQueryWithErrorHandling: BaseQueryFn = async (
+  args,
+  api,
+  extraOptions,
+) => {
   let result = await authorizedBaseQuery(args, api, extraOptions)
 
   if (result.error) {
-    const { message } = result.data as any
+    const { message } = result?.data! as HttpErrorResponse
 
     switch (result.error.status) {
       case 400:
@@ -38,7 +43,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 }
 
 export const accessServiceApiSlice = createApi({
-  baseQuery: baseQueryWithReauth,
+  baseQuery: baseQueryWithErrorHandling,
   refetchOnReconnect: true,
   keepUnusedDataFor: 60 * 60 * 10, // 10 hours
   endpoints: () => ({}),

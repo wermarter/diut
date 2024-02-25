@@ -1,10 +1,9 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
+import HomePage from 'src/features/homepage/pages/Homepage'
 import { MainLayout } from 'src/components/layout/MainLayout'
 import { CustomRouteObject } from 'src/infra/router'
-import LoginPage, { loginPageLoader } from 'src/features/auth/pages/LoginPage'
-import HomePage from 'src/features/homepage/pages/Homepage'
 import { infoEditPageLoader } from 'src/features/sample-info/pages/InfoEditPage/loader'
 import { editResultPageLoader } from 'src/features/sample-result/pages/EditResultPage/loader'
 import { infoInputPageLoader } from 'src/features/sample-info/pages/InfoInputPage/loader'
@@ -17,6 +16,7 @@ import { testReportPageLoader } from 'src/features/report/pages/TestReportPage/l
 import { exportReportPageLoader } from 'src/features/report/pages/ExportReportPage/loader'
 
 //#region Lazy import pages
+const LoginPage = React.lazy(() => import('src/features/auth/pages/LoginPage'))
 const ManageDoctorPage = React.lazy(
   () => import('src/features/doctor/pages/ManageDoctorPage'),
 )
@@ -86,12 +86,11 @@ export const appRoutes: CustomRouteObject[] = [
   {
     path: 'login',
     element: <LoginPage />,
-    loader: loginPageLoader,
   },
   {
     path: '/',
     element: <MainLayout />,
-    isAuthenticated: true,
+    authenticatedOnly: true,
     children: [
       {
         index: true,

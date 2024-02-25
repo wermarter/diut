@@ -1,54 +1,38 @@
-import { checkPermission } from '@diut/hcdc'
+import { useMemo } from 'react'
 
 import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 import { drawerItems } from './drawer-items'
-import { selectUserPermissions } from 'src/features/auth'
+import { DrawerItemGroup } from './utils'
 
 export function useDrawerItems() {
-  const userPermissions = useTypedSelector(selectUserPermissions)
+  const permissions = useTypedSelector(
+    authSlice.selectors.selectUserPermissions,
+  )
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
-  const result = drawerItems.map((group) => {
-    // Group permission
-    if (
-      group.permissionAnyOf &&
-      !checkPermissionAnyOf(userPermissions, group.permissionAnyOf)
-    ) {
-      return null
-    }
-    if (
-      group.permissionAllOf &&
-      !checkPermissionAllOf(userPermissions, group.permissionAllOf)
-    ) {
-      return null
-    }
+  const result = useMemo(() => {
+    const result = drawerItems.map((group) => {
+      let filteredChildren = group.children.filter((item) => {
+        if (item.isAuthorized === undefined) {
+          return true
+        }
 
-    // Children permission
-    let filteredChildren = group.children.filter((item) => {
-      if (
-        item.permissionAnyOf &&
-        !checkPermissionAnyOf(userPermissions, item.permissionAnyOf)
-      ) {
-        return false
-      }
-      if (
-        item.permissionAllOf &&
-        !checkPermissionAllOf(userPermissions, item.permissionAllOf)
-      ) {
-        return false
+        return item.isAuthorized(permissions, branchId)
+      })
+
+      if (!(filteredChildren && filteredChildren.length > 0)) {
+        return null
       }
 
-      return true
+      return {
+        ...group,
+        children: filteredChildren,
+      }
     })
 
-    if (!(filteredChildren && filteredChildren.length > 0)) {
-      return null
-    }
+    return result.filter((group): group is DrawerItemGroup => group !== null)
+  }, [permissions, branchId])
 
-    return {
-      ...group,
-      children: filteredChildren,
-    }
-  })
-
-  return result.filter((group): group is DrawerItem => group != null)
+  return result
 }

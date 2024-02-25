@@ -10,7 +10,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import { PropsWithChildren, useCallback } from 'react'
 
-import { drawerWidth } from 'src/common/layout/MainLayout'
+import { drawerWidth } from 'src/components/layout'
 
 interface SideActionProps extends PropsWithChildren {
   title: string
