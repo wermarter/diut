@@ -9,9 +9,12 @@ import {
 } from 'src/infra/api/access-service/bio-product'
 import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 import { bioProductColumns } from './columns'
 
 export function BioProductTable() {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
     sort: { index: 1 },
     offset: 0,
@@ -42,9 +45,10 @@ export function BioProductTable() {
         await createBioProduct({
           name: item.name,
           displayIndex: item.displayIndex,
+          branchId,
         }).unwrap()
       }}
-      onItemUpdate={async (newItem, oldItem) => {
+      onItemUpdate={async (newItem) => {
         await updateBioProduct({
           id: newItem._id,
           bioProductUpdateRequestDto: {

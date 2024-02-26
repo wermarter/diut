@@ -15,28 +15,22 @@ export const useCrudPagination = (
 ) => {
   const [filterObj, setFilterObj] = useState<SearchRequestDto>(defaultFilter)
 
-  const onPageChange = useCallback(
-    (page: number) => {
-      setFilterObj((oldValue) => {
-        return Object.assign({}, oldValue, {
-          offset: page,
-        })
+  const onPageChange = useCallback((page: number) => {
+    setFilterObj((oldValue) => {
+      return Object.assign({}, oldValue, {
+        offset: page,
       })
-    },
-    [setFilterObj],
-  )
+    })
+  }, [])
 
-  const onPageSizeChange = useCallback(
-    (pageSize: number) => {
-      setFilterObj((oldValue) => {
-        return Object.assign({}, oldValue, {
-          offset: 0,
-          limit: pageSize,
-        })
+  const onPageSizeChange = useCallback((pageSize: number) => {
+    setFilterObj((oldValue) => {
+      return Object.assign({}, oldValue, {
+        offset: 0,
+        limit: pageSize,
       })
-    },
-    [setFilterObj],
-  )
+    })
+  }, [])
 
   return {
     filterObj,
