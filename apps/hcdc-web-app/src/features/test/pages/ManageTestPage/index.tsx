@@ -1,4 +1,4 @@
-import { TestTable } from '../../components/TestTable'
+import { TestTable } from '../../components'
 
 export default function ManageTestPage() {
   return (

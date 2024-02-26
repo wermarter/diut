@@ -16,7 +16,7 @@ import { bioProductColumns } from './columns'
 export function BioProductTable() {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { index: 1 },
+    sort: { displayIndex: 1 },
     offset: 0,
   })
 

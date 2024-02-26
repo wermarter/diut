@@ -9,6 +9,7 @@ import {
   AuthStateAuthenticated,
   AuthStateUnauthenticated,
 } from './types'
+import { userLogout } from './actions'
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -30,17 +31,16 @@ export const authSlice = createSlice({
     selectActiveBranchId: (state) =>
       state.isAuthenticated === true ? state.data.activeBranchId : null,
   },
-  reducers: {
-    handleLogout: (state) => {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(userLogout, (state) => {
       if (state.isAuthenticated === false) return
 
       const unauthenticatedState = state as unknown as AuthStateUnauthenticated
       unauthenticatedState.isAuthenticated = false
       // @ts-ignore
       unauthenticatedState.data = undefined
-    },
-  },
-  extraReducers: (builder) => {
+    })
     builder.addMatcher(
       authApi.endpoints.authLogin.matchFulfilled,
       (state, { payload }) => {

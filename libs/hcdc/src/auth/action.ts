@@ -48,4 +48,5 @@ export const AuthActionValues = [
 ]
 
 export type AuthActionUnionType =
-  (typeof AuthAction)[AuthSubjectUnionType][number]
+  | (typeof AuthAction)[AuthSubjectUnionType][number]
+  | typeof AUTH_ACTION_ALL

@@ -7,18 +7,14 @@ export const manageTestElemenentPageLoader = async () => {
     appStore
       .dispatch(
         testCategoryApi.endpoints.testCategorySearch.initiate({
-          searchTestCategoryRequestDto: {
-            sort: { index: 1 },
-          },
+          sort: { displayIndex: 1 },
         }),
       )
       .unwrap(),
     appStore
       .dispatch(
         testApi.endpoints.testSearch.initiate({
-          searchTestRequestDto: {
-            sort: { index: 1 },
-          },
+          sort: { displayIndex: 1 },
         }),
       )
       .unwrap(),

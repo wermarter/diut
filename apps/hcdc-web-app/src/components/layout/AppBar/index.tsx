@@ -17,6 +17,7 @@ import { useNavigation } from 'react-router-dom'
 import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
 import { ChangePassword, authSlice } from 'src/features/auth'
 import { ProgressBar } from 'src/components/ui'
+import { userLogout } from 'src/features/auth/state/actions'
 
 interface AppBarProps {
   drawerWidth: number
@@ -40,7 +41,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
 
   const handleLogout = () => {
     handleClose()
-    dispatch(authSlice.actions.handleLogout())
+    dispatch(userLogout())
   }
 
   const handleChangePassword = () => {
@@ -56,7 +57,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
     >
       <Toolbar variant="dense">
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          Xin chào, {name}
+          {name}
         </Typography>
         <div>
           <IconButton

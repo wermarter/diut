@@ -82,8 +82,8 @@ export class TestSchema extends BaseSchema {
   instrumentId?: string
   instrument?: InstrumentSchema | null
 
-  @Prop({ required: true, type: Types.ObjectId })
-  sampleTypeId: string
+  @Prop({ required: false, type: Types.ObjectId })
+  sampleTypeId?: string
   sampleType?: SampleTypeSchema | null
 
   @Prop({ required: true, type: Types.ObjectId })

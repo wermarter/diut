@@ -39,16 +39,7 @@ export class AuthPopulateContextUseCase {
       { user },
     )
 
-    // const ability = createAbility(compiledPermissions)
-    const ability = createAbility([
-      {
-        subject: 'all',
-        action: 'manage',
-        // conditions: {
-        //   name: { $ne: 'E2' },
-        // },
-      },
-    ])
+    const ability = createAbility(compiledPermissions)
 
     return { user, ability }
   }

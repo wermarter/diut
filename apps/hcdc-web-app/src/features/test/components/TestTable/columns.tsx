@@ -5,7 +5,8 @@ import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 
-export const NO_BIOPRODUCT = 'NO_BIOPRODUCT'
+const NO_BIOPRODUCT = '-- không --'
+const NO_PRINTFORM = '-- không --'
 
 export function useTestColumns(
   testCategories: TestCategoryResponseDto[],
@@ -14,22 +15,19 @@ export function useTestColumns(
 ): GridColDef<TestResponseDto>[] {
   return [
     {
-      field: 'category',
+      field: 'testCategoryId',
       headerName: 'Nhóm XN',
       type: 'singleSelect',
       width: 200,
       sortable: false,
       editable: true,
-      valueOptions: testCategories?.map((item) => ({
-        value: item?.name,
-        label: item?.name,
+      valueOptions: testCategories.map((item) => ({
+        value: item._id,
+        label: item.name,
       })),
-      valueGetter: ({ value }) => {
-        return value?.name ?? ''
-      },
     },
     {
-      field: 'index',
+      field: 'displayIndex',
       headerName: 'Thứ tự',
       type: 'number',
       width: 70,
@@ -45,29 +43,23 @@ export function useTestColumns(
       editable: true,
     },
     {
-      field: 'bioProduct',
+      field: 'bioProductId',
       headerName: 'Sinh phẩm',
       type: 'singleSelect',
       width: 200,
       sortable: false,
       editable: true,
-      valueOptions: [{ label: '-- không --', value: NO_BIOPRODUCT }].concat(
-        bioProducts?.map((item) => ({
-          value: item?.name,
-          label: item?.name,
+      valueOptions: [
+        {
+          label: NO_BIOPRODUCT,
+          value: undefined as unknown as string,
+        },
+      ].concat(
+        bioProducts.map((item) => ({
+          value: item._id,
+          label: item.name,
         })),
       ),
-      valueGetter: ({ value }) => {
-        return value?.name ?? ''
-      },
-    },
-    {
-      field: 'shouldNotPrint',
-      type: 'boolean',
-      headerName: 'Không In',
-      width: 80,
-      sortable: false,
-      editable: true,
     },
     {
       field: 'shouldDisplayWithChildren',
@@ -78,19 +70,23 @@ export function useTestColumns(
       editable: true,
     },
     {
-      field: 'printForm',
+      field: 'printFormId',
       type: 'singleSelect',
       headerName: 'Form In KQ',
       width: 150,
       sortable: false,
       editable: true,
-      valueOptions: printForms.map(({ name }) => ({
-        label: name,
-        value: name,
-      })),
-      valueGetter: ({ value }) => {
-        return printForms.find(({ _id }) => _id === value)?.name
-      },
+      valueOptions: [
+        {
+          label: NO_PRINTFORM,
+          value: undefined as unknown as string,
+        },
+      ].concat(
+        printForms.map((printForm) => ({
+          value: printForm._id,
+          label: printForm.name,
+        })),
+      ),
     },
   ]
 }

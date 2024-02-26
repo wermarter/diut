@@ -1,4 +1,4 @@
-import { PatientTypeTable } from './components/PatientTypeTable'
+import { PatientTypeTable } from '../../components'
 
 export default function ManagePatientTypePage() {
   return (

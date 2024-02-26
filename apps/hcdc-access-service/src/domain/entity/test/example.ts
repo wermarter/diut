@@ -21,7 +21,7 @@ export const exampleTest = {
     required: false,
     nullable: true,
   },
-  sampleTypeId: exampleMongoObjectId,
+  sampleTypeId: { ...exampleMongoObjectId, required: false },
   sampleType: {
     required: false,
     nullable: true,

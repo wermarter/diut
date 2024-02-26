@@ -1,6 +1,7 @@
 export enum WebAppPage {
   SoNhanMau = 'SoNhanMau',
   TimKiemBenhNhan = 'TimKiemBenhNhan',
+  XuatBaoCao = 'XuatBaoCao',
 }
 
 export type WebApp = {

@@ -8,27 +8,21 @@ export const manageTestPageLoader = async () => {
     appStore
       .dispatch(
         testCategoryApi.endpoints.testCategorySearch.initiate({
-          searchTestCategoryRequestDto: {
-            sort: { index: 1 },
-          },
+          sort: { displayIndex: 1 },
         }),
       )
       .unwrap(),
     appStore
       .dispatch(
         bioProductApi.endpoints.bioProductSearch.initiate({
-          searchBioProductRequestDto: {
-            sort: { index: 1 },
-          },
+          sort: { displayIndex: 1 },
         }),
       )
       .unwrap(),
     appStore
       .dispatch(
         printFormApi.endpoints.printFormSearch.initiate({
-          searchPrintFormRequestDto: {
-            sort: { index: 1 },
-          },
+          sort: { displayIndex: 1 },
         }),
       )
       .unwrap(),

@@ -44,8 +44,9 @@ export class TestCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleTest.sampleTypeId)
+  @IsOptional()
   @IsObjectId()
-  sampleTypeId: string
+  sampleTypeId?: string
 
   @Expose()
   @ApiProperty(exampleTest.testCategoryId)

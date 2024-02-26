@@ -1,4 +1,4 @@
-import { TestComboTable } from './components/TestComboTable'
+import { TestComboTable } from '../../components'
 
 export default function ManageTestComboPage() {
   return (

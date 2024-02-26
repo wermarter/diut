@@ -10,10 +10,13 @@ import {
 import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { doctorColumns } from './columns'
+import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
 
 export function DoctorTable() {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { index: 1 },
+    sort: { displayIndex: 1 },
     offset: 0,
   })
 
@@ -40,25 +43,24 @@ export function DoctorTable() {
       onItemCreate={async (item) => {
         await createDoctor({
           name: item.name,
-          index: item.index,
+          displayIndex: item.displayIndex,
+          branchId,
         }).unwrap()
       }}
-      onItemUpdate={async (newItem, oldItem) => {
+      onItemUpdate={async (newItem) => {
         await updateDoctor({
           id: newItem._id,
-          updateDoctorRequestDto: {
+          doctorUpdateRequestDto: {
             name: newItem.name,
-            index: newItem.index,
+            displayIndex: newItem.displayIndex,
           },
         }).unwrap()
       }}
       onItemDelete={async (item) => {
-        await deleteDoctor({
-          id: item._id,
-        }).unwrap()
+        await deleteDoctor(item._id).unwrap()
       }}
       onRefresh={async () => {
-        await searchDoctors({ searchDoctorRequestDto: filterObj }).unwrap()
+        await searchDoctors(filterObj).unwrap()
       }}
     />
   ) : (

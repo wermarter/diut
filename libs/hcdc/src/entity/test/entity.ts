@@ -17,7 +17,7 @@ export type Test = BaseEntity & {
   instrumentId?: string
   instrument?: Instrument | null
 
-  sampleTypeId: string
+  sampleTypeId?: string
   sampleType?: SampleType | null
 
   testCategoryId: string

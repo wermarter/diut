@@ -112,6 +112,7 @@ export type PermissionRuleRequestDto = {
     | 'Patient'
     | 'TestCombo'
     | 'Sample'
+    | 'WebApp'
     | 'all'
   action:
     | 'Create'
@@ -124,8 +125,9 @@ export type PermissionRuleRequestDto = {
     | 'OverrideAuthor'
     | 'UpdateInfo'
     | 'UpdateResult'
-    | 'ExportReport'
     | 'PrintResult'
+    | 'ExportReport'
+    | 'View'
     | 'manage'
   inverted?: boolean
   conditions: object
@@ -189,7 +191,7 @@ export type TestUnpopulatedResponseDto = {
   shouldDisplayWithChildren: boolean
   bioProductId?: string
   instrumentId?: string
-  sampleTypeId: string
+  sampleTypeId?: string
   testCategoryId: string
   printFormId?: string
   branchId: string

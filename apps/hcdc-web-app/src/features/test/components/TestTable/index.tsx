@@ -1,4 +1,3 @@
-import { PrintForm } from '@diut/hcdc'
 import {
   FormControl,
   InputLabel,
@@ -8,7 +7,6 @@ import {
 } from '@mui/material'
 import { useLoaderData } from 'react-router-dom'
 
-import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 import {
   useTestCreateMutation,
   useTestDeleteByIdMutation,
@@ -19,23 +17,14 @@ import {
 import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { manageTestPageLoader } from '../../pages/ManageTestPage/loader'
-import { NO_BIOPRODUCT, useTestColumns } from './columns'
+import { useTestColumns } from './columns'
+import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
 
 const ALL_CATEGORIES = 'ALL_CATEGORIES'
 
-function setBioProductId(
-  bioProducts: BioProductResponseDto[],
-  bioProductId: string,
-) {
-  if (bioProductId === NO_BIOPRODUCT) {
-    return null
-  }
-  return bioProducts.find(
-    (bioProduct) => bioProduct.name === (bioProductId as any),
-  )?._id!
-}
-
 export function TestTable() {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { testCategories, bioProducts, printForms } =
     useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
 
@@ -67,52 +56,33 @@ export function TestTable() {
       onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
         await createTest({
-          createTestRequestDto: {
-            name: item.name,
-            index: item.index,
-            category: testCategories.find(
-              (category) => category.name === (item.category as any),
-            )?._id!,
-            bioProduct: setBioProductId(bioProducts, item.bioProduct as any)!,
-            printForm: printForms.find(
-              (printForm) => printForm.name === item.printForm,
-            )?._id! as PrintForm,
-            shouldNotPrint: item.shouldNotPrint ?? false,
-            shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
-          },
+          name: item.name,
+          displayIndex: item.displayIndex,
+          testCategoryId: item.testCategoryId,
+          bioProductId: item.bioProductId,
+          printFormId: item.printFormId,
+          shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
+          branchId,
         }).unwrap()
       }}
-      onItemUpdate={async (newItem, oldItem) => {
+      onItemUpdate={async (newItem) => {
         await updateTest({
           id: newItem._id,
-          updateTestRequestDto: {
+          testUpdateRequestDto: {
             name: newItem.name,
-            index: newItem.index,
-            category: testCategories.find(
-              (category) => category.name === (newItem.category as any),
-            )?._id,
-            bioProduct: setBioProductId(
-              bioProducts,
-              newItem.bioProduct as any,
-            )!,
-            printForm: printForms.find(
-              (printForm) => printForm.name === newItem.printForm,
-            )?._id! as PrintForm,
-            shouldNotPrint: newItem.shouldNotPrint ?? false,
-            shouldDisplayWithChildren:
-              newItem.shouldDisplayWithChildren ?? false,
+            displayIndex: newItem.displayIndex,
+            testCategoryId: newItem.testCategoryId,
+            bioProductId: newItem.bioProductId,
+            printFormId: newItem.printFormId,
+            shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
           },
         }).unwrap()
       }}
       onItemDelete={async (item) => {
-        await deleteTest({
-          id: item._id,
-        }).unwrap()
+        await deleteTest(item._id).unwrap()
       }}
       onRefresh={async () => {
-        await searchTests({
-          searchTestRequestDto: filterObj,
-        }).unwrap()
+        await searchTests(filterObj).unwrap()
       }}
       TopRightComponent={
         <FormControl fullWidth size="small" sx={{ minWidth: '300px' }}>

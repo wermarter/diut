@@ -127,7 +127,7 @@ export function TestElementTable() {
           await createTestElement({
             createTestElementRequestDto: {
               name: item.name,
-              index: item.index,
+              displayIndex: item.displayIndex,
               printIndex: item.printIndex,
               reportOrder: item.reportOrder,
               test: tests.find((test) => test.name === (item.test as any))
@@ -143,7 +143,7 @@ export function TestElementTable() {
             id: newItem._id,
             updateTestElementRequestDto: {
               name: newItem.name,
-              index: newItem.index,
+              displayIndex: newItem.displayIndex,
               printIndex: newItem.printIndex,
               reportOrder: newItem.reportOrder,
               test: tests.find((test) => test.name === (newItem.test as any))

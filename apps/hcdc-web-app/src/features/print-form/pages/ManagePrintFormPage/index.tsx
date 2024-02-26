@@ -1,4 +1,4 @@
-import { PrintFormTable } from './components/PrintFormTable'
+import { PrintFormTable } from '../../components'
 
 export default function ManagePatientTypePage() {
   return (

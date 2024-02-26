@@ -100,7 +100,7 @@ export type TestUnpopulatedResponseDto = {
   shouldDisplayWithChildren: boolean
   bioProductId?: string
   instrumentId?: string
-  sampleTypeId: string
+  sampleTypeId?: string
   testCategoryId: string
   printFormId?: string
   branchId: string

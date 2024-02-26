@@ -25,6 +25,7 @@
     "@mui/material": "^5.15.10",
     "@mui/x-data-grid": "^6.19.4",
     "@reduxjs/toolkit": "^2.2.1",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
     "@vitejs/plugin-react": "^4.2.1",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",

@@ -27,7 +27,10 @@ bootstrapApp(
   },
   [
     LogBootstrap,
-    CorsBootstrap,
+    CorsBootstrap({
+      devOriginAllowList: ['http://localhost:5173'],
+      originAllowList: ['http://lab.hcdc.vn:8000'],
+    }),
     LifecycleBootstrap,
     PipeBootstrap,
     PrefixBootstrap,

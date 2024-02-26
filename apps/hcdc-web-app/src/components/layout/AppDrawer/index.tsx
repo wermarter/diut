@@ -1,5 +1,4 @@
 import {
-  Box,
   Divider,
   Drawer,
   List,
@@ -12,7 +11,6 @@ import {
 import { Fragment } from 'react'
 import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 
-import { fullLogo } from 'src/assets/images'
 import { useDrawerItems } from './hooks'
 
 export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
@@ -39,24 +37,6 @@ export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
         },
       }}
     >
-      <Box
-        sx={{
-          position: 'sticky',
-          backgroundColor: 'background.paper',
-          zIndex: 'appBar',
-          top: 0,
-          left: 0,
-        }}
-      >
-        <img
-          src={fullLogo}
-          width={`${drawerWidth}px`}
-          style={{
-            padding: '4px',
-          }}
-        />
-        <Divider sx={{ mt: 1, borderColor: 'primary.main' }} />
-      </Box>
       <List
         sx={{
           '&& .Mui-selected, && .Mui-selected:hover': {
@@ -75,8 +55,8 @@ export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
         }}
       >
         {drawerItems.map((group, groupIndex) => (
-          <Fragment key={group.title}>
-            {groupIndex > 0 && <Divider sx={{ my: 1 }} />}
+          <Fragment key={groupIndex}>
+            {groupIndex > 0 && <Divider />}
             <ListSubheader disableSticky component="div" inset>
               {group.title}
             </ListSubheader>

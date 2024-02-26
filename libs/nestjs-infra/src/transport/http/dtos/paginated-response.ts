@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { ClassConstructor, Expose, Type } from 'class-transformer'
+import { IsNumber, ValidateNested } from 'class-validator'
 
 export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
   ItemClass: ItemType,
@@ -7,14 +8,17 @@ export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
   class PaginationDtoClass {
     @Expose()
     @ApiProperty()
+    @IsNumber()
     total: number
 
     @Expose()
     @ApiProperty()
+    @IsNumber()
     offset: number
 
     @Expose()
     @ApiProperty()
+    @IsNumber()
     limit: number
 
     @Expose()
@@ -23,6 +27,7 @@ export function PaginatedResponse<ItemType extends ClassConstructor<unknown>>(
       isArray: true,
     })
     @Type(() => ItemClass)
+    @ValidateNested({ each: true })
     items: (typeof ItemClass)[]
   }
 

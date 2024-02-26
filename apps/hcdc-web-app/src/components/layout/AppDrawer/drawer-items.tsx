@@ -1,4 +1,5 @@
 import {
+  AUTH_ACTION_ALL,
   AuthSubject,
   SampleAction,
   WebApp,
@@ -24,7 +25,6 @@ import ListAltIcon from '@mui/icons-material/ListAlt'
 import RuleIcon from '@mui/icons-material/Rule'
 import PersonSearchIcon from '@mui/icons-material/PersonSearch'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork'
 
 import { DrawerItemGroup, authOneOf } from './utils'
 
@@ -37,6 +37,11 @@ export const drawerItems: DrawerItemGroup[] = [
         label: 'Trang chủ',
         destination: '/',
       },
+    ],
+  },
+  {
+    title: '',
+    children: [
       {
         icon: <AirlineSeatReclineNormalIcon />,
         label: 'Nhập TT',
@@ -97,6 +102,13 @@ export const drawerItems: DrawerItemGroup[] = [
         icon: <FileDownloadIcon />,
         label: 'Xuất báo cáo',
         destination: 'report/export',
+        isAuthorized: authOneOf([
+          {
+            subject: AuthSubject.WebApp,
+            action: WebAppAction.View,
+            filterObj: { page: WebAppPage.XuatBaoCao } as WebApp,
+          },
+        ]),
       },
     ],
   },
@@ -107,61 +119,89 @@ export const drawerItems: DrawerItemGroup[] = [
         icon: <ManageAccountsIcon />,
         label: 'Người dùng',
         destination: 'manage/users',
-      },
-      {
-        icon: <MapsHomeWorkIcon />,
-        label: 'Đơn vị',
-        destination: 'manage/sample-origins',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.User, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <AccountBoxIcon />,
         label: 'Bác sĩ',
         destination: 'manage/doctors',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Doctor, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <WorkIcon />,
         label: 'Đối tượng',
         destination: 'manage/patient-types',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.PatientType, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <MedicalInformationIcon />,
         label: 'Chẩn đoán',
-        destination: 'manage/indications',
+        destination: 'manage/diagnoses',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Diagnosis, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <CoronavirusIcon />,
         label: 'Sinh phẩm',
         destination: 'manage/bio-products',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.BioProduct, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <VaccinesIcon />,
         label: 'Loại mẫu',
         destination: 'manage/sample-types',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.SampleType, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <WorkspacesIcon />,
         label: 'Nhóm XN',
         destination: 'manage/test-categories',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.TestCategory, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <BiotechIcon />,
         label: 'Tên XN',
         destination: 'manage/tests',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Test, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <BloodtypeIcon />,
         label: 'Thành phần XN',
         destination: 'manage/test-elements',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.TestElement, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <Diversity2Icon />,
         label: 'Bộ xét nghiệm',
         destination: 'manage/test-combos',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.TestCombo, action: AUTH_ACTION_ALL },
+        ]),
       },
       {
         icon: <ListAltIcon />,
         label: 'Form In',
         destination: 'manage/print-forms',
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.PrintForm, action: AUTH_ACTION_ALL },
+        ]),
       },
     ],
   },

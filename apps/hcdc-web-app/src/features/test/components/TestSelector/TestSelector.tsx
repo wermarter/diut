@@ -34,15 +34,12 @@ export function TestSelector({
   showCombos = false,
 }: TestSelectorProps) {
   const { data, isFetching } = useTestSearchQuery({
-    searchTestRequestDto: {
-      sort: { index: 1 },
-    },
+    sort: { displayIndex: 1 },
+    populates: [{ path: 'testCategory', fields: ['name', 'displayIndex'] }],
   })
 
   const { data: combos, isFetching: isFetchingCombos } =
-    useTestComboSearchQuery({
-      searchTestComboRequestDto: { sort: { index: 1 } },
-    })
+    useTestComboSearchQuery({ sort: { index: 1 } })
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
 
@@ -50,7 +47,7 @@ export function TestSelector({
     if (isFetching === false) {
       setSelectedIds(
         previousState.filter((testId) =>
-          data?.items.some((test) => test.category && test._id === testId),
+          data?.items.some((test) => test._id === testId),
         ),
       )
     }
@@ -58,8 +55,8 @@ export function TestSelector({
 
   const categories: string[] = []
   const groups = groupBy(data?.items ?? [], (test) => {
-    categories[test?.category?.index] = test?.category?.name
-    return test?.category?.name
+    categories[test?.testCategory?.displayIndex!] = test?.testCategory?.name!
+    return test?.testCategory?.name
   })
 
   const handleSubmit = () => {
@@ -110,7 +107,7 @@ export function TestSelector({
                 key={combo._id}
                 variant="outlined"
                 onClick={() => {
-                  setSelectedIds(combo.children)
+                  setSelectedIds(combo.testIds)
                 }}
               >
                 {combo.name}
@@ -153,7 +150,7 @@ export function TestSelector({
                         <ListItemText
                           primaryTypographyProps={{
                             sx:
-                              test.shouldNotPrint === true
+                              test.printFormId === undefined
                                 ? {}
                                 : { fontWeight: 'bold' },
                           }}

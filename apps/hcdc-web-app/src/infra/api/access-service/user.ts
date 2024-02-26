@@ -98,6 +98,7 @@ export type PermissionRuleRequestDto = {
     | 'Patient'
     | 'TestCombo'
     | 'Sample'
+    | 'WebApp'
     | 'all'
   action:
     | 'Create'
@@ -110,8 +111,9 @@ export type PermissionRuleRequestDto = {
     | 'OverrideAuthor'
     | 'UpdateInfo'
     | 'UpdateResult'
-    | 'ExportReport'
     | 'PrintResult'
+    | 'ExportReport'
+    | 'View'
     | 'manage'
   inverted?: boolean
   conditions: object

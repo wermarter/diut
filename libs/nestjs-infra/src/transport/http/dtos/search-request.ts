@@ -17,6 +17,7 @@ import { Type } from 'class-transformer'
 class PopulateOptionDto<TEntity> {
   @ApiProperty({
     example: 'results.elements.testElementId',
+    type: 'string',
   })
   @IsString()
   path: PopulatePath<TEntity>

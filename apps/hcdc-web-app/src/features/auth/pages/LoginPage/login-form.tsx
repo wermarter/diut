@@ -7,7 +7,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-import { fullLogo } from 'src/assets/images'
+// import { fullLogo } from 'src/assets/images'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { FormTextField, FormContainer } from 'src/components/form'
 import {
@@ -36,6 +36,8 @@ export function LoginForm({ reason }: LoginPageProps) {
 
   useEffect(() => {
     const response = (error as any)?.data as HttpErrorResponse
+    if (!response) return
+
     const { errorCode } = response
     if (errorCode === DomainErrorCode.AUTHN_LOGIN_INVALID_USERNAME) {
       toast.dismiss()
@@ -68,10 +70,10 @@ export function LoginForm({ reason }: LoginPageProps) {
         alignItems: 'center',
       }}
     >
-      <img
+      {/* <img
         src={fullLogo}
         style={{ maxWidth: '50%', marginTop: '24px', marginBottom: '24px' }}
-      />
+      /> */}
       <FormContainer
         onSubmit={handleSubmit(handleLogin)}
         sx={{ maxWidth: '350px' }}

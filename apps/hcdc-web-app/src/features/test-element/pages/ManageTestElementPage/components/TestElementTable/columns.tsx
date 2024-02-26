@@ -30,7 +30,7 @@ export function useTestElementColumns(
       },
     },
     {
-      field: 'index',
+      field: 'displayIndex',
       headerName: 'Thứ tự nhập',
       type: 'number',
       minWidth: 70,

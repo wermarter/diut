@@ -119,7 +119,7 @@ export type TestResponseDto = {
   shouldDisplayWithChildren: boolean
   bioProductId?: string
   instrumentId?: string
-  sampleTypeId: string
+  sampleTypeId?: string
   testCategoryId: string
   printFormId?: string
   branchId: string
@@ -179,7 +179,7 @@ export type TestUnpopulatedResponseDto = {
   shouldDisplayWithChildren: boolean
   bioProductId?: string
   instrumentId?: string
-  sampleTypeId: string
+  sampleTypeId?: string
   testCategoryId: string
   printFormId?: string
   branchId: string
@@ -190,7 +190,7 @@ export type TestCreateRequestDto = {
   shouldDisplayWithChildren: boolean
   bioProductId?: string
   instrumentId?: string
-  sampleTypeId: string
+  sampleTypeId?: string
   testCategoryId: string
   printFormId?: string
   branchId: string
