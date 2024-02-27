@@ -19,6 +19,11 @@ export class BioProductCreateRequestDto {
   name: string
 
   @Expose()
+  @ApiProperty(exampleBioProduct.testId)
+  @IsObjectId()
+  testId: string
+
+  @Expose()
   @ApiProperty(exampleBioProduct.branchId)
   @IsObjectId()
   branchId: string

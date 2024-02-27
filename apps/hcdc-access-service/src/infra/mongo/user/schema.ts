@@ -14,7 +14,7 @@ import { RoleSchema } from '../role'
   virtuals: {
     branches: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'branchIds',
         foreignField: '_id',
         justOne: false,
@@ -22,7 +22,7 @@ import { RoleSchema } from '../role'
     },
     roles: {
       options: {
-        ref: RoleSchema.name,
+        ref: 'RoleSchema',
         localField: 'roleIds',
         foreignField: '_id',
         justOne: false,

@@ -12,9 +12,9 @@ import {
 
 import {
   AuthContextToken,
+  EEntityTestInvalidBioProduct,
   IAuthContext,
   assertPermission,
-  EntityData,
 } from 'src/domain'
 import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 import { BioProductAssertExistsUseCase } from '../../bio-product/use-case/assert-exists'
@@ -36,7 +36,7 @@ export class TestValidateUseCase {
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
-  async execute(input: Partial<EntityData<Test>>) {
+  async execute(input: Partial<Test>) {
     const { ability } = this.authContext.getData()
     const {
       bioProductId,
@@ -47,7 +47,7 @@ export class TestValidateUseCase {
       branchId,
     } = input
 
-    if (bioProductId !== undefined) {
+    if (bioProductId != undefined) {
       const bioProduct = await this.bioProductAssertExistsUseCase.execute({
         _id: bioProductId,
       })
@@ -57,9 +57,14 @@ export class TestValidateUseCase {
         BioProductAction.Read,
         bioProduct,
       )
+      if (input._id && bioProduct.testId.toString() !== input._id.toString()) {
+        throw new EEntityTestInvalidBioProduct(
+          `${bioProduct.testId} !== ${input._id}`,
+        )
+      }
     }
 
-    if (instrumentId !== undefined) {
+    if (instrumentId != undefined) {
       const instrument = await this.instrumentAssertExistsUseCase.execute({
         _id: instrumentId,
       })
@@ -71,7 +76,7 @@ export class TestValidateUseCase {
       )
     }
 
-    if (sampleTypeId !== undefined) {
+    if (sampleTypeId != undefined) {
       const sampleType = await this.sampleTypeAssertExistsUseCase.execute({
         _id: sampleTypeId,
       })
@@ -95,7 +100,7 @@ export class TestValidateUseCase {
       )
     }
 
-    if (printFormId !== undefined) {
+    if (printFormId != undefined) {
       const printForm = await this.printFormAssertExistsUseCase.execute({
         _id: printFormId,
       })

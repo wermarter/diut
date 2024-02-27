@@ -12,7 +12,7 @@ import { BranchSchema } from '../branch'
   virtuals: {
     branch: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'branchId',
         foreignField: '_id',
         justOne: true,

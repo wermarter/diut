@@ -10,6 +10,11 @@ export const exampleBioProduct = {
   name: {
     example: 'CHIV Advia centaur',
   },
+  testId: exampleMongoObjectId,
+  test: {
+    required: false,
+    nullable: true,
+  },
   branchId: exampleMongoObjectId,
   branch: {
     required: false,

@@ -13,10 +13,11 @@ import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 import { bioProductColumns } from './columns'
 
-export function BioProductTable() {
+export function BioProductTable({ testId }: { testId: string }) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
     sort: { displayIndex: 1 },
+    filter: { testId, branchId },
     offset: 0,
   })
 
@@ -46,6 +47,7 @@ export function BioProductTable() {
           name: item.name,
           displayIndex: item.displayIndex,
           branchId,
+          testId,
         }).unwrap()
       }}
       onItemUpdate={async (newItem) => {

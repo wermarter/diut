@@ -71,6 +71,7 @@ export type BioProductUnpopulatedResponseDto = {
   _id: string
   displayIndex: number
   name: string
+  testId: string
   branchId: string
 }
 export type InstrumentUnpopulatedResponseDto = {
@@ -117,11 +118,11 @@ export type TestResponseDto = {
   displayIndex: number
   name: string
   shouldDisplayWithChildren: boolean
-  bioProductId?: string
-  instrumentId?: string
-  sampleTypeId?: string
+  bioProductId: string | null
+  instrumentId: string | null
+  sampleTypeId: string | null
   testCategoryId: string
-  printFormId?: string
+  printFormId: string | null
   branchId: string
   bioProduct?: BioProductUnpopulatedResponseDto | null
   instrument?: InstrumentUnpopulatedResponseDto | null
@@ -177,33 +178,33 @@ export type TestUnpopulatedResponseDto = {
   displayIndex: number
   name: string
   shouldDisplayWithChildren: boolean
-  bioProductId?: string
-  instrumentId?: string
-  sampleTypeId?: string
+  bioProductId: string | null
+  instrumentId: string | null
+  sampleTypeId: string | null
   testCategoryId: string
-  printFormId?: string
+  printFormId: string | null
   branchId: string
 }
 export type TestCreateRequestDto = {
   displayIndex: number
   name: string
   shouldDisplayWithChildren: boolean
-  bioProductId?: string
-  instrumentId?: string
-  sampleTypeId?: string
+  bioProductId: string | null
+  instrumentId: string | null
+  sampleTypeId: string | null
   testCategoryId: string
-  printFormId?: string
+  printFormId: string | null
   branchId: string
 }
 export type TestUpdateRequestDto = {
   displayIndex?: number
   name?: string
   shouldDisplayWithChildren?: boolean
-  bioProductId?: string
-  instrumentId?: string
-  sampleTypeId?: string
+  bioProductId?: string | null
+  instrumentId?: string | null
+  sampleTypeId?: string | null
   testCategoryId?: string
-  printFormId?: string
+  printFormId?: string | null
   branchId?: string
 }
 export const {

@@ -12,7 +12,7 @@ import { TestSchema } from '../test/schema'
   virtuals: {
     tests: {
       options: {
-        ref: TestSchema.name,
+        ref: 'TestSchema',
         localField: 'testIds',
         foreignField: '_id',
         justOne: false,
@@ -20,7 +20,7 @@ import { TestSchema } from '../test/schema'
     },
     branch: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'branchId',
         foreignField: '_id',
         justOne: true,

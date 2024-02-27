@@ -11,12 +11,14 @@ import {
 } from '@mui/material'
 import { groupBy } from 'lodash'
 
-import { SideAction } from 'src/components/ui/SideAction'
+import { SideAction } from 'src/components/ui'
 import {
   useTestSearchQuery,
   TestResponseDto,
 } from 'src/infra/api/access-service/test'
 import { useTestComboSearchQuery } from 'src/infra/api/access-service/test-combo'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
 interface TestSelectorProps {
   open: boolean
@@ -33,13 +35,15 @@ export function TestSelector({
   previousState = [],
   showCombos = false,
 }: TestSelectorProps) {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)
   const { data, isFetching } = useTestSearchQuery({
     sort: { displayIndex: 1 },
+    filter: { branchId },
     populates: [{ path: 'testCategory', fields: ['name', 'displayIndex'] }],
   })
 
   const { data: combos, isFetching: isFetchingCombos } =
-    useTestComboSearchQuery({ sort: { index: 1 } })
+    useTestComboSearchQuery({ sort: { index: 1 }, filter: { branchId } })
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
 
@@ -150,7 +154,7 @@ export function TestSelector({
                         <ListItemText
                           primaryTypographyProps={{
                             sx:
-                              test.printFormId === undefined
+                              test.printFormId === null
                                 ? {}
                                 : { fontWeight: 'bold' },
                           }}

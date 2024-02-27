@@ -26,7 +26,7 @@ export class TestUpdateUseCase {
     const entity = await this.testAssertExistsUseCase.execute(input[0])
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Test, TestAction.Update, entity)
-    await this.testValidateUseCase.execute(input[1])
+    await this.testValidateUseCase.execute({ ...input[1], _id: entity._id })
 
     return this.testRepository.update(...input)
   }

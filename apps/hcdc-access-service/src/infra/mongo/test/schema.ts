@@ -16,7 +16,7 @@ import { PrintFormSchema } from '../print-form'
   virtuals: {
     bioProduct: {
       options: {
-        ref: BioProductSchema.name,
+        ref: 'BioProductSchema',
         localField: 'bioProductId',
         foreignField: '_id',
         justOne: true,
@@ -24,7 +24,7 @@ import { PrintFormSchema } from '../print-form'
     },
     instrument: {
       options: {
-        ref: InstrumentSchema.name,
+        ref: 'InstrumentSchema',
         localField: 'instrumentId',
         foreignField: '_id',
         justOne: true,
@@ -32,7 +32,7 @@ import { PrintFormSchema } from '../print-form'
     },
     sampleType: {
       options: {
-        ref: SampleTypeSchema.name,
+        ref: 'SampleTypeSchema',
         localField: 'sampleTypeId',
         foreignField: '_id',
         justOne: true,
@@ -40,7 +40,7 @@ import { PrintFormSchema } from '../print-form'
     },
     testCategory: {
       options: {
-        ref: TestCategorySchema.name,
+        ref: 'TestCategorySchema',
         localField: 'testCategoryId',
         foreignField: '_id',
         justOne: true,
@@ -48,7 +48,7 @@ import { PrintFormSchema } from '../print-form'
     },
     printForm: {
       options: {
-        ref: PrintFormSchema.name,
+        ref: 'PrintFormSchema',
         localField: 'printFormId',
         foreignField: '_id',
         justOne: true,
@@ -56,7 +56,7 @@ import { PrintFormSchema } from '../print-form'
     },
     branch: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'branchId',
         foreignField: '_id',
         justOne: true,
@@ -75,15 +75,15 @@ export class TestSchema extends BaseSchema {
   shouldDisplayWithChildren: boolean
 
   @Prop({ required: false, type: Types.ObjectId })
-  bioProductId?: string
+  bioProductId: string | null
   bioProduct?: BioProductSchema | null
 
   @Prop({ required: false, type: Types.ObjectId })
-  instrumentId?: string
+  instrumentId: string | null
   instrument?: InstrumentSchema | null
 
   @Prop({ required: false, type: Types.ObjectId })
-  sampleTypeId?: string
+  sampleTypeId: string | null
   sampleType?: SampleTypeSchema | null
 
   @Prop({ required: true, type: Types.ObjectId })
@@ -91,7 +91,7 @@ export class TestSchema extends BaseSchema {
   testCategory?: TestCategorySchema | null
 
   @Prop({ required: false, type: Types.ObjectId })
-  printFormId?: string
+  printFormId: string | null
   printForm?: PrintFormSchema | null
 
   @Prop({ required: true, type: Types.ObjectId })

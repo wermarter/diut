@@ -1,4 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid'
+import { useMemo } from 'react'
 
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
@@ -10,6 +11,29 @@ export function useTestColumns(
   bioProducts: BioProductResponseDto[],
   printForms: PrintFormResponseDto[],
 ): GridColDef<TestResponseDto>[] {
+  const bioProductLookup = useMemo(() => {
+    const bioProductMap: Record<string, BioProductResponseDto[]> = {}
+    bioProducts.forEach((item) => {
+      if (bioProductMap[item.testId] === undefined) {
+        bioProductMap[item.testId] = []
+      }
+      bioProductMap[item.testId].push(item)
+    })
+
+    const rv: Record<string, { label: string; value: string | null }[]> = {}
+
+    for (const testId in bioProductMap) {
+      rv[testId] = bioProductMap[testId]
+        .map((item) => ({
+          value: item._id,
+          label: item.name,
+        }))
+        .concat([{ label: '-- không --', value: null as unknown as string }])
+    }
+
+    return rv
+  }, [bioProducts])
+
   return [
     {
       field: 'testCategoryId',
@@ -46,10 +70,9 @@ export function useTestColumns(
       width: 200,
       sortable: false,
       editable: true,
-      valueOptions: bioProducts.map((item) => ({
-        value: item._id,
-        label: item.name,
-      })),
+      valueOptions(params) {
+        return bioProductLookup?.[params.row?._id!]
+      },
     },
     {
       field: 'shouldDisplayWithChildren',
@@ -66,10 +89,12 @@ export function useTestColumns(
       width: 150,
       sortable: false,
       editable: true,
-      valueOptions: printForms.map((printForm) => ({
-        value: printForm._id,
-        label: printForm.name,
-      })),
+      valueOptions: printForms
+        .map((printForm) => ({
+          value: printForm._id,
+          label: printForm.name,
+        }))
+        .concat([{ label: '-- không --', value: null as unknown as string }]),
     },
   ]
 }

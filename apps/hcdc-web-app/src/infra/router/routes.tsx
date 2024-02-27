@@ -38,9 +38,6 @@ const ManageTestPage = React.lazy(
 const ManageDiagnosisPage = React.lazy(
   () => import('src/features/diagnosis/pages/ManageDiagnosisPage'),
 )
-const ManageBioProductPage = React.lazy(
-  () => import('src/features/bio-product/pages/ManageBioProductPage'),
-)
 const ManageSampleTypePage = React.lazy(
   () => import('src/features/sample-type/pages/ManageSampleTypePage'),
 )
@@ -128,10 +125,6 @@ export const appRoutes: CustomRouteObject[] = [
           //   loader: manageTestElemenentPageLoader,
           // },
           {
-            path: 'bio-products',
-            element: <ManageBioProductPage />,
-          },
-          {
             path: 'sample-types',
             element: <ManageSampleTypePage />,
           },
@@ -139,10 +132,10 @@ export const appRoutes: CustomRouteObject[] = [
             path: 'test-combos',
             element: <ManageTestComboPage />,
           },
-          // {
-          //   path: 'print-forms',
-          //   element: <ManagePrintFormPage />,
-          // },
+          {
+            path: 'print-forms',
+            element: <ManagePrintFormPage />,
+          },
         ],
       },
       // ------------------------------------------------------------------------

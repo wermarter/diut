@@ -64,8 +64,8 @@ export function FormAutocomplete<
             onChange={(event, value, reason) => {
               onChange(value.map(getOptionValue))
             }}
-            value={options.filter(
-              (option) => value?.includes(getOptionValue(option)),
+            value={options.filter((option) =>
+              value?.includes(getOptionValue(option)),
             )}
             filterSelectedOptions
             renderInput={(params) => (

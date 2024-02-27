@@ -18,7 +18,7 @@ import { DiagnosisSchema } from '../diagnosis'
   virtuals: {
     testElement: {
       options: {
-        ref: TestElementSchema.name,
+        ref: 'TestElementSchema',
         localField: 'testElementId',
         foreignField: '_id',
         justOne: true,
@@ -44,7 +44,7 @@ export class SampleResultTestElementSchema {
   virtuals: {
     test: {
       options: {
-        ref: TestSchema.name,
+        ref: 'TestSchema',
         localField: 'testId',
         foreignField: '_id',
         justOne: true,
@@ -52,7 +52,7 @@ export class SampleResultTestElementSchema {
     },
     resultBy: {
       options: {
-        ref: UserSchema.name,
+        ref: 'UserSchema',
         localField: 'resultById',
         foreignField: '_id',
         justOne: true,
@@ -94,7 +94,7 @@ export class SampleResultTestSchema {
   virtuals: {
     sampleTypes: {
       options: {
-        ref: SampleTypeSchema.name,
+        ref: 'SampleTypeSchema',
         localField: 'sampleTypeIds',
         foreignField: '_id',
         justOne: false,
@@ -102,7 +102,7 @@ export class SampleResultTestSchema {
     },
     branch: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'branchId',
         foreignField: '_id',
         justOne: true,
@@ -110,7 +110,7 @@ export class SampleResultTestSchema {
     },
     infoBy: {
       options: {
-        ref: UserSchema.name,
+        ref: 'UserSchema',
         localField: 'infoById',
         foreignField: '_id',
         justOne: true,
@@ -118,7 +118,7 @@ export class SampleResultTestSchema {
     },
     printedBy: {
       options: {
-        ref: UserSchema.name,
+        ref: 'UserSchema',
         localField: 'printedById',
         foreignField: '_id',
         justOne: true,
@@ -126,7 +126,7 @@ export class SampleResultTestSchema {
     },
     patient: {
       options: {
-        ref: PatientSchema.name,
+        ref: 'PatientSchema',
         localField: 'patientId',
         foreignField: '_id',
         justOne: true,
@@ -134,7 +134,7 @@ export class SampleResultTestSchema {
     },
     doctor: {
       options: {
-        ref: DoctorSchema.name,
+        ref: 'DoctorSchema',
         localField: 'doctorId',
         foreignField: '_id',
         justOne: true,
@@ -142,7 +142,7 @@ export class SampleResultTestSchema {
     },
     patientType: {
       options: {
-        ref: PatientTypeSchema.name,
+        ref: 'PatientTypeSchema',
         localField: 'patientTypeId',
         foreignField: '_id',
         justOne: true,
@@ -150,7 +150,7 @@ export class SampleResultTestSchema {
     },
     diagnosis: {
       options: {
-        ref: DiagnosisSchema.name,
+        ref: 'DiagnosisSchema',
         localField: 'diagnosisId',
         foreignField: '_id',
         justOne: true,
@@ -158,7 +158,7 @@ export class SampleResultTestSchema {
     },
     origin: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'originId',
         foreignField: '_id',
         justOne: true,

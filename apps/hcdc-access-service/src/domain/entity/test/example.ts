@@ -11,17 +11,17 @@ export const exampleTest = {
     example: 'tên xét nghiệm',
   },
   shouldDisplayWithChildren: {},
-  bioProductId: { ...exampleMongoObjectId, required: false },
+  bioProductId: { ...exampleMongoObjectId, nullable: true },
   bioProduct: {
     required: false,
     nullable: true,
   },
-  instrumentId: { ...exampleMongoObjectId, required: false },
+  instrumentId: { ...exampleMongoObjectId, nullable: true },
   instrument: {
     required: false,
     nullable: true,
   },
-  sampleTypeId: { ...exampleMongoObjectId, required: false },
+  sampleTypeId: { ...exampleMongoObjectId, nullable: true },
   sampleType: {
     required: false,
     nullable: true,
@@ -31,7 +31,7 @@ export const exampleTest = {
     required: false,
     nullable: true,
   },
-  printFormId: { ...exampleMongoObjectId, required: false },
+  printFormId: { ...exampleMongoObjectId, nullable: true },
   printForm: {
     required: false,
     nullable: true,

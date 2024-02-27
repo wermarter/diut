@@ -11,7 +11,7 @@ import { COLLECTION } from '../collections'
   virtuals: {
     sampleOrigins: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'sampleOriginIds',
         foreignField: '_id',
         justOne: false,

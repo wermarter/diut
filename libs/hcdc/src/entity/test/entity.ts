@@ -11,19 +11,19 @@ export type Test = BaseEntity & {
   name: string
   shouldDisplayWithChildren: boolean
 
-  bioProductId?: string
+  bioProductId: string | null
   bioProduct?: BioProduct | null
 
-  instrumentId?: string
+  instrumentId: string | null
   instrument?: Instrument | null
 
-  sampleTypeId?: string
+  sampleTypeId: string | null
   sampleType?: SampleType | null
 
   testCategoryId: string
   testCategory?: TestCategory | null
 
-  printFormId?: string
+  printFormId: string | null
   printForm?: PrintForm | null
 
   branchId: string

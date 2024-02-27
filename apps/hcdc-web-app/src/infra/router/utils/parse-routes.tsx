@@ -6,7 +6,7 @@ import {
   RouteObject,
 } from 'react-router-dom'
 
-import { AuthenticationCheck } from 'src/infra/auth'
+import { AuthenticationCheck } from 'src/features/auth'
 import { ErrorPage, LoadingPage } from 'src/components/layout'
 
 export type AdditionalRouteProps = {

@@ -3,6 +3,7 @@ export const DATEONLY_FORMAT = 'dd/MM/yyyy'
 
 export const exampleMongoObjectId = {
   example: '634180269de1f07e47bbf494',
+  type: 'string',
 }
 
 export const exampleMongoObjectIds = {

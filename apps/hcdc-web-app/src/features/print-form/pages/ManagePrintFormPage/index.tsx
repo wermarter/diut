@@ -1,6 +1,6 @@
 import { PrintFormTable } from '../../components'
 
-export default function ManagePatientTypePage() {
+export default function ManagePrintFormPage() {
   return (
     <>
       <PrintFormTable />

@@ -78,6 +78,18 @@ export type BioProductUpdateByIdApiArg = {
 export type BioProductDeleteByIdApiResponse =
   /** status 200  */ BioProductUnpopulatedResponseDto
 export type BioProductDeleteByIdApiArg = string
+export type TestUnpopulatedResponseDto = {
+  _id: string
+  displayIndex: number
+  name: string
+  shouldDisplayWithChildren: boolean
+  bioProductId: string | null
+  instrumentId: string | null
+  sampleTypeId: string | null
+  testCategoryId: string
+  printFormId: string | null
+  branchId: string
+}
 export type BranchUnpopulatedResponseDto = {
   _id: string
   displayIndex: number
@@ -90,7 +102,9 @@ export type BioProductResponseDto = {
   _id: string
   displayIndex: number
   name: string
+  testId: string
   branchId: string
+  test?: TestUnpopulatedResponseDto | null
   branch?: BranchUnpopulatedResponseDto | null
 }
 export type BioProductSearchResponseDto = {
@@ -139,16 +153,19 @@ export type BioProductUnpopulatedResponseDto = {
   _id: string
   displayIndex: number
   name: string
+  testId: string
   branchId: string
 }
 export type BioProductCreateRequestDto = {
   displayIndex: number
   name: string
+  testId: string
   branchId: string
 }
 export type BioProductUpdateRequestDto = {
   displayIndex?: number
   name?: string
+  testId?: string
   branchId?: string
 }
 export const {

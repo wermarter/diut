@@ -98,11 +98,11 @@ export type TestUnpopulatedResponseDto = {
   displayIndex: number
   name: string
   shouldDisplayWithChildren: boolean
-  bioProductId?: string
-  instrumentId?: string
-  sampleTypeId?: string
+  bioProductId: string | null
+  instrumentId: string | null
+  sampleTypeId: string | null
   testCategoryId: string
-  printFormId?: string
+  printFormId: string | null
   branchId: string
 }
 export type BranchUnpopulatedResponseDto = {

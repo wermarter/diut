@@ -20,6 +20,7 @@ export function TestComboTable() {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
     sort: { displayIndex: 1 },
+    filter: { branchId },
     offset: 0,
   })
 

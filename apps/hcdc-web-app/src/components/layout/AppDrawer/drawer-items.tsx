@@ -16,7 +16,6 @@ import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatRecline
 import ManageAccountsIcon from '@mui/icons-material/ManageAccountsOutlined'
 import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation'
-import CoronavirusIcon from '@mui/icons-material/Coronavirus'
 import Diversity2Icon from '@mui/icons-material/Diversity2'
 import PrintIcon from '@mui/icons-material/Print'
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural'
@@ -145,14 +144,6 @@ export const drawerItems: DrawerItemGroup[] = [
         destination: 'manage/diagnoses',
         isAuthorized: authOneOf([
           { subject: AuthSubject.Diagnosis, action: AUTH_ACTION_ALL },
-        ]),
-      },
-      {
-        icon: <CoronavirusIcon />,
-        label: 'Sinh phẩm',
-        destination: 'manage/bio-products',
-        isAuthorized: authOneOf([
-          { subject: AuthSubject.BioProduct, action: AUTH_ACTION_ALL },
         ]),
       },
       {

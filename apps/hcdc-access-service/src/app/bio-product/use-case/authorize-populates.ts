@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { BranchAction, BioProduct, AuthSubject } from '@diut/hcdc'
+import { BranchAction, BioProduct, AuthSubject, TestAction } from '@diut/hcdc'
 
 import {
   AuthContextToken,
@@ -20,6 +20,8 @@ export class BioProductAuthorizePopulatesUseCase {
 
     return authorizePopulates(ability, input, (path) => {
       switch (path) {
+        case 'test':
+          return { subject: AuthSubject.Test, action: TestAction.Read }
         case 'branch':
           return { subject: AuthSubject.Branch, action: BranchAction.Read }
         default:

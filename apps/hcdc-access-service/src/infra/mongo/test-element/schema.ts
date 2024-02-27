@@ -37,7 +37,7 @@ export class NormalRuleSchema {
   virtuals: {
     test: {
       options: {
-        ref: TestSchema.name,
+        ref: 'TestSchema',
         localField: 'testId',
         foreignField: '_id',
         justOne: true,
@@ -45,7 +45,7 @@ export class NormalRuleSchema {
     },
     branch: {
       options: {
-        ref: BranchSchema.name,
+        ref: 'BranchSchema',
         localField: 'branchId',
         foreignField: '_id',
         justOne: true,
