@@ -27,17 +27,18 @@ const baseQueryWithErrorHandling: BaseQueryFn = async (
 
     switch (result.error.status) {
       case 400:
-        toast.error(`Thông tin không hợp lệ\n${message}`)
+      case 404:
+        toast.error(`Thông tin không hợp lệ: ${message}`)
         break
       case 401:
-        toast.error(`Phiên đăng nhập hết hạn\n${message}`)
+        toast.error(`Phiên đăng nhập hết hạn: ${message}`)
         api.dispatch(userLogout())
         break
       case 403:
-        toast.error(`Bạn không có quyền này\n${message}`)
+        toast.error(`Bạn không có quyền này: ${message}`)
         break
       case 500:
-        toast.error(`Lỗi hệ thống\n${message}`)
+        toast.error(`Lỗi hệ thống: ${message}`)
         break
     }
   }

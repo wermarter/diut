@@ -5,9 +5,6 @@ import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 
-const NO_BIOPRODUCT = '-- không --'
-const NO_PRINTFORM = '-- không --'
-
 export function useTestColumns(
   testCategories: TestCategoryResponseDto[],
   bioProducts: BioProductResponseDto[],
@@ -49,17 +46,10 @@ export function useTestColumns(
       width: 200,
       sortable: false,
       editable: true,
-      valueOptions: [
-        {
-          label: NO_BIOPRODUCT,
-          value: undefined as unknown as string,
-        },
-      ].concat(
-        bioProducts.map((item) => ({
-          value: item._id,
-          label: item.name,
-        })),
-      ),
+      valueOptions: bioProducts.map((item) => ({
+        value: item._id,
+        label: item.name,
+      })),
     },
     {
       field: 'shouldDisplayWithChildren',
@@ -76,17 +66,10 @@ export function useTestColumns(
       width: 150,
       sortable: false,
       editable: true,
-      valueOptions: [
-        {
-          label: NO_PRINTFORM,
-          value: undefined as unknown as string,
-        },
-      ].concat(
-        printForms.map((printForm) => ({
-          value: printForm._id,
-          label: printForm.name,
-        })),
-      ),
+      valueOptions: printForms.map((printForm) => ({
+        value: printForm._id,
+        label: printForm.name,
+      })),
     },
   ]
 }

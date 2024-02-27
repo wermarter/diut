@@ -98,7 +98,7 @@ export function TestTable() {
                   offset: 0,
                   filter: {
                     ...filterObj.filter,
-                    category: categoryId,
+                    testCategoryId: categoryId,
                   },
                 }))
               } else {
@@ -107,7 +107,7 @@ export function TestTable() {
                   offset: 0,
                   filter: {
                     ...filterObj.filter,
-                    category: undefined,
+                    testCategoryId: undefined,
                   },
                 }))
               }
