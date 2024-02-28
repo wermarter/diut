@@ -25,7 +25,7 @@ type TestTableProps = {
   bioProducts: BioProductResponseDto[]
   printForms: PrintFormResponseDto[]
   revalidateCallback: () => void
-  testCategoryId: string
+  testCategoryId: string | undefined
   setTestCategoryId: (id: string) => void
 }
 
@@ -71,94 +71,97 @@ export function TestTable({
   )
 
   return (
-    <>
-      <CrudTable
-        items={data?.items}
-        itemIdField="_id"
-        isLoading={isFetching || isCreating || isUpdating || isDeleting}
-        fieldColumns={columns}
-        rowCount={data?.total!}
-        page={data?.offset!}
-        pageSize={data?.limit!}
-        onPageChange={onPageChange}
-        onPageSizeChange={onPageSizeChange}
-        onItemCreate={async (item) => {
-          await createTest({
-            name: item.name,
-            displayIndex: item.displayIndex,
-            bioProductId: item.bioProductId ?? null,
-            printFormId: item.printFormId ?? null,
-            instrumentId: null,
-            sampleTypeId: null,
-            shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
-            testCategoryId,
-            branchId,
-          }).unwrap()
-        }}
-        onItemUpdate={async (newItem) => {
-          await updateTest({
-            id: newItem._id,
-            testUpdateRequestDto: {
-              name: newItem.name,
-              displayIndex: newItem.displayIndex,
-              bioProductId: newItem.bioProductId,
-              printFormId: newItem.printFormId,
-              shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
+    testCategoryId !== undefined && (
+      <>
+        <CrudTable
+          items={data?.items}
+          itemIdField="_id"
+          isLoading={isFetching || isCreating || isUpdating || isDeleting}
+          fieldColumns={columns}
+          rowCount={data?.total!}
+          page={data?.offset!}
+          pageSize={data?.limit!}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+          onItemCreate={async (item) => {
+            await createTest({
+              name: item.name,
+              displayIndex: item.displayIndex,
+              bioProductId: item.bioProductId ?? null,
+              printFormId: item.printFormId ?? null,
+              instrumentId: null,
+              sampleTypeId: null,
+              shouldDisplayWithChildren:
+                item.shouldDisplayWithChildren ?? false,
+              testCategoryId,
+              branchId,
+            }).unwrap()
+          }}
+          onItemUpdate={async (newItem) => {
+            await updateTest({
+              id: newItem._id,
+              testUpdateRequestDto: {
+                name: newItem.name,
+                displayIndex: newItem.displayIndex,
+                bioProductId: newItem.bioProductId,
+                printFormId: newItem.printFormId,
+                shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
+              },
+            }).unwrap()
+          }}
+          onItemDelete={async (item) => {
+            await deleteTest(item._id).unwrap()
+          }}
+          onRefresh={async () => {
+            await searchTests(filterObj).unwrap()
+          }}
+          customRowActions={[
+            {
+              label: 'Sinh phẩm',
+              action(test) {
+                setBioProductTest(test)
+              },
             },
-          }).unwrap()
-        }}
-        onItemDelete={async (item) => {
-          await deleteTest(item._id).unwrap()
-        }}
-        onRefresh={async () => {
-          await searchTests(filterObj).unwrap()
-        }}
-        customRowActions={[
-          {
-            label: 'Sinh phẩm',
-            action(test) {
-              setBioProductTest(test)
-            },
-          },
-        ]}
-        TopLeftComponent={
-          <FormControl
-            color="secondary"
-            focused
-            fullWidth
-            size="small"
-            sx={{ minWidth: '300px' }}
-          >
-            <InputLabel>Nhóm xét nghiệm</InputLabel>
-            <Select
-              label="Nhóm xét nghiệm"
-              value={testCategoryId}
-              onChange={({ target }) => {
-                const categoryId = target?.value
-                setTestCategoryId(categoryId)
-              }}
+          ]}
+          TopLeftComponent={
+            <FormControl
+              color="secondary"
+              focused
+              fullWidth
+              size="small"
+              sx={{ minWidth: '300px' }}
             >
-              {testCategories.map((category) => (
-                <MenuItem key={category._id} value={category._id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        }
-      />
-      <SideAction
-        fullWidth
-        open={bioProductTest !== null}
-        onClose={() => {
-          setBioProductTest(null)
-          revalidateCallback()
-        }}
-        title={bioProductTest?.name!}
-        disableClickOutside={false}
-      >
-        <BioProductTable testId={bioProductTest?._id!} />
-      </SideAction>
-    </>
+              <InputLabel>Nhóm xét nghiệm</InputLabel>
+              <Select
+                label="Nhóm xét nghiệm"
+                value={testCategoryId}
+                onChange={({ target }) => {
+                  const categoryId = target?.value
+                  setTestCategoryId(categoryId)
+                }}
+              >
+                {testCategories.map((category) => (
+                  <MenuItem key={category._id} value={category._id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          }
+        />
+        <SideAction
+          fullWidth
+          open={bioProductTest !== null}
+          onClose={() => {
+            setBioProductTest(null)
+            revalidateCallback()
+          }}
+          title={bioProductTest?.name!}
+          disableClickOutside={false}
+        >
+          <BioProductTable testId={bioProductTest?._id!} />
+        </SideAction>
+      </>
+    )
   )
 }

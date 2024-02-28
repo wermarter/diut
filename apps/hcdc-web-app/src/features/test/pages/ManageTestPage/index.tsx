@@ -18,7 +18,7 @@ export default function ManageTestPage() {
 
   const paramCategoryId = searchParams.get(PARAM_CATEGORY_ID)
   const [selectedCategoryId, setSelectedCategoryId] = useState(
-    paramCategoryId ?? testCategories[0]._id,
+    paramCategoryId ?? testCategories[0]?._id,
   )
 
   useEffect(() => {
