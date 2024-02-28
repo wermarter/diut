@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Skeleton } from '@mui/material'
 
 import {
   useUserCreateMutation,
@@ -27,7 +26,7 @@ export function UserTable() {
 
   const [openChangePassword, setOpenChangePassword] = React.useState('')
 
-  return data?.items != undefined ? (
+  return (
     <>
       <CrudTable
         items={data?.items}
@@ -88,7 +87,5 @@ export function UserTable() {
         }}
       />
     </>
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

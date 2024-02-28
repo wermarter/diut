@@ -4,10 +4,8 @@ import { useMemo } from 'react'
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
-import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 
 export function useTestColumns(
-  testCategories: TestCategoryResponseDto[],
   bioProducts: BioProductResponseDto[],
   printForms: PrintFormResponseDto[],
 ): GridColDef<TestResponseDto>[] {
@@ -35,18 +33,6 @@ export function useTestColumns(
   }, [bioProducts])
 
   return [
-    {
-      field: 'testCategoryId',
-      headerName: 'Nhóm XN',
-      type: 'singleSelect',
-      width: 200,
-      sortable: false,
-      editable: true,
-      valueOptions: testCategories.map((item) => ({
-        value: item._id,
-        label: item.name,
-      })),
-    },
     {
       field: 'displayIndex',
       headerName: 'Thứ tự',
@@ -77,16 +63,16 @@ export function useTestColumns(
     {
       field: 'shouldDisplayWithChildren',
       type: 'boolean',
-      headerName: 'Luôn hiển thị',
-      width: 80,
+      headerName: 'Luôn hiện',
+      width: 100,
       sortable: false,
       editable: true,
     },
     {
       field: 'printFormId',
       type: 'singleSelect',
-      headerName: 'Form In KQ',
-      width: 150,
+      headerName: 'Form In',
+      width: 120,
       sortable: false,
       editable: true,
       valueOptions: printForms

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Skeleton } from '@mui/material'
 
 import {
   useTestComboCreateMutation,
@@ -37,7 +36,7 @@ export function TestComboTable() {
   const [selectedCombo, setSelectedCombo] =
     React.useState<TestComboResponseDto | null>(null)
 
-  return data?.items != undefined ? (
+  return (
     <>
       <CrudTable
         items={data?.items}
@@ -97,7 +96,5 @@ export function TestComboTable() {
         }}
       />
     </>
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

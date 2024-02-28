@@ -18,7 +18,8 @@ interface CrudToolbarProps<R extends GridValidRowModel> {
   itemIdField: keyof R
   firstField: string
   isLoading: boolean
-  TopRightComponent: React.ReactNode
+  TopRightComponent?: React.ReactNode
+  TopLeftComponent?: React.ReactNode
   allowAddNew?: boolean
   onRefresh?: () => Promise<void> | void
 }
@@ -32,6 +33,7 @@ export function CrudToolbar<R extends GridValidRowModel>({
   firstField,
   isLoading,
   TopRightComponent,
+  TopLeftComponent,
   onRefresh,
   allowAddNew = true,
 }: CrudToolbarProps<R>) {
@@ -58,10 +60,14 @@ export function CrudToolbar<R extends GridValidRowModel>({
     <GridToolbarContainer
       sx={{ display: 'flex', justifyContent: 'space-between' }}
     >
-      <Box sx={{ m: 1 }}>
+      <Box
+        sx={{
+          m: 1,
+          display: 'flex',
+        }}
+      >
         {onRefresh != undefined && (
           <Button
-            sx={{ mr: 1 }}
             onClick={onRefresh}
             color="primary"
             variant="outlined"
@@ -72,6 +78,8 @@ export function CrudToolbar<R extends GridValidRowModel>({
         )}
         {allowAddNew && (
           <Button
+            sx={{ mx: 1 }}
+            fullWidth
             startIcon={<AddIcon />}
             onClick={handleAddNew}
             color="primary"
@@ -81,8 +89,9 @@ export function CrudToolbar<R extends GridValidRowModel>({
             Thêm
           </Button>
         )}
+        {TopLeftComponent}
       </Box>
-      <Box sx={{ m: 1 }}>{TopRightComponent}</Box>
+      {TopRightComponent}
     </GridToolbarContainer>
   )
 }

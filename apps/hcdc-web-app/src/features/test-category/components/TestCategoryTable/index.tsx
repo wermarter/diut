@@ -1,5 +1,3 @@
-import { Skeleton } from '@mui/material'
-
 import {
   useTestCategoryCreateMutation,
   useTestCategoryDeleteByIdMutation,
@@ -30,7 +28,7 @@ export function TestCategoryTable() {
   const [deleteTestCategory, { isLoading: isDeleting }] =
     useTestCategoryDeleteByIdMutation()
 
-  return data?.items != undefined ? (
+  return (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -66,7 +64,5 @@ export function TestCategoryTable() {
         await searchTestCategorys(filterObj).unwrap()
       }}
     />
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

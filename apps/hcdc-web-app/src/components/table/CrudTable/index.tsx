@@ -24,7 +24,7 @@ interface CustomRowAction<R extends GridValidRowModel> {
 }
 
 interface CrudTableProps<R extends GridValidRowModel> {
-  items: GridRowsProp<R>
+  items?: GridRowsProp<R>
   itemIdField: keyof R
   fieldColumns: GridColDef<R>[]
   onItemUpdate: (newItem: R, oldItem: R) => Promise<void> | void
@@ -40,6 +40,7 @@ interface CrudTableProps<R extends GridValidRowModel> {
   onPageSizeChange?: (pageSize: number) => void
 
   TopRightComponent?: React.ReactNode
+  TopLeftComponent?: React.ReactNode
   customRowActions?: CustomRowAction<R>[]
 }
 
@@ -60,6 +61,7 @@ export function CrudTable<R extends GridValidRowModel>({
   pageSize,
 
   TopRightComponent,
+  TopLeftComponent,
   customRowActions = [],
 }: CrudTableProps<R>) {
   const [rows, setRows] = React.useState<GridRowsProp<R>>([])
@@ -222,6 +224,7 @@ export function CrudTable<R extends GridValidRowModel>({
         slotProps={{
           toolbar: {
             TopRightComponent,
+            TopLeftComponent,
             setRows,
             setRowModesModel,
             itemIdField,

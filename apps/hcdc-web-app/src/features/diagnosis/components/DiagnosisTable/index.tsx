@@ -1,5 +1,3 @@
-import { Skeleton } from '@mui/material'
-
 import {
   useDiagnosisCreateMutation,
   useDiagnosisDeleteByIdMutation,
@@ -31,7 +29,7 @@ export function DiagnosisTable() {
   const [deleteDiagnosis, { isLoading: isDeleting }] =
     useDiagnosisDeleteByIdMutation()
 
-  return data?.items != undefined ? (
+  return (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -65,7 +63,5 @@ export function DiagnosisTable() {
         await searchDiagnosiss(filterObj).unwrap()
       }}
     />
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

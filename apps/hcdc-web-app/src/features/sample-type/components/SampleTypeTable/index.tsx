@@ -1,5 +1,3 @@
-import { Skeleton } from '@mui/material'
-
 import {
   useSampleTypeCreateMutation,
   useSampleTypeDeleteByIdMutation,
@@ -31,7 +29,7 @@ export function SampleTypeTable() {
   const [deleteSampleType, { isLoading: isDeleting }] =
     useSampleTypeDeleteByIdMutation()
 
-  return data?.items != undefined ? (
+  return (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -65,7 +63,5 @@ export function SampleTypeTable() {
         await searchSampleTypes(filterObj).unwrap()
       }}
     />
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

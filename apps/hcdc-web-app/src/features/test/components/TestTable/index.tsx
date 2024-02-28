@@ -1,12 +1,5 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Skeleton,
-} from '@mui/material'
-import { useLoaderData, useRevalidator } from 'react-router-dom'
-import { useState } from 'react'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 import {
   useTestCreateMutation,
@@ -18,29 +11,53 @@ import {
 } from 'src/infra/api/access-service/test'
 import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
-import { manageTestPageLoader } from '../../pages/ManageTestPage/loader'
 import { useTestColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 import { SideAction } from 'src/components/ui'
 import { BioProductTable } from 'src/features/bio-product'
+import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
+import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 
-const ALL_CATEGORIES = 'ALL_CATEGORIES'
+type TestTableProps = {
+  testCategories: TestCategoryResponseDto[]
+  bioProducts: BioProductResponseDto[]
+  printForms: PrintFormResponseDto[]
+  revalidateCallback: () => void
+  testCategoryId: string
+  setTestCategoryId: (id: string) => void
+}
 
-export function TestTable() {
-  const revalidator = useRevalidator()
+export function TestTable({
+  testCategories,
+  bioProducts,
+  printForms,
+  revalidateCallback,
+  testCategoryId,
+  setTestCategoryId,
+}: TestTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { testCategories, bioProducts, printForms } =
-    useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
-
-  const columns = useTestColumns(testCategories, bioProducts, printForms)
+  const columns = useTestColumns(bioProducts, printForms)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
       sort: { index: 1 },
-      filter: { branchId },
+      filter: {
+        branchId,
+        testCategoryId,
+      },
       offset: 0,
     })
+
+  useEffect(() => {
+    if (testCategoryId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: { ...prev.filter, testCategoryId },
+      }))
+    }
+  }, [testCategoryId])
 
   const { data, isFetching } = useTestSearchQuery(filterObj)
   const [searchTests] = useLazyTestSearchQuery()
@@ -53,7 +70,7 @@ export function TestTable() {
     null,
   )
 
-  return data?.items != undefined ? (
+  return (
     <>
       <CrudTable
         items={data?.items}
@@ -69,12 +86,12 @@ export function TestTable() {
           await createTest({
             name: item.name,
             displayIndex: item.displayIndex,
-            testCategoryId: item.testCategoryId,
             bioProductId: item.bioProductId ?? null,
             printFormId: item.printFormId ?? null,
             instrumentId: null,
             sampleTypeId: null,
             shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
+            testCategoryId,
             branchId,
           }).unwrap()
         }}
@@ -84,7 +101,6 @@ export function TestTable() {
             testUpdateRequestDto: {
               name: newItem.name,
               displayIndex: newItem.displayIndex,
-              testCategoryId: newItem.testCategoryId,
               bioProductId: newItem.bioProductId,
               printFormId: newItem.printFormId,
               shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
@@ -105,38 +121,23 @@ export function TestTable() {
             },
           },
         ]}
-        TopRightComponent={
-          <FormControl fullWidth size="small" sx={{ minWidth: '300px' }}>
+        TopLeftComponent={
+          <FormControl
+            color="secondary"
+            focused
+            fullWidth
+            size="small"
+            sx={{ minWidth: '300px' }}
+          >
             <InputLabel>Nhóm xét nghiệm</InputLabel>
             <Select
-              color="secondary"
-              defaultOpen
               label="Nhóm xét nghiệm"
-              defaultValue={ALL_CATEGORIES}
+              value={testCategoryId}
               onChange={({ target }) => {
                 const categoryId = target?.value
-                if (categoryId !== ALL_CATEGORIES) {
-                  setFilterObj((filterObj) => ({
-                    ...filterObj,
-                    offset: 0,
-                    filter: {
-                      ...filterObj.filter,
-                      testCategoryId: categoryId,
-                    },
-                  }))
-                } else {
-                  setFilterObj((filterObj) => ({
-                    ...filterObj,
-                    offset: 0,
-                    filter: {
-                      ...filterObj.filter,
-                      testCategoryId: undefined,
-                    },
-                  }))
-                }
+                setTestCategoryId(categoryId)
               }}
             >
-              <MenuItem value={ALL_CATEGORIES}>Tất cả</MenuItem>
               {testCategories.map((category) => (
                 <MenuItem key={category._id} value={category._id}>
                   {category.name}
@@ -151,7 +152,7 @@ export function TestTable() {
         open={bioProductTest !== null}
         onClose={() => {
           setBioProductTest(null)
-          revalidator.revalidate()
+          revalidateCallback()
         }}
         title={bioProductTest?.name!}
         disableClickOutside={false}
@@ -159,7 +160,5 @@ export function TestTable() {
         <BioProductTable testId={bioProductTest?._id!} />
       </SideAction>
     </>
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

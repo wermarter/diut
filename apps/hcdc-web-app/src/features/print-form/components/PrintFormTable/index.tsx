@@ -1,5 +1,4 @@
 import { PrintTemplate } from '@diut/hcdc'
-import { Skeleton } from '@mui/material'
 
 import {
   usePrintFormSearchQuery,
@@ -32,7 +31,7 @@ export function PrintFormTable() {
   const [deletePrintForm, { isLoading: isDeleting }] =
     usePrintFormDeleteByIdMutation()
 
-  return data?.items != undefined ? (
+  return (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -76,7 +75,5 @@ export function PrintFormTable() {
         await searchPrintForms(filterObj).unwrap()
       }}
     />
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

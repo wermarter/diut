@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { AuthenticationCheck } from 'src/features/auth'
-import { ErrorPage, LoadingPage } from 'src/components/layout'
+import { ErrorPage } from 'src/components/layout'
 
 export type AdditionalRouteProps = {
   authenticatedOnly?: boolean
@@ -35,9 +35,7 @@ export function parseRoutes(routes: CustomRouteObject[]): RouteObject[] {
       customElement = <AuthenticationCheck>{element}</AuthenticationCheck>
     }
 
-    customElement = (
-      <Suspense fallback={<LoadingPage />}>{customElement}</Suspense>
-    )
+    customElement = <Suspense>{customElement}</Suspense>
 
     // Recursive call for children
     let customChildren: RouteObject[] = []

@@ -1,5 +1,3 @@
-import { Skeleton } from '@mui/material'
-
 import {
   useBioProductCreateMutation,
   useBioProductDeleteByIdMutation,
@@ -31,7 +29,7 @@ export function BioProductTable({ testId }: { testId: string }) {
   const [deleteBioProduct, { isLoading: isDeleting }] =
     useBioProductDeleteByIdMutation()
 
-  return data?.items != undefined ? (
+  return (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
@@ -66,7 +64,5 @@ export function BioProductTable({ testId }: { testId: string }) {
         await searchBioProducts(filterObj).unwrap()
       }}
     />
-  ) : (
-    <Skeleton variant="rectangular" width="100%" height="100%" />
   )
 }

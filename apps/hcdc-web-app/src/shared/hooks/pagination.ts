@@ -1,19 +1,15 @@
 import { useState, useCallback } from 'react'
 
-export type SearchRequestDto = {
-  offset?: number
-  limit?: number
-  sort?: object
-  filter?: object
-}
+import { UserSearchRequestDto } from 'src/infra/api/access-service/user'
 
 export const useCrudPagination = (
-  defaultFilter: SearchRequestDto = {
+  defaultFilter: UserSearchRequestDto = {
     sort: { createdAt: -1 },
     offset: 0,
   },
 ) => {
-  const [filterObj, setFilterObj] = useState<SearchRequestDto>(defaultFilter)
+  const [filterObj, setFilterObj] =
+    useState<UserSearchRequestDto>(defaultFilter)
 
   const onPageChange = useCallback((page: number) => {
     setFilterObj((oldValue) => {
