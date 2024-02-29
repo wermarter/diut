@@ -11,7 +11,7 @@ import { manageTestPageLoader } from './loader'
 const PARAM_CATEGORY_ID = 'categoryId'
 
 export default function ManageTestPage() {
-  const { testCategories, bioProducts, printForms } =
+  const { testCategories, bioProducts, instruments, printForms, sampleTypes } =
     useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
   const revalidator = useRevalidator()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -40,14 +40,14 @@ export default function ManageTestPage() {
 
   return (
     <TestTable
-      {...{
-        testCategories,
-        bioProducts,
-        printForms,
-        revalidateCallback,
-        testCategoryId: selectedCategoryId,
-        setTestCategoryId,
-      }}
+      testCategories={testCategories}
+      bioProducts={bioProducts}
+      instruments={instruments}
+      printForms={printForms}
+      sampleTypes={sampleTypes}
+      revalidateCallback={revalidateCallback}
+      testCategoryId={selectedCategoryId}
+      setTestCategoryId={setTestCategoryId}
     />
   )
 }

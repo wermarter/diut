@@ -4,8 +4,11 @@ import { BioProductAction, AuthSubject } from '@diut/hcdc'
 import {
   AuthContextToken,
   BioProductRepositoryToken,
+  EEntityCannotDelete,
   IAuthContext,
   IBioProductRepository,
+  ITestRepository,
+  TestRepositoryToken,
   assertPermission,
 } from 'src/domain'
 import { BioProductAssertExistsUseCase } from './assert-exists'
@@ -17,6 +20,8 @@ export class BioProductDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(BioProductRepositoryToken)
     private readonly bioProductRepository: IBioProductRepository,
+    @Inject(TestRepositoryToken)
+    private readonly testRepository: ITestRepository,
     private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
   ) {}
 
@@ -31,6 +36,13 @@ export class BioProductDeleteUseCase {
       BioProductAction.Delete,
       entity,
     )
+
+    const connectedTestCount = await this.testRepository.count({
+      bioProductId: input.id,
+    })
+    if (connectedTestCount > 0) {
+      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+    }
 
     await this.bioProductRepository.deleteById(input.id)
 

@@ -7,6 +7,9 @@ import {
   IAuthContext,
   IPatientTypeRepository,
   assertPermission,
+  SampleRepositoryToken,
+  ISampleRepository,
+  EEntityCannotDelete,
 } from 'src/domain'
 import { PatientTypeAssertExistsUseCase } from './assert-exists'
 
@@ -17,6 +20,8 @@ export class PatientTypeDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(PatientTypeRepositoryToken)
     private readonly patientTypeRepository: IPatientTypeRepository,
+    @Inject(SampleRepositoryToken)
+    private readonly sampleRepository: ISampleRepository,
     private readonly patientTypeAssertExistsUseCase: PatientTypeAssertExistsUseCase,
   ) {}
 
@@ -31,6 +36,13 @@ export class PatientTypeDeleteUseCase {
       PatientTypeAction.Delete,
       entity,
     )
+
+    const connectedSampleCount = await this.sampleRepository.count({
+      patientTypeId: input.id,
+    })
+    if (connectedSampleCount > 0) {
+      throw new EEntityCannotDelete(`${connectedSampleCount} connected Sample`)
+    }
 
     await this.patientTypeRepository.deleteById(input.id)
 

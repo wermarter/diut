@@ -78,6 +78,18 @@ export type InstrumentUpdateByIdApiArg = {
 export type InstrumentDeleteByIdApiResponse =
   /** status 200  */ InstrumentUnpopulatedResponseDto
 export type InstrumentDeleteByIdApiArg = string
+export type TestUnpopulatedResponseDto = {
+  _id: string
+  displayIndex: number
+  name: string
+  shouldDisplayWithChildren: boolean
+  bioProductId: string | null
+  instrumentId: string | null
+  sampleTypeId: string | null
+  testCategoryId: string
+  printFormId: string | null
+  branchId: string
+}
 export type BranchUnpopulatedResponseDto = {
   _id: string
   displayIndex: number
@@ -90,7 +102,9 @@ export type InstrumentResponseDto = {
   _id: string
   displayIndex: number
   name: string
+  testId: string
   branchId: string
+  test?: TestUnpopulatedResponseDto | null
   branch?: BranchUnpopulatedResponseDto | null
 }
 export type InstrumentSearchResponseDto = {
@@ -117,6 +131,7 @@ export type HttpErrorResponse = {
     | 'ENTITY_CANNOT_DELETE'
     | 'ENTITY_POPULATE_PATH_UNKNOWN'
     | 'ENTITY_SAMPLE_ID_ALREADY_EXISTS'
+    | 'ENTITY_TEST_INVALID_BIO_PRODUCT'
     | 'SERVICE'
     | 'REQUEST'
     | 'REQUEST_INVALID_INPUT'
@@ -139,16 +154,19 @@ export type InstrumentUnpopulatedResponseDto = {
   _id: string
   displayIndex: number
   name: string
+  testId: string
   branchId: string
 }
 export type InstrumentCreateRequestDto = {
   displayIndex: number
   name: string
+  testId: string
   branchId: string
 }
 export type InstrumentUpdateRequestDto = {
   displayIndex?: number
   name?: string
+  testId?: string
   branchId?: string
 }
 export const {

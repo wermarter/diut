@@ -2,12 +2,16 @@ import { GridColDef } from '@mui/x-data-grid'
 import { useMemo } from 'react'
 
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
+import { InstrumentResponseDto } from 'src/infra/api/access-service/instrument'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
+import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 
 export function useTestColumns(
   bioProducts: BioProductResponseDto[],
+  instruments: InstrumentResponseDto[],
   printForms: PrintFormResponseDto[],
+  sampleTypes: SampleTypeResponseDto[],
 ): GridColDef<TestResponseDto>[] {
   const bioProductLookup = useMemo(() => {
     const bioProductMap: Record<string, BioProductResponseDto[]> = {}
@@ -32,6 +36,29 @@ export function useTestColumns(
     return rv
   }, [bioProducts])
 
+  const instrumentLookup = useMemo(() => {
+    const instrumentMap: Record<string, InstrumentResponseDto[]> = {}
+    instruments.forEach((item) => {
+      if (instrumentMap[item.testId] === undefined) {
+        instrumentMap[item.testId] = []
+      }
+      instrumentMap[item.testId].push(item)
+    })
+
+    const rv: Record<string, { label: string; value: string | null }[]> = {}
+
+    for (const testId in instrumentMap) {
+      rv[testId] = instrumentMap[testId]
+        .map((item) => ({
+          value: item._id,
+          label: item.name,
+        }))
+        .concat([{ label: '-- không --', value: null as unknown as string }])
+    }
+
+    return rv
+  }, [instruments])
+
   return [
     {
       field: 'displayIndex',
@@ -53,12 +80,39 @@ export function useTestColumns(
       field: 'bioProductId',
       headerName: 'Sinh phẩm',
       type: 'singleSelect',
-      width: 200,
+      width: 180,
       sortable: false,
       editable: true,
       valueOptions(params) {
         return bioProductLookup?.[params.row?._id!]
       },
+    },
+    {
+      field: 'instrumentId',
+      headerName: 'Máy XN',
+      type: 'singleSelect',
+      width: 180,
+      sortable: false,
+      editable: true,
+      valueOptions(params) {
+        return instrumentLookup?.[params.row?._id!]
+      },
+    },
+    {
+      field: 'sampleTypeId',
+      type: 'singleSelect',
+      headerName: 'Loại mẫu',
+      width: 120,
+      sortable: false,
+      editable: true,
+      valueOptions: sampleTypes
+        .map((sampleType) => ({
+          value: sampleType._id,
+          label: sampleType.name,
+        }))
+        .concat([
+          { label: '-- không có --', value: null as unknown as string },
+        ]),
     },
     {
       field: 'shouldDisplayWithChildren',
@@ -80,7 +134,9 @@ export function useTestColumns(
           value: printForm._id,
           label: printForm.name,
         }))
-        .concat([{ label: '-- không --', value: null as unknown as string }]),
+        .concat([
+          { label: '-- không in --', value: null as unknown as string },
+        ]),
     },
   ]
 }

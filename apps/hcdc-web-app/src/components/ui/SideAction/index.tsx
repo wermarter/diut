@@ -48,7 +48,8 @@ export function SideAction({
     >
       <Box
         sx={{
-          height: 'calc(100vh - 48px)',
+          // height: 'calc(100vh - 48px)',
+          height: '100vh',
           display: 'flex',
           flexDirection: 'column',
           minWidth: '30vw',

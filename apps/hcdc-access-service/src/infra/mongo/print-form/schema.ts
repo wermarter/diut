@@ -33,10 +33,10 @@ export class PrintFormSchema extends BaseSchema {
   @Prop({ required: true })
   isAuthorLocked: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   authorTitle: string
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   authorName: string
 
   @Prop({ required: true })

@@ -8,11 +8,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { FormContainer, FormTextField } from 'src/components/form'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 
-interface ChangePasswordFormProps {
+type ChangePasswordFormProps = {
   onSubmit: (newPassword: string) => Promise<unknown>
 }
 
-export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
+export function ChangePasswordForm(props: ChangePasswordFormProps) {
   const {
     control,
     handleSubmit,
@@ -36,7 +36,7 @@ export function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
   return (
     <FormContainer
       onSubmit={handleSubmit(({ password }: FormSchema) => {
-        return onSubmit(password)
+        return props.onSubmit(password)
       })}
     >
       <FormTextField

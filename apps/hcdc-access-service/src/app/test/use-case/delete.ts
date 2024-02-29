@@ -37,7 +37,7 @@ export class TestDeleteUseCase {
     })
     if (connectedElementCount > 0) {
       throw new EEntityCannotDelete(
-        `there are ${connectedElementCount} connected TestElement`,
+        `${connectedElementCount} connected TestElement`,
       )
     }
 

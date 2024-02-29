@@ -7,6 +7,9 @@ import {
   IAuthContext,
   IRoleRepository,
   assertPermission,
+  UserRepositoryToken,
+  IUserRepository,
+  EEntityCannotDelete,
 } from 'src/domain'
 import { RoleAssertExistsUseCase } from './assert-exists'
 
@@ -17,6 +20,8 @@ export class RoleDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(RoleRepositoryToken)
     private readonly roleRepository: IRoleRepository,
+    @Inject(UserRepositoryToken)
+    private readonly userRepository: IUserRepository,
     private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
   ) {}
 
@@ -26,6 +31,13 @@ export class RoleDeleteUseCase {
     })
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Role, RoleAction.Delete, entity)
+
+    const connectedUserCount = await this.userRepository.count({
+      roleIds: { $elemMatch: { $eq: input.id } },
+    })
+    if (connectedUserCount > 0) {
+      throw new EEntityCannotDelete(`${connectedUserCount} connected User`)
+    }
 
     await this.roleRepository.deleteById(input.id)
 

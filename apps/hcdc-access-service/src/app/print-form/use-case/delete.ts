@@ -7,6 +7,9 @@ import {
   IAuthContext,
   IPrintFormRepository,
   assertPermission,
+  TestRepositoryToken,
+  ITestRepository,
+  EEntityCannotDelete,
 } from 'src/domain'
 import { PrintFormAssertExistsUseCase } from './assert-exists'
 
@@ -17,6 +20,8 @@ export class PrintFormDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(PrintFormRepositoryToken)
     private readonly printFormRepository: IPrintFormRepository,
+    @Inject(TestRepositoryToken)
+    private readonly testRepository: ITestRepository,
     private readonly printFormAssertExistsUseCase: PrintFormAssertExistsUseCase,
   ) {}
 
@@ -31,6 +36,13 @@ export class PrintFormDeleteUseCase {
       PrintFormAction.Delete,
       entity,
     )
+
+    const connectedTestCount = await this.testRepository.count({
+      printFormId: input.id,
+    })
+    if (connectedTestCount > 0) {
+      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+    }
 
     await this.printFormRepository.deleteById(input.id)
 

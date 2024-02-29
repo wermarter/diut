@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useTypedSelector } from 'src/infra/redux'
-import { LoginForm } from './login-form'
+import { LoginForm } from '../../components'
 import { authSlice } from '../../state'
 
 export default function LoginPage() {

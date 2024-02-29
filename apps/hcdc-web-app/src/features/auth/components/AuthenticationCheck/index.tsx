@@ -4,9 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 
-export type AuthenticationCheckProps = PropsWithChildren
-
-export function AuthenticationCheck({ children }: AuthenticationCheckProps) {
+export function AuthenticationCheck({ children }: PropsWithChildren) {
   const location = useLocation()
   const navigate = useNavigate()
   const isAuthenticated = useTypedSelector(

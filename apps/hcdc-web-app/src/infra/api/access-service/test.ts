@@ -78,6 +78,7 @@ export type InstrumentUnpopulatedResponseDto = {
   _id: string
   displayIndex: number
   name: string
+  testId: string
   branchId: string
 }
 export type SampleTypeUnpopulatedResponseDto = {
@@ -155,6 +156,7 @@ export type HttpErrorResponse = {
     | 'ENTITY_CANNOT_DELETE'
     | 'ENTITY_POPULATE_PATH_UNKNOWN'
     | 'ENTITY_SAMPLE_ID_ALREADY_EXISTS'
+    | 'ENTITY_TEST_INVALID_BIO_PRODUCT'
     | 'SERVICE'
     | 'REQUEST'
     | 'REQUEST_INVALID_INPUT'

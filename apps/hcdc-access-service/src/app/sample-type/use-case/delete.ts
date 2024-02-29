@@ -7,6 +7,11 @@ import {
   IAuthContext,
   ISampleTypeRepository,
   assertPermission,
+  TestRepositoryToken,
+  ITestRepository,
+  SampleRepositoryToken,
+  ISampleRepository,
+  EEntityCannotDelete,
 } from 'src/domain'
 import { SampleTypeAssertExistsUseCase } from './assert-exists'
 
@@ -17,6 +22,10 @@ export class SampleTypeDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(SampleTypeRepositoryToken)
     private readonly sampleTypeRepository: ISampleTypeRepository,
+    @Inject(TestRepositoryToken)
+    private readonly testRepository: ITestRepository,
+    @Inject(SampleRepositoryToken)
+    private readonly sampleRepository: ISampleRepository,
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
   ) {}
 
@@ -31,6 +40,20 @@ export class SampleTypeDeleteUseCase {
       SampleTypeAction.Delete,
       entity,
     )
+
+    const connectedSampleCount = await this.sampleRepository.count({
+      diagnosisId: input.id,
+    })
+    if (connectedSampleCount > 0) {
+      throw new EEntityCannotDelete(`${connectedSampleCount} connected Sample`)
+    }
+
+    const connectedTestCount = await this.testRepository.count({
+      bioProductId: input.id,
+    })
+    if (connectedTestCount > 0) {
+      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+    }
 
     await this.sampleTypeRepository.deleteById(input.id)
 

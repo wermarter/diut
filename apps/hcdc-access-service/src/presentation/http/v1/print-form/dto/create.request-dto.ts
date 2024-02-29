@@ -39,13 +39,11 @@ export class PrintFormCreateRequestDto {
   @Expose()
   @ApiProperty(examplePrintForm.authorTitle)
   @IsString()
-  @IsNotEmpty()
   authorTitle: string
 
   @Expose()
   @ApiProperty(examplePrintForm.authorName)
   @IsString()
-  @IsNotEmpty()
   authorName: string
 
   @Expose()

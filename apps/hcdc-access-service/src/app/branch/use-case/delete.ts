@@ -4,6 +4,7 @@ import { AuthSubject, BranchAction } from '@diut/hcdc'
 import {
   AuthContextToken,
   BranchRepositoryToken,
+  EEntityCannotDelete,
   IAuthContext,
   IBranchRepository,
   assertPermission,
@@ -26,6 +27,8 @@ export class BranchDeleteUseCase {
     })
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Branch, BranchAction.Delete, entity)
+
+    throw new EEntityCannotDelete(`there are infinitely connected resources`)
 
     await this.branchRepository.deleteById(input.id)
 

@@ -4,8 +4,11 @@ import { DiagnosisAction, AuthSubject } from '@diut/hcdc'
 import {
   AuthContextToken,
   DiagnosisRepositoryToken,
+  EEntityCannotDelete,
   IAuthContext,
   IDiagnosisRepository,
+  ISampleRepository,
+  SampleRepositoryToken,
   assertPermission,
 } from 'src/domain'
 import { DiagnosisAssertExistsUseCase } from './assert-exists'
@@ -17,6 +20,8 @@ export class DiagnosisDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(DiagnosisRepositoryToken)
     private readonly diagnosisRepository: IDiagnosisRepository,
+    @Inject(SampleRepositoryToken)
+    private readonly sampleRepository: ISampleRepository,
     private readonly diagnosisAssertExistsUseCase: DiagnosisAssertExistsUseCase,
   ) {}
 
@@ -31,6 +36,13 @@ export class DiagnosisDeleteUseCase {
       DiagnosisAction.Delete,
       entity,
     )
+
+    const connectedSampleCount = await this.sampleRepository.count({
+      diagnosisId: input.id,
+    })
+    if (connectedSampleCount > 0) {
+      throw new EEntityCannotDelete(`${connectedSampleCount} connected Sample`)
+    }
 
     await this.diagnosisRepository.deleteById(input.id)
 

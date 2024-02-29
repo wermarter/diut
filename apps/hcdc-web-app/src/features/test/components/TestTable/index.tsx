@@ -19,10 +19,15 @@ import { BioProductTable } from 'src/features/bio-product'
 import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
+import { InstrumentTable } from 'src/features/instrument'
+import { InstrumentResponseDto } from 'src/infra/api/access-service/instrument'
+import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 
 type TestTableProps = {
   testCategories: TestCategoryResponseDto[]
   bioProducts: BioProductResponseDto[]
+  instruments: InstrumentResponseDto[]
+  sampleTypes: SampleTypeResponseDto[]
   printForms: PrintFormResponseDto[]
   revalidateCallback: () => void
   testCategoryId: string | undefined
@@ -32,13 +37,20 @@ type TestTableProps = {
 export function TestTable({
   testCategories,
   bioProducts,
+  instruments,
   printForms,
+  sampleTypes,
   revalidateCallback,
   testCategoryId,
   setTestCategoryId,
 }: TestTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const columns = useTestColumns(bioProducts, printForms)
+  const columns = useTestColumns(
+    bioProducts,
+    instruments,
+    printForms,
+    sampleTypes,
+  )
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
     useCrudPagination({
@@ -69,6 +81,9 @@ export function TestTable({
   const [bioProductTest, setBioProductTest] = useState<TestResponseDto | null>(
     null,
   )
+  const [instrumentTest, setInstrumentTest] = useState<TestResponseDto | null>(
+    null,
+  )
 
   return (
     testCategoryId !== undefined && (
@@ -89,8 +104,8 @@ export function TestTable({
               displayIndex: item.displayIndex,
               bioProductId: item.bioProductId ?? null,
               printFormId: item.printFormId ?? null,
-              instrumentId: null,
-              sampleTypeId: null,
+              instrumentId: item.instrumentId ?? null,
+              sampleTypeId: item.sampleTypeId ?? null,
               shouldDisplayWithChildren:
                 item.shouldDisplayWithChildren ?? false,
               testCategoryId,
@@ -105,6 +120,8 @@ export function TestTable({
                 displayIndex: newItem.displayIndex,
                 bioProductId: newItem.bioProductId,
                 printFormId: newItem.printFormId,
+                instrumentId: newItem.instrumentId,
+                sampleTypeId: newItem.sampleTypeId,
                 shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
               },
             }).unwrap()
@@ -120,6 +137,12 @@ export function TestTable({
               label: 'Sinh phẩm',
               action(test) {
                 setBioProductTest(test)
+              },
+            },
+            {
+              label: 'Máy XN',
+              action(test) {
+                setInstrumentTest(test)
               },
             },
           ]}
@@ -156,10 +179,22 @@ export function TestTable({
             setBioProductTest(null)
             revalidateCallback()
           }}
-          title={bioProductTest?.name!}
+          title={`Sinh phẩm: ${bioProductTest?.name!}`}
           disableClickOutside={false}
         >
           <BioProductTable testId={bioProductTest?._id!} />
+        </SideAction>
+        <SideAction
+          fullWidth
+          open={instrumentTest !== null}
+          onClose={() => {
+            setInstrumentTest(null)
+            revalidateCallback()
+          }}
+          title={`Máy XN: ${instrumentTest?.name!}`}
+          disableClickOutside={false}
+        >
+          <InstrumentTable testId={instrumentTest?._id!} />
         </SideAction>
       </>
     )

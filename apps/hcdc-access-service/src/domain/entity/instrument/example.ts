@@ -10,6 +10,11 @@ export const exampleInstrument = {
   name: {
     example: 'máy xét nghiệm A',
   },
+  testId: exampleMongoObjectId,
+  test: {
+    required: false,
+    nullable: true,
+  },
   branchId: exampleMongoObjectId,
   branch: {
     required: false,

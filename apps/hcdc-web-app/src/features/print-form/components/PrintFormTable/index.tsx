@@ -1,5 +1,3 @@
-import { PrintTemplate } from '@diut/hcdc'
-
 import {
   usePrintFormSearchQuery,
   usePrintFormUpdateByIdMutation,
@@ -44,14 +42,14 @@ export function PrintFormTable() {
       onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
         await createPrintForm({
-          name: item.name,
           displayIndex: item.displayIndex,
-          isAuthorLocked: item.isAuthorLocked,
-          authorTitle: item.authorTitle,
-          authorName: item.authorName,
-          titleMargin: item.titleMargin,
-          isA4: true,
-          template: PrintTemplate.FormChung,
+          name: item.name,
+          isA4: item.isA4 ?? false,
+          isAuthorLocked: item.isAuthorLocked ?? false,
+          authorTitle: item.authorTitle ?? '',
+          authorName: item.authorName ?? '',
+          titleMargin: item.titleMargin ?? 0,
+          template: item.template,
           branchId,
         }).unwrap()
       }}
@@ -59,12 +57,14 @@ export function PrintFormTable() {
         await updatePrintForm({
           id: newItem._id,
           printFormUpdateRequestDto: {
-            name: newItem.name,
             displayIndex: newItem.displayIndex,
+            name: newItem.name,
+            isA4: newItem.isA4,
             isAuthorLocked: newItem.isAuthorLocked,
             authorTitle: newItem.authorTitle,
             authorName: newItem.authorName,
             titleMargin: newItem.titleMargin,
+            template: newItem.template,
           },
         }).unwrap()
       }}

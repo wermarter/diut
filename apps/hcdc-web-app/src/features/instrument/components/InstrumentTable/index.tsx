@@ -1,21 +1,21 @@
 import {
-  useBioProductCreateMutation,
-  useBioProductDeleteByIdMutation,
-  useBioProductSearchQuery,
-  useBioProductUpdateByIdMutation,
-  useLazyBioProductSearchQuery,
-} from 'src/infra/api/access-service/bio-product'
+  useInstrumentCreateMutation,
+  useInstrumentDeleteByIdMutation,
+  useInstrumentSearchQuery,
+  useInstrumentUpdateByIdMutation,
+  useLazyInstrumentSearchQuery,
+} from 'src/infra/api/access-service/instrument'
 import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
-import { bioProductColumns } from './columns'
+import { instrumentColumns } from './columns'
 
-type BioProductTableProps = {
+type InstrumentTableProps = {
   testId: string
 }
 
-export function BioProductTable(props: BioProductTableProps) {
+export function InstrumentTable(props: InstrumentTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
     sort: { displayIndex: 1 },
@@ -23,29 +23,29 @@ export function BioProductTable(props: BioProductTableProps) {
     offset: 0,
   })
 
-  const { data, isFetching } = useBioProductSearchQuery(filterObj)
-  const [searchBioProducts] = useLazyBioProductSearchQuery()
+  const { data, isFetching } = useInstrumentSearchQuery(filterObj)
+  const [searchInstruments] = useLazyInstrumentSearchQuery()
 
-  const [createBioProduct, { isLoading: isCreating }] =
-    useBioProductCreateMutation()
-  const [updateBioProduct, { isLoading: isUpdating }] =
-    useBioProductUpdateByIdMutation()
-  const [deleteBioProduct, { isLoading: isDeleting }] =
-    useBioProductDeleteByIdMutation()
+  const [createInstrument, { isLoading: isCreating }] =
+    useInstrumentCreateMutation()
+  const [updateInstrument, { isLoading: isUpdating }] =
+    useInstrumentUpdateByIdMutation()
+  const [deleteInstrument, { isLoading: isDeleting }] =
+    useInstrumentDeleteByIdMutation()
 
   return (
     <CrudTable
       items={data?.items}
       itemIdField="_id"
       isLoading={isFetching || isCreating || isUpdating || isDeleting}
-      fieldColumns={bioProductColumns}
+      fieldColumns={instrumentColumns}
       rowCount={data?.total!}
       page={data?.offset!}
       pageSize={data?.limit!}
       onPageChange={onPageChange}
       onPageSizeChange={onPageSizeChange}
       onItemCreate={async (item) => {
-        await createBioProduct({
+        await createInstrument({
           name: item.name,
           displayIndex: item.displayIndex,
           branchId,
@@ -53,19 +53,19 @@ export function BioProductTable(props: BioProductTableProps) {
         }).unwrap()
       }}
       onItemUpdate={async (newItem) => {
-        await updateBioProduct({
+        await updateInstrument({
           id: newItem._id,
-          bioProductUpdateRequestDto: {
+          instrumentUpdateRequestDto: {
             name: newItem.name,
             displayIndex: newItem.displayIndex,
           },
         }).unwrap()
       }}
       onItemDelete={async (item) => {
-        await deleteBioProduct(item._id).unwrap()
+        await deleteInstrument(item._id).unwrap()
       }}
       onRefresh={async () => {
-        await searchBioProducts(filterObj).unwrap()
+        await searchInstruments(filterObj).unwrap()
       }}
     />
   )

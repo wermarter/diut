@@ -15,12 +15,12 @@ import {
   HttpErrorResponse,
 } from 'src/infra/api/access-service/auth'
 
-interface LoginPageProps {
+type LoginPageProps = {
   reason?: string
 }
 
-export function LoginForm({ reason }: LoginPageProps) {
-  const [contextText] = useState(reason)
+export function LoginForm(props: LoginPageProps) {
+  const [contextText] = useState(props.reason)
   const [showPassword, setShowPassword] = useState(false)
   const [login, { error }] = useAuthLoginMutation()
 

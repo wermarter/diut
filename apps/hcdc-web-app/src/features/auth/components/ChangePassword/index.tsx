@@ -6,17 +6,17 @@ import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 import { ChangePasswordForm } from './form'
 
-interface ChangePasswordProps {
+type ChangePasswordProps = {
   open: boolean
   onClose: Function
   userId?: string
 }
 
-export function ChangePassword({ open, onClose, userId }: ChangePasswordProps) {
+export function ChangePassword(props: ChangePasswordProps) {
   const [updateUser, { isLoading }] = useUserUpdateByIdMutation()
   const currentUserId = useTypedSelector(authSlice.selectors.selectUserId)
 
-  const targetUserId = userId ?? currentUserId!
+  const targetUserId = props.userId ?? currentUserId!
 
   const handleChangePassword = async (newPassword: string) => {
     return updateUser({
@@ -24,14 +24,14 @@ export function ChangePassword({ open, onClose, userId }: ChangePasswordProps) {
       userUpdateRequestDto: { password: newPassword },
     }).then(() => {
       toast.success('Thay đổi thành công!')
-      onClose()
+      props.onClose()
     })
   }
 
   return (
     <SideAction
-      open={open}
-      onClose={onClose}
+      open={props.open}
+      onClose={props.onClose}
       title="Đổi mật khẩu"
       disableClickOutside={isLoading}
     >

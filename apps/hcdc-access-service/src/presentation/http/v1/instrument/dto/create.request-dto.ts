@@ -19,6 +19,11 @@ export class InstrumentCreateRequestDto {
   name: string
 
   @Expose()
+  @ApiProperty(exampleInstrument.testId)
+  @IsObjectId()
+  testId: string
+
+  @Expose()
   @ApiProperty(exampleInstrument.branchId)
   @IsObjectId()
   branchId: string

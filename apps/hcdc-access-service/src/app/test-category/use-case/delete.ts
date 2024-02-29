@@ -41,9 +41,7 @@ export class TestCategoryDeleteUseCase {
       testCategoryId: input.id,
     })
     if (connectedTestCount > 0) {
-      throw new EEntityCannotDelete(
-        `there are ${connectedTestCount} connected Test`,
-      )
+      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
     }
 
     await this.testCategoryRepository.deleteById(input.id)

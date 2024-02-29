@@ -7,6 +7,9 @@ import {
   IAuthContext,
   IInstrumentRepository,
   assertPermission,
+  TestRepositoryToken,
+  ITestRepository,
+  EEntityCannotDelete,
 } from 'src/domain'
 import { InstrumentAssertExistsUseCase } from './assert-exists'
 
@@ -17,6 +20,8 @@ export class InstrumentDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(InstrumentRepositoryToken)
     private readonly instrumentRepository: IInstrumentRepository,
+    @Inject(TestRepositoryToken)
+    private readonly testRepository: ITestRepository,
     private readonly instrumentAssertExistsUseCase: InstrumentAssertExistsUseCase,
   ) {}
 
@@ -31,6 +36,13 @@ export class InstrumentDeleteUseCase {
       InstrumentAction.Delete,
       entity,
     )
+
+    const connectedTestCount = await this.testRepository.count({
+      instrumentId: input.id,
+    })
+    if (connectedTestCount > 0) {
+      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+    }
 
     await this.instrumentRepository.deleteById(input.id)
 

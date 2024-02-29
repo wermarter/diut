@@ -6,6 +6,7 @@ import { IsOptional, ValidateNested } from 'class-validator'
 import { InstrumentCreateRequestDto } from './create.request-dto'
 import { exampleInstrument } from 'src/domain'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
+import { TestUnpopulatedResponseDto } from '../../test/dto/response-dto'
 
 export class InstrumentUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
@@ -13,6 +14,16 @@ export class InstrumentUnpopulatedResponseDto extends IntersectionType(
 ) {}
 
 export class InstrumentResponseDto extends InstrumentUnpopulatedResponseDto {
+  @Expose()
+  @ApiProperty({
+    ...exampleInstrument.test,
+    type: () => TestUnpopulatedResponseDto,
+  })
+  @ValidateNested()
+  @Type(() => TestUnpopulatedResponseDto)
+  @IsOptional()
+  test?: TestUnpopulatedResponseDto | null
+
   @Expose()
   @ApiProperty({
     ...exampleInstrument.branch,
