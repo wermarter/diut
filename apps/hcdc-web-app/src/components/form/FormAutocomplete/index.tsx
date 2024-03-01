@@ -20,6 +20,7 @@ export type FormAutocompleteProps<
   getOptionValue: (option: OptionType) => unknown
 
   disableError?: boolean
+  multiple?: boolean
   groupBy?: AutocompleteProps<
     OptionType,
     undefined,
@@ -30,7 +31,7 @@ export type FormAutocompleteProps<
 
 export function FormAutocomplete<
   TFieldValues extends FieldValues = FieldValues,
-  OptionType = any,
+  OptionType = unknown,
 >({
   name,
   label,
@@ -39,6 +40,7 @@ export function FormAutocomplete<
   getOptionLabel,
   getOptionValue,
   groupBy,
+  multiple = false,
   disableError = false,
 }: FormAutocompleteProps<TFieldValues, OptionType>) {
   return (
@@ -56,18 +58,28 @@ export function FormAutocomplete<
         return (
           <Autocomplete
             fullWidth
-            multiple
+            multiple={multiple}
+            filterSelectedOptions={!!multiple}
             options={options}
             groupBy={groupBy}
             PopperComponent={StyledPopper}
             getOptionLabel={getOptionLabel}
             onChange={(event, value, reason) => {
-              onChange(value.map(getOptionValue))
+              if (value) {
+                if (Array.isArray(value)) {
+                  onChange(value.map(getOptionValue))
+                } else {
+                  onChange(getOptionValue(value))
+                }
+              }
             }}
-            value={options.filter((option) =>
-              value?.includes(getOptionValue(option)),
-            )}
-            filterSelectedOptions
+            value={
+              multiple === true
+                ? options.filter((option) =>
+                    value?.includes(getOptionValue(option)),
+                  )
+                : options.find((option) => getOptionValue(option) === value)
+            }
             renderInput={(params) => (
               <TextField
                 {...params}

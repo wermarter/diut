@@ -313,7 +313,7 @@ export type SampleCreateRequestDto = {
   branchId: string
   testIds: string[]
 }
-export type TestElementNormalRuleDto = {
+export type TestElementTestElementNormalRuleDto = {
   category:
     | 'Any'
     | 'YoungMale'
@@ -336,7 +336,7 @@ export type TestElementUnpopulatedResponseDto = {
   reportIndex: number
   unit: string
   isParent: boolean
-  normalRules: TestElementNormalRuleDto[]
+  normalRules: TestElementTestElementNormalRuleDto[]
   testId: string
   branchId: string
 }

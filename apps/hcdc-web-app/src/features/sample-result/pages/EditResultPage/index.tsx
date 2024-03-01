@@ -27,7 +27,7 @@ import { merge } from 'lodash'
 import { useSampleUpdateByIdMutation } from 'src/infra/api/access-service/sample'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import {
-  HighlightRuleDto,
+  TestElementNormalRuleDto,
   TestElementResponseDto,
   useLazyTestElementSearchQuery,
 } from 'src/infra/api/access-service/test-element'
@@ -65,13 +65,13 @@ export default function EditResultPage() {
   }, [sampleId])
 
   const getHighlightRule = useCallback(
-    (highlightRules: HighlightRuleDto[]) => {
+    (highlightRules: TestElementNormalRuleDto[]) => {
       return (
         highlightRules.find(({ category }) => category === patientCategory) ??
         highlightRules.find(
           ({ category }) => category === PatientCategory.Any,
         ) ??
-        ({} as HighlightRuleDto)
+        ({} as TestElementNormalRuleDto)
       )
     },
     [patientCategory],

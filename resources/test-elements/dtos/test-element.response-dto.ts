@@ -17,7 +17,7 @@ import {
   IsObjectId,
 } from '@diut/nestjs-infra'
 import { TestResponseDto } from 'src/resources/tests/dtos/test.response-dto'
-import { HighlightRuleDto } from './create-test-element.request-dto'
+import { TestElementNormalRuleDto } from './create-test-element.request-dto'
 
 export class TestElementResponseDto extends BaseResourceResponseDto {
   @Expose()
@@ -68,13 +68,13 @@ export class TestElementResponseDto extends BaseResourceResponseDto {
 
   @Expose()
   @ApiProperty({
-    type: () => HighlightRuleDto,
+    type: () => TestElementNormalRuleDto,
     isArray: true,
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => HighlightRuleDto)
-  highlightRules: HighlightRuleDto[]
+  @Type(() => TestElementNormalRuleDto)
+  highlightRules: TestElementNormalRuleDto[]
 
   @Expose()
   @ApiProperty({

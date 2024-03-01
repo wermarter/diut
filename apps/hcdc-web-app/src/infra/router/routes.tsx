@@ -10,7 +10,7 @@ import { CustomRouteObject } from 'src/infra/router'
 // import { infoConfirmPageLoader } from 'src/features/sample-info/pages/InfoConfirmPage/loader'
 // import { editSelectPageLoader } from 'src/features/sample-result/pages/EditSelectPage/loader'
 import { manageTestPageLoader } from 'src/features/test/pages/ManageTestPage/loader'
-// import { manageTestElemenentPageLoader } from 'src/features/test-element/pages/ManageTestElementPage/loader'
+import { manageTestElemenentPageLoader } from 'src/features/test-element/pages/ManageTestElementPage/loader'
 // import { printSelectPageLoader } from 'src/features/sample-result/pages/PrintSelectPage/loader'
 // import { testReportPageLoader } from 'src/features/report/pages/TestReportPage/loader'
 // import { exportReportPageLoader } from 'src/features/report/pages/ExportReportPage/loader'
@@ -32,9 +32,9 @@ const ManageTestCategoryPage = React.lazy(
 const ManageTestPage = React.lazy(
   () => import('src/features/test/pages/ManageTestPage'),
 )
-// const ManageTestElementPage = React.lazy(
-//   () => import('src/features/test-element/pages/ManageTestElementPage'),
-// )
+const ManageTestElementPage = React.lazy(
+  () => import('src/features/test-element/pages/ManageTestElementPage'),
+)
 const ManageDiagnosisPage = React.lazy(
   () => import('src/features/diagnosis/pages/ManageDiagnosisPage'),
 )
@@ -119,11 +119,11 @@ export const appRoutes: CustomRouteObject[] = [
             element: <ManageTestPage />,
             loader: manageTestPageLoader,
           },
-          // {
-          //   path: 'test-elements',
-          //   element: <ManageTestElementPage />,
-          //   loader: manageTestElemenentPageLoader,
-          // },
+          {
+            path: 'test-elements',
+            element: <ManageTestElementPage />,
+            loader: manageTestElemenentPageLoader,
+          },
           {
             path: 'sample-types',
             element: <ManageSampleTypePage />,

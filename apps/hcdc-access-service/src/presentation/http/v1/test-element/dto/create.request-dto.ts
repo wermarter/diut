@@ -12,7 +12,7 @@ import {
 } from 'class-validator'
 
 import { exampleTestElement } from 'src/domain'
-import { TestElementNormalRuleDto } from './normal-rule.dto'
+import { TestElementTestElementNormalRuleDto } from './normal-rule.dto'
 
 export class TestElementCreateRequestDto {
   @Expose()
@@ -53,12 +53,12 @@ export class TestElementCreateRequestDto {
   @Expose()
   @ApiProperty({
     ...exampleTestElement.normalRules,
-    type: () => TestElementNormalRuleDto,
+    type: () => TestElementTestElementNormalRuleDto,
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => TestElementNormalRuleDto)
-  normalRules: TestElementNormalRuleDto[]
+  @Type(() => TestElementTestElementNormalRuleDto)
+  normalRules: TestElementTestElementNormalRuleDto[]
 
   @Expose()
   @ApiProperty(exampleTestElement.testId)

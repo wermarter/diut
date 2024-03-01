@@ -4,7 +4,7 @@ import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
 import { TestResultDto } from 'src/infra/api/access-service/sample'
 import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 import {
-  HighlightRuleDto,
+  TestElementNormalRuleDto,
   TestElementResponseDto,
 } from 'src/infra/api/access-service/test-element'
 import { UserResponseDto } from 'src/infra/api/access-service/user'
@@ -37,6 +37,8 @@ export interface ResultCardProps {
     elementId: string,
     { checked, value }: { checked?: boolean; value?: string },
   ) => void
-  getHighlightRule: (highlightRules: HighlightRuleDto[]) => HighlightRuleDto
+  getHighlightRule: (
+    highlightRules: TestElementNormalRuleDto[],
+  ) => TestElementNormalRuleDto
   sampleId: string
 }

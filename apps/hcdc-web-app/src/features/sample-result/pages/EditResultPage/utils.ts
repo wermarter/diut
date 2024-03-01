@@ -1,14 +1,14 @@
 import { PatientCategory } from '@diut/hcdc'
-import { HighlightRuleDto } from 'src/infra/api/access-service/test-element'
+import { TestElementNormalRuleDto } from 'src/infra/api/access-service/test-element'
 
 export function getTechnicalHint(
   patientCategory: PatientCategory,
-  highlightRules: HighlightRuleDto[],
+  highlightRules: TestElementNormalRuleDto[],
 ) {
   const highlightRule =
     highlightRules.find(({ category }) => category === patientCategory) ??
     highlightRules.find(({ category }) => category === PatientCategory.Any) ??
-    ({} as HighlightRuleDto)
+    ({} as TestElementNormalRuleDto)
 
   const { min, max, normalValue, description, category } = highlightRule
 
@@ -49,7 +49,10 @@ export function getTechnicalHint(
   return ''
 }
 
-export function checkHighlight(highlightRule: HighlightRuleDto, value: string) {
+export function checkHighlight(
+  highlightRule: TestElementNormalRuleDto,
+  value: string,
+) {
   const { min, max, normalValue } = highlightRule
 
   if (min != undefined && max != undefined) {

@@ -59,13 +59,13 @@ export class CreateTestElementRequestDto {
   isParent: boolean
 
   @ApiProperty({
-    type: () => HighlightRuleDto,
+    type: () => TestElementNormalRuleDto,
     isArray: true,
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => HighlightRuleDto)
-  highlightRules: HighlightRuleDto[]
+  @Type(() => TestElementNormalRuleDto)
+  highlightRules: TestElementNormalRuleDto[]
 
   @ApiProperty({
     example: '10^3/uL',
@@ -76,7 +76,7 @@ export class CreateTestElementRequestDto {
   unit?: string
 }
 
-export class HighlightRuleDto {
+export class TestElementNormalRuleDto {
   @Expose()
   @ApiProperty({
     example: PatientCategory.Any,
