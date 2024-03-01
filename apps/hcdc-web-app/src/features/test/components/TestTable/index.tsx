@@ -24,6 +24,10 @@ import { InstrumentResponseDto } from 'src/infra/api/access-service/instrument'
 import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 
 type TestTableProps = {
+  page: number
+  pageSize: number
+  setPage: (page: number) => void
+  setPageSize: (pageSize: number) => void
   testCategories: TestCategoryResponseDto[]
   bioProducts: BioProductResponseDto[]
   instruments: InstrumentResponseDto[]
@@ -34,42 +38,40 @@ type TestTableProps = {
   setTestCategoryId: (id: string) => void
 }
 
-export function TestTable({
-  testCategories,
-  bioProducts,
-  instruments,
-  printForms,
-  sampleTypes,
-  revalidateCallback,
-  testCategoryId,
-  setTestCategoryId,
-}: TestTableProps) {
+export function TestTable(props: TestTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const columns = useTestColumns(
-    bioProducts,
-    instruments,
-    printForms,
-    sampleTypes,
+    props.bioProducts,
+    props.instruments,
+    props.printForms,
+    props.sampleTypes,
   )
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination({
-      sort: { index: 1 },
-      filter: {
-        branchId,
-        testCategoryId,
+    useCrudPagination(
+      {
+        offset: props.page,
+        limit: props.pageSize,
+        sort: { index: 1 },
+        filter: {
+          branchId,
+          testCategoryId: props.testCategoryId,
+        },
       },
-      offset: 0,
-    })
+      props.setPage,
+      props.setPageSize,
+    )
 
   useEffect(() => {
-    if (testCategoryId) {
+    if (props.testCategoryId) {
+      props.setPage(0)
       setFilterObj((prev) => ({
         ...prev,
-        filter: { ...prev.filter, testCategoryId },
+        offset: 0,
+        filter: { ...prev.filter, testCategoryId: props.testCategoryId },
       }))
     }
-  }, [testCategoryId])
+  }, [props.testCategoryId])
 
   const { data, isFetching } = useTestSearchQuery(filterObj)
   const [searchTests] = useLazyTestSearchQuery()
@@ -86,7 +88,7 @@ export function TestTable({
   )
 
   return (
-    testCategoryId !== undefined && (
+    props.testCategoryId !== undefined && (
       <>
         <CrudTable
           items={data?.items}
@@ -108,7 +110,7 @@ export function TestTable({
               sampleTypeId: item.sampleTypeId ?? null,
               shouldDisplayWithChildren:
                 item.shouldDisplayWithChildren ?? false,
-              testCategoryId,
+              testCategoryId: props.testCategoryId!,
               branchId,
             }).unwrap()
           }}
@@ -157,13 +159,13 @@ export function TestTable({
               <InputLabel>Nhóm xét nghiệm</InputLabel>
               <Select
                 label="Nhóm xét nghiệm"
-                value={testCategoryId}
+                value={props.testCategoryId}
                 onChange={({ target }) => {
                   const categoryId = target?.value
-                  setTestCategoryId(categoryId)
+                  props.setTestCategoryId(categoryId)
                 }}
               >
-                {testCategories.map((category) => (
+                {props.testCategories.map((category) => (
                   <MenuItem key={category._id} value={category._id}>
                     {category.name}
                   </MenuItem>
@@ -177,7 +179,7 @@ export function TestTable({
           open={bioProductTest !== null}
           onClose={() => {
             setBioProductTest(null)
-            revalidateCallback()
+            props.revalidateCallback()
           }}
           title={`Sinh phẩm: ${bioProductTest?.name!}`}
           disableClickOutside={false}
@@ -189,7 +191,7 @@ export function TestTable({
           open={instrumentTest !== null}
           onClose={() => {
             setInstrumentTest(null)
-            revalidateCallback()
+            props.revalidateCallback()
           }}
           title={`Máy XN: ${instrumentTest?.name!}`}
           disableClickOutside={false}

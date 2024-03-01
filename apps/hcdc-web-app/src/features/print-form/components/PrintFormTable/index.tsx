@@ -11,13 +11,25 @@ import { printFormColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 
-export function PrintFormTable() {
+type PrintFormTableProps = {
+  page: number
+  pageSize: number
+  setPage: (page: number) => void
+  setPageSize: (pageSize: number) => void
+}
+
+export function PrintFormTable(props: PrintFormTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { displayIndex: 1 },
-    filter: { branchId },
-    offset: 0,
-  })
+  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination(
+    {
+      offset: props.page,
+      limit: props.pageSize,
+      sort: { displayIndex: 1 },
+      filter: { branchId },
+    },
+    props.setPage,
+    props.setPageSize,
+  )
 
   const { data, isFetching } = usePrintFormSearchQuery(filterObj)
   const [searchPrintForms] = useLazyPrintFormSearchQuery()
