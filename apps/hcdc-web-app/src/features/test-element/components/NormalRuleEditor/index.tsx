@@ -1,92 +1,122 @@
-import { useEffect, useState } from 'react'
-import { Box, Button } from '@mui/material'
+import { useCallback, useEffect } from 'react'
+import { Box } from '@mui/material'
 
 import {
   TestElementNormalRuleDto,
   TestElementResponseDto,
+  useLazyTestElementFindByIdQuery,
+  useTestElementFindByIdQuery,
+  useTestElementUpdateByIdMutation,
 } from 'src/infra/api/access-service/test-element'
 import { CrudTable } from 'src/components/table'
 import { SideAction } from 'src/components/ui/SideAction'
-import { TestElementNormalRuleDtoWithId, normalRuleColumns } from './columns'
+import { normalRuleColumns } from './columns'
 
 type NormalRuleEditorProps = {
-  element: TestElementResponseDto | null
+  testElementId: string | null
   onClose: Function
-  onSubmit: (normalRules: TestElementNormalRuleDto[]) => void
-  isSubmitting: boolean
 }
 
 export function NormalRuleEditor(props: NormalRuleEditorProps) {
-  const [items, setItems] = useState<TestElementNormalRuleDtoWithId[]>([])
-
+  const { data: testElement, isFetching } = useTestElementFindByIdQuery(
+    props.testElementId!,
+    {
+      skip: props.testElementId === null,
+    },
+  )
+  const [refetch] = useLazyTestElementFindByIdQuery()
   useEffect(() => {
-    if (props.element?.normalRules) {
-      setItems(
-        props.element?.normalRules.map((rule) => ({
-          id: JSON.stringify(rule),
-          ...rule,
-        })),
-      )
+    if (props.testElementId) {
+      refetch(props.testElementId)
     }
-  }, [props.element?.normalRules])
+  }, [props.testElementId])
 
-  const handleSubmit = () => {
-    props.onSubmit(
-      items.map((rule) => ({
-        ...rule,
-        id: undefined,
-        defaultChecked: rule.defaultChecked ?? false,
-      })),
-    )
-    props.onClose()
-  }
+  const [updateTestElement, { isLoading: isUpdating }] =
+    useTestElementUpdateByIdMutation()
 
-  const handleCancel = () => {
-    props.onClose()
-  }
+  const isLoading = isFetching || isUpdating
+
+  const createNormalRule = useCallback(
+    async (rule: TestElementNormalRuleDto) => {
+      if (testElement) {
+        await updateTestElement({
+          id: testElement._id!,
+          testElementUpdateRequestDto: {
+            normalRules: [
+              ...testElement.normalRules.filter(
+                ({ category }) => category !== rule.category,
+              ),
+              rule,
+            ],
+          },
+        })
+      }
+    },
+    [testElement],
+  )
+
+  const updateNormalRule = useCallback(
+    async (
+      newRule: TestElementNormalRuleDto,
+      oldRule: TestElementNormalRuleDto,
+    ) => {
+      if (testElement) {
+        await updateTestElement({
+          id: testElement._id!,
+          testElementUpdateRequestDto: {
+            normalRules: testElement.normalRules.map((rule) => {
+              if (rule.category === oldRule.category) {
+                return newRule
+              } else {
+                return rule
+              }
+            }),
+          },
+        })
+      }
+    },
+    [testElement],
+  )
+
+  const removeNormalRule = useCallback(
+    async (rule: TestElementNormalRuleDto) => {
+      if (testElement) {
+        await updateTestElement({
+          id: testElement._id!,
+          testElementUpdateRequestDto: {
+            normalRules: testElement.normalRules.filter(
+              ({ category }) => category !== rule.category,
+            ),
+          },
+        })
+      }
+    },
+    [testElement],
+  )
 
   return (
     <SideAction
       fullWidth
-      open={props.element != null}
+      open={testElement !== undefined}
       onClose={props.onClose}
-      title={props.element?.name ?? ''}
-      disableClickOutside={props.isSubmitting}
+      title={`Tham chiếu: ${testElement?.name}`}
+      disableClickOutside={isLoading}
     >
       <Box sx={{ height: '100%', m: 2 }}>
         <CrudTable
-          items={items}
-          itemIdField="id"
+          items={testElement?.normalRules}
+          isLoading={isLoading}
+          itemIdField="category"
           fieldColumns={normalRuleColumns}
-          onItemCreate={(item) => {
-            setItems((items) => [
-              ...items,
-              { ...item, id: JSON.stringify(item) },
-            ])
+          onRefresh={() => {
+            if (props.testElementId) {
+              refetch(props.testElementId)
+            }
           }}
-          onItemUpdate={(item) => {
-            setItems((items) => [
-              { ...item, id: JSON.stringify(item) },
-              ...items.filter((rule) => rule.id !== item.id),
-            ])
-          }}
-          onItemDelete={(item) => {
-            setItems((items) => items.filter((rule) => rule.id !== item.id))
-          }}
+          onItemCreate={createNormalRule}
+          onItemUpdate={updateNormalRule}
+          onItemDelete={removeNormalRule}
         />
-        <Box>
-          <Button
-            sx={{ mt: 2 }}
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-          >
-            Lưu
-          </Button>
-          <Button sx={{ mt: 2, mx: 1 }} color="primary" onClick={handleCancel}>
-            Huỷ
-          </Button>
-        </Box>
       </Box>
     </SideAction>
   )

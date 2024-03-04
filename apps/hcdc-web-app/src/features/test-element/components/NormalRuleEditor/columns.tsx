@@ -12,11 +12,7 @@ const patientCategoryDisplayText = {
   [PatientCategory.Pregnant]: 'Thai phụ',
 }
 
-export type TestElementNormalRuleDtoWithId = TestElementNormalRuleDto & {
-  id: string
-}
-
-export const normalRuleColumns: GridColDef<TestElementNormalRuleDtoWithId>[] = [
+export const normalRuleColumns: GridColDef<TestElementNormalRuleDto>[] = [
   {
     field: 'category',
     headerName: 'Phân loại',
@@ -28,7 +24,6 @@ export const normalRuleColumns: GridColDef<TestElementNormalRuleDtoWithId>[] = [
       value: category,
       label: patientCategoryDisplayText[category],
     })),
-    // valueFormatter: ({ value }) => patientCategoryDisplayText[value as PatientCategory],
   },
   {
     field: 'normalLowerBound',

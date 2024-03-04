@@ -1,7 +1,7 @@
 import { BaseEntity } from '../base-entity'
 import { Branch } from '../branch'
 import { PatientCategory } from '../patient'
-import { Test } from '../test/entity'
+import { Test } from '../test'
 
 export type NormalRule = {
   category: PatientCategory

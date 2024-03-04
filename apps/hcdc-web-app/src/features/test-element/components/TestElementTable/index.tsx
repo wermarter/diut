@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -8,7 +7,6 @@ import {
   useTestElementSearchQuery,
   useTestElementUpdateByIdMutation,
   useLazyTestElementSearchQuery,
-  TestElementResponseDto,
 } from 'src/infra/api/access-service/test-element'
 import { CrudTable } from 'src/components/table'
 import { useCrudPagination } from 'src/shared/hooks'
@@ -47,7 +45,7 @@ export function TestElementTable(props: TestElementTableProps) {
       props.setPageSize,
     )
 
-  const [ruleRow, setRuleRow] = useState<TestElementResponseDto | null>(null)
+  const [ruleRow, setRuleRow] = useState<string | null>(null)
 
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -148,25 +146,16 @@ export function TestElementTable(props: TestElementTableProps) {
           {
             label: 'Tham chiếu',
             action: (testElement) => {
-              setRuleRow(testElement)
+              setRuleRow(testElement._id)
             },
           },
         ]}
       />
       <NormalRuleEditor
-        element={ruleRow}
+        testElementId={ruleRow}
         onClose={() => {
           setRuleRow(null)
         }}
-        onSubmit={(normalRules) => {
-          updateTestElement({
-            id: ruleRow?._id!,
-            testElementUpdateRequestDto: { normalRules },
-          }).then(() => {
-            toast.success('Đặt tham chiếu thành công.')
-          })
-        }}
-        isSubmitting={isUpdating}
       />
     </>
   )
