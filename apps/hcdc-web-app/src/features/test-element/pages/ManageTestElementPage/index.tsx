@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { useLoaderData, useSearchParams } from 'react-router-dom'
 
 import { TestElementTable } from '../../components'
@@ -18,17 +18,9 @@ export default function ManageTestElementPage() {
     [PARAM_PAGE_SIZE]: ROWS_PER_PAGE_OPTIONS[0].toString(),
     [PARAM_TEST_ID]: tests[0]?._id,
   })
-  const paramTestId = searchParams.get(PARAM_TEST_ID)!
+  const testId = searchParams.get(PARAM_TEST_ID)!
   const page = parseInt(searchParams.get(PARAM_PAGE)!)
   const pageSize = parseInt(searchParams.get(PARAM_PAGE_SIZE)!)
-
-  const [testId, setSelectedTestId] = useState(paramTestId)
-
-  useEffect(() => {
-    if (paramTestId) {
-      setSelectedTestId(paramTestId)
-    }
-  }, [searchParams])
 
   const setTestId = useCallback(
     (id: string) => {

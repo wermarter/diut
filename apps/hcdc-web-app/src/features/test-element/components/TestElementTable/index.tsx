@@ -1,6 +1,5 @@
-import { FormControl } from '@mui/material'
-import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -50,30 +49,20 @@ export function TestElementTable(props: TestElementTableProps) {
 
   const [ruleRow, setRuleRow] = useState<TestElementResponseDto | null>(null)
 
-  const { control, watch, setValue } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       testId: props.testId,
     },
   })
-  const selectedTestId = watch('testId')
 
   useEffect(() => {
-    if (props.testId) {
-      setValue('testId', props.testId)
-      props.setPage(0)
-      setFilterObj((prev) => ({
-        ...prev,
-        offset: 0,
-        filter: { ...prev.filter, testId: props.testId },
-      }))
-    }
-  }, [props.testId])
-
-  useEffect(() => {
-    if (selectedTestId) {
-      props.setTestId(selectedTestId)
-    }
-  }, [selectedTestId])
+    setFilterObj((prev) => ({
+      ...prev,
+      offset: props.page,
+      limit: props.pageSize,
+      filter: { ...prev.filter, testId: props.testId },
+    }))
+  }, [props.testId, props.page, props.pageSize])
 
   const { data, isFetching } = useTestElementSearchQuery(filterObj)
   const [searchTestElements] = useLazyTestElementSearchQuery()
@@ -130,30 +119,30 @@ export function TestElementTable(props: TestElementTableProps) {
           await searchTestElements(filterObj).unwrap()
         }}
         TopLeftComponent={
-          <FormControl
-            color="secondary"
-            focused
-            fullWidth
-            size="small"
-            sx={{ minWidth: '300px' }}
+          <FormContainer
+            autoComplete="off"
+            onSubmit={handleSubmit((data) => {
+              props.setPage(0)
+              props.setTestId(data.testId)
+            })}
           >
-            <FormContainer
-              autoComplete="off"
-              onSubmit={(e) => {
-                e.preventDefault()
+            <FormAutocomplete
+              textFieldProps={{
+                color: 'secondary',
+                focused: true,
+                fullWidth: true,
+                sx: { minWidth: '300px' },
               }}
-            >
-              <FormAutocomplete
-                label="Chọn XN"
-                control={control}
-                name="testId"
-                options={props.tests}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option._id}
-                groupBy={(option) => option.testCategory?.name ?? ''}
-              />
-            </FormContainer>
-          </FormControl>
+              size="small"
+              label="Chọn XN"
+              control={control}
+              name="testId"
+              options={props.tests}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option._id}
+              groupBy={(option) => option.testCategory?.name ?? ''}
+            />
+          </FormContainer>
         }
         customRowActions={[
           {

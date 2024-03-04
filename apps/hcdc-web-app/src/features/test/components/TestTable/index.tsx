@@ -52,7 +52,7 @@ export function TestTable(props: TestTableProps) {
       {
         offset: props.page,
         limit: props.pageSize,
-        sort: { index: 1 },
+        sort: { displayIndex: 1 },
         filter: {
           branchId,
           testCategoryId: props.testCategoryId,
@@ -63,15 +63,13 @@ export function TestTable(props: TestTableProps) {
     )
 
   useEffect(() => {
-    if (props.testCategoryId) {
-      props.setPage(0)
-      setFilterObj((prev) => ({
-        ...prev,
-        offset: 0,
-        filter: { ...prev.filter, testCategoryId: props.testCategoryId },
-      }))
-    }
-  }, [props.testCategoryId])
+    setFilterObj((prev) => ({
+      ...prev,
+      offset: props.page,
+      limit: props.pageSize,
+      filter: { ...prev.filter, testCategoryId: props.testCategoryId },
+    }))
+  }, [props.testCategoryId, props.page, props.pageSize])
 
   const { data, isFetching } = useTestSearchQuery(filterObj)
   const [searchTests] = useLazyTestSearchQuery()
@@ -162,7 +160,10 @@ export function TestTable(props: TestTableProps) {
                 value={props.testCategoryId}
                 onChange={({ target }) => {
                   const categoryId = target?.value
-                  props.setTestCategoryId(categoryId)
+                  if (categoryId) {
+                    props.setPage(0)
+                    props.setTestCategoryId(categoryId)
+                  }
                 }}
               >
                 {props.testCategories.map((category) => (

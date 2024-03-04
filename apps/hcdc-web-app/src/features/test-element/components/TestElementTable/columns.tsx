@@ -4,6 +4,17 @@ import { TestElementResponseDto } from 'src/infra/api/access-service/test-elemen
 
 export const testElementColumns: GridColDef<TestElementResponseDto>[] = [
   {
+    field: 'isParent',
+    type: 'boolean',
+    headerName: 'TP lớn',
+    minWidth: 80,
+    sortable: false,
+    editable: true,
+    valueGetter: ({ value }) => {
+      return value ?? false
+    },
+  },
+  {
     field: 'displayIndex',
     headerName: 'Thứ tự nhập',
     type: 'number',
@@ -34,18 +45,6 @@ export const testElementColumns: GridColDef<TestElementResponseDto>[] = [
     minWidth: 70,
     sortable: false,
     editable: true,
-  },
-  {
-    field: 'isParent',
-    type: 'boolean',
-    headerName: 'TP lớn',
-    minWidth: 80,
-    flex: 1,
-    sortable: false,
-    editable: true,
-    valueGetter: ({ value }) => {
-      return value ?? false
-    },
   },
   {
     field: 'unit',

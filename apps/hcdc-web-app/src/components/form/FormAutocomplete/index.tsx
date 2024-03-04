@@ -4,6 +4,7 @@ import {
   Popper,
   styled,
   TextField,
+  TextFieldProps,
 } from '@mui/material'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
@@ -27,6 +28,8 @@ export type FormAutocompleteProps<
     undefined,
     undefined
   >['groupBy']
+  size?: AutocompleteProps<OptionType, undefined, undefined, undefined>['size']
+  textFieldProps?: TextFieldProps
 }
 
 export function FormAutocomplete<
@@ -42,6 +45,8 @@ export function FormAutocomplete<
   groupBy,
   multiple = false,
   disableError = false,
+  size = 'small',
+  textFieldProps = {},
 }: FormAutocompleteProps<TFieldValues, OptionType>) {
   return (
     <Controller
@@ -59,6 +64,7 @@ export function FormAutocomplete<
           <Autocomplete
             fullWidth
             multiple={multiple}
+            size={size}
             filterSelectedOptions={!!multiple}
             options={options}
             groupBy={groupBy}
@@ -82,6 +88,7 @@ export function FormAutocomplete<
             }
             renderInput={(params) => (
               <TextField
+                {...textFieldProps}
                 {...params}
                 {...errorProps}
                 inputRef={ref}

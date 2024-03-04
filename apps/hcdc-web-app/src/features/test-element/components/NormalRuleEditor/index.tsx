@@ -53,7 +53,7 @@ export function NormalRuleEditor(props: NormalRuleEditorProps) {
       title={props.element?.name ?? ''}
       disableClickOutside={props.isSubmitting}
     >
-      <Box sx={{ height: '100%' }}>
+      <Box sx={{ height: '100%', m: 2 }}>
         <CrudTable
           items={items}
           itemIdField="id"

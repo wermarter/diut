@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import {
   useLoaderData,
   useRevalidator,
@@ -22,17 +22,9 @@ export default function ManageTestPage() {
     [PARAM_PAGE_SIZE]: ROWS_PER_PAGE_OPTIONS[0].toString(),
     [PARAM_CATEGORY_ID]: testCategories[0]?._id,
   })
-  const paramCategoryId = searchParams.get(PARAM_CATEGORY_ID)!
+  const testCategoryId = searchParams.get(PARAM_CATEGORY_ID)!
   const page = parseInt(searchParams.get(PARAM_PAGE)!)
   const pageSize = parseInt(searchParams.get(PARAM_PAGE_SIZE)!)
-
-  const [selectedCategoryId, setSelectedCategoryId] = useState(paramCategoryId)
-
-  useEffect(() => {
-    if (paramCategoryId) {
-      setSelectedCategoryId(paramCategoryId)
-    }
-  }, [paramCategoryId])
 
   const revalidateCallback = useCallback(() => {
     revalidator.revalidate()
@@ -89,7 +81,7 @@ export default function ManageTestPage() {
       printForms={printForms}
       sampleTypes={sampleTypes}
       revalidateCallback={revalidateCallback}
-      testCategoryId={selectedCategoryId}
+      testCategoryId={testCategoryId}
       setTestCategoryId={setTestCategoryId}
     />
   )
