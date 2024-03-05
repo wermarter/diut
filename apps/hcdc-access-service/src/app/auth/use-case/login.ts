@@ -30,6 +30,7 @@ export class AuthLoginUseCase {
       filter: { username },
       populates: [
         { path: 'roles', fields: ['permissions'] satisfies (keyof Role)[] },
+        { path: 'branches' },
       ],
     })
     if (!user) {

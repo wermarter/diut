@@ -34,7 +34,7 @@ type TestTableProps = {
   sampleTypes: SampleTypeResponseDto[]
   printForms: PrintFormResponseDto[]
   revalidateCallback: () => void
-  testCategoryId: string | undefined
+  testCategoryId: string
   setTestCategoryId: (id: string) => void
 }
 
@@ -86,120 +86,117 @@ export function TestTable(props: TestTableProps) {
   )
 
   return (
-    props.testCategoryId !== undefined && (
-      <>
-        <CrudTable
-          items={data?.items}
-          itemIdField="_id"
-          isLoading={isFetching || isCreating || isUpdating || isDeleting}
-          fieldColumns={columns}
-          rowCount={data?.total!}
-          page={data?.offset!}
-          pageSize={data?.limit!}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-          onItemCreate={async (item) => {
-            await createTest({
-              name: item.name,
-              displayIndex: item.displayIndex,
-              bioProductId: item.bioProductId ?? null,
-              printFormId: item.printFormId ?? null,
-              instrumentId: item.instrumentId ?? null,
-              sampleTypeId: item.sampleTypeId ?? null,
-              shouldDisplayWithChildren:
-                item.shouldDisplayWithChildren ?? false,
-              testCategoryId: props.testCategoryId!,
-              branchId,
-            }).unwrap()
-          }}
-          onItemUpdate={async (newItem) => {
-            await updateTest({
-              id: newItem._id,
-              testUpdateRequestDto: {
-                name: newItem.name,
-                displayIndex: newItem.displayIndex,
-                bioProductId: newItem.bioProductId,
-                printFormId: newItem.printFormId,
-                instrumentId: newItem.instrumentId,
-                sampleTypeId: newItem.sampleTypeId,
-                shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
-              },
-            }).unwrap()
-          }}
-          onItemDelete={async (item) => {
-            await deleteTest(item._id).unwrap()
-          }}
-          onRefresh={async () => {
-            await searchTests(filterObj).unwrap()
-          }}
-          customRowActions={[
-            {
-              label: 'Sinh phẩm',
-              action(test) {
-                setBioProductTest(test)
-              },
+    <>
+      <CrudTable
+        items={data?.items}
+        itemIdField="_id"
+        isLoading={isFetching || isCreating || isUpdating || isDeleting}
+        fieldColumns={columns}
+        rowCount={data?.total!}
+        page={data?.offset!}
+        pageSize={data?.limit!}
+        onPageChange={onPageChange}
+        onPageSizeChange={onPageSizeChange}
+        onItemCreate={async (item) => {
+          await createTest({
+            name: item.name,
+            displayIndex: item.displayIndex,
+            bioProductId: item.bioProductId ?? null,
+            printFormId: item.printFormId ?? null,
+            instrumentId: item.instrumentId ?? null,
+            sampleTypeId: item.sampleTypeId ?? null,
+            shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
+            testCategoryId: props.testCategoryId!,
+            branchId,
+          }).unwrap()
+        }}
+        onItemUpdate={async (newItem) => {
+          await updateTest({
+            id: newItem._id,
+            testUpdateRequestDto: {
+              name: newItem.name,
+              displayIndex: newItem.displayIndex,
+              bioProductId: newItem.bioProductId,
+              printFormId: newItem.printFormId,
+              instrumentId: newItem.instrumentId,
+              sampleTypeId: newItem.sampleTypeId,
+              shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
             },
-            {
-              label: 'Máy XN',
-              action(test) {
-                setInstrumentTest(test)
-              },
+          }).unwrap()
+        }}
+        onItemDelete={async (item) => {
+          await deleteTest(item._id).unwrap()
+        }}
+        onRefresh={async () => {
+          await searchTests(filterObj).unwrap()
+        }}
+        customRowActions={[
+          {
+            label: 'Sinh phẩm',
+            action(test) {
+              setBioProductTest(test)
             },
-          ]}
-          TopLeftComponent={
-            <FormControl
-              color="secondary"
-              focused
-              fullWidth
-              size="small"
-              sx={{ minWidth: '300px' }}
+          },
+          {
+            label: 'Máy XN',
+            action(test) {
+              setInstrumentTest(test)
+            },
+          },
+        ]}
+        TopLeftComponent={
+          <FormControl
+            color="secondary"
+            focused
+            fullWidth
+            size="small"
+            sx={{ minWidth: '300px' }}
+          >
+            <InputLabel>Nhóm xét nghiệm</InputLabel>
+            <Select
+              label="Nhóm xét nghiệm"
+              value={props.testCategoryId}
+              onChange={({ target }) => {
+                const categoryId = target?.value
+                if (categoryId) {
+                  props.setPage(0)
+                  props.setTestCategoryId(categoryId)
+                }
+              }}
             >
-              <InputLabel>Nhóm xét nghiệm</InputLabel>
-              <Select
-                label="Nhóm xét nghiệm"
-                value={props.testCategoryId}
-                onChange={({ target }) => {
-                  const categoryId = target?.value
-                  if (categoryId) {
-                    props.setPage(0)
-                    props.setTestCategoryId(categoryId)
-                  }
-                }}
-              >
-                {props.testCategories.map((category) => (
-                  <MenuItem key={category._id} value={category._id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          }
-        />
-        <SideAction
-          fullWidth
-          open={bioProductTest !== null}
-          onClose={() => {
-            setBioProductTest(null)
-            props.revalidateCallback()
-          }}
-          title={`Sinh phẩm: ${bioProductTest?.name!}`}
-          disableClickOutside={false}
-        >
-          <BioProductTable testId={bioProductTest?._id!} />
-        </SideAction>
-        <SideAction
-          fullWidth
-          open={instrumentTest !== null}
-          onClose={() => {
-            setInstrumentTest(null)
-            props.revalidateCallback()
-          }}
-          title={`Máy XN: ${instrumentTest?.name!}`}
-          disableClickOutside={false}
-        >
-          <InstrumentTable testId={instrumentTest?._id!} />
-        </SideAction>
-      </>
-    )
+              {props.testCategories.map((category) => (
+                <MenuItem key={category._id} value={category._id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        }
+      />
+      <SideAction
+        fullWidth
+        open={bioProductTest !== null}
+        onClose={() => {
+          setBioProductTest(null)
+          props.revalidateCallback()
+        }}
+        title={`Sinh phẩm: ${bioProductTest?.name!}`}
+        disableClickOutside={false}
+      >
+        <BioProductTable testId={bioProductTest?._id!} />
+      </SideAction>
+      <SideAction
+        fullWidth
+        open={instrumentTest !== null}
+        onClose={() => {
+          setInstrumentTest(null)
+          props.revalidateCallback()
+        }}
+        title={`Máy XN: ${instrumentTest?.name!}`}
+        disableClickOutside={false}
+      >
+        <InstrumentTable testId={instrumentTest?._id!} />
+      </SideAction>
+    </>
   )
 }

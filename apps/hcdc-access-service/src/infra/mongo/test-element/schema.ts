@@ -24,10 +24,10 @@ export class NormalRuleSchema {
   @Prop({ required: false })
   normalUpperBound?: number
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   description: string
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   note: string
 }
 
@@ -66,7 +66,7 @@ export class TestElementSchema extends BaseSchema {
   @Prop({ required: true })
   reportIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   unit: string
 
   @Prop({ required: true })

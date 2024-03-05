@@ -11,6 +11,10 @@ import {
   MenuItem,
   Toolbar,
   Typography,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
 } from '@mui/material'
 import { useNavigation } from 'react-router-dom'
 
@@ -26,6 +30,11 @@ interface AppBarProps {
 export function AppBar({ drawerWidth }: AppBarProps) {
   const dispatch = useTypedDispatch()
   const name = useTypedSelector(authSlice.selectors.selectUserName)
+  const branches = useTypedSelector(authSlice.selectors.selectBranches)
+  const activeBranchId = useTypedSelector(
+    authSlice.selectors.selectActiveBranchId,
+  )
+
   const navigation = useNavigation()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -55,49 +64,74 @@ export function AppBar({ drawerWidth }: AppBarProps) {
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
       elevation={0}
     >
-      <Toolbar variant="dense">
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          {name}
-        </Typography>
-        <div>
-          <IconButton
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+      <Toolbar
+        variant="dense"
+        sx={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <FormControl
+          color="secondary"
+          focused
+          size="small"
+          sx={{ minWidth: '200px' }}
+        >
+          <Select
+            sx={{ bgcolor: 'white' }}
+            value={activeBranchId}
+            onChange={({ target }) => {
+              const branchId = target?.value
+              if (branchId) {
+                dispatch(authSlice.actions.setActiveBranchId({ branchId }))
+              }
             }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
           >
-            <MenuItem onClick={handleChangePassword}>
-              <ListItemIcon>
-                <Lock />
-              </ListItemIcon>
-              <ListItemText>Đổi mật khẩu</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon>
-                <Logout />
-              </ListItemIcon>
-              <ListItemText>Đăng xuất</ListItemText>
-            </MenuItem>
-          </Menu>
-        </div>
+            {branches?.map((branch) => (
+              <MenuItem key={branch._id} value={branch._id}>
+                {branch.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleMenu}
+          color="inherit"
+        >
+          <Typography variant="h6" noWrap component="div" sx={{ mr: 2 }}>
+            {name}
+          </Typography>
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleChangePassword}>
+            <ListItemIcon>
+              <Lock />
+            </ListItemIcon>
+            <ListItemText>Đổi mật khẩu</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText>Đăng xuất</ListItemText>
+          </MenuItem>
+        </Menu>
       </Toolbar>
       {navigation.state !== 'idle' && <ProgressBar />}
       <ChangePassword

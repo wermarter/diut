@@ -1,4 +1,3 @@
-import { Gender, SampleExceptionMsg } from '@diut/hcdc'
 import { useCallback, useDeferredValue, useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -20,6 +19,7 @@ import { GridActionsCellItem } from '@mui/x-data-grid'
 import { addMinutes, setMinutes, setHours } from 'date-fns'
 import LoopIcon from '@mui/icons-material/Loop'
 import LinkIcon from '@mui/icons-material/Link'
+import { DomainErrorCode, PatientGender } from '@diut/hcdc'
 
 import {
   FormContainer,
@@ -30,10 +30,10 @@ import {
   FormCheckboxGroup,
 } from 'src/components/form'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
-import { TestSelector } from 'src/features/test/components/TestSelector'
+import { TestSelector } from 'src/features/test'
 import {
-  SampleBadRequestDto,
   useSampleCreateMutation,
+  HttpErrorResponse,
 } from 'src/infra/api/access-service/sample'
 import {
   PatientResponseDto,
@@ -44,12 +44,15 @@ import {
 import { DataTable } from 'src/components/table'
 import { useDebouncedValue } from 'src/shared/hooks'
 import { infoInputPageLoader } from './loader'
-import { BarcodeModal } from '../../components/BarcodeModal'
+import { BarcodeModal } from '../../components'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
 const currentYear = new Date().getFullYear()
 
 export default function InfoInputPage() {
-  const { patientTypes, indications, doctors, sampleTypes, sampleOrigins } =
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
+  const { patientTypes, diagnoses, doctors, sampleTypes, origins } =
     useLoaderData() as Awaited<ReturnType<typeof infoInputPageLoader>>
 
   const {
@@ -66,10 +69,10 @@ export default function InfoInputPage() {
     resolver: formResolver,
     defaultValues: {
       ...formDefaultValues,
-      patientTypeId: patientTypes.items?.[0]?._id!,
-      doctorId: doctors.items?.[0]?._id!,
-      indicationId: indications.items?.[0]?._id!,
-      sampleOriginId: sampleOrigins.items?.[0]?._id!,
+      patientTypeId: patientTypes[0]?._id,
+      doctorId: doctors[0]?._id,
+      diagnosisId: diagnoses[0]?._id!,
+      originId: origins[0]?._id!,
     },
   })
 
@@ -100,10 +103,10 @@ export default function InfoInputPage() {
   const [updatePatient] = usePatientUpdateByIdMutation()
 
   useEffect(() => {
-    const response = (error as any)?.data as SampleBadRequestDto
+    const response = (error as any)?.data as HttpErrorResponse
     if (response?.message?.length > 0) {
-      const { message } = response
-      if (message === SampleExceptionMsg.SAMPLE_ID_EXISTED) {
+      const { message, errorCode } = response
+      if (errorCode === DomainErrorCode.ENTITY_SAMPLE_ID_ALREADY_EXISTS) {
         setError('sampleId', { message: 'Đã tồn tại' }, { shouldFocus: true })
       } else {
         toast.error(message)
@@ -119,14 +122,12 @@ export default function InfoInputPage() {
   const { data: patients, isFetching: isFetchingPatients } =
     usePatientSearchQuery(
       {
-        searchPatientRequestDto: {
-          filter:
-            deferredExternalId?.length! > 0
-              ? { externalId: deferredExternalId }
-              : { name: { $regex: '^' + deferredName, $options: 'i' } },
-          offset: 0,
-          limit: 10,
-        },
+        filter:
+          deferredExternalId?.length! > 0
+            ? { externalId: deferredExternalId }
+            : { name: { $regex: '^' + deferredName, $options: 'i' } },
+        offset: 0,
+        limit: 10,
       },
       {
         skip:
@@ -144,7 +145,7 @@ export default function InfoInputPage() {
       sampleId,
       isNgoaiGio,
       patientTypeId,
-      indicationId,
+      diagnosisId,
       doctorId,
       address,
       infoAt,
@@ -162,7 +163,7 @@ export default function InfoInputPage() {
 
     setValue('isNgoaiGio', isNgoaiGio)
     setValue('patientTypeId', patientTypeId)
-    setValue('indicationId', indicationId)
+    setValue('diagnosisId', diagnosisId)
     setValue('doctorId', doctorId)
     setValue('sampleId', newSampleId.toString())
     setValue('address', address)
@@ -180,22 +181,19 @@ export default function InfoInputPage() {
       if (shouldUpdatePatient != null) {
         patient = await updatePatient({
           id: shouldUpdatePatient,
-          updatePatientRequestDto: values,
+          patientUpdateRequestDto: values,
         }).unwrap()
       } else {
-        patient = await createPatient({
-          createPatientRequestDto: values,
-        }).unwrap()
+        patient = await createPatient({ ...values, branchId }).unwrap()
       }
 
       await createSample({
-        createSampleRequestDto: {
-          ...values,
-          note: values.note ?? '',
-          sampledAt: values.sampledAt.toISOString(),
-          infoAt: values.infoAt.toISOString(),
-          patientId: patient._id,
-        },
+        ...values,
+        note: values.note ?? '',
+        sampledAt: values.sampledAt.toISOString(),
+        infoAt: values.infoAt.toISOString(),
+        patientId: patient._id,
+        branchId,
       }).unwrap()
 
       setBarcodeModalOpen(true)
@@ -254,12 +252,12 @@ export default function InfoInputPage() {
                   <FormControl sx={{ flexGrow: 1, alignItems: 'center' }}>
                     <RadioGroup row {...field}>
                       <FormControlLabel
-                        value={Gender.Male}
+                        value={PatientGender.Male}
                         control={<Radio size="small" />}
                         label="Nam"
                       />
                       <FormControlLabel
-                        value={Gender.Female}
+                        value={PatientGender.Female}
                         control={<Radio size="small" />}
                         label="Nữ"
                       />
@@ -308,9 +306,9 @@ export default function InfoInputPage() {
             <Grid xs={3}>
               <FormSelect
                 control={control}
-                name="sampleOriginId"
+                name="originId"
                 label="Đơn vị"
-                options={sampleOrigins?.items!}
+                options={origins}
                 getOptionValue={(option) => option._id}
                 getOptionLabel={(option) => option.name}
               />
@@ -366,7 +364,7 @@ export default function InfoInputPage() {
                 control={control}
                 name="patientTypeId"
                 label="Đối tượng"
-                options={patientTypes?.items!}
+                options={patientTypes}
                 getOptionValue={(option) => option._id}
                 getOptionLabel={(option) => option.name}
               />
@@ -374,9 +372,9 @@ export default function InfoInputPage() {
             <Grid xs={3}>
               <FormSelect
                 control={control}
-                name="indicationId"
+                name="diagnosisId"
                 label="Chẩn đoán"
-                options={indications?.items!}
+                options={diagnoses}
                 getOptionValue={(option) => option._id}
                 getOptionLabel={(option) => option.name}
               />
@@ -386,7 +384,7 @@ export default function InfoInputPage() {
                 control={control}
                 name="doctorId"
                 label="Bác sĩ"
-                options={doctors?.items!}
+                options={doctors}
                 getOptionValue={(option) => option._id}
                 getOptionLabel={(option) => option.name}
               />
@@ -414,14 +412,14 @@ export default function InfoInputPage() {
                 variant="outlined"
                 fullWidth
               >
-                {getValues().tests?.length} Xét Nghiệm
+                {getValues().testIds.length} Xét Nghiệm
               </Button>
             </Grid>
             <Grid xs={9}>
               <FormCheckboxGroup
                 control={control}
                 name="sampleTypeIds"
-                options={sampleTypes?.items!}
+                options={sampleTypes}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option._id}
                 label="Loại mẫu"
@@ -449,11 +447,8 @@ export default function InfoInputPage() {
         }}
         onSubmit={(items) => {
           setValue(
-            'tests',
-            items.map((item) => ({
-              bioProductName: item.bioProduct?.name,
-              id: item._id,
-            })),
+            'testIds',
+            items.map((item) => item._id),
           )
         }}
         showCombos
@@ -492,15 +487,16 @@ export default function InfoInputPage() {
                   onClick={() => {
                     const patient = patients?.items.find(
                       ({ _id }) => _id === id,
-                    )
+                    )!
+
                     setShouldUpdatePatient(patient?._id!)
-                    setValue('externalId', patient?.externalId)
-                    setValue('name', patient?.name!)
-                    setValue('gender', patient?.gender!)
-                    setValue('birthYear', patient?.birthYear!)
-                    setValue('address', patient?.address!)
-                    setValue('phoneNumber', patient?.phoneNumber)
-                    setValue('SSN', patient?.SSN)
+                    setValue('externalId', patient.externalId)
+                    setValue('name', patient.name)
+                    setValue('gender', patient.gender as PatientGender)
+                    setValue('birthYear', patient.birthYear)
+                    setValue('address', patient.address)
+                    setValue('phoneNumber', patient.phoneNumber)
+                    setValue('SSN', patient.SSN)
                   }}
                 />,
               ],
@@ -530,7 +526,7 @@ export default function InfoInputPage() {
               sortable: false,
               width: 100,
               valueGetter: ({ value }) => {
-                if (value === Gender.Male) {
+                if (value === PatientGender.Male) {
                   return 'Nam'
                 }
                 return 'Nữ'

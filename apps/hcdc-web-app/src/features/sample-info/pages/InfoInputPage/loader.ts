@@ -1,55 +1,65 @@
 import { appStore } from 'src/infra/redux'
 import { doctorApi } from 'src/infra/api/access-service/doctor'
-import { indicationApi } from 'src/infra/api/access-service/indication'
 import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
 import { sampleTypeApi } from 'src/infra/api/access-service/sample-type'
-import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
+import { diagnosisApi } from 'src/infra/api/access-service/diagnosis'
+import { branchApi } from 'src/infra/api/access-service/branch'
+import { authSlice } from 'src/features/auth'
 
 export const infoInputPageLoader = async () => {
-  const [patientTypes, indications, doctors, sampleTypes, sampleOrigins] =
+  const branchId = authSlice.selectors.selectActiveBranchId(appStore.getState())
+  const branch = authSlice.selectors.selectActiveBranch(
+    appStore.getState(),
+    branchId,
+  )!
+
+  const [patientTypeRes, diagnosisRes, doctorRes, sampleTypeRes, branchRes] =
     await Promise.all([
       appStore
         .dispatch(
           patientTypeApi.endpoints.patientTypeSearch.initiate({
-            searchPatientTypeRequestDto: { sort: { index: 1 } },
+            sort: { displayIndex: 1 },
           }),
         )
         .unwrap(),
       appStore
         .dispatch(
-          indicationApi.endpoints.indicationSearch.initiate({
-            searchIndicationRequestDto: { sort: { index: 1 } },
+          diagnosisApi.endpoints.diagnosisSearch.initiate({
+            sort: { displayIndex: 1 },
           }),
         )
         .unwrap(),
       appStore
         .dispatch(
           doctorApi.endpoints.doctorSearch.initiate({
-            searchDoctorRequestDto: { sort: { index: 1 } },
+            sort: { displayIndex: 1 },
           }),
         )
         .unwrap(),
       appStore
         .dispatch(
           sampleTypeApi.endpoints.sampleTypeSearch.initiate({
-            searchSampleTypeRequestDto: { sort: { index: 1 } },
+            sort: { displayIndex: 1 },
           }),
         )
         .unwrap(),
       appStore
         .dispatch(
-          sampleOriginApi.endpoints.sampleOriginSearch.initiate({
-            searchSampleOriginRequestDto: { sort: { index: 1 } },
+          branchApi.endpoints.branchSearch.initiate({
+            sort: { displayIndex: 1 },
+            filter: {
+              _id: { $in: branch.sampleOriginIds },
+            },
           }),
         )
         .unwrap(),
     ])
 
   return {
-    patientTypes,
-    indications,
-    doctors,
-    sampleTypes,
-    sampleOrigins,
+    patientTypes: patientTypeRes.items,
+    diagnoses: diagnosisRes.items,
+    doctors: doctorRes.items,
+    sampleTypes: sampleTypeRes.items,
+    origins: branchRes.items,
   }
 }

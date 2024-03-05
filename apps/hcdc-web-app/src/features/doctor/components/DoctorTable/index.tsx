@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   useDoctorCreateMutation,
   useDoctorDeleteByIdMutation,
@@ -20,16 +22,29 @@ type DoctorTableProps = {
 
 export function DoctorTable(props: DoctorTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination(
-    {
-      offset: props.page,
-      limit: props.pageSize,
-      sort: { displayIndex: 1 },
-      filter: { branchId },
-    },
-    props.setPage,
-    props.setPageSize,
-  )
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination(
+      {
+        offset: props.page,
+        limit: props.pageSize,
+        sort: { displayIndex: 1 },
+        filter: { branchId },
+      },
+      props.setPage,
+      props.setPageSize,
+    )
+
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: {
+          ...filterObj.filter,
+          branchId,
+        },
+      }))
+    }
+  }, [branchId])
 
   const { data, isFetching } = useDoctorSearchQuery(filterObj)
   const [searchDoctors] = useLazyDoctorSearchQuery()

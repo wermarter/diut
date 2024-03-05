@@ -30,8 +30,23 @@ export const authSlice = createSlice({
       state.isAuthenticated === true ? state.data.permissions : [],
     selectActiveBranchId: (state) =>
       state.isAuthenticated === true ? state.data.activeBranchId : null,
+    selectBranches: (state) =>
+      state.isAuthenticated === true ? state.data.branches : null,
+    selectActiveBranch: (state, activeBranchId) =>
+      state.isAuthenticated === true
+        ? state.data.branches.find(({ _id }) => _id === activeBranchId)
+        : undefined,
   },
-  reducers: {},
+  reducers: {
+    setActiveBranchId: (
+      state,
+      { payload }: { payload: { branchId: string } },
+    ) => {
+      if (state.isAuthenticated === true) {
+        state.data.activeBranchId = payload.branchId
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(userLogout, (state) => {
       if (state.isAuthenticated === false) return
@@ -52,6 +67,9 @@ export const authSlice = createSlice({
           id: payload.user._id,
           name: payload.user.name,
           branchIds: payload.user.branchIds,
+          branches: payload.user.branches?.toSorted(
+            (a, b) => a.displayIndex - b.displayIndex,
+          )!,
           activeBranchId: payload.user.branchIds[0],
           permissions: payload.permissions,
         }

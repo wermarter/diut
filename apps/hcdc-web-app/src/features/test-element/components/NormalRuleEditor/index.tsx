@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from 'react'
-import { Box } from '@mui/material'
+import { PatientCategory } from '@diut/hcdc'
 
 import {
   TestElementNormalRuleDto,
-  TestElementResponseDto,
   useLazyTestElementFindByIdQuery,
   useTestElementFindByIdQuery,
   useTestElementUpdateByIdMutation,
@@ -11,6 +10,7 @@ import {
 import { CrudTable } from 'src/components/table'
 import { SideAction } from 'src/components/ui/SideAction'
 import { normalRuleColumns } from './columns'
+import { Box } from '@mui/material'
 
 type NormalRuleEditorProps = {
   testElementId: string | null
@@ -97,16 +97,17 @@ export function NormalRuleEditor(props: NormalRuleEditorProps) {
   return (
     <SideAction
       fullWidth
-      open={testElement !== undefined}
+      open={props.testElementId !== null}
       onClose={props.onClose}
       title={`Tham chiếu: ${testElement?.name}`}
       disableClickOutside={isLoading}
     >
-      <Box sx={{ height: '100%', m: 2 }}>
+      <Box sx={{ p: 2, height: '100%' }}>
         <CrudTable
           items={testElement?.normalRules}
           isLoading={isLoading}
           itemIdField="category"
+          newItemId={PatientCategory.Any}
           fieldColumns={normalRuleColumns}
           onRefresh={() => {
             if (props.testElementId) {

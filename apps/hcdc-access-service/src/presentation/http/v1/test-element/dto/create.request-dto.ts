@@ -42,7 +42,6 @@ export class TestElementCreateRequestDto {
   @Expose()
   @ApiProperty(exampleTestElement.unit)
   @IsString()
-  @IsNotEmpty()
   unit: string
 
   @Expose()

@@ -15,7 +15,7 @@ import {
 } from '@mui/x-data-grid'
 
 import { DataTable } from '../DataTable'
-import { CrudToolbar, NEW_ID_VALUE } from './components/CrudToolbar'
+import { CrudToolbar } from './components/CrudToolbar'
 import { ConfirmDialog } from 'src/components/ui'
 
 interface CustomRowAction<R extends GridValidRowModel> {
@@ -32,6 +32,7 @@ interface CrudTableProps<R extends GridValidRowModel> {
   onItemDelete?: (item: R) => Promise<void> | void
   onRefresh?: () => Promise<void> | void
   isLoading?: boolean
+  newItemId?: string
 
   rowCount?: number
   page?: number
@@ -52,6 +53,7 @@ export function CrudTable<R extends GridValidRowModel>({
   onItemUpdate,
   onItemDelete,
   onRefresh,
+  newItemId = 'NEW_ITEM_ID',
   isLoading = false,
 
   rowCount,
@@ -121,13 +123,13 @@ export function CrudTable<R extends GridValidRowModel>({
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     })
 
-    if (id === NEW_ID_VALUE) {
+    if (id === newItemId) {
       setRows(rows.filter((row) => row[itemIdField] !== id))
     }
   }
 
   const processRowUpdate = async (newRow: R, oldRow: R) => {
-    if (newRow[itemIdField] === NEW_ID_VALUE) {
+    if (newRow[itemIdField] === newItemId) {
       if (onItemCreate != undefined) {
         await onItemCreate(newRow)
       }
@@ -232,6 +234,7 @@ export function CrudTable<R extends GridValidRowModel>({
             isLoading,
             firstField: columns?.[0]?.field,
             allowAddNew: onItemCreate != undefined,
+            newItemId,
           },
           pagination: {
             showFirstButton: true,

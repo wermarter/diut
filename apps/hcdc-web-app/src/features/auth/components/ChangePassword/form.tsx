@@ -35,6 +35,7 @@ export function ChangePasswordForm(props: ChangePasswordFormProps) {
 
   return (
     <FormContainer
+      sx={{ m: 2 }}
       onSubmit={handleSubmit(({ password }: FormSchema) => {
         return props.onSubmit(password)
       })}

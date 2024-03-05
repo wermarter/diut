@@ -56,6 +56,9 @@ export const normalRuleColumns: GridColDef<TestElementNormalRuleDto>[] = [
     flex: 1,
     sortable: false,
     editable: true,
+    valueGetter: ({ value }) => {
+      return value ?? ''
+    },
   },
   {
     field: 'note',
@@ -64,6 +67,9 @@ export const normalRuleColumns: GridColDef<TestElementNormalRuleDto>[] = [
     flex: 1,
     sortable: false,
     editable: true,
+    valueGetter: ({ value }) => {
+      return value ?? ''
+    },
   },
   {
     field: 'defaultChecked',

@@ -52,5 +52,8 @@ export const testElementColumns: GridColDef<TestElementResponseDto>[] = [
     minWidth: 80,
     sortable: false,
     editable: true,
+    valueGetter: ({ value }) => {
+      return value ?? ''
+    },
   },
 ]

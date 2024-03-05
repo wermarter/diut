@@ -18,18 +18,18 @@ interface CrudToolbarProps<R extends GridValidRowModel> {
   itemIdField: keyof R
   firstField: string
   isLoading: boolean
+  newItemId: string
   TopRightComponent?: React.ReactNode
   TopLeftComponent?: React.ReactNode
   allowAddNew?: boolean
   onRefresh?: () => Promise<void> | void
 }
 
-export const NEW_ID_VALUE = 'NEW_ID_VALUE'
-
 export function CrudToolbar<R extends GridValidRowModel>({
   setRows,
   setRowModesModel,
   itemIdField,
+  newItemId,
   firstField,
   isLoading,
   TopRightComponent,
@@ -40,16 +40,16 @@ export function CrudToolbar<R extends GridValidRowModel>({
   const handleAddNew = () => {
     setRows((oldRows) => {
       const isAlreadyExist = oldRows.some(
-        (row) => row[itemIdField] === NEW_ID_VALUE,
+        (row) => row[itemIdField] === newItemId,
       )
       if (isAlreadyExist) {
         return oldRows
       }
-      return [{ [itemIdField]: NEW_ID_VALUE }, ...oldRows]
+      return [{ [itemIdField]: newItemId }, ...oldRows]
     })
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [NEW_ID_VALUE]: {
+      [newItemId]: {
         mode: GridRowModes.Edit,
         fieldToFocus: firstField as string,
       },

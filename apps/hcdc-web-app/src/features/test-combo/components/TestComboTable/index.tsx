@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   useTestComboCreateMutation,
@@ -24,16 +24,29 @@ type TestComboTableProps = {
 
 export function TestComboTable(props: TestComboTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination(
-    {
-      offset: props.page,
-      limit: props.pageSize,
-      sort: { displayIndex: 1 },
-      filter: { branchId },
-    },
-    props.setPage,
-    props.setPageSize,
-  )
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination(
+      {
+        offset: props.page,
+        limit: props.pageSize,
+        sort: { displayIndex: 1 },
+        filter: { branchId },
+      },
+      props.setPage,
+      props.setPageSize,
+    )
+
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: {
+          ...filterObj.filter,
+          branchId,
+        },
+      }))
+    }
+  }, [branchId])
 
   const { data, isFetching } = useTestComboSearchQuery(filterObj)
   const [searchTestCombos] = useLazyTestComboSearchQuery()
@@ -46,7 +59,7 @@ export function TestComboTable(props: TestComboTableProps) {
     useTestComboDeleteByIdMutation()
 
   const [selectedCombo, setSelectedCombo] =
-    React.useState<TestComboResponseDto | null>(null)
+    useState<TestComboResponseDto | null>(null)
 
   return (
     <>

@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   useDiagnosisCreateMutation,
   useDiagnosisDeleteByIdMutation,
@@ -11,13 +13,38 @@ import { diagnosisColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 
-export function DiagnosisTable() {
+type DiagnosisTableProps = {
+  page: number
+  pageSize: number
+  setPage: (page: number) => void
+  setPageSize: (pageSize: number) => void
+}
+
+export function DiagnosisTable(props: DiagnosisTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination({
-    sort: { displayIndex: 1 },
-    filter: { branchId },
-    offset: 0,
-  })
+  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
+    useCrudPagination(
+      {
+        offset: props.page,
+        limit: props.pageSize,
+        sort: { displayIndex: 1 },
+        filter: { branchId },
+      },
+      props.setPage,
+      props.setPageSize,
+    )
+
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: {
+          ...filterObj.filter,
+          branchId,
+        },
+      }))
+    }
+  }, [branchId])
 
   const { data, isFetching } = useDiagnosisSearchQuery(filterObj)
   const [searchDiagnosiss] = useLazyDiagnosisSearchQuery()

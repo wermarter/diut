@@ -85,7 +85,7 @@ export function TestSelector({
 
   return (
     <SideAction fullWidth open={open} onClose={onClose} title="Chọn xét nghiệm">
-      <Box display={'flex'} sx={{ my: 2, justifyContent: 'space-between' }}>
+      <Box display={'flex'} sx={{ m: 2, justifyContent: 'space-between' }}>
         <ButtonGroup>
           <Button
             variant="outlined"
