@@ -25,7 +25,10 @@ import {
   FormCheckboxGroup,
   FormSelect,
 } from 'src/components/form'
-import { formResolver, FormSchema } from '../InfoInputPage/validation'
+import {
+  formResolver,
+  FormSchema,
+} from '../../components/InfoInputForm/validation'
 import { TestSelector } from 'src/features/test/components/TestSelector'
 import {
   useSampleDeleteByIdMutation,

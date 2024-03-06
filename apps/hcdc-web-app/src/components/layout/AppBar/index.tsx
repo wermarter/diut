@@ -16,7 +16,7 @@ import {
   InputLabel,
   Select,
 } from '@mui/material'
-import { useNavigation } from 'react-router-dom'
+import { useNavigation, useRevalidator } from 'react-router-dom'
 
 import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
 import { ChangePassword, authSlice } from 'src/features/auth'
@@ -36,6 +36,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
   )
 
   const navigation = useNavigation()
+  const revalidator = useRevalidator()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [openChangePassword, setOpenChangePassword] = React.useState(false)
@@ -133,7 +134,9 @@ export function AppBar({ drawerWidth }: AppBarProps) {
           </MenuItem>
         </Menu>
       </Toolbar>
-      {navigation.state !== 'idle' && <ProgressBar />}
+      {(navigation.state !== 'idle' || revalidator.state !== 'idle') && (
+        <ProgressBar />
+      )}
       <ChangePassword
         open={openChangePassword}
         onClose={() => {

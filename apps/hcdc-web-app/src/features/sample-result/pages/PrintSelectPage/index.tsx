@@ -21,7 +21,7 @@ import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
 } from 'src/infra/api/access-service/patient'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import {
   FormAutocomplete,
   FormContainer,
@@ -65,7 +65,7 @@ export default function PrintSelectPage() {
   const userCanEdit = useCheckPermissionAnyOf([Permission.ManageResult])
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination({
+    usePagination({
       offset: 0,
       limit: 10,
       sort: { infoAt: -1, sampleId: -1 },

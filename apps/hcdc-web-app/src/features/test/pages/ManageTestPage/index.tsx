@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import {
   useLoaderData,
   useRevalidator,
@@ -8,12 +8,15 @@ import {
 import { TestTable } from '../../components'
 import { manageTestPageLoader } from './loader'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'
 const PARAM_CATEGORY_ID = 'categoryId'
 
 export default function ManageTestPage() {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { testCategories, bioProducts, instruments, printForms, sampleTypes } =
     useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
   const revalidator = useRevalidator()
@@ -30,6 +33,10 @@ export default function ManageTestPage() {
     revalidator.revalidate()
   }, [revalidator])
 
+  useEffect(() => {
+    revalidator.revalidate()
+  }, [branchId])
+
   const setTestCategoryId = useCallback(
     (id: string) => {
       setSearchParams(
@@ -37,11 +44,15 @@ export default function ManageTestPage() {
           searchParams.set(PARAM_CATEGORY_ID, id)
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
+
+  useEffect(() => {
+    setTestCategoryId(testCategories[0]._id)
+  }, [testCategories[0]._id])
 
   const setPage = useCallback(
     (newPage: number) => {
@@ -50,10 +61,10 @@ export default function ManageTestPage() {
           searchParams.set(PARAM_PAGE, newPage.toString())
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
 
   const setPageSize = useCallback(
@@ -63,10 +74,10 @@ export default function ManageTestPage() {
           searchParams.set(PARAM_PAGE_SIZE, newPageSize.toString())
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
 
   return (

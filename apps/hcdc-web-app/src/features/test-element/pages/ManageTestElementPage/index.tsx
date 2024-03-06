@@ -38,42 +38,43 @@ export default function ManageTestElementPage() {
     (id: string) => {
       setSearchParams(
         (searchParams) => {
-          console.log('setTestId', { searchParams, id })
           searchParams.set(PARAM_TEST_ID, id)
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
     [setSearchParams, searchParams],
   )
 
+  useEffect(() => {
+    setTestId(tests[0]._id)
+  }, [tests[0]._id])
+
   const setPage = useCallback(
     (newPage: number) => {
       setSearchParams(
         (searchParams) => {
-          console.log('setPage', { searchParams, newPage })
           searchParams.set(PARAM_PAGE, newPage.toString())
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
 
   const setPageSize = useCallback(
     (newPageSize: number) => {
       setSearchParams(
         (searchParams) => {
-          console.log('setPageSize', { searchParams, newPageSize })
           searchParams.set(PARAM_PAGE_SIZE, newPageSize.toString())
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
 
   return (

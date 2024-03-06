@@ -16,7 +16,7 @@ import {
 } from 'src/infra/api/access-service/patient'
 import { DataTable } from 'src/components/table'
 import { FormContainer, FormTextField } from 'src/components/form'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { ConfirmDialog } from 'src/components/ui/ConfirmDialog'
 import { useTypedSelector } from 'src/core'
 import { selectUserIsAdmin } from 'src/infra/auth'
@@ -32,7 +32,7 @@ export default function SearchPatientPage() {
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination({
+    usePagination({
       offset: 0,
       limit: 10,
       sort: { createdAt: -1 },

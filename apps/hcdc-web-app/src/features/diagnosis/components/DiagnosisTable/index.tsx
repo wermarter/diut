@@ -8,7 +8,7 @@ import {
   useLazyDiagnosisSearchQuery,
 } from 'src/infra/api/access-service/diagnosis'
 import { CrudTable } from 'src/components/table'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { diagnosisColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
@@ -22,17 +22,12 @@ type DiagnosisTableProps = {
 
 export function DiagnosisTable(props: DiagnosisTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination(
-      {
-        offset: props.page,
-        limit: props.pageSize,
-        sort: { displayIndex: 1 },
-        filter: { branchId },
-      },
-      props.setPage,
-      props.setPageSize,
-    )
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { displayIndex: 1 },
+    filter: { branchId },
+  })
 
   useEffect(() => {
     if (branchId) {
@@ -65,8 +60,8 @@ export function DiagnosisTable(props: DiagnosisTableProps) {
       rowCount={data?.total!}
       page={data?.offset!}
       pageSize={data?.limit!}
-      onPageChange={onPageChange}
-      onPageSizeChange={onPageSizeChange}
+      onPageChange={props.setPage}
+      onPageSizeChange={props.setPageSize}
       onItemCreate={async (item) => {
         await createDiagnosis({
           name: item.name,

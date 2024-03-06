@@ -9,13 +9,13 @@ import {
 } from 'src/infra/api/access-service/user'
 import { CrudTable } from 'src/components/table'
 import { userColumns } from './columns'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { ChangePassword } from 'src/components/layout/AppBar/components/ChangePassword'
 
 const USER_DEFAULT_PASSWORD = 'password'
 
 export function UserTable() {
-  const { filterObj, onPageChange, onPageSizeChange } = useCrudPagination()
+  const { filterObj, onPageChange, onPageSizeChange } = usePagination()
 
   const { data, isFetching } = useUserSearchQuery(filterObj)
   const [searchUsers] = useLazyUserSearchQuery()

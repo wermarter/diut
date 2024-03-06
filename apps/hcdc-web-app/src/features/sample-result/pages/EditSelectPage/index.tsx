@@ -19,7 +19,7 @@ import {
   PatientResponseDto,
   useLazyPatientFindByIdQuery,
 } from 'src/infra/api/access-service/patient'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { editSelectPageLoader } from './loader'
 import { useForm } from 'react-hook-form'
 import {
@@ -55,7 +55,7 @@ export default function EditSelectPage() {
     searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
 
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination({
+    usePagination({
       offset: 0,
       limit: 10,
       sort: { infoAt: -1, sampleId: -1 },

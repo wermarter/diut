@@ -21,7 +21,7 @@ import { BranchSchema } from '../branch'
   },
 })
 export class PatientSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: false })
   externalId: string
 
   @Prop({ required: true })
@@ -36,10 +36,10 @@ export class PatientSchema extends BaseSchema {
   @Prop({ required: true })
   address: string
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   phoneNumber: string
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   SSN: string
 
   @Prop({ required: true, type: Types.ObjectId })

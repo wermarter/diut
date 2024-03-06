@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -9,7 +9,7 @@ import {
   useLazyTestElementSearchQuery,
 } from 'src/infra/api/access-service/test-element'
 import { CrudTable } from 'src/components/table'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { testElementColumns } from './columns'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { NormalRuleEditor } from '../NormalRuleEditor'
@@ -33,35 +33,27 @@ type FormData = {
 
 export function TestElementTable(props: TestElementTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination(
-      {
-        offset: props.page,
-        limit: props.pageSize,
-        sort: { displayIndex: 1 },
-        filter: { branchId, testId: props.testId },
-      },
-      props.setPage,
-      props.setPageSize,
-    )
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { displayIndex: 1 },
+    filter: { branchId, testId: props.testId },
+  })
 
   const [ruleRow, setRuleRow] = useState<string | null>(null)
 
-  const { control, handleSubmit, setValue } = useForm<FormData>({
-    defaultValues: {
-      testId: props.testId,
-    },
-  })
+  const { control, handleSubmit, setValue } = useForm<FormData>()
 
   useEffect(() => {
-    setFilterObj((prev) => ({
-      ...prev,
-      filter: { ...prev.filter, branchId },
-    }))
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: { ...prev.filter, branchId },
+      }))
+    }
   }, [branchId])
 
   useEffect(() => {
-    console.log('effect props.testId', props.testId)
     setValue('testId', props.testId)
     setFilterObj((prev) => ({
       ...prev,
@@ -89,8 +81,8 @@ export function TestElementTable(props: TestElementTableProps) {
         rowCount={data?.total!}
         page={data?.offset!}
         pageSize={data?.limit!}
-        onPageChange={onPageChange}
-        onPageSizeChange={onPageSizeChange}
+        onPageChange={props.setPage}
+        onPageSizeChange={props.setPageSize}
         onItemCreate={async (item) => {
           await createTestElement({
             name: item.name,

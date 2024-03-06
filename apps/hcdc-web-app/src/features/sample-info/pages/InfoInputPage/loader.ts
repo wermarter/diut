@@ -19,6 +19,7 @@ export const infoInputPageLoader = async () => {
         .dispatch(
           patientTypeApi.endpoints.patientTypeSearch.initiate({
             sort: { displayIndex: 1 },
+            filter: { branchId },
           }),
         )
         .unwrap(),
@@ -26,6 +27,7 @@ export const infoInputPageLoader = async () => {
         .dispatch(
           diagnosisApi.endpoints.diagnosisSearch.initiate({
             sort: { displayIndex: 1 },
+            filter: { branchId },
           }),
         )
         .unwrap(),
@@ -33,6 +35,7 @@ export const infoInputPageLoader = async () => {
         .dispatch(
           doctorApi.endpoints.doctorSearch.initiate({
             sort: { displayIndex: 1 },
+            filter: { branchId },
           }),
         )
         .unwrap(),
@@ -40,6 +43,7 @@ export const infoInputPageLoader = async () => {
         .dispatch(
           sampleTypeApi.endpoints.sampleTypeSearch.initiate({
             sort: { displayIndex: 1 },
+            filter: { branchId },
           }),
         )
         .unwrap(),

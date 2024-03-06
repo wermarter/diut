@@ -170,7 +170,7 @@ export class SampleSchema extends BaseSchema {
   @Prop({ required: true })
   sampleId: string
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   note: string
 
   @Prop({ required: true })

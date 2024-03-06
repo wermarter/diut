@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -45,9 +45,9 @@ export function TestSelector({
   const { data: combos, isFetching: isFetchingCombos } =
     useTestComboSearchQuery({ sort: { index: 1 }, filter: { branchId } })
 
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isFetching === false) {
       setSelectedIds(
         previousState.filter((testId) =>

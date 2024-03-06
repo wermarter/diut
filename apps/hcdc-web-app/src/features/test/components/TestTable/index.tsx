@@ -10,7 +10,7 @@ import {
   TestResponseDto,
 } from 'src/infra/api/access-service/test'
 import { CrudTable } from 'src/components/table'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { useTestColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
@@ -47,20 +47,27 @@ export function TestTable(props: TestTableProps) {
     props.sampleTypes,
   )
 
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination(
-      {
-        offset: props.page,
-        limit: props.pageSize,
-        sort: { displayIndex: 1 },
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { displayIndex: 1 },
+    filter: {
+      branchId,
+      testCategoryId: props.testCategoryId,
+    },
+  })
+
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
         filter: {
+          ...filterObj.filter,
           branchId,
-          testCategoryId: props.testCategoryId,
         },
-      },
-      props.setPage,
-      props.setPageSize,
-    )
+      }))
+    }
+  }, [branchId])
 
   useEffect(() => {
     setFilterObj((prev) => ({
@@ -93,8 +100,8 @@ export function TestTable(props: TestTableProps) {
         rowCount={data?.total!}
         page={data?.offset!}
         pageSize={data?.limit!}
-        onPageChange={onPageChange}
-        onPageSizeChange={onPageSizeChange}
+        onPageChange={props.setPage}
+        onPageSizeChange={props.setPageSize}
         onItemCreate={async (item) => {
           await createTest({
             name: item.name,

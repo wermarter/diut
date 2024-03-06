@@ -8,7 +8,7 @@ import {
   useLazyDoctorSearchQuery,
 } from 'src/infra/api/access-service/doctor'
 import { CrudTable } from 'src/components/table'
-import { useCrudPagination } from 'src/shared/hooks'
+import { usePagination } from 'src/shared/hooks'
 import { doctorColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
@@ -22,17 +22,12 @@ type DoctorTableProps = {
 
 export function DoctorTable(props: DoctorTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    useCrudPagination(
-      {
-        offset: props.page,
-        limit: props.pageSize,
-        sort: { displayIndex: 1 },
-        filter: { branchId },
-      },
-      props.setPage,
-      props.setPageSize,
-    )
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { displayIndex: 1 },
+    filter: { branchId },
+  })
 
   useEffect(() => {
     if (branchId) {
@@ -64,8 +59,8 @@ export function DoctorTable(props: DoctorTableProps) {
       rowCount={data?.total!}
       page={data?.offset!}
       pageSize={data?.limit!}
-      onPageChange={onPageChange}
-      onPageSizeChange={onPageSizeChange}
+      onPageChange={props.setPage}
+      onPageSizeChange={props.setPageSize}
       onItemCreate={async (item) => {
         await createDoctor({
           name: item.name,

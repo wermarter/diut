@@ -22,10 +22,10 @@ export default function ManageTestComboPage() {
           searchParams.set(PARAM_PAGE, newPage.toString())
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
 
   const setPageSize = useCallback(
@@ -35,10 +35,10 @@ export default function ManageTestComboPage() {
           searchParams.set(PARAM_PAGE_SIZE, newPageSize.toString())
           return searchParams
         },
-        { replace: true },
+        { replace: false },
       )
     },
-    [setSearchParams],
+    [setSearchParams, searchParams],
   )
 
   return (
