@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -47,7 +47,7 @@ export function TestElementTable(props: TestElementTableProps) {
 
   const [ruleRow, setRuleRow] = useState<string | null>(null)
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
       testId: props.testId,
     },
@@ -56,11 +56,18 @@ export function TestElementTable(props: TestElementTableProps) {
   useEffect(() => {
     setFilterObj((prev) => ({
       ...prev,
-      offset: props.page,
-      limit: props.pageSize,
+      filter: { ...prev.filter, branchId },
+    }))
+  }, [branchId])
+
+  useEffect(() => {
+    console.log('effect props.testId', props.testId)
+    setValue('testId', props.testId)
+    setFilterObj((prev) => ({
+      ...prev,
       filter: { ...prev.filter, testId: props.testId },
     }))
-  }, [props.testId, props.page, props.pageSize])
+  }, [props.testId])
 
   const { data, isFetching } = useTestElementSearchQuery(filterObj)
   const [searchTestElements] = useLazyTestElementSearchQuery()
@@ -120,6 +127,7 @@ export function TestElementTable(props: TestElementTableProps) {
           <FormContainer
             autoComplete="off"
             onSubmit={handleSubmit((data) => {
+              console.log('submit', data)
               props.setPage(0)
               props.setTestId(data.testId)
             })}
@@ -128,6 +136,7 @@ export function TestElementTable(props: TestElementTableProps) {
               textFieldProps={{
                 color: 'secondary',
                 focused: true,
+                autoFocus: true,
                 fullWidth: true,
                 sx: { minWidth: '300px' },
               }}

@@ -36,8 +36,12 @@ export function DataTable<R extends GridValidRowModel>({
   const handlePaginationModelChange: DataGridProps['onPaginationModelChange'] =
     useCallback(
       (model: GridPaginationModel, details: GridCallbackDetails) => {
-        onPageSizeChange?.(model.pageSize)
-        onPageChange?.(model.page)
+        if (pageSize !== model.pageSize) {
+          onPageSizeChange?.(model.pageSize)
+        }
+        if (page !== model.page) {
+          onPageChange?.(model.page)
+        }
       },
       [page, pageSize],
     )

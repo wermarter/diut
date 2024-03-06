@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import { useCallback, useEffect } from 'react'
 import { PatientCategory } from '@diut/hcdc'
 
@@ -10,7 +11,6 @@ import {
 import { CrudTable } from 'src/components/table'
 import { SideAction } from 'src/components/ui/SideAction'
 import { normalRuleColumns } from './columns'
-import { Box } from '@mui/material'
 
 type NormalRuleEditorProps = {
   testElementId: string | null

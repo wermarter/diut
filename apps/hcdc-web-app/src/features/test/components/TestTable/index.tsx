@@ -65,11 +65,9 @@ export function TestTable(props: TestTableProps) {
   useEffect(() => {
     setFilterObj((prev) => ({
       ...prev,
-      offset: props.page,
-      limit: props.pageSize,
       filter: { ...prev.filter, testCategoryId: props.testCategoryId },
     }))
-  }, [props.testCategoryId, props.page, props.pageSize])
+  }, [props.testCategoryId])
 
   const { data, isFetching } = useTestSearchQuery(filterObj)
   const [searchTests] = useLazyTestSearchQuery()
