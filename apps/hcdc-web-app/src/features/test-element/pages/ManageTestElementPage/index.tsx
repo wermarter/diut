@@ -47,7 +47,12 @@ export default function ManageTestElementPage() {
     [setSearchParams, searchParams],
   )
 
+  const isFirstRun = useRef(true)
   useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
     setTestId(tests[0]._id)
   }, [tests[0]._id])
 

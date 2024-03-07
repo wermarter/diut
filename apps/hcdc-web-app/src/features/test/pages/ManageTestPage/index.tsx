@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import {
   useLoaderData,
   useRevalidator,
@@ -50,7 +50,12 @@ export default function ManageTestPage() {
     [setSearchParams, searchParams],
   )
 
+  const isFirstRun = useRef(true)
   useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
     setTestCategoryId(testCategories[0]._id)
   }, [testCategories[0]._id])
 

@@ -4,7 +4,7 @@ import {
   NestInterceptor,
   UseInterceptors,
 } from '@nestjs/common'
-import { ClassConstructor, plainToClass } from 'class-transformer'
+import { ClassConstructor, plainToInstance } from 'class-transformer'
 import { map } from 'rxjs'
 
 export function Serialize(dto: ClassConstructor<unknown>) {
@@ -18,7 +18,7 @@ class SerializeInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((response) => {
         // TODO: validate response DTO?
-        return plainToClass(this.dtoClass, response, {
+        return plainToInstance(this.dtoClass, response, {
           excludeExtraneousValues: true,
         })
       }),
