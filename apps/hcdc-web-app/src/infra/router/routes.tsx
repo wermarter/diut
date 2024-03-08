@@ -4,10 +4,10 @@ import { Outlet } from 'react-router-dom'
 import HomePage from 'src/features/homepage/pages/Homepage'
 import { MainLayout } from 'src/components/layout/MainLayout'
 import { CustomRouteObject } from 'src/infra/router'
-// import { infoEditPageLoader } from 'src/features/sample-info/pages/InfoEditPage/loader'
+import { infoEditPageLoader } from 'src/features/sample-info/pages/InfoEditPage/loader'
 // import { editResultPageLoader } from 'src/features/sample-result/pages/EditResultPage/loader'
 import { infoInputPageLoader } from 'src/features/sample-info/pages/InfoInputPage/loader'
-// import { infoConfirmPageLoader } from 'src/features/sample-info/pages/InfoConfirmPage/loader'
+import { infoConfirmPageLoader } from 'src/features/sample-info/pages/InfoConfirmPage/loader'
 // import { editSelectPageLoader } from 'src/features/sample-result/pages/EditSelectPage/loader'
 import { manageTestPageLoader } from 'src/features/test/pages/ManageTestPage/loader'
 import { manageTestElemenentPageLoader } from 'src/features/test-element/pages/ManageTestElementPage/loader'
@@ -50,12 +50,12 @@ const ManagePrintFormPage = React.lazy(
 const InfoInputPage = React.lazy(
   () => import('src/features/sample-info/pages/InfoInputPage'),
 )
-// const InfoEditPage = React.lazy(
-//   () => import('src/features/sample-info/pages/InfoEditPage'),
-// )
-// const InfoConfirmPage = React.lazy(
-//   () => import('src/features/sample-info/pages/InfoConfirmPage'),
-// )
+const InfoEditPage = React.lazy(
+  () => import('src/features/sample-info/pages/InfoEditPage'),
+)
+const InfoConfirmPage = React.lazy(
+  () => import('src/features/sample-info/pages/InfoConfirmPage'),
+)
 // const EditResultPage = React.lazy(
 //   () => import('src/features/sample-result/pages/EditResultPage'),
 // )
@@ -148,16 +148,16 @@ export const appRoutes: CustomRouteObject[] = [
             element: <InfoInputPage />,
             loader: infoInputPageLoader,
           },
-          // {
-          //   path: 'edit/:patientId/:sampleId',
-          //   element: <InfoEditPage />,
-          //   loader: infoEditPageLoader,
-          // },
-          // {
-          //   path: 'confirm',
-          //   element: <InfoConfirmPage />,
-          //   loader: infoConfirmPageLoader,
-          // },
+          {
+            path: 'edit/:patientId/:sampleId',
+            element: <InfoEditPage />,
+            loader: infoEditPageLoader,
+          },
+          {
+            path: 'confirm',
+            element: <InfoConfirmPage />,
+            loader: infoConfirmPageLoader,
+          },
         ],
       },
       // {

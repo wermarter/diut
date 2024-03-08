@@ -1,92 +1,54 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
 
 import { appStore } from 'src/infra/redux'
-import { doctorApi } from 'src/infra/api/access-service/doctor'
-import { indicationApi } from 'src/infra/api/access-service/indication'
 import { patientApi } from 'src/infra/api/access-service/patient'
-import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
 import { sampleApi } from 'src/infra/api/access-service/sample'
-import { sampleTypeApi } from 'src/infra/api/access-service/sample-type'
-import { userApi } from 'src/infra/api/access-service/user'
-import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
+import {
+  fetchDiagnoses,
+  fetchDoctors,
+  fetchPatientTypes,
+  fetchSampleOrigins,
+  fetchSampleTypes,
+} from 'src/infra/api'
+
+export type InfoEditPageParams = {
+  sampleId: string
+  patientId: string
+}
 
 export const infoEditPageLoader = async ({ params }: LoaderFunctionArgs) => {
-  const { sampleId, patientId } = params
+  const { sampleId, patientId } = params as InfoEditPageParams
+  const sampleRes = await appStore
+    .dispatch(sampleApi.endpoints.sampleFindById.initiate(sampleId!))
+    .unwrap()
+
   const [
-    sampleInfo,
-    patientInfo,
-    patientTypes,
-    indications,
-    doctors,
-    sampleTypes,
-    sampleOrigins,
+    patientRes,
+    patientTypeRes,
+    diagnosisRes,
+    doctorRes,
+    sampleTypeRes,
+    originRes,
   ] = await Promise.all([
     appStore
-      .dispatch(
-        sampleApi.endpoints.sampleFindById.initiate({
-          id: sampleId!,
-        }),
-      )
+      .dispatch(patientApi.endpoints.patientFindById.initiate(patientId!))
       .unwrap(),
+    appStore.dispatch(fetchPatientTypes(sampleRes.branchId)).unwrap(),
+    appStore.dispatch(fetchDiagnoses(sampleRes.branchId)).unwrap(),
+    appStore.dispatch(fetchDoctors(sampleRes.branchId)).unwrap(),
+    appStore.dispatch(fetchSampleTypes(sampleRes.branchId)).unwrap(),
     appStore
-      .dispatch(
-        patientApi.endpoints.patientFindById.initiate({
-          id: patientId!,
-        }),
-      )
-      .unwrap(),
-    appStore
-      .dispatch(
-        patientTypeApi.endpoints.patientTypeSearch.initiate({
-          searchPatientTypeRequestDto: { sort: { index: 1 } },
-        }),
-      )
-      .unwrap(),
-    appStore
-      .dispatch(
-        indicationApi.endpoints.indicationSearch.initiate({
-          searchIndicationRequestDto: { sort: { index: 1 } },
-        }),
-      )
-      .unwrap(),
-    appStore
-      .dispatch(
-        doctorApi.endpoints.doctorSearch.initiate({
-          searchDoctorRequestDto: { sort: { index: 1 } },
-        }),
-      )
-      .unwrap(),
-    appStore
-      .dispatch(
-        sampleTypeApi.endpoints.sampleTypeSearch.initiate({
-          searchSampleTypeRequestDto: { sort: { index: 1 } },
-        }),
-      )
-      .unwrap(),
-    appStore
-      .dispatch(
-        sampleOriginApi.endpoints.sampleOriginSearch.initiate({
-          searchSampleOriginRequestDto: { sort: { index: 1 } },
-        }),
-      )
+      .dispatch(fetchSampleOrigins(sampleRes.branch?.sampleOriginIds!))
       .unwrap(),
   ])
 
-  const author =
-    (await appStore
-      .dispatch(
-        userApi.endpoints.userFindById.initiate({ id: sampleInfo.infoBy }),
-      )
-      .unwrap()) ?? {}
-
   return {
-    author,
-    sampleInfo,
-    patientInfo,
-    patientTypes,
-    indications,
-    doctors,
-    sampleTypes,
-    sampleOrigins,
+    sampleRes,
+    patientRes,
+    patientTypes: patientTypeRes.items,
+    diagnoses: diagnosisRes.items,
+    doctors: doctorRes.items,
+    sampleTypes: sampleTypeRes.items,
+    origins: originRes.items,
   }
 }

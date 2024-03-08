@@ -60,6 +60,7 @@ export function authorizePopulates<TEntity extends BaseEntity>(
   for (const populate of populates) {
     const { subject, action } = authMapping(populate.path)
     const authMatchObj = accessibleBy(ability, action)[subject]
+
     if (populate.match) {
       let matchObject: FilterQuery<TEntity>
 

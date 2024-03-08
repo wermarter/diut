@@ -17,8 +17,14 @@ export class AuthPopulateContextUseCase {
   ) {}
 
   async execute(input: AuthPayload): Promise<AuthContextData> {
+    const { user, ability } = await this.createUserAbility(input.userId)
+
+    return { user, ability }
+  }
+
+  async createUserAbility(userId: string) {
     const user = await this.userRepository.findOne({
-      filter: { _id: input.userId },
+      filter: { _id: userId },
       populates: [
         { path: 'roles', fields: ['permissions'] satisfies (keyof Role)[] },
       ],

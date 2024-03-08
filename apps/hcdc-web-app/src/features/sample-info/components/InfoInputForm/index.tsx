@@ -102,14 +102,14 @@ export function InfoInputForm(props: InputFormProps) {
   }, [props.origins[0]?._id])
 
   const birthYear = watch('birthYear')
-  const [age, setAge] = useState(currentYear - getValues().birthYear)
+  const [age, setAge] = useState(currentYear - birthYear)
 
   useEffect(() => {
     setAge(currentYear - birthYear)
   }, [birthYear])
 
   useEffect(() => {
-    //@ts-ignore
+    // @ts-ignore
     if (typeof birthYear === 'string' && birthYear.length > 0) {
       setValue('birthYear', Number(birthYear))
     }

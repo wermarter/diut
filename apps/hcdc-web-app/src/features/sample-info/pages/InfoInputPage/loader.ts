@@ -1,62 +1,29 @@
 import { appStore } from 'src/infra/redux'
-import { doctorApi } from 'src/infra/api/access-service/doctor'
-import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
-import { sampleTypeApi } from 'src/infra/api/access-service/sample-type'
-import { diagnosisApi } from 'src/infra/api/access-service/diagnosis'
-import { branchApi } from 'src/infra/api/access-service/branch'
 import { authSlice } from 'src/features/auth'
+import {
+  fetchDiagnoses,
+  fetchDoctors,
+  fetchPatientTypes,
+  fetchSampleOrigins,
+  fetchSampleTypes,
+} from 'src/infra/api'
 
 export const infoInputPageLoader = async () => {
-  const branchId = authSlice.selectors.selectActiveBranchId(appStore.getState())
+  const branchId = authSlice.selectors.selectActiveBranchId(
+    appStore.getState(),
+  )!
   const branch = authSlice.selectors.selectActiveBranch(
     appStore.getState(),
     branchId,
   )!
 
-  const [patientTypeRes, diagnosisRes, doctorRes, sampleTypeRes, branchRes] =
+  const [patientTypeRes, diagnosisRes, doctorRes, sampleTypeRes, originRes] =
     await Promise.all([
-      appStore
-        .dispatch(
-          patientTypeApi.endpoints.patientTypeSearch.initiate({
-            sort: { displayIndex: 1 },
-            filter: { branchId },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          diagnosisApi.endpoints.diagnosisSearch.initiate({
-            sort: { displayIndex: 1 },
-            filter: { branchId },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          doctorApi.endpoints.doctorSearch.initiate({
-            sort: { displayIndex: 1 },
-            filter: { branchId },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          sampleTypeApi.endpoints.sampleTypeSearch.initiate({
-            sort: { displayIndex: 1 },
-            filter: { branchId },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          branchApi.endpoints.branchSearch.initiate({
-            sort: { displayIndex: 1 },
-            filter: {
-              _id: { $in: branch.sampleOriginIds },
-            },
-          }),
-        )
-        .unwrap(),
+      appStore.dispatch(fetchPatientTypes(branchId)).unwrap(),
+      appStore.dispatch(fetchDiagnoses(branchId)).unwrap(),
+      appStore.dispatch(fetchDoctors(branchId)).unwrap(),
+      appStore.dispatch(fetchSampleTypes(branchId)).unwrap(),
+      appStore.dispatch(fetchSampleOrigins(branch.sampleOriginIds)).unwrap(),
     ])
 
   return {
@@ -64,6 +31,6 @@ export const infoInputPageLoader = async () => {
     diagnoses: diagnosisRes.items,
     doctors: doctorRes.items,
     sampleTypes: sampleTypeRes.items,
-    origins: branchRes.items,
+    origins: originRes.items,
   }
 }

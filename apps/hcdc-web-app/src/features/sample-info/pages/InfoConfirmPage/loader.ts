@@ -1,63 +1,40 @@
 import { appStore } from 'src/infra/redux'
-import { doctorApi } from 'src/infra/api/access-service/doctor'
-import { indicationApi } from 'src/infra/api/access-service/indication'
-import { patientTypeApi } from 'src/infra/api/access-service/patient-type'
-import { testApi } from 'src/infra/api/access-service/test'
-import { sampleOriginApi } from 'src/infra/api/access-service/sample-origin'
+import {
+  fetchDiagnoses,
+  fetchDoctors,
+  fetchPatientTypes,
+  fetchSampleOrigins,
+  fetchTests,
+} from 'src/infra/api'
+import { authSlice } from 'src/features/auth'
 
 export const infoConfirmPageLoader = async () => {
-  const [indicationRes, doctorRes, patientTypeRes, testRes, sampleOriginRes] =
+  const branchId = authSlice.selectors.selectActiveBranchId(
+    appStore.getState(),
+  )!
+  const branch = authSlice.selectors.selectActiveBranch(
+    appStore.getState(),
+    branchId,
+  )!
+
+  const [diagnosisRes, doctorRes, patientTypeRes, testRes, sampleOriginRes] =
     await Promise.all([
-      appStore
-        .dispatch(
-          indicationApi.endpoints.indicationSearch.initiate({
-            searchIndicationRequestDto: { sort: { index: 1 } },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          doctorApi.endpoints.doctorSearch.initiate({
-            searchDoctorRequestDto: { sort: { index: 1 } },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          patientTypeApi.endpoints.patientTypeSearch.initiate({
-            searchPatientTypeRequestDto: { sort: { index: 1 } },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          testApi.endpoints.testSearch.initiate({
-            searchTestRequestDto: {
-              sort: {
-                category: 1,
-              },
-            },
-          }),
-        )
-        .unwrap(),
-      appStore
-        .dispatch(
-          sampleOriginApi.endpoints.sampleOriginSearch.initiate({
-            searchSampleOriginRequestDto: { sort: { index: 1 } },
-          }),
-        )
-        .unwrap(),
+      appStore.dispatch(fetchDiagnoses(branchId)).unwrap(),
+      appStore.dispatch(fetchDoctors(branchId)).unwrap(),
+      appStore.dispatch(fetchPatientTypes(branchId)).unwrap(),
+      appStore.dispatch(fetchTests(branchId)).unwrap(),
+      appStore.dispatch(fetchSampleOrigins(branch.sampleOriginIds)).unwrap(),
     ])
 
   const tests = testRes?.items ?? []
-  const indications = indicationRes?.items ?? []
+  const diagnoses = diagnosisRes?.items ?? []
   const sampleOrigins = sampleOriginRes?.items ?? []
   const doctors = doctorRes?.items ?? []
   const patientTypes = patientTypeRes?.items ?? []
 
   return {
-    indicationMap: new Map(
-      indications.map((indication) => [indication._id, indication]),
+    diagnosisMap: new Map(
+      diagnoses.map((diagnosis) => [diagnosis._id, diagnosis]),
     ),
     sampleOriginMap: new Map(
       sampleOrigins.map((sampleOrigin) => [sampleOrigin._id, sampleOrigin]),
