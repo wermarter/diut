@@ -26,7 +26,7 @@ interface FilterData {
   name: string
 }
 
-export default function SearchPatientPage() {
+export function SearchPatientPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)

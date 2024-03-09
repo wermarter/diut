@@ -46,7 +46,7 @@ interface FilterData {
   testIds: string[]
 }
 
-export default function PrintSelectPage() {
+export function PrintSelectPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE

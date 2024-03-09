@@ -4,7 +4,7 @@ import {
   SampleAction,
   checkPermission,
 } from '@diut/hcdc'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
   Button,

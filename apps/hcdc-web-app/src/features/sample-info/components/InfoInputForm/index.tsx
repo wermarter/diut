@@ -416,14 +416,12 @@ export function InfoInputForm(props: InputFormProps) {
             </Grid>
             <Grid xs={3}>
               <FormTextField
-                color="secondary"
                 autoComplete="off"
                 name="note"
                 control={control}
                 size="small"
                 fullWidth
                 label="Ghi chú"
-                focused
               />
             </Grid>
             {/* ----------------------------- Row 5 ----------------------------- */}

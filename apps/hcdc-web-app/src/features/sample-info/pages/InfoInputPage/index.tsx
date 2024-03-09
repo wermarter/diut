@@ -6,7 +6,11 @@ import { InfoInputForm } from '../../components'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 
-export default function InfoInputPage() {
+export function urlInfoInputPage() {
+  return '/info'
+}
+
+export function InfoInputPage() {
   const { patientTypes, diagnoses, doctors, sampleTypes, origins } =
     useLoaderData() as Awaited<ReturnType<typeof infoInputPageLoader>>
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!

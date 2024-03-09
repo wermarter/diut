@@ -5,7 +5,11 @@ import { useTypedSelector } from 'src/infra/redux'
 import { LoginForm } from '../../components'
 import { authSlice } from '../../state'
 
-export default function LoginPage() {
+export function urlLoginPage() {
+  return '/login'
+}
+
+export function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const isAuthenticated = useTypedSelector(

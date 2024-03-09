@@ -1,0 +1,6 @@
+export * from './InfoConfirmPage'
+export * from './InfoConfirmPage/loader'
+export * from './InfoEditPage'
+export * from './InfoEditPage/loader'
+export * from './InfoInputPage'
+export * from './InfoInputPage/loader'

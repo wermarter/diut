@@ -6,7 +6,11 @@ import { InfoConfirmView } from '../../components'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 
-export default function InfoConfirmPage() {
+export function urlInfoConfirmPage() {
+  return '/info/confirm'
+}
+
+export function InfoConfirmPage() {
   const { diagnosisMap, doctorMap, patientTypeMap, testMap, sampleOriginMap } =
     useLoaderData() as Awaited<ReturnType<typeof infoConfirmPageLoader>>
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!

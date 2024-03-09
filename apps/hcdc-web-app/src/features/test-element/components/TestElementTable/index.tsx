@@ -119,7 +119,6 @@ export function TestElementTable(props: TestElementTableProps) {
           <FormContainer
             autoComplete="off"
             onSubmit={handleSubmit((data) => {
-              console.log('submit', data)
               props.setPage(0)
               props.setTestId(data.testId)
             })}

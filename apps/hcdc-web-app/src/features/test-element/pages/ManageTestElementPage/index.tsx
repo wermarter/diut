@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   useLoaderData,
   useRevalidator,
@@ -15,7 +15,11 @@ const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'
 const PARAM_TEST_ID = 'testId'
 
-export default function ManageTestElementPage() {
+export function urlManageTestElementPage() {
+  return '/manage/test-elements'
+}
+
+export function ManageTestElementPage() {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { tests } = useLoaderData() as Awaited<
     ReturnType<typeof manageTestElemenentPageLoader>
@@ -30,22 +34,25 @@ export default function ManageTestElementPage() {
     [PARAM_PAGE_SIZE]: ROWS_PER_PAGE_OPTIONS[0].toString(),
     [PARAM_TEST_ID]: tests[0]?._id,
   })
-  const testId = searchParams.get(PARAM_TEST_ID)!
-  const page = parseInt(searchParams.get(PARAM_PAGE)!)
-  const pageSize = parseInt(searchParams.get(PARAM_PAGE_SIZE)!)
-
-  const setTestId = useCallback(
-    (id: string) => {
-      setSearchParams(
-        (searchParams) => {
-          searchParams.set(PARAM_TEST_ID, id)
-          return searchParams
-        },
-        { replace: false },
-      )
-    },
-    [setSearchParams, searchParams],
+  const [testId, setTestId] = useState(searchParams.get(PARAM_TEST_ID)!)
+  const [page, setPageCb] = useState(searchParams.get(PARAM_PAGE)!)
+  const [pageSize, setPageSizeCb] = useState(searchParams.get(PARAM_PAGE_SIZE)!)
+  const setPage = useCallback((page: number) => setPageCb(page.toString()), [])
+  const setPageSize = useCallback(
+    (pageSize: number) => setPageSizeCb(pageSize.toString()),
+    [],
   )
+
+  useEffect(() => {
+    setSearchParams(
+      {
+        [PARAM_PAGE]: page,
+        [PARAM_PAGE_SIZE]: pageSize,
+        [PARAM_TEST_ID]: testId,
+      },
+      { replace: false },
+    )
+  }, [page, pageSize, testId])
 
   const isFirstRun = useRef(true)
   useEffect(() => {
@@ -53,39 +60,14 @@ export default function ManageTestElementPage() {
       isFirstRun.current = false
       return
     }
+    setPageCb('0')
     setTestId(tests[0]._id)
   }, [tests[0]._id])
 
-  const setPage = useCallback(
-    (newPage: number) => {
-      setSearchParams(
-        (searchParams) => {
-          searchParams.set(PARAM_PAGE, newPage.toString())
-          return searchParams
-        },
-        { replace: false },
-      )
-    },
-    [setSearchParams, searchParams],
-  )
-
-  const setPageSize = useCallback(
-    (newPageSize: number) => {
-      setSearchParams(
-        (searchParams) => {
-          searchParams.set(PARAM_PAGE_SIZE, newPageSize.toString())
-          return searchParams
-        },
-        { replace: false },
-      )
-    },
-    [setSearchParams, searchParams],
-  )
-
   return (
     <TestElementTable
-      page={page}
-      pageSize={pageSize}
+      page={parseInt(page)}
+      pageSize={parseInt(pageSize)}
       setPage={setPage}
       setPageSize={setPageSize}
       tests={tests}

@@ -1,4 +1,4 @@
-export default function HomePage() {
+export function HomePage() {
   return (
     // <iframe
     //   src="https://hcdc.vn/"

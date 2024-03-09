@@ -2,7 +2,7 @@ import { appStore } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 import { fetchTests } from 'src/infra/api'
 
-export const manageTestElemenentPageLoader = async () => {
+export const manageTestElementPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(
     appStore.getState(),
   )!

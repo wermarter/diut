@@ -13,7 +13,7 @@ import { ExportThinPrep } from './components/ExportThinPrep'
 import { ExportTraKQ } from './components/ExportTraKQ'
 import { ExportUrine10 } from './components/ExportUrine10'
 
-export default function ExportReportPage() {
+export function ExportReportPage() {
   return (
     <Box
       sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}

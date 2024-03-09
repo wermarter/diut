@@ -43,7 +43,7 @@ interface FilterData {
   sampleOrigin: string
 }
 
-export default function EditSelectPage() {
+export function EditSelectPage() {
   const { indicationMap, doctorMap, patientTypeMap, testMap, sampleOriginMap } =
     useLoaderData() as Awaited<ReturnType<typeof editSelectPageLoader>>
   const userId = useTypedSelector(selectUserId)

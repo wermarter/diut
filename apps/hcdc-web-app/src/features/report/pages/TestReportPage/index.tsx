@@ -56,7 +56,7 @@ function parseIsNgoaiGio(isNgoaiGioParam: IsNgoaiGio) {
 const BUU_DIEN_SUMMARY = 'BUU_DIEN_SUMMARY'
 const NGOAI_GIO_SUMMARY = 'NGOAI_GIO_SUMMARY'
 
-export default function TestReportPage() {
+export function TestReportPage() {
   const { patientTypeMap, categories, groups, tests, sampleOriginMap } =
     useLoaderData() as Awaited<ReturnType<typeof testReportPageLoader>>
   const [searchParams, setSearchParams] = useSearchParams()

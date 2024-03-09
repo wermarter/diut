@@ -26,6 +26,16 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 import { DrawerItemGroup, authOneOf } from './utils'
+import { urlInfoConfirmPage, urlInfoInputPage } from 'src/features/sample-info'
+import { urlManageDoctorPage } from 'src/features/doctor'
+import { urlManagePatientTypePage } from 'src/features/patient-type'
+import { urlManageDiagnosisPage } from 'src/features/diagnosis'
+import { urlManageSampleTypePage } from 'src/features/sample-type'
+import { urlManageTestCategoryPage } from 'src/features/test-category'
+import { urlManageTestPage } from 'src/features/test'
+import { urlManageTestElementPage } from 'src/features/test-element'
+import { urlManageTestComboPage } from 'src/features/test-combo'
+import { urlManagePrintFormPage } from 'src/features/print-form'
 
 export const drawerItems: DrawerItemGroup[] = [
   {
@@ -44,7 +54,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <AirlineSeatReclineNormalIcon />,
         label: 'Nhập TT',
-        destination: 'info',
+        destination: urlInfoInputPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Sample, action: SampleAction.UpdateInfo },
         ]),
@@ -52,7 +62,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <FaceRetouchingNaturalIcon />,
         label: 'Xác nhận TT',
-        destination: 'info/confirm',
+        destination: urlInfoConfirmPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Sample, action: SampleAction.UpdateInfo },
         ]),
@@ -125,7 +135,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <AccountBoxIcon />,
         label: 'Bác sĩ',
-        destination: 'manage/doctors',
+        destination: urlManageDoctorPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Doctor, action: AUTH_ACTION_ALL },
         ]),
@@ -133,7 +143,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <WorkIcon />,
         label: 'Đối tượng',
-        destination: 'manage/patient-types',
+        destination: urlManagePatientTypePage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.PatientType, action: AUTH_ACTION_ALL },
         ]),
@@ -141,7 +151,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <MedicalInformationIcon />,
         label: 'Chẩn đoán',
-        destination: 'manage/diagnoses',
+        destination: urlManageDiagnosisPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Diagnosis, action: AUTH_ACTION_ALL },
         ]),
@@ -149,7 +159,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <VaccinesIcon />,
         label: 'Loại mẫu',
-        destination: 'manage/sample-types',
+        destination: urlManageSampleTypePage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.SampleType, action: AUTH_ACTION_ALL },
         ]),
@@ -157,7 +167,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <WorkspacesIcon />,
         label: 'Nhóm XN',
-        destination: 'manage/test-categories',
+        destination: urlManageTestCategoryPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.TestCategory, action: AUTH_ACTION_ALL },
         ]),
@@ -165,7 +175,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <BiotechIcon />,
         label: 'Tên XN',
-        destination: 'manage/tests',
+        destination: urlManageTestPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Test, action: AUTH_ACTION_ALL },
         ]),
@@ -173,7 +183,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <BloodtypeIcon />,
         label: 'Thành phần XN',
-        destination: 'manage/test-elements',
+        destination: urlManageTestElementPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.TestElement, action: AUTH_ACTION_ALL },
         ]),
@@ -181,7 +191,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <Diversity2Icon />,
         label: 'Bộ xét nghiệm',
-        destination: 'manage/test-combos',
+        destination: urlManageTestComboPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.TestCombo, action: AUTH_ACTION_ALL },
         ]),
@@ -189,7 +199,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <ListAltIcon />,
         label: 'Form In',
-        destination: 'manage/print-forms',
+        destination: urlManagePrintFormPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.PrintForm, action: AUTH_ACTION_ALL },
         ]),

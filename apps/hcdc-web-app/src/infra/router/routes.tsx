@@ -1,84 +1,57 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-
-import HomePage from 'src/features/homepage/pages/Homepage'
-import { MainLayout } from 'src/components/layout/MainLayout'
+import { MainLayout } from 'src/components/layout'
 import { CustomRouteObject } from 'src/infra/router'
-import { infoEditPageLoader } from 'src/features/sample-info/pages/InfoEditPage/loader'
-// import { editResultPageLoader } from 'src/features/sample-result/pages/EditResultPage/loader'
-import { infoInputPageLoader } from 'src/features/sample-info/pages/InfoInputPage/loader'
-import { infoConfirmPageLoader } from 'src/features/sample-info/pages/InfoConfirmPage/loader'
-// import { editSelectPageLoader } from 'src/features/sample-result/pages/EditSelectPage/loader'
-import { manageTestPageLoader } from 'src/features/test/pages/ManageTestPage/loader'
-import { manageTestElemenentPageLoader } from 'src/features/test-element/pages/ManageTestElementPage/loader'
-// import { printSelectPageLoader } from 'src/features/sample-result/pages/PrintSelectPage/loader'
-// import { testReportPageLoader } from 'src/features/report/pages/TestReportPage/loader'
-// import { exportReportPageLoader } from 'src/features/report/pages/ExportReportPage/loader'
-
-//#region Lazy import pages
-const LoginPage = React.lazy(() => import('src/features/auth/pages/LoginPage'))
-const ManageDoctorPage = React.lazy(
-  () => import('src/features/doctor/pages/ManageDoctorPage'),
-)
-// const ManageUserPage = React.lazy(
-//   () => import('src/features/user/pages/ManageUserPage'),
-// )
-const ManagePatientTypePage = React.lazy(
-  () => import('src/features/patient-type/pages/ManagePatientTypePage'),
-)
-const ManageTestCategoryPage = React.lazy(
-  () => import('src/features/test-category/pages/ManageTestCategoryPage'),
-)
-const ManageTestPage = React.lazy(
-  () => import('src/features/test/pages/ManageTestPage'),
-)
-const ManageTestElementPage = React.lazy(
-  () => import('src/features/test-element/pages/ManageTestElementPage'),
-)
-const ManageDiagnosisPage = React.lazy(
-  () => import('src/features/diagnosis/pages/ManageDiagnosisPage'),
-)
-const ManageSampleTypePage = React.lazy(
-  () => import('src/features/sample-type/pages/ManageSampleTypePage'),
-)
-const ManageTestComboPage = React.lazy(
-  () => import('src/features/test-combo/pages/ManageTestComboPage'),
-)
-const ManagePrintFormPage = React.lazy(
-  () => import('src/features/print-form/pages/ManagePrintFormPage'),
-)
-const InfoInputPage = React.lazy(
-  () => import('src/features/sample-info/pages/InfoInputPage'),
-)
-const InfoEditPage = React.lazy(
-  () => import('src/features/sample-info/pages/InfoEditPage'),
-)
-const InfoConfirmPage = React.lazy(
-  () => import('src/features/sample-info/pages/InfoConfirmPage'),
-)
-// const EditResultPage = React.lazy(
-//   () => import('src/features/sample-result/pages/EditResultPage'),
-// )
-// const EditSelectPage = React.lazy(
-//   () => import('src/features/sample-result/pages/EditSelectPage'),
-// )
-// const PrintSelectPage = React.lazy(
-//   () => import('src/features/sample-result/pages/PrintSelectPage'),
-// )
-// const TestReportPage = React.lazy(
-//   () => import('src/features/report/pages/TestReportPage'),
-// )
-// const ExportReportPage = React.lazy(
-//   () => import('src/features/report/pages/ExportReportPage'),
-// )
-// const SearchPatientPage = React.lazy(
-//   () => import('src/features/patient/pages/SearchPatientPage'),
-// )
-//#endregion
+import {
+  urlInfoEditPage,
+  infoEditPageLoader,
+  infoConfirmPageLoader,
+  infoInputPageLoader,
+  urlInfoConfirmPage,
+  urlInfoInputPage,
+  InfoInputPage,
+  InfoConfirmPage,
+  InfoEditPage,
+} from 'src/features/sample-info'
+import { LoginPage, urlLoginPage } from 'src/features/auth'
+import { ManageDoctorPage, urlManageDoctorPage } from 'src/features/doctor'
+import {
+  ManagePatientTypePage,
+  urlManagePatientTypePage,
+} from 'src/features/patient-type'
+import {
+  ManageDiagnosisPage,
+  urlManageDiagnosisPage,
+} from 'src/features/diagnosis'
+import {
+  ManageTestCategoryPage,
+  urlManageTestCategoryPage,
+} from 'src/features/test-category'
+import {
+  urlManageTestPage,
+  manageTestPageLoader,
+  ManageTestPage,
+} from 'src/features/test'
+import {
+  ManageTestElementPage,
+  manageTestElementPageLoader,
+  urlManageTestElementPage,
+} from 'src/features/test-element'
+import {
+  ManageSampleTypePage,
+  urlManageSampleTypePage,
+} from 'src/features/sample-type'
+import {
+  ManageTestComboPage,
+  urlManageTestComboPage,
+} from 'src/features/test-combo'
+import {
+  ManagePrintFormPage,
+  urlManagePrintFormPage,
+} from 'src/features/print-form'
+import { HomePage } from 'src/features/homepage'
 
 export const appRoutes: CustomRouteObject[] = [
   {
-    path: 'login',
+    path: urlLoginPage(),
     element: <LoginPage />,
   },
   {
@@ -91,74 +64,58 @@ export const appRoutes: CustomRouteObject[] = [
         element: <HomePage />,
       },
       {
-        path: 'manage',
-        element: <Outlet />,
-        children: [
-          // {
-          //   path: 'users',
-          //   element: <ManageUserPage />,
-          // },
-          {
-            path: 'doctors',
-            element: <ManageDoctorPage />,
-          },
-          {
-            path: 'patient-types',
-            element: <ManagePatientTypePage />,
-          },
-          {
-            path: 'diagnoses',
-            element: <ManageDiagnosisPage />,
-          },
-          {
-            path: 'test-categories',
-            element: <ManageTestCategoryPage />,
-          },
-          {
-            path: 'tests',
-            element: <ManageTestPage />,
-            loader: manageTestPageLoader,
-          },
-          {
-            path: 'test-elements',
-            element: <ManageTestElementPage />,
-            loader: manageTestElemenentPageLoader,
-          },
-          {
-            path: 'sample-types',
-            element: <ManageSampleTypePage />,
-          },
-          {
-            path: 'test-combos',
-            element: <ManageTestComboPage />,
-          },
-          {
-            path: 'print-forms',
-            element: <ManagePrintFormPage />,
-          },
-        ],
+        path: urlManageDoctorPage(),
+        element: <ManageDoctorPage />,
+      },
+      {
+        path: urlManagePatientTypePage(),
+        element: <ManagePatientTypePage />,
+      },
+      {
+        path: urlManageTestCategoryPage(),
+        element: <ManageTestCategoryPage />,
+      },
+      {
+        path: urlManageDiagnosisPage(),
+        element: <ManageDiagnosisPage />,
+      },
+      {
+        path: urlManageSampleTypePage(),
+        element: <ManageSampleTypePage />,
+      },
+      {
+        path: urlManageTestComboPage(),
+        element: <ManageTestComboPage />,
+      },
+      {
+        path: urlManagePrintFormPage(),
+        element: <ManagePrintFormPage />,
+      },
+      {
+        path: urlManageTestPage(),
+        element: <ManageTestPage />,
+        loader: manageTestPageLoader,
+      },
+      {
+        path: urlManageTestElementPage(),
+        element: <ManageTestElementPage />,
+        loader: manageTestElementPageLoader,
       },
       // ------------------------------------------------------------------------
       {
-        path: 'info',
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <InfoInputPage />,
-            loader: infoInputPageLoader,
-          },
-          {
-            path: 'edit/:patientId/:sampleId',
-            element: <InfoEditPage />,
-            loader: infoEditPageLoader,
-          },
-          {
-            path: 'confirm',
-            element: <InfoConfirmPage />,
-            loader: infoConfirmPageLoader,
-          },
-        ],
+        path: urlInfoInputPage(),
+        element: <InfoInputPage />,
+        loader: infoInputPageLoader,
+      },
+      {
+        path: urlInfoConfirmPage(),
+        element: <InfoConfirmPage />,
+        loader: infoConfirmPageLoader,
+      },
+      {
+        path: urlInfoEditPage(),
+        element: <InfoEditPage />,
+        loader: infoEditPageLoader,
       },
       // {
       //   path: 'result',

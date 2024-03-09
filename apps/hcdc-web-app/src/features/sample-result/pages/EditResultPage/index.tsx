@@ -45,7 +45,7 @@ import { PapsmearResultCard } from './components/PapsmearResultCard'
 import { ResultCardProps } from './components/utils'
 import { format } from 'date-fns'
 
-export default function EditResultPage() {
+export function EditResultPage() {
   const userId = useTypedSelector(selectUserId)
   const userName = useTypedSelector(selectUserName)
   const userIsAdmin = useTypedSelector(selectUserIsAdmin)
