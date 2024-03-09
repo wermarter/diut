@@ -417,9 +417,9 @@ export function PrintSelectPage() {
             },
           ]}
           paginationMode="server"
-          rowCount={samples?.total ?? 0}
-          page={samples?.offset ?? 0}
-          pageSize={samples?.limit ?? 10}
+          rowCount={samples?.total!}
+          page={samples?.offset!}
+          pageSize={samples?.limit!}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
         />

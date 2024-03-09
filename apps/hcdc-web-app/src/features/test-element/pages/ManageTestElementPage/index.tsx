@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import { TestElementTable } from '../../components'
-import { manageTestElemenentPageLoader } from './loader'
+import { manageTestElementPageLoader } from './loader'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
@@ -22,7 +22,7 @@ export function urlManageTestElementPage() {
 export function ManageTestElementPage() {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { tests } = useLoaderData() as Awaited<
-    ReturnType<typeof manageTestElemenentPageLoader>
+    ReturnType<typeof manageTestElementPageLoader>
   >
   const revalidator = useRevalidator()
   useEffect(() => {
@@ -61,8 +61,8 @@ export function ManageTestElementPage() {
       return
     }
     setPageCb('0')
-    setTestId(tests[0]._id)
-  }, [tests[0]._id])
+    setTestId(tests[0]?._id)
+  }, [tests[0]?._id])
 
   return (
     <TestElementTable

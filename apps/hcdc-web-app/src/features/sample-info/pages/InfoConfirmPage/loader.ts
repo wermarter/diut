@@ -36,7 +36,7 @@ export const infoConfirmPageLoader = async () => {
     diagnosisMap: new Map(
       diagnoses.map((diagnosis) => [diagnosis._id, diagnosis]),
     ),
-    sampleOriginMap: new Map(
+    originMap: new Map(
       sampleOrigins.map((sampleOrigin) => [sampleOrigin._id, sampleOrigin]),
     ),
     doctorMap: new Map(doctors.map((doctor) => [doctor._id, doctor])),

@@ -65,8 +65,8 @@ export function ManageTestPage() {
       return
     }
     setPageCb('0')
-    setTestCategoryId(testCategories[0]._id)
-  }, [testCategories[0]._id])
+    setTestCategoryId(testCategories[0]?._id)
+  }, [testCategories[0]?._id])
 
   return (
     <TestTable

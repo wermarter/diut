@@ -1,4 +1,3 @@
-import { createAbility } from '@diut/hcdc'
 import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -22,10 +21,6 @@ export const authSlice = createSlice({
       state.isAuthenticated === true ? state.data.name : null,
     selectUserId: (state) =>
       state.isAuthenticated === true ? state.data.id : null,
-    selectAbility: (state) =>
-      createAbility(
-        state.isAuthenticated === true ? state.data.permissions : [],
-      ),
     selectUserPermissions: (state) =>
       state.isAuthenticated === true ? state.data.permissions : [],
     selectActiveBranchId: (state) =>

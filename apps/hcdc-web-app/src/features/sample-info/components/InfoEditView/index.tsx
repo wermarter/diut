@@ -3,8 +3,9 @@ import {
   PatientGender,
   SampleAction,
   checkPermission,
+  createAbility,
 } from '@diut/hcdc'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
   Button,
@@ -65,7 +66,12 @@ export type InfoEditViewProps = {
 }
 
 export function InfoEditView(props: InfoEditViewProps) {
-  const userAbility = useTypedSelector(authSlice.selectors.selectAbility)
+  const userPermissions = useTypedSelector(
+    authSlice.selectors.selectUserPermissions,
+  )
+  const userAbility = useMemo(() => {
+    return createAbility(userPermissions)
+  }, [userPermissions])
   const navigate = useNavigate()
   const originalTestIds = props.sampleRes.results.map(({ testId }) => testId)
 
@@ -229,7 +235,7 @@ export function InfoEditView(props: InfoEditViewProps) {
               />
             </Grid>
             {/* ----------------------------- Row 2 ----------------------------- */}
-            <Grid xs={2}>
+            <Grid xs={2} sx={{ display: 'flex' }}>
               <Controller
                 name="gender"
                 control={control}

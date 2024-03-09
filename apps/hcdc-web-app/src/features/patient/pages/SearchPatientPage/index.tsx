@@ -206,9 +206,9 @@ export function SearchPatientPage() {
             },
           ]}
           paginationMode="server"
-          rowCount={data?.total ?? 0}
-          page={data?.offset ?? 0}
-          pageSize={data?.limit ?? 10}
+          rowCount={data?.total!}
+          page={data?.offset!}
+          pageSize={data?.limit!}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
         />

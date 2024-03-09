@@ -51,10 +51,6 @@ export function TestTable(props: TestTableProps) {
     offset: props.page,
     limit: props.pageSize,
     sort: { displayIndex: 1 },
-    filter: {
-      branchId,
-      testCategoryId: props.testCategoryId,
-    },
   })
 
   useEffect(() => {

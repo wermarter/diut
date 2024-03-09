@@ -1,31 +1,28 @@
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { format, startOfDay, endOfDay } from 'date-fns'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useMemo } from 'react'
+import { format } from 'date-fns'
 import {
   AuthSubject,
   PatientGender,
   SampleAction,
   checkPermission,
+  createAbility,
 } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper, IconButton } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import LoopIcon from '@mui/icons-material/Loop'
+import { useForm } from 'react-hook-form'
 
 import {
   OmittedSampleResponseDto,
-  SampleSearchResponseDto,
   useSampleSearchQuery,
   useSampleUpdateInfoByIdMutation,
 } from 'src/infra/api/access-service/sample'
 import { DataTable } from 'src/components/table'
-import {
-  PatientResponseDto,
-  useLazyPatientFindByIdQuery,
-} from 'src/infra/api/access-service/patient'
 import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
 import {
@@ -34,7 +31,6 @@ import {
   FormSelect,
   FormTextField,
 } from 'src/components/form'
-import { useForm } from 'react-hook-form'
 import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
@@ -44,116 +40,144 @@ import { authSlice } from 'src/features/auth'
 import { makeDateFilter } from 'src/shared'
 import { urlInfoEditPage } from '../../pages/InfoEditPage'
 
-const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
-const ANY_SAMPLE_ORIGIN = 'ANY_SAMPLE_ORIGIN'
-
-interface FilterData {
+interface FormData {
   fromDate: Date
   toDate: Date
   sampleId: string
-  infoCompleted: 'all' | 'true' | 'false'
-  patientType: string
-  sampleOrigin: string
+  isConfirmed: string
+  patientTypeId: string
+  originId: string
 }
 
 export type InfoConfirmViewProps = {
   diagnosisMap: Map<string, DiagnosisResponseDto>
-  sampleOriginMap: Map<string, BranchResponseDto>
+  originMap: Map<string, BranchResponseDto>
   doctorMap: Map<string, DoctorResponseDto>
   patientTypeMap: Map<string, PatientTypeResponseDto>
   testMap: Map<string, TestResponseDto>
+  page: number
+  pageSize: number
+  setPage: (page: number) => void
+  setPageSize: (pageSize: number) => void
+  isConfirmed: boolean | null
+  setIsConfirmed: (isConfirmed: boolean | null) => void
+  patientTypeId: string | null
+  setPatientTypeId: (patientTypeId: string | null) => void
+  originId: string | null
+  setOriginId: (originId: string | null) => void
+  sampleId: string | null
+  setSampleId: (originId: string | null) => void
+  fromDate: Date
+  setFromDate: (fromDate: Date) => void
+  toDate: Date
+  setToDate: (toDate: Date) => void
 }
 
 export function InfoConfirmView(props: InfoConfirmViewProps) {
-  const userAbility = useTypedSelector(authSlice.selectors.selectAbility)
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
+  const userPermissions = useTypedSelector(
+    authSlice.selectors.selectUserPermissions,
+  )
+  const userAbility = useMemo(() => {
+    return createAbility(userPermissions)
+  }, [userPermissions])
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
-  const sampleOriginParam =
-    searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
 
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    usePagination({
-      offset: 0,
-      limit: 10,
-      sort: { infoAt: -1, sampleId: -1 },
-      filter: {
-        infoAt: makeDateFilter(),
-      },
-    })
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { infoAt: -1, sampleId: -1 },
+    populates: [{ path: 'patient' }],
+  })
 
-  const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: {
+          ...filterObj.filter,
+          branchId,
+        },
+      }))
+    }
+  }, [branchId])
+
+  const { control, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
-      fromDate:
-        searchParams.get('fromDate') != null
-          ? new Date(searchParams.get('fromDate')!)
-          : new Date(),
-      toDate:
-        searchParams.get('toDate') != null
-          ? new Date(searchParams.get('toDate')!)
-          : new Date(),
-      sampleId: searchParams.get('sampleId') ?? '',
-      infoCompleted:
-        (searchParams.get('infoCompleted') as FilterData['infoCompleted']) ??
-        'all',
-      patientType: patientTypeParam,
-      sampleOrigin: sampleOriginParam,
+      fromDate: props.fromDate,
+      toDate: props.toDate,
+      sampleId: '',
+      isConfirmed: '',
+      patientTypeId: '',
+      originId: '',
     },
   })
-  const fromDate = watch('fromDate')
-  const toDate = watch('toDate')
-  const infoCompleted = watch('infoCompleted')
-  const patientType = watch('patientType')
-  const sampleOrigin = watch('sampleOrigin')
 
-  const {
-    data,
-    isFetching: isFetchingSamples,
-    refetch,
-  } = useSampleSearchQuery(filterObj)
+  useEffect(() => {
+    setValue('fromDate', props.fromDate)
+    setValue('toDate', props.toDate)
+    setValue(
+      'patientTypeId',
+      props.patientTypeId === null ? 'null' : `"${props.patientTypeId}"`,
+    )
+    setValue(
+      'originId',
+      props.originId === null ? 'null' : `"${props.originId}"`,
+    )
+    setValue(
+      'isConfirmed',
+      props.isConfirmed === null ? 'null' : JSON.stringify(props.isConfirmed),
+    )
+    if (props.sampleId !== null) {
+      setValue('sampleId', props.sampleId)
+    }
+
+    setFilterObj((obj) => ({
+      ...obj,
+      filter: {
+        ...obj.filter,
+        sampleId: props.sampleId
+          ? { $regex: props.sampleId + '$', $options: 'i' }
+          : undefined,
+        infoAt: makeDateFilter(props.fromDate, props.toDate),
+        isConfirmed: props.isConfirmed === null ? undefined : props.isConfirmed,
+        patientTypeId:
+          props.patientTypeId === null ? undefined : props.patientTypeId,
+        originId: props.originId === null ? undefined : props.originId,
+      },
+    }))
+  }, [
+    props.sampleId,
+    props.isConfirmed,
+    props.patientTypeId,
+    props.originId,
+    props.fromDate,
+    props.toDate,
+  ])
+
+  const { data: samples, isFetching, refetch } = useSampleSearchQuery(filterObj)
 
   const handleSubmitFilter = ({
     fromDate,
     toDate,
     sampleId,
-    infoCompleted,
-    patientType,
-    sampleOrigin,
-  }: FilterData) => {
-    setSearchParams(
-      {
-        sampleId,
-        infoCompleted,
-        fromDate: fromDate.toISOString(),
-        toDate: toDate.toISOString(),
-        patientType,
-        sampleOrigin,
-      },
-      { replace: true },
-    )
-    return setFilterObj((obj) => ({
-      ...obj,
-      filter: {
-        ...obj.filter,
-        sampleId:
-          sampleId.length > 0
-            ? { $regex: sampleId + '$', $options: 'i' }
-            : undefined,
-        infoAt:
-          sampleId.length > 0 ? undefined : makeDateFilter(fromDate, toDate),
-        infoCompleted:
-          infoCompleted === 'all'
-            ? undefined
-            : infoCompleted === 'true'
-              ? true
-              : false,
-        patientTypeId:
-          patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
-        sampleOriginId:
-          sampleOrigin !== ANY_SAMPLE_ORIGIN ? sampleOrigin : undefined,
-      },
-    }))
+    isConfirmed,
+    patientTypeId,
+    originId,
+  }: FormData) => {
+    props.setSampleId(sampleId.length === 0 ? null : sampleId)
+    props.setFromDate(fromDate)
+    props.setToDate(toDate)
+    props.setIsConfirmed(JSON.parse(isConfirmed))
+    props.setPatientTypeId(JSON.parse(patientTypeId))
+    props.setOriginId(JSON.parse(originId))
   }
+
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
+  const isConfirmed = watch('isConfirmed')
+  const patientTypeId = watch('patientTypeId')
+  const originId = watch('originId')
 
   useEffect(() => {
     if (toDate < fromDate) {
@@ -161,36 +185,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, infoCompleted, patientType, sampleOrigin])
-
-  const [getPatient, { isFetching: isFetchingPatients }] =
-    useLazyPatientFindByIdQuery()
-
-  const [samples, setSamples] = useState<SampleSearchResponseDto>()
-  const [patients, setPatients] = useState<{
-    [id: string]: PatientResponseDto
-  }>({})
-
-  async function expandId(samples: OmittedSampleResponseDto[]) {
-    const promises = samples.map(async (sample) => {
-      const { patientId, results } = sample
-      getPatient(patientId, true).then((res) => {
-        setPatients((cache) =>
-          Object.assign({}, cache, {
-            [patientId]: res.data!,
-          }),
-        )
-      })
-    })
-    return Promise.all(promises)
-  }
-
-  useEffect(() => {
-    if (!isFetchingSamples) {
-      expandId(data?.items!)
-      setSamples(data!)
-    }
-  }, [isFetchingSamples, JSON.stringify(filterObj)])
+  }, [fromDate, toDate, isConfirmed, patientTypeId, originId])
 
   const [updateSample, { isLoading: isConfirming }] =
     useSampleUpdateInfoByIdMutation()
@@ -226,7 +221,6 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
                 name="fromDate"
                 dateOnly
                 label="Từ ngày"
-                disabled={watch('sampleId')?.length > 0}
               />
             </Grid>
             <Grid xs={2}>
@@ -235,17 +229,16 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
                 name="toDate"
                 dateOnly
                 label="Đến ngày"
-                disabled={watch('sampleId')?.length > 0}
               />
             </Grid>
             <Grid xs={2}>
               <FormSelect
                 control={control}
                 size="medium"
-                name="infoCompleted"
+                name="isConfirmed"
                 label="Trạng thái"
                 options={[
-                  { label: 'Tất cả', value: 'all' },
+                  { label: 'Tất cả', value: 'null' },
                   { label: 'Đã xác nhận', value: 'true' },
                   { label: 'Chưa xác nhận', value: 'false' },
                 ]}
@@ -257,14 +250,14 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
               <FormSelect
                 control={control}
                 size="medium"
-                name="patientType"
+                name="patientTypeId"
                 label="Đối tượng"
                 options={[
-                  { label: 'Tất cả', value: ANY_PATIENT_TYPE },
+                  { label: 'Tất cả', value: 'null' },
                   ...[...props.patientTypeMap.values()].map(
                     ({ _id, name }) => ({
                       label: name,
-                      value: _id,
+                      value: `"${_id}"`,
                     }),
                   ),
                 ]}
@@ -276,16 +269,14 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
               <FormSelect
                 control={control}
                 size="medium"
-                name="sampleOrigin"
+                name="originId"
                 label="Đơn vị"
                 options={[
-                  { label: 'Tất cả', value: ANY_SAMPLE_ORIGIN },
-                  ...[...props.sampleOriginMap.values()].map(
-                    ({ _id, name }) => ({
-                      label: name,
-                      value: _id,
-                    }),
-                  ),
+                  { label: 'Tất cả', value: 'null' },
+                  ...[...props.originMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: `"${_id}"`,
+                  })),
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}
@@ -308,9 +299,9 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
         <DataTable
           cellOutline
           disableRowSelectionOnClick
-          rows={samples?.items || []}
+          rows={samples?.items ?? []}
           autoRowHeight
-          loading={isFetchingSamples || isFetchingPatients}
+          loading={isFetching}
           getRowId={(row) => row._id}
           columns={[
             {
@@ -362,14 +353,14 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
               headerName: 'Tên',
               sortable: false,
               width: 100,
-              valueGetter: ({ row }) => patients[row.patientId]?.name,
+              valueGetter: ({ row }) => row.patient?.name,
             },
             {
               field: 'birthYear',
               headerName: 'Năm',
               width: 60,
               sortable: false,
-              valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
+              valueGetter: ({ row }) => row.patient?.birthYear,
             },
             {
               field: 'gender',
@@ -377,7 +368,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
               width: 60,
               sortable: false,
               valueGetter: ({ row }) => {
-                if (patients[row.patientId]?.gender === PatientGender.Female) {
+                if (row.patient?.gender === PatientGender.Female) {
                   return 'Nữ'
                 } else {
                   return 'Nam'
@@ -389,7 +380,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
               headerName: 'Địa chỉ',
               width: 80,
               sortable: false,
-              valueGetter: ({ row }) => patients[row.patientId]?.address,
+              valueGetter: ({ row }) => row.patient?.address,
             },
             {
               field: 'isTraBuuDien',
@@ -432,7 +423,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
                 props.diagnosisMap.get(row.diagnosisId)?.name,
             },
             {
-              field: 'patientType',
+              field: 'patientTypeId',
               headerName: 'Đối T.',
               width: 70,
               sortable: false,
@@ -462,11 +453,11 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
             },
           ]}
           paginationMode="server"
-          rowCount={samples?.total ?? 0}
-          page={samples?.offset ?? 0}
-          pageSize={samples?.limit ?? 10}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
+          rowCount={samples?.total!}
+          page={samples?.offset!}
+          pageSize={samples?.limit!}
+          onPageChange={props.setPage}
+          onPageSizeChange={props.setPageSize}
         />
       </Box>
     </Box>
