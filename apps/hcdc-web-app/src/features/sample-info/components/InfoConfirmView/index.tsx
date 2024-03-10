@@ -2,7 +2,7 @@ import { GridActionsCellItem } from '@mui/x-data-grid'
 import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { format } from 'date-fns'
 import {
   AuthSubject,
@@ -155,7 +155,20 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     props.toDate,
   ])
 
-  const { data: samples, isFetching, refetch } = useSampleSearchQuery(filterObj)
+  const isFirstRun = useRef(true)
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+  }, [])
+  const {
+    data: samples,
+    isFetching,
+    refetch,
+  } = useSampleSearchQuery(filterObj, {
+    skip: isFirstRun.current,
+  })
 
   const handleSubmitFilter = ({
     fromDate,

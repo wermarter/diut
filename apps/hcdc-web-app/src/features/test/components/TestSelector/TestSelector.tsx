@@ -43,7 +43,10 @@ export function TestSelector({
   })
 
   const { data: combos, isFetching: isFetchingCombos } =
-    useTestComboSearchQuery({ sort: { index: 1 }, filter: { branchId } })
+    useTestComboSearchQuery(
+      { sort: { displayIndex: 1 }, filter: { branchId } },
+      { skip: !showCombos },
+    )
 
   const [selectedIds, setSelectedIds] = useState<string[]>([])
 

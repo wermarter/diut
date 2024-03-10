@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -60,7 +60,18 @@ export function TestElementTable(props: TestElementTableProps) {
     }))
   }, [props.testId])
 
-  const { data, isFetching } = useTestElementSearchQuery(filterObj)
+  const isFirstRun = useRef(true)
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+  }, [])
+
+  const { data, isFetching } = useTestElementSearchQuery(filterObj, {
+    skip: isFirstRun.current,
+  })
+
   const [searchTestElements] = useLazyTestElementSearchQuery()
 
   const [createTestElement, { isLoading: isCreating }] =

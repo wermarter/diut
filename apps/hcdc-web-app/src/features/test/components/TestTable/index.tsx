@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import {
   useTestCreateMutation,
@@ -72,7 +72,17 @@ export function TestTable(props: TestTableProps) {
     }))
   }, [props.testCategoryId])
 
-  const { data, isFetching } = useTestSearchQuery(filterObj)
+  const isFirstRun = useRef(true)
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+  }, [])
+
+  const { data, isFetching } = useTestSearchQuery(filterObj, {
+    skip: isFirstRun.current,
+  })
   const [searchTests] = useLazyTestSearchQuery()
 
   const [createTest, { isLoading: isCreating }] = useTestCreateMutation()
