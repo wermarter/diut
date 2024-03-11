@@ -48,6 +48,11 @@ import {
   urlManagePrintFormPage,
 } from 'src/features/print-form'
 import { HomePage } from 'src/features/homepage'
+import {
+  ResultSelectPage,
+  resultSelectPageLoader,
+  urlResultSelectPage,
+} from 'src/features/sample-result'
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -116,6 +121,11 @@ export const appRoutes: CustomRouteObject[] = [
         path: urlInfoEditPage(),
         element: <InfoEditPage />,
         loader: infoEditPageLoader,
+      },
+      {
+        path: urlResultSelectPage(),
+        element: <ResultSelectPage />,
+        loader: resultSelectPageLoader,
       },
       // {
       //   path: 'result',

@@ -61,7 +61,7 @@ export function BioProductTable(props: BioProductTableProps) {
       itemIdField="_id"
       isLoading={isFetching || isCreating || isUpdating || isDeleting}
       fieldColumns={bioProductColumns}
-      rowCount={data?.total!}
+      rowCount={data?.total ?? 0}
       page={data?.offset!}
       pageSize={data?.limit!}
       onPageChange={onPageChange}

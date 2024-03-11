@@ -22,7 +22,7 @@ import { TestElementResponseDto } from 'src/infra/api/access-service/test-elemen
 import { SideAction } from 'src/components/ui/SideAction'
 import { readFileToURL } from 'src/shared/utils'
 import { getCroppedImg } from 'src/shared/utils/image-crop'
-import { ResultCardProps } from './utils'
+import { ResultCardProps } from '../../../../pages/ResultEditPage/components/utils'
 
 export const PapsmearResultCard = ({
   currentTestState,

@@ -40,6 +40,7 @@ export type Sample = BaseEntity & {
   sampledAt: Date
   printedAt?: Date
   sampleCompleted: boolean
+  isPregnant: boolean
 
   results: SampleResultTest[]
 
@@ -74,6 +75,7 @@ export type Sample = BaseEntity & {
 export const sampleInfoFieldNames = [
   'sampleId',
   'note',
+  'isPregnant',
   'isNgoaiGio',
   'isTraBuuDien',
   'infoAt',

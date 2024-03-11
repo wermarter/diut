@@ -36,6 +36,7 @@ import { urlManageTestPage } from 'src/features/test'
 import { urlManageTestElementPage } from 'src/features/test-element'
 import { urlManageTestComboPage } from 'src/features/test-combo'
 import { urlManagePrintFormPage } from 'src/features/print-form'
+import { urlResultSelectPage } from 'src/features/sample-result'
 
 export const drawerItems: DrawerItemGroup[] = [
   {
@@ -70,7 +71,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <AppRegistrationIcon />,
         label: 'Nhập KQ',
-        destination: 'result',
+        destination: urlResultSelectPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Sample, action: SampleAction.UpdateResult },
         ]),

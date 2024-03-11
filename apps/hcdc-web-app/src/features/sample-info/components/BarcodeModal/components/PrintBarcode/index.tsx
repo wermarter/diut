@@ -1,8 +1,13 @@
 import { ReactElement, useRef, PropsWithChildren } from 'react'
 import ReactToPrint from 'react-to-print'
 
-import { buildBarcodeUpperText } from '../../utils'
 import { SingleBarcode, SinglePrintRow } from '../SingleBarcode'
+
+export function buildBarcodeUpperText(name?: string, birthYear?: number) {
+  return name != undefined && birthYear != undefined
+    ? `${name.split(' ').pop()?.toLocaleUpperCase() ?? ''} - ${birthYear}`
+    : undefined
+}
 
 export interface PrintBarcodeProps extends PropsWithChildren {
   sampleId: string

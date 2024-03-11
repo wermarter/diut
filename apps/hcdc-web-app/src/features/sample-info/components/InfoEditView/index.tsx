@@ -32,7 +32,11 @@ import {
   FormCheckboxGroup,
   FormSelect,
 } from 'src/components/form'
-import { formResolver, FormSchema } from '../InfoInputForm/validation'
+import {
+  formResolver,
+  FormSchema,
+  GENDER_PREGNANT_VALUE,
+} from '../InfoInputForm/validation'
 import { TestSelector } from 'src/features/test/components/TestSelector'
 import {
   SampleResponseDto,
@@ -40,10 +44,7 @@ import {
   useSampleDeleteByIdMutation,
   useSampleUpdateInfoByIdMutation,
 } from 'src/infra/api/access-service/sample'
-import {
-  PatientResponseDto,
-  usePatientUpdateByIdMutation,
-} from 'src/infra/api/access-service/patient'
+import { usePatientUpdateByIdMutation } from 'src/infra/api/access-service/patient'
 import { useTypedSelector } from 'src/infra/redux'
 import { BarcodeModal } from '../BarcodeModal'
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
@@ -57,7 +58,6 @@ const currentYear = new Date().getFullYear()
 
 export type InfoEditViewProps = {
   sampleRes: SampleResponseDto
-  patientRes: PatientResponseDto
   patientTypes: PatientTypeResponseDto[]
   diagnoses: DiagnosisResponseDto[]
   doctors: DoctorResponseDto[]
@@ -84,17 +84,19 @@ export function InfoEditView(props: InfoEditViewProps) {
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
-      externalId: props.patientRes.externalId,
-      name: props.patientRes.name,
+      externalId: props.sampleRes.patient?.externalId!,
+      name: props.sampleRes.patient?.name!,
       infoAt: new Date(props.sampleRes.infoAt),
       sampledAt: new Date(props.sampleRes.sampledAt),
-      gender: props.patientRes.gender as PatientGender,
-      birthYear: props.patientRes.birthYear,
-      address: props.patientRes.address,
+      gender: props.sampleRes.isPregnant
+        ? GENDER_PREGNANT_VALUE
+        : (props.sampleRes.patient?.gender! as PatientGender),
+      birthYear: props.sampleRes.patient?.birthYear!,
+      address: props.sampleRes.patient?.address!,
       originId: props.sampleRes.originId,
       sampleId: props.sampleRes.sampleId,
-      phoneNumber: props.patientRes.phoneNumber,
-      SSN: props.patientRes.SSN,
+      phoneNumber: props.sampleRes.patient?.phoneNumber!,
+      SSN: props.sampleRes.patient?.SSN!,
       isTraBuuDien: props.sampleRes.isTraBuuDien,
       isNgoaiGio: props.sampleRes.isNgoaiGio,
       patientTypeId: props.sampleRes.patientTypeId,
@@ -180,13 +182,20 @@ export function InfoEditView(props: InfoEditViewProps) {
         onSubmit={handleSubmit(async (values) => {
           return Promise.all([
             updatePatient({
-              id: props.patientRes._id,
-              patientUpdateRequestDto: values,
+              id: props.sampleRes.patient?._id!,
+              patientUpdateRequestDto: {
+                ...values,
+                gender:
+                  values.gender === GENDER_PREGNANT_VALUE
+                    ? PatientGender.Female
+                    : values.gender,
+              },
             }).unwrap(),
             updateSample({
               id: props.sampleRes._id,
               sampleUpdateInfoRequestDto: {
                 ...values,
+                isPregnant: values.gender === GENDER_PREGNANT_VALUE,
                 addedTestIds: difference(values.testIds, originalTestIds),
                 removedTestIds: difference(originalTestIds, values.testIds),
                 sampledAt: values.sampledAt.toISOString(),
@@ -201,7 +210,7 @@ export function InfoEditView(props: InfoEditViewProps) {
         <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
           <Grid container spacing={2}>
             {/* ----------------------------- Row 1 ----------------------------- */}
-            <Grid xs={2}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="externalId"
@@ -211,7 +220,7 @@ export function InfoEditView(props: InfoEditViewProps) {
                 autoFocus
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 autoComplete="off"
                 name="name"
@@ -235,7 +244,7 @@ export function InfoEditView(props: InfoEditViewProps) {
               />
             </Grid>
             {/* ----------------------------- Row 2 ----------------------------- */}
-            <Grid xs={2} sx={{ display: 'flex' }}>
+            <Grid xs={3} sx={{ display: 'flex' }}>
               <Controller
                 name="gender"
                 control={control}
@@ -252,12 +261,17 @@ export function InfoEditView(props: InfoEditViewProps) {
                         control={<Radio size="small" />}
                         label="Nữ"
                       />
+                      <FormControlLabel
+                        value={GENDER_PREGNANT_VALUE}
+                        control={<Radio size="small" />}
+                        label="Thai phụ"
+                      />
                     </RadioGroup>
                   </FormControl>
                 )}
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.5}>
               <FormTextField
                 autoComplete="off"
                 name="birthYear"
@@ -268,7 +282,7 @@ export function InfoEditView(props: InfoEditViewProps) {
                 label="Năm sinh"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.5}>
               <TextField
                 autoComplete="off"
                 name="age"

@@ -26,12 +26,12 @@ interface FormData {
   fromDate: Date
   toDate: Date
   sampleId: string
-  isConfirmed: string
+  sampleCompleted: string
   patientTypeId: string
   originId: string
 }
 
-export type InfoConfirmViewProps = {
+export type EditSelectViewProps = {
   diagnosisMap: Map<string, DiagnosisResponseDto>
   originMap: Map<string, BranchResponseDto>
   doctorMap: Map<string, DoctorResponseDto>
@@ -41,8 +41,8 @@ export type InfoConfirmViewProps = {
   pageSize: number
   setPage: (page: number) => void
   setPageSize: (pageSize: number) => void
-  isConfirmed: boolean | null
-  setIsConfirmed: (isConfirmed: boolean | null) => void
+  sampleCompleted: boolean | null
+  setSampleCompleted: (sampleCompleted: boolean | null) => void
   patientTypeId: string | null
   setPatientTypeId: (patientTypeId: string | null) => void
   originId: string | null
@@ -55,7 +55,7 @@ export type InfoConfirmViewProps = {
   setToDate: (toDate: Date) => void
 }
 
-export function InfoConfirmView(props: InfoConfirmViewProps) {
+export function ResultSelectView(props: EditSelectViewProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
   const { filterObj, setFilterObj } = usePagination({
@@ -63,6 +63,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     limit: props.pageSize,
     sort: { infoAt: -1, sampleId: -1 },
     populates: [{ path: 'patient' }],
+    filter: { isConfirmed: true },
   })
 
   useEffect(() => {
@@ -82,7 +83,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
       fromDate: props.fromDate,
       toDate: props.toDate,
       sampleId: '',
-      isConfirmed: '',
+      sampleCompleted: '',
       patientTypeId: '',
       originId: '',
     },
@@ -100,8 +101,10 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
       props.originId === null ? 'null' : `"${props.originId}"`,
     )
     setValue(
-      'isConfirmed',
-      props.isConfirmed === null ? 'null' : JSON.stringify(props.isConfirmed),
+      'sampleCompleted',
+      props.sampleCompleted === null
+        ? 'null'
+        : JSON.stringify(props.sampleCompleted),
     )
     if (props.sampleId !== null) {
       setValue('sampleId', props.sampleId)
@@ -115,7 +118,8 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
           ? { $regex: props.sampleId + '$', $options: 'i' }
           : undefined,
         infoAt: makeDateFilter(props.fromDate, props.toDate),
-        isConfirmed: props.isConfirmed === null ? undefined : props.isConfirmed,
+        sampleCompleted:
+          props.sampleCompleted === null ? undefined : props.sampleCompleted,
         patientTypeId:
           props.patientTypeId === null ? undefined : props.patientTypeId,
         originId: props.originId === null ? undefined : props.originId,
@@ -123,7 +127,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     }))
   }, [
     props.sampleId,
-    props.isConfirmed,
+    props.sampleCompleted,
     props.patientTypeId,
     props.originId,
     props.fromDate,
@@ -149,21 +153,21 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     fromDate,
     toDate,
     sampleId,
-    isConfirmed,
+    sampleCompleted,
     patientTypeId,
     originId,
   }: FormData) => {
     props.setSampleId(sampleId.length === 0 ? null : sampleId)
     props.setFromDate(fromDate)
     props.setToDate(toDate)
-    props.setIsConfirmed(JSON.parse(isConfirmed))
+    props.setSampleCompleted(JSON.parse(sampleCompleted))
     props.setPatientTypeId(JSON.parse(patientTypeId))
     props.setOriginId(JSON.parse(originId))
   }
 
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
-  const isConfirmed = watch('isConfirmed')
+  const sampleCompleted = watch('sampleCompleted')
   const patientTypeId = watch('patientTypeId')
   const originId = watch('originId')
 
@@ -173,7 +177,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     } else {
       handleSubmit(handleSubmitFilter)()
     }
-  }, [fromDate, toDate, isConfirmed, patientTypeId, originId])
+  }, [fromDate, toDate, sampleCompleted, patientTypeId, originId])
 
   const columns = useColumns(
     refetch,
@@ -214,12 +218,12 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
               <FormSelect
                 control={control}
                 size="medium"
-                name="isConfirmed"
+                name="sampleCompleted"
                 label="Trạng thái"
                 options={[
                   { label: 'Tất cả', value: 'null' },
-                  { label: 'Đã xác nhận', value: 'true' },
-                  { label: 'Chưa xác nhận', value: 'false' },
+                  { label: 'Đầy đủ KQ', value: 'true' },
+                  { label: 'Thiếu KQ', value: 'false' },
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}

@@ -63,7 +63,7 @@ export function TestComboTable(props: TestComboTableProps) {
         itemIdField="_id"
         isLoading={isFetching || isCreating || isUpdating || isDeleting}
         fieldColumns={testComboColumns}
-        rowCount={data?.total!}
+        rowCount={data?.total ?? 0}
         page={data?.offset!}
         pageSize={data?.limit!}
         onPageChange={props.setPage}

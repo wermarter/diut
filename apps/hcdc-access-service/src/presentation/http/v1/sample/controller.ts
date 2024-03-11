@@ -42,6 +42,20 @@ export class SampleController {
     return this.sampleCreateUseCase.execute(body)
   }
 
+  @HttpRoute(sampleRoutes.findInfoById)
+  async findInfoById(@Param('id', ObjectIdPipe) id: string) {
+    const rv = await this.sampleFindOneUseCase.execute({
+      filter: { _id: id },
+      populates: [{ path: 'infoBy' }, { path: 'patient' }, { path: 'branch' }],
+    })
+
+    if (rv === null) {
+      throw new EEntityNotFound(`Sample id=${id}`)
+    }
+
+    return rv
+  }
+
   @HttpRoute(sampleRoutes.findById)
   async findById(@Param('id', ObjectIdPipe) id: string) {
     const rv = await this.sampleFindOneUseCase.execute({
@@ -51,14 +65,7 @@ export class SampleController {
         { path: 'results.resultBy' },
         { path: 'results.elements.testElement' },
         { path: 'infoBy' },
-        { path: 'printedBy' },
         { path: 'patient' },
-        { path: 'doctor' },
-        { path: 'patientType' },
-        { path: 'diagnosis' },
-        { path: 'origin' },
-        { path: 'sampleTypes' },
-        { path: 'branch' },
       ],
     })
 

@@ -88,7 +88,7 @@ export function TestElementTable(props: TestElementTableProps) {
         itemIdField="_id"
         isLoading={isFetching || isCreating || isUpdating || isDeleting}
         fieldColumns={testElementColumns}
-        rowCount={data?.total!}
+        rowCount={data?.total ?? 0}
         page={data?.offset!}
         pageSize={data?.limit!}
         onPageChange={props.setPage}

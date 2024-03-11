@@ -9,22 +9,14 @@ import { authSlice } from 'src/features/auth'
 export function urlInfoEditPage(
   params: InfoEditPageParams = {
     sampleId: ':sampleId',
-    patientId: ':patientId',
   },
 ) {
-  return `/info/edit/patient/${params.patientId}/sample/${params.sampleId}`
+  return `/info/edit/${params.sampleId}`
 }
 
 export function InfoEditPage() {
-  const {
-    patientTypes,
-    diagnoses,
-    doctors,
-    sampleTypes,
-    origins,
-    patientRes,
-    sampleRes,
-  } = useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
+  const { patientTypes, diagnoses, doctors, sampleTypes, origins, sampleRes } =
+    useLoaderData() as Awaited<ReturnType<typeof infoEditPageLoader>>
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const revalidator = useRevalidator()
 
@@ -39,7 +31,6 @@ export function InfoEditPage() {
       doctors={doctors}
       sampleTypes={sampleTypes}
       origins={origins}
-      patientRes={patientRes}
       sampleRes={sampleRes}
     />
   )

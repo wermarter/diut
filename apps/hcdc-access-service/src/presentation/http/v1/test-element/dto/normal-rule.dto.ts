@@ -11,7 +11,7 @@ import {
 
 import { exampleNormalRule } from 'src/domain'
 
-export class TestElementTestElementNormalRuleDto {
+export class TestElementNormalRuleDto {
   @Expose()
   @ApiProperty(exampleNormalRule.category)
   @IsEnum(PatientCategory)

@@ -12,13 +12,9 @@ import { DATETIME_FORMAT } from '@diut/common'
 import { IconButton } from '@mui/material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import LoopIcon from '@mui/icons-material/Loop'
-import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
 
-import {
-  OmittedSampleResponseDto,
-  useSampleUpdateInfoByIdMutation,
-} from 'src/infra/api/access-service/sample'
+import { OmittedSampleResponseDto } from 'src/infra/api/access-service/sample'
 import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
@@ -26,7 +22,7 @@ import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-typ
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
-import { urlInfoEditPage } from '../../pages'
+import { urlInfoEditPage } from 'src/features/sample-info'
 
 export const useColumns = (
   refetch: () => void,
@@ -45,18 +41,6 @@ export const useColumns = (
     return createAbility(userPermissions)
   }, [userPermissions])
 
-  const [updateSample, { isLoading: isConfirming }] =
-    useSampleUpdateInfoByIdMutation()
-  const handleConfirmClick = useCallback((sample: OmittedSampleResponseDto) => {
-    return () => {
-      updateSample({
-        id: sample._id,
-        sampleUpdateInfoRequestDto: {
-          isConfirmed: true,
-        },
-      })
-    }
-  }, [])
   const handleEditClick = useCallback((sample: OmittedSampleResponseDto) => {
     return () => {
       navigate(
@@ -82,18 +66,7 @@ export const useColumns = (
             <LoopIcon />
           </IconButton>
         ),
-        getActions: ({ row }) =>
-          row.isConfirmed
-            ? []
-            : [
-                <GridActionsCellItem
-                  icon={<CheckIcon />}
-                  label="Xác nhận"
-                  color="primary"
-                  onClick={handleConfirmClick(row)}
-                  disabled={isConfirming}
-                />,
-              ],
+        getActions: () => [],
       },
       {
         field: 'infoAt',
@@ -146,19 +119,6 @@ export const useColumns = (
         valueGetter: ({ row }) => row.patient?.address,
       },
       {
-        field: 'isTraBuuDien',
-        headerName: 'BĐ',
-        width: 60,
-        align: 'center',
-        sortable: false,
-        valueGetter: ({ value }) => {
-          if (value === true) {
-            return '✓'
-          }
-          return ''
-        },
-      },
-      {
         field: 'doctor',
         headerName: 'Bác sỹ',
         width: 100,
@@ -207,6 +167,7 @@ export const useColumns = (
                 <GridActionsCellItem
                   icon={<EditIcon />}
                   label="Sửa"
+                  color={row.sampleCompleted ? 'default' : 'secondary'}
                   onClick={handleEditClick(row)}
                 />,
               ]

@@ -103,7 +103,7 @@ export function TestTable(props: TestTableProps) {
         itemIdField="_id"
         isLoading={isFetching || isCreating || isUpdating || isDeleting}
         fieldColumns={columns}
-        rowCount={data?.total!}
+        rowCount={data?.total ?? 0}
         page={data?.offset!}
         pageSize={data?.limit!}
         onPageChange={props.setPage}

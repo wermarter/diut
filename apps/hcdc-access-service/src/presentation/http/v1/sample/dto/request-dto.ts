@@ -37,6 +37,11 @@ export class SampleRequestDto {
   isTraBuuDien: boolean
 
   @Expose()
+  @ApiProperty(exampleSample.isPregnant)
+  @IsBoolean()
+  isPregnant: boolean
+
+  @Expose()
   @ApiProperty(exampleSample.infoAt)
   @IsDateString()
   infoAt: Date

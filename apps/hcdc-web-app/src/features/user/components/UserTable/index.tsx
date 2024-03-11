@@ -33,7 +33,7 @@ export function UserTable() {
         itemIdField="_id"
         isLoading={isFetching || isCreating || isUpdating || isDeleting}
         fieldColumns={userColumns}
-        rowCount={data?.total!}
+        rowCount={data?.total ?? 0}
         page={data?.offset!}
         pageSize={data?.limit!}
         onPageChange={onPageChange}

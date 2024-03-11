@@ -69,6 +69,19 @@ export const sampleRoutes = {
     },
   },
 
+  findInfoById: {
+    path: ':id/info',
+    method: RequestMethod.GET,
+    serialize: SampleResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: SampleResponseDto,
+        },
+      ],
+    },
+  },
+
   findById: {
     path: ':id',
     method: RequestMethod.GET,

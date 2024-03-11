@@ -191,6 +191,9 @@ export class SampleSchema extends BaseSchema {
   @Prop({ required: true })
   sampleCompleted: boolean
 
+  @Prop({ required: true })
+  isPregnant: boolean
+
   @Prop({ required: false })
   printedAt?: Date
 

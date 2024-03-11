@@ -38,7 +38,12 @@ import {
   usePatientSearchQuery,
   usePatientUpdateByIdMutation,
 } from 'src/infra/api/access-service/patient'
-import { FormSchema, formResolver, formDefaultValues } from './validation'
+import {
+  FormSchema,
+  formResolver,
+  formDefaultValues,
+  GENDER_PREGNANT_VALUE,
+} from './validation'
 import {
   FormCheckboxGroup,
   FormContainer,
@@ -202,18 +207,26 @@ export function InfoInputForm(props: InputFormProps) {
   const handleFormSubmit = useCallback(
     handleSubmit(async (values) => {
       let patient: PatientResponseDto
+      const patientValues = {
+        ...values,
+        gender:
+          values.gender === GENDER_PREGNANT_VALUE
+            ? PatientGender.Female
+            : values.gender,
+      }
 
       if (shouldUpdatePatient != null) {
         patient = await updatePatient({
           id: shouldUpdatePatient,
-          patientUpdateRequestDto: values,
+          patientUpdateRequestDto: patientValues,
         }).unwrap()
       } else {
-        patient = await createPatient({ ...values, branchId }).unwrap()
+        patient = await createPatient({ ...patientValues, branchId }).unwrap()
       }
 
       await createSample({
         ...values,
+        isPregnant: values.gender === GENDER_PREGNANT_VALUE,
         note: values.note ?? '',
         sampledAt: values.sampledAt.toISOString(),
         infoAt: values.infoAt.toISOString(),
@@ -234,7 +247,7 @@ export function InfoInputForm(props: InputFormProps) {
         <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
           <Grid container spacing={2}>
             {/* ----------------------------- Row 1 ----------------------------- */}
-            <Grid xs={2}>
+            <Grid xs={3}>
               <FormTextField
                 name="externalId"
                 autoComplete="off"
@@ -243,7 +256,7 @@ export function InfoInputForm(props: InputFormProps) {
                 label="ID Phòng khám"
               />
             </Grid>
-            <Grid xs={4}>
+            <Grid xs={3}>
               <FormTextField
                 name="name"
                 autoComplete="off"
@@ -269,7 +282,7 @@ export function InfoInputForm(props: InputFormProps) {
               />
             </Grid>
             {/* ----------------------------- Row 2 ----------------------------- */}
-            <Grid xs={2} sx={{ display: 'flex' }}>
+            <Grid xs={3} sx={{ display: 'flex' }}>
               <Controller
                 name="gender"
                 control={control}
@@ -286,12 +299,17 @@ export function InfoInputForm(props: InputFormProps) {
                         control={<Radio size="small" />}
                         label="Nữ"
                       />
+                      <FormControlLabel
+                        value={GENDER_PREGNANT_VALUE}
+                        control={<Radio size="small" />}
+                        label="Thai phụ"
+                      />
                     </RadioGroup>
                   </FormControl>
                 )}
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.5}>
               <FormTextField
                 name="birthYear"
                 autoComplete="off"
@@ -302,7 +320,7 @@ export function InfoInputForm(props: InputFormProps) {
                 label="Năm sinh"
               />
             </Grid>
-            <Grid xs={2}>
+            <Grid xs={1.5}>
               <TextField
                 name="age"
                 autoComplete="off"

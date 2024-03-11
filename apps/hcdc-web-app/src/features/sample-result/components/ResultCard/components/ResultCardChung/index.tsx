@@ -1,6 +1,5 @@
 import {
   Checkbox,
-  Input,
   Table,
   TableBody,
   TableCell,
@@ -8,12 +7,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { format } from 'date-fns'
 
-import { checkHighlight } from '../utils'
-import { ResultCardProps } from './utils'
+import { checkHighlight } from '../../../../pages/ResultEditPage/utils'
+import { ResultCardProps } from '../../../../pages/ResultEditPage/components/utils'
 
-export const TDResultCard = ({
+export const CommonResultCard = ({
   currentTestState,
   currentTestInfo,
   elementState,
@@ -23,49 +21,8 @@ export const TDResultCard = ({
   return (
     <Table size="small">
       <TableBody>
-        {currentTestInfo.elements.map((currentElementInfo, elementIndex) => {
+        {currentTestInfo.elements.map((currentElementInfo) => {
           const currentElementState = elementState[currentElementInfo._id] ?? {}
-
-          if (elementIndex === 0) {
-            return (
-              <TableRow key={currentElementInfo._id}>
-                <TableCell padding="checkbox" />
-                <TableCell align="left" width="200px">
-                  <Typography
-                    sx={{
-                      color: currentTestState.isLocked ? '#CCC' : 'inherit',
-                    }}
-                  >
-                    {currentElementInfo.name}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Input
-                    fullWidth
-                    disabled={currentTestState.isLocked}
-                    autoComplete="off"
-                    type="datetime-local"
-                    value={format(
-                      currentElementState.value?.length > 0
-                        ? new Date(currentElementState.value)
-                        : new Date(),
-                      'yyyy-MM-dd HH:mm',
-                    )}
-                    onChange={(e) => {
-                      setElementState(currentElementInfo._id, {
-                        value: e.target.value,
-                        checked: false,
-                      })
-                    }}
-                    inputProps={{
-                      max: format(Date.now(), 'yyyy-MM-dd HH:mm'),
-                    }}
-                  />
-                </TableCell>
-              </TableRow>
-            )
-          }
-
           const highlightRule = getHighlightRule(
             currentElementInfo.highlightRules,
           )

@@ -58,6 +58,7 @@ export const exampleSample = {
   sampledAt: exampleDate,
   printedAt: { ...exampleDate, required: false },
   sampleCompleted: {},
+  isPregnant: {},
   results: {
     isArray: true,
   },

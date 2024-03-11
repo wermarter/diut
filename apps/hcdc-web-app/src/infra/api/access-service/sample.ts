@@ -24,6 +24,24 @@ const injectedRtkApi = api
           invalidatesTags: ['v1-samples'],
         },
       ),
+      sampleFindInfoById: build.query<
+        SampleFindInfoByIdApiResponse,
+        SampleFindInfoByIdApiArg
+      >({
+        query: (queryArg) => ({ url: `/api/v1/samples/${queryArg}/info` }),
+        providesTags: ['v1-samples'],
+      }),
+      sampleUpdateInfoById: build.mutation<
+        SampleUpdateInfoByIdApiResponse,
+        SampleUpdateInfoByIdApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/${queryArg.id}/info`,
+          method: 'PATCH',
+          body: queryArg.sampleUpdateInfoRequestDto,
+        }),
+        invalidatesTags: ['v1-samples'],
+      }),
       sampleFindById: build.query<
         SampleFindByIdApiResponse,
         SampleFindByIdApiArg
@@ -38,17 +56,6 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/samples/${queryArg}`,
           method: 'DELETE',
-        }),
-        invalidatesTags: ['v1-samples'],
-      }),
-      sampleUpdateInfoById: build.mutation<
-        SampleUpdateInfoByIdApiResponse,
-        SampleUpdateInfoByIdApiArg
-      >({
-        query: (queryArg) => ({
-          url: `/api/v1/samples/${queryArg.id}/info`,
-          method: 'PATCH',
-          body: queryArg.sampleUpdateInfoRequestDto,
         }),
         invalidatesTags: ['v1-samples'],
       }),
@@ -75,17 +82,19 @@ export type SampleSearchApiResponse = /** status 200  */ SampleSearchResponseDto
 export type SampleSearchApiArg = SampleSearchRequestDto
 export type SampleCreateApiResponse = /** status 201  */ SampleCreateResponseDto
 export type SampleCreateApiArg = SampleCreateRequestDto
-export type SampleFindByIdApiResponse = /** status 200  */ SampleResponseDto
-export type SampleFindByIdApiArg = string
-export type SampleDeleteByIdApiResponse =
-  /** status 200  */ SampleUnpopulatedResponseDto
-export type SampleDeleteByIdApiArg = string
+export type SampleFindInfoByIdApiResponse = /** status 200  */ SampleResponseDto
+export type SampleFindInfoByIdApiArg = string
 export type SampleUpdateInfoByIdApiResponse =
   /** status 200  */ SampleUpdateInfoResponseDto
 export type SampleUpdateInfoByIdApiArg = {
   id: string
   sampleUpdateInfoRequestDto: SampleUpdateInfoRequestDto
 }
+export type SampleFindByIdApiResponse = /** status 200  */ SampleResponseDto
+export type SampleFindByIdApiArg = string
+export type SampleDeleteByIdApiResponse =
+  /** status 200  */ SampleUnpopulatedResponseDto
+export type SampleDeleteByIdApiArg = string
 export type SampleUpdateResultByIdApiResponse =
   /** status 200  */ SampleUpdateResultResponseDto
 export type SampleUpdateResultByIdApiArg = {
@@ -212,6 +221,7 @@ export type OmittedSampleResponseDto = {
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
+  isPregnant: boolean
   infoAt: string
   sampledAt: string
   patientId: string
@@ -286,6 +296,7 @@ export type SampleCreateResponseDto = {
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
+  isPregnant: boolean
   infoAt: string
   sampledAt: string
   patientId: string
@@ -302,6 +313,7 @@ export type SampleCreateRequestDto = {
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
+  isPregnant: boolean
   infoAt: string
   sampledAt: string
   patientId: string
@@ -313,7 +325,7 @@ export type SampleCreateRequestDto = {
   branchId: string
   testIds: string[]
 }
-export type TestElementTestElementNormalRuleDto = {
+export type TestElementNormalRuleDto = {
   category:
     | 'Any'
     | 'YoungMale'
@@ -336,7 +348,7 @@ export type TestElementUnpopulatedResponseDto = {
   reportIndex: number
   unit: string
   isParent: boolean
-  normalRules: TestElementTestElementNormalRuleDto[]
+  normalRules: TestElementNormalRuleDto[]
   testId: string
   branchId: string
 }
@@ -363,6 +375,7 @@ export type SampleResponseDto = {
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
+  isPregnant: boolean
   infoAt: string
   sampledAt: string
   patientId: string
@@ -388,44 +401,13 @@ export type SampleResponseDto = {
   sampleTypes?: SampleTypeUnpopulatedResponseDto[]
   branch?: BranchUnpopulatedResponseDto | null
 }
-export type SampleResultTestElementRequestDto = {
-  testElementId: string
-  value: string
-  isAbnormal: boolean
-}
-export type SampleResultTestRequestDto = {
-  testId: string
-  isLocked: boolean
-  elements: SampleResultTestElementRequestDto[]
-}
-export type SampleUnpopulatedResponseDto = {
-  _id: string
-  sampleId: string
-  note: string
-  isNgoaiGio: boolean
-  isTraBuuDien: boolean
-  infoAt: string
-  sampledAt: string
-  patientId: string
-  doctorId: string
-  patientTypeId: string
-  diagnosisId: string
-  originId: string
-  sampleTypeIds: string[]
-  branchId: string
-  results: SampleResultTestRequestDto[]
-  isConfirmed: boolean
-  sampleCompleted: boolean
-  printedAt?: string
-  infoById: string
-  printedById?: string
-}
 export type SampleUpdateInfoResponseDto = {
   _id: string
   sampleId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
+  isPregnant: boolean
   infoAt: string
   sampledAt: string
   patientId: string
@@ -443,6 +425,7 @@ export type SampleUpdateInfoRequestDto = {
   note?: string
   isNgoaiGio?: boolean
   isTraBuuDien?: boolean
+  isPregnant?: boolean
   infoAt?: string
   sampledAt?: string
   patientId?: string
@@ -456,6 +439,39 @@ export type SampleUpdateInfoRequestDto = {
   addedTestIds?: string[]
   removedTestIds?: string[]
 }
+export type SampleResultTestElementRequestDto = {
+  testElementId: string
+  value: string
+  isAbnormal: boolean
+}
+export type SampleResultTestRequestDto = {
+  testId: string
+  isLocked: boolean
+  elements: SampleResultTestElementRequestDto[]
+}
+export type SampleUnpopulatedResponseDto = {
+  _id: string
+  sampleId: string
+  note: string
+  isNgoaiGio: boolean
+  isTraBuuDien: boolean
+  isPregnant: boolean
+  infoAt: string
+  sampledAt: string
+  patientId: string
+  doctorId: string
+  patientTypeId: string
+  diagnosisId: string
+  originId: string
+  sampleTypeIds: string[]
+  branchId: string
+  results: SampleResultTestRequestDto[]
+  isConfirmed: boolean
+  sampleCompleted: boolean
+  printedAt?: string
+  infoById: string
+  printedById?: string
+}
 export type SampleUpdateResultResponseDto = {
   _id: string
   results: SampleResultTestRequestDto[]
@@ -467,10 +483,12 @@ export const {
   useSampleSearchQuery,
   useLazySampleSearchQuery,
   useSampleCreateMutation,
+  useSampleFindInfoByIdQuery,
+  useLazySampleFindInfoByIdQuery,
+  useSampleUpdateInfoByIdMutation,
   useSampleFindByIdQuery,
   useLazySampleFindByIdQuery,
   useSampleDeleteByIdMutation,
-  useSampleUpdateInfoByIdMutation,
   useSampleUpdateResultByIdMutation,
   useSamplePrintMutation,
 } = injectedRtkApi

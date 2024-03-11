@@ -61,7 +61,7 @@ export function InstrumentTable(props: InstrumentTableProps) {
       itemIdField="_id"
       isLoading={isFetching || isCreating || isUpdating || isDeleting}
       fieldColumns={instrumentColumns}
-      rowCount={data?.total!}
+      rowCount={data?.total ?? 0}
       page={data?.offset!}
       pageSize={data?.limit!}
       onPageChange={onPageChange}

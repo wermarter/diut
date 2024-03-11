@@ -2,12 +2,18 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PatientGender } from '@diut/hcdc'
 
+export const GENDER_PREGNANT_VALUE = 'pregnant_value'
+
 const schema = z.object({
   externalId: z.string(),
   name: z
     .string({ required_error: 'Không được để trống' })
     .min(2, 'Không được để trống'),
-  gender: z.nativeEnum(PatientGender),
+  gender: z.enum([
+    PatientGender.Male,
+    PatientGender.Female,
+    GENDER_PREGNANT_VALUE,
+  ]),
 
   birthYear: z.preprocess(
     (value) => parseInt(value as string, 10),

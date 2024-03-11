@@ -57,7 +57,7 @@ export function PatientTypeTable(props: PatientTypeTableProps) {
       itemIdField="_id"
       isLoading={isFetching || isCreating || isUpdating || isDeleting}
       fieldColumns={patientTypeColumns}
-      rowCount={data?.total!}
+      rowCount={data?.total ?? 0}
       page={data?.offset!}
       pageSize={data?.limit!}
       onPageChange={props.setPage}
