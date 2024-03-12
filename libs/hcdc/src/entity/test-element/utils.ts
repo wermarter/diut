@@ -1,14 +1,22 @@
 import { PatientCategory } from '../patient'
-import { TestElement } from './entity'
+import { NormalRule, TestElement } from './entity'
 
 export function isTestElementNormal(
   patientCategory: PatientCategory,
-  testElement: TestElement,
+  testElement: Pick<TestElement, 'normalRules'>,
   value: string,
 ) {
   const rule = testElement.normalRules.find(
     (rule) => rule.category === patientCategory,
   )
+
+  return isTestElementValueNormal(rule, value)
+}
+
+export function isTestElementValueNormal(
+  rule: NormalRule | undefined,
+  value: string,
+) {
   if (rule === undefined) {
     // no rule? guess it is normal
     return true

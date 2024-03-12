@@ -13,9 +13,11 @@ import { useNavigate } from 'react-router-dom'
 import { SampleResponseDto } from 'src/infra/api/access-service/sample'
 import { FormContainer } from 'src/components/form'
 import { ResultCard } from '../ResultCard'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 
 export type ResultEditViewProps = {
   sampleRes: SampleResponseDto
+  printFormMap: Map<string, PrintFormResponseDto>
 }
 
 export function ResultEditView(props: ResultEditViewProps) {
@@ -29,7 +31,7 @@ export function ResultEditView(props: ResultEditViewProps) {
       },
       props.sampleRes.isPregnant,
     )
-  }, [props.sampleRes._id])
+  }, [props.sampleRes.patientId])
 
   const sortedTests = useMemo(() => {
     return Object.values(props.sampleRes.results).toSorted((a, b) => {
@@ -39,7 +41,7 @@ export function ResultEditView(props: ResultEditViewProps) {
 
       return Number(a.test?.testCategoryId! > b.test?.testCategoryId!)
     })
-  }, [props.sampleRes._id])
+  }, [props.sampleRes])
 
   return (
     <FormContainer sx={{ p: 2 }}>
@@ -127,8 +129,10 @@ export function ResultEditView(props: ResultEditViewProps) {
         {sortedTests.map((testResult) => (
           <ResultCard
             key={testResult.testId}
+            sampleId={props.sampleRes._id}
             testResult={testResult}
             patientCategory={patientCategory}
+            printFormMap={props.printFormMap}
           />
         ))}
       </Box>

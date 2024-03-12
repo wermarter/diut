@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
-import { useLoaderData, useRevalidator } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 
 import { ResultEditPageParams, resultEditPageLoader } from './loader'
 import { ResultEditView } from '../../components'
-import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
+import { useSampleFindByIdQuery } from 'src/infra/api/access-service/sample'
+import { ProgressBar } from 'src/components/ui'
 
 export function urlResultEditPage(
   params: ResultEditPageParams = {
@@ -15,15 +14,18 @@ export function urlResultEditPage(
 }
 
 export function ResultEditPage() {
-  const { sampleRes } = useLoaderData() as Awaited<
+  const { printFormMap, sampleId } = useLoaderData() as Awaited<
     ReturnType<typeof resultEditPageLoader>
   >
-  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const revalidator = useRevalidator()
 
-  useEffect(() => {
-    revalidator.revalidate()
-  }, [branchId])
+  const { data: sampleRes, isFetching } = useSampleFindByIdQuery(sampleId)
 
-  return <ResultEditView sampleRes={sampleRes} />
+  return (
+    <>
+      {isFetching && <ProgressBar />}
+      {sampleRes && (
+        <ResultEditView sampleRes={sampleRes!} printFormMap={printFormMap} />
+      )}
+    </>
+  )
 }

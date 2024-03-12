@@ -59,9 +59,7 @@ export const useColumns = (
   }, [])
   const handleEditClick = useCallback((sample: OmittedSampleResponseDto) => {
     return () => {
-      navigate(
-        urlInfoEditPage({ sampleId: sample._id, patientId: sample.patientId }),
-      )
+      navigate(urlInfoEditPage({ sampleId: sample._id }))
     }
   }, [])
 

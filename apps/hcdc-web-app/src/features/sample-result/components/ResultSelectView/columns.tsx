@@ -22,7 +22,7 @@ import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-typ
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
-import { urlInfoEditPage } from 'src/features/sample-info'
+import { urlResultEditPage } from '../../pages'
 
 export const useColumns = (
   refetch: () => void,
@@ -43,9 +43,7 @@ export const useColumns = (
 
   const handleEditClick = useCallback((sample: OmittedSampleResponseDto) => {
     return () => {
-      navigate(
-        urlInfoEditPage({ sampleId: sample._id, patientId: sample.patientId }),
-      )
+      navigate(urlResultEditPage({ sampleId: sample._id }))
     }
   }, [])
 

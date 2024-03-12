@@ -9,6 +9,7 @@ import {
   PrintForm,
   Role,
   Sample,
+  SampleResultTest,
   SampleType,
   Test,
   TestCategory,
@@ -33,6 +34,7 @@ export const AuthSubject = {
   Diagnosis: 'Diagnosis',
   PrintForm: 'PrintForm',
   Test: 'Test',
+  TestResult: 'TestResult',
   TestElement: 'TestElement',
   Patient: 'Patient',
   TestCombo: 'TestCombo',
@@ -60,6 +62,7 @@ export type SubjectEntityMapping = {
   Diagnosis: Diagnosis
   PrintForm: PrintForm
   Test: Test
+  TestResult: SampleResultTest
   TestElement: TestElement
   Patient: Patient
   TestCombo: TestCombo

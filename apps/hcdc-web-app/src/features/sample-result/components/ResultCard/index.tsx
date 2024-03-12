@@ -1,36 +1,102 @@
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
+import SaveIcon from '@mui/icons-material/Save'
 import { format } from 'date-fns'
 import { DATETIME_FORMAT } from '@diut/common'
-import { PatientCategory } from '@diut/hcdc'
-
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  AuthSubject,
+  PatientCategory,
+  SampleResultTest,
+  TestResultAction,
+  checkPermission,
+  createAbility,
+} from '@diut/hcdc'
 import {
   Box,
   Button,
+  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
   Typography,
 } from '@mui/material'
 
-import {
-  CommonResultCard,
-  PapsmearResultCard,
-  TDResultCard,
-} from './components'
+import { CardContentChung, TestElementResultData } from './components'
 import {
   SampleResultTestResponseDto,
   useSampleUpdateResultByIdMutation,
 } from 'src/infra/api/access-service/sample'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
+import { ProgressBar } from 'src/components/ui'
 
 export type ResultCardProps = {
+  sampleId: string
   testResult: SampleResultTestResponseDto
   patientCategory: PatientCategory
+  printFormMap: Map<string, PrintFormResponseDto>
 }
 
 export function ResultCard(props: ResultCardProps) {
+  const userPermissions = useTypedSelector(
+    authSlice.selectors.selectUserPermissions,
+  )
+  const isAuthorized = useMemo(() => {
+    const ability = createAbility(userPermissions)
+    return checkPermission(
+      ability,
+      AuthSubject.TestResult,
+      TestResultAction.Modify,
+      { ...props.testResult } as SampleResultTest,
+    )
+  }, [userPermissions])
+
+  const [isLocked, setIsLocked] = useState(true)
+  useEffect(() => {
+    setIsLocked(props.testResult.isLocked)
+  }, [props.testResult.isLocked])
+
+  const CardContentComponent = useMemo(() => {
+    const printForm = props.printFormMap.get(
+      props.testResult.test?.printFormId!,
+    )
+    switch (printForm?.template!) {
+      // case PrintTemplate.FormPap:
+      //   return ResultCardPap
+      // case PrintTemplate.FormTD:
+      //   return ResultCardTD
+      default:
+        return CardContentChung
+    }
+  }, [props.testResult.test?.printFormId])
+
   const [updateSampleResult, { isLoading }] =
     useSampleUpdateResultByIdMutation()
+
+  const [testElementResult, setTestElementResult] = useState<
+    Record<string, TestElementResultData>
+  >({})
+
+  const setElementResult = useCallback(
+    (testElementId: string, data: TestElementResultData) => {
+      setTestElementResult((prev) =>
+        Object.assign({}, prev, {
+          [testElementId]: data,
+        }),
+      )
+    },
+    [],
+  )
+
+  useEffect(() => {
+    props.testResult.elements.forEach(
+      ({ testElementId, isAbnormal, value }) => {
+        setElementResult(testElementId, { isAbnormal, value })
+      },
+    )
+  }, [props.testResult.testId, setElementResult])
 
   return (
     <Card sx={{ mb: 4 }} raised={!isLoading} id={props.testResult.testId}>
@@ -54,45 +120,71 @@ export function ResultCard(props: ResultCardProps) {
                 {props.testResult.resultBy.name}
               </Typography>
             )}
-            {props.testResult.isLocked ? (
-              // TODO: remove leaky authorization
-              (props.testResult.resultBy?._id === userId || userIsAdmin) && (
+            <ButtonGroup>
+              {isLocked ? (
                 <Button
                   size="large"
                   variant="outlined"
+                  disabled={!isAuthorized}
                   onClick={() => {
-                    // unlock and save
+                    setIsLocked(false)
                   }}
                 >
                   <LockPersonIcon />
                 </Button>
-              )
-            ) : (
+              ) : (
+                <Button
+                  size="large"
+                  variant="contained"
+                  disabled={!isAuthorized}
+                  color="secondary"
+                  sx={{ color: 'white' }}
+                  onClick={() => {
+                    setIsLocked(true)
+                  }}
+                >
+                  <LockOpenIcon />
+                </Button>
+              )}
               <Button
                 size="large"
-                variant="contained"
-                color="secondary"
-                sx={{ color: 'white' }}
+                variant="outlined"
+                disabled={!isAuthorized}
                 onClick={() => {
-                  // lock and save
+                  updateSampleResult({
+                    id: props.sampleId,
+                    sampleUpdateResultRequestDto: {
+                      results: [
+                        {
+                          isLocked,
+                          testId: props.testResult.testId,
+                          elements: Object.keys(testElementResult).map(
+                            (testElementId) => ({
+                              testElementId,
+                              ...testElementResult[testElementId],
+                            }),
+                          ),
+                        },
+                      ],
+                    },
+                  })
                 }}
               >
-                <LockOpenIcon />
+                <SaveIcon />
               </Button>
-            )}
+            </ButtonGroup>
           </Box>
         }
       />
+      {isLoading && <ProgressBar />}
       <CardContent sx={{ px: 6, py: 0 }}>
-        {currentTestInfo._id === ID_TEST_TD ? (
-          <TDResultCard {...resultCardProps} />
-        ) : [ID_TEST_PAPSMEAR, ID_TEST_THINPREP].includes(
-            currentTestInfo._id,
-          ) ? (
-          <PapsmearResultCard {...resultCardProps} />
-        ) : (
-          <CommonResultCard {...resultCardProps} />
-        )}
+        <CardContentComponent
+          isDisabled={isLocked || !isAuthorized || isLoading}
+          result={testElementResult}
+          testResult={props.testResult}
+          setElementResult={setElementResult}
+          patientCategory={props.patientCategory}
+        />
       </CardContent>
     </Card>
   )

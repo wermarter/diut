@@ -13,7 +13,7 @@ import { format } from 'date-fns'
 import { checkHighlight } from '../../../../pages/ResultEditPage/utils'
 import { ResultCardProps } from '../../../../pages/ResultEditPage/components/utils'
 
-export const TDResultCard = ({
+export const ResultCardTD = ({
   currentTestState,
   currentTestInfo,
   elementState,

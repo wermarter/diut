@@ -10,6 +10,7 @@ import {
   PatientAction,
   PatientTypeAction,
   DiagnosisAction,
+  TestResultAction,
 } from '@diut/hcdc'
 
 import {
@@ -88,6 +89,13 @@ export class SampleValidateUseCase {
             sample,
           )
         }
+
+        assertPermission(
+          ability,
+          AuthSubject.TestResult,
+          TestResultAction.Modify,
+          testResult,
+        )
       }
     }
 

@@ -49,8 +49,11 @@ import {
 } from 'src/features/print-form'
 import { HomePage } from 'src/features/homepage'
 import {
+  ResultEditPage,
   ResultSelectPage,
+  resultEditPageLoader,
   resultSelectPageLoader,
+  urlResultEditPage,
   urlResultSelectPage,
 } from 'src/features/sample-result'
 
@@ -126,6 +129,11 @@ export const appRoutes: CustomRouteObject[] = [
         path: urlResultSelectPage(),
         element: <ResultSelectPage />,
         loader: resultSelectPageLoader,
+      },
+      {
+        path: urlResultEditPage(),
+        element: <ResultEditPage />,
+        loader: resultEditPageLoader,
       },
       // {
       //   path: 'result',

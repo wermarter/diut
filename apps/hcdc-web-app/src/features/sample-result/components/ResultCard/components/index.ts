@@ -1,3 +1,5 @@
-export * from './ResultCardChung'
-export * from './ResultCardPapsmear'
-export * from './ResultCardTD'
+export * from './utils'
+
+export * from './CardContentChung'
+// export * from './CardContentPap'
+// export * from './CardContentTD'

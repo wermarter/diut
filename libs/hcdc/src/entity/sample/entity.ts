@@ -104,3 +104,7 @@ export enum SampleAction {
 
   ExportReport = 'ExportReport',
 }
+
+export enum TestResultAction {
+  Modify = 'Modify',
+}

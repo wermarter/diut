@@ -17,6 +17,7 @@ import {
   TestCategoryAction,
   TestComboAction,
   TestElementAction,
+  TestResultAction,
   UserAction,
   WebAppAction,
 } from '../entity'
@@ -35,6 +36,7 @@ export const AuthAction = {
   Diagnosis: stringEnumValues(DiagnosisAction),
   PrintForm: stringEnumValues(PrintFormAction),
   Test: stringEnumValues(TestAction),
+  TestResult: stringEnumValues(TestResultAction),
   TestElement: stringEnumValues(TestElementAction),
   Patient: stringEnumValues(PatientAction),
   TestCombo: stringEnumValues(TestComboAction),

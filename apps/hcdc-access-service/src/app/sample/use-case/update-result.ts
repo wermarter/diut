@@ -72,6 +72,7 @@ export class SampleUpdateResultUseCase {
         })
 
         modifiedResults.push({
+          ...testResult,
           ...newResult,
           resultAt: new Date(),
           resultById: user._id,
@@ -89,8 +90,6 @@ export class SampleUpdateResultUseCase {
         modifiedResults.push(testResult)
       }
     }
-
-    await this.sampleValidateUseCase.execute({ results: modifiedResults })
 
     return this.sampleRepository.update(input.filter, {
       results: modifiedResults,

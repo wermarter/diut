@@ -24,7 +24,7 @@ import { readFileToURL } from 'src/shared/utils'
 import { getCroppedImg } from 'src/shared/utils/image-crop'
 import { ResultCardProps } from '../../../../pages/ResultEditPage/components/utils'
 
-export const PapsmearResultCard = ({
+export const ResultCardPap = ({
   currentTestState,
   currentTestInfo,
   elementState,
