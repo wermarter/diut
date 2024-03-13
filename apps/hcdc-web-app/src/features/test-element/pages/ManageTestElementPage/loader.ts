@@ -12,10 +12,11 @@ export const manageTestElementPageLoader = async () => {
   ])
 
   return {
-    tests: testRes.items.toSorted(
-      (a, b) =>
-        (a.testCategory?.displayIndex ?? 0) -
-        (b.testCategory?.displayIndex ?? 0),
-    ),
+    tests: testRes.items.toSorted((a, b) => {
+      if (a.testCategory?.displayIndex === b.testCategory?.displayIndex) {
+        return a.displayIndex - b.displayIndex
+      }
+      return a.testCategory?.displayIndex! - b.testCategory?.displayIndex!
+    }),
   }
 }

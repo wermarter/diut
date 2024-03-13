@@ -163,17 +163,12 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
 
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
-  const isConfirmed = watch('isConfirmed')
-  const patientTypeId = watch('patientTypeId')
-  const originId = watch('originId')
 
   useEffect(() => {
     if (toDate < fromDate) {
-      setValue('fromDate', toDate)
-    } else {
-      handleSubmit(handleSubmitFilter)()
+      props.setFromDate(toDate)
     }
-  }, [fromDate, toDate, isConfirmed, patientTypeId, originId])
+  }, [fromDate, toDate])
 
   const columns = useColumns(
     refetch,
@@ -195,8 +190,29 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
         >
           <Grid container spacing={2}>
             <Grid xs={2}>
+              <FormSelect
+                control={control}
+                onChangeHook={(value) => {
+                  props.setOriginId(JSON.parse(value))
+                }}
+                size="medium"
+                name="originId"
+                label="Đơn vị"
+                options={[
+                  { label: 'Tất cả', value: 'null' },
+                  ...[...props.originMap.values()].map(({ _id, name }) => ({
+                    label: name,
+                    value: `"${_id}"`,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
+                onChangeHook={props.setFromDate}
                 name="fromDate"
                 dateOnly
                 label="Từ ngày"
@@ -205,6 +221,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
+                onChangeHook={props.setToDate}
                 name="toDate"
                 dateOnly
                 label="Đến ngày"
@@ -213,6 +230,9 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
             <Grid xs={2}>
               <FormSelect
                 control={control}
+                onChangeHook={(value) => {
+                  props.setIsConfirmed(JSON.parse(value))
+                }}
                 size="medium"
                 name="isConfirmed"
                 label="Trạng thái"
@@ -228,6 +248,9 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
             <Grid xs={2}>
               <FormSelect
                 control={control}
+                onChangeHook={(value) =>
+                  props.setPatientTypeId(JSON.parse(value))
+                }
                 size="medium"
                 name="patientTypeId"
                 label="Đối tượng"
@@ -239,23 +262,6 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
                       value: `"${_id}"`,
                     }),
                   ),
-                ]}
-                getOptionLabel={({ label }) => label}
-                getOptionValue={({ value }) => value}
-              />
-            </Grid>
-            <Grid xs={2}>
-              <FormSelect
-                control={control}
-                size="medium"
-                name="originId"
-                label="Đơn vị"
-                options={[
-                  { label: 'Tất cả', value: 'null' },
-                  ...[...props.originMap.values()].map(({ _id, name }) => ({
-                    label: name,
-                    value: `"${_id}"`,
-                  })),
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}

@@ -1,3 +1,4 @@
+export * from './loader'
 import { useLoaderData } from 'react-router-dom'
 
 import { ResultEditPageParams, resultEditPageLoader } from './loader'

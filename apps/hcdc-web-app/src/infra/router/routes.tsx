@@ -49,10 +49,13 @@ import {
 } from 'src/features/print-form'
 import { HomePage } from 'src/features/homepage'
 import {
+  PrintSelectPage,
   ResultEditPage,
   ResultSelectPage,
+  printSelectPageLoader,
   resultEditPageLoader,
   resultSelectPageLoader,
+  urlPrintSelectPage,
   urlResultEditPage,
   urlResultSelectPage,
 } from 'src/features/sample-result'
@@ -135,6 +138,11 @@ export const appRoutes: CustomRouteObject[] = [
         element: <ResultEditPage />,
         loader: resultEditPageLoader,
       },
+      {
+        path: urlPrintSelectPage(),
+        element: <PrintSelectPage />,
+        loader: printSelectPageLoader,
+      },
       // {
       //   path: 'result',
       //   element: <Outlet />,
@@ -146,7 +154,7 @@ export const appRoutes: CustomRouteObject[] = [
       //     },
       //     {
       //       path: 'edit/:patientId/:sampleId',
-      //       element: <EditResultPage />,
+      //       element: <EditPrintPage />,
       //       loader: editResultPageLoader,
       //     },
       //     {

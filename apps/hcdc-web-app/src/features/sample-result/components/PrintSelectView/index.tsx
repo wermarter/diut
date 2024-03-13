@@ -1,48 +1,51 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
 
-import { useSampleSearchQuery } from 'src/infra/api/access-service/sample'
+import {
+  OmittedSampleResponseDto,
+  useSampleSearchQuery,
+} from 'src/infra/api/access-service/sample'
 import { DataTable } from 'src/components/table'
 import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
 import {
+  FormAutocomplete,
   FormContainer,
   FormDateTimePicker,
   FormSelect,
   FormTextField,
 } from 'src/components/form'
-import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
-import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { authSlice } from 'src/features/auth'
 import { makeDateFilter } from 'src/shared'
 import { useColumns } from './columns'
+import { PrintSingleDialog } from './components'
+import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 
 interface FormData {
   fromDate: Date
   toDate: Date
   sampleId: string
-  sampleCompleted: string
   patientTypeId: string
   originId: string
+  testIds: string[]
 }
 
-export type EditSelectViewProps = {
-  diagnosisMap: Map<string, DiagnosisResponseDto>
+export type PrintSelectViewProps = {
   originMap: Map<string, BranchResponseDto>
-  doctorMap: Map<string, DoctorResponseDto>
   patientTypeMap: Map<string, PatientTypeResponseDto>
+  sampleTypeMap: Map<string, SampleTypeResponseDto>
+  printFormMap: Map<string, PrintFormResponseDto>
   testMap: Map<string, TestResponseDto>
   page: number
   pageSize: number
   setPage: (page: number) => void
   setPageSize: (pageSize: number) => void
-  sampleCompleted: boolean | null
-  setSampleCompleted: (sampleCompleted: boolean | null) => void
   patientTypeId: string | null
   setPatientTypeId: (patientTypeId: string | null) => void
   originId: string | null
@@ -53,16 +56,19 @@ export type EditSelectViewProps = {
   setFromDate: (fromDate: Date) => void
   toDate: Date
   setToDate: (toDate: Date) => void
+  testIds: string[]
+  setTestIds: (testIds: string[]) => void
+  tests: TestResponseDto[]
 }
 
-export function ResultSelectView(props: EditSelectViewProps) {
+export function PrintSelectView(props: PrintSelectViewProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
   const { filterObj, setFilterObj } = usePagination({
     offset: props.page,
     limit: props.pageSize,
     sort: { infoAt: -1, sampleId: -1 },
-    populates: [{ path: 'patient' }],
+    populates: [{ path: 'patient' }, { path: 'printedBy', fields: ['name'] }],
     filter: { isConfirmed: true },
   })
 
@@ -83,9 +89,9 @@ export function ResultSelectView(props: EditSelectViewProps) {
       fromDate: props.fromDate,
       toDate: props.toDate,
       sampleId: '',
-      sampleCompleted: '',
       patientTypeId: '',
       originId: '',
+      testIds: [],
     },
   })
 
@@ -100,15 +106,10 @@ export function ResultSelectView(props: EditSelectViewProps) {
       'originId',
       props.originId === null ? 'null' : `"${props.originId}"`,
     )
-    setValue(
-      'sampleCompleted',
-      props.sampleCompleted === null
-        ? 'null'
-        : JSON.stringify(props.sampleCompleted),
-    )
     if (props.sampleId !== null) {
       setValue('sampleId', props.sampleId)
     }
+    setValue('testIds', props.testIds)
 
     setFilterObj((obj) => ({
       ...obj,
@@ -118,16 +119,23 @@ export function ResultSelectView(props: EditSelectViewProps) {
           ? { $regex: props.sampleId + '$', $options: 'i' }
           : undefined,
         infoAt: makeDateFilter(props.fromDate, props.toDate),
-        sampleCompleted:
-          props.sampleCompleted === null ? undefined : props.sampleCompleted,
         patientTypeId:
           props.patientTypeId === null ? undefined : props.patientTypeId,
         originId: props.originId === null ? undefined : props.originId,
+        results:
+          props.testIds.length > 0
+            ? {
+                $elemMatch: {
+                  testId: {
+                    $in: props.testIds,
+                  },
+                },
+              }
+            : undefined,
       },
     }))
   }, [
     props.sampleId,
-    props.sampleCompleted,
     props.patientTypeId,
     props.originId,
     props.fromDate,
@@ -153,32 +161,38 @@ export function ResultSelectView(props: EditSelectViewProps) {
     fromDate,
     toDate,
     sampleId,
-    sampleCompleted,
     patientTypeId,
     originId,
+    testIds,
   }: FormData) => {
     props.setSampleId(sampleId.length === 0 ? null : sampleId)
     props.setFromDate(fromDate)
     props.setToDate(toDate)
-    props.setSampleCompleted(JSON.parse(sampleCompleted))
     props.setPatientTypeId(JSON.parse(patientTypeId))
     props.setOriginId(JSON.parse(originId))
+    if (JSON.stringify(props.testIds) !== JSON.stringify(testIds)) {
+      props.setTestIds(testIds)
+    }
   }
 
   const fromDate = watch('fromDate')
   const toDate = watch('toDate')
-
   useEffect(() => {
     if (toDate < fromDate) {
       props.setFromDate(toDate)
     }
   }, [fromDate, toDate])
 
+  const [printSample, setPrintSample] =
+    useState<null | OmittedSampleResponseDto>(null)
+
   const columns = useColumns(
     refetch,
-    props.diagnosisMap,
+    (sample) => {
+      setPrintSample(sample)
+      return undefined
+    },
     props.originMap,
-    props.doctorMap,
     props.patientTypeMap,
     props.testMap,
   )
@@ -234,24 +248,6 @@ export function ResultSelectView(props: EditSelectViewProps) {
             <Grid xs={2}>
               <FormSelect
                 control={control}
-                onChangeHook={(value) => {
-                  props.setSampleCompleted(JSON.parse(value))
-                }}
-                size="medium"
-                name="sampleCompleted"
-                label="Trạng thái"
-                options={[
-                  { label: 'Tất cả', value: 'null' },
-                  { label: 'Đầy đủ KQ', value: 'true' },
-                  { label: 'Thiếu KQ', value: 'false' },
-                ]}
-                getOptionLabel={({ label }) => label}
-                getOptionValue={({ value }) => value}
-              />
-            </Grid>
-            <Grid xs={2}>
-              <FormSelect
-                control={control}
                 onChangeHook={(value) =>
                   props.setPatientTypeId(JSON.parse(value))
                 }
@@ -269,6 +265,19 @@ export function ResultSelectView(props: EditSelectViewProps) {
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
+              <FormAutocomplete
+                size="medium"
+                multiple
+                groupBy={(option) => option?.testCategory?.name ?? ''}
+                control={control}
+                name="testIds"
+                options={props.tests ?? []}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option._id}
+                label="Chọn XN"
               />
             </Grid>
             <Grid xs={2}>
@@ -301,6 +310,15 @@ export function ResultSelectView(props: EditSelectViewProps) {
           onPageSizeChange={props.setPageSize}
         />
       </Box>
+      <PrintSingleDialog
+        sample={printSample}
+        onClose={() => {
+          setPrintSample(null)
+        }}
+        printFormMap={props.printFormMap}
+        sampleTypeMap={props.sampleTypeMap}
+        testMap={props.testMap}
+      />
     </Box>
   )
 }

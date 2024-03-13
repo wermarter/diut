@@ -18,6 +18,7 @@ export type FormDateTimePickerProps<T extends FieldValues = FieldValues> = Omit<
   disableError?: boolean
   dateOnly?: boolean
   disabled?: boolean
+  onChangeHook?: (value: Date) => void
 }
 
 export function FormDateTimePicker<
@@ -29,6 +30,7 @@ export function FormDateTimePicker<
   disableError = false,
   dateOnly = false,
   disabled = false,
+  onChangeHook,
   ...outlinedInputProps
 }: FormDateTimePickerProps<TFieldValues>) {
   return (
@@ -62,7 +64,9 @@ export function FormDateTimePicker<
                 dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm',
               )}
               onChange={(e) => {
-                onChange(new Date(e.target.value))
+                const newValue = new Date(e.target.value)
+                onChange(newValue)
+                onChangeHook && onChangeHook(newValue)
               }}
               inputProps={{
                 max: format(

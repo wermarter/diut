@@ -18,6 +18,7 @@ export type FormSelectProps<
   options: OptionType[]
   getOptionLabel: (option: OptionType) => string
   getOptionValue: (option: OptionType) => string
+  onChangeHook?: (value: string) => void
   disableError?: boolean
   size?: 'small' | 'medium'
 }
@@ -32,6 +33,7 @@ export function FormSelect<
   options,
   getOptionLabel,
   getOptionValue,
+  onChangeHook,
   disableError = false,
   size = 'small',
 }: FormSelectProps<TFieldValues, OptionType>) {
@@ -39,7 +41,10 @@ export function FormSelect<
     <Controller
       name={name}
       control={control}
-      render={({ field: { ref, ...formFields }, fieldState: { error } }) => {
+      render={({
+        field: { ref, onChange, ...formFields },
+        fieldState: { error },
+      }) => {
         const errorProps = !disableError
           ? {
               error: Boolean(error),
@@ -52,6 +57,10 @@ export function FormSelect<
             <InputLabel shrink>{label}</InputLabel>
             <Select
               {...formFields}
+              onChange={(e) => {
+                onChange(e)
+                onChangeHook && onChangeHook(e.target.value)
+              }}
               inputRef={ref}
               label={label}
               input={<OutlinedInput notched label={label} />}

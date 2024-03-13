@@ -1,3 +1,4 @@
+export * from './loader'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   useLoaderData,
@@ -141,7 +142,7 @@ export function InfoConfirmPage() {
     setPatientTypeIdCb(null)
     setOriginId(null)
     setIsConfirmedCb(null)
-  }, [patientTypeMap.keys().next().value])
+  }, [branchId])
 
   return (
     <InfoConfirmView

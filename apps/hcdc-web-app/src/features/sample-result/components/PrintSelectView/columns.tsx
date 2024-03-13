@@ -13,11 +13,10 @@ import { IconButton } from '@mui/material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import LoopIcon from '@mui/icons-material/Loop'
 import EditIcon from '@mui/icons-material/Edit'
+import PrintIcon from '@mui/icons-material/Print'
 
 import { OmittedSampleResponseDto } from 'src/infra/api/access-service/sample'
-import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
-import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { useTypedSelector } from 'src/infra/redux'
@@ -26,9 +25,8 @@ import { urlResultEditPage } from '../../pages'
 
 export const useColumns = (
   refetch: () => void,
-  diagnosisMap: Map<string, DiagnosisResponseDto>,
+  handlePrint: (row: OmittedSampleResponseDto) => undefined,
   originMap: Map<string, BranchResponseDto>,
-  doctorMap: Map<string, DoctorResponseDto>,
   patientTypeMap: Map<string, PatientTypeResponseDto>,
   testMap: Map<string, TestResponseDto>,
 ): GridColDef<OmittedSampleResponseDto>[] => {
@@ -64,12 +62,27 @@ export const useColumns = (
             <LoopIcon />
           </IconButton>
         ),
-        getActions: () => [],
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            icon={<PrintIcon />}
+            label="In KQ"
+            color={row.printedById !== undefined ? 'default' : 'primary'}
+            onClick={() => handlePrint(row)}
+            disabled={
+              !checkPermission(
+                userAbility,
+                AuthSubject.Sample,
+                SampleAction.PrintResult,
+                { ...row } as any,
+              )
+            }
+          />,
+        ],
       },
       {
         field: 'infoAt',
         headerName: 'Nhận bệnh',
-        width: 100,
+        width: 150,
         sortable: false,
         valueGetter: ({ value }) => {
           return format(new Date(value), DATETIME_FORMAT)
@@ -86,7 +99,7 @@ export const useColumns = (
         field: 'name',
         headerName: 'Tên',
         sortable: false,
-        width: 100,
+        width: 180,
         valueGetter: ({ row }) => row.patient?.name,
       },
       {
@@ -117,13 +130,6 @@ export const useColumns = (
         valueGetter: ({ row }) => row.patient?.address,
       },
       {
-        field: 'doctor',
-        headerName: 'Bác sỹ',
-        width: 100,
-        sortable: false,
-        valueGetter: ({ row }) => doctorMap.get(row.doctorId)?.name,
-      },
-      {
         field: 'tests',
         headerName: 'Chỉ định',
         minWidth: 100,
@@ -131,23 +137,10 @@ export const useColumns = (
         sortable: false,
         valueGetter: ({ row }) => {
           return row.results
+            .filter(({ isLocked }) => isLocked)
             .map(({ testId }) => testMap.get(testId)?.name)
             .join(', ')
         },
-      },
-      {
-        field: 'diagnosis',
-        headerName: 'CĐ',
-        width: 70,
-        sortable: false,
-        valueGetter: ({ row }) => diagnosisMap.get(row.diagnosisId)?.name,
-      },
-      {
-        field: 'patientTypeId',
-        headerName: 'Đối T.',
-        width: 70,
-        sortable: false,
-        valueGetter: ({ row }) => patientTypeMap.get(row.patientTypeId)?.name,
       },
       {
         field: 'endActions',
@@ -172,6 +165,6 @@ export const useColumns = (
         ],
       },
     ]
-  }, [diagnosisMap, doctorMap, patientTypeMap, testMap, originMap])
+  }, [patientTypeMap, testMap, originMap])
   return columns
 }
