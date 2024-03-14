@@ -1,5 +1,6 @@
-import { Body, Param } from '@nestjs/common'
+import { Body, Param, Res, StreamableFile } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Response } from 'express'
 
 import { sampleRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
@@ -104,12 +105,20 @@ export class SampleController {
   }
 
   @HttpRoute(sampleRoutes.print)
-  print() {
-    return this.samplePrintUseCase.execute([
+  async print(@Res({ passthrough: true }) res: Response) {
+    const buffer = await this.samplePrintUseCase.execute([
       {
         printFormId: '65b5a131b38d78ce25a5513d',
         sampleId: '65b89ee3b7b38de822f4c374',
       },
     ])
+
+    res.set({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      Pragma: 'no-cache',
+      Expires: 0,
+    })
+
+    return new StreamableFile(buffer)
   }
 }

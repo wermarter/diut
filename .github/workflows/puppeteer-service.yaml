@@ -9,20 +9,20 @@ on:
       - 'libs/common/**'
       - 'libs/nestjs-infra/**'
       - 'libs/services/**'
-      - 'apps/example-service/**'
+      - 'apps/browser-service/**'
 
 jobs:
   j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
       dockerfile-path: ./apps/puppeteer-service/Dockerfile
-      docker-image-name: diut-example-service
+      docker-image-name: diut-browser-service
     secrets: inherit
 
   j2:
     needs: j1
     uses: ./.github/workflows/helm-appversion.yaml
     with:
-      chart-path: ./apps/example-service/k8s/helm-chart/Chart.yaml
-      identity: example-service
+      chart-path: ./apps/browser-service/k8s/helm-chart/Chart.yaml
+      identity: browser-service
     secrets: inherit

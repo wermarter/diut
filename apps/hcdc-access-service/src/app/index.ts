@@ -17,5 +17,3 @@ export * from './test-category'
 export * from './test-combo'
 export * from './test-element'
 export * from './user'
-
-export * from './example-service'

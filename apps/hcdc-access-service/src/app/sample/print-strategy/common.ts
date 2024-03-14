@@ -8,7 +8,7 @@ import {
 
 import { ISampleRepository, ITestCategoryRepository } from 'src/domain'
 
-export type AbstractPrintData = {
+export type SamplePrintData = {
   sample: Sample
   categories: (TestCategory & {
     tests: (Test & {
@@ -17,10 +17,8 @@ export type AbstractPrintData = {
   })[]
 }
 
-let data: AbstractPrintData
-
 export interface ISamplePrintStrategy {
-  preparePrintData(sampleId: string): Promise<unknown>
+  preparePrintData(sampleId: string): Promise<SamplePrintData>
 }
 
 export abstract class AbstractSamplePrintStrategy
@@ -32,7 +30,7 @@ export abstract class AbstractSamplePrintStrategy
     protected readonly template: PrintTemplate,
   ) {}
 
-  async preparePrintData(sampleId: string): Promise<AbstractPrintData> {
+  async preparePrintData(sampleId: string): Promise<SamplePrintData> {
     const sample = (await this.sampleRepository.findOne({
       filter: { _id: sampleId },
       populates: [
@@ -71,14 +69,14 @@ export abstract class AbstractSamplePrintStrategy
       new Set(sample.results.map(({ test }) => test?.testCategoryId)),
     )
 
-    const categories: AbstractPrintData['categories'] = []
+    const categories: SamplePrintData['categories'] = []
 
     for (const testCategoryId of testCategoryIds) {
       const testCategory = (await this.testCategoryRepository.findOne({
         filter: { _id: testCategoryId },
       }))!
 
-      const tests: AbstractPrintData['categories'][number]['tests'] = []
+      const tests: SamplePrintData['categories'][number]['tests'] = []
       const testResults = sample.results.filter(
         ({ test }) => test?.testCategoryId === testCategoryId,
       )
@@ -87,7 +85,7 @@ export abstract class AbstractSamplePrintStrategy
         const test = testResult.test!
 
         if (test.printForm?.template === this.template) {
-          const elements: AbstractPrintData['categories'][number]['tests'][number]['elements'] =
+          const elements: SamplePrintData['categories'][number]['tests'][number]['elements'] =
             []
 
           for (const elementResult of testResult.elements) {

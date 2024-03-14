@@ -1,16 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PrintForm } from '@diut/hcdc'
+import { SamplePrintMetadata } from '@diut/services'
 
-import { ExampleServiceSayHiUsecase } from 'src/app/example-service/use-case/say-hi'
 import { ISamplePrintStrategy } from './common'
 import { IPrintFormRepository, PrintFormRepositoryToken } from 'src/domain'
-
-// TODO: move to @diut/chrome-service
-export type PrintMetadata = {
-  authorTitle: string
-  authorName: string
-  titleMargin: number
-}
 
 export type SamplePrintOptions = {
   sampleId: string
@@ -26,7 +19,6 @@ export class SamplePrintContext {
   constructor(
     @Inject(PrintFormRepositoryToken)
     private readonly printFormRepository: IPrintFormRepository,
-    private readonly exampleServiceSayHiUsecase: ExampleServiceSayHiUsecase,
   ) {}
 
   setStrategy(printStrategy: ISamplePrintStrategy) {
@@ -39,7 +31,7 @@ export class SamplePrintContext {
       options.printFormId,
     ))!
 
-    const meta: PrintMetadata = {
+    const meta: SamplePrintMetadata = {
       authorName: options.overrideAuthor?.authorName ?? printForm.authorName,
       authorTitle: options.overrideAuthor?.authorTitle ?? printForm.authorTitle,
       titleMargin: options.overrideTitleMargin ?? printForm.titleMargin,
@@ -47,10 +39,6 @@ export class SamplePrintContext {
 
     const data = await this.printStrategy.preparePrintData(options.sampleId)
 
-    const result = await this.exampleServiceSayHiUsecase.execute({
-      myNameIs: JSON.stringify({ meta, data }, null, 2),
-    })
-
-    return result
+    return { data, meta }
   }
 }

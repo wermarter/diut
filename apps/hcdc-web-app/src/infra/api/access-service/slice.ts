@@ -12,6 +12,7 @@ const authorizedBaseQuery = fetchBaseQuery({
   baseUrl: appConfig.apiBaseUrl,
   credentials: 'include',
   keepalive: true,
+  responseHandler: 'content-type',
 })
 
 // https://redux-toolkit.js.org/rtk-query/usage/customizing-queries

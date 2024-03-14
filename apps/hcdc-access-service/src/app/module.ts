@@ -17,7 +17,6 @@ import { testCategoryMetadata } from './test-category'
 import { testComboMetadata } from './test-combo'
 import { testElementMetadata } from './test-element'
 import { userMetadata } from './user'
-import { exampleServiceMetadata } from './example-service'
 
 export const appMetadata = concatModuleMetadata([
   authMetadata,
@@ -37,5 +36,4 @@ export const appMetadata = concatModuleMetadata([
   testComboMetadata,
   testElementMetadata,
   userMetadata,
-  exampleServiceMetadata,
 ])

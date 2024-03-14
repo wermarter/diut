@@ -37,7 +37,7 @@ interface FormData {
   testIds: string[]
   printFormId: string
   sampleTypeIds: string[]
-  authorPosition: string
+  authorTitle: string
   authorName: string
 }
 
@@ -67,15 +67,22 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     defaultValues: {
       sampleTypeIds: [],
       printFormId: '',
-      authorPosition: '',
+      authorTitle: '',
       authorName: '',
     },
   })
 
   const [printSample] = useSamplePrintMutation()
 
-  const handlePrint = (data: FormData) => {
-    return printSample().unwrap()
+  const handlePrint = async (data: FormData) => {
+    const response = (await printSample().unwrap()) as string
+    const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
+      new Blob([response]),
+    )
+    const hiddenElement = document.createElement('a')
+    hiddenElement.href = objectURL
+    hiddenElement.target = '_blank'
+    hiddenElement.click()
   }
 
   return (
@@ -133,6 +140,15 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
             <Grid xs={12}>
               <FormSelect
                 control={control}
+                onChangeHook={(value) => {
+                  const printForm = props.printFormMap.get(value)
+                  if (printForm?.authorName) {
+                    setValue('authorName', printForm.authorName)
+                  }
+                  if (printForm?.authorTitle) {
+                    setValue('authorTitle', printForm.authorTitle)
+                  }
+                }}
                 size="small"
                 name="printFormId"
                 label="Form In"
@@ -167,7 +183,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
             </Grid>
             <Grid xs={12}>
               <FormTextField
-                name="authorPosition"
+                name="authorTitle"
                 control={control}
                 fullWidth
                 label="Chức vụ"
@@ -234,6 +250,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                   type="submit"
                   variant="contained"
                   loading={isSubmitting}
+                  disabled={!watch('printFormId')}
                 >
                   In kết quả
                 </LoadingButton>

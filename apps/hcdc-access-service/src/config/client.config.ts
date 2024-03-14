@@ -6,7 +6,7 @@ export class ClientConfig {
   @Expose()
   @IsString()
   @MinLength(3)
-  EXAMPLE_SERVICE_URL: string
+  BROWSER_SERVICE_URL: string
 }
 
 export const loadClientConfig = makeConfigLoader(ClientConfig)

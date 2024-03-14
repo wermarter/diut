@@ -2,23 +2,23 @@ import { ConfigModule } from '@diut/nestjs-infra'
 import {
   DIUT_PACKAGE_NAME,
   DiutGrpcService,
-  EXAMPLE_SERVICE_NAME,
-  ExampleServiceClient,
+  BROWSER_SERVICE_NAME,
+  BrowserServiceClient,
   resolveProtoPath,
 } from '@diut/services'
 import { ModuleMetadata } from '@nestjs/common'
 import { ClientsModule, Transport, ClientGrpc } from '@nestjs/microservices'
 
 import { ClientConfig, loadClientConfig } from 'src/config'
-import { ExampleServiceToken, IExampleService } from 'src/domain'
+import { BrowserServiceToken } from 'src/domain'
 
-export const exampleServiceMetadata: ModuleMetadata = {
+export const browserServiceMetadata: ModuleMetadata = {
   imports: [
     ClientsModule.registerAsync({
       isGlobal: true,
       clients: [
         {
-          name: EXAMPLE_SERVICE_NAME,
+          name: BROWSER_SERVICE_NAME,
           imports: [ConfigModule.forFeature(loadClientConfig)],
           inject: [loadClientConfig.KEY],
           useFactory: async (clientConfig: ClientConfig) => {
@@ -26,8 +26,8 @@ export const exampleServiceMetadata: ModuleMetadata = {
               transport: Transport.GRPC,
               options: {
                 package: DIUT_PACKAGE_NAME,
-                protoPath: resolveProtoPath(DiutGrpcService.Example, __dirname),
-                url: clientConfig.EXAMPLE_SERVICE_URL,
+                protoPath: resolveProtoPath(DiutGrpcService.Browser, __dirname),
+                url: clientConfig.BROWSER_SERVICE_URL,
               },
             }
           },
@@ -37,10 +37,10 @@ export const exampleServiceMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: ExampleServiceToken,
-      inject: [EXAMPLE_SERVICE_NAME],
-      useFactory(client: ClientGrpc): IExampleService {
-        return client.getService<ExampleServiceClient>(EXAMPLE_SERVICE_NAME)
+      provide: BrowserServiceToken,
+      inject: [BROWSER_SERVICE_NAME],
+      useFactory(client: ClientGrpc) {
+        return client.getService<BrowserServiceClient>(BROWSER_SERVICE_NAME)
       },
     },
   ],
