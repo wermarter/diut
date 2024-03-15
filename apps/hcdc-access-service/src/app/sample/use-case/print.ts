@@ -6,6 +6,12 @@ import {
   PrintTemplate,
   SampleAction,
 } from '@diut/hcdc'
+import {
+  BrowserServiceClient,
+  PageFormat,
+  PageOrientation,
+} from '@diut/services'
+import { Observable, lastValueFrom } from 'rxjs'
 
 import {
   AuthContextToken,
@@ -22,8 +28,6 @@ import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
 import { ISamplePrintStrategy } from '../print-strategy/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
-import { BrowserServiceClient } from '@diut/services'
-import { Observable, lastValueFrom } from 'rxjs'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -87,17 +91,21 @@ export class SamplePrintUseCase {
       printContexts.push(samplePrintContext)
     }
 
-    const response$ = this.browserService.printSamples(
+    const response$ = this.browserService.printMultiplePage(
       new Observable((subscriber) => {
         ;(async function () {
           for (let i = 0; i < input.length; i++) {
             const printRequest = await printContexts[i].execute(input[i])
-            subscriber.next(printRequest as any)
+            subscriber.next({
+              htmlContent: JSON.stringify(printRequest),
+              pageFormat: PageFormat.A4,
+              pageOrientation: PageOrientation.Landscape,
+            })
           }
         })().then(() => subscriber.complete())
       }),
     )
 
-    return (await lastValueFrom(response$)).mergedPDF
+    return (await lastValueFrom(response$)).mergedPdf
   }
 }

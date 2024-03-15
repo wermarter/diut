@@ -1,4 +1,4 @@
-name: puppeteer-service
+name: browser-service
 
 on:
   workflow_dispatch:
@@ -8,6 +8,7 @@ on:
     paths:
       - 'libs/common/**'
       - 'libs/nestjs-infra/**'
+      - 'libs/hcdc/**'
       - 'libs/services/**'
       - 'apps/browser-service/**'
 
@@ -15,7 +16,7 @@ jobs:
   j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
-      dockerfile-path: ./apps/puppeteer-service/Dockerfile
+      dockerfile-path: ./apps/browser-service/k8s/Dockerfile
       docker-image-name: diut-browser-service
     secrets: inherit
 

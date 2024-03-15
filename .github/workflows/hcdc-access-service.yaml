@@ -9,6 +9,7 @@ on:
       - 'libs/common/**'
       - 'libs/nestjs-infra/**'
       - 'libs/hcdc/**'
+      - 'libs/services/**'
       - 'apps/hcdc-access-service/**'
 
 jobs:

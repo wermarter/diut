@@ -1,2 +1,3 @@
 export * from './module'
-export * from './service'
+
+export * from './use-case/print-multiple'

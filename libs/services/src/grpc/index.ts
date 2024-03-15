@@ -3,13 +3,11 @@ import { resolve } from 'path'
 
 export * from './browser-service'
 export * from './excel-service'
-export * from './pdf-service'
 
 export const DIUT_PACKAGE_NAME = 'diut'
 
 export enum DiutGrpcService {
   Browser = 'browser-service',
-  PDF = 'pdf-service',
   Excel = 'excel-service',
 }
 

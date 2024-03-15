@@ -1,27 +1,33 @@
 import {
   BrowserServiceControllerMethods,
   BrowserServiceController as IBrowserServiceController,
-  PrintSampleRequest,
+  PrintPageReply,
+  PrintPageRequest,
 } from '@diut/services'
-import { sample } from 'lodash'
-import { Observable } from 'rxjs'
+import { Observable, concatMap } from 'rxjs'
 
-import { BrowserService } from 'src/app'
+import { GrpcController, validateDto } from './common'
+import { BrowserPrintMultipleUseCase } from 'src/app/browser'
+import { PrintPageRequestDto } from './dto/print-page.request-dto'
 
+@GrpcController()
 @BrowserServiceControllerMethods()
 export class BrowserServiceController implements IBrowserServiceController {
-  constructor(private readonly browserService: BrowserService) {}
+  constructor(
+    private readonly browserPrintMultipleUseCase: BrowserPrintMultipleUseCase,
+  ) {}
 
-  async printSamples(request: Observable<PrintSampleRequest>) {
-    const samplePDFs: string[] = []
-    await request.forEach((req) => {
-      samplePDFs.push(this.browserService.printSample(req))
-    })
+  async printMultiplePage(
+    request: Observable<PrintPageRequest>,
+  ): Promise<PrintPageReply> {
+    const validatedDto$ = request.pipe(
+      concatMap(async (value) => {
+        return validateDto(value, PrintPageRequestDto)
+      }),
+    )
 
-    console.log({ samplePDFs })
+    const reply = this.browserPrintMultipleUseCase.execute(validatedDto$)
 
-    return {
-      mergedPDF: new Uint8Array(Buffer.from(samplePDFs.join('\n---\n'))),
-    }
+    return reply
   }
 }

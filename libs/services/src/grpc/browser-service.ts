@@ -1,169 +1,58 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { Timestamp } from "./google/protobuf/timestamp";
 
-export enum PatientCategory {
-  Any = 0,
-  YoungMale = 1,
-  YoungFemale = 2,
-  MatureMale = 3,
-  MatureFemale = 4,
-  Pregnant = 5,
+/** Enum for paper formats supported by Puppeteer. */
+export enum PageFormat {
+  /** LETTER - 8.5in x 11in */
+  LETTER = 0,
+  /** LEGAL - 8.5in x 14in */
+  LEGAL = 1,
+  /** TABLOID - 11in x 17in */
+  TABLOID = 2,
+  /** LEDGER - 17in x 11in */
+  LEDGER = 3,
+  /** A0 - 33.1in x 46.8in */
+  A0 = 4,
+  /** A1 - 23.4in x 33.1in */
+  A1 = 5,
+  /** A2 - 16.54in x 23.4in */
+  A2 = 6,
+  /** A3 - 11.7in x 16.54in */
+  A3 = 7,
+  /** A4 - 8.27in x 11.7in */
+  A4 = 8,
+  /** A5 - 5.83in x 8.27in */
+  A5 = 9,
+  /** A6 - 4.13in x 5.83in */
+  A6 = 10,
   UNRECOGNIZED = -1,
 }
 
-export enum PatientGender {
-  Male = 0,
-  Female = 1,
+export enum PageOrientation {
+  Portrait = 0,
+  Landscape = 1,
   UNRECOGNIZED = -1,
 }
 
-export enum BranchType {
-  Internal = 0,
-  External = 1,
-  UNRECOGNIZED = -1,
+export interface PrintPageRequest {
+  htmlContent: string;
+  pageFormat: PageFormat;
+  pageOrientation: PageOrientation;
 }
 
-export interface SamplePrintMetadata {
-  authorTitle: string;
-  authorName: string;
-  titleMargin: number;
-}
-
-export interface BaseEntity {
-  Id: string;
-  createdAt: Timestamp | undefined;
-  updatedAt: Timestamp | undefined;
-  isDeleted: boolean;
-  deletedAt: Timestamp | undefined;
-}
-
-export interface NormalRule {
-  category: PatientCategory;
-  defaultChecked: boolean;
-  normalValue: string;
-  normalLowerBound: number;
-  normalUpperBound: number;
-  description: string;
-  note: string;
-}
-
-export interface TestElement {
-  displayIndex: number;
-  name: string;
-  printIndex: number;
-  reportIndex: number;
-  unit: string;
-  isParent: boolean;
-  normalRules: NormalRule[];
-}
-
-export interface SampleResultTestElement {
-  testElementId: string;
-  testElement: TestElement | undefined;
-  value: string;
-  isAbnormal: boolean;
-}
-
-export interface Patient {
-  externalId: string;
-  name: string;
-  gender: PatientGender;
-  birthYear: number;
-  address: string;
-  phoneNumber: string;
-  SSN: string;
-}
-
-export interface Doctor {
-  displayIndex: number;
-  name: string;
-}
-
-export interface PatientType {
-  displayIndex: number;
-  name: string;
-}
-
-export interface Diagnosis {
-  displayIndex: number;
-  name: string;
-}
-
-export interface Branch {
-  displayIndex: number;
-  name: string;
-  address: string;
-  type: BranchType;
-}
-
-export interface SampleType {
-  displayIndex: number;
-  name: string;
-}
-
-export interface TestCategory {
-  displayIndex: number;
-  name: string;
-  reportIndex: number;
-}
-
-export interface Test {
-  displayIndex: number;
-  name: string;
-  shouldDisplayWithChildren: boolean;
-}
-
-export interface Sample {
-  sampleId: string;
-  note: string;
-  isNgoaiGio: boolean;
-  isTraBuuDien: boolean;
-  isConfirmed: boolean;
-  infoAt: Timestamp | undefined;
-  sampledAt: Timestamp | undefined;
-  printedAt: Timestamp | undefined;
-  sampleCompleted: boolean;
-  isPregnant: boolean;
-  patientId: string;
-  patient: Patient | undefined;
-  doctorId: string;
-  doctor: Doctor | undefined;
-  patientTypeId: string;
-  patientType: PatientType | undefined;
-  diagnosisId: string;
-  diagnosis: Diagnosis | undefined;
-  originId: string;
-  origin: Branch | undefined;
-  sampleTypeIds: string[];
-  sampleTypes: SampleType[];
-  branchId: string;
-  branch: Branch | undefined;
-}
-
-export interface SamplePrintData {
-  sample: Sample | undefined;
-  categories: TestCategory[];
-}
-
-export interface PrintSampleRequest {
-  data: SamplePrintData | undefined;
-  meta: SamplePrintMetadata | undefined;
-}
-
-export interface PrintSampleResponse {
-  mergedPDF: Uint8Array;
+export interface PrintPageReply {
+  mergedPdf: Uint8Array;
 }
 
 export interface BrowserServiceClient {
-  printSamples(request: Observable<PrintSampleRequest>): Observable<PrintSampleResponse>;
+  printMultiplePage(request: Observable<PrintPageRequest>): Observable<PrintPageReply>;
 }
 
 export interface BrowserServiceController {
-  printSamples(
-    request: Observable<PrintSampleRequest>,
-  ): Promise<PrintSampleResponse> | Observable<PrintSampleResponse> | PrintSampleResponse;
+  printMultiplePage(
+    request: Observable<PrintPageRequest>,
+  ): Promise<PrintPageReply> | Observable<PrintPageReply> | PrintPageReply;
 }
 
 export function BrowserServiceControllerMethods() {
@@ -173,7 +62,7 @@ export function BrowserServiceControllerMethods() {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("BrowserService", method)(constructor.prototype[method], method, descriptor);
     }
-    const grpcStreamMethods: string[] = ["printSamples"];
+    const grpcStreamMethods: string[] = ["printMultiplePage"];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcStreamMethod("BrowserService", method)(constructor.prototype[method], method, descriptor);

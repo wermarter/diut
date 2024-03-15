@@ -27,8 +27,3 @@ export const chromeArgs = [
   '--disable-sync',
   '--disable-dev-profile',
 ]
-
-export enum Orientation {
-  Portrait = 'Portrait',
-  Landscape = 'Landscape',
-}

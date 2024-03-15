@@ -8,13 +8,6 @@ RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
-RUN apk add --no-cache chromium
-RUN apk add --no-cache msttcorefonts-installer fontconfig && \
-    update-ms-fonts && \
-    fc-cache -f
-
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
@@ -54,14 +47,6 @@ FROM node:20-alpine AS production
 RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 RUN echo "Asia/Ho_Chi_Minh" >  /etc/timezone
-
-RUN apk add --no-cache chromium
-RUN apk add --no-cache msttcorefonts-installer fontconfig && \
-    update-ms-fonts && \
-    fc-cache -f
-
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 RUN apk add --no-cache tini
 

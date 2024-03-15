@@ -1,159 +1,37 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 package diut;
 
-message SamplePrintMetadata {
-  string authorTitle = 1;
-  string authorName = 2;
-  int32 titleMargin = 3;
+// Enum for paper formats supported by Puppeteer.
+enum PageFormat {
+  LETTER = 0; // 8.5in x 11in
+  LEGAL = 1; // 8.5in x 14in
+  TABLOID = 2; // 11in x 17in
+  LEDGER = 3; // 17in x 11in
+  A0 = 4; // 33.1in x 46.8in
+  A1 = 5; // 23.4in x 33.1in
+  A2 = 6; // 16.54in x 23.4in
+  A3 = 7; // 11.7in x 16.54in
+  A4 = 8; // 8.27in x 11.7in
+  A5 = 9; // 5.83in x 8.27in
+  A6 = 10; // 4.13in x 5.83in
 }
 
-message BaseEntity {
-  string _id = 1;
-  google.protobuf.Timestamp createdAt = 2;
-  google.protobuf.Timestamp updatedAt = 3;
-  bool isDeleted = 4;
-  google.protobuf.Timestamp deletedAt = 5;
+enum PageOrientation {
+  Portrait = 0;
+  Landscape = 1;
 }
 
-enum PatientCategory {
-  Any = 0;
-  YoungMale = 1;
-  YoungFemale = 2;
-  MatureMale = 3;
-  MatureFemale = 4;
-  Pregnant = 5;
+message PrintPageRequest {
+  string html_content = 1;
+  PageFormat page_format = 2;
+  PageOrientation page_orientation = 3;
 }
 
-enum PatientGender {
-  Male = 0;
-  Female = 1;
-}
-
-message NormalRule {
-  PatientCategory category = 1;
-  bool defaultChecked = 2;
-  string normalValue = 3;
-  int32 normalLowerBound = 4;
-  int32 normalUpperBound = 5;
-  string description = 6;
-  string note = 7;
-}
-
-message TestElement {
-  int32 displayIndex = 1;
-  string name = 2;
-  int32 printIndex = 3;
-  int32 reportIndex = 4;
-  string unit = 5;
-  bool isParent = 6;
-  repeated NormalRule normalRules = 7;
-}
-
-message SampleResultTestElement {
-  string testElementId = 1;
-  TestElement testElement = 2;
-  string value = 3;
-  bool isAbnormal = 4;
-}
-
-message Patient {
-  string externalId = 1;
-  string name = 2;
-  PatientGender gender = 3;
-  int32 birthYear = 4;
-  string address = 5;
-  string phoneNumber = 6;
-  string SSN = 7;
-}
-
-message Doctor {
-  int32 displayIndex = 1;
-  string name = 2;
-}
-
-message PatientType {
-  int32 displayIndex = 1;
-  string name = 2;
-}
-
-message Diagnosis {
-  int32 displayIndex = 1;
-  string name = 2;
-}
-
-enum BranchType {
-  Internal = 0;
-  External = 1;
-}
-
-message Branch {
-  int32 displayIndex = 1;
-  string name = 2;
-  string address = 3;
-  BranchType type = 4;
-}
-
-message SampleType {
-  int32 displayIndex = 1;
-  string name = 2;
-}
-
-message TestCategory {
-  int32 displayIndex = 1;
-  string name = 2;
-  int32 reportIndex = 3;
-}
-
-message Test {
-  int32 displayIndex = 1;
-  string name = 2;
-  bool shouldDisplayWithChildren = 3;
-}
-
-message Sample {
-  string sampleId = 1;
-  string note = 2;
-  bool isNgoaiGio = 3;
-  bool isTraBuuDien = 4;
-  bool isConfirmed = 5;
-  google.protobuf.Timestamp infoAt = 6;
-  google.protobuf.Timestamp sampledAt = 7;
-  google.protobuf.Timestamp printedAt = 8;
-  bool sampleCompleted = 9;
-  bool isPregnant = 10;
-  string patientId = 11;
-  Patient patient = 12;
-  string doctorId = 13;
-  Doctor doctor = 14;
-  string patientTypeId = 15;
-  PatientType patientType = 16;
-  string diagnosisId = 17;
-  Diagnosis diagnosis = 18;
-  string originId = 19;
-  Branch origin = 20;
-  repeated string sampleTypeIds = 21;
-  repeated SampleType sampleTypes = 22;
-  string branchId = 23;
-  Branch branch = 24;
-}
-
-message SamplePrintData {
-  Sample sample = 1;
-  repeated TestCategory categories = 2;
-}
-
-message PrintSampleRequest {
-  SamplePrintData data = 1;
-  SamplePrintMetadata meta = 2;
-}
-
-message PrintSampleResponse {
-  bytes mergedPDF = 1;
+message PrintPageReply {
+  bytes merged_pdf = 1;
 }
 
 service BrowserService {
-  rpc PrintSamples(stream PrintSampleRequest) returns (PrintSampleResponse);
+  rpc PrintMultiplePage(stream PrintPageRequest) returns (PrintPageReply) {}
 }

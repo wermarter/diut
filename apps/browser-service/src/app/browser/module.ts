@@ -1,7 +1,7 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { BrowserService } from './service'
+import { BrowserPrintMultipleUseCase } from './use-case/print-multiple'
 
 export const browserMetadata: ModuleMetadata = {
-  providers: [BrowserService],
+  providers: [BrowserPrintMultipleUseCase],
 }

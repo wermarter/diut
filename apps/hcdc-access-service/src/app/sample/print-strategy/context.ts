@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PrintForm } from '@diut/hcdc'
-import { SamplePrintMetadata } from '@diut/services'
 
 import { ISamplePrintStrategy } from './common'
 import { IPrintFormRepository, PrintFormRepositoryToken } from 'src/domain'
@@ -31,7 +30,7 @@ export class SamplePrintContext {
       options.printFormId,
     ))!
 
-    const meta: SamplePrintMetadata = {
+    const meta = {
       authorName: options.overrideAuthor?.authorName ?? printForm.authorName,
       authorTitle: options.overrideAuthor?.authorTitle ?? printForm.authorTitle,
       titleMargin: options.overrideTitleMargin ?? printForm.titleMargin,

@@ -13,8 +13,6 @@ import { HttpErrorResponse } from '../dto'
 export class DomainExceptionFilter implements ExceptionFilter {
   private logger = new Logger(DomainExceptionFilter.name)
 
-  constructor() {}
-
   catch(exception: EDomain, host: ArgumentsHost) {
     this.logger.error(exception)
 
