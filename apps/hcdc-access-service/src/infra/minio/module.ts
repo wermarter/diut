@@ -1,27 +1,35 @@
-import { ConfigModule, MinioModule, MinioService } from '@diut/nestjs-infra'
+import {
+  AwsS3ClientModule,
+  AwsS3ClientService,
+  ConfigModule,
+} from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
+import { ClassConstructor } from 'class-transformer'
 
 import { IStorageService, StorageServiceToken } from 'src/domain'
 import { MinioConfig, loadMinioConfig } from 'src/config'
 
 export const minioMetadata: ModuleMetadata = {
   imports: [
-    MinioModule.forRootAsync({
+    AwsS3ClientModule.registerAsync({
       imports: [ConfigModule.forFeature(loadMinioConfig)],
       inject: [loadMinioConfig.KEY],
       useFactory: async (minioConfig: MinioConfig) => ({
-        endPoint: minioConfig.MINIO_ENDPOINT,
-        port: minioConfig.MINIO_PORT,
-        useSSL: false,
-        accessKey: minioConfig.MINIO_ACCESS_KEY,
-        secretKey: minioConfig.MINIO_SECRET_KEY,
+        connectionId: 'minio',
+        endpoint: `http://${minioConfig.MINIO_ENDPOINT}:${minioConfig.MINIO_PORT}`,
+        credentials: {
+          accessKeyId: minioConfig.MINIO_ACCESS_KEY,
+          secretAccessKey: minioConfig.MINIO_SECRET_KEY,
+        },
+        forcePathStyle: true,
       }),
     }),
   ],
   providers: [
     {
       provide: StorageServiceToken,
-      useClass: MinioService satisfies IStorageService,
+      useExisting:
+        AwsS3ClientService satisfies ClassConstructor<IStorageService>,
     },
   ],
 }

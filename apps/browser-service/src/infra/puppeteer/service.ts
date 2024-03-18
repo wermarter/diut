@@ -1,12 +1,7 @@
 import { NodeEnv } from '@diut/common'
-import {
-  Inject,
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-  OnModuleInit,
-} from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import * as puppeteer from 'puppeteer-core'
+import { AbstractClientService } from '@diut/nestjs-infra'
 
 import {
   AppConfig,
@@ -19,28 +14,20 @@ import { EPuppeteerInitFailed, IPuppeteerService } from 'src/domain'
 
 @Injectable()
 export class PuppeteerService
-  implements OnModuleInit, OnModuleDestroy, IPuppeteerService
+  extends AbstractClientService
+  implements IPuppeteerService
 {
-  private logger = new Logger(PuppeteerService.name)
   private browser: puppeteer.Browser
 
   constructor(
     @Inject(loadAppConfig.KEY) private readonly appConfig: AppConfig,
     @Inject(loadPuppeteerConfig.KEY)
     private readonly puppeteerConfig: PuppeteerConfig,
-  ) {}
-
-  async onModuleInit() {
-    // TODO: implement retry and throw error
-    await this.init()
+  ) {
+    super({ name: PuppeteerService.name })
   }
 
-  async onModuleDestroy() {
-    this.logger.log('Closing browser on module destroy...')
-    this.browser && (await this.browser.close())
-  }
-
-  private async init() {
+  async initialize() {
     const options: puppeteer.PuppeteerLaunchOptions = {
       executablePath: this.puppeteerConfig.CHROMIUM_PATH,
       args: chromeArgs,
@@ -52,7 +39,12 @@ export class PuppeteerService
     }
 
     this.browser = await puppeteer.launch(options)
-    this.logger.log('Browser connected!')
+  }
+
+  async terminate() {
+    if (this.browser) {
+      await this.browser.close()
+    }
   }
 
   getBrowser() {

@@ -9,7 +9,7 @@ import mongoose from 'mongoose'
 import { merge } from 'lodash'
 
 const defaultOptions: MongooseModuleOptions = {
-  retryAttempts: 1,
+  retryAttempts: 3,
   directConnection: false,
 }
 

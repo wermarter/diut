@@ -20,6 +20,8 @@ import {
   BrowserServiceToken,
   EEntityNotFound,
   IAuthContext,
+  IStorageService,
+  StorageServiceToken,
   assertPermission,
 } from 'src/domain'
 import {
@@ -40,6 +42,8 @@ export class SamplePrintUseCase {
     private readonly authContext: IAuthContext,
     @Inject(BrowserServiceToken)
     private readonly browserService: BrowserServiceClient,
+    @Inject(StorageServiceToken)
+    private readonly storageService: IStorageService,
     private readonly moduleRef: ModuleRef,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
@@ -109,7 +113,9 @@ export class SamplePrintUseCase {
           strategy = await this.moduleRef.resolve(SamplePrintFormChungStrategy)
           break
         default:
-          throw new EEntityNotFound(`PrintForm id=${printOptions.printFormId}`)
+          throw new EEntityNotFound(
+            `PrintTemplate=${printForm.template} id=${printOptions.printFormId}`,
+          )
       }
 
       samplePrintContext.setStrategy(strategy)
@@ -122,9 +128,9 @@ export class SamplePrintUseCase {
           for (let i = 0; i < input.length; i++) {
             const printRequest = await printContexts[i].execute(input[i])
             subscriber.next({
-              htmlContent: `<p>${JSON.stringify(printRequest)}</p>`,
+              htmlContent: `<p>${JSON.stringify(printRequest, null, 2)}</p>`,
               pageFormat: PageFormat.A4,
-              pageOrientation: PageOrientation.Landscape,
+              pageOrientation: PageOrientation.Portrait,
             })
           }
         })().then(() => subscriber.complete())
