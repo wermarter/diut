@@ -34,13 +34,15 @@ export function ResultEditView(props: ResultEditViewProps) {
   }, [props.sampleRes.patientId])
 
   const sortedTests = useMemo(() => {
-    return Object.values(props.sampleRes.results).toSorted((a, b) => {
-      if (a.test?.testCategoryId === b.test?.testCategoryId) {
-        return a.test?.displayIndex! - b.test?.displayIndex!
-      }
+    return Object.values(props.sampleRes.results)
+      .filter(({ test }) => test)
+      .toSorted((a, b) => {
+        if (a.test?.testCategoryId === b.test?.testCategoryId) {
+          return a.test?.displayIndex! - b.test?.displayIndex!
+        }
 
-      return Number(a.test?.testCategoryId! > b.test?.testCategoryId!)
-    })
+        return Number(a.test?.testCategoryId! > b.test?.testCategoryId!)
+      })
   }, [props.sampleRes])
 
   return (

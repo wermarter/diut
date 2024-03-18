@@ -72,9 +72,10 @@ const injectedRtkApi = api
         invalidatesTags: ['v1-samples'],
       }),
       samplePrint: build.mutation<SamplePrintApiResponse, SamplePrintApiArg>({
-        query: () => ({
+        query: (queryArg) => ({
           url: `/api/v1/samples/print`,
           method: 'POST',
+          body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'preview' }),
         }),
         invalidatesTags: ['v1-samples'],
@@ -107,7 +108,7 @@ export type SampleUpdateResultByIdApiArg = {
   sampleUpdateResultRequestDto: SampleUpdateResultRequestDto
 }
 export type SamplePrintApiResponse = unknown
-export type SamplePrintApiArg = void
+export type SamplePrintApiArg = SamplePrintRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -122,6 +123,7 @@ export type PermissionRuleRequestDto = {
     | 'Diagnosis'
     | 'PrintForm'
     | 'Test'
+    | 'TestResult'
     | 'TestElement'
     | 'Patient'
     | 'TestCombo'
@@ -137,6 +139,7 @@ export type PermissionRuleRequestDto = {
     | 'AssignUserInline'
     | 'ChangePassword'
     | 'OverrideAuthor'
+    | 'Modify'
     | 'UpdateInfo'
     | 'UpdateResult'
     | 'PrintResult'
@@ -483,6 +486,21 @@ export type SampleUpdateResultResponseDto = {
 }
 export type SampleUpdateResultRequestDto = {
   results: SampleResultTestRequestDto[]
+}
+export type OverrideAuthorRequestDto = {
+  authorTitle: string
+  authorName: string
+}
+export type SamplePrintSingleRequestDto = {
+  sampleId: string
+  printFormId: string
+  testIds: string[]
+  sampleTypeIds: string[]
+  overrideAuthor?: OverrideAuthorRequestDto
+  overrideTitleMargin?: number
+}
+export type SamplePrintRequestDto = {
+  requests: SamplePrintSingleRequestDto[]
 }
 export const {
   useSampleSearchQuery,

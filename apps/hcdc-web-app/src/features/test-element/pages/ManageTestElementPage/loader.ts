@@ -1,6 +1,7 @@
 import { appStore } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 import { fetchTests } from 'src/infra/api'
+import { allTestSortComparator } from '@diut/hcdc'
 
 export const manageTestElementPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(
@@ -12,11 +13,6 @@ export const manageTestElementPageLoader = async () => {
   ])
 
   return {
-    tests: testRes.items.toSorted((a, b) => {
-      if (a.testCategory?.displayIndex === b.testCategory?.displayIndex) {
-        return a.displayIndex - b.displayIndex
-      }
-      return a.testCategory?.displayIndex! - b.testCategory?.displayIndex!
-    }),
+    tests: testRes.items.toSorted(allTestSortComparator),
   }
 }

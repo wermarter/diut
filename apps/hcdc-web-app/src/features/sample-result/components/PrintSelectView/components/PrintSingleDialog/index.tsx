@@ -1,11 +1,12 @@
 import {
   AuthSubject,
   PrintFormAction,
+  allTestSortComparator,
   checkPermission,
   createAbility,
 } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
@@ -18,6 +19,7 @@ import { format } from 'date-fns'
 
 import {
   OmittedSampleResponseDto,
+  OmittedTestResponseDto,
   useSamplePrintMutation,
 } from 'src/infra/api/access-service/sample'
 import {
@@ -32,14 +34,7 @@ import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { authSlice } from 'src/features/auth'
 import { DialogTransition } from 'src/components/ui'
-
-interface FormData {
-  testIds: string[]
-  printFormId: string
-  sampleTypeIds: string[]
-  authorTitle: string
-  authorName: string
-}
+import { FormSchema, formDefaultValues, formResolver } from './validation'
 
 type PrintSingleDialogProps = {
   sample: OmittedSampleResponseDto | null
@@ -61,23 +56,81 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     control,
     handleSubmit,
     setValue,
-    formState: { isSubmitting },
+    formState: { isSubmitting, dirtyFields },
     watch,
-  } = useForm<FormData>({
-    defaultValues: {
-      sampleTypeIds: [],
-      printFormId: '',
-      authorTitle: '',
-      authorName: '',
-    },
+  } = useForm<FormSchema>({
+    resolver: formResolver,
+    defaultValues: formDefaultValues,
   })
 
   const [printSample] = useSamplePrintMutation()
+  const handlePrint = async (data: FormSchema) => {
+    const overrideAuthor = dirtyFields.authorName || dirtyFields.authorTitle
 
-  const handlePrint = async (data: FormData) => {
-    console.log({ data })
-    await printSample().unwrap()
+    await printSample({
+      requests: [
+        {
+          sampleId: props.sample?._id!,
+          printFormId: data.printFormId,
+          sampleTypeIds: data.sampleTypeIds,
+          testIds: data.testIds,
+          ...(overrideAuthor && {
+            overrideAuthor: {
+              authorName: data.authorName,
+              authorTitle: data.authorTitle,
+            },
+          }),
+        },
+      ],
+    }).unwrap()
   }
+
+  const [testOptions, setTestOptions] = useState<OmittedTestResponseDto[]>([])
+  const [sampleTypeOptions, setSampleTypeOptions] = useState<
+    SampleTypeResponseDto[]
+  >([])
+  useEffect(() => {
+    if (props.sample?._id) {
+      const allTestOptions =
+        props.sample?.results
+          .filter(({ isLocked }) => isLocked)
+          .toSorted((a, b) => {
+            const aTest = props.testMap.get(a.testId)!
+            const bTest = props.testMap.get(b.testId)!
+
+            return allTestSortComparator(aTest, bTest)
+          }) ?? []
+      setSampleTypeOptions(
+        props.sample.sampleTypeIds.map(
+          (sampleTypeId) => props.sampleTypeMap.get(sampleTypeId)!,
+        ),
+      )
+      setTestOptions(allTestOptions)
+      setValue(
+        'testIds',
+        allTestOptions.map(({ testId }) => testId) as FormSchema['testIds'],
+      )
+    }
+  }, [props.sample?._id])
+
+  const testIds = watch('testIds')
+  useEffect(() => {
+    const initSampleTypeOptions = Array.from(
+      props.sampleTypeMap.values(),
+    ).filter(
+      ({ _id }) =>
+        testIds?.some(
+          (testId) => props.testMap.get(testId)?.sampleTypeId === _id,
+        ) ?? true,
+    )
+
+    setValue(
+      'sampleTypeIds',
+      initSampleTypeOptions
+        .map(({ _id }) => _id)
+        .filter((id) => sampleTypeOptions.some(({ _id }) => _id === id)),
+    )
+  }, [testIds])
 
   return (
     <Dialog
@@ -102,28 +155,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 groupBy={(option) => props.testMap.get(option.testId)?.name!}
                 control={control}
                 name="testIds"
-                options={
-                  props.sample?.results
-                    .filter(({ isLocked }) => isLocked)
-                    .toSorted((a, b) => {
-                      const aTest = props.testMap.get(a.testId)
-                      const bTest = props.testMap.get(b.testId)
-
-                      if (
-                        aTest?.testCategory?.displayIndex ===
-                        bTest?.testCategory?.displayIndex
-                      ) {
-                        return (
-                          (aTest?.displayIndex ?? 0) -
-                          (bTest?.displayIndex ?? 0)
-                        )
-                      }
-                      return (
-                        (aTest?.testCategory?.displayIndex ?? 0) -
-                        (bTest?.testCategory?.displayIndex ?? 0)
-                      )
-                    }) ?? []
-                }
+                options={testOptions}
                 getOptionLabel={(option) =>
                   props.testMap.get(option.testId)?.name!
                 }
@@ -137,10 +169,14 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 onChangeHook={(value) => {
                   const printForm = props.printFormMap.get(value)
                   if (printForm?.authorName) {
-                    setValue('authorName', printForm.authorName)
+                    setValue('authorName', printForm.authorName, {
+                      shouldDirty: false,
+                    })
                   }
                   if (printForm?.authorTitle) {
-                    setValue('authorTitle', printForm.authorTitle)
+                    setValue('authorTitle', printForm.authorTitle, {
+                      shouldDirty: false,
+                    })
                   }
                 }}
                 size="small"
@@ -163,13 +199,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 control={control}
                 size="medium"
                 name="sampleTypeIds"
-                options={Array.from(props.sampleTypeMap.values()).filter(
-                  ({ _id }) =>
-                    watch('testIds')?.some(
-                      (testId) =>
-                        props.testMap.get(testId)?.sampleTypeId === _id,
-                    ) ?? true,
-                )}
+                options={sampleTypeOptions}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option._id}
                 label="Loại mẫu"
@@ -244,7 +274,6 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                   type="submit"
                   variant="contained"
                   loading={isSubmitting}
-                  disabled={!watch('printFormId')}
                 >
                   In kết quả
                 </LoadingButton>

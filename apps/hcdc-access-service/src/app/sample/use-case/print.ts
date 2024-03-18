@@ -5,6 +5,8 @@ import {
   PrintFormAction,
   PrintTemplate,
   SampleAction,
+  TestAction,
+  SampleTypeAction,
 } from '@diut/hcdc'
 import {
   BrowserServiceClient,
@@ -28,6 +30,8 @@ import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
 import { ISamplePrintStrategy } from '../print-strategy/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
+import { TestAssertExistsUseCase } from 'src/app/test'
+import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -38,6 +42,8 @@ export class SamplePrintUseCase {
     private readonly browserService: BrowserServiceClient,
     private readonly moduleRef: ModuleRef,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
+    private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
+    private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
     private readonly printFormAssertExistsUseCase: PrintFormAssertExistsUseCase,
   ) {}
 
@@ -75,6 +81,25 @@ export class SamplePrintUseCase {
         )
       }
 
+      for (const testId of printOptions.testIds) {
+        const test = await this.testAssertExistsUseCase.execute({
+          _id: testId,
+        })
+        assertPermission(ability, AuthSubject.Test, TestAction.Read, test)
+      }
+
+      for (const sampleTypeId of printOptions.sampleTypeIds) {
+        const sampleType = await this.sampleTypeAssertExistsUseCase.execute({
+          _id: sampleTypeId,
+        })
+        assertPermission(
+          ability,
+          AuthSubject.SampleType,
+          SampleTypeAction.Read,
+          sampleType,
+        )
+      }
+
       const samplePrintContext =
         await this.moduleRef.resolve(SamplePrintContext)
       let strategy: ISamplePrintStrategy
@@ -107,8 +132,6 @@ export class SamplePrintUseCase {
     )
 
     const { mergedPdf } = await lastValueFrom(response$)
-
-    console.log({ mergedPdf })
 
     return mergedPdf
   }

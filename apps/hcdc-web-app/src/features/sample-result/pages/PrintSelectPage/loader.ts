@@ -7,6 +7,7 @@ import {
   fetchTests,
 } from 'src/infra/api'
 import { authSlice } from 'src/features/auth'
+import { allTestSortComparator } from '@diut/hcdc'
 
 export const printSelectPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(
@@ -31,12 +32,7 @@ export const printSelectPageLoader = async () => {
     appStore.dispatch(fetchSampleTypes(branchId)).unwrap(),
   ])
 
-  const tests = testRes.items.toSorted((a, b) => {
-    if (a.testCategory?.displayIndex === b.testCategory?.displayIndex) {
-      return a.displayIndex - b.displayIndex
-    }
-    return a.testCategory?.displayIndex! - b.testCategory?.displayIndex!
-  })
+  const tests = testRes.items.toSorted(allTestSortComparator)
 
   const sampleOrigins = sampleOriginRes?.items ?? []
   const patientTypes = patientTypeRes?.items ?? []

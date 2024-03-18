@@ -18,7 +18,10 @@ export type SamplePrintData = {
 }
 
 export interface ISamplePrintStrategy {
-  preparePrintData(sampleId: string): Promise<SamplePrintData>
+  preparePrintData(
+    sampleId: string,
+    testIds: string[],
+  ): Promise<SamplePrintData>
 }
 
 export abstract class AbstractSamplePrintStrategy
@@ -30,7 +33,10 @@ export abstract class AbstractSamplePrintStrategy
     protected readonly template: PrintTemplate,
   ) {}
 
-  async preparePrintData(sampleId: string): Promise<SamplePrintData> {
+  async preparePrintData(
+    sampleId: string,
+    testIds: string[],
+  ): Promise<SamplePrintData> {
     const sample = (await this.sampleRepository.findOne({
       filter: { _id: sampleId },
       populates: [
@@ -64,6 +70,10 @@ export abstract class AbstractSamplePrintStrategy
         },
       ],
     }))!
+
+    sample.results = sample.results.filter(({ testId }) =>
+      testIds.includes(testId),
+    )
 
     const testCategoryIds = Array.from(
       new Set(sample.results.map(({ test }) => test?.testCategoryId)),

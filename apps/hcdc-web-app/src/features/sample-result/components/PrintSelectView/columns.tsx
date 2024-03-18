@@ -14,6 +14,7 @@ import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import LoopIcon from '@mui/icons-material/Loop'
 import EditIcon from '@mui/icons-material/Edit'
 import PrintIcon from '@mui/icons-material/Print'
+import { identity } from 'lodash'
 
 import { OmittedSampleResponseDto } from 'src/infra/api/access-service/sample'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
@@ -139,6 +140,7 @@ export const useColumns = (
           return row.results
             .filter(({ isLocked }) => isLocked)
             .map(({ testId }) => testMap.get(testId)?.name)
+            .filter(identity)
             .join(', ')
         },
       },

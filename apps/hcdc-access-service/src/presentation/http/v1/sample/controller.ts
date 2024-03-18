@@ -18,6 +18,7 @@ import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
 import { SampleSearchRequestDto } from './dto/search.dto'
 import { HttpController, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
+import { SamplePrintRequestDto } from './dto/print.dto'
 
 @HttpController({
   basePath: 'v1/samples',
@@ -105,17 +106,11 @@ export class SampleController {
   }
 
   @HttpRoute(sampleRoutes.print)
-  async print(@Res({ passthrough: true }) res: Response) {
-    const buffer = await this.samplePrintUseCase.execute([
-      {
-        printFormId: '65b5a131b38d78ce25a5513d',
-        sampleId: '65ee7540b7f0f50782559908',
-      },
-      {
-        printFormId: '65b5a131b38d78ce25a5513d',
-        sampleId: '65ee7540b7f0f50782559908',
-      },
-    ])
+  async print(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: SamplePrintRequestDto,
+  ) {
+    const buffer = await this.samplePrintUseCase.execute(body.requests)
 
     res.set({
       'Content-Type': 'application/pdf',
