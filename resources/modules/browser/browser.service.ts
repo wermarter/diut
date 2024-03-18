@@ -6,7 +6,7 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common'
-import * as puppeteer from 'puppeteer'
+import * as puppeteer from 'puppeteer-core'
 
 import { AppConfig, loadAppConfig } from 'src/config'
 import { Orientation, chromeArgs } from './browser.common'

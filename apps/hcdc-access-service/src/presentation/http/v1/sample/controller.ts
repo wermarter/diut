@@ -109,11 +109,16 @@ export class SampleController {
     const buffer = await this.samplePrintUseCase.execute([
       {
         printFormId: '65b5a131b38d78ce25a5513d',
-        sampleId: '65b89ee3b7b38de822f4c374',
+        sampleId: '65ee7540b7f0f50782559908',
+      },
+      {
+        printFormId: '65b5a131b38d78ce25a5513d',
+        sampleId: '65ee7540b7f0f50782559908',
       },
     ])
 
     res.set({
+      'Content-Type': 'application/pdf',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       Pragma: 'no-cache',
       Expires: 0,

@@ -1,4 +1,4 @@
-import * as puppeteer from 'puppeteer'
+import * as puppeteer from 'puppeteer-core'
 import { Inject, Injectable } from '@nestjs/common'
 
 import { IPuppeteerService, PuppeteerServiceToken } from 'src/domain'

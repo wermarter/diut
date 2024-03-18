@@ -26,8 +26,9 @@ export class BrowserServiceController implements IBrowserServiceController {
       }),
     )
 
-    const reply = this.browserPrintMultipleUseCase.execute(validatedDto$)
+    const mergedPdf =
+      await this.browserPrintMultipleUseCase.execute(validatedDto$)
 
-    return reply
+    return { mergedPdf }
   }
 }

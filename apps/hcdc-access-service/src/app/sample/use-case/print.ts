@@ -97,7 +97,7 @@ export class SamplePrintUseCase {
           for (let i = 0; i < input.length; i++) {
             const printRequest = await printContexts[i].execute(input[i])
             subscriber.next({
-              htmlContent: JSON.stringify(printRequest),
+              htmlContent: `<p>${JSON.stringify(printRequest)}</p>`,
               pageFormat: PageFormat.A4,
               pageOrientation: PageOrientation.Landscape,
             })
@@ -106,6 +106,10 @@ export class SamplePrintUseCase {
       }),
     )
 
-    return (await lastValueFrom(response$)).mergedPdf
+    const { mergedPdf } = await lastValueFrom(response$)
+
+    console.log({ mergedPdf })
+
+    return mergedPdf
   }
 }

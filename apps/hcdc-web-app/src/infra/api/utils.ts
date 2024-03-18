@@ -6,10 +6,11 @@ function extractFilename(response: Response) {
   return filename
 }
 
-export function fileDownloadReponseHandler({
-  defaultFilename,
-}: {
-  defaultFilename?: string
+const DEFAULT_FILENAME = 'HCDC_Lab_Web'
+
+export function fileReponseHandler(input: {
+  mode: 'preview' | 'download'
+  filename?: string
 }) {
   return async (response: Response) => {
     const filename = extractFilename(response)
@@ -17,12 +18,19 @@ export function fileDownloadReponseHandler({
       await response.blob(),
     )
 
-    // Download the file
     const hiddenElement = document.createElement('a')
     hiddenElement.href = objectURL
     hiddenElement.target = '_blank'
-    hiddenElement.download =
-      filename?.length! > 0 ? filename! : defaultFilename ?? 'HCDC_Lab_Web'
+
+    if (input.mode === 'download') {
+      if (input.filename !== undefined) {
+        hiddenElement.download = input.filename
+      } else {
+        hiddenElement.download =
+          filename?.length! > 0 ? filename! : DEFAULT_FILENAME
+      }
+    }
+
     hiddenElement.click()
 
     // URL.revokeObjectURL(objectURL)

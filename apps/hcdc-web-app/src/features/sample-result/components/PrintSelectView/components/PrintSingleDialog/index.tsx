@@ -75,14 +75,8 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
   const [printSample] = useSamplePrintMutation()
 
   const handlePrint = async (data: FormData) => {
-    const response = (await printSample().unwrap()) as string
-    const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
-      new Blob([response]),
-    )
-    const hiddenElement = document.createElement('a')
-    hiddenElement.href = objectURL
-    hiddenElement.target = '_blank'
-    hiddenElement.click()
+    console.log({ data })
+    await printSample().unwrap()
   }
 
   return (

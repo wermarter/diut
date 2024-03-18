@@ -1,4 +1,4 @@
-import * as puppeteer from 'puppeteer'
+import * as puppeteer from 'puppeteer-core'
 
 export const PuppeteerServiceToken = Symbol('PuppeteerServiceToken')
 

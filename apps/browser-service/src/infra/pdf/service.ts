@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Observable } from 'rxjs'
+import { Observable, concatMap, lastValueFrom } from 'rxjs'
 import { PDFDocument } from 'pdf-lib'
 
 import { IPdfService } from 'src/domain'
@@ -9,18 +9,20 @@ export class PdfService implements IPdfService {
   async mergePdf(pdf$: Observable<Buffer>) {
     const mergedPdf = await PDFDocument.create()
 
-    await pdf$.forEach(async (buffer) => {
-      const document = await PDFDocument.load(buffer)
+    await lastValueFrom(
+      pdf$.pipe(
+        concatMap(async (buffer) => {
+          const document = await PDFDocument.load(buffer)
+          const copiedPages = await mergedPdf.copyPages(
+            document,
+            document.getPageIndices(),
+          )
+          copiedPages.forEach((page) => mergedPdf.addPage(page))
+        }),
+      ),
+    )
 
-      const copiedPages = await mergedPdf.copyPages(
-        document,
-        document.getPageIndices(),
-      )
-
-      copiedPages.forEach((page) => mergedPdf.addPage(page))
-      console.log(`Merged ${copiedPages.length} pages`)
-    })
-
-    return mergedPdf.save()
+    const bytes = await mergedPdf.save()
+    return Buffer.from(bytes)
   }
 }

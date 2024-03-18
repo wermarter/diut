@@ -16,6 +16,6 @@ export class BrowserPrintMultipleUseCase {
     )
     const mergedPdf = await this.pdfService.mergePdf(pdf$)
 
-    return { mergedPdf }
+    return mergedPdf
   }
 }

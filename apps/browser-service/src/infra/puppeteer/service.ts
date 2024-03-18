@@ -6,9 +6,14 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common'
-import * as puppeteer from 'puppeteer'
+import * as puppeteer from 'puppeteer-core'
 
-import { AppConfig, loadAppConfig } from 'src/config'
+import {
+  AppConfig,
+  PuppeteerConfig,
+  loadAppConfig,
+  loadPuppeteerConfig,
+} from 'src/config'
 import { chromeArgs } from './common'
 import { EPuppeteerInitFailed, IPuppeteerService } from 'src/domain'
 
@@ -21,6 +26,8 @@ export class PuppeteerService
 
   constructor(
     @Inject(loadAppConfig.KEY) private readonly appConfig: AppConfig,
+    @Inject(loadPuppeteerConfig.KEY)
+    private readonly puppeteerConfig: PuppeteerConfig,
   ) {}
 
   async onModuleInit() {
@@ -34,19 +41,17 @@ export class PuppeteerService
   }
 
   private async init() {
+    const options: puppeteer.PuppeteerLaunchOptions = {
+      executablePath: this.puppeteerConfig.CHROMIUM_PATH,
+      args: chromeArgs,
+    }
+
     if (this.appConfig.NODE_ENV === NodeEnv.Development) {
       // https://github.com/puppeteer/puppeteer/issues/4039
-      this.browser = await puppeteer.launch({
-        executablePath: '/usr/bin/chromium-browser',
-        pipe: true,
-        args: chromeArgs,
-      })
-    } else {
-      this.browser = await puppeteer.launch({
-        executablePath: '/usr/bin/chromium-browser',
-        args: chromeArgs,
-      })
+      options.pipe = true
     }
+
+    this.browser = await puppeteer.launch(options)
     this.logger.log('Browser connected!')
   }
 

@@ -1,3 +1,4 @@
+import { fileReponseHandler } from '../utils'
 import { accessServiceApiSlice as api } from './slice'
 export const addTagTypes = ['v1-samples'] as const
 const injectedRtkApi = api
@@ -71,7 +72,11 @@ const injectedRtkApi = api
         invalidatesTags: ['v1-samples'],
       }),
       samplePrint: build.mutation<SamplePrintApiResponse, SamplePrintApiArg>({
-        query: () => ({ url: `/api/v1/samples/print`, method: 'POST' }),
+        query: () => ({
+          url: `/api/v1/samples/print`,
+          method: 'POST',
+          responseHandler: fileReponseHandler({ mode: 'preview' }),
+        }),
         invalidatesTags: ['v1-samples'],
       }),
     }),
