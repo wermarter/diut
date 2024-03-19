@@ -13,7 +13,7 @@ import {
   PageFormat,
   PageOrientation,
 } from '@diut/services'
-import { Observable, lastValueFrom } from 'rxjs'
+import { Observable, firstValueFrom, lastValueFrom } from 'rxjs'
 
 import {
   AuthContextToken,
@@ -121,7 +121,6 @@ export class SamplePrintUseCase {
       samplePrintContext.setStrategy(strategy)
       printContexts.push(samplePrintContext)
     }
-
     const response$ = this.browserService.printMultiplePage(
       new Observable((subscriber) => {
         ;(async function () {
@@ -133,12 +132,15 @@ export class SamplePrintUseCase {
               pageOrientation: PageOrientation.Portrait,
             })
           }
-        })().then(() => subscriber.complete())
+        })()
+          .then(() => subscriber.complete())
+          .catch((e) => {
+            subscriber.error(e)
+          })
       }),
     )
 
-    const { mergedPdf } = await lastValueFrom(response$)
-
+    const { mergedPdf } = await firstValueFrom(response$)
     return mergedPdf
   }
 }

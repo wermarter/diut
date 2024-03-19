@@ -1,6 +1,6 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
 
-import { browserServiceMetadata } from './example-service'
+import { browserServiceMetadata } from './browser-service'
 
 export const externalServiceMetadata = concatModuleMetadata([
   browserServiceMetadata,

@@ -110,7 +110,12 @@ export class SampleController {
     @Res({ passthrough: true }) res: Response,
     @Body() body: SamplePrintRequestDto,
   ) {
-    const buffer = await this.samplePrintUseCase.execute(body.requests)
+    const buffer = await this.samplePrintUseCase.execute([
+      ...body.requests,
+      ...body.requests,
+      ...body.requests,
+      ...body.requests,
+    ])
 
     res.set({
       'Content-Type': 'application/pdf',

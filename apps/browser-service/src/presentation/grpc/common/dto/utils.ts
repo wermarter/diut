@@ -11,11 +11,13 @@ export const validateDto = async <T extends object>(
 
   const errors = await validate(instance)
   if (errors.length > 0) {
-    throw new EValidationRequestFailed({
-      errors: errors.map(({ constraints }) => {
-        return Object.values(constraints ?? {})[0]
-      }),
-    })
+    throw new EValidationRequestFailed(
+      JSON.stringify(
+        errors.map(({ constraints }) => {
+          return Object.values(constraints ?? {})[0]
+        }),
+      ),
+    )
   }
 
   return instance

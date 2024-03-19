@@ -10,6 +10,9 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tsconfigPaths()], // basicSsl()
+  optimizeDeps: {
+    include: ['@mui/material/Unstable_Grid2'],
+  },
   resolve: {
     alias: [
       {

@@ -13,7 +13,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
 
     const statusBuilder = new StatusBuilder()
     statusBuilder.withCode(exception.grpcStatus)
-    statusBuilder.withDetails(exception.stack ?? exception.message)
+    statusBuilder.withDetails(exception.message)
 
     const statusMetadata = new Metadata()
     statusMetadata.set('service-error-code', exception.errorCode)

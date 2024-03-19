@@ -1,9 +1,11 @@
 import {
   DeleteObjectCommand,
   GetObjectCommand,
+  HeadBucketCommand,
   PutObjectCommand,
   S3Client,
   S3ClientConfigType,
+  S3ServiceException,
 } from '@aws-sdk/client-s3'
 import { Inject, Injectable } from '@nestjs/common'
 import { Readable, Stream } from 'stream'
@@ -12,6 +14,7 @@ import { S3RequestPresigner } from '@aws-sdk/s3-request-presigner'
 import { Hash } from '@smithy/hash-node'
 import { HttpRequest } from '@smithy/protocol-http'
 import { formatUrl } from '@aws-sdk/util-format-url'
+import { StringOrKeysOf } from '@diut/common'
 
 import { AbstractClientService } from '../service'
 import { MODULE_OPTIONS_TOKEN } from './module-builder'
@@ -20,9 +23,18 @@ export type AwsS3ClientOptions = S3ClientConfigType & {
   connectionId?: string
 }
 
+export interface AwsS3Buckets {}
+/**
+  declare module '@diut/nestjs-infra' {
+    interface AwsS3Buckets {
+      ["bucket-name"]: true
+    }
+  }
+ */
+
 @Injectable()
 export class AwsS3ClientService<
-  TBuckets extends string = string,
+  TBucket extends string = StringOrKeysOf<AwsS3Buckets>,
 > extends AbstractClientService {
   private client: S3Client
 
@@ -36,15 +48,26 @@ export class AwsS3ClientService<
     })
   }
 
-  initialize() {
-    this.client = new S3Client(this.clientOptions)
+  async readyCheck() {
+    try {
+      await this.client.send(new HeadBucketCommand({ Bucket: 'bucket-name' }))
+    } catch (e) {
+      if (!(e instanceof S3ServiceException)) {
+        throw e
+      }
+    }
   }
 
-  terminate() {
+  async connect() {
+    this.client = new S3Client(this.clientOptions)
+    await this.readyCheck()
+  }
+
+  close() {
     this.client.destroy()
   }
 
-  async upload(input: { bucket: string; key: string; buffer: Buffer }) {
+  async upload(input: { bucket: TBucket; key: string; buffer: Buffer }) {
     await this.client.send(
       new PutObjectCommand({
         Bucket: input.bucket,
@@ -76,7 +99,7 @@ export class AwsS3ClientService<
     return formatUrl(url)
   }
 
-  async readToStream(input: { key: string; bucket: string }) {
+  async readToStream(input: { key: string; bucket: TBucket }) {
     const response = await this.client.send(
       new GetObjectCommand({
         Bucket: input.bucket,
@@ -87,7 +110,7 @@ export class AwsS3ClientService<
     return response.Body as Readable
   }
 
-  async readToBuffer(key: string, bucket: string) {
+  async readToBuffer(key: string, bucket: TBucket) {
     const buffer = await new Promise<Buffer>((resolve, reject) => {
       const getObjectCommand = new GetObjectCommand({
         Bucket: bucket,
@@ -122,7 +145,7 @@ export class AwsS3ClientService<
     return buffer
   }
 
-  async deleteByKey(input: { key: string; bucket: string }) {
+  async deleteByKey(input: { key: string; bucket: TBucket }) {
     await this.client.send(
       new DeleteObjectCommand({
         Bucket: input.bucket,

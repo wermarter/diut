@@ -8,11 +8,13 @@ export abstract class AbstractClientService
 {
   protected logger: Logger
   private retryOptions: RetryOptions<unknown>
+  private ignoreConnectFail: boolean
 
   constructor(clientConfig: {
     name: string
     connectionId?: string
     retryOptions?: RetryOptions<unknown>
+    ignoreConnectFail?: boolean
   }) {
     const connectionId =
       clientConfig.connectionId ?? DEFAULT_CLIENT_CONNECTION_ID
@@ -20,53 +22,68 @@ export abstract class AbstractClientService
       times: 3,
       interval: 1000,
     }
-
+    this.ignoreConnectFail = clientConfig.ignoreConnectFail ?? false
     this.logger = new Logger(`${clientConfig.name}:${connectionId}`)
   }
 
   async onModuleInit() {
-    this.logger.verbose('Initializing...')
+    this.logger.verbose('Connecting...')
+    let isSuccessful = true
     try {
       await retry(
         {
           ...this.retryOptions,
           errorFilter: (error) => {
-            this.logger.warn(`Initialize failed:\n${error}`)
+            this.logger.warn(`Connect failed:${error}`)
             return this.retryOptions?.errorFilter?.(error) ?? true
           },
         },
         async () => {
-          await this.initialize()
+          await this.connect()
         },
       )
     } catch (e) {
-      this.logger.fatal(`Cannot initialize`)
-      throw e
+      this.logger.error({ message: `Cannot connect`, error: e, stack: e.stack })
+      isSuccessful = false
+      if (!this.ignoreConnectFail) {
+        throw e
+      }
     }
-    this.logger.verbose('Initialized!')
+    isSuccessful && this.logger.verbose('Connected!')
   }
 
   async onModuleDestroy() {
-    this.logger.verbose('Terminating...')
+    this.logger.verbose('Closing...')
     try {
       await retry(
         {
           ...this.retryOptions,
           errorFilter: (error) => {
-            this.logger.warn(`Terminate failed:\n${error}`)
+            this.logger.warn(`Close failed:${error}`)
             return this.retryOptions?.errorFilter?.(error) ?? true
           },
         },
         async () => {
-          await this.terminate()
+          await this.close()
         },
       )
     } catch (e) {
-      this.logger.error(`Cannot terminate:\n${e}`)
+      this.logger.error(`Cannot close:${e}`)
     }
-    this.logger.verbose('Terminated!')
+    this.logger.verbose('Closed!')
   }
 
-  abstract initialize(): void | Promise<void>
-  abstract terminate(): void | Promise<void>
+  async safeReadyCheck() {
+    try {
+      await this.readyCheck()
+      return true
+    } catch (e) {
+      this.logger.error(`Ready check failed:${e}`)
+      return false
+    }
+  }
+
+  abstract connect(): void | Promise<void>
+  abstract close(): void | Promise<void>
+  abstract readyCheck(): void | Promise<void>
 }

@@ -27,7 +27,13 @@ export class PuppeteerService
     super({ name: PuppeteerService.name })
   }
 
-  async initialize() {
+  readyCheck() {
+    if (!this.browser.connected) {
+      throw new EPuppeteerInitFailed()
+    }
+  }
+
+  async connect() {
     const options: puppeteer.PuppeteerLaunchOptions = {
       executablePath: this.puppeteerConfig.CHROMIUM_PATH,
       args: chromeArgs,
@@ -39,9 +45,10 @@ export class PuppeteerService
     }
 
     this.browser = await puppeteer.launch(options)
+    this.readyCheck()
   }
 
-  async terminate() {
+  async close() {
     if (this.browser) {
       await this.browser.close()
     }
