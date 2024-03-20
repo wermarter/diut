@@ -109,17 +109,14 @@ export function ResultCard(props: ResultCardProps) {
         }}
         subheader={props.testResult.bioProductName}
         action={
-          <Box sx={{ m: 1, display: 'flex', alignItems: 'center' }}>
-            {props.testResult.resultAt !== undefined && (
-              <Typography sx={{ opacity: 0.5, mr: 1 }} variant="overline">
-                {format(new Date(props.testResult.resultAt), DATETIME_FORMAT)}
-              </Typography>
-            )}
-            {props.testResult.resultBy != null && (
-              <Typography sx={{ fontStyle: 'italic', mr: 2 }}>
-                {props.testResult.resultBy.name}
-              </Typography>
-            )}
+          <Box
+            sx={{
+              m: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+            }}
+          >
             <ButtonGroup>
               {isLocked ? (
                 <Button
@@ -175,6 +172,13 @@ export function ResultCard(props: ResultCardProps) {
                 <SaveIcon />
               </Button>
             </ButtonGroup>
+            {props.testResult.resultBy != null && (
+              <Typography sx={{ opacity: 0.5 }} variant="overline">
+                {props.testResult.resultBy.name}
+                {' - '}
+                {format(new Date(props.testResult.resultAt!), DATETIME_FORMAT)}
+              </Typography>
+            )}
           </Box>
         }
       />

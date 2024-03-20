@@ -19,6 +19,7 @@ import {
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
+import { trimStringValues } from '@diut/common'
 
 import { authSlice } from 'src/features/auth'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
@@ -55,7 +56,6 @@ import {
 import { TestSelector } from 'src/features/test'
 import { DataTable } from 'src/components/table'
 import { BarcodeModal } from '../BarcodeModal'
-import { trimStringValues } from '@diut/common'
 
 export type InputFormProps = {
   patientTypes: PatientTypeResponseDto[]
@@ -492,6 +492,12 @@ export function InfoInputForm(props: InputFormProps) {
             'testIds',
             items.map((item) => item._id),
           )
+          const sampleTypeIds = new Set(
+            items
+              .map((item) => item.sampleTypeId)
+              .filter((id): id is string => id !== null),
+          )
+          setValue('sampleTypeIds', Array.from(sampleTypeIds))
         }}
         showCombos
       />

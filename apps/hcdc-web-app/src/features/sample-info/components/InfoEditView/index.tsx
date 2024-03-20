@@ -23,6 +23,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { difference, omit } from 'lodash'
+import { trimStringValues } from '@diut/common'
 
 import {
   FormContainer,
@@ -53,7 +54,6 @@ import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
 import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { authSlice } from 'src/features/auth'
-import { trimStringValues } from '@diut/common'
 
 const currentYear = new Date().getFullYear()
 
@@ -456,6 +456,12 @@ export function InfoEditView(props: InfoEditViewProps) {
             'testIds',
             items.map((item) => item._id),
           )
+          const sampleTypeIds = new Set(
+            items
+              .map((item) => item.sampleTypeId)
+              .filter((id): id is string => id !== null),
+          )
+          setValue('sampleTypeIds', Array.from(sampleTypeIds))
         }}
         showCombos
       />
