@@ -2,7 +2,7 @@ import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import SaveIcon from '@mui/icons-material/Save'
 import { format } from 'date-fns'
-import { DATETIME_FORMAT } from '@diut/common'
+import { DATETIME_FORMAT, trimStringValues } from '@diut/common'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   AuthSubject,
@@ -161,7 +161,9 @@ export function ResultCard(props: ResultCardProps) {
                           elements: Object.keys(testElementResult).map(
                             (testElementId) => ({
                               testElementId,
-                              ...testElementResult[testElementId],
+                              ...trimStringValues(
+                                testElementResult[testElementId],
+                              ),
                             }),
                           ),
                         },

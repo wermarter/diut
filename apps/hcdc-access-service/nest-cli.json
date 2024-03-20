@@ -3,6 +3,8 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "assets": [{ "include": "./views/**/*", "watchAssets": true }]
+    "assets": [
+      { "include": "./app/sample/print-template/**/*", "watchAssets": true }
+    ]
   }
 }

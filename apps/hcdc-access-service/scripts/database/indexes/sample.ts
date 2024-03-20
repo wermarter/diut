@@ -10,13 +10,13 @@ dotenv.config()
 mongoose.set('debug', true)
 
 async function main() {
-  const [sourceDB] = await Promise.all([
+  const [destDB] = await Promise.all([
     mongoose.createConnection(process.env.DEST_MONGO_URI!).asPromise(),
   ])
   console.log('DB connected')
 
   const schema = SchemaFactory.createForClass(SampleSchema)
-  const model = sourceDB.model(COLLECTION.SAMPLE, schema)
+  const model = destDB.model(COLLECTION.SAMPLE, schema)
 
   const indexName = await model.collection.createIndex(
     { sampleId: 1 },
@@ -30,7 +30,7 @@ async function main() {
 
   console.log({ indexName })
 
-  await Promise.all([sourceDB.close()])
+  await Promise.all([destDB.close()])
   process.exit(0)
 }
 

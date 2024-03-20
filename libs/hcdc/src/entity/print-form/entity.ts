@@ -1,4 +1,5 @@
 import { stringEnumValues } from '@diut/common'
+
 import { BaseEntity } from '../base-entity'
 import { Branch } from '../branch'
 

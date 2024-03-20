@@ -137,7 +137,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
       TransitionComponent={DialogTransition}
       open={props.sample !== null}
       onClose={(e, reason) => {
-        if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+        if (reason === 'backdropClick') {
           // many form-elements, easy to close
           return
         }

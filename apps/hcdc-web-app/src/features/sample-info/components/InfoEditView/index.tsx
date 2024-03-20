@@ -53,6 +53,7 @@ import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
 import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { authSlice } from 'src/features/auth'
+import { trimStringValues } from '@diut/common'
 
 const currentYear = new Date().getFullYear()
 
@@ -180,6 +181,7 @@ export function InfoEditView(props: InfoEditViewProps) {
       </Box>
       <FormContainer
         onSubmit={handleSubmit(async (values) => {
+          values = trimStringValues(values)
           return Promise.all([
             updatePatient({
               id: props.sampleRes.patient?._id!,

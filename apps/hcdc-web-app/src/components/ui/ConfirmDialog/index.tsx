@@ -36,7 +36,7 @@ export function ConfirmDialog({
     event: object,
     reason: 'backdropClick' | 'escapeKeyDown',
   ) => {
-    if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+    if (reason === 'backdropClick') {
       return
     }
     onClose()

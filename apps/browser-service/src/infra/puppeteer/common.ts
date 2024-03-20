@@ -2,7 +2,7 @@ export const chromeArgs = [
   '--no-sandbox',
   '--disable-setuid-sandbox',
   '--disable-dev-shm-usage',
-  '--single-process',
+  // '--single-process', not working with new headless mode
   '--disable-gpu',
   '--aggressive-cache-discard',
   '--disable-cache',

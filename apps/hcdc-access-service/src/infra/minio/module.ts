@@ -6,8 +6,13 @@ import {
 import { ModuleMetadata } from '@nestjs/common'
 import { ClassConstructor } from 'class-transformer'
 
-import { IStorageService, StorageServiceToken } from 'src/domain'
+import {
+  IStorageService,
+  StorageBucketToken,
+  StorageServiceToken,
+} from 'src/domain'
 import { MinioConfig, loadMinioConfig } from 'src/config'
+import { StorageBucketProvider } from './bucket'
 
 export const minioMetadata: ModuleMetadata = {
   imports: [
@@ -17,6 +22,7 @@ export const minioMetadata: ModuleMetadata = {
       useFactory: async (minioConfig: MinioConfig) => ({
         connectionId: 'minio',
         endpoint: `http://${minioConfig.MINIO_ENDPOINT}:${minioConfig.MINIO_PORT}`,
+        region: minioConfig.MINIO_REGION,
         credentials: {
           accessKeyId: minioConfig.MINIO_ACCESS_KEY,
           secretAccessKey: minioConfig.MINIO_SECRET_KEY,
@@ -30,6 +36,10 @@ export const minioMetadata: ModuleMetadata = {
       provide: StorageServiceToken,
       useExisting:
         AwsS3ClientService satisfies ClassConstructor<IStorageService>,
+    },
+    {
+      provide: StorageBucketToken,
+      useClass: StorageBucketProvider,
     },
   ],
 }

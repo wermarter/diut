@@ -1,5 +1,5 @@
 import { ModuleRef } from '@nestjs/core'
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import {
   AuthSubject,
   PrintFormAction,
@@ -7,22 +7,26 @@ import {
   SampleAction,
   TestAction,
   SampleTypeAction,
+  PrintForm,
 } from '@diut/hcdc'
-import {
-  BrowserServiceClient,
-  PageFormat,
-  PageOrientation,
-} from '@diut/services'
-import { Observable, firstValueFrom, lastValueFrom } from 'rxjs'
+import { BrowserServiceClient } from '@diut/services'
+import { Observable, firstValueFrom } from 'rxjs'
+import { render, renderFile } from 'ejs'
+import { NodeEnv } from '@diut/common'
+import { join } from 'path'
 
 import {
   AuthContextToken,
   BrowserServiceToken,
   EEntityNotFound,
   IAuthContext,
+  IStorageBucket,
   IStorageService,
+  StorageBucket,
+  StorageBucketToken,
   StorageServiceToken,
   assertPermission,
+  printTemplateConfigs,
 } from 'src/domain'
 import {
   SamplePrintContext,
@@ -34,9 +38,12 @@ import { SampleAssertExistsUseCase } from './assert-exists'
 import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
 import { TestAssertExistsUseCase } from 'src/app/test'
 import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
+import { AppConfig, loadAppConfig } from 'src/config'
 
 @Injectable()
 export class SamplePrintUseCase {
+  private logger = new Logger(SamplePrintUseCase.name)
+
   constructor(
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
@@ -44,6 +51,10 @@ export class SamplePrintUseCase {
     private readonly browserService: BrowserServiceClient,
     @Inject(StorageServiceToken)
     private readonly storageService: IStorageService,
+    @Inject(StorageBucketToken)
+    private readonly storageBucket: IStorageBucket,
+    @Inject(loadAppConfig.KEY)
+    private readonly appConfig: AppConfig,
     private readonly moduleRef: ModuleRef,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
@@ -54,6 +65,7 @@ export class SamplePrintUseCase {
   async execute(input: SamplePrintOptions[]) {
     const { ability } = this.authContext.getData()
     const printContexts: SamplePrintContext[] = []
+    const printFormMap = new Map<string, PrintForm>()
 
     for (const printOptions of input) {
       const sample = await this.sampleAssertExistsUseCase.execute({
@@ -84,6 +96,7 @@ export class SamplePrintUseCase {
           printForm,
         )
       }
+      printFormMap.set(printForm._id.toString(), printForm)
 
       for (const testId of printOptions.testIds) {
         const test = await this.testAssertExistsUseCase.execute({
@@ -123,18 +136,46 @@ export class SamplePrintUseCase {
     }
     const response$ = this.browserService.printMultiplePage(
       new Observable((subscriber) => {
-        ;(async function () {
+        ;(async () => {
           for (let i = 0; i < input.length; i++) {
             const printRequest = await printContexts[i].execute(input[i])
+            const printForm = printFormMap.get(input[i].printFormId)!
+            const printConfig = printTemplateConfigs[printForm.template]
+
+            let htmlContent: string
+
+            const isDevelopment =
+              this.appConfig.NODE_ENV === NodeEnv.Development
+            if (isDevelopment) {
+              htmlContent = await renderFile(
+                join(
+                  __dirname,
+                  '..',
+                  `print-template/${printConfig.templatePath}`,
+                ),
+                printRequest,
+              )
+            } else {
+              const templateBuffer = await this.storageService.readToBuffer({
+                key: `print-form-template/${printConfig.templatePath}`,
+                bucket: this.storageBucket.get(StorageBucket.APP),
+              })
+              const template = templateBuffer.toString()
+              htmlContent = await render(template, printRequest, {
+                async: true,
+              })
+            }
+
             subscriber.next({
-              htmlContent: `<p>${JSON.stringify(printRequest, null, 2)}</p>`,
-              pageFormat: PageFormat.A4,
-              pageOrientation: PageOrientation.Portrait,
+              htmlContent,
+              pageFormat: printConfig.pageFormat,
+              pageOrientation: printConfig.pageOrientation,
             })
           }
         })()
           .then(() => subscriber.complete())
           .catch((e) => {
+            this.logger.warn(`Error when preparing print data: ${e}`)
             subscriber.error(e)
           })
       }),

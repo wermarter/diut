@@ -1,3 +1,11 @@
+export const StorageBucketToken = Symbol('StorageBucketToken')
+
 export enum StorageBucket {
-  PUBLIC_HCDC = 'PUBLIC_HCDC',
+  APP = 'APP',
+  PUBLIC = 'PUBLIC',
+  SAMPLE_IMAGES = 'SAMPLE_IMAGES',
+}
+
+export interface IStorageBucket {
+  get(key: StorageBucket): string
 }

@@ -112,9 +112,9 @@ export class SampleController {
   ) {
     const buffer = await this.samplePrintUseCase.execute([
       ...body.requests,
-      ...body.requests,
-      ...body.requests,
-      ...body.requests,
+      // ...body.requests,
+      // ...body.requests,
+      // ...body.requests,
     ])
 
     res.set({

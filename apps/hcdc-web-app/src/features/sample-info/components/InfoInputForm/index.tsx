@@ -55,6 +55,7 @@ import {
 import { TestSelector } from 'src/features/test'
 import { DataTable } from 'src/components/table'
 import { BarcodeModal } from '../BarcodeModal'
+import { trimStringValues } from '@diut/common'
 
 export type InputFormProps = {
   patientTypes: PatientTypeResponseDto[]
@@ -207,13 +208,13 @@ export function InfoInputForm(props: InputFormProps) {
   const handleFormSubmit = useCallback(
     handleSubmit(async (values) => {
       let patient: PatientResponseDto
-      const patientValues = {
+      const patientValues = trimStringValues({
         ...values,
         gender:
           values.gender === GENDER_PREGNANT_VALUE
             ? PatientGender.Female
             : values.gender,
-      }
+      })
 
       if (shouldUpdatePatient != null) {
         patient = await updatePatient({
@@ -225,9 +226,9 @@ export function InfoInputForm(props: InputFormProps) {
       }
 
       await createSample({
-        ...values,
+        ...trimStringValues(values),
         isPregnant: values.gender === GENDER_PREGNANT_VALUE,
-        note: values.note ?? '',
+        note: values.note?.trim() ?? '',
         sampledAt: values.sampledAt.toISOString(),
         infoAt: values.infoAt.toISOString(),
         patientId: patient._id,

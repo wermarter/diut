@@ -31,6 +31,16 @@ export class MinioConfig {
   @IsString()
   @MinLength(1)
   MINIO_PUBLIC_BUCKET: string
+
+  @Expose()
+  @IsString()
+  @MinLength(1)
+  MINIO_APP_BUCKET: string
+
+  @Expose()
+  @IsString()
+  @MinLength(1)
+  MINIO_REGION: string
 }
 
 export const loadMinioConfig = makeConfigLoader(MinioConfig)

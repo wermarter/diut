@@ -77,7 +77,7 @@ export class AwsS3ClientService<
     )
   }
 
-  async getPresignedUrl(key: string) {
+  async getPresignedUrl(input: { key: string }) {
     const credentials = this.clientOptions.credentials
     const region = this.clientOptions.region
     if (!credentials || !region) {
@@ -85,7 +85,7 @@ export class AwsS3ClientService<
     }
 
     const s3ObjectUrl = parseUrl(
-      `https://${process.env.S3_BUCKET}.s3.${region}.amazonaws.com/${key}`,
+      `https://${process.env.S3_BUCKET}.s3.${region}.amazonaws.com/${input.key}`,
     )
 
     const presigner = new S3RequestPresigner({
@@ -110,11 +110,11 @@ export class AwsS3ClientService<
     return response.Body as Readable
   }
 
-  async readToBuffer(key: string, bucket: TBucket) {
+  async readToBuffer(input: { key: string; bucket: TBucket }) {
     const buffer = await new Promise<Buffer>((resolve, reject) => {
       const getObjectCommand = new GetObjectCommand({
-        Bucket: bucket,
-        Key: key,
+        Bucket: input.bucket,
+        Key: input.key,
       })
 
       this.client
