@@ -25,6 +25,20 @@ const injectedRtkApi = api
           invalidatesTags: ['v1-samples'],
         },
       ),
+      sampleDownloadResultImage: build.query<
+        SampleDownloadResultImageApiResponse,
+        SampleDownloadResultImageApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/download`,
+          params: {
+            sampleId: queryArg.sampleId,
+            testElementId: queryArg.testElementId,
+          },
+          responseHandler: fileReponseHandler({ mode: 'url' }),
+        }),
+        providesTags: ['v1-samples'],
+      }),
       sampleFindInfoById: build.query<
         SampleFindInfoByIdApiResponse,
         SampleFindInfoByIdApiArg
@@ -80,6 +94,22 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['v1-samples'],
       }),
+      sampleUploadResultImage: build.mutation<
+        SampleUploadResultImageApiResponse,
+        SampleUploadResultImageApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/upload`,
+          method: 'POST',
+          body: queryArg.sampleUploadImageDto,
+          params: {
+            sampleId: queryArg.sampleId,
+            testElementId: queryArg.testElementId,
+          },
+          formData: true,
+        }),
+        invalidatesTags: ['v1-samples'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -88,6 +118,11 @@ export type SampleSearchApiResponse = /** status 200  */ SampleSearchResponseDto
 export type SampleSearchApiArg = SampleSearchRequestDto
 export type SampleCreateApiResponse = /** status 201  */ SampleCreateResponseDto
 export type SampleCreateApiArg = SampleCreateRequestDto
+export type SampleDownloadResultImageApiResponse = unknown
+export type SampleDownloadResultImageApiArg = {
+  sampleId: string
+  testElementId: string
+}
 export type SampleFindInfoByIdApiResponse = /** status 200  */ SampleResponseDto
 export type SampleFindInfoByIdApiArg = string
 export type SampleUpdateInfoByIdApiResponse =
@@ -109,6 +144,13 @@ export type SampleUpdateResultByIdApiArg = {
 }
 export type SamplePrintApiResponse = unknown
 export type SamplePrintApiArg = SamplePrintRequestDto
+export type SampleUploadResultImageApiResponse =
+  /** status 200  */ SampleUploadImageResponseDto
+export type SampleUploadResultImageApiArg = {
+  sampleId: string
+  testElementId: string
+  sampleUploadImageDto: SampleUploadImageDto
+}
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -280,7 +322,9 @@ export type HttpErrorResponse = {
     | 'ENTITY_POPULATE_PATH_UNKNOWN'
     | 'ENTITY_SAMPLE_ID_ALREADY_EXISTS'
     | 'ENTITY_TEST_INVALID_BIO_PRODUCT'
-    | 'SERVICE'
+    | 'EXTERNAL_SERVICE'
+    | 'BROWSER_SERVICE'
+    | 'BROWSER_SERVICE_EXCEPTION'
     | 'REQUEST'
     | 'REQUEST_INVALID_INPUT'
   message: string
@@ -502,10 +546,18 @@ export type SamplePrintSingleRequestDto = {
 export type SamplePrintRequestDto = {
   requests: SamplePrintSingleRequestDto[]
 }
+export type SampleUploadImageResponseDto = {
+  storageKey: string
+}
+export type SampleUploadImageDto = {
+  file: Blob
+}
 export const {
   useSampleSearchQuery,
   useLazySampleSearchQuery,
   useSampleCreateMutation,
+  useSampleDownloadResultImageQuery,
+  useLazySampleDownloadResultImageQuery,
   useSampleFindInfoByIdQuery,
   useLazySampleFindInfoByIdQuery,
   useSampleUpdateInfoByIdMutation,
@@ -514,4 +566,5 @@ export const {
   useSampleDeleteByIdMutation,
   useSampleUpdateResultByIdMutation,
   useSamplePrintMutation,
+  useSampleUploadResultImageMutation,
 } = injectedRtkApi

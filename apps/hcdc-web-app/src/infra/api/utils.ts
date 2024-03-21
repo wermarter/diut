@@ -9,7 +9,7 @@ function extractFilename(response: Response) {
 const DEFAULT_FILENAME = 'HCDC_Lab_Web'
 
 export function fileReponseHandler(input: {
-  mode: 'preview' | 'download'
+  mode: 'preview' | 'download' | 'url'
   filename?: string
 }) {
   return async (response: Response) => {
@@ -17,6 +17,10 @@ export function fileReponseHandler(input: {
     const objectURL = (window.URL ?? window.webkitURL).createObjectURL(
       await response.blob(),
     )
+
+    if (input.mode === 'url') {
+      return objectURL
+    }
 
     const hiddenElement = document.createElement('a')
     hiddenElement.href = objectURL
@@ -33,7 +37,6 @@ export function fileReponseHandler(input: {
 
     hiddenElement.click()
 
-    // URL.revokeObjectURL(objectURL)
-    return objectURL
+    URL.revokeObjectURL(objectURL)
   }
 }

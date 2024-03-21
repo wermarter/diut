@@ -67,12 +67,18 @@ export class AwsS3ClientService<
     this.client.destroy()
   }
 
-  async upload(input: { bucket: TBucket; key: string; buffer: Buffer }) {
+  async upload(input: {
+    bucket: TBucket
+    key: string
+    buffer: Buffer
+    mimeType?: string
+  }) {
     await this.client.send(
       new PutObjectCommand({
         Bucket: input.bucket,
         Key: input.key,
         Body: input.buffer,
+        ContentType: input.mimeType,
       }),
     )
   }
@@ -107,7 +113,11 @@ export class AwsS3ClientService<
       }),
     )
 
-    return response.Body as Readable
+    return {
+      stream: response.Body as Readable,
+      mimetype: response.ContentType,
+      length: response.ContentLength,
+    }
   }
 
   async readToBuffer(input: { key: string; bucket: TBucket }) {

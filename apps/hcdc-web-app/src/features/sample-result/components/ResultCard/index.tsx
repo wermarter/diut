@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   AuthSubject,
   PatientCategory,
+  PrintTemplate,
   SampleResultTest,
   TestResultAction,
   checkPermission,
@@ -22,7 +23,11 @@ import {
   Typography,
 } from '@mui/material'
 
-import { CardContentChung, TestElementResultData } from './components'
+import {
+  CardContentChung,
+  CardContentPap,
+  TestElementResultData,
+} from './components'
 import {
   SampleResultTestResponseDto,
   useSampleUpdateResultByIdMutation,
@@ -63,8 +68,8 @@ export function ResultCard(props: ResultCardProps) {
       props.testResult.test?.printFormId!,
     )
     switch (printForm?.template!) {
-      // case PrintTemplate.FormPap:
-      //   return ResultCardPap
+      case PrintTemplate.FormPap:
+        return CardContentPap
       // case PrintTemplate.FormTD:
       //   return ResultCardTD
       default:
@@ -80,10 +85,10 @@ export function ResultCard(props: ResultCardProps) {
   >({})
 
   const setElementResult = useCallback(
-    (testElementId: string, data: TestElementResultData) => {
+    (testElementId: string, data: Partial<TestElementResultData>) => {
       setTestElementResult((prev) =>
         Object.assign({}, prev, {
-          [testElementId]: data,
+          [testElementId]: { ...prev[testElementId], ...data },
         }),
       )
     },
@@ -185,10 +190,11 @@ export function ResultCard(props: ResultCardProps) {
       {isLoading && <ProgressBar />}
       <CardContent sx={{ px: 6, py: 0 }}>
         <CardContentComponent
+          sampleId={props.sampleId}
           isDisabled={isLocked || !isAuthorized || isLoading}
-          result={testElementResult}
-          testResult={props.testResult}
-          setElementResult={setElementResult}
+          resultState={testElementResult}
+          resultRes={props.testResult}
+          setResultState={setElementResult}
           patientCategory={props.patientCategory}
         />
       </CardContent>

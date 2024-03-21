@@ -20,7 +20,7 @@ export const minioMetadata: ModuleMetadata = {
       imports: [ConfigModule.forFeature(loadMinioConfig)],
       inject: [loadMinioConfig.KEY],
       useFactory: async (minioConfig: MinioConfig) => ({
-        connectionId: 'minio',
+        connectionId: 'MinIO',
         endpoint: `http://${minioConfig.MINIO_ENDPOINT}:${minioConfig.MINIO_PORT}`,
         region: minioConfig.MINIO_REGION,
         credentials: {

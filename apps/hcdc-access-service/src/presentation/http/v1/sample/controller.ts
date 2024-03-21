@@ -1,6 +1,18 @@
-import { Body, Param, Res, StreamableFile } from '@nestjs/common'
+import {
+  Body,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Query,
+  Res,
+  StreamableFile,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Response } from 'express'
+import { ApiBody, ApiConsumes } from '@nestjs/swagger'
 
 import { sampleRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
@@ -12,6 +24,8 @@ import {
   SampleUpdateResultUseCase,
   SampleUpdateInfoUseCase,
   SamplePrintUseCase,
+  SampleUploadResultImageUseCase,
+  SampleDownloadResultImageUseCase,
 } from 'src/app'
 import { SampleCreateRequestDto } from './dto/create.dto'
 import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
@@ -19,6 +33,8 @@ import { SampleSearchRequestDto } from './dto/search.dto'
 import { HttpController, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
 import { SamplePrintRequestDto } from './dto/print.dto'
+import { SampleUploadImageDto } from './dto/upload-image.dto'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 @HttpController({
   basePath: 'v1/samples',
@@ -32,6 +48,8 @@ export class SampleController {
     private readonly sampleSearchUseCase: SampleSearchUseCase,
     private readonly sampleFindOneUseCase: SampleFindOneUseCase,
     private readonly samplePrintUseCase: SamplePrintUseCase,
+    private readonly sampleUploadResultImageUseCase: SampleUploadResultImageUseCase,
+    private readonly sampleDownloadResultImageUseCase: SampleDownloadResultImageUseCase,
   ) {}
 
   @HttpRoute(sampleRoutes.search)
@@ -42,6 +60,20 @@ export class SampleController {
   @HttpRoute(sampleRoutes.create)
   create(@Body() body: SampleCreateRequestDto) {
     return this.sampleCreateUseCase.execute(body)
+  }
+
+  @HttpRoute(sampleRoutes.downloadResultImage)
+  async downloadResultImage(
+    @Query('sampleId', ObjectIdPipe) sampleId: string,
+    @Query('testElementId', ObjectIdPipe) testElementId: string,
+  ) {
+    const { stream, mimetype, length } =
+      await this.sampleDownloadResultImageUseCase.execute({
+        sampleId,
+        testElementId,
+      })
+
+    return new StreamableFile(stream, { type: mimetype, length })
   }
 
   @HttpRoute(sampleRoutes.findInfoById)
@@ -125,5 +157,34 @@ export class SampleController {
     })
 
     return new StreamableFile(buffer)
+  }
+
+  @HttpRoute(sampleRoutes.uploadResultImage)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: SampleUploadImageDto,
+  })
+  async uploadResultImage(
+    @Query('sampleId', ObjectIdPipe) sampleId: string,
+    @Query('testElementId', ObjectIdPipe) testElementId: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10 * 1000 * 1000 }), // 10 MB
+          new FileTypeValidator({ fileType: 'image' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const storageKey = await this.sampleUploadResultImageUseCase.execute({
+      sampleId,
+      testElementId,
+      imageBuffer: file.buffer,
+      mimeType: file.mimetype,
+    })
+
+    return { storageKey }
   }
 }

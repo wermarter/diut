@@ -13,6 +13,8 @@ import { SampleAssertExistsUseCase } from './use-case/assert-exists'
 import { SampleAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { SampleInitResultUseCase } from './use-case/init-result'
 import { SamplePrintUseCase } from './use-case/print'
+import { SampleUploadResultImageUseCase } from './use-case/upload-result-image'
+import { SampleDownloadResultImageUseCase } from './use-case/download-result-image'
 import { SamplePrintContext } from './print-strategy/context'
 import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
 
@@ -34,5 +36,7 @@ export const sampleMetadata: ModuleMetadata = {
     SampleAuthorizePopulatesUseCase,
     SampleInitResultUseCase,
     SamplePrintUseCase,
+    SampleUploadResultImageUseCase,
+    SampleDownloadResultImageUseCase,
   ],
 }

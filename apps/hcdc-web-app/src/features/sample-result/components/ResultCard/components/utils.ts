@@ -5,12 +5,16 @@ import {
   SampleResultTestResponseDto,
 } from 'src/infra/api/access-service/sample'
 
-export type CardContentProps = {
+export type CardContentCommonProps = {
+  sampleId: string
   isDisabled: boolean
-  result: Record<string, TestElementResultData>
-  testResult: SampleResultTestResponseDto
+  resultState: Record<string, TestElementResultData>
+  resultRes: SampleResultTestResponseDto
   patientCategory: PatientCategory
-  setElementResult: (testElementId: string, data: TestElementResultData) => void
+  setResultState: (
+    testElementId: string,
+    data: Partial<TestElementResultData>,
+  ) => void
 }
 
 export type TestElementResultData = Pick<

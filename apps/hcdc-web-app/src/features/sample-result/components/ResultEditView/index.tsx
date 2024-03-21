@@ -36,6 +36,12 @@ export function ResultEditView(props: ResultEditViewProps) {
   const sortedTests = useMemo(() => {
     return Object.values(props.sampleRes.results)
       .filter(({ test }) => test)
+      .map((result) => ({
+        ...result,
+        elements: result.elements.toSorted(
+          (a, b) => a.testElement?.displayIndex! - b.testElement?.displayIndex!,
+        ),
+      }))
       .toSorted((a, b) => {
         if (a.test?.testCategoryId === b.test?.testCategoryId) {
           return a.test?.displayIndex! - b.test?.displayIndex!

@@ -9,6 +9,7 @@ import {
 import { SampleUpdateInfoResponseDto } from './dto/update-info.dto'
 import { SampleUpdateResultResponseDto } from './dto/update-result.dto'
 import { SampleCreateResponseDto } from './dto/create.dto'
+import { SampleUploadImageResponseDto } from './dto/upload-image.dto'
 
 export const sampleRoutes = {
   search: {
@@ -41,6 +42,24 @@ export const sampleRoutes = {
   print: {
     path: 'print',
     method: RequestMethod.POST,
+  },
+
+  uploadResultImage: {
+    path: 'upload',
+    method: RequestMethod.POST,
+    serialize: SampleUploadImageResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: SampleUploadImageResponseDto,
+        },
+      ],
+    },
+  },
+
+  downloadResultImage: {
+    path: 'download',
+    method: RequestMethod.GET,
   },
 
   updateInfoById: {

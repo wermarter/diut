@@ -9,22 +9,22 @@ import {
   Typography,
 } from '@mui/material'
 
-import { CardContentProps } from '../utils'
+import { CardContentCommonProps } from '../utils'
 
-export const CardContentChung = (props: CardContentProps) => {
+export const CardContentChung = (props: CardContentCommonProps) => {
   return (
     <Table size="small">
       <TableBody>
-        {props.testResult.elements.map((testElementResult) => {
-          const elementState = props.result[testElementResult.testElement?._id!]
+        {props.resultRes.elements.map((element) => {
+          const elementState = props.resultState[element.testElement?._id!]
           if (!elementState) return null
 
-          const normalRule = testElementResult.testElement?.normalRules.find(
+          const normalRule = element.testElement?.normalRules.find(
             ({ category }) => category === props.patientCategory,
           )
 
           return (
-            <TableRow key={testElementResult.testElement?._id!}>
+            <TableRow key={element.testElement?._id!}>
               <TableCell padding="checkbox">
                 <Checkbox
                   tabIndex={-1}
@@ -37,13 +37,9 @@ export const CardContentChung = (props: CardContentProps) => {
                     false
                   }
                   onChange={(e) => {
-                    props.setElementResult(
-                      testElementResult.testElement?._id!,
-                      {
-                        isAbnormal: e.target.checked,
-                        value: elementState.value,
-                      },
-                    )
+                    props.setResultState(element.testElement?._id!, {
+                      isAbnormal: e.target.checked,
+                    })
                   }}
                 />
               </TableCell>
@@ -54,12 +50,12 @@ export const CardContentChung = (props: CardContentProps) => {
                     fontWeight: elementState.isAbnormal ? 'bold' : 'normal',
                   }}
                 >
-                  {testElementResult.testElement?.name}
+                  {element.testElement?.name}
                 </Typography>
               </TableCell>
               <TableCell width="150px">
                 <TextField
-                  name={testElementResult.testElement?._id!}
+                  name={element.testElement?._id!}
                   disabled={props.isDisabled}
                   fullWidth
                   variant="standard"
@@ -70,13 +66,10 @@ export const CardContentChung = (props: CardContentProps) => {
                       value.length > 0 &&
                       isTestElementValueNormal(normalRule as NormalRule, value)
 
-                    props.setElementResult(
-                      testElementResult.testElement?._id!,
-                      {
-                        value,
-                        isAbnormal: !isNormal,
-                      },
-                    )
+                    props.setResultState(element.testElement?._id!, {
+                      value,
+                      isAbnormal: !isNormal,
+                    })
                   }}
                 />
               </TableCell>
