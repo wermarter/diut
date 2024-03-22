@@ -1,7 +1,9 @@
 import {
+  CreateBucketCommand,
   DeleteObjectCommand,
   GetObjectCommand,
   HeadBucketCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
   S3ClientConfigType,
@@ -65,6 +67,45 @@ export class AwsS3ClientService<
 
   close() {
     this.client.destroy()
+  }
+
+  async assertBucket(bucket: TBucket) {
+    try {
+      await this.client.send(new HeadBucketCommand({ Bucket: bucket }))
+      return true
+    } catch (e) {
+      await this.client.send(new CreateBucketCommand({ Bucket: bucket }))
+      return false
+    }
+  }
+
+  async deleteKeys(input: { prefix: string; bucket: TBucket }) {
+    const response = await this.client.send(
+      new ListObjectsV2Command({
+        Bucket: input.bucket,
+        Prefix: input.prefix,
+      }),
+    )
+
+    const keys = response.Contents?.map((item) => item.Key!)
+    if (!keys) {
+      return 0
+    }
+
+    for (const key of keys) {
+      await this.deleteKey({ key, bucket: input.bucket })
+    }
+
+    return keys.length
+  }
+
+  async deleteKey(input: { key: string; bucket: TBucket }) {
+    await this.client.send(
+      new DeleteObjectCommand({
+        Bucket: input.bucket,
+        Key: input.key,
+      }),
+    )
   }
 
   async upload(input: {

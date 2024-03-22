@@ -59,6 +59,7 @@ import {
   urlResultEditPage,
   urlResultSelectPage,
 } from 'src/features/sample-result'
+import { PatientSearchPage, urlPatientSearchPage } from 'src/features/patient'
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -143,6 +144,10 @@ export const appRoutes: CustomRouteObject[] = [
         element: <PrintSelectPage />,
         loader: printSelectPageLoader,
       },
+      {
+        path: urlPatientSearchPage(),
+        element: <PatientSearchPage />,
+      },
       // {
       //   path: 'result',
       //   element: <Outlet />,
@@ -177,16 +182,6 @@ export const appRoutes: CustomRouteObject[] = [
       //       path: 'export',
       //       element: <ExportReportPage />,
       //       loader: exportReportPageLoader,
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: 'patient',
-      //   element: <Outlet />,
-      //   children: [
-      //     {
-      //       path: 'search',
-      //       element: <SearchPatientPage />,
       //     },
       //   ],
       // },

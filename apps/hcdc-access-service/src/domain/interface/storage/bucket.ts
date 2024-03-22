@@ -18,7 +18,11 @@ export const BucketKeyFactory = {
     },
   },
   [StorageBucket.SAMPLE_IMAGES]: {
-    resultImage(input: { sampleId: string; elementId: string }) {
+    resultImage(input: { sampleId: string; elementId?: string }) {
+      if (input.elementId === undefined) {
+        return `${input.sampleId}`
+      }
+
       return `${input.sampleId}/${input.elementId}/image`
     },
   },

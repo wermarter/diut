@@ -1,31 +1,22 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { FilterQuery } from 'mongoose'
-import { accessibleBy } from '@casl/mongoose'
-import { AuthSubject, Sample, SampleAction } from '@diut/hcdc'
+import { Sample } from '@diut/hcdc'
 
-import {
-  AuthContextToken,
-  SampleRepositoryToken,
-  IAuthContext,
-  ISampleRepository,
-  assertPermission,
-} from 'src/domain'
+import { SampleSearchUseCase } from './search'
+import { SampleDeleteUseCase } from './delete'
 
 @Injectable()
 export class SampleDeleteManyUseCase {
   constructor(
-    @Inject(AuthContextToken)
-    private readonly authContext: IAuthContext,
-    @Inject(SampleRepositoryToken)
-    private readonly sampleRepository: ISampleRepository,
+    private readonly sampleSearchUseCase: SampleSearchUseCase,
+    private readonly sampleDeleteUseCase: SampleDeleteUseCase,
   ) {}
 
   async execute(input: FilterQuery<Sample>) {
-    const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Sample, SampleAction.Delete, input)
+    const samples = await this.sampleSearchUseCase.execute(input)
 
-    await this.sampleRepository.deleteMany({
-      $and: [input, accessibleBy(ability, SampleAction.Delete).Sample],
-    })
+    for (const sample of samples.items) {
+      await this.sampleDeleteUseCase.execute({ id: sample._id })
+    }
   }
 }

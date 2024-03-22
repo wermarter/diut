@@ -92,7 +92,6 @@ export function AppBar({ drawerWidth }: AppBarProps) {
             ))}
           </Select>
         </FormControl>
-
         <IconButton
           aria-label="account of current user"
           aria-controls="menu-appbar"

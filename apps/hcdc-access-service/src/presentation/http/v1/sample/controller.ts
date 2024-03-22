@@ -52,6 +52,36 @@ export class SampleController {
     private readonly sampleDownloadResultImageUseCase: SampleDownloadResultImageUseCase,
   ) {}
 
+  @HttpRoute(sampleRoutes.uploadResultImage)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: SampleUploadImageDto,
+  })
+  async uploadResultImage(
+    @Query('sampleId', ObjectIdPipe) sampleId: string,
+    @Query('testElementId', ObjectIdPipe) testElementId: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10 * 1000 * 1000 }), // 10 MB
+          new FileTypeValidator({ fileType: 'image' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    console.log('uploading', { sampleId, testElementId })
+    const storageKey = await this.sampleUploadResultImageUseCase.execute({
+      sampleId,
+      testElementId,
+      imageBuffer: file.buffer,
+      mimeType: file.mimetype,
+    })
+
+    return { storageKey }
+  }
+
   @HttpRoute(sampleRoutes.search)
   search(@Body() body: SampleSearchRequestDto) {
     return this.sampleSearchUseCase.execute(body)
@@ -157,34 +187,5 @@ export class SampleController {
     })
 
     return new StreamableFile(buffer)
-  }
-
-  @HttpRoute(sampleRoutes.uploadResultImage)
-  @UseInterceptors(FileInterceptor('file'))
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    type: SampleUploadImageDto,
-  })
-  async uploadResultImage(
-    @Query('sampleId', ObjectIdPipe) sampleId: string,
-    @Query('testElementId', ObjectIdPipe) testElementId: string,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 10 * 1000 * 1000 }), // 10 MB
-          new FileTypeValidator({ fileType: 'image' }),
-        ],
-      }),
-    )
-    file: Express.Multer.File,
-  ) {
-    const storageKey = await this.sampleUploadResultImageUseCase.execute({
-      sampleId,
-      testElementId,
-      imageBuffer: file.buffer,
-      mimeType: file.mimetype,
-    })
-
-    return { storageKey }
   }
 }

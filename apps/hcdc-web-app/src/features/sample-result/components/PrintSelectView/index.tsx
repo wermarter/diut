@@ -59,6 +59,7 @@ export type PrintSelectViewProps = {
   testIds: string[]
   setTestIds: (testIds: string[]) => void
   tests: TestResponseDto[]
+  patientId: string | null
 }
 
 export function PrintSelectView(props: PrintSelectViewProps) {
@@ -69,7 +70,7 @@ export function PrintSelectView(props: PrintSelectViewProps) {
     limit: props.pageSize,
     sort: { infoAt: -1, sampleId: -1 },
     populates: [{ path: 'patient' }, { path: 'printedBy', fields: ['name'] }],
-    filter: { isConfirmed: true },
+    filter: { isConfirmed: true, patientId: props.patientId ?? undefined },
   })
 
   useEffect(() => {

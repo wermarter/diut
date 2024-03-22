@@ -20,6 +20,7 @@ const PARAM_SAMPLE_ID = 'sampleId'
 const PARAM_FROM_DATE = 'fromDate'
 const PARAM_TO_DATE = 'toDate'
 const PARAM_TEST_IDS = 'testIds'
+const PARAM_PATIENT_ID = 'patientId'
 
 export function urlPrintSelectPage() {
   return '/result/print'
@@ -54,6 +55,7 @@ export function PrintSelectPage() {
   )
   const [originId, setOriginIdCb] = useState(searchParams.get(PARAM_ORIGIN_ID))
   const [sampleId, setSampleIdCb] = useState(searchParams.get(PARAM_SAMPLE_ID))
+  const [patientId, setPatientId] = useState(searchParams.get(PARAM_PATIENT_ID))
   const [fromDate, setFromDateCb] = useState(searchParams.get(PARAM_FROM_DATE)!)
   const [toDate, setToDateCb] = useState(searchParams.get(PARAM_TO_DATE)!)
   const [testIds, setTestIds] = useState(searchParams.getAll(PARAM_TEST_IDS))
@@ -112,6 +114,9 @@ export function PrintSelectPage() {
         ...(patientTypeId && {
           [PARAM_PATIENT_TYPE_ID]: patientTypeId,
         }),
+        ...(patientId && {
+          [PARAM_PATIENT_ID]: patientId,
+        }),
       },
       { replace: false },
     )
@@ -123,6 +128,7 @@ export function PrintSelectPage() {
     sampleId,
     fromDate,
     toDate,
+    patientId,
     JSON.stringify(testIds),
   ])
 
@@ -134,6 +140,7 @@ export function PrintSelectPage() {
     }
     setPageCb('0')
     setPatientTypeIdCb(null)
+    setPatientId(null)
     setOriginId(null)
     setTestIds([])
   }, [branchId])
@@ -162,6 +169,7 @@ export function PrintSelectPage() {
       testIds={testIds}
       setTestIds={setTestIds}
       tests={tests}
+      patientId={patientId}
     />
   )
 }

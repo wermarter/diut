@@ -7,6 +7,12 @@ import {
   IAuthContext,
   ISampleRepository,
   assertPermission,
+  StorageServiceToken,
+  StorageBucketToken,
+  IStorageService,
+  IStorageBucket,
+  StorageBucket,
+  BucketKeyFactory,
 } from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
 
@@ -18,6 +24,10 @@ export class SampleDeleteUseCase {
     @Inject(SampleRepositoryToken)
     private readonly sampleRepository: ISampleRepository,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
+    @Inject(StorageServiceToken)
+    private readonly storageService: IStorageService,
+    @Inject(StorageBucketToken)
+    private readonly storageBucket: IStorageBucket,
   ) {}
 
   async execute(input: { id: string }) {
@@ -27,6 +37,12 @@ export class SampleDeleteUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Sample, SampleAction.Delete, entity)
 
+    await this.storageService.deleteKeys({
+      bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
+      prefix: BucketKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
+        sampleId: input.id,
+      }),
+    })
     await this.sampleRepository.deleteById(input.id)
 
     return entity

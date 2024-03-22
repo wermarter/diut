@@ -39,9 +39,18 @@ export class SampleDownloadResultImageUseCase {
       ({ testElementId }) => testElementId === input.testElementId,
     )!
 
-    return this.storageService.readToStream({
-      bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
-      key: elementResult.value,
-    })
+    try {
+      const rv = await this.storageService.readToStream({
+        bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
+        key: elementResult.value,
+      })
+
+      return rv
+    } catch (e) {
+      if (e?.Code === 'NoSuchKey') {
+        throw new EEntityNotFound('image not found')
+      }
+      throw e
+    }
   }
 }

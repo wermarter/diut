@@ -106,7 +106,7 @@ const injectedRtkApi = api
             sampleId: queryArg.sampleId,
             testElementId: queryArg.testElementId,
           },
-          formData: true,
+          // formData: true,
         }),
         invalidatesTags: ['v1-samples'],
       }),

@@ -225,19 +225,23 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
                 leftDisplayImageURL,
                 croppedAreaPixels,
                 0,
-              )
-              rightUploadPromise = uploadImage({
-                sampleUploadImageDto: prepareFormData(croppedFile!),
-                sampleId: props.sampleId,
-                testElementId: props.leftElementId,
-              }).unwrap()
+              )!
+              const formData = prepareFormData(croppedFile!)
+              rightUploadPromise = fetch(
+                `${import.meta.env.VITE_API_BASE_URL}/api/v1/samples/upload?sampleId=${props.sampleId}&testElementId=${props.rightElementId}`,
+                {
+                  method: 'POST',
+                  body: formData,
+                  credentials: 'include',
+                },
+              ).then((res) => res.json())
             } else {
               if (rightUploadFile != null) {
                 // NO CROP, JUST UPLOAD
                 rightUploadPromise = uploadImage({
                   sampleUploadImageDto: prepareFormData(rightUploadFile),
                   sampleId: props.sampleId,
-                  testElementId: props.leftElementId,
+                  testElementId: props.rightElementId,
                 }).unwrap()
               }
             }

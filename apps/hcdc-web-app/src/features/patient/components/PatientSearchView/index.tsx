@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Gender } from '@diut/hcdc'
+import { useEffect, useState } from 'react'
+import { PatientGender } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -18,30 +18,51 @@ import { DataTable } from 'src/components/table'
 import { FormContainer, FormTextField } from 'src/components/form'
 import { usePagination } from 'src/shared/hooks'
 import { ConfirmDialog } from 'src/components/ui/ConfirmDialog'
-import { useTypedSelector } from 'src/core'
-import { selectUserIsAdmin } from 'src/infra/auth'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
-interface FilterData {
+interface FormData {
   externalId: string
-  name: string
+  patientName: string
 }
 
-export function SearchPatientPage() {
+export type PatientSearchViewProps = {
+  page: number
+  pageSize: number
+  setPage: (page: number) => void
+  setPageSize: (pageSize: number) => void
+  externalId: string | null
+  setExternalId: (externalId: string | null) => void
+  patientName: string | null
+  setPatientName: (patientName: string | null) => void
+}
+
+export function PatientSearchView(props: PatientSearchViewProps) {
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const userIsAdmin = useTypedSelector(selectUserIsAdmin)
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    usePagination({
-      offset: 0,
-      limit: 10,
-      sort: { createdAt: -1 },
-    })
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { createdAt: -1 },
+  })
 
-  const { control, handleSubmit, watch } = useForm<FilterData>({
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        filter: {
+          ...filterObj.filter,
+          branchId,
+        },
+      }))
+    }
+  }, [branchId])
+
+  const { control, handleSubmit, watch } = useForm<FormData>({
     defaultValues: {
-      externalId: searchParams.get('externalId') ?? '',
-      name: searchParams.get('name') ?? '',
+      externalId: '',
+      patientName: '',
     },
   })
 
@@ -49,7 +70,7 @@ export function SearchPatientPage() {
   const [deletePatient, { isLoading: isDeleting }] =
     usePatientDeleteByIdMutation()
 
-  const handleSubmitFilter = ({ externalId, name }: FilterData) => {
+  const handleSubmitFilter = ({ externalId, name }: FormData) => {
     setSearchParams({
       externalId,
       name,
@@ -78,7 +99,7 @@ export function SearchPatientPage() {
   }
 
   const handleDeletePatient = async (patientId: string) => {
-    await deletePatient({ id: patientId })
+    await deletePatient(patientId)
   }
 
   return (

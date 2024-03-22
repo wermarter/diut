@@ -36,7 +36,11 @@ import { urlManageTestPage } from 'src/features/test'
 import { urlManageTestElementPage } from 'src/features/test-element'
 import { urlManageTestComboPage } from 'src/features/test-combo'
 import { urlManagePrintFormPage } from 'src/features/print-form'
-import { urlResultSelectPage } from 'src/features/sample-result'
+import {
+  urlPrintSelectPage,
+  urlResultSelectPage,
+} from 'src/features/sample-result'
+import { urlPatientSearchPage } from 'src/features/patient'
 
 export const drawerItems: DrawerItemGroup[] = [
   {
@@ -79,7 +83,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <PrintIcon />,
         label: 'In KQ',
-        destination: 'result/print',
+        destination: urlPrintSelectPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.Sample, action: SampleAction.PrintResult },
         ]),
@@ -99,7 +103,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <PersonSearchIcon />,
         label: 'Tìm kiếm',
-        destination: 'patient/search',
+        destination: urlPatientSearchPage(),
         isAuthorized: authOneOf([
           {
             subject: AuthSubject.WebApp,
