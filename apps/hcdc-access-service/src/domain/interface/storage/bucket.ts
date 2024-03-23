@@ -10,7 +10,7 @@ export interface IStorageBucket {
   get(key: StorageBucket): string
 }
 
-export const BucketKeyFactory = {
+export const StorageKeyFactory = {
   [StorageBucket.PUBLIC]: {},
   [StorageBucket.APP]: {
     printFormTemplate(input: { templatePath: string }) {

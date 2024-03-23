@@ -9,6 +9,10 @@ import {
 import { authSlice } from 'src/features/auth'
 import { allTestSortComparator } from '@diut/hcdc'
 
+export type PrintSelectPageQuery = {
+  patientId?: string
+}
+
 export const printSelectPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(
     appStore.getState(),

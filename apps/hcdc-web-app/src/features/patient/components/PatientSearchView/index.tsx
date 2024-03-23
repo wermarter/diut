@@ -1,14 +1,7 @@
-import { useEffect, useState } from 'react'
-import { PatientGender } from '@diut/hcdc'
-import { DATETIME_FORMAT } from '@diut/common'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { GridActionsCellItem } from '@mui/x-data-grid'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import ManageSearchIcon from '@mui/icons-material/ManageSearch'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import { format } from 'date-fns'
 
 import {
   usePatientDeleteByIdMutation,
@@ -20,6 +13,7 @@ import { usePagination } from 'src/shared/hooks'
 import { ConfirmDialog } from 'src/components/ui/ConfirmDialog'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { useColumns } from './columns'
 
 interface FormData {
   externalId: string
@@ -38,7 +32,6 @@ export type PatientSearchViewProps = {
 }
 
 export function PatientSearchView(props: PatientSearchViewProps) {
-  const navigate = useNavigate()
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
   const { filterObj, setFilterObj } = usePagination({
@@ -59,35 +52,51 @@ export function PatientSearchView(props: PatientSearchViewProps) {
     }
   }, [branchId])
 
-  const { control, handleSubmit, watch } = useForm<FormData>({
+  const { control, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       externalId: '',
       patientName: '',
     },
   })
 
-  const { data, isFetching } = usePatientSearchQuery(filterObj)
-  const [deletePatient, { isLoading: isDeleting }] =
-    usePatientDeleteByIdMutation()
+  useEffect(() => {
+    if (props.externalId?.length! > 0) {
+      setValue('externalId', props.externalId!)
+    }
+    if (props.patientName?.length! > 0) {
+      setValue('patientName', props.patientName!)
+    }
 
-  const handleSubmitFilter = ({ externalId, name }: FormData) => {
-    setSearchParams({
-      externalId,
-      name,
-    })
-    return setFilterObj((obj) => ({
+    setFilterObj((obj) => ({
       ...obj,
       filter: {
         ...obj.filter,
-        externalId: externalId.length > 0 ? externalId : undefined,
+        externalId:
+          props.externalId?.length! > 0 ? props.externalId : undefined,
         name:
-          name.length > 0 ? { $regex: '^' + name, $options: 'i' } : undefined,
+          props.patientName?.length! > 0
+            ? { $regex: '^' + props.patientName, $options: 'i' }
+            : undefined,
       },
     }))
-  }
+  }, [props.externalId, props.patientName])
 
-  const handleConfirmClick = (patientId: string) => {
-    navigate('/result/print?patientId=' + patientId)
+  const isFirstRun = useRef(true)
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+  }, [])
+  const { data, isFetching } = usePatientSearchQuery(filterObj, {
+    skip: isFirstRun.current,
+  })
+  const [deletePatient, { isLoading: isDeleting }] =
+    usePatientDeleteByIdMutation()
+
+  const handleSubmitFilter = ({ externalId, patientName }: FormData) => {
+    props.setExternalId(externalId.length === 0 ? null : externalId)
+    props.setPatientName(patientName.length === 0 ? null : patientName)
   }
 
   const [openDeleteItem, setOpenDeleteItem] = useState<string | null>(null)
@@ -101,6 +110,8 @@ export function PatientSearchView(props: PatientSearchViewProps) {
   const handleDeletePatient = async (patientId: string) => {
     await deletePatient(patientId)
   }
+
+  const columns = useColumns(handleDeleteClick)
 
   return (
     <Box
@@ -116,14 +127,14 @@ export function PatientSearchView(props: PatientSearchViewProps) {
                 name="externalId"
                 label="ID Phòng khám"
                 autoComplete="off"
-                disabled={watch('name').length > 0}
+                disabled={watch('patientName').length > 0}
               />
             </Grid>
             <Grid xs={3}>
               <FormTextField
                 fullWidth
                 control={control}
-                name="name"
+                name="patientName"
                 label="Họ tên"
                 autoComplete="off"
                 disabled={watch('externalId').length > 0}
@@ -143,95 +154,13 @@ export function PatientSearchView(props: PatientSearchViewProps) {
           autoRowHeight
           loading={isFetching || isDeleting}
           getRowId={(row) => row._id}
-          columns={[
-            {
-              field: 'startActions',
-              type: 'actions',
-              width: 60,
-              cellClassName: 'actions',
-              getActions: ({ row }) => [
-                <GridActionsCellItem
-                  icon={<ManageSearchIcon />}
-                  label="Tra cứu"
-                  color="primary"
-                  onClick={() => handleConfirmClick(row._id)}
-                />,
-              ],
-            },
-            {
-              field: 'externalId',
-              headerName: 'ID PK',
-              sortable: false,
-              width: 120,
-            },
-            {
-              field: 'name',
-              headerName: 'Họ tên',
-              sortable: false,
-              flex: 1,
-              minWidth: 150,
-            },
-            {
-              field: 'birthYear',
-              headerName: 'Năm',
-              sortable: false,
-              width: 60,
-            },
-            {
-              field: 'gender',
-              headerName: 'Giới',
-              sortable: false,
-              width: 60,
-              valueGetter: ({ value }) => {
-                if (value === Gender.Male) {
-                  return 'Nam'
-                }
-                return 'Nữ'
-              },
-            },
-            {
-              field: 'address',
-              headerName: 'Địa chỉ',
-              sortable: false,
-              width: 200,
-            },
-            {
-              field: 'phoneNumber',
-              headerName: 'SĐT',
-              sortable: false,
-              width: 150,
-            },
-            {
-              field: 'updatedAt',
-              headerName: 'Ngày nhập',
-              sortable: false,
-              width: 100,
-              valueGetter: ({ value }) => {
-                return format(new Date(value), DATETIME_FORMAT)
-              },
-            },
-            {
-              field: 'endActions',
-              type: 'actions',
-              width: 60,
-              cellClassName: 'actions',
-              getActions: ({ row }) => [
-                <GridActionsCellItem
-                  disabled={!userIsAdmin}
-                  icon={<DeleteForeverIcon />}
-                  label="Xoá"
-                  color="error"
-                  onClick={() => handleDeleteClick(row._id)}
-                />,
-              ],
-            },
-          ]}
+          columns={columns}
           paginationMode="server"
           rowCount={data?.total ?? 0}
           page={data?.offset!}
           pageSize={data?.limit!}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
+          onPageChange={props.setPage}
+          onPageSizeChange={props.setPageSize}
         />
       </Box>
       <ConfirmDialog
@@ -241,8 +170,8 @@ export function PatientSearchView(props: PatientSearchViewProps) {
         }}
         content="Tất cả các mẫu XN liên kết với bệnh nhân này cũng sẽ bị xoá!"
         onConfirm={() => {
-          // this should be async, but i like this behavior better
           if (openDeleteItem != null) {
+            // this should be async, but i like this behavior better
             handleDeletePatient(openDeleteItem)
           }
           setOpenDeleteItem(null)

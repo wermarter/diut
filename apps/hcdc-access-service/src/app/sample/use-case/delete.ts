@@ -12,7 +12,7 @@ import {
   IStorageService,
   IStorageBucket,
   StorageBucket,
-  BucketKeyFactory,
+  StorageKeyFactory,
 } from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
 
@@ -39,7 +39,7 @@ export class SampleDeleteUseCase {
 
     await this.storageService.deleteKeys({
       bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
-      prefix: BucketKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
+      prefix: StorageKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
         sampleId: input.id,
       }),
     })

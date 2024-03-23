@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { TestElementAssertExistsUseCase } from 'src/app/test-element'
 import {
-  BucketKeyFactory,
+  StorageKeyFactory,
   EEntityNotFound,
   IStorageBucket,
   IStorageService,
@@ -47,7 +47,7 @@ export class SampleUploadResultImageUseCase {
       ({ testElementId }) => testElementId === input.testElementId,
     )!
 
-    const storageKey = BucketKeyFactory[
+    const storageKey = StorageKeyFactory[
       StorageBucket.SAMPLE_IMAGES
     ].resultImage({
       sampleId: input.sampleId,

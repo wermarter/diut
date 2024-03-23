@@ -71,7 +71,6 @@ export class SampleController {
     )
     file: Express.Multer.File,
   ) {
-    console.log('uploading', { sampleId, testElementId })
     const storageKey = await this.sampleUploadResultImageUseCase.execute({
       sampleId,
       testElementId,

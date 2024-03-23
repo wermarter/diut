@@ -18,7 +18,7 @@ import { join } from 'path'
 import {
   AuthContextToken,
   BrowserServiceToken,
-  BucketKeyFactory,
+  StorageKeyFactory,
   EEntityNotFound,
   IAuthContext,
   IStorageBucket,
@@ -158,7 +158,7 @@ export class SamplePrintUseCase {
               )
             } else {
               const templateBuffer = await this.storageService.readToBuffer({
-                key: BucketKeyFactory[StorageBucket.APP].printFormTemplate({
+                key: StorageKeyFactory[StorageBucket.APP].printFormTemplate({
                   templatePath: printConfig.templatePath,
                 }),
                 bucket: this.storageBucket.get(StorageBucket.APP),

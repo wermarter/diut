@@ -196,23 +196,23 @@ export const useColumns = (
         type: 'actions',
         width: 60,
         cellClassName: 'actions',
-        getActions: ({ row }) =>
-          checkPermission(
-            userAbility,
-            AuthSubject.Sample,
-            SampleAction.UpdateInfo,
-            { ...row } as any,
-          ) || row.isConfirmed === false
-            ? [
-                <GridActionsCellItem
-                  icon={<EditIcon />}
-                  label="Sửa"
-                  onClick={handleEditClick(row)}
-                />,
-              ]
-            : [],
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            disabled={
+              !checkPermission(
+                userAbility,
+                AuthSubject.Sample,
+                SampleAction.UpdateInfo,
+                { ...row } as any,
+              )
+            }
+            icon={<EditIcon />}
+            label="Sửa"
+            onClick={handleEditClick(row)}
+          />,
+        ],
       },
     ]
-  }, [diagnosisMap, doctorMap, patientTypeMap, testMap, originMap])
+  }, [diagnosisMap, doctorMap, patientTypeMap, testMap, originMap, userAbility])
   return columns
 }

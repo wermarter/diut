@@ -6,7 +6,7 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 
-import { printSelectPageLoader } from './loader'
+import { PrintSelectPageQuery, printSelectPageLoader } from './loader'
 import { PrintSelectView } from '../../components'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
@@ -22,7 +22,10 @@ const PARAM_TO_DATE = 'toDate'
 const PARAM_TEST_IDS = 'testIds'
 const PARAM_PATIENT_ID = 'patientId'
 
-export function urlPrintSelectPage() {
+export function urlPrintSelectPage(query?: PrintSelectPageQuery) {
+  if (query?.patientId) {
+    return `/result/print?${PARAM_PATIENT_ID}=${query.patientId}`
+  }
   return '/result/print'
 }
 
