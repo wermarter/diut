@@ -207,6 +207,8 @@ export const CardContentPap = (props: CardContentCommonProps) => {
         sampleId={props.sampleId}
         leftElementId={leftImagePathElement.testElementId}
         rightElementId={rightImagePathElement.testElementId}
+        leftImageExisted={leftImagePathElement.value?.length > 0}
+        rightImageExisted={rightImagePathElement.value?.length > 0}
       />
     </>
   )

@@ -40,6 +40,7 @@ import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert
 import { TestAssertExistsUseCase } from 'src/app/test'
 import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
 import { AppConfig, loadAppConfig } from 'src/config'
+import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -126,6 +127,9 @@ export class SamplePrintUseCase {
         case PrintTemplate.FormChung:
           strategy = await this.moduleRef.resolve(SamplePrintFormChungStrategy)
           break
+        case PrintTemplate.FormPap:
+          strategy = await this.moduleRef.resolve(SamplePrintFormPapStrategy)
+          break
         default:
           throw new EEntityNotFound(
             `PrintTemplate=${printForm.template} id=${printOptions.printFormId}`,
@@ -157,13 +161,13 @@ export class SamplePrintUseCase {
                 printRequest,
               )
             } else {
-              const templateBuffer = await this.storageService.readToBuffer({
+              const { buffer } = await this.storageService.readToBuffer({
                 key: StorageKeyFactory[StorageBucket.APP].printFormTemplate({
                   templatePath: printConfig.templatePath,
                 }),
                 bucket: this.storageBucket.get(StorageBucket.APP),
               })
-              const template = templateBuffer.toString()
+              const template = buffer.toString()
               htmlContent = await render(template, printRequest, {
                 async: true,
               })

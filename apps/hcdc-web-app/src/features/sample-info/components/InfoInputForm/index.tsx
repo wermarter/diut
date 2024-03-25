@@ -19,7 +19,7 @@ import {
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
-import { trimStringValues } from '@diut/common'
+import { trimObjectValues } from '@diut/common'
 
 import { authSlice } from 'src/features/auth'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
@@ -208,7 +208,7 @@ export function InfoInputForm(props: InputFormProps) {
   const handleFormSubmit = useCallback(
     handleSubmit(async (values) => {
       let patient: PatientResponseDto
-      const patientValues = trimStringValues({
+      const patientValues = trimObjectValues({
         ...values,
         gender:
           values.gender === GENDER_PREGNANT_VALUE
@@ -226,7 +226,7 @@ export function InfoInputForm(props: InputFormProps) {
       }
 
       await createSample({
-        ...trimStringValues(values),
+        ...trimObjectValues(values),
         isPregnant: values.gender === GENDER_PREGNANT_VALUE,
         note: values.note?.trim() ?? '',
         sampledAt: values.sampledAt.toISOString(),

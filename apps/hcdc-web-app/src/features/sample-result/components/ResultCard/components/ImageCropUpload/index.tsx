@@ -21,6 +21,8 @@ export type ImageCropUploadProps = {
   sampleId: string
   leftElementId: string
   rightElementId: string
+  leftImageExisted: boolean
+  rightImageExisted: boolean
 }
 
 export function ImageCropUpload(props: ImageCropUploadProps) {
@@ -44,7 +46,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
         testElementId: props.leftElementId,
       },
       {
-        skip: !(props.leftElementId?.length > 0),
+        skip: !props.leftImageExisted,
         refetchOnMountOrArgChange: true,
       },
     )
@@ -55,7 +57,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
         testElementId: props.rightElementId,
       },
       {
-        skip: !(props.rightElementId?.length > 0),
+        skip: !props.rightImageExisted,
         refetchOnMountOrArgChange: true,
       },
     )
@@ -203,17 +205,8 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
           loading={isUploading}
           sx={{ color: 'white' }}
           onClick={async () => {
-            let leftUploadPromise: Promise<SampleUploadImageResponseDto>
-            let rightUploadPromise: Promise<SampleUploadImageResponseDto>
-
-            if (leftUploadFile != null) {
-              // NEW IMAGE
-              leftUploadPromise = uploadImage({
-                sampleUploadImageDto: prepareFormData(leftUploadFile),
-                sampleId: props.sampleId,
-                testElementId: props.leftElementId,
-              }).unwrap()
-            }
+            let leftRes: SampleUploadImageResponseDto | null = null
+            let rightRes: SampleUploadImageResponseDto | null = null
 
             if (
               shouldCrop &&
@@ -227,7 +220,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
                 0,
               )!
               const formData = prepareFormData(croppedFile!)
-              rightUploadPromise = fetch(
+              rightRes = await fetch(
                 `${import.meta.env.VITE_API_BASE_URL}/api/v1/samples/upload?sampleId=${props.sampleId}&testElementId=${props.rightElementId}`,
                 {
                   method: 'POST',
@@ -238,7 +231,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
             } else {
               if (rightUploadFile != null) {
                 // NO CROP, JUST UPLOAD
-                rightUploadPromise = uploadImage({
+                rightRes = await uploadImage({
                   sampleUploadImageDto: prepareFormData(rightUploadFile),
                   sampleId: props.sampleId,
                   testElementId: props.rightElementId,
@@ -246,12 +239,16 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
               }
             }
 
-            const [left, right] = await Promise.all([
-              leftUploadPromise!,
-              rightUploadPromise!,
-            ])
+            if (leftUploadFile != null) {
+              // NEW IMAGE
+              leftRes = await uploadImage({
+                sampleUploadImageDto: prepareFormData(leftUploadFile),
+                sampleId: props.sampleId,
+                testElementId: props.leftElementId,
+              }).unwrap()
+            }
 
-            props.onSubmit([left?.storageKey, right?.storageKey])
+            props.onSubmit([leftRes?.storageKey, rightRes?.storageKey])
             props.onClose()
           }}
         >

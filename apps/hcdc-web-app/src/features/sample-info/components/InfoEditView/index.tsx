@@ -23,7 +23,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { difference, omit } from 'lodash'
-import { trimStringValues } from '@diut/common'
+import { trimObjectValues } from '@diut/common'
 
 import {
   FormContainer,
@@ -181,7 +181,7 @@ export function InfoEditView(props: InfoEditViewProps) {
       </Box>
       <FormContainer
         onSubmit={handleSubmit(async (values) => {
-          values = trimStringValues(values)
+          values = trimObjectValues(values)
           return Promise.all([
             updatePatient({
               id: props.sampleRes.patient?._id!,

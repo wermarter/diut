@@ -162,6 +162,8 @@ export class AwsS3ClientService<
   }
 
   async readToBuffer(input: { key: string; bucket: TBucket }) {
+    let mimeType: string | undefined
+
     const buffer = await new Promise<Buffer>((resolve, reject) => {
       const getObjectCommand = new GetObjectCommand({
         Bucket: input.bucket,
@@ -171,6 +173,8 @@ export class AwsS3ClientService<
       this.client
         .send(getObjectCommand)
         .then((response) => {
+          mimeType = response.ContentType
+
           // Store all of data chunks returned from the response data stream
           // into an array then use Array#join() to use the returned contents as a String
           const responseDataChunks: any[] = []
@@ -193,7 +197,7 @@ export class AwsS3ClientService<
         })
     })
 
-    return buffer
+    return { buffer, mimeType }
   }
 
   async deleteByKey(input: { key: string; bucket: TBucket }) {

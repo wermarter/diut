@@ -17,6 +17,7 @@ import {
 import { DataTable } from '../DataTable'
 import { CrudToolbar } from './components/CrudToolbar'
 import { ConfirmDialog } from 'src/components/ui'
+import { trimObjectValues } from '@diut/common'
 
 interface CustomRowAction<R extends GridValidRowModel> {
   label: string
@@ -129,6 +130,7 @@ export function CrudTable<R extends GridValidRowModel>({
   }
 
   const processRowUpdate = async (newRow: R, oldRow: R) => {
+    trimObjectValues(newRow)
     if (newRow[itemIdField] === newItemId) {
       if (onItemCreate != undefined) {
         await onItemCreate(newRow)

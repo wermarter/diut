@@ -27,11 +27,11 @@ export async function migratePrintForm(
       branchId: '65b0b259a3a552cf47f563d9',
 
       displayIndex: oldDoc.index,
-      name: (oldDoc.name as string).trim(),
+      name: oldDoc.name.trim(),
       isAuthorLocked: oldDoc.isAuthorLocked,
       isA4: oldDoc.isA4,
-      authorTitle: oldDoc.authorPosition,
-      authorName: oldDoc.authorName,
+      authorTitle: oldDoc.authorPosition.trim(),
+      authorName: oldDoc.authorName.trim(),
       titleMargin: 0,
       template: PrintTemplate.FormChung,
     })

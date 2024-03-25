@@ -46,12 +46,12 @@ export function stalkEmitter(emitter: any) {
   }
 }
 
-export function trimStringValues<T extends { [key: string]: any }>(obj: T) {
+export function trimObjectValues<T extends { [key: string]: any }>(obj: T) {
   for (const key in obj) {
     if (typeof obj[key] === 'string') {
       obj[key] = obj[key].trim()
     } else if (typeof obj[key] === 'object') {
-      trimStringValues(obj[key])
+      trimObjectValues(obj[key])
     }
   }
 

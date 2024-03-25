@@ -78,26 +78,26 @@
     <div class="flex flex-row justify-between">
       <div>
         <p class="text-base">
-          Họ và tên: <span class="font-bold"><%= patient.name %></span>
+          Họ và tên: <span class="font-bold"><%= data.sample.patient.name %></span>
         </p>
-        <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
+        <p class="text-base">Địa chỉ: <span><%= data.sample.patient.address %></span></p>
         <p class="text-base">
           Chẩn đoán lâm sàng:
-          <span><%= results[0].tests[0].elements[0].value %></span>
+          <span><%= data.categories[0].tests[0].elements[0].value %></span>
         </p>
-        <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
+        <p class="text-base">BS chỉ định: <span><%= data.sample.doctor.name %></span></p>
       </div>
       <div class="mr-16">
         <p class="text-base">
-          ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+          ID XN: <span class="font-bold"> <%= data.sample.sampleId %> </span>
         </p>
-        <p class="text-base">Năm sinh: <span><%= patient.birthYear %></span></p>
+        <p class="text-base">Năm sinh: <span><%= data.sample.patient.birthYear %></span></p>
         <p class="text-base">
-          Para: <span><%= results[0].tests[0].elements[1].value %></span>
+          Para: <span><%= data.categories[0].tests[0].elements[1].value %></span>
         </p>
         <p class="text-base">
           Ngày nhận mẫu:
-          <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
+          <span><%= data.sample.infoAt.toLocaleDateString('vi') %></span>
         </p>
       </div>
     </div>
@@ -111,24 +111,24 @@
         <div>
           <div>
             <input type="checkbox" <%=
-            (results[0].tests[0].elements[2]?.isHighlighted) ? "checked": "" %>>
+            (data.categories[0].tests[0].elements[2].isAbnormal) ? "checked": "" %>>
             Phết thường qui
           </div>
           <div>
             <input type="checkbox" <%=
-            (results[0].tests[0].elements[4]?.isHighlighted) ? "checked": "" %>>
+            (data.categories[0].tests[0].elements[4].isAbnormal) ? "checked": "" %>>
             Đạt yêu cầu chẩn đoán
           </div>
         </div>
         <div>
           <div>
             <input type="checkbox" <%=
-            (results[0].tests[0].elements[3]?.isHighlighted) ? "checked": "" %>>
+            (data.categories[0].tests[0].elements[3].isAbnormal) ? "checked": "" %>>
             Phết nhúng dịch-Thinprep Paptest
           </div>
           <div>
             <input type="checkbox" <%=
-            (results[0].tests[0].elements[5]?.isHighlighted) ? "checked": "" %>>
+            (data.categories[0].tests[0].elements[5].isAbnormal) ? "checked": "" %>>
             Không đạt yêu cầu chẩn đoán
           </div>
         </div>
@@ -143,14 +143,14 @@
       <div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[6]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[6].isAbnormal) ? "checked": "" %>>
           <span class="text-blue-700 font-bold"
             >Tế bào trong giới hạn bình thường</span
           >
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[7]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[7].isAbnormal) ? "checked": "" %>>
           <span class="text-blue-700 font-bold"
             >Tế bào biến đổi lành tính:</span
           >
@@ -159,19 +159,19 @@
       <div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[8]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[8].isAbnormal) ? "checked": "" %>>
           <span class="text-blue-700 font-bold">Tế bào nội mạc tử cung</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[9]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[9].isAbnormal) ? "checked": "" %>>
           <span class="text-blue-700 font-bold">Bất thường TB biểu mô:</span>
         </div>
       </div>
       <div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[10]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[10].isAbnormal) ? "checked": "" %>>
           <span class="text-blue-700 font-bold">Bất thường khác</span>
         </div>
       </div>
@@ -186,32 +186,32 @@
         </h2>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[11]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[11].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Trichomonas vaginalis</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[12]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[12].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Candida spp</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[13]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[13].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Tạp trùng</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[14]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[14].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Actinomyces spp</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[15]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[15].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Herpes simplex virus</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[16]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[16].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Khác (Others)</span>
         </div>
         <h2 class="text-lg font-bold text-left text-green-700 underline">
@@ -219,22 +219,22 @@
         </h2>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[23]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[23].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Tế bào biến đổi do viêm</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[24]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[24].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Tế bào biến đổi do xạ trị</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[25]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[25].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Tế bào biến đổi do vòng tránh thai</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[26]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[26].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Tế bào biểu mô teo</span>
         </div>
       </div>
@@ -244,7 +244,7 @@
         </h2>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[17]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[17].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >ASC- US (Atypical Squamous Cells of Undetermined
             Significance)</span
@@ -252,33 +252,33 @@
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[18]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[18].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >ASC - H (Atypical Squamous Cells cannot excluce HSIL)</span
           >
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[19]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[19].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >LSIL (Low-grade Squamous Intraepithelial Lesion)</span
           >
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[20]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[20].isAbnormal) ? "checked": "" %>>
           <span class="text-base">HPV (Human Papilloma Virus)</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[21]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[21].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >HSIL (High-grade Squamous Intraepithelial Lesion)</span
           >
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[22]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[22].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >Carcinom tế bào gai (Squamous Cells Carcinoma)</span
           >
@@ -288,26 +288,26 @@
         </h2>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[27]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[27].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >AGC không điển hình (Atypical not otherwise specified)</span
           >
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[28]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[28].isAbnormal) ? "checked": "" %>>
           <span class="text-base"
             >AGC hướng đến U (Atypicilal favor neoplastic)</span
           >
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[29]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[29].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Carcinom tuyến (Adenocarcinoma)</span>
         </div>
         <div>
           <input type="checkbox" <%=
-          (results[0].tests[0].elements[30]?.isHighlighted) ? "checked": "" %>>
+          (data.categories[0].tests[0].elements[30].isAbnormal) ? "checked": "" %>>
           <span class="text-base">Khác (Others)</span>
         </div>
       </div>
@@ -319,14 +319,14 @@
     <div class="flex flex-row justify-between gap-4">
       <div>
         <img
-          src="<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_SAMPLE_IMAGES_BUCKET}/${results[0].tests[0].elements[32].value}` %>"
+          src="<%= data.categories[0].tests[0].elements[32].value %>"
           style="border: 1px solid blue; border-radius: 10px; object-fit: cover; width: 400px; height: 230px;"
         />
       </div>
       <div>
         <div>
           <img
-            src="<%= `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${process.env.MINIO_SAMPLE_IMAGES_BUCKET}/${results[0].tests[0].elements[33].value}` %>"
+            src="<%= data.categories[0].tests[0].elements[33].value %>"
             style="border: 1px solid blue; border-radius: 10px; object-fit: cover; width: 400px; height: 230px;"
           />
         </div>
@@ -336,8 +336,8 @@
     <!-- -------------------------------------------------------------- -->
     <p class="text-lg mt-1">
       <span class="text-base text-blue-700 font-bold underline">Kết luận:</span>
-      <span class="<%= (results[0].tests[0].elements[31]?.isHighlighted) ? "text-red-700" : "text-lg" %>">
-        <%= results[0].tests[0].elements[31].value %>
+      <span class="<%= (data.categories[0].tests[0].elements[31].isAbnormal) ? "text-red-700" : "text-lg" %>">
+        <%= data.categories[0].tests[0].elements[31].value %>
       </span>
     </p>
     <!-- -------------------------------------------------------------- -->
@@ -350,8 +350,8 @@
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
           %> năm <%= new Date().getFullYear() %>
         </p>
-        <p class="font-bold"><%= authorPosition %></p>
-        <p style="margin-top: 20mm" class="font-bold"><%= authorName %></p>
+        <p class="font-bold"><%= meta.authorPosition %></p>
+        <p style="margin-top: 20mm" class="font-bold"><%= meta.authorName %></p>
       </div>
     </div>
   </body>

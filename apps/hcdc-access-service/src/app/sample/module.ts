@@ -17,11 +17,13 @@ import { SampleUploadResultImageUseCase } from './use-case/upload-result-image'
 import { SampleDownloadResultImageUseCase } from './use-case/download-result-image'
 import { SamplePrintContext } from './print-strategy/context'
 import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
+import { SamplePrintFormPapStrategy } from './print-strategy/form-pap'
 
 export const sampleMetadata: ModuleMetadata = {
   providers: [
     SamplePrintContext,
     SamplePrintFormChungStrategy,
+    SamplePrintFormPapStrategy,
 
     SampleCreateUseCase,
     SampleFindOneUseCase,
