@@ -52,8 +52,10 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       this.populate(query, populates)
     }
 
-    const item: TEntity | null = await query.lean()
-    return item
+    const item = await query.exec()
+
+    // @ts-ignore
+    return item?.toObject?.() ?? null
   }
 
   public async exists(
@@ -288,7 +290,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
 
   public async aggregateIgnoreSoftDelete<Result = any>(
     pipelines: Array<PipelineStage>,
-    allowDiskUse = false,
+    allowDiskUse = true,
   ): Promise<Array<Result>> {
     return await this.model
       .aggregate<Result>(pipelines)

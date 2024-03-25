@@ -1,7 +1,7 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { Gender } from '@diut/hcdc'
+import { PatientGender } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -19,63 +19,58 @@ import {
   useLazyPatientFindByIdQuery,
 } from 'src/infra/api/access-service/patient'
 import { usePagination } from 'src/shared/hooks'
-import { testReportPageLoader } from './loader'
 import {
   FormContainer,
   FormDateTimePicker,
   FormSelect,
 } from 'src/components/form'
-
-const ANY_PATIENT_TYPE = 'ANY_PATIENT_TYPE'
-const ANY_SAMPLE_ORIGIN = 'ANY_SAMPLE_ORIGIN'
-
-enum IsNgoaiGio {
-  Any = 'ANY_NGOAI_GIO',
-  NgoaiGio = 'IS_NGOAI_GIO',
-  TrongGio = 'IS_TRONG_GIO',
-}
+import { BranchResponseDto } from 'src/infra/api/access-service/branch'
+import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
+import { TestResponseDto } from 'src/infra/api/access-service/test'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
 interface FilterData {
   fromDate: Date
   toDate: Date
   patientType: string
-  isNgoaiGio: IsNgoaiGio
+  isNgoaiGio: boolean
   sampleOrigin: string
 }
 
-function parseIsNgoaiGio(isNgoaiGioParam: IsNgoaiGio) {
-  if (isNgoaiGioParam === IsNgoaiGio.NgoaiGio) {
-    return true
-  } else if (isNgoaiGioParam === IsNgoaiGio.TrongGio) {
-    return false
-  }
+export type SoNhanMauViewProps = {
+  origins: BranchResponseDto[]
+  patientTypes: PatientTypeResponseDto[]
+  tests: TestResponseDto[]
 
-  return undefined
+  page: number
+  pageSize: number
+  setPage: (page: number) => void
+  setPageSize: (pageSize: number) => void
+  isNgoaiGio: boolean | null
+  setIsNgoaiGio: (isNgoaiGio: boolean | null) => void
+  patientTypeId: string | null
+  setPatientTypeId: (patientTypeId: string | null) => void
+  originId: string | null
+  setOriginId: (originId: string | null) => void
+  fromDate: Date
+  setFromDate: (fromDate: Date) => void
+  toDate: Date
+  setToDate: (toDate: Date) => void
 }
 
-const BUU_DIEN_SUMMARY = 'BUU_DIEN_SUMMARY'
-const NGOAI_GIO_SUMMARY = 'NGOAI_GIO_SUMMARY'
+export function SoNhanMauView(props: SoNhanMauViewProps) {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
-export function TestReportPage() {
-  const { patientTypeMap, categories, groups, tests, sampleOriginMap } =
-    useLoaderData() as Awaited<ReturnType<typeof testReportPageLoader>>
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const patientTypeParam = searchParams.get('patientType') ?? ANY_PATIENT_TYPE
-  const isNgoaiGioParam =
-    (searchParams.get('isNgoaiGio') as IsNgoaiGio) ?? IsNgoaiGio.Any
-  const sampleOriginParam =
-    searchParams.get('sampleOrigin') ?? ANY_SAMPLE_ORIGIN
-
-  const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    usePagination({
-      offset: 0,
-      limit: 100,
-      sort: { infoAt: -1, sampleId: -1 },
-      filter: {
-        infoCompleted: true,
-      },
-    })
+  const { filterObj, setFilterObj } = usePagination({
+    offset: props.page,
+    limit: props.pageSize,
+    sort: { infoAt: -1, sampleId: -1 },
+    filter: {
+      infoCompleted: true,
+    },
+    populates: [{ path: 'patient' }],
+  })
 
   const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
     defaultValues: {

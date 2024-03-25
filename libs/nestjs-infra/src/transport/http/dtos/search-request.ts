@@ -14,7 +14,7 @@ import { FilterQuery, SortOrder } from 'mongoose'
 import { PopulatePath } from '../../../mongo'
 import { Type } from 'class-transformer'
 
-class PopulateOptionDto<TEntity> {
+class PopulateOptionDto<TEntity = unknown> {
   @ApiProperty({
     example: 'results.elements.testElementId',
     type: 'string',
@@ -39,7 +39,7 @@ class PopulateOptionDto<TEntity> {
   match?: FilterQuery<unknown>
 }
 
-export class SearchRequestDto<TEntity> {
+export class SearchRequestDto<TEntity = unknown> {
   @ApiProperty({
     default: 0,
     required: false,

@@ -41,6 +41,7 @@ import {
   urlResultSelectPage,
 } from 'src/features/sample-result'
 import { urlPatientSearchPage } from 'src/features/patient'
+import { urlSoNhanMauPage } from 'src/features/report'
 
 export const drawerItems: DrawerItemGroup[] = [
   {
@@ -91,7 +92,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <RuleIcon />,
         label: 'Sổ nhận mẫu',
-        destination: 'report/test',
+        destination: urlSoNhanMauPage(),
         isAuthorized: authOneOf([
           {
             subject: AuthSubject.WebApp,

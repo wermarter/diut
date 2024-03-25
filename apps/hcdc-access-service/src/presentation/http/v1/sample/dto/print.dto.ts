@@ -2,9 +2,9 @@ import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty, PickType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsNumber, IsOptional, ValidateNested } from 'class-validator'
+import { exampleMongoObjectId, exampleMongoObjectIds } from '@diut/common'
 
 import { PrintFormCreateRequestDto } from '../../print-form/dto/create.request-dto'
-import { exampleMongoObjectIds } from '@diut/common'
 
 export class OverrideAuthorRequestDto extends PickType(
   PrintFormCreateRequestDto,
@@ -13,12 +13,12 @@ export class OverrideAuthorRequestDto extends PickType(
 
 export class SamplePrintSingleRequestDto {
   @Expose()
-  @ApiProperty()
+  @ApiProperty(exampleMongoObjectId)
   @IsObjectId()
   sampleId: string
 
   @Expose()
-  @ApiProperty()
+  @ApiProperty(exampleMongoObjectId)
   @IsObjectId()
   printFormId: string
 

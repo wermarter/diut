@@ -17,6 +17,7 @@ import { TestElementController } from './test-element/controller'
 import { PatientController } from './patient/controller'
 import { TestComboController } from './test-combo/controller'
 import { SampleController } from './sample/controller'
+import { ReportController } from './report/controller'
 
 export const httpControllerV1Metadata: ModuleMetadata = {
   controllers: [
@@ -37,6 +38,7 @@ export const httpControllerV1Metadata: ModuleMetadata = {
     PatientController,
     TestComboController,
     SampleController,
+    ReportController,
   ],
   providers: [],
 }

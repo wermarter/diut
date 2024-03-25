@@ -24,7 +24,7 @@ export class PuppeteerService
     @Inject(loadPuppeteerConfig.KEY)
     private readonly puppeteerConfig: PuppeteerConfig,
   ) {
-    super({ name: PuppeteerService.name })
+    super({ name: PuppeteerService.name, connectionId: 'Chromium' })
   }
 
   readyCheck() {

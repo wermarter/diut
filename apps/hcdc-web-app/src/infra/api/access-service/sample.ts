@@ -7,6 +7,21 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
+      sampleUploadResultImage: build.mutation<
+        SampleUploadResultImageApiResponse,
+        SampleUploadResultImageApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/upload`,
+          method: 'POST',
+          body: queryArg.sampleUploadImageDto,
+          params: {
+            sampleId: queryArg.sampleId,
+            testElementId: queryArg.testElementId,
+          },
+        }),
+        invalidatesTags: ['v1-samples'],
+      }),
       sampleSearch: build.query<SampleSearchApiResponse, SampleSearchApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/samples/search`,
@@ -94,26 +109,17 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['v1-samples'],
       }),
-      sampleUploadResultImage: build.mutation<
-        SampleUploadResultImageApiResponse,
-        SampleUploadResultImageApiArg
-      >({
-        query: (queryArg) => ({
-          url: `/api/v1/samples/upload`,
-          method: 'POST',
-          body: queryArg.sampleUploadImageDto,
-          params: {
-            sampleId: queryArg.sampleId,
-            testElementId: queryArg.testElementId,
-          },
-          // formData: true,
-        }),
-        invalidatesTags: ['v1-samples'],
-      }),
     }),
     overrideExisting: false,
   })
 export { injectedRtkApi as sampleApi }
+export type SampleUploadResultImageApiResponse =
+  /** status 200  */ SampleUploadImageResponseDto
+export type SampleUploadResultImageApiArg = {
+  sampleId: string
+  testElementId: string
+  sampleUploadImageDto: SampleUploadImageDto
+}
 export type SampleSearchApiResponse = /** status 200  */ SampleSearchResponseDto
 export type SampleSearchApiArg = SampleSearchRequestDto
 export type SampleCreateApiResponse = /** status 201  */ SampleCreateResponseDto
@@ -144,12 +150,37 @@ export type SampleUpdateResultByIdApiArg = {
 }
 export type SamplePrintApiResponse = unknown
 export type SamplePrintApiArg = SamplePrintRequestDto
-export type SampleUploadResultImageApiResponse =
-  /** status 200  */ SampleUploadImageResponseDto
-export type SampleUploadResultImageApiArg = {
-  sampleId: string
-  testElementId: string
-  sampleUploadImageDto: SampleUploadImageDto
+export type SampleUploadImageResponseDto = {
+  storageKey: string
+}
+export type HttpErrorResponse = {
+  errorCode:
+    | 'UNKNOWN'
+    | 'AUTHN'
+    | 'AUTHN_JWT_INVALID_TOKEN'
+    | 'AUTHN_LOGIN_INVALID_USERNAME'
+    | 'AUTHN_LOGIN_INVALID_PASSWORD'
+    | 'AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND'
+    | 'AUTHN_PAYLOAD_NOT_FOUND'
+    | 'AUTHN_PAYLOAD_USER_NOT_FOUND'
+    | 'AUTHZ'
+    | 'AUTHZ_AUTHENTICATION_REQUIRED'
+    | 'AUTHZ_PERMISSION_DENIED'
+    | 'ENTITY'
+    | 'ENTITY_NOT_FOUND'
+    | 'ENTITY_CANNOT_DELETE'
+    | 'ENTITY_POPULATE_PATH_UNKNOWN'
+    | 'ENTITY_SAMPLE_ID_ALREADY_EXISTS'
+    | 'ENTITY_TEST_INVALID_BIO_PRODUCT'
+    | 'EXTERNAL_SERVICE'
+    | 'BROWSER_SERVICE'
+    | 'BROWSER_SERVICE_EXCEPTION'
+    | 'REQUEST'
+    | 'REQUEST_INVALID_INPUT'
+  message: string
+}
+export type SampleUploadImageDto = {
+  file: Blob
 }
 export type PermissionRuleRequestDto = {
   subject:
@@ -302,32 +333,6 @@ export type SampleSearchResponseDto = {
   offset: number
   limit: number
   items: OmittedSampleResponseDto[]
-}
-export type HttpErrorResponse = {
-  errorCode:
-    | 'UNKNOWN'
-    | 'AUTHN'
-    | 'AUTHN_JWT_INVALID_TOKEN'
-    | 'AUTHN_LOGIN_INVALID_USERNAME'
-    | 'AUTHN_LOGIN_INVALID_PASSWORD'
-    | 'AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_USER_NOT_FOUND'
-    | 'AUTHZ'
-    | 'AUTHZ_AUTHENTICATION_REQUIRED'
-    | 'AUTHZ_PERMISSION_DENIED'
-    | 'ENTITY'
-    | 'ENTITY_NOT_FOUND'
-    | 'ENTITY_CANNOT_DELETE'
-    | 'ENTITY_POPULATE_PATH_UNKNOWN'
-    | 'ENTITY_SAMPLE_ID_ALREADY_EXISTS'
-    | 'ENTITY_TEST_INVALID_BIO_PRODUCT'
-    | 'EXTERNAL_SERVICE'
-    | 'BROWSER_SERVICE'
-    | 'BROWSER_SERVICE_EXCEPTION'
-    | 'REQUEST'
-    | 'REQUEST_INVALID_INPUT'
-  message: string
 }
 export type PopulateOptionDto = {
   path: string
@@ -546,13 +551,8 @@ export type SamplePrintSingleRequestDto = {
 export type SamplePrintRequestDto = {
   requests: SamplePrintSingleRequestDto[]
 }
-export type SampleUploadImageResponseDto = {
-  storageKey: string
-}
-export type SampleUploadImageDto = {
-  file: Blob
-}
 export const {
+  useSampleUploadResultImageMutation,
   useSampleSearchQuery,
   useLazySampleSearchQuery,
   useSampleCreateMutation,
@@ -566,5 +566,4 @@ export const {
   useSampleDeleteByIdMutation,
   useSampleUpdateResultByIdMutation,
   useSamplePrintMutation,
-  useSampleUploadResultImageMutation,
 } = injectedRtkApi
