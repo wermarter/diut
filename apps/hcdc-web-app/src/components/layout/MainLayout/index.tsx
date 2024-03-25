@@ -24,7 +24,7 @@ export function MainLayout() {
         sx={{
           flexGrow: 1,
           bgcolor: 'background.default',
-          width: `calc(100% - ${drawerWidth}px)`,
+          height: 'calc(100vh - 48px)',
         }}
       >
         <Toolbar variant="dense" />

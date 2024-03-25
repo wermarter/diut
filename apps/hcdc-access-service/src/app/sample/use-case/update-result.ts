@@ -1,6 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { FilterQuery } from 'mongoose'
-import { AuthSubject, Sample, SampleAction, SampleResult } from '@diut/hcdc'
+import {
+  AuthSubject,
+  Sample,
+  SampleAction,
+  SampleResult,
+  SampleResultTest,
+} from '@diut/hcdc'
 
 import {
   AuthContextToken,
@@ -38,6 +44,8 @@ export class SampleUpdateResultUseCase {
     )
     await this.sampleValidateUseCase.execute(input.data)
 
+    let sampleCompleted = true
+
     const modifiedResults: SampleResult['results'] = []
     const patientCategory = await this.patientGetCategoryUseCase.execute({
       patientId: entity.patientId,
@@ -57,6 +65,8 @@ export class SampleUpdateResultUseCase {
         ({ testId }) => testId === testResult.testId,
       )
 
+      let modifiedTestResult: SampleResultTest
+
       if (newResult !== undefined) {
         newResult.elements = defaultResult.elements.map((defaultElement) => {
           const newElementResult = newResult.elements.find(
@@ -71,12 +81,12 @@ export class SampleUpdateResultUseCase {
           return newElementResult ?? existingElementResult ?? defaultElement
         })
 
-        modifiedResults.push({
+        modifiedTestResult = {
           ...testResult,
           ...newResult,
           resultAt: new Date(),
           resultById: user._id,
-        })
+        }
       } else {
         testResult.elements = defaultResult.elements.map((defaultElement) => {
           const existingElementResult = testResult.elements.find(
@@ -87,12 +97,19 @@ export class SampleUpdateResultUseCase {
           return existingElementResult ?? defaultElement
         })
 
-        modifiedResults.push(testResult)
+        modifiedTestResult = testResult
       }
+
+      if (modifiedTestResult.isLocked === false) {
+        sampleCompleted = false
+      }
+
+      modifiedResults.push(modifiedTestResult)
     }
 
     return this.sampleRepository.update(input.filter, {
       results: modifiedResults,
+      sampleCompleted,
     })
   }
 }

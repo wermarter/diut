@@ -284,7 +284,7 @@ export function ResultSelectView(props: EditSelectViewProps) {
           </Grid>
         </FormContainer>
       </Paper>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ overflow: 'auto', flexGrow: 1 }}>
         <DataTable
           cellOutline
           disableRowSelectionOnClick

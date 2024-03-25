@@ -280,7 +280,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
           </Grid>
         </FormContainer>
       </Paper>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ overflow: 'auto' }} id="hehe">
         <DataTable
           cellOutline
           disableRowSelectionOnClick
