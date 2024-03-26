@@ -45,7 +45,7 @@ const config: ConfigFile = {
   apiImport: 'accessServiceApiSlice',
   endpointOverrides: [
     { pattern: new RegExp('.+Search$'), type: 'query' },
-    { pattern: 'reportExportSoNhanMau', type: 'query' },
+    { pattern: 'reportQuerySoNhanMau', type: 'query' },
   ],
   hooks: { lazyQueries: true, mutations: true, queries: true },
   tag: true,

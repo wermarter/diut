@@ -10,7 +10,7 @@ import { exampleDate, exampleMongoObjectId } from '@diut/common'
 
 import { OmittedSampleResponseDto } from '../../sample/dto/response-dto'
 
-export class ReportSoNhanMauRequestDto extends PickType(SearchRequestDto, [
+export class ReportQuerySoNhanMauRequestDto extends PickType(SearchRequestDto, [
   'offset',
   'limit',
 ]) {
@@ -25,7 +25,12 @@ export class ReportSoNhanMauRequestDto extends PickType(SearchRequestDto, [
   toDate: Date
 
   @Expose()
-  @ApiProperty()
+  @ApiProperty(exampleMongoObjectId)
+  @IsObjectId()
+  branchId: string
+
+  @Expose()
+  @ApiProperty({ required: false })
   @IsBoolean()
   @IsOptional()
   isNgoaiGio?: boolean
@@ -43,7 +48,7 @@ export class ReportSoNhanMauRequestDto extends PickType(SearchRequestDto, [
   originId?: string
 }
 
-export class ReportSoNhanMauResponseDto extends PaginatedResponse(
+export class ReportQuerySoNhanMauResponseDto extends PaginatedResponse(
   OmittedSampleResponseDto,
 ) {
   @Expose()

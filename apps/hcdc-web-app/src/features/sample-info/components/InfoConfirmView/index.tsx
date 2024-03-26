@@ -3,7 +3,10 @@ import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
 
-import { useSampleSearchQuery } from 'src/infra/api/access-service/sample'
+import {
+  SampleSearchRequestDto,
+  useSampleSearchQuery,
+} from 'src/infra/api/access-service/sample'
 import { DataTable } from 'src/components/table'
 import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
@@ -58,7 +61,7 @@ export type InfoConfirmViewProps = {
 export function InfoConfirmView(props: InfoConfirmViewProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
-  const { filterObj, setFilterObj } = usePagination({
+  const { filterObj, setFilterObj } = usePagination<SampleSearchRequestDto>({
     offset: props.page,
     limit: props.pageSize,
     sort: { infoAt: -1, sampleId: -1 },
@@ -280,7 +283,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
           </Grid>
         </FormContainer>
       </Paper>
-      <Box sx={{ overflow: 'auto' }} id="hehe">
+      <Box sx={{ height: '100%', overflow: 'auto' }} id="hehe">
         <DataTable
           cellOutline
           disableRowSelectionOnClick

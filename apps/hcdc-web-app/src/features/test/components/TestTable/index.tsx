@@ -8,6 +8,7 @@ import {
   useTestUpdateByIdMutation,
   useLazyTestSearchQuery,
   TestResponseDto,
+  TestSearchRequestDto,
 } from 'src/infra/api/access-service/test'
 import { CrudTable } from 'src/components/table'
 import { usePagination } from 'src/shared/hooks'
@@ -47,7 +48,7 @@ export function TestTable(props: TestTableProps) {
     props.sampleTypes,
   )
 
-  const { filterObj, setFilterObj } = usePagination({
+  const { filterObj, setFilterObj } = usePagination<TestSearchRequestDto>({
     offset: props.page,
     limit: props.pageSize,
     sort: { displayIndex: 1 },

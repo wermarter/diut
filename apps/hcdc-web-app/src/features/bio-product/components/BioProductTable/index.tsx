@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import {
+  BioProductSearchRequestDto,
   useBioProductCreateMutation,
   useBioProductDeleteByIdMutation,
   useBioProductSearchQuery,
@@ -20,7 +21,7 @@ type BioProductTableProps = {
 export function BioProductTable(props: BioProductTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const { filterObj, setFilterObj, onPageChange, onPageSizeChange } =
-    usePagination({
+    usePagination<BioProductSearchRequestDto>({
       sort: { displayIndex: 1 },
       filter: { testId: props.testId, branchId },
       offset: 0,

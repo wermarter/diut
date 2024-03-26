@@ -28,12 +28,16 @@ export class ReportSoNhanMauUseCase {
     limit: number
     fromDate: Date
     toDate: Date
+    branchId: string
     isNgoaiGio?: boolean
     patientTypeId?: string
     originId?: string
   }) {
     const { ability } = this.authContext.getData()
     const { items: tests } = await this.testSearchUseCase.execute({
+      filter: {
+        branchId: input.branchId,
+      },
       projection: { _id: 1 },
     })
 

@@ -24,6 +24,7 @@ export const soNhanMauPageLoader = async () => {
   ])
 
   const tests = testRes.items.toSorted(allTestReportSortComparator)
+  const 
   const origins = sampleOriginRes?.items ?? []
   const patientTypes = patientTypeRes?.items ?? []
 

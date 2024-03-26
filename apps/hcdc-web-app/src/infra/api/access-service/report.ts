@@ -6,9 +6,9 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      reportExportSoNhanMau: build.query<
-        ReportExportSoNhanMauApiResponse,
-        ReportExportSoNhanMauApiArg
+      reportQuerySoNhanMau: build.query<
+        ReportQuerySoNhanMauApiResponse,
+        ReportQuerySoNhanMauApiArg
       >({
         query: (queryArg) => ({
           url: `/api/v1/reports/so-nhan-mau`,
@@ -21,9 +21,9 @@ const injectedRtkApi = api
     overrideExisting: false,
   })
 export { injectedRtkApi as reportApi }
-export type ReportExportSoNhanMauApiResponse =
-  /** status 200  */ ReportSoNhanMauResponseDto
-export type ReportExportSoNhanMauApiArg = ReportSoNhanMauRequestDto
+export type ReportQuerySoNhanMauApiResponse =
+  /** status 200  */ ReportQuerySoNhanMauResponseDto
+export type ReportQuerySoNhanMauApiArg = ReportQuerySoNhanMauRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -170,7 +170,7 @@ export type OmittedSampleResponseDto = {
   branch?: BranchUnpopulatedResponseDto | null
   results: OmittedTestResponseDto[]
 }
-export type ReportSoNhanMauResponseDto = {
+export type ReportQuerySoNhanMauResponseDto = {
   total: number
   offset: number
   limit: number
@@ -203,16 +203,17 @@ export type HttpErrorResponse = {
     | 'REQUEST_INVALID_INPUT'
   message: string
 }
-export type ReportSoNhanMauRequestDto = {
+export type ReportQuerySoNhanMauRequestDto = {
   offset?: number
   limit?: number
   fromDate: string
   toDate: string
-  isNgoaiGio: boolean
+  branchId: string
+  isNgoaiGio?: boolean
   patientTypeId?: string
   originId?: string
 }
 export const {
-  useReportExportSoNhanMauQuery,
-  useLazyReportExportSoNhanMauQuery,
+  useReportQuerySoNhanMauQuery,
+  useLazyReportQuerySoNhanMauQuery,
 } = injectedRtkApi

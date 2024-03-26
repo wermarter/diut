@@ -294,7 +294,7 @@ export function PrintSelectView(props: PrintSelectViewProps) {
           </Grid>
         </FormContainer>
       </Paper>
-      <Box sx={{ overflow: 'auto', flexGrow: 1 }}>
+      <Box sx={{ overflow: 'auto', flexGrow: 1, height: '100%' }}>
         <DataTable
           cellOutline
           disableRowSelectionOnClick

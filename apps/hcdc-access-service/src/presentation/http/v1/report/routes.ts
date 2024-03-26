@@ -1,18 +1,18 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { ReportSoNhanMauResponseDto } from './dto/so-nhan-mau.dto'
+import { ReportQuerySoNhanMauResponseDto } from './dto/so-nhan-mau.dto'
 
 export const reportRoutes = {
-  exportSoNhanMau: {
+  querySoNhanMau: {
     path: 'so-nhan-mau',
     method: RequestMethod.POST,
     code: HttpStatus.OK,
-    serialize: ReportSoNhanMauResponseDto,
+    serialize: ReportQuerySoNhanMauResponseDto,
     openApi: {
       responses: [
         {
-          type: ReportSoNhanMauResponseDto,
+          type: ReportQuerySoNhanMauResponseDto,
         },
       ],
     },

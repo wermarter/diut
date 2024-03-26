@@ -7,6 +7,7 @@ import {
   useTestElementSearchQuery,
   useTestElementUpdateByIdMutation,
   useLazyTestElementSearchQuery,
+  TestElementSearchRequestDto,
 } from 'src/infra/api/access-service/test-element'
 import { CrudTable } from 'src/components/table'
 import { usePagination } from 'src/shared/hooks'
@@ -33,11 +34,12 @@ type FormData = {
 
 export function TestElementTable(props: TestElementTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { filterObj, setFilterObj } = usePagination({
-    offset: props.page,
-    limit: props.pageSize,
-    sort: { displayIndex: 1 },
-  })
+  const { filterObj, setFilterObj } =
+    usePagination<TestElementSearchRequestDto>({
+      offset: props.page,
+      limit: props.pageSize,
+      sort: { displayIndex: 1 },
+    })
 
   const [ruleRow, setRuleRow] = useState<string | null>(null)
 

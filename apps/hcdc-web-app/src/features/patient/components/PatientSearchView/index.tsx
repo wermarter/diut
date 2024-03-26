@@ -4,6 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
 
 import {
+  PatientSearchRequestDto,
   usePatientDeleteByIdMutation,
   usePatientSearchQuery,
 } from 'src/infra/api/access-service/patient'
@@ -34,7 +35,7 @@ export type PatientSearchViewProps = {
 export function PatientSearchView(props: PatientSearchViewProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
-  const { filterObj, setFilterObj } = usePagination({
+  const { filterObj, setFilterObj } = usePagination<PatientSearchRequestDto>({
     offset: props.page,
     limit: props.pageSize,
     sort: { createdAt: -1 },

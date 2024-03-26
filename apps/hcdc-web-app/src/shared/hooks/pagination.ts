@@ -1,18 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 
-import { UserSearchRequestDto } from 'src/infra/api/access-service/user'
-
-export const usePagination = (
-  currentFilterObj: UserSearchRequestDto = {
-    offset: 0,
-    limit: 10,
-  },
+export const usePagination = <T extends { limit?: number; offset?: number }>(
+  currentFilterObj: T,
 ) => {
-  const [filterObj, setFilterObj] =
-    useState<UserSearchRequestDto>(currentFilterObj)
+  const [filterObj, setFilterObj] = useState<T>(currentFilterObj)
 
   useEffect(() => {
-    setFilterObj((oldValue) => {
+    setFilterObj((oldValue: any) => {
       return Object.assign({}, oldValue, {
         limit: currentFilterObj.limit,
       })
@@ -20,7 +14,7 @@ export const usePagination = (
   }, [currentFilterObj.limit])
 
   useEffect(() => {
-    setFilterObj((oldValue) => {
+    setFilterObj((oldValue: any) => {
       return Object.assign({}, oldValue, {
         offset: currentFilterObj.offset,
       })
@@ -28,7 +22,7 @@ export const usePagination = (
   }, [currentFilterObj.offset])
 
   const onPageChange = useCallback((page: number) => {
-    setFilterObj((oldValue) => {
+    setFilterObj((oldValue: any) => {
       return Object.assign({}, oldValue, {
         offset: page,
       })
@@ -36,7 +30,7 @@ export const usePagination = (
   }, [])
 
   const onPageSizeChange = useCallback((pageSize: number) => {
-    setFilterObj((oldValue) => {
+    setFilterObj((oldValue: any) => {
       return Object.assign({}, oldValue, {
         limit: pageSize,
       })

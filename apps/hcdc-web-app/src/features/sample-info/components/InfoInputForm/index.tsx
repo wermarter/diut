@@ -501,7 +501,7 @@ export function InfoInputForm(props: InputFormProps) {
         }}
         showCombos
       />
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, height: '100%', overflow: 'auto' }}>
         <DataTable
           rows={patients?.items ?? []}
           loading={isFetchingPatients}

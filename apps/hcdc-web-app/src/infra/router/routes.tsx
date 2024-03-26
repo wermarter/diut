@@ -60,7 +60,11 @@ import {
   urlResultSelectPage,
 } from 'src/features/sample-result'
 import { PatientSearchPage, urlPatientSearchPage } from 'src/features/patient'
-import { SoNhanMauPage, urlSoNhanMauPage } from 'src/features/report'
+import {
+  SoNhanMauPage,
+  soNhanMauPageLoader,
+  urlSoNhanMauPage,
+} from 'src/features/report'
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -152,6 +156,7 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: urlSoNhanMauPage(),
         element: <SoNhanMauPage />,
+        loader: soNhanMauPageLoader,
       },
       // {
       //   path: 'report',

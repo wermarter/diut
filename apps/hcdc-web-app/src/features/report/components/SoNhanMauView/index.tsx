@@ -1,7 +1,6 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { format, startOfDay, endOfDay } from 'date-fns'
-import { PatientGender } from '@diut/hcdc'
 import { DATETIME_FORMAT } from '@diut/common'
 import { Box, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -29,13 +28,18 @@ import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-typ
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { makeDateFilter } from 'src/shared'
+import {
+  ReportQuerySoNhanMauRequestDto,
+  useReportQuerySoNhanMauQuery,
+} from 'src/infra/api/access-service/report'
 
-interface FilterData {
+interface FormData {
   fromDate: Date
   toDate: Date
-  patientType: string
-  isNgoaiGio: boolean
-  sampleOrigin: string
+  isNgoaiGio: string
+  patientTypeId: string
+  originId: string
 }
 
 export type SoNhanMauViewProps = {
@@ -62,137 +66,80 @@ export type SoNhanMauViewProps = {
 export function SoNhanMauView(props: SoNhanMauViewProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
 
-  const { filterObj, setFilterObj } = usePagination({
-    offset: props.page,
-    limit: props.pageSize,
-    sort: { infoAt: -1, sampleId: -1 },
-    filter: {
-      infoCompleted: true,
-    },
-    populates: [{ path: 'patient' }],
-  })
-
-  const { control, handleSubmit, watch, setValue } = useForm<FilterData>({
-    defaultValues: {
-      fromDate:
-        searchParams.get('fromDate') != null
-          ? new Date(searchParams.get('fromDate')!)
-          : new Date(),
-      toDate:
-        searchParams.get('toDate') != null
-          ? new Date(searchParams.get('toDate')!)
-          : new Date(),
-      patientType: patientTypeParam,
-      isNgoaiGio: isNgoaiGioParam,
-      sampleOrigin: sampleOriginParam,
-    },
-  })
-  const fromDate = watch('fromDate')
-  const toDate = watch('toDate')
-  const patientType = watch('patientType')
-  const isNgoaiGio = watch('isNgoaiGio')
-  const sampleOrigin = watch('sampleOrigin')
-
-  const handleSubmitFilter = ({
-    fromDate,
-    toDate,
-    patientType,
-    isNgoaiGio,
-    sampleOrigin,
-  }: FilterData) => {
-    setSearchParams({
-      patientType,
-      isNgoaiGio,
-      fromDate: fromDate.toISOString(),
-      toDate: toDate.toISOString(),
-      sampleOrigin,
+  const { filterObj, setFilterObj } =
+    usePagination<ReportQuerySoNhanMauRequestDto>({
+      offset: props.page,
+      limit: props.pageSize,
+      fromDate: makeDateFilter(props.fromDate, props.toDate).$gte,
+      toDate: makeDateFilter(props.fromDate, props.toDate).$lte,
+      patientTypeId: props.patientTypeId ?? undefined,
+      isNgoaiGio: props.isNgoaiGio ?? undefined,
+      originId: props.originId ?? undefined,
+      branchId,
     })
 
-    return setFilterObj((obj) => ({
+  useEffect(() => {
+    if (branchId) {
+      setFilterObj((prev) => ({
+        ...prev,
+        branchId,
+      }))
+    }
+  }, [branchId])
+
+  const { control, handleSubmit, watch, setValue } = useForm<FormData>({
+    defaultValues: {
+      fromDate: props.fromDate,
+      toDate: props.toDate,
+      isNgoaiGio: '',
+      patientTypeId: '',
+      originId: '',
+    },
+  })
+
+  useEffect(() => {
+    setValue('fromDate', props.fromDate)
+    setValue('toDate', props.toDate)
+    setValue(
+      'patientTypeId',
+      props.patientTypeId === null ? 'null' : `"${props.patientTypeId}"`,
+    )
+    setValue(
+      'originId',
+      props.originId === null ? 'null' : `"${props.originId}"`,
+    )
+    setValue(
+      'isNgoaiGio',
+      props.isNgoaiGio === null ? 'null' : JSON.stringify(props.isNgoaiGio),
+    )
+
+    setFilterObj((obj) => ({
       ...obj,
-      filter: {
-        ...obj.filter,
-        infoAt: {
-          $gte: startOfDay(fromDate).toISOString(),
-          $lte: endOfDay(toDate).toISOString(),
-        },
-        patientTypeId:
-          patientType !== ANY_PATIENT_TYPE ? patientType : undefined,
-        isNgoaiGio: parseIsNgoaiGio(isNgoaiGio),
-        sampleOriginId:
-          sampleOrigin !== ANY_SAMPLE_ORIGIN ? sampleOrigin : undefined,
-      },
+      fromDate: props.fromDate.toISOString(),
+      toDate: props.toDate.toISOString(),
+      isNgoaiGio: props.isNgoaiGio ?? undefined,
+      patientTypeId:
+        props.patientTypeId === null ? undefined : props.patientTypeId,
+      originId: props.originId === null ? undefined : props.originId,
     }))
-  }
+  }, [
+    props.isNgoaiGio,
+    props.patientTypeId,
+    props.originId,
+    props.fromDate,
+    props.toDate,
+  ])
+
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
 
   useEffect(() => {
     if (toDate < fromDate) {
-      setValue('fromDate', toDate)
-    } else {
-      handleSubmit(handleSubmitFilter)()
+      props.setFromDate(toDate)
     }
-  }, [fromDate, toDate, patientType, isNgoaiGio, sampleOrigin])
+  }, [fromDate, toDate])
 
-  const { data, isFetching: isFetchingSamples } =
-    useSampleSearchQuery(filterObj)
-
-  const [getPatient, { isFetching: isFetchingPatients }] =
-    useLazyPatientFindByIdQuery()
-
-  const [samples, setSamples] = useState<SampleSearchResponseDto>()
-  const [patients, setPatients] = useState<{
-    [id: string]: PatientResponseDto
-  }>({})
-
-  const [summary, setSummary] = useState<Record<string, number>>({})
-
-  async function expandId(samples: SampleResponseDto[]) {
-    const promises = samples.map(async ({ patientId }) => {
-      getPatient({ id: patientId }, true).then((res) => {
-        setPatients((cache) =>
-          Object.assign({}, cache, {
-            ...cache,
-            [patientId]: res.data!,
-          }),
-        )
-      })
-    })
-
-    const tempSummary: Record<string, number> = {}
-    samples.forEach(({ results, isNgoaiGio, isTraBuuDien }) => {
-      if (tempSummary[BUU_DIEN_SUMMARY] === undefined) {
-        tempSummary[BUU_DIEN_SUMMARY] = 0
-      }
-      if (tempSummary[NGOAI_GIO_SUMMARY] === undefined) {
-        tempSummary[NGOAI_GIO_SUMMARY] = 0
-      }
-
-      if (isNgoaiGio === true) {
-        tempSummary[NGOAI_GIO_SUMMARY]++
-      }
-      if (isTraBuuDien === true) {
-        tempSummary[BUU_DIEN_SUMMARY]++
-      }
-
-      results.forEach(({ testId }) => {
-        if (tempSummary[testId] === undefined) {
-          tempSummary[testId] = 0
-        }
-
-        tempSummary[testId]++
-      })
-    })
-    setSummary(tempSummary)
-
-    return Promise.all(promises)
-  }
-
-  useEffect(() => {
-    if (!isFetchingSamples) {
-      expandId(data?.items!)
-      setSamples(data!)
-    }
-  }, [isFetchingSamples, JSON.stringify(filterObj)])
+  const { data, isFetching } = useReportQuerySoNhanMauQuery(filterObj)
 
   return (
     <Box
@@ -204,7 +151,7 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
       }}
     >
       <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
-        <FormContainer onSubmit={handleSubmit(handleSubmitFilter)}>
+        <FormContainer>
           <Grid container spacing={2}>
             <Grid xs={2}>
               <FormDateTimePicker
@@ -281,13 +228,13 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
         <DataTable
           cellOutline
           rows={
-            samples?.items.concat({
+            data?.items.concat({
               _id: 'test-report-summary',
               isSummary: true,
-            } as any) || []
+            } as any) ?? []
           }
           autoRowHeight
-          loading={isFetchingSamples || isFetchingPatients}
+          loading={isFetching}
           getRowId={(row) => row._id}
           experimentalFeatures={{ columnGrouping: true }}
           columnGroupingModel={[
@@ -303,7 +250,7 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
                 { field: 'patientType' },
               ],
             },
-            ...categories.map((categoryName) => ({
+            ...props.tests.map((categoryName) => ({
               groupId: categoryName,
               children: groups[categoryName].map(({ _id }) => ({
                 field: _id,
@@ -479,8 +426,8 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
           rowCount={samples?.total ?? 0}
           page={samples?.offset!}
           pageSize={samples?.limit!}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
+          onPageChange={props.setPage}
+          onPageSizeChange={props.setPageSize}
         />
       </Box>
     </Box>
