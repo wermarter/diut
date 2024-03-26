@@ -1,3 +1,3 @@
 export * from './module'
 
-export * from './use-case/so-nhan-mau'
+export * from './use-case/so-nhan-mau-query'

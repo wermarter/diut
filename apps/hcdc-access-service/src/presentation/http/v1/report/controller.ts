@@ -2,7 +2,7 @@ import { Body } from '@nestjs/common'
 
 import { reportRoutes } from './routes'
 import { HttpController, HttpRoute } from '../../common'
-import { ReportSoNhanMauUseCase } from 'src/app/report'
+import { ReportSoNhanMauQueryUseCase } from 'src/app/report'
 import { ReportQuerySoNhanMauRequestDto } from './dto/so-nhan-mau.dto'
 
 @HttpController({
@@ -10,11 +10,11 @@ import { ReportQuerySoNhanMauRequestDto } from './dto/so-nhan-mau.dto'
 })
 export class ReportController {
   constructor(
-    private readonly reportSoNhanMauUseCase: ReportSoNhanMauUseCase,
+    private readonly reportSoNhanMauQueryUseCase: ReportSoNhanMauQueryUseCase,
   ) {}
 
   @HttpRoute(reportRoutes.querySoNhanMau)
   async querySoNhanMau(@Body() body: ReportQuerySoNhanMauRequestDto) {
-    return this.reportSoNhanMauUseCase.execute(body)
+    return this.reportSoNhanMauQueryUseCase.execute(body)
   }
 }

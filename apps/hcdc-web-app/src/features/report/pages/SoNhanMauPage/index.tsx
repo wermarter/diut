@@ -25,9 +25,8 @@ export function urlSoNhanMauPage() {
 }
 
 export function SoNhanMauPage() {
-  const { origins, patientTypes, tests } = useLoaderData() as Awaited<
-    ReturnType<typeof soNhanMauPageLoader>
-  >
+  const { tests, categories, origins, patientTypeMap } =
+    useLoaderData() as Awaited<ReturnType<typeof soNhanMauPageLoader>>
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const revalidator = useRevalidator()
 
@@ -37,7 +36,7 @@ export function SoNhanMauPage() {
 
   const [searchParams, setSearchParams] = useSearchParams({
     [PARAM_PAGE]: '0',
-    [PARAM_PAGE_SIZE]: ROWS_PER_PAGE_OPTIONS[0].toString(),
+    [PARAM_PAGE_SIZE]: Math.max(...ROWS_PER_PAGE_OPTIONS).toString(),
     [PARAM_FROM_DATE]: new Date().getTime().toString(),
     [PARAM_TO_DATE]: new Date().getTime().toString(),
   })
@@ -125,9 +124,10 @@ export function SoNhanMauPage() {
 
   return (
     <SoNhanMauView
-      origins={origins}
-      patientTypes={patientTypes}
       tests={tests}
+      categories={categories}
+      origins={origins}
+      patientTypeMap={patientTypeMap}
       page={parseInt(page)}
       pageSize={parseInt(pageSize)}
       setPage={setPage}

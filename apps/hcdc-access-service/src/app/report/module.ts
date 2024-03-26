@@ -1,7 +1,7 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { ReportSoNhanMauUseCase } from './use-case/so-nhan-mau'
+import { ReportSoNhanMauQueryUseCase } from './use-case/so-nhan-mau-query'
 
 export const reportMetadata: ModuleMetadata = {
-  providers: [ReportSoNhanMauUseCase],
+  providers: [ReportSoNhanMauQueryUseCase],
 }

@@ -10,37 +10,45 @@ export const drawerWidth = 220
 
 export function MainLayout() {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        minWidth: '800px',
-        height: 'calc(100vh - 48px)',
-      }}
-    >
+    <>
       <AppBar drawerWidth={drawerWidth} />
-      <AppDrawer drawerWidth={drawerWidth} />
       <Box
-        component="main"
         sx={{
-          flexGrow: 1,
-          bgcolor: 'background.default',
+          ml: `${drawerWidth}px`,
+          // minWidth: '800px',
           height: 'calc(100vh - 48px)',
         }}
       >
-        <Toolbar variant="dense" />
-        <Outlet />
+        <AppDrawer drawerWidth={drawerWidth} />
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Toolbar variant="dense" />
+          <Box
+            component="main"
+            sx={{
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              pauseOnHover
+              theme="light"
+            />
+            <Outlet />
+          </Box>
+        </Box>
       </Box>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        pauseOnHover
-        theme="light"
-      />
-    </Box>
+    </>
   )
 }

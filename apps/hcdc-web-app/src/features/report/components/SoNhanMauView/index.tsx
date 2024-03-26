@@ -1,22 +1,10 @@
-import { useLoaderData, useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { format, startOfDay, endOfDay } from 'date-fns'
-import { DATETIME_FORMAT } from '@diut/common'
-import { Box, Paper, Typography } from '@mui/material'
+import { useEffect, useRef } from 'react'
+import { Box, Button, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { GridColDef } from '@mui/x-data-grid'
 import { useForm } from 'react-hook-form'
 
-import {
-  SampleResponseDto,
-  SampleSearchResponseDto,
-  useSampleSearchQuery,
-} from 'src/infra/api/access-service/sample'
+import { OmittedSampleResponseDto } from 'src/infra/api/access-service/report'
 import { DataTable } from 'src/components/table'
-import {
-  PatientResponseDto,
-  useLazyPatientFindByIdQuery,
-} from 'src/infra/api/access-service/patient'
 import { usePagination } from 'src/shared/hooks'
 import {
   FormContainer,
@@ -33,6 +21,7 @@ import {
   ReportQuerySoNhanMauRequestDto,
   useReportQuerySoNhanMauQuery,
 } from 'src/infra/api/access-service/report'
+import { useColumns } from './columns'
 
 interface FormData {
   fromDate: Date
@@ -44,8 +33,14 @@ interface FormData {
 
 export type SoNhanMauViewProps = {
   origins: BranchResponseDto[]
-  patientTypes: PatientTypeResponseDto[]
+  patientTypeMap: Map<string, PatientTypeResponseDto>
   tests: TestResponseDto[]
+  categories: {
+    groupId: string
+    children: {
+      field: string
+    }[]
+  }[]
 
   page: number
   pageSize: number
@@ -87,7 +82,7 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
     }
   }, [branchId])
 
-  const { control, handleSubmit, watch, setValue } = useForm<FormData>({
+  const { control, watch, setValue } = useForm<FormData>({
     defaultValues: {
       fromDate: props.fromDate,
       toDate: props.toDate,
@@ -139,13 +134,30 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
     }
   }, [fromDate, toDate])
 
-  const { data, isFetching } = useReportQuerySoNhanMauQuery(filterObj)
+  const isFirstRun = useRef(true)
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+  }, [])
+  const { data, isFetching } = useReportQuerySoNhanMauQuery(filterObj, {
+    skip: isFirstRun.current,
+  })
+
+  const columns = useColumns({
+    summary: data?.summary,
+    categories: props.categories,
+    patientTypeMap: props.patientTypeMap,
+    tests: props.tests,
+  })
 
   return (
     <Box
       sx={{
         p: 2,
         height: '100%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -156,6 +168,7 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
+                onChangeHook={props.setFromDate}
                 name="fromDate"
                 dateOnly
                 label="Từ ngày"
@@ -164,6 +177,7 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
+                onChangeHook={props.setToDate}
                 name="toDate"
                 dateOnly
                 label="Đến ngày"
@@ -172,13 +186,16 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             <Grid xs={2}>
               <FormSelect
                 control={control}
+                onChangeHook={(value) => {
+                  props.setIsNgoaiGio(JSON.parse(value))
+                }}
                 size="medium"
                 name="isNgoaiGio"
                 label="Thời gian"
                 options={[
-                  { label: 'Tất cả', value: IsNgoaiGio.Any },
-                  { label: 'Trong giờ', value: IsNgoaiGio.TrongGio },
-                  { label: 'Ngoài giờ', value: IsNgoaiGio.NgoaiGio },
+                  { label: 'Tất cả', value: 'null' },
+                  { label: 'Trong giờ', value: 'false' },
+                  { label: 'Ngoài giờ', value: 'true' },
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}
@@ -187,15 +204,20 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             <Grid xs={2}>
               <FormSelect
                 control={control}
+                onChangeHook={(value) =>
+                  props.setPatientTypeId(JSON.parse(value))
+                }
                 size="medium"
-                name="patientType"
+                name="patientTypeId"
                 label="Đối tượng"
                 options={[
-                  { label: 'Tất cả', value: ANY_PATIENT_TYPE },
-                  ...[...patientTypeMap.values()].map(({ _id, name }) => ({
-                    label: name,
-                    value: _id,
-                  })),
+                  { label: 'Tất cả', value: 'null' },
+                  ...[...props.patientTypeMap.values()].map(
+                    ({ _id, name }) => ({
+                      label: name,
+                      value: `"${_id}"`,
+                    }),
+                  ),
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}
@@ -204,14 +226,17 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             <Grid xs={2}>
               <FormSelect
                 control={control}
+                onChangeHook={(value) => {
+                  props.setOriginId(JSON.parse(value))
+                }}
                 size="medium"
-                name="sampleOrigin"
+                name="originId"
                 label="Đơn vị"
                 options={[
-                  { label: 'Tất cả', value: ANY_SAMPLE_ORIGIN },
-                  ...[...sampleOriginMap.values()].map(({ _id, name }) => ({
+                  { label: 'Tất cả', value: 'null' },
+                  ...props.origins.map(({ _id, name }) => ({
                     label: name,
-                    value: _id,
+                    value: `"${_id}"`,
                   })),
                 ]}
                 getOptionLabel={({ label }) => label}
@@ -220,20 +245,29 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             </Grid>
             <Grid xs={2}>
               <input type="submit" style={{ display: 'none' }} />
+              <Button
+                variant="outlined"
+                fullWidth
+                sx={{ height: '100%' }}
+                onClick={() => {}}
+              >
+                Download
+              </Button>
             </Grid>
           </Grid>
         </FormContainer>
       </Paper>
-      <Box sx={{ overflow: 'auto', flexGrow: 1 }}>
+      <Box sx={{ overflow: 'auto', flexGrow: 1, width: '100%' }}>
         <DataTable
           cellOutline
           rows={
             data?.items.concat({
               _id: 'test-report-summary',
               isSummary: true,
-            } as any) ?? []
+            } as unknown as OmittedSampleResponseDto) ?? []
           }
           autoRowHeight
+          rowSelectionModel={'test-report-summary'}
           loading={isFetching}
           getRowId={(row) => row._id}
           experimentalFeatures={{ columnGrouping: true }}
@@ -250,182 +284,13 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
                 { field: 'patientType' },
               ],
             },
-            ...props.tests.map((categoryName) => ({
-              groupId: categoryName,
-              children: groups[categoryName].map(({ _id }) => ({
-                field: _id,
-              })),
-            })),
+            ...props.categories,
           ]}
-          columns={[
-            {
-              field: 'infoAt',
-              headerName: 'Ngày nhận',
-              width: 100,
-              sortable: false,
-              valueGetter: ({ value }) => {
-                if (value === undefined) {
-                  return ''
-                }
-                return format(new Date(value), DATETIME_FORMAT)
-              },
-            },
-            {
-              field: 'sampleId',
-              headerName: 'ID XN',
-              width: 120,
-              sortable: false,
-              renderCell: ({ value }) => <strong>{value}</strong>,
-            },
-            {
-              field: 'name',
-              headerName: 'Tên',
-              sortable: false,
-              width: 150,
-              valueGetter: ({ row }) => patients[row.patientId]?.name,
-            },
-            {
-              field: 'birthYear',
-              headerName: 'Năm',
-              width: 60,
-              sortable: false,
-              valueGetter: ({ row }) => patients[row.patientId]?.birthYear,
-            },
-            {
-              field: 'gender',
-              headerName: 'Giới',
-              width: 60,
-              sortable: false,
-              valueGetter: ({ row }) => {
-                if (patients[row.patientId]?.gender === undefined) {
-                  return ''
-                }
-
-                if (patients[row.patientId]?.gender === Gender.Female) {
-                  return 'Nữ'
-                } else {
-                  return 'Nam'
-                }
-              },
-            },
-            {
-              field: 'address',
-              headerName: 'Địa chỉ',
-              width: 80,
-              sortable: false,
-              valueGetter: ({ row }) => patients[row.patientId]?.address,
-            },
-            {
-              field: 'phoneNumber',
-              headerName: 'SĐT',
-              width: 120,
-              sortable: false,
-              valueGetter: ({ row }) => patients[row.patientId]?.phoneNumber,
-            },
-            {
-              field: 'patientType',
-              headerName: 'Đối tượng',
-              width: 90,
-              sortable: false,
-              valueGetter: ({ row }) =>
-                patientTypeMap.get(row.patientTypeId)?.name,
-            },
-            ...tests.map(
-              ({ _id, name }): GridColDef<SampleResponseDto> => ({
-                field: _id,
-                headerName: name,
-                width: 80,
-                sortable: false,
-                align: 'center',
-                renderCell: ({ value }) => (
-                  <Typography fontWeight="bold">{value}</Typography>
-                ),
-                valueGetter: ({ row }) => {
-                  //@ts-ignore
-                  if (row?.isSummary === true) {
-                    const count = summary[_id]
-                    if (count > 0) {
-                      return count
-                    }
-
-                    return ''
-                  }
-
-                  const { testId } =
-                    row.results.find(({ testId }) => testId === _id) ?? {}
-                  if (testId != undefined) {
-                    return '✓'
-                  }
-
-                  return ''
-                },
-              }),
-            ),
-            {
-              field: 'isTraBuuDien',
-              headerName: 'Bưu điện',
-              width: 80,
-              sortable: false,
-              editable: true,
-              align: 'center',
-              renderCell: ({ value }) => (
-                <Typography fontWeight="bold">{value}</Typography>
-              ),
-              valueGetter: ({ value, row }) => {
-                //@ts-ignore
-                if (row?.isSummary === true) {
-                  const count = summary[BUU_DIEN_SUMMARY]
-                  if (count > 0) {
-                    return count
-                  }
-
-                  return ''
-                }
-
-                if (value === true) {
-                  return '✓'
-                }
-                return ''
-              },
-            },
-            {
-              field: 'isNgoaiGio',
-              headerName: 'TG',
-              width: 90,
-              sortable: false,
-              editable: true,
-              renderCell: ({ value, row }) => {
-                //@ts-ignore
-                if (row?.isSummary === true) {
-                  return <Typography fontWeight="bold">{value}</Typography>
-                }
-
-                return value
-              },
-              valueGetter: ({ value, row }) => {
-                //@ts-ignore
-                if (row?.isSummary === true) {
-                  const count = summary[NGOAI_GIO_SUMMARY]
-                  if (count > 0) {
-                    return count
-                  }
-
-                  return ''
-                }
-
-                if (value === true) {
-                  return 'Ngoài giờ'
-                } else if (value === false) {
-                  return 'Trong giờ'
-                }
-                return ''
-              },
-            },
-          ]}
+          columns={columns}
           paginationMode="server"
-          rowCount={samples?.total ?? 0}
-          page={samples?.offset!}
-          pageSize={samples?.limit!}
+          rowCount={data?.total ?? 0}
+          page={data?.offset!}
+          pageSize={data?.limit!}
           onPageChange={props.setPage}
           onPageSizeChange={props.setPageSize}
         />

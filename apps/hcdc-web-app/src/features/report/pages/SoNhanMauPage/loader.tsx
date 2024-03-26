@@ -24,13 +24,36 @@ export const soNhanMauPageLoader = async () => {
   ])
 
   const tests = testRes.items.toSorted(allTestReportSortComparator)
-  const 
+  const categoryMap = new Map<
+    string,
+    { name: string; reportIndex: number; _id: string }
+  >()
+  tests.forEach(({ testCategory, testCategoryId }) => {
+    if (testCategory) {
+      categoryMap.set(testCategory.name, {
+        ...testCategory,
+        _id: testCategoryId,
+      })
+    }
+  })
+  const categories = Array.from(categoryMap.values())
+    .toSorted((a, b) => a.reportIndex - b.reportIndex)
+    .map(({ _id, name }) => ({
+      groupId: name,
+      children: tests
+        .filter(({ testCategoryId }) => _id === testCategoryId)
+        .map(({ _id }) => ({ field: _id })),
+    }))
+
   const origins = sampleOriginRes?.items ?? []
   const patientTypes = patientTypeRes?.items ?? []
 
   return {
-    patientTypes,
+    patientTypeMap: new Map(
+      patientTypes.map((patientType) => [patientType._id, patientType]),
+    ),
     origins,
     tests,
+    categories,
   }
 }

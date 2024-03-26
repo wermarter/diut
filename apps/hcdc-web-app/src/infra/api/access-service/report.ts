@@ -170,12 +170,17 @@ export type OmittedSampleResponseDto = {
   branch?: BranchUnpopulatedResponseDto | null
   results: OmittedTestResponseDto[]
 }
+export type ReportQuerySoNhanMauSummaryResponseDto = {
+  test: object
+  isTraBuuDien?: number
+  isNgoaiGio?: number
+}
 export type ReportQuerySoNhanMauResponseDto = {
   total: number
   offset: number
   limit: number
   items: OmittedSampleResponseDto[]
-  summary: object
+  summary: ReportQuerySoNhanMauSummaryResponseDto
 }
 export type HttpErrorResponse = {
   errorCode:

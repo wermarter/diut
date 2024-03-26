@@ -22,7 +22,9 @@ export function fetchTests(branchId: string) {
   return testApi.endpoints.testSearch.initiate({
     sort: { displayIndex: 1 },
     filter: { branchId },
-    populates: [{ path: 'testCategory', fields: ['name', 'displayIndex'] }],
+    populates: [
+      { path: 'testCategory', fields: ['name', 'displayIndex', 'reportIndex'] },
+    ],
   })
 }
 

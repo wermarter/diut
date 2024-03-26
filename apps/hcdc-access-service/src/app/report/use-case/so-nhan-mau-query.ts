@@ -14,7 +14,7 @@ import { PatientSchema } from 'src/infra/mongo/patient'
 import { SampleSchema } from 'src/infra/mongo/sample'
 
 @Injectable()
-export class ReportSoNhanMauUseCase {
+export class ReportSoNhanMauQueryUseCase {
   constructor(
     @Inject(SampleRepositoryToken)
     private readonly sampleRepository: ISampleRepository,
@@ -41,7 +41,9 @@ export class ReportSoNhanMauUseCase {
       projection: { _id: 1 },
     })
 
-    const [{ total, isTraBuuDien, items, ...restTest }] =
+    console.log({ input })
+
+    const [{ total, isTraBuuDien, isNgoaiGio, items, ...restTest }] =
       await this.sampleRepository.aggregateIgnoreSoftDelete(
         [
           {
@@ -53,11 +55,21 @@ export class ReportSoNhanMauUseCase {
             $match: {
               $and: [
                 {
+                  isDeleted: false,
                   infoAt: {
                     $gte: new Date(input.fromDate),
                     $lte: new Date(input.toDate),
                   },
-                  isDeleted: false,
+                  branchId: input.branchId,
+                  ...(input.patientTypeId !== undefined && {
+                    patientTypeId: input.patientTypeId,
+                  }),
+                  ...(input.originId !== undefined && {
+                    originId: input.originId,
+                  }),
+                  ...(input.isNgoaiGio !== undefined && {
+                    isNgoaiGio: input.isNgoaiGio,
+                  }),
                 } satisfies Partial<Record<keyof SampleSchema, unknown>>,
                 accessibleBy(ability, SampleAction.Read).Sample,
               ],
@@ -71,6 +83,21 @@ export class ReportSoNhanMauUseCase {
                 },
               ],
               isTraBuuDien: [
+                {
+                  $match: {
+                    isTraBuuDien: true,
+                  },
+                },
+                {
+                  $count: 'count',
+                },
+              ],
+              isNgoaiGio: [
+                {
+                  $match: {
+                    isNgoaiGio: true,
+                  },
+                },
                 {
                   $count: 'count',
                 },
@@ -122,7 +149,7 @@ export class ReportSoNhanMauUseCase {
                     >,
                     isTraBuuDien: 1,
                     isNgoaiGio: 1,
-                    patient: 1,
+                    patient: { $first: '$patient' },
                   } satisfies Partial<Record<keyof SampleSchema, unknown>>,
                 },
               ],
@@ -156,13 +183,14 @@ export class ReportSoNhanMauUseCase {
     })
 
     return {
-      total: total[0].count,
+      total: total[0]?.count,
       offset: input.offset,
       limit: input.limit,
       items,
       summary: {
         test,
-        isTraBuuDien: isTraBuuDien[0].count,
+        isTraBuuDien: isTraBuuDien[0]?.count,
+        isNgoaiGio: isNgoaiGio[0]?.count,
       },
     }
   }
