@@ -2,13 +2,11 @@ import * as ModuleResolve from 'resolve'
 import { resolve } from 'path'
 
 export * from './browser-service'
-export * from './excel-service'
 
 export const DIUT_PACKAGE_NAME = 'diut'
 
 export enum DiutGrpcService {
   Browser = 'browser-service',
-  Excel = 'excel-service',
 }
 
 export function resolveProtoPath(service: DiutGrpcService, basedir: string) {

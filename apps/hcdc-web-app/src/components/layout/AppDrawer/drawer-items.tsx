@@ -106,11 +106,7 @@ export const drawerItems: DrawerItemGroup[] = [
         label: 'Tìm kiếm',
         destination: urlPatientSearchPage(),
         isAuthorized: authOneOf([
-          {
-            subject: AuthSubject.WebApp,
-            action: WebAppAction.View,
-            filterObj: { page: WebAppPage.TimKiemBenhNhan } as WebApp,
-          },
+          { subject: AuthSubject.Sample, action: SampleAction.UpdateInfo },
         ]),
       },
       {
@@ -120,7 +116,7 @@ export const drawerItems: DrawerItemGroup[] = [
         isAuthorized: authOneOf([
           {
             subject: AuthSubject.WebApp,
-            action: WebAppAction.View,
+            action: WebAppAction.Export,
             filterObj: { page: WebAppPage.XuatBaoCao } as WebApp,
           },
         ]),

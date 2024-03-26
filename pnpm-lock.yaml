@@ -197,8 +197,8 @@ importers:
         specifier: ^7.8.1
         version: 7.8.1
       xlsx:
-        specifier: https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz
-        version: '@cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz'
+        specifier: file:../../vendor/xlsx-0.20.1.tgz
+        version: file:vendor/xlsx-0.20.1.tgz
     devDependencies:
       '@nestjs/schematics':
         specifier: ^10.1.1
@@ -10465,10 +10465,10 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
 
-  '@cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz':
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz}
+  file:vendor/xlsx-0.20.1.tgz:
+    resolution: {integrity: sha512-hA7SYmn/H3cJ1VGi7kmSKxbEXCEn5UVJlwYFSFXhLe54wPUvW+80TmR5l+TZh4nJCw8G/e0SuZUfvqlTIh40hw==, tarball: file:vendor/xlsx-0.20.1.tgz}
     name: xlsx
-    version: 0.19.3
+    version: 0.20.1
     engines: {node: '>=0.8'}
     hasBin: true
     dev: false

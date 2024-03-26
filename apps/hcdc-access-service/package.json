@@ -44,7 +44,7 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+    "xlsx": "file:../../vendor/xlsx-0.20.1.tgz"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.1.1",

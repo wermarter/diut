@@ -14,7 +14,7 @@ import { PatientSchema } from 'src/infra/mongo/patient'
 import { SampleSchema } from 'src/infra/mongo/sample'
 
 @Injectable()
-export class ReportSoNhanMauQueryUseCase {
+export class ReportQuerySoNhanMauUseCase {
   constructor(
     @Inject(SampleRepositoryToken)
     private readonly sampleRepository: ISampleRepository,
@@ -24,8 +24,8 @@ export class ReportSoNhanMauQueryUseCase {
   ) {}
 
   async execute(input: {
-    offset: number
-    limit: number
+    offset?: number
+    limit?: number
     fromDate: Date
     toDate: Date
     branchId: string
@@ -40,8 +40,6 @@ export class ReportSoNhanMauQueryUseCase {
       },
       projection: { _id: 1 },
     })
-
-    console.log({ input })
 
     const [{ total, isTraBuuDien, isNgoaiGio, items, ...restTest }] =
       await this.sampleRepository.aggregateIgnoreSoftDelete(
@@ -103,12 +101,16 @@ export class ReportSoNhanMauQueryUseCase {
                 },
               ],
               items: [
-                {
-                  $skip: input.offset * input.limit,
-                },
-                {
-                  $limit: input.limit,
-                },
+                ...(input.offset !== undefined && input.limit !== undefined
+                  ? [
+                      {
+                        $skip: input.offset * input.limit,
+                      },
+                      {
+                        $limit: input.limit,
+                      },
+                    ]
+                  : []),
                 {
                   $lookup: {
                     from: COLLECTION.PATIENT,

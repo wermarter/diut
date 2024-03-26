@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { ReportQuerySoNhanMauResponseDto } from './dto/so-nhan-mau.dto'
+import { ReportQuerySoNhanMauResponseDto } from './dto/query-so-nhan-mau.dto'
 
 export const reportRoutes = {
   querySoNhanMau: {
@@ -16,5 +16,10 @@ export const reportRoutes = {
         },
       ],
     },
+  },
+  exportSoNhanMau: {
+    path: 'so-nhan-mau/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
   },
 } satisfies Record<string, CustomHttpRouteOptions>
