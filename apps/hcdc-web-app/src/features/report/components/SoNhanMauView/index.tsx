@@ -1,9 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { Box, Button, Paper } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
+import { LoadingButton } from '@mui/lab'
+import { omit } from 'lodash'
 
-import { OmittedSampleResponseDto } from 'src/infra/api/access-service/report'
+import {
+  OmittedSampleResponseDto,
+  useReportExportSoNhanMauMutation,
+} from 'src/infra/api/access-service/report'
 import { DataTable } from 'src/components/table'
 import { usePagination } from 'src/shared/hooks'
 import {
@@ -152,6 +157,8 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
     tests: props.tests,
   })
 
+  const [exportDownload, { isLoading }] = useReportExportSoNhanMauMutation()
+
   return (
     <Box
       sx={{
@@ -245,14 +252,18 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
             </Grid>
             <Grid xs={2}>
               <input type="submit" style={{ display: 'none' }} />
-              <Button
+              <LoadingButton
                 variant="outlined"
                 fullWidth
                 sx={{ height: '100%' }}
-                onClick={() => {}}
+                disabled={isLoading}
+                loading={isLoading}
+                onClick={() => {
+                  exportDownload(omit(filterObj, ['limit', 'offset']))
+                }}
               >
                 Download
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </FormContainer>

@@ -6,7 +6,7 @@ import {
   checkPermission,
   createAbility,
 } from '@diut/hcdc'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { useCallback, useMemo } from 'react'
 import { DATETIME_FORMAT } from '@diut/common'
 import { IconButton } from '@mui/material'
@@ -86,7 +86,7 @@ export const useColumns = (
         width: 150,
         sortable: false,
         valueGetter: ({ value }) => {
-          return format(new Date(value), DATETIME_FORMAT)
+          return format(parseISO(value), DATETIME_FORMAT)
         },
       },
       {

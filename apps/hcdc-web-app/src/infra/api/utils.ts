@@ -6,7 +6,7 @@ function extractFilename(response: Response) {
   return filename
 }
 
-const DEFAULT_FILENAME = 'HCDC_Lab_Web'
+const DEFAULT_FILENAME = 'hcdc-web-app.download'
 
 export function fileReponseHandler(input: {
   mode: 'preview' | 'download' | 'url'

@@ -4,7 +4,7 @@ import {
   SearchRequestDto,
 } from '@diut/nestjs-infra'
 import { ApiProperty, PickType } from '@nestjs/swagger'
-import { Expose, Type } from 'class-transformer'
+import { Expose, Transform, Type } from 'class-transformer'
 import {
   IsBoolean,
   IsDateString,
@@ -23,12 +23,12 @@ export class ReportQuerySoNhanMauRequestDto extends PickType(SearchRequestDto, [
   @Expose()
   @ApiProperty(exampleDate)
   @IsDateString()
-  fromDate: Date
+  fromDate: string
 
   @Expose()
   @ApiProperty(exampleDate)
   @IsDateString()
-  toDate: Date
+  toDate: string
 
   @Expose()
   @ApiProperty(exampleMongoObjectId)

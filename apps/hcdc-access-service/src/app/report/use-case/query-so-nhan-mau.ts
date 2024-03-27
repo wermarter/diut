@@ -1,6 +1,15 @@
 import { accessibleBy } from '@casl/mongoose'
-import { SampleAction } from '@diut/hcdc'
+import {
+  AuthSubject,
+  Patient,
+  PatientAction,
+  ReportAction,
+  ReportType,
+  Sample,
+  SampleAction,
+} from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { parseISO } from 'date-fns'
 
 import { TestSearchUseCase } from 'src/app/test'
 import {
@@ -8,6 +17,7 @@ import {
   IAuthContext,
   ISampleRepository,
   SampleRepositoryToken,
+  assertPermission,
 } from 'src/domain'
 import { COLLECTION } from 'src/infra'
 import { PatientSchema } from 'src/infra/mongo/patient'
@@ -26,14 +36,18 @@ export class ReportQuerySoNhanMauUseCase {
   async execute(input: {
     offset?: number
     limit?: number
-    fromDate: Date
-    toDate: Date
+    fromDate: string
+    toDate: string
     branchId: string
     isNgoaiGio?: boolean
     patientTypeId?: string
     originId?: string
   }) {
     const { ability } = this.authContext.getData()
+    assertPermission(ability, AuthSubject.Report, ReportAction.View, {
+      type: ReportType.SoNhanMau,
+    })
+
     const { items: tests } = await this.testSearchUseCase.execute({
       filter: {
         branchId: input.branchId,
@@ -55,8 +69,8 @@ export class ReportQuerySoNhanMauUseCase {
                 {
                   isDeleted: false,
                   infoAt: {
-                    $gte: new Date(input.fromDate),
-                    $lte: new Date(input.toDate),
+                    $gte: parseISO(input.fromDate),
+                    $lte: parseISO(input.toDate),
                   },
                   branchId: input.branchId,
                   ...(input.patientTypeId !== undefined && {
@@ -128,6 +142,17 @@ export class ReportQuerySoNhanMauUseCase {
                         },
                       },
                       {
+                        $match: {
+                          $and: [
+                            {
+                              isDeleted: false,
+                              branchId: input.branchId,
+                            },
+                            accessibleBy(ability, PatientAction.Read).Patient,
+                          ],
+                        },
+                      },
+                      {
                         $project: {
                           name: 1,
                           birthYear: 1,
@@ -178,21 +203,26 @@ export class ReportQuerySoNhanMauUseCase {
         false,
       )
 
-    const test = {}
+    const test: Record<string, number> = {}
     Object.entries(restTest).forEach(([key, value]) => {
       // @ts-ignore
       if (value[0]?.count) test[key] = value[0].count
     })
 
     return {
-      total: total[0]?.count,
+      total: total[0]?.count as number,
       offset: input.offset,
       limit: input.limit,
-      items,
+      items: items as (Pick<
+        Sample,
+        'infoAt' | 'sampleId' | 'patientTypeId' | 'isTraBuuDien' | 'isNgoaiGio'
+      > & { patient: Patient } & {
+        result: { testId: string }[]
+      })[],
       summary: {
         test,
-        isTraBuuDien: isTraBuuDien[0]?.count,
-        isNgoaiGio: isNgoaiGio[0]?.count,
+        isTraBuuDien: isTraBuuDien[0]?.count as number,
+        isNgoaiGio: isNgoaiGio[0]?.count as number,
       },
     }
   }

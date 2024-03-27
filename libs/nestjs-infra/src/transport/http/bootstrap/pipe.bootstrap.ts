@@ -7,6 +7,7 @@ export const PipeBootstrap: BootstrapConfig<INestApplication> = {
     ctx.app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
+        // transform: true,
       }),
     )
   },

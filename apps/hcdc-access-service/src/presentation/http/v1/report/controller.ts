@@ -1,4 +1,4 @@
-import { Body } from '@nestjs/common'
+import { Body, StreamableFile } from '@nestjs/common'
 
 import { reportRoutes } from './routes'
 import { HttpController, HttpRoute } from '../../common'
@@ -25,6 +25,12 @@ export class ReportController {
 
   @HttpRoute(reportRoutes.exportSoNhanMau)
   async exportSoNhanMau(@Body() body: ExportSoNhanMauRequestDto) {
-    return this.reportExportSoNhanMauUseCase.execute(body)
+    const { buffer, filename } =
+      await this.reportExportSoNhanMauUseCase.execute(body)
+
+    return new StreamableFile(buffer, {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      disposition: `attachment; filename="${filename}"`,
+    })
   }
 }

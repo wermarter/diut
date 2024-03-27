@@ -1,7 +1,7 @@
 import { GridColDef } from '@mui/x-data-grid'
 import { Typography } from '@mui/material'
 import { PatientGender } from '@diut/hcdc'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { DATETIME_FORMAT } from '@diut/common'
 
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
@@ -32,7 +32,7 @@ export const useColumns = (props: {
         if (value === undefined) {
           return ''
         }
-        return format(new Date(value), DATETIME_FORMAT)
+        return format(parseISO(value), DATETIME_FORMAT)
       },
     },
     {

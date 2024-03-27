@@ -24,6 +24,7 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { difference, omit } from 'lodash'
 import { trimObjectValues } from '@diut/common'
+import { parseISO } from 'date-fns'
 
 import {
   FormContainer,
@@ -87,8 +88,8 @@ export function InfoEditView(props: InfoEditViewProps) {
     defaultValues: {
       externalId: props.sampleRes.patient?.externalId!,
       name: props.sampleRes.patient?.name!,
-      infoAt: new Date(props.sampleRes.infoAt),
-      sampledAt: new Date(props.sampleRes.sampledAt),
+      infoAt: parseISO(props.sampleRes.infoAt),
+      sampledAt: parseISO(props.sampleRes.sampledAt),
       gender: props.sampleRes.isPregnant
         ? GENDER_PREGNANT_VALUE
         : (props.sampleRes.patient?.gender! as PatientGender),

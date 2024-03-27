@@ -1,3 +1,4 @@
+import { fileReponseHandler } from '../utils'
 import { accessServiceApiSlice as api } from './slice'
 export const addTagTypes = ['v1-reports'] as const
 const injectedRtkApi = api
@@ -17,6 +18,19 @@ const injectedRtkApi = api
         }),
         providesTags: ['v1-reports'],
       }),
+      reportExportSoNhanMau: build.mutation<
+        ReportExportSoNhanMauApiResponse,
+        ReportExportSoNhanMauApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/so-nhan-mau/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+
+        invalidatesTags: ['v1-reports'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -24,6 +38,8 @@ export { injectedRtkApi as reportApi }
 export type ReportQuerySoNhanMauApiResponse =
   /** status 200  */ ReportQuerySoNhanMauResponseDto
 export type ReportQuerySoNhanMauApiArg = ReportQuerySoNhanMauRequestDto
+export type ReportExportSoNhanMauApiResponse = unknown
+export type ReportExportSoNhanMauApiArg = ExportSoNhanMauRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -43,7 +59,7 @@ export type PermissionRuleRequestDto = {
     | 'Patient'
     | 'TestCombo'
     | 'Sample'
-    | 'WebApp'
+    | 'Report'
     | 'all'
   action:
     | 'Create'
@@ -60,6 +76,7 @@ export type PermissionRuleRequestDto = {
     | 'PrintResult'
     | 'ExportReport'
     | 'View'
+    | 'Export'
     | 'manage'
   inverted?: boolean
   conditions: object
@@ -218,7 +235,16 @@ export type ReportQuerySoNhanMauRequestDto = {
   patientTypeId?: string
   originId?: string
 }
+export type ExportSoNhanMauRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  isNgoaiGio?: boolean
+  patientTypeId?: string
+  originId?: string
+}
 export const {
   useReportQuerySoNhanMauQuery,
   useLazyReportQuerySoNhanMauQuery,
+  useReportExportSoNhanMauMutation,
 } = injectedRtkApi

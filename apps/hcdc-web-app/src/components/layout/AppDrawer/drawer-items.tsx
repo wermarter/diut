@@ -1,10 +1,10 @@
 import {
   AUTH_ACTION_ALL,
   AuthSubject,
+  Report,
+  ReportAction,
+  ReportType,
   SampleAction,
-  WebApp,
-  WebAppAction,
-  WebAppPage,
 } from '@diut/hcdc'
 import AccountBoxIcon from '@mui/icons-material/AccountBoxOutlined'
 import HomeIcon from '@mui/icons-material/HomeOutlined'
@@ -95,9 +95,14 @@ export const drawerItems: DrawerItemGroup[] = [
         destination: urlSoNhanMauPage(),
         isAuthorized: authOneOf([
           {
-            subject: AuthSubject.WebApp,
-            action: WebAppAction.View,
-            filterObj: { page: WebAppPage.SoNhanMau } as WebApp,
+            subject: AuthSubject.Report,
+            action: ReportAction.View,
+            filterObj: { type: ReportType.SoNhanMau } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.SoNhanMau } as Report,
           },
         ]),
       },
@@ -115,9 +120,9 @@ export const drawerItems: DrawerItemGroup[] = [
         destination: 'report/export',
         isAuthorized: authOneOf([
           {
-            subject: AuthSubject.WebApp,
-            action: WebAppAction.Export,
-            filterObj: { page: WebAppPage.XuatBaoCao } as WebApp,
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.SoNhanMau } as Report,
           },
         ]),
       },

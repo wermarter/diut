@@ -1,27 +1,31 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { AuthSubject, ReportAction, ReportType } from '@diut/hcdc'
 
-import { AuthContextToken, IAuthContext } from 'src/domain'
-import { ReportQuerySoNhanMauUseCase } from './query-so-nhan-mau'
+import { AuthContextToken, IAuthContext, assertPermission } from 'src/domain'
+import { ReportExportContext } from '../export-strategy/context'
+import {
+  ReportExportSoNhanMauStrategy,
+  ReportExportSoNhanMauStrategyInput,
+} from '../export-strategy/so-nhan-mau'
 
 @Injectable()
 export class ReportExportSoNhanMauUseCase {
   constructor(
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
-    private readonly reportQuerySoNhanMauUseCase: ReportQuerySoNhanMauUseCase,
+    private readonly reportExportContext: ReportExportContext,
+    private readonly reportExportSoNhanMauStrategy: ReportExportSoNhanMauStrategy,
   ) {}
 
-  async execute(input: {
-    fromDate: Date
-    toDate: Date
-    branchId: string
-    isNgoaiGio?: boolean
-    patientTypeId?: string
-    originId?: string
-  }) {
-    const { items: samples, summary } =
-      await this.reportQuerySoNhanMauUseCase.execute(input)
+  execute(input: ReportExportSoNhanMauStrategyInput) {
+    const { ability } = this.authContext.getData()
+    assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
+      type: ReportType.SoNhanMau,
+    })
 
-    return { samples, summary }
+    this.reportExportSoNhanMauStrategy.setOptions(input)
+    this.reportExportContext.setStrategy(this.reportExportSoNhanMauStrategy)
+
+    return this.reportExportContext.execute()
   }
 }

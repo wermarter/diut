@@ -19,7 +19,7 @@ import {
   TestElementAction,
   TestResultAction,
   UserAction,
-  WebAppAction,
+  ReportAction,
 } from '../entity'
 import { AUTH_ACTION_ALL } from './constants'
 
@@ -41,7 +41,7 @@ export const AuthAction = {
   Patient: stringEnumValues(PatientAction),
   TestCombo: stringEnumValues(TestComboAction),
   Sample: stringEnumValues(SampleAction),
-  WebApp: stringEnumValues(WebAppAction),
+  Report: stringEnumValues(ReportAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [
