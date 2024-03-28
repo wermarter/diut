@@ -203,7 +203,7 @@ export class ReportQuerySoNhanMauUseCase {
         false,
       )
 
-    const test: Record<string, number> = {}
+    const test: Record<string, number | undefined> = {}
     Object.entries(restTest).forEach(([key, value]) => {
       // @ts-ignore
       if (value[0]?.count) test[key] = value[0].count
@@ -213,17 +213,23 @@ export class ReportQuerySoNhanMauUseCase {
       total: total[0]?.count as number,
       offset: input.offset,
       limit: input.limit,
-      items: items as (Pick<
-        Sample,
-        'infoAt' | 'sampleId' | 'patientTypeId' | 'isTraBuuDien' | 'isNgoaiGio'
-      > & { patient: Patient } & {
-        result: { testId: string }[]
-      })[],
+      items: items as ReportQuerySoNhanMauItemOutput[],
       summary: {
         test,
-        isTraBuuDien: isTraBuuDien[0]?.count as number,
-        isNgoaiGio: isNgoaiGio[0]?.count as number,
+        isTraBuuDien: isTraBuuDien[0]?.count as number | undefined,
+        isNgoaiGio: isNgoaiGio[0]?.count as number | undefined,
       },
     }
   }
+}
+
+export type ReportQuerySoNhanMauItemOutput = Pick<
+  Sample,
+  'sampleId' | 'isNgoaiGio' | 'isTraBuuDien' | 'infoAt' | 'patientTypeId'
+> & {
+  patient: Patient
+} & {
+  results: {
+    testId: string
+  }[]
 }
