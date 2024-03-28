@@ -11,13 +11,13 @@ import { DomainErrorCode } from '@diut/hcdc'
 
 import { HttpErrorResponse } from '../dto'
 
-@Catch(Error)
+@Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   private logger = new Logger(AllExceptionsFilter.name)
 
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-  catch(exception: Error, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     this.logger.error(exception)
 
     const { httpAdapter } = this.httpAdapterHost

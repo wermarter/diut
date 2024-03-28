@@ -1,11 +1,10 @@
-import { UseFilters, UseGuards } from '@nestjs/common'
+import { UseGuards } from '@nestjs/common'
 import {
   CustomHttpController,
   CustomHttpControllerOptions,
 } from '@diut/nestjs-infra'
 
 import { authGuards } from '../auth'
-import { exceptionFilters } from '../exception-filter'
 
 export const HttpController = (options: CustomHttpControllerOptions) => {
   const customOptions: CustomHttpControllerOptions = {
@@ -13,7 +12,6 @@ export const HttpController = (options: CustomHttpControllerOptions) => {
     controllerDecorators: [
       ...(options?.controllerDecorators ?? []),
       UseGuards(...authGuards),
-      UseFilters(...exceptionFilters),
     ],
   }
 

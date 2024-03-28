@@ -1,28 +1,18 @@
-import { Injectable, Scope } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+import { ClsService } from 'nestjs-cls'
 
-import { AuthPopulateContextUseCase } from 'src/app'
-import {
-  AuthPayload,
-  AuthContextData,
-  IAuthContext,
-  EAuthzAuthenticationRequired,
-} from 'src/domain'
+import { IAuthContext, EAuthzAuthenticationRequired } from 'src/domain'
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class AuthContext implements IAuthContext {
-  private contextData: AuthContextData
-
-  constructor(private authPopulateContextUseCase: AuthPopulateContextUseCase) {}
-
-  async prepareData(payload: AuthPayload) {
-    this.contextData = await this.authPopulateContextUseCase.execute(payload)
-  }
+  constructor(private readonly cls: ClsService) {}
 
   getData() {
-    if (this.contextData === undefined) {
+    const authContextData = this.cls.get('authContextData')
+    if (authContextData === undefined) {
       throw new EAuthzAuthenticationRequired()
     }
 
-    return this.contextData
+    return authContextData
   }
 }

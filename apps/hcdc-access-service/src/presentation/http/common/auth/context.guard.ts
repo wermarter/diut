@@ -1,37 +1,40 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Injectable,
-  Scope,
-} from '@nestjs/common'
+import { CanActivate, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { ClsGuard } from 'nestjs-cls'
 
-import { AuthPayload, AuthContextToken, IAuthContext } from 'src/domain'
+import { AuthPayload } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from './common'
+import { AuthPopulateContextUseCase } from 'src/app'
 
-@Injectable({ scope: Scope.REQUEST })
-export class HttpAuthContextGuard implements CanActivate {
+@Injectable()
+export class HttpAuthContextGuard extends ClsGuard implements CanActivate {
   constructor(
-    @Inject(AuthContextToken)
-    private authContext: IAuthContext,
-    private reflector: Reflector,
-  ) {}
+    readonly empty: unknown, // TODO
+    readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
+    readonly reflector: Reflector,
+  ) {
+    super({
+      setup: async (cls, context) => {
+        const request = context.switchToHttp().getRequest<Express.Request>()
 
-  async canActivate(context: ExecutionContext) {
-    const request = context.switchToHttp().getRequest<Express.Request>()
+        console.log({
+          reflector,
+          empty,
+          authPopulateContextUseCase,
+        })
 
-    const shouldSkip = this.reflector.getAllAndOverride<boolean>(
-      HTTP_PUBLIC_ROUTE,
-      [context.getHandler(), context.getClass()],
-    )
+        const shouldSkip = reflector.getAllAndOverride<boolean>(
+          HTTP_PUBLIC_ROUTE,
+          [context.getHandler(), context.getClass()],
+        )
 
-    if (shouldSkip === true) {
-      return true
-    }
-
-    await this.authContext.prepareData(request.user as AuthPayload)
-
-    return true
+        if (!shouldSkip) {
+          const authContextData = await authPopulateContextUseCase.execute(
+            request.user as AuthPayload,
+          )
+          cls.set('authContextData', authContextData)
+        }
+      },
+    })
   }
 }

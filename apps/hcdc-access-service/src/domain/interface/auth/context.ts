@@ -4,7 +4,6 @@ import { User } from '@diut/hcdc'
 export const AuthContextToken = Symbol('AuthContext')
 
 export interface IAuthContext {
-  prepareData(authPayload: AuthPayload | undefined): Promise<void>
   getData(): AuthContextData
 }
 

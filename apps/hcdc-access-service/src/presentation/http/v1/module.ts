@@ -40,5 +40,4 @@ export const httpControllerV1Metadata: ModuleMetadata = {
     SampleController,
     ReportController,
   ],
-  providers: [],
 }
