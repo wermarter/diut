@@ -20,10 +20,8 @@ export class BrowserServiceController implements IBrowserServiceController {
   async printMultiplePage(
     request$: Observable<PrintPageRequest>,
   ): Promise<PrintPageReply> {
-    let i = 0
     const validatedDto$ = request$.pipe(
       concatMap(async (value) => {
-        console.log(i++)
         return validateDto(value, PrintPageRequestDto)
       }),
     )

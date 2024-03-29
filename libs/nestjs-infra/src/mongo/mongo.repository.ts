@@ -52,10 +52,8 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       this.populate(query, populates)
     }
 
-    const item = await query.exec()
-
-    // @ts-ignore
-    return item?.toObject?.() ?? null
+    const item = await query.lean()
+    return item as TEntity | null
   }
 
   public async exists(

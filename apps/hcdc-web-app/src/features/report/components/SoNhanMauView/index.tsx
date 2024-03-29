@@ -115,8 +115,8 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
 
     setFilterObj((obj) => ({
       ...obj,
-      fromDate: props.fromDate.toISOString(),
-      toDate: props.toDate.toISOString(),
+      fromDate: makeDateFilter(props.fromDate, props.toDate).$gte,
+      toDate: makeDateFilter(props.fromDate, props.toDate).$lte,
       isNgoaiGio: props.isNgoaiGio ?? undefined,
       patientTypeId:
         props.patientTypeId === null ? undefined : props.patientTypeId,
