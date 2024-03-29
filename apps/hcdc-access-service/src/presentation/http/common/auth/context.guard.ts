@@ -1,40 +1,34 @@
-import { CanActivate, Injectable } from '@nestjs/common'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { ClsGuard } from 'nestjs-cls'
+import { ClsService } from 'nestjs-cls'
 
 import { AuthPayload } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from './common'
 import { AuthPopulateContextUseCase } from 'src/app'
 
 @Injectable()
-export class HttpAuthContextGuard extends ClsGuard implements CanActivate {
+export class HttpAuthContextGuard implements CanActivate {
   constructor(
-    readonly empty: unknown, // TODO
-    readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
-    readonly reflector: Reflector,
-  ) {
-    super({
-      setup: async (cls, context) => {
-        const request = context.switchToHttp().getRequest<Express.Request>()
+    private readonly reflector: Reflector,
+    private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
+    private readonly cls: ClsService,
+  ) {}
 
-        console.log({
-          reflector,
-          empty,
-          authPopulateContextUseCase,
-        })
+  async canActivate(context: ExecutionContext) {
+    const request = context.switchToHttp().getRequest<Express.Request>()
 
-        const shouldSkip = reflector.getAllAndOverride<boolean>(
-          HTTP_PUBLIC_ROUTE,
-          [context.getHandler(), context.getClass()],
-        )
+    const shouldSkip = this.reflector.getAllAndOverride<boolean>(
+      HTTP_PUBLIC_ROUTE,
+      [context.getHandler(), context.getClass()],
+    )
 
-        if (!shouldSkip) {
-          const authContextData = await authPopulateContextUseCase.execute(
-            request.user as AuthPayload,
-          )
-          cls.set('authContextData', authContextData)
-        }
-      },
-    })
+    if (!shouldSkip) {
+      const authContextData = await this.authPopulateContextUseCase.execute(
+        request.user as AuthPayload,
+      )
+      this.cls.set('authContextData', authContextData)
+    }
+
+    return true
   }
 }

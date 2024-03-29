@@ -30,7 +30,7 @@ export class AuthCookieService {
     return {
       signed: true,
       httpOnly: true,
-      secure: !isDevelopment,
+      secure: false, // !isDevelopment,
       sameSite: 'lax',
       expires: new Date(
         Date.now() + parseInt(this.authConfig.AUTH_JWT_EXPIRE_SECONDS) * 1000,

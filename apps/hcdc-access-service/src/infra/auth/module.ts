@@ -7,9 +7,7 @@ import { AuthContext } from './context'
 export const authMetadata: ModuleMetadata = {
   imports: [
     ClsModule.forRoot({
-      guard: {
-        mount: false,
-      },
+      guard: { mount: true },
     }),
   ],
   providers: [
