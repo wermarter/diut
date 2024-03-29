@@ -22,7 +22,7 @@ export type TableConfig<TItem> = {
 }
 
 /**
- * Child class must be Transient scope because setOptions may cause race condition
+ * Child class must be Transient scope and resolved with ModuleRef because setOptions may cause race condition
  */
 export abstract class AbstractReportExportStrategy<TOptions, TItem>
   implements IReportExportStrategy<TOptions>

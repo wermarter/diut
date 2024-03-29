@@ -1,3 +1,4 @@
+import { ModuleRef } from '@nestjs/core'
 import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, ReportAction, ReportType } from '@diut/hcdc'
 
@@ -14,17 +15,18 @@ export class ReportExportSoNhanMauUseCase {
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
     private readonly reportExportContext: ReportExportContext,
-    private readonly reportExportSoNhanMauStrategy: ReportExportSoNhanMauStrategy,
+    private readonly moduleRef: ModuleRef,
   ) {}
 
-  execute(input: ReportExportSoNhanMauStrategyInput) {
+  async execute(input: ReportExportSoNhanMauStrategyInput) {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
       type: ReportType.SoNhanMau,
     })
 
-    this.reportExportSoNhanMauStrategy.setOptions(input)
-    this.reportExportContext.setStrategy(this.reportExportSoNhanMauStrategy)
+    const strategy = await this.moduleRef.resolve(ReportExportSoNhanMauStrategy)
+    strategy.setOptions(input)
+    this.reportExportContext.setStrategy(strategy)
 
     return this.reportExportContext.execute()
   }
