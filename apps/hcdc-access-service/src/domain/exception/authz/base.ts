@@ -15,11 +15,11 @@ export class EAuthz extends EDomain {
 }
 
 export class EAuthzAuthenticationRequired extends EAuthz {
-  constructor() {
+  constructor(cause?: unknown) {
     super(
       DomainErrorCode.AUTHZ_AUTHENTICATION_REQUIRED,
       'authentication required',
-      undefined,
+      cause,
       HttpStatus.UNAUTHORIZED,
     )
   }

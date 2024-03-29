@@ -11,7 +11,9 @@ export function buildLokiTransport(lokiUrl: string, serviceName: string) {
     level: 'debug',
     host: lokiUrl,
     format: lokiFormat,
-    replaceTimestamp: false,
     labels: { job: serviceName },
+    onConnectionError(error) {
+      console.error('Loki connection error', error)
+    },
   })
 }

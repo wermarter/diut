@@ -1,8 +1,12 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  Injectable,
+} from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { ClsService } from 'nestjs-cls'
 
-import { AuthPayload } from 'src/domain'
+import { AuthContextToken, AuthPayload, IAuthContext } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from './common'
 import { AuthPopulateContextUseCase } from 'src/app'
 
@@ -11,7 +15,8 @@ export class HttpAuthContextGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
-    private readonly cls: ClsService,
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
   ) {}
 
   async canActivate(context: ExecutionContext) {
@@ -26,7 +31,7 @@ export class HttpAuthContextGuard implements CanActivate {
       const authContextData = await this.authPopulateContextUseCase.execute(
         request.user as AuthPayload,
       )
-      this.cls.set('authContextData', authContextData)
+      this.authContext.setData(authContextData)
     }
 
     return true

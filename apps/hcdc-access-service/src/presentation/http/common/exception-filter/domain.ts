@@ -3,18 +3,35 @@ import {
   Catch,
   ExceptionFilter,
   HttpStatus,
+  Inject,
   Logger,
 } from '@nestjs/common'
 
-import { EDomain } from 'src/domain'
+import {
+  AuthContextToken,
+  EDomain,
+  IAuthContext,
+  buildErrorLog,
+} from 'src/domain'
 import { HttpErrorResponse } from '../dto'
 
 @Catch(EDomain)
 export class DomainExceptionFilter implements ExceptionFilter {
   private logger = new Logger(DomainExceptionFilter.name)
 
+  constructor(
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
+  ) {}
+
   catch(exception: EDomain, host: ArgumentsHost) {
-    this.logger.error(exception)
+    const authContextData = this.authContext.getData(true)
+    this.logger.error(
+      buildErrorLog({
+        exception,
+        authContextData,
+      }),
+    )
 
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()
