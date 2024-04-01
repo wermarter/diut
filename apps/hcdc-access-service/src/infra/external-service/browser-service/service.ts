@@ -1,6 +1,7 @@
 import {
   BROWSER_SERVICE_NAME,
   BrowserServiceClient,
+  Metadata,
   PrintPageReply,
   PrintPageRequest,
 } from '@diut/services'
@@ -45,7 +46,10 @@ export class BrowserService implements IBrowserService {
           return throwError(() => error.error)
         }
         return throwError(
-          () => new EBrowserServiceException(error?.message, error),
+          () =>
+            new EBrowserServiceException(error?.details, {
+              metadata: (error.metadata as Metadata)?.toJSON?.(),
+            }),
         )
       }),
     )
