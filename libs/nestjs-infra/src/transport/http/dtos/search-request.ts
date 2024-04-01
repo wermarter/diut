@@ -67,7 +67,7 @@ export class SearchRequestDto<TEntity = unknown> {
   })
   @IsOptional()
   @IsObject()
-  sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
+  sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
 
   @ApiProperty({
     example: {},

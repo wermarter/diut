@@ -1,4 +1,4 @@
-import { BranchType } from '@diut/hcdc'
+import { BranchReportConfig, BranchType } from '@diut/hcdc'
 import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
@@ -36,6 +36,10 @@ export class BranchCreateRequestDto {
   @ApiProperty(exampleBranch.type)
   @IsEnum(BranchType)
   type: BranchType
+
+  @Expose()
+  @ApiProperty(exampleBranch.reportConfig)
+  reportConfig: BranchReportConfig
 
   @Expose()
   @ApiProperty(exampleBranch.sampleOriginIds)

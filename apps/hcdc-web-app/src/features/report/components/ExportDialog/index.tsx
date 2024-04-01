@@ -1,28 +1,13 @@
-import {
-  PropsWithChildren,
-  useCallback,
-  forwardRef,
-  ReactElement,
-  Ref,
-} from 'react'
+import { PropsWithChildren, useCallback } from 'react'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import { TransitionProps } from '@mui/material/transitions'
-import { Slide } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import { LoadingButton } from '@mui/lab'
 
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement<any, any>
-  },
-  ref: Ref<unknown>,
-) {
-  return <Slide direction="down" ref={ref} {...props} />
-})
+import { DialogTransition } from 'src/components/ui'
 
 interface ExportDialogProps extends PropsWithChildren {
   open: boolean
@@ -58,7 +43,7 @@ export function ExportDialog({
     <Dialog
       open={open}
       onClose={handleClose}
-      TransitionComponent={Transition}
+      TransitionComponent={DialogTransition}
       keepMounted
       fullWidth
     >

@@ -86,7 +86,6 @@ export type PermissionRuleRequestDto = {
     | 'Patient'
     | 'TestCombo'
     | 'Sample'
-    | 'WebApp'
     | 'all'
   action:
     | 'Create'

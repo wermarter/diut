@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Scope } from '@nestjs/common'
 import { PrintForm } from '@diut/hcdc'
 
 import { ISamplePrintStrategy } from './common'
@@ -8,6 +8,7 @@ import {
   PrintFormRepositoryToken,
   SampleTypeRepositoryToken,
 } from 'src/domain'
+import { BranchAssertExistsUseCase } from 'src/app/branch'
 
 export type SamplePrintOptions = {
   sampleId: string
@@ -18,7 +19,7 @@ export type SamplePrintOptions = {
   overrideTitleMargin?: Pick<PrintForm, 'titleMargin'>['titleMargin']
 }
 
-@Injectable()
+@Injectable({ scope: Scope.TRANSIENT })
 export class SamplePrintContext {
   private printStrategy: ISamplePrintStrategy
 
@@ -27,6 +28,7 @@ export class SamplePrintContext {
     private readonly printFormRepository: IPrintFormRepository,
     @Inject(SampleTypeRepositoryToken)
     private readonly sampleTypeRepository: ISampleTypeRepository,
+    private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
   setStrategy(printStrategy: ISamplePrintStrategy) {
@@ -45,7 +47,12 @@ export class SamplePrintContext {
       sampleTypeNames.push(sampleType?.name!)
     }
 
+    const branch = await this.branchAssertExistsUseCase.execute({
+      _id: printForm.branchId,
+    })
+
     const meta = {
+      branch,
       sampleTypeNames,
       authorName: options.overrideAuthor?.authorName ?? printForm.authorName,
       authorTitle: options.overrideAuthor?.authorTitle ?? printForm.authorTitle,

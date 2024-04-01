@@ -1,5 +1,5 @@
-import { exampleMongoObjectIds } from '@diut/common'
-import { Branch, BranchType } from '@diut/hcdc'
+import { exampleMongoObjectId, exampleMongoObjectIds } from '@diut/common'
+import { Branch, BranchType, ReportType } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
 
@@ -15,6 +15,13 @@ export const exampleBranch = {
   },
   type: {
     enum: BranchType,
+  },
+  reportConfig: {
+    example: {
+      [ReportType.SinhHoa]: {
+        testIds: [exampleMongoObjectId.example],
+      },
+    },
   },
   sampleOriginIds: exampleMongoObjectIds,
   sampleOrigins: {

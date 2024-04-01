@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Scope } from '@nestjs/common'
 import { write } from 'xlsx'
 
 import { IReportExportStrategy } from './common'
 
-@Injectable()
+@Injectable({ scope: Scope.TRANSIENT })
 export class ReportExportContext {
   private exportStrategy: IReportExportStrategy
 

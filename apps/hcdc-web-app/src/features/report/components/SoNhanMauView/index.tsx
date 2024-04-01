@@ -173,6 +173,26 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
         <FormContainer>
           <Grid container spacing={2}>
             <Grid xs={2}>
+              <FormSelect
+                control={control}
+                onChangeHook={(value) => {
+                  props.setOriginId(JSON.parse(value))
+                }}
+                size="medium"
+                name="originId"
+                label="Đơn vị"
+                options={[
+                  { label: 'Tất cả', value: 'null' },
+                  ...props.origins.map(({ _id, name }) => ({
+                    label: name,
+                    value: `"${_id}"`,
+                  })),
+                ]}
+                getOptionLabel={({ label }) => label}
+                getOptionValue={({ value }) => value}
+              />
+            </Grid>
+            <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
                 onChangeHook={props.setFromDate}
@@ -225,26 +245,6 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
                       value: `"${_id}"`,
                     }),
                   ),
-                ]}
-                getOptionLabel={({ label }) => label}
-                getOptionValue={({ value }) => value}
-              />
-            </Grid>
-            <Grid xs={2}>
-              <FormSelect
-                control={control}
-                onChangeHook={(value) => {
-                  props.setOriginId(JSON.parse(value))
-                }}
-                size="medium"
-                name="originId"
-                label="Đơn vị"
-                options={[
-                  { label: 'Tất cả', value: 'null' },
-                  ...props.origins.map(({ _id, name }) => ({
-                    label: name,
-                    value: `"${_id}"`,
-                  })),
                 ]}
                 getOptionLabel={({ label }) => label}
                 getOptionValue={({ value }) => value}

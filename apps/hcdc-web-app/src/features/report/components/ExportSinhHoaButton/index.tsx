@@ -2,34 +2,47 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { endOfDay, startOfDay } from 'date-fns'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { checkPermissionAnyOf, Permission } from '@diut/hcdc'
+import {
+  AuthSubject,
+  ReportAction,
+  ReportType,
+  checkPermission,
+  createAbility,
+} from '@diut/hcdc'
 
 import { useReportExportSinhHoaMutation } from 'src/infra/api/access-service/report'
 import { FormDateTimePicker } from 'src/components/form'
-import { ExportDialog } from './ExportDialog'
-import { useTypedSelector } from 'src/core'
-import { selectUserPermissions } from 'src/infra/auth'
+import { ExportDialog } from '../ExportDialog'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
 const schema = z.object({
-  startDate: z.date({ invalid_type_error: 'Không được để trống' }),
-  endDate: z.date({ invalid_type_error: 'Không được để trống' }),
+  fromDate: z.date({ invalid_type_error: 'Không được để trống' }),
+  toDate: z.date({ invalid_type_error: 'Không được để trống' }),
 })
 const formResolver = zodResolver(schema)
 type FormSchema = z.infer<typeof schema>
 
-export function ExportSinhHoa() {
-  const userPermissions = useTypedSelector(selectUserPermissions)
+export function ExportSinhHoaButton() {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
+  const userPermissions = useTypedSelector(
+    authSlice.selectors.selectUserPermissions,
+  )
+  const userAbility = useMemo(() => {
+    return createAbility(userPermissions)
+  }, [userPermissions])
+
   const [openDialog, setOpenDialog] = useState(false)
   const [exportSinhHoa, { isLoading }] = useReportExportSinhHoaMutation()
 
   const { control, handleSubmit } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: {
-      startDate: new Date(),
-      endDate: new Date(),
+      fromDate: new Date(),
+      toDate: new Date(),
     },
   })
 
@@ -42,7 +55,12 @@ export function ExportSinhHoa() {
           setOpenDialog(true)
         }}
         disabled={
-          !checkPermissionAnyOf(userPermissions, [Permission.ExportSinhHoa])
+          !checkPermission(
+            userAbility,
+            AuthSubject.Report,
+            ReportAction.Export,
+            { type: ReportType.SinhHoa },
+          )
         }
       >
         SH-HH-MD
@@ -54,10 +72,10 @@ export function ExportSinhHoa() {
         onClose={() => setOpenDialog(false)}
         onConfirm={handleSubmit(async (values) => {
           await exportSinhHoa({
-            exportSinhHoaRequestDto: {
-              startDate: startOfDay(values.startDate).toISOString(),
-              endDate: endOfDay(values.endDate).toISOString(),
-            },
+            fromDate: startOfDay(values.fromDate).toISOString(),
+            toDate: endOfDay(values.toDate).toISOString(),
+            branchId,
+            originIds: [],
           })
         })}
       >
@@ -65,7 +83,7 @@ export function ExportSinhHoa() {
           <Grid xs={6}>
             <FormDateTimePicker
               control={control}
-              name="startDate"
+              name="fromDate"
               dateOnly
               label="Từ ngày"
             />
@@ -73,7 +91,7 @@ export function ExportSinhHoa() {
           <Grid xs={6}>
             <FormDateTimePicker
               control={control}
-              name="endDate"
+              name="toDate"
               dateOnly
               label="Đến ngày"
             />

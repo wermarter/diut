@@ -134,7 +134,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     offset?: number
     limit?: number
     filter?: FilterQuery<TEntity>
-    sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
+    sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
     projection?:
       | keyof TEntity
       | (keyof TEntity)[]
@@ -157,6 +157,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     const query = this.model.find(filterObj)
 
     if (sort) {
+      // @ts-ignore
       query.sort(sort)
     }
 

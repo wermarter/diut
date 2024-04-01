@@ -9,7 +9,7 @@ import { checkPermissionAnyOf, Permission } from '@diut/hcdc'
 import { useLoaderData } from 'react-router-dom'
 
 import { FormAutocomplete, FormDateTimePicker } from 'src/components/form'
-import { ExportDialog } from './ExportDialog'
+import { ExportDialog } from '../ExportDialog'
 import { useTypedSelector } from 'src/core'
 import { selectUserPermissions } from 'src/infra/auth'
 import { useReportExportTraKqMutation } from 'src/infra/api/access-service/report'

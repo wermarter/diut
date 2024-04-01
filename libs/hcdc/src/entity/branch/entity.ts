@@ -1,6 +1,7 @@
 import { stringEnumValues } from '@diut/common'
 
 import { BaseEntity } from '../base-entity'
+import { ReportType } from '../report'
 
 export enum BranchType {
   Internal = 'Internal',
@@ -9,11 +10,21 @@ export enum BranchType {
 
 export const BranchTypeValues = stringEnumValues(BranchType)
 
+export type BranchReportConfig = Partial<
+  Record<
+    ReportType,
+    {
+      testIds: string[]
+    }
+  >
+>
+
 export type Branch = BaseEntity & {
   displayIndex: number
   name: string
   address: string
   type: BranchType
+  reportConfig: BranchReportConfig
 
   sampleOriginIds: string[]
   sampleOrigins?: (Omit<Branch, 'sampleOrigins'> | null)[]

@@ -24,7 +24,7 @@ export type EntitySearchOptions<TEntity extends BaseEntity = BaseEntity> =
   EntityFindOneOptions<TEntity> & {
     offset?: number
     limit?: number
-    sort?: { [key in keyof TEntity]: SortOrder | { $meta: 'textScore' } }
+    sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
   }
 
 export type SearchResult<TEntity extends BaseEntity> = {

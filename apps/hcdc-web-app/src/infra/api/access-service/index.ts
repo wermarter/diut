@@ -8,6 +8,7 @@ import { printFormApi } from './print-form'
 import { sampleTypeApi } from './sample-type'
 import { testApi } from './test'
 import { testCategoryApi } from './test-category'
+import { testComboApi } from './test-combo'
 
 export * from './slice'
 
@@ -25,6 +26,13 @@ export function fetchTests(branchId: string) {
     populates: [
       { path: 'testCategory', fields: ['name', 'displayIndex', 'reportIndex'] },
     ],
+  })
+}
+
+export function fetchTestCombos(branchId: string) {
+  return testComboApi.endpoints.testComboSearch.initiate({
+    sort: { displayIndex: 1 },
+    filter: { branchId },
   })
 }
 

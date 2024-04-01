@@ -1,7 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
-import { Types } from 'mongoose'
-import { BranchType, BranchTypeValues } from '@diut/hcdc'
+import { Types, Schema as MongooseSchema } from 'mongoose'
+import { BranchReportConfig, BranchType, BranchTypeValues } from '@diut/hcdc'
 
 import { COLLECTION } from '../collections'
 
@@ -31,6 +31,9 @@ export class BranchSchema extends BaseSchema {
 
   @Prop({ required: true, enum: BranchTypeValues })
   type: BranchType
+
+  @Prop({ required: true, type: MongooseSchema.Types.Mixed })
+  reportConfig: BranchReportConfig
 
   @Prop({ required: true, type: [Types.ObjectId] })
   sampleOriginIds: string[]

@@ -5,25 +5,25 @@ import { AuthSubject, ReportAction, ReportType } from '@diut/hcdc'
 import { AuthContextToken, IAuthContext, assertPermission } from 'src/domain'
 import { ReportExportContext } from '../export-strategy/context'
 import {
-  ReportExportSoNhanMauStrategy,
-  ReportExportSoNhanMauStrategyInput,
-} from '../export-strategy/so-nhan-mau'
+  ReportExportSinhHoaStrategy,
+  ReportExportSinhHoaStrategyInput,
+} from '../export-strategy/sinh-hoa'
 
 @Injectable()
-export class ReportExportSoNhanMauUseCase {
+export class ReportExportSinhHoaUseCase {
   constructor(
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
     private readonly moduleRef: ModuleRef,
   ) {}
 
-  async execute(input: ReportExportSoNhanMauStrategyInput) {
+  async execute(input: ReportExportSinhHoaStrategyInput) {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
-      type: ReportType.SoNhanMau,
+      type: ReportType.SinhHoa,
     })
 
-    const strategy = await this.moduleRef.resolve(ReportExportSoNhanMauStrategy)
+    const strategy = await this.moduleRef.resolve(ReportExportSinhHoaStrategy)
     const context = await this.moduleRef.resolve(ReportExportContext)
 
     strategy.setOptions(input)

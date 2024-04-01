@@ -3,38 +3,23 @@ import {
   PaginatedResponse,
   SearchRequestDto,
 } from '@diut/nestjs-infra'
-import { ApiProperty, PickType } from '@nestjs/swagger'
-import { Expose, Transform, Type } from 'class-transformer'
+import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
+import { Expose, Type } from 'class-transformer'
 import {
   IsBoolean,
-  IsDateString,
   IsNumber,
   IsOptional,
   ValidateNested,
 } from 'class-validator'
-import { exampleDate, exampleMongoObjectId } from '@diut/common'
+import { exampleMongoObjectId } from '@diut/common'
 
 import { OmittedSampleResponseDto } from '../../sample/dto/response-dto'
+import { ReportRequestDto } from './request-dto'
 
-export class ReportQuerySoNhanMauRequestDto extends PickType(SearchRequestDto, [
-  'offset',
-  'limit',
-]) {
-  @Expose()
-  @ApiProperty(exampleDate)
-  @IsDateString()
-  fromDate: string
-
-  @Expose()
-  @ApiProperty(exampleDate)
-  @IsDateString()
-  toDate: string
-
-  @Expose()
-  @ApiProperty(exampleMongoObjectId)
-  @IsObjectId()
-  branchId: string
-
+export class ReportQuerySoNhanMauRequestDto extends IntersectionType(
+  PickType(ReportRequestDto, ['fromDate', 'toDate', 'branchId']),
+  PickType(SearchRequestDto, ['offset', 'limit']),
+) {
   @Expose()
   @ApiProperty({ required: false })
   @IsBoolean()

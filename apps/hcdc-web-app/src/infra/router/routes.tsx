@@ -61,9 +61,12 @@ import {
 } from 'src/features/sample-result'
 import { PatientSearchPage, urlPatientSearchPage } from 'src/features/patient'
 import {
+  ReportExportPage,
   SoNhanMauPage,
+  reportExportPageLoader,
   soNhanMauPageLoader,
   urlSoNhanMauPage,
+  urlReportExportPage,
 } from 'src/features/report'
 
 export const appRoutes: CustomRouteObject[] = [
@@ -158,22 +161,11 @@ export const appRoutes: CustomRouteObject[] = [
         element: <SoNhanMauPage />,
         loader: soNhanMauPageLoader,
       },
-      // {
-      //   path: 'report',
-      //   element: <Outlet />,
-      //   children: [
-      //     {
-      //       path: 'test',
-      //       element: <TestReportPage />,
-      //       loader: testReportPageLoader,
-      //     },
-      //     {
-      //       path: 'export',
-      //       element: <ExportReportPage />,
-      //       loader: exportReportPageLoader,
-      //     },
-      //   ],
-      // },
+      {
+        path: urlReportExportPage(),
+        element: <ReportExportPage />,
+        loader: reportExportPageLoader,
+      },
     ],
   },
 ]

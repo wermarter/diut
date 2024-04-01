@@ -41,7 +41,7 @@ import {
   urlResultSelectPage,
 } from 'src/features/sample-result'
 import { urlPatientSearchPage } from 'src/features/patient'
-import { urlSoNhanMauPage } from 'src/features/report'
+import { urlReportExportPage, urlSoNhanMauPage } from 'src/features/report'
 
 export const drawerItems: DrawerItemGroup[] = [
   {
@@ -117,12 +117,17 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <FileDownloadIcon />,
         label: 'Xuất báo cáo',
-        destination: 'report/export',
+        destination: urlReportExportPage(),
         isAuthorized: authOneOf([
           {
             subject: AuthSubject.Report,
             action: ReportAction.Export,
-            filterObj: { type: ReportType.SoNhanMau } as Report,
+            filterObj: { type: ReportType.SinhHoa } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.SoiNhuom } as Report,
           },
         ]),
       },

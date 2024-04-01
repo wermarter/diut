@@ -7,13 +7,14 @@ import {
 import { format, parseISO } from 'date-fns'
 import { DATEONLY_FORMAT, DATETIME_FORMAT } from '@diut/common'
 
-import { AbstractReportExportStrategy, TableConfig } from './common'
+import { TableConfig } from './common'
 import {
   ReportQuerySoNhanMauItemOutput,
   ReportQuerySoNhanMauUseCase,
 } from '../use-case/query-so-nhan-mau'
 import { TestSearchUseCase } from 'src/app/test'
 import { PatientTypeSearchUseCase } from 'src/app/patient-type'
+import { AbstractReportExportStrategy } from './abstract-strategy'
 
 export type ReportExportSoNhanMauStrategyInput = {
   fromDate: string
@@ -91,7 +92,7 @@ export class ReportExportSoNhanMauStrategy extends AbstractReportExportStrategy<
       await this.fetchData()
 
     return {
-      name: `SoNhanMau-${format(parseISO(this.options.fromDate), DATEONLY_FORMAT.replaceAll('/', '.'))}-${format(parseISO(this.options.toDate), DATEONLY_FORMAT.replaceAll('/', '.'))}.xlsx`,
+      name: `SoNhanMau-${format(parseISO(this.options.fromDate), DATEONLY_FORMAT.replaceAll('/', '_'))}-${format(parseISO(this.options.toDate), DATEONLY_FORMAT.replaceAll('/', '_'))}.xlsx`,
       items,
       columnGroups: [
         {

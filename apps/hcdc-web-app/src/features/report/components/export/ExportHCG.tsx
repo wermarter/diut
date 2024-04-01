@@ -9,7 +9,7 @@ import { checkPermissionAnyOf, Permission } from '@diut/hcdc'
 
 import { useReportExportHCGMutation } from 'src/infra/api/access-service/report'
 import { FormDateTimePicker } from 'src/components/form'
-import { ExportDialog } from './ExportDialog'
+import { ExportDialog } from '../ExportDialog'
 import { useTypedSelector } from 'src/core'
 import { selectUserPermissions } from 'src/infra/auth'
 

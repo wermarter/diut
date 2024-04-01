@@ -28,7 +28,18 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportSinhHoa: build.mutation<
+        ReportExportSinhHoaApiResponse,
+        ReportExportSinhHoaApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/sinh-hoa/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
         invalidatesTags: ['v1-reports'],
       }),
     }),
@@ -40,6 +51,8 @@ export type ReportQuerySoNhanMauApiResponse =
 export type ReportQuerySoNhanMauApiArg = ReportQuerySoNhanMauRequestDto
 export type ReportExportSoNhanMauApiResponse = unknown
 export type ReportExportSoNhanMauApiArg = ExportSoNhanMauRequestDto
+export type ReportExportSinhHoaApiResponse = unknown
+export type ReportExportSinhHoaApiArg = ExportSinhHoaRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -125,6 +138,7 @@ export type BranchUnpopulatedResponseDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
 }
 export type SampleTypeUnpopulatedResponseDto = {
@@ -226,11 +240,11 @@ export type HttpErrorResponse = {
   message: string
 }
 export type ReportQuerySoNhanMauRequestDto = {
-  offset?: number
-  limit?: number
   fromDate: string
   toDate: string
   branchId: string
+  offset?: number
+  limit?: number
   isNgoaiGio?: boolean
   patientTypeId?: string
   originId?: string
@@ -243,8 +257,15 @@ export type ExportSoNhanMauRequestDto = {
   patientTypeId?: string
   originId?: string
 }
+export type ExportSinhHoaRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
 export const {
   useReportQuerySoNhanMauQuery,
   useLazyReportQuerySoNhanMauQuery,
   useReportExportSoNhanMauMutation,
+  useReportExportSinhHoaMutation,
 } = injectedRtkApi
