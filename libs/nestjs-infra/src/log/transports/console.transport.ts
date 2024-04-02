@@ -6,7 +6,7 @@ export function buildConsoleTransport(serviceName: string) {
     level: 'verbose',
     format: winston.format.combine(
       winston.format.timestamp(),
-      utilities.format.nestLike('◉', {
+      utilities.format.nestLike(process.pid.toString(), {
         colors: true,
         prettyPrint: true,
       }),

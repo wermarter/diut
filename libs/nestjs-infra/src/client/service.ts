@@ -34,7 +34,7 @@ export abstract class AbstractClientService
         {
           ...this.retryOptions,
           errorFilter: (error) => {
-            this.logger.warn(`Connect failed:${error}`)
+            this.logger.warn(`Connect failed: ${error}`)
             return this.retryOptions?.errorFilter?.(error) ?? true
           },
         },
@@ -59,7 +59,7 @@ export abstract class AbstractClientService
         {
           ...this.retryOptions,
           errorFilter: (error) => {
-            this.logger.warn(`Close failed:${error}`)
+            this.logger.warn(`Close failed: ${error}`)
             return this.retryOptions?.errorFilter?.(error) ?? true
           },
         },
@@ -68,7 +68,7 @@ export abstract class AbstractClientService
         },
       )
     } catch (e) {
-      this.logger.error(`Cannot close:${e}`)
+      this.logger.error(`Cannot close: ${e}`)
     }
     this.logger.verbose('Closed!')
   }
