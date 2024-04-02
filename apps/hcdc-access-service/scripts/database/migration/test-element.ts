@@ -47,8 +47,9 @@ export async function migrateTestElement(
         defaultChecked: highlightRule.defaultChecked ?? false,
         note: (highlightRule.note ?? '').trim(),
         description: (highlightRule.description ?? '').trim(),
-        normalLowerBound: highlightRule.min,
-        normalUpperBound: highlightRule.max,
+        normalLowerBound: highlightRule.min ?? undefined,
+        normalUpperBound: highlightRule.max ?? undefined,
+        normalValue: highlightRule.normalValue?.trim?.() ?? undefined,
       })),
     })
   }

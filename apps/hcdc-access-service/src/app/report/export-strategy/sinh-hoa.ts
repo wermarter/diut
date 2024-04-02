@@ -54,7 +54,7 @@ export class ReportExportSinhHoaStrategy extends AbstractReportExportStrategy<
     const { items, testColumnGroups, tests } = await this.fetchData()
 
     return {
-      name: `SinhHoa-${format(parseISO(this.options.fromDate), DATEONLY_FORMAT.replaceAll('/', '_'))}-${format(parseISO(this.options.toDate), DATEONLY_FORMAT.replaceAll('/', '_'))}.xlsx`,
+      name: `3 So KQ SH-HH-MD (${format(parseISO(this.options.fromDate), DATEONLY_FORMAT.replaceAll('/', '_'))} - ${format(parseISO(this.options.toDate), DATEONLY_FORMAT.replaceAll('/', '_'))}).xlsx`,
       items,
       columnGroups: testColumnGroups,
       dateNF: DATETIME_FORMAT,

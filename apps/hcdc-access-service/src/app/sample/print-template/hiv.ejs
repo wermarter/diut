@@ -4,24 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          // extend: {
-          //   fontSize: {
-          //     sm: '0.8rem',
-          //     base: '1rem',
-          //     xl: '1.25rem',
-          //     '2xl': '1.563rem',
-          //     '3xl': '1.953rem',
-          //     '4xl': '2.441rem',
-          //     '5xl': '3.052rem',
-          //   },
-          // },
-        },
-      }
-    </script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <style>
       * {
         font-family: 'Times New Roman', monospace;
@@ -68,7 +51,7 @@
         <div class="text-center ml-1">
           <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
           <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
-          <p>180 Lê Văn Sỹ, P.10, Q. Phú Nhuận, Tp.HCM</p>
+          <p><%= meta.branch.address %></p>
           <p>Website: www.hcdc.gov.vn</p>
         </div>
       </div>
@@ -77,7 +60,7 @@
         <div class="ml-10 text-left">
           <p class="text-base">
             Ngày lấy mẫu:
-            <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+            <span><%= data.sample.sampledAt.toLocaleDateString('vi') %></span>
           </p>
           <p>Nơi chỉ định: Phòng khám</p>
           <p>Nơi lấy mẫu: Phòng xét nghiệm</p>

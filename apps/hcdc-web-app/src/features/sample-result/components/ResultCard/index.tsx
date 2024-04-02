@@ -26,6 +26,7 @@ import {
 import {
   CardContentChung,
   CardContentPap,
+  CardContentTD,
   TestElementResultData,
 } from './components'
 import {
@@ -70,8 +71,8 @@ export function ResultCard(props: ResultCardProps) {
     switch (printForm?.template!) {
       case PrintTemplate.FormPap:
         return CardContentPap
-      // case PrintTemplate.FormTD:
-      //   return ResultCardTD
+      case PrintTemplate.FormTD:
+        return CardContentTD
       default:
         return CardContentChung
     }

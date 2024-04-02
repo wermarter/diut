@@ -42,6 +42,18 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['v1-reports'],
       }),
+      reportExportSoiNhuom: build.mutation<
+        ReportExportSoiNhuomApiResponse,
+        ReportExportSoiNhuomApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/soi-nhuom/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -53,6 +65,8 @@ export type ReportExportSoNhanMauApiResponse = unknown
 export type ReportExportSoNhanMauApiArg = ExportSoNhanMauRequestDto
 export type ReportExportSinhHoaApiResponse = unknown
 export type ReportExportSinhHoaApiArg = ExportSinhHoaRequestDto
+export type ReportExportSoiNhuomApiResponse = unknown
+export type ReportExportSoiNhuomApiArg = ExportSoiNhuomRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -263,9 +277,16 @@ export type ExportSinhHoaRequestDto = {
   branchId: string
   originIds: string[]
 }
+export type ExportSoiNhuomRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
 export const {
   useReportQuerySoNhanMauQuery,
   useLazyReportQuerySoNhanMauQuery,
   useReportExportSoNhanMauMutation,
   useReportExportSinhHoaMutation,
+  useReportExportSoiNhuomMutation,
 } = injectedRtkApi

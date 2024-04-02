@@ -19,9 +19,10 @@ export const CardContentChung = (props: CardContentCommonProps) => {
           const elementState = props.resultState[element.testElement?._id!]
           if (!elementState) return null
 
-          const normalRule = element.testElement?.normalRules.find(
-            ({ category }) => category === props.patientCategory,
-          )
+          const normalRule =
+            element.testElement?.normalRules.find(
+              ({ category }) => category === props.patientCategory,
+            ) ?? element.testElement?.normalRules[0]
 
           return (
             <TableRow key={element.testElement?._id!}>

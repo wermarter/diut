@@ -9,52 +9,49 @@ import {
   Typography,
 } from '@mui/material'
 import { format } from 'date-fns'
+import { DATETIME_FORMAT } from '@diut/common'
+import { NormalRule, isTestElementValueNormal } from '@diut/hcdc'
 
-import { checkHighlight } from '../../../../pages/ResultEditPage/utils'
-import { ResultCardProps } from '../../../../pages/ResultEditPage/components/utils'
+import { CardContentCommonProps } from '../utils'
 
-export const ResultCardTD = ({
-  currentTestState,
-  currentTestInfo,
-  elementState,
-  setElementState,
-  getHighlightRule,
-}: ResultCardProps) => {
+export const CardContentTD = (props: CardContentCommonProps) => {
   return (
     <Table size="small">
       <TableBody>
-        {currentTestInfo.elements.map((currentElementInfo, elementIndex) => {
-          const currentElementState = elementState[currentElementInfo._id] ?? {}
+        {props.resultRes.elements.map((element, elementIndex) => {
+          const elementState = props.resultState[element.testElement?._id!]
+          if (!elementState) return null
 
           if (elementIndex === 0) {
             return (
-              <TableRow key={currentElementInfo._id}>
+              <TableRow key={element.testElement?._id!}>
                 <TableCell padding="checkbox" />
                 <TableCell align="left" width="200px">
                   <Typography
                     sx={{
-                      color: currentTestState.isLocked ? '#CCC' : 'inherit',
+                      color: props.isDisabled ? '#CCC' : 'inherit',
                     }}
                   >
-                    {currentElementInfo.name}
+                    {element.testElement?.name}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Input
                     fullWidth
-                    disabled={currentTestState.isLocked}
+                    disabled={props.isDisabled}
                     autoComplete="off"
                     type="datetime-local"
                     value={format(
-                      currentElementState.value?.length > 0
-                        ? new Date(currentElementState.value)
+                      elementState.value?.length > 0
+                        ? new Date(elementState.value)
                         : new Date(),
                       'yyyy-MM-dd HH:mm',
                     )}
                     onChange={(e) => {
-                      setElementState(currentElementInfo._id, {
+                      console.log(e.target.value)
+                      props.setResultState(element.testElement?._id!, {
                         value: e.target.value,
-                        checked: false,
+                        isAbnormal: false,
                       })
                     }}
                     inputProps={{
@@ -66,27 +63,27 @@ export const ResultCardTD = ({
             )
           }
 
-          const highlightRule = getHighlightRule(
-            currentElementInfo.highlightRules,
-          )
+          const normalRule =
+            element.testElement?.normalRules.find(
+              ({ category }) => category === props.patientCategory,
+            ) ?? element.testElement?.normalRules[0]
 
           return (
-            <TableRow key={currentElementInfo._id}>
+            <TableRow key={element.testElement?._id!}>
               <TableCell padding="checkbox">
                 <Checkbox
                   tabIndex={-1}
-                  disabled={currentTestState.isLocked}
+                  disabled={props.isDisabled}
                   disableRipple
                   color="secondary"
                   checked={
-                    currentElementState.checked ??
-                    highlightRule.defaultChecked ??
+                    elementState.isAbnormal ??
+                    normalRule?.defaultChecked ??
                     false
                   }
                   onChange={(e) => {
-                    setElementState(currentElementInfo._id, {
-                      checked: e.target.checked,
-                      value: currentElementState.value,
+                    props.setResultState(element.testElement?._id!, {
+                      isAbnormal: e.target.checked,
                     })
                   }}
                 />
@@ -94,29 +91,29 @@ export const ResultCardTD = ({
               <TableCell align="left" width="250px">
                 <Typography
                   sx={{
-                    color: currentTestState.isLocked ? '#CCC' : 'inherit',
-                    fontWeight: currentElementState.checked ? 'bold' : 'normal',
+                    color: props.isDisabled ? '#CCC' : 'inherit',
+                    fontWeight: elementState.isAbnormal ? 'bold' : 'normal',
                   }}
                 >
-                  {currentElementInfo.name}
+                  {element.testElement?.name}
                 </Typography>
               </TableCell>
               <TableCell width="150px">
                 <TextField
-                  name={currentElementInfo._id}
-                  disabled={currentTestState.isLocked}
+                  name={element.testElement?._id!}
+                  disabled={props.isDisabled}
                   fullWidth
                   variant="standard"
-                  value={currentElementState.value ?? ''}
+                  value={elementState.value ?? ''}
                   onChange={(e) => {
-                    const newValue = e.target.value
-                    const checked =
-                      newValue.length > 0 &&
-                      checkHighlight(highlightRule, newValue)
+                    const value = e.target.value
+                    const isNormal =
+                      value.length > 0 &&
+                      isTestElementValueNormal(normalRule as NormalRule, value)
 
-                    setElementState(currentElementInfo._id, {
-                      checked,
-                      value: newValue,
+                    props.setResultState(element.testElement?._id!, {
+                      value,
+                      isAbnormal: !isNormal,
                     })
                   }}
                 />

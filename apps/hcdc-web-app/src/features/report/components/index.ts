@@ -1,4 +1,5 @@
 export * from './SoNhanMauView'
 export * from './ExportDialog'
-export * from './ExportSinhHoaButton'
 export * from './ReportExportView'
+export * from './ExportSinhHoaButton'
+export * from './ExportSoiNhuomButton'

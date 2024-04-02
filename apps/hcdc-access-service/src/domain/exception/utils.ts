@@ -15,11 +15,13 @@ export function buildErrorLog(
     cause: unknown
   }>,
 ) {
+  const cause = input.exception.cause ?? input.cause
+
   return {
     userId: input.authContextData?.user._id,
     message: input.exception.message ?? input.message,
     stack: input.exception.stack ?? input.stack,
-    cause: inspect(input.exception.cause ?? input.cause),
+    cause: cause && inspect(cause),
     errorCode: input.exception.errorCode ?? input.errorCode,
     httpStatus: input.exception.httpStatus ?? input.httpStatus,
   }

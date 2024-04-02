@@ -4,24 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          // extend: {
-          //   fontSize: {
-          //     sm: '0.8rem',
-          //     base: '1rem',
-          //     xl: '1.25rem',
-          //     '2xl': '1.563rem',
-          //     '3xl': '1.953rem',
-          //     '4xl': '2.441rem',
-          //     '5xl': '3.052rem',
-          //   },
-          // },
-        },
-      }
-    </script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <style>
       * {
         font-family: 'Times New Roman', monospace;
@@ -67,39 +50,39 @@
           <div class="text-center ml-1 text-base">
             <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
             <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
-            <p>180 Lê Văn Sỹ, P.10, Q. Phú Nhuận, Tp.HCM</p>
+            <p><%= meta.branch.address %></p>
             <p>Website: www.hcdc.gov.vn</p>
           </div>
         </div>
         <div class="mt-1">
           <p class="text-base">
-            Họ và tên: <span class="font-bold"><%= patient.name %></span>
+            Họ và tên: <span class="font-bold"><%= data.sample.patient.name %></span>
           </p>
-          <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
+          <p class="text-base">Địa chỉ: <span><%= data.sample.patient.address %></span></p>
 
-          <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
-          <p class="text-base">Chẩn đoán: <span><%= indication %></span></p>
+          <p class="text-base">BS chỉ định: <span><%= data.sample.doctor.name %></span></p>
+          <p class="text-base">Chẩn đoán: <span><%= data.sample.diagnosis.name %></span></p>
         </div>
       </div>
       <div class="flex flex-col justify-between" style="max-width: 250px">
         <div>
           <p class="text-base">
-            ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+            ID XN: <span class="font-bold"> <%= data.sample.sampleId %> </span>
           </p>
           <p class="text-base">
             TG nhận bệnh:
             <span
-              ><%= sample.infoAt.toLocaleDateString('vi') %>, <%=
-              sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+              ><%= data.sample.infoAt.toLocaleDateString('vi') %>, <%=
+              data.sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
             >
           </p>
           <p class="text-base">
             TG lấy mẫu:
             <span
               ><%= new
-              Date(results[0].tests[0].elements[0].value).toLocaleDateString('vi')
+              Date(data.categories[0].tests[0].elements[0].value).toLocaleDateString('vi')
               %>, <%= new
-              Date(results[0].tests[0].elements[0].value).toLocaleTimeString('vi').slice(0,-3)
+              Date(data.categories[0].tests[0].elements[0].value).toLocaleTimeString('vi').slice(0,-3)
               %>
             </span>
           </p>
@@ -107,16 +90,16 @@
         <div>
           <div class="flex flex-row">
             <p class="text-base">
-              Năm sinh: <span class="font-bold"><%= patient.birthYear %></span>
+              Năm sinh: <span class="font-bold"><%= data.sample.patient.birthYear %></span>
             </p>
             <p class="text-base ml-2">
               Giới tính:
               <span class="font-bold"
-                ><%= patient.gender === 0 ? "Nam" : "Nữ" %></span
+                ><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span
               >
             </p>
           </div>
-          <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
+          <p class="text-base">Đối tượng: <span><%= data.sample.patientType.name %></span></p>
           <p class="text-base">
             Loại mẫu:
             <span> TD </span>
@@ -125,7 +108,7 @@
             Ngày XN:
             <span
               ><%= new
-              Date(results[0].tests[0].elements[0].value).toLocaleDateString('vi')
+              Date(data.categories[0].tests[0].elements[0].value).toLocaleDateString('vi')
               %></span
             >
           </p>
@@ -152,31 +135,31 @@
       </thead>
       <tbody>
         <tr class="border border-gray-300">
-          <td class="py-1 pl-2 font-bold"><%= results[0].tests[0].name %></td>
+          <td class="py-1 pl-2 font-bold"><%= data.categories[0].tests[0].name %></td>
         </tr>
-        <% results[0].tests[0].elements.slice(1, -1).forEach(element => { %>
+        <% data.categories[0].tests[0].elements.slice(1, -1).forEach(element => { %>
         <tr class="border border-gray-300">
           <td class="py-1 pl-6 border border-gray-300">
-            - <%= element.name %>
+            - <%= element.testElement.name %>
           </td>
           <td
-            class="py-1 text-center border border-gray-300 <%= element?.isHighlighted ? 'font-bold' : '' %>"
+            class="py-1 text-center border border-gray-300 <%= element.isAbnormal ? 'font-bold' : '' %>"
           >
             <%= element.value %>
           </td>
           <td class="py-1 text-center pl-2 border border-gray-300">
-            <%= element.unit %>
+            <%= element.testElement.unit %>
           </td>
           <td class="py-1 text-center pl-2 border border-gray-300">
-            <%= element.description %>
+            <%= element.testElement.description %>
           </td>
         </tr>
         <% }) %>
       </tbody>
     </table>
     <p class="text-base mt-1 ml-8">
-      <span><%= results[0].tests[0].elements.slice(-1)[0].name %>:</span>
-      <span><%= results[0].tests[0].elements.slice(-1)[0].value ?? '' %></span>
+      <span><%= data.categories[0].tests[0].elements.slice(-1)[0].testElement.name %>:</span>
+      <span><%= data.categories[0].tests[0].elements.slice(-1)[0].value ?? '' %></span>
     </p>
     <div
       class="flex flex-row justify-end mt-2"
@@ -187,8 +170,8 @@
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
           %> năm <%= new Date().getFullYear() %>
         </p>
-        <p class="font-bold"><%= authorPosition %></p>
-        <p style="margin-top: 20mm" class="font-bold"><%= authorName %></p>
+        <p class="font-bold"><%= meta.authorPosition %></p>
+        <p style="margin-top: 20mm" class="font-bold"><%= meta.authorName %></p>
       </div>
     </div>
   </body>

@@ -41,6 +41,7 @@ import { TestAssertExistsUseCase } from 'src/app/test'
 import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
 import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
+import { SamplePrintFormTDStrategy } from '../print-strategy/form-td'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -129,6 +130,9 @@ export class SamplePrintUseCase {
           break
         case PrintTemplate.FormPap:
           strategy = await this.moduleRef.resolve(SamplePrintFormPapStrategy)
+          break
+        case PrintTemplate.FormTD:
+          strategy = await this.moduleRef.resolve(SamplePrintFormTDStrategy)
           break
         default:
           throw new EEntityNotFound(

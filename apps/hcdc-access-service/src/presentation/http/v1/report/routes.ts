@@ -27,4 +27,9 @@ export const reportRoutes = {
     method: RequestMethod.POST,
     code: HttpStatus.OK,
   },
+  exportSoiNhuom: {
+    path: 'soi-nhuom/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
 } satisfies Record<string, CustomHttpRouteOptions>

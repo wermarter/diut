@@ -18,12 +18,14 @@ import { SampleDownloadResultImageUseCase } from './use-case/download-result-ima
 import { SamplePrintContext } from './print-strategy/context'
 import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
 import { SamplePrintFormPapStrategy } from './print-strategy/form-pap'
+import { SamplePrintFormTDStrategy } from './print-strategy/form-td'
 
 export const sampleMetadata: ModuleMetadata = {
   providers: [
     SamplePrintContext,
     SamplePrintFormChungStrategy,
     SamplePrintFormPapStrategy,
+    SamplePrintFormTDStrategy,
 
     SampleCreateUseCase,
     SampleFindOneUseCase,

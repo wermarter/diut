@@ -13,7 +13,7 @@ import {
   createAbility,
 } from '@diut/hcdc'
 
-import { useReportExportSinhHoaMutation } from 'src/infra/api/access-service/report'
+import { useReportExportSoiNhuomMutation } from 'src/infra/api/access-service/report'
 import { FormAutocomplete, FormDateTimePicker } from 'src/components/form'
 import { ExportDialog } from '../ExportDialog'
 import { useTypedSelector } from 'src/infra/redux'
@@ -28,11 +28,11 @@ const schema = z.object({
 const formResolver = zodResolver(schema)
 type FormSchema = z.infer<typeof schema>
 
-export type ExportSinhHoaButtonProps = {
+export type ExportSoiNhuomButtonProps = {
   origins: BranchResponseDto[]
 }
 
-export function ExportSinhHoaButton(props: ExportSinhHoaButtonProps) {
+export function ExportSoiNhuomButton(props: ExportSoiNhuomButtonProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const userPermissions = useTypedSelector(
     authSlice.selectors.selectUserPermissions,
@@ -42,7 +42,7 @@ export function ExportSinhHoaButton(props: ExportSinhHoaButtonProps) {
   }, [userPermissions])
 
   const [openDialog, setOpenDialog] = useState(false)
-  const [exportSinhHoa, { isLoading }] = useReportExportSinhHoaMutation()
+  const [exportSoiNhuom, { isLoading }] = useReportExportSoiNhuomMutation()
 
   const { control, handleSubmit } = useForm<FormSchema>({
     resolver: formResolver,
@@ -67,19 +67,19 @@ export function ExportSinhHoaButton(props: ExportSinhHoaButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.SinhHoa },
+            { type: ReportType.SoiNhuom },
           )
         }
       >
-        SH-HH-MD
+        soi nhuộm
       </Button>
       <ExportDialog
-        title="Sổ SH-HH-MD"
+        title="Sổ Soi nhuộm"
         open={openDialog}
         isLoading={isLoading}
         onClose={() => setOpenDialog(false)}
         onConfirm={handleSubmit(async (values) => {
-          await exportSinhHoa({
+          await exportSoiNhuom({
             branchId,
             fromDate: startOfDay(values.fromDate).toISOString(),
             toDate: endOfDay(values.toDate).toISOString(),
