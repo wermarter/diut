@@ -4,6 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { ExportSinhHoaButton } from '../ExportSinhHoaButton'
 import { ExportSoiNhuomButton } from '../ExportSoiNhuomButton'
+import { ExportTddButton } from '../ExportTDDButton'
 
 export type ReportExportViewProps = {
   origins: BranchResponseDto[]
@@ -22,7 +23,9 @@ export function ReportExportView(props: ReportExportViewProps) {
           <Grid xs={4}>
             <ExportSinhHoaButton origins={props.origins} />
           </Grid>
-          <Grid xs={4}>{/* <ExportTD /> */}</Grid>
+          <Grid xs={4}>
+            <ExportTddButton origins={props.origins} />
+          </Grid>
           <Grid xs={4}>{/* <ExportUrine10 /> */}</Grid>
           <Grid xs={4}>{/* <ExportHCG /> */}</Grid>
           <Grid xs={4}>{/* <ExportPapSmear /> */}</Grid>

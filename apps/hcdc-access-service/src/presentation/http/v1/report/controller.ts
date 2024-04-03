@@ -7,11 +7,13 @@ import {
   ReportExportSoNhanMauUseCase,
   ReportExportSinhHoaUseCase,
   ReportExportSoiNhuomUseCase,
+  ReportExportTDDUseCase,
 } from 'src/app/report'
 import { ReportQuerySoNhanMauRequestDto } from './dto/query-so-nhan-mau.dto'
 import { ExportSoNhanMauRequestDto } from './dto/export-so-nhan-mau.dto'
 import { ExportSinhHoaRequestDto } from './dto/export-sinh-hoa.dto'
 import { ExportSoiNhuomRequestDto } from './dto/export-soi-nhuom.dto'
+import { ExportTDDRequestDto } from './dto/export-tdd.dto'
 
 @HttpController({
   basePath: 'v1/reports',
@@ -22,6 +24,7 @@ export class ReportController {
     private readonly reportExportSoNhanMauUseCase: ReportExportSoNhanMauUseCase,
     private readonly reportExportSinhHoaUseCase: ReportExportSinhHoaUseCase,
     private readonly reportExportSoiNhuomUseCase: ReportExportSoiNhuomUseCase,
+    private readonly reportExportTDDUseCase: ReportExportTDDUseCase,
   ) {}
 
   @HttpRoute(reportRoutes.querySoNhanMau)
@@ -47,6 +50,12 @@ export class ReportController {
   async exportSoiNhuom(@Body() body: ExportSoiNhuomRequestDto) {
     const { buffer, filename } =
       await this.reportExportSoiNhuomUseCase.execute(body)
+    return streamExcel({ buffer, filename })
+  }
+
+  @HttpRoute(reportRoutes.exportTDD)
+  async exportTDD(@Body() body: ExportTDDRequestDto) {
+    const { buffer, filename } = await this.reportExportTDDUseCase.execute(body)
     return streamExcel({ buffer, filename })
   }
 }

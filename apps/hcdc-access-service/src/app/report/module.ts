@@ -9,6 +9,8 @@ import { ReportExportSinhHoaStrategy } from './export-strategy/sinh-hoa'
 import { ReportExportSinhHoaUseCase } from './use-case/export-sinh-hoa'
 import { ReportExportSoiNhuomStrategy } from './export-strategy/soi-nhuom'
 import { ReportExportSoiNhuomUseCase } from './use-case/export-soi-nhuom'
+import { ReportExportTDDStrategy } from './export-strategy/tdd'
+import { ReportExportTDDUseCase } from './use-case/export-tdd'
 
 export const reportMetadata: ModuleMetadata = {
   providers: [
@@ -16,11 +18,13 @@ export const reportMetadata: ModuleMetadata = {
     ReportExportSoNhanMauStrategy,
     ReportExportSinhHoaStrategy,
     ReportExportSoiNhuomStrategy,
+    ReportExportTDDStrategy,
 
     ReportQuerySoNhanMauUseCase,
     ReportExportSoNhanMauUseCase,
     ReportQueryExportDataUseCase,
     ReportExportSinhHoaUseCase,
     ReportExportSoiNhuomUseCase,
+    ReportExportTDDUseCase,
   ],
 }

@@ -1,8 +1,12 @@
-import { exampleDate, exampleMongoObjectId } from '@diut/common'
+import {
+  exampleDate,
+  exampleMongoObjectId,
+  exampleMongoObjectIds,
+} from '@diut/common'
 import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsDateString } from 'class-validator'
+import { IsArray, IsDateString } from 'class-validator'
 
 export class ReportRequestDto {
   @Expose()
@@ -19,4 +23,10 @@ export class ReportRequestDto {
   @ApiProperty(exampleMongoObjectId)
   @IsObjectId()
   branchId: string
+
+  @Expose()
+  @ApiProperty(exampleMongoObjectIds)
+  @IsArray()
+  @IsObjectId({ each: true })
+  originIds: string[]
 }

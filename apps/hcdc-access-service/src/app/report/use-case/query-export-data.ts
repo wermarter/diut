@@ -19,7 +19,6 @@ import { SampleSearchUseCase } from 'src/app/sample'
 import { TestSearchUseCase } from 'src/app/test'
 import { TestComboSearchUseCase } from 'src/app/test-combo'
 import { TestElementSearchUseCase } from 'src/app/test-element'
-import { BranchSearchUseCase } from 'src/app/branch'
 
 @Injectable()
 export class ReportQueryExportDataUseCase {
@@ -80,7 +79,10 @@ export class ReportQueryExportDataUseCase {
         branchId: input.branchId,
         ...(testIds.length > 0 && {
           results: {
-            $elemMatch: { testId: { $in: testIds } },
+            $elemMatch: {
+              testId: { $in: testIds },
+              // isLocked: true,
+            },
           },
         }),
         ...(input.patientTypeIds?.length! > 0 && {

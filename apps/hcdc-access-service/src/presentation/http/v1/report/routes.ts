@@ -32,4 +32,9 @@ export const reportRoutes = {
     method: RequestMethod.POST,
     code: HttpStatus.OK,
   },
+  exportTDD: {
+    path: 'tdd/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
 } satisfies Record<string, CustomHttpRouteOptions>
