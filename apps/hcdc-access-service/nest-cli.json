@@ -5,6 +5,7 @@
   "compilerOptions": {
     "assets": [
       { "include": "./app/sample/print-template/**/*", "watchAssets": true }
-    ]
+    ],
+    "deleteOutDir": true
   }
 }

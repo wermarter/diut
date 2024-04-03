@@ -42,6 +42,8 @@ import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
 import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
 import { SamplePrintFormTDStrategy } from '../print-strategy/form-td'
+import { SamplePrintFormHIVStrategy } from '../print-strategy/form-hiv'
+import { SamplePrintFormSoiNhuomStrategy } from '../print-strategy/form-soi-nhuom'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -133,6 +135,14 @@ export class SamplePrintUseCase {
           break
         case PrintTemplate.FormTD:
           strategy = await this.moduleRef.resolve(SamplePrintFormTDStrategy)
+          break
+        case PrintTemplate.FormHIV:
+          strategy = await this.moduleRef.resolve(SamplePrintFormHIVStrategy)
+          break
+        case PrintTemplate.FormSoiNhuom:
+          strategy = await this.moduleRef.resolve(
+            SamplePrintFormSoiNhuomStrategy,
+          )
           break
         default:
           throw new EEntityNotFound(

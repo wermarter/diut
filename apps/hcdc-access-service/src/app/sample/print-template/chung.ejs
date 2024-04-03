@@ -132,9 +132,9 @@
             <tr class="border border-gray-300">
               <td class="pl-6">
                 <span class="font-bold"> <%= test.name %> </span>
-                <% if (test.bioProductName?.length > 0) { %>
+                <% if (test?.bioProductName?.length > 0) { %>
                 <span class="whitespace-nowrap"
-                  >&nbsp;-&nbsp;<%= test?.bioProductName %></span
+                  >&nbsp;-&nbsp;<%= test.bioProductName %></span
                 >
                 <% } %>
               </td>

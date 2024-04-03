@@ -73,29 +73,29 @@
           <p class="text-lg">
             Họ và tên:
             <span class="font-bold"
-              ><%= patient.name.toLocaleUpperCase() %></span
+              ><%= data.sample.patient.name.toLocaleUpperCase() %></span
             >
           </p>
           <p class="text-lg">
-            ID XN: <span class="font-bold"><%= sample.sampleId %></span>
+            ID XN: <span class="font-bold"><%= data.sample.sampleId %></span>
           </p>
         </div>
         <div class="flex flex-col">
-          <p class="text-lg">Năm sinh: <span><%= patient.birthYear %></span></p>
+          <p class="text-lg">Năm sinh: <span><%= data.sample.patient.birthYear %></span></p>
           <p class="text-lg">Loại bệnh phẩm: Máu</p>
         </div>
         <div class="flex flex-col">
           <p class="text-lg">
             Giới tính:
-            <span><%= patient.gender === 0 ? "Nam" : "Nữ" %></span>
+            <span><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span>
           </p>
           <p class="text-lg">
             CCCD (nếu có):
-            <span><%= patient.SSN %></span>
+            <span><%= data.sample.patient.SSN %></span>
           </p>
         </div>
       </div>
-      <p class="text-lg">Địa chỉ: <span><%= patient.address %></span></p>
+      <p class="text-lg">Địa chỉ: <span><%= data.sample.patient.address %></span></p>
       <div class="flex flex-row">
         <div>
           <p class="text-lg">Yêu cầu xét nghiệm:</p>
@@ -105,11 +105,11 @@
         </div>
         <div class="ml-4">
           <p class="font-bold text-lg">Kháng thể kháng HIV</p>
-          <p class="text-lg"><%= results[0].tests[0].bioProductName %></p>
+          <p class="text-lg"><%= data.categories[0].tests[0].bioProductName %></p>
           <p class="font-bold text-lg">
-            <%= results[0].tests[0].elements[0].value %>
+            <%= data.categories[0].tests[0].elements[0].value %>
           </p>
-          <p class="text-lg"><%= sample.infoAt.toLocaleDateString('vi') %></p>
+          <p class="text-lg"><%= data.sample.infoAt.toLocaleDateString('vi') %></p>
         </div>
       </div>
       <p class="text-lg">Đề nghị: Tham vấn</p>
@@ -131,8 +131,8 @@
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
           %> năm <%= new Date().getFullYear() %>
         </p>
-        <p class="font-bold"><%= authorPosition %></p>
-        <p style="margin-top: 20mm" class="font-bold"><%= authorName %></p>
+        <p class="font-bold"><%= meta.authorPosition %></p>
+        <p style="margin-top: 20mm" class="font-bold"><%= meta.authorName %></p>
       </div>
     </div>
   </body>

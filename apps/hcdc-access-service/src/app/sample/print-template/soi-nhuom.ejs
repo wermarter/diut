@@ -51,7 +51,7 @@
         <div class="text-center ml-1 text-base">
           <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
           <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
-          <p>180 Lê Văn Sỹ, P.10, Q. Phú Nhuận, Tp.HCM</p>
+          <p><%= meta.branch.address %></p>
           <p>Website: www.hcdc.gov.vn</p>
         </div>
       </div>
@@ -59,16 +59,16 @@
         <p class="text-xl font-bold mb-1">PHIẾU KẾT QUẢ XÉT NGHIỆM</p>
         <div class="ml-20 text-left">
           <p class="text-base">
-            ID XN: <span class="font-bold"> <%= sample.sampleId %> </span>
+            ID XN: <span class="font-bold"> <%= data.sample.sampleId %> </span>
           </p>
           <p class="text-base">
             TG nhận bệnh:
-            <span><%= sample.infoAt.toLocaleDateString('vi') %></span>
+            <span><%= data.sample.infoAt.toLocaleDateString('vi') %></span>
           </p>
           <p class="text-base">
             Giờ:
             <span
-              ><%= sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+              ><%= data.sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
             >
           </p>
         </div>
@@ -78,33 +78,33 @@
       <div class="flex flex-col gap-0.5">
         <p class="text-base">
           Họ và tên:
-          <span class="font-bold"><%= patient.name.toLocaleUpperCase() %></span>
+          <span class="font-bold"><%= data.sample.patient.name.toLocaleUpperCase() %></span>
         </p>
-        <p class="text-base">Địa chỉ: <span><%= patient.address %></span></p>
-        <p class="text-base">BS chỉ định: <span><%= doctor %></span></p>
+        <p class="text-base">Địa chỉ: <span><%= data.sample.patient.address %></span></p>
+        <p class="text-base">BS chỉ định: <span><%= data.sample.doctor.name %></span></p>
       </div>
       <div class="flex flex-col gap-0.5">
         <div class="flex flex-row gap-4 justify-between">
           <div class="flex flex-col gap-0.5">
             <p class="text-base">
-              Năm sinh: <span><%= patient.birthYear %></span>
+              Năm sinh: <span><%= data.sample.patient.birthYear %></span>
             </p>
-            <p class="text-base">Đối tượng: <span><%= patientType %></span></p>
+            <p class="text-base">Đối tượng: <span><%= data.sample.patientType.name %></span></p>
           </div>
         </div>
         <p class="text-base">
           Loại mẫu:
-          <em><%= sampleTypes.join(', ') %></em>
+          <em><%= meta.sampleTypeNames.join(', ') %></em>
         </p>
       </div>
       <div class="flex flex-col gap-0.5">
         <p class="text-base">
           Giới tính:
-          <span><%= patient.gender === 0 ? "Nam" : "Nữ" %></span>
+          <span><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span>
         </p>
         <p class="text-base">
           Ngày XN:
-          <span><%= sample.sampledAt.toLocaleDateString('vi') %></span>
+          <span><%= data.sample.sampledAt.toLocaleDateString('vi') %></span>
         </p>
       </div>
     </div>
@@ -124,15 +124,15 @@
         </tr>
       </thead>
       <tbody>
-        <% results.forEach((category, categoryIndex) => { %> <%
+        <% data.categories.forEach(category => { %> <%
         category.tests.forEach(test => {%>
-          <% if (test?.shouldDisplayWithChildren !== false) { %>
+          <% if (test.shouldDisplayWithChildren !== false) { %>
             <tr class="border border-gray-300">
               <td class="pl-2 border border-gray-300">
                 <span class="font-bold"> <%= test.name %> </span>
                 <% if (test?.bioProductName?.length > 0) { %>
                 <span class="whitespace-nowrap"
-                  >&nbsp;-&nbsp;<%= test?.bioProductName %></span
+                  >&nbsp;-&nbsp;<%= test.bioProductName %></span
                 >
                 <% } %>
               </td>
@@ -142,17 +142,17 @@
         Math.ceil(arr.length/2)) { %>
 
         <tr class="border border-gray-300">
-          <td class="pl-6 border border-gray-300"><%= element.name %></td>
+          <td class="pl-6 border border-gray-300"><%= element.testElement.name %></td>
           <td
-            class="text-center border border-gray-300 <%= element?.isHighlighted ? 'font-black' : '' %>"
+            class="text-center border border-gray-300 <%= element.isAbnormal ? 'font-black' : '' %>"
           >
             <%= element.value %>
           </td>
           <td class="pl-6 border border-gray-300">
-            <%= arr[Math.ceil(arr.length/2) + index]?.name %>
+            <%= arr[Math.ceil(arr.length/2) + index]?.testElement?.name %>
           </td>
           <td
-            class="text-center border border-gray-300 <%= arr[Math.ceil(arr.length/2) + index]?.isHighlighted ? 'font-black' : '' %>"
+            class="text-center border border-gray-300 <%= arr[Math.ceil(arr.length/2) + index]?.isAbnormal ? 'font-black' : '' %>"
           >
             <%= arr[Math.ceil(arr.length/2) + index]?.value %>
           </td>
@@ -167,8 +167,8 @@
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
           %> năm <%= new Date().getFullYear() %>
         </p>
-        <p class="font-bold"><%= authorPosition %></p>
-        <p style="margin-top: 17mm" class="font-bold"><%= authorName %></p>
+        <p class="font-bold"><%= meta.authorPosition %></p>
+        <p style="margin-top: 17mm" class="font-bold"><%= meta.authorName %></p>
       </div>
     </div>
   </body>

@@ -9,7 +9,6 @@ import {
   Typography,
 } from '@mui/material'
 import { format } from 'date-fns'
-import { DATETIME_FORMAT } from '@diut/common'
 import { NormalRule, isTestElementValueNormal } from '@diut/hcdc'
 
 import { CardContentCommonProps } from '../utils'

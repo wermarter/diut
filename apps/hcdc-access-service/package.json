@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && nest build",
-    "dev": "rimraf dist && nest start --watch --preserveWatchOutput",
+    "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist"
   },
   "dependencies": {

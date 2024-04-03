@@ -54,9 +54,7 @@ export class MongoModule {
             const client = connection.client
 
             client.on('serverHeartbeatFailed', ({ connectionId }) => {
-              logger.warn(
-                `MongoDB heartbeat failed: ${connectionId}. Reconnecting...`,
-              )
+              logger.warn(`MongoDB heartbeat failed: ${connectionId}`)
             })
 
             return connection

@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && nest build",
-    "dev": "nodemon --signal SIGTERM -r tsconfig-paths/register -w '../../libs/**/dist/' -w .env -w src src/main.ts",
-    "start:dev": "rimraf dist && nest start --watch --preserveWatchOutput",
+    "dev2": "nodemon --signal SIGTERM -r tsconfig-paths/register -w '../../libs/**/dist/' -w .env -w src src/main.ts",
+    "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist",
     "puppeteer:browser": "pnpx @puppeteer/browsers install chromium"
   },

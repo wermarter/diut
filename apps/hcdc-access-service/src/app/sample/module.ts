@@ -19,6 +19,8 @@ import { SamplePrintContext } from './print-strategy/context'
 import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
 import { SamplePrintFormPapStrategy } from './print-strategy/form-pap'
 import { SamplePrintFormTDStrategy } from './print-strategy/form-td'
+import { SamplePrintFormHIVStrategy } from './print-strategy/form-hiv'
+import { SamplePrintFormSoiNhuomStrategy } from './print-strategy/form-soi-nhuom'
 
 export const sampleMetadata: ModuleMetadata = {
   providers: [
@@ -26,6 +28,8 @@ export const sampleMetadata: ModuleMetadata = {
     SamplePrintFormChungStrategy,
     SamplePrintFormPapStrategy,
     SamplePrintFormTDStrategy,
+    SamplePrintFormHIVStrategy,
+    SamplePrintFormSoiNhuomStrategy,
 
     SampleCreateUseCase,
     SampleFindOneUseCase,

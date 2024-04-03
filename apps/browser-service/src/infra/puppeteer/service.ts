@@ -48,9 +48,10 @@ export class PuppeteerService
     this.readyCheck()
   }
 
-  async close() {
+  close() {
     if (this.browser) {
-      await this.browser.close()
+      // waiting is too long for graceful shutdown
+      this.browser.close()
     }
   }
 
