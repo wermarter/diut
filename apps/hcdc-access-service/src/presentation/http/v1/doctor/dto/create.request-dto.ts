@@ -9,7 +9,7 @@ export class DoctorCreateRequestDto {
   @Expose()
   @ApiProperty(exampleDoctor.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

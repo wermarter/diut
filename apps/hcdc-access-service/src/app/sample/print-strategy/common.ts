@@ -101,7 +101,10 @@ export abstract class AbstractSamplePrintStrategy
             []
 
           for (const elementResult of testResult.elements) {
-            if (elementResult.testElement) {
+            if (
+              elementResult.testElement &&
+              elementResult.testElement.printIndex > 0
+            ) {
               elements.push(elementResult)
             }
           }

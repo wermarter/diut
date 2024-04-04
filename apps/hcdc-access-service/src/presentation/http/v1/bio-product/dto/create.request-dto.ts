@@ -9,7 +9,7 @@ export class BioProductCreateRequestDto {
   @Expose()
   @ApiProperty(exampleBioProduct.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

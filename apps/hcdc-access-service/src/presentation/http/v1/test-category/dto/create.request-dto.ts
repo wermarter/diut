@@ -9,7 +9,7 @@ export class TestCategoryCreateRequestDto {
   @Expose()
   @ApiProperty(exampleTestCategory.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()
@@ -21,7 +21,7 @@ export class TestCategoryCreateRequestDto {
   @Expose()
   @ApiProperty(exampleTestCategory.reportIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   reportIndex: number
 
   @Expose()

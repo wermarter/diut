@@ -37,4 +37,19 @@ export const reportRoutes = {
     method: RequestMethod.POST,
     code: HttpStatus.OK,
   },
+  exportUrine: {
+    path: 'urine/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
+  exportHCG: {
+    path: 'hcg/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
+  exportPap: {
+    path: 'pap/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
 } satisfies Record<string, CustomHttpRouteOptions>

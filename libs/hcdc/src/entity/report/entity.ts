@@ -5,6 +5,9 @@ export enum ReportType {
   SinhHoa = 'SinhHoa',
   SoiNhuom = 'SoiNhuom',
   TDD = 'TDD',
+  Urine = 'Urine',
+  HCG = 'HCG',
+  Pap = 'Pap',
 }
 
 export const ReportTypeValues = stringEnumValues(ReportType)

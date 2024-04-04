@@ -17,7 +17,7 @@ export class BranchCreateRequestDto {
   @Expose()
   @ApiProperty(exampleBranch.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

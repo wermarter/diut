@@ -17,7 +17,7 @@ export class RoleCreateRequestDto {
   @Expose()
   @ApiProperty(exampleRole.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

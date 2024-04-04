@@ -5,6 +5,9 @@ import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { ExportSinhHoaButton } from '../ExportSinhHoaButton'
 import { ExportSoiNhuomButton } from '../ExportSoiNhuomButton'
 import { ExportTddButton } from '../ExportTDDButton'
+import { ExportUrineButton } from '../ExportUrineButton'
+import { ExportHCGButton } from '../ExportHCGButton'
+import { ExportPapButton } from '../ExportPapButton'
 
 export type ReportExportViewProps = {
   origins: BranchResponseDto[]
@@ -26,9 +29,15 @@ export function ReportExportView(props: ReportExportViewProps) {
           <Grid xs={4}>
             <ExportTddButton origins={props.origins} />
           </Grid>
-          <Grid xs={4}>{/* <ExportUrine10 /> */}</Grid>
-          <Grid xs={4}>{/* <ExportHCG /> */}</Grid>
-          <Grid xs={4}>{/* <ExportPapSmear /> */}</Grid>
+          <Grid xs={4}>
+            <ExportUrineButton origins={props.origins} />
+          </Grid>
+          <Grid xs={4}>
+            <ExportHCGButton origins={props.origins} />
+          </Grid>
+          <Grid xs={4}>
+            <ExportPapButton origins={props.origins} />
+          </Grid>
           <Grid xs={4}>{/* <ExportThinPrep /> */}</Grid>
           <Grid xs={4}>{/* <ExportHIV /> */}</Grid>
           <Grid xs={4}>{/* <ExportCTM /> */}</Grid>

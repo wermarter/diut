@@ -17,7 +17,7 @@ export class PrintFormCreateRequestDto {
   @Expose()
   @ApiProperty(examplePrintForm.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

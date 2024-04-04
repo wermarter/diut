@@ -18,7 +18,7 @@ export class TestElementCreateRequestDto {
   @Expose()
   @ApiProperty(exampleTestElement.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()
@@ -30,13 +30,13 @@ export class TestElementCreateRequestDto {
   @Expose()
   @ApiProperty(exampleTestElement.printIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   printIndex: number
 
   @Expose()
   @ApiProperty(exampleTestElement.reportIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   reportIndex: number
 
   @Expose()

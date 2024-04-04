@@ -66,6 +66,42 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['v1-reports'],
       }),
+      reportExportUrine: build.mutation<
+        ReportExportUrineApiResponse,
+        ReportExportUrineApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/urine/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportHcg: build.mutation<
+        ReportExportHcgApiResponse,
+        ReportExportHcgApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/hcg/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportPap: build.mutation<
+        ReportExportPapApiResponse,
+        ReportExportPapApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/pap/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -81,6 +117,12 @@ export type ReportExportSoiNhuomApiResponse = unknown
 export type ReportExportSoiNhuomApiArg = ExportSoiNhuomRequestDto
 export type ReportExportTddApiResponse = unknown
 export type ReportExportTddApiArg = ExportTddRequestDto
+export type ReportExportUrineApiResponse = unknown
+export type ReportExportUrineApiArg = ExportUrineRequestDto
+export type ReportExportHcgApiResponse = unknown
+export type ReportExportHcgApiArg = ExportHcgRequestDto
+export type ReportExportPapApiResponse = unknown
+export type ReportExportPapApiArg = ExportPapRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -303,6 +345,24 @@ export type ExportTddRequestDto = {
   branchId: string
   originIds: string[]
 }
+export type ExportUrineRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
+export type ExportHcgRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
+export type ExportPapRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
 export const {
   useReportQuerySoNhanMauQuery,
   useLazyReportQuerySoNhanMauQuery,
@@ -310,4 +370,7 @@ export const {
   useReportExportSinhHoaMutation,
   useReportExportSoiNhuomMutation,
   useReportExportTddMutation,
+  useReportExportUrineMutation,
+  useReportExportHcgMutation,
+  useReportExportPapMutation,
 } = injectedRtkApi

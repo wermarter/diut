@@ -9,7 +9,7 @@ export class SampleTypeCreateRequestDto {
   @Expose()
   @ApiProperty(exampleSampleType.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

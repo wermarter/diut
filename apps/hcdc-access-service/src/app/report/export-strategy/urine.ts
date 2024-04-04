@@ -7,8 +7,10 @@ import { TableConfig } from './common'
 import { AbstractReportExportStrategy } from './abstract-strategy'
 import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
 import { BranchAssertExistsUseCase } from 'src/app/branch'
+import { EEntityNotFound } from 'src/domain'
+import { PatientTypeSearchUseCase } from 'src/app/patient-type'
 
-export type ReportExportSinhHoaStrategyInput = {
+export type ReportExportUrineStrategyInput = {
   fromDate: string
   toDate: string
   branchId: string
@@ -16,13 +18,14 @@ export type ReportExportSinhHoaStrategyInput = {
 }
 
 @Injectable({ scope: Scope.TRANSIENT })
-export class ReportExportSinhHoaStrategy extends AbstractReportExportStrategy<
-  ReportExportSinhHoaStrategyInput,
+export class ReportExportUrineStrategy extends AbstractReportExportStrategy<
+  ReportExportUrineStrategyInput,
   unknown
 > {
   constructor(
     private readonly reportQueryExportDataUseCase: ReportQueryExportDataUseCase,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
+    private readonly patientTypeSearchUseCase: PatientTypeSearchUseCase,
   ) {
     super()
   }
@@ -32,31 +35,42 @@ export class ReportExportSinhHoaStrategy extends AbstractReportExportStrategy<
       _id: this.options.branchId,
     })
 
+    const testIds = reportConfig[ReportType.Urine]?.testIds
+    if (testIds === undefined || testIds.length !== 1) {
+      throw new EEntityNotFound(
+        `branchId=${this.options.branchId} missing reportConfig for ${ReportType.Urine}`,
+      )
+    }
+
     const { samples, tests } = await this.reportQueryExportDataUseCase.execute({
       fromDate: this.options.fromDate,
       toDate: this.options.toDate,
       branchId: this.options.branchId,
       originIds: this.options.originIds,
-      testIds: reportConfig[ReportType.SinhHoa]?.testIds ?? [],
+      testIds,
     })
+
+    const { items: patientTypes } = await this.patientTypeSearchUseCase.execute(
+      {
+        filter: { branchId: this.options.branchId },
+        projection: { name: 1, _id: 1 },
+      },
+    )
+    const patientTypeMap = new Map(patientTypes.map((pt) => [pt._id, pt]))
 
     return {
       items: samples,
-      testColumnGroups: tests.map(({ name, elements }) => ({
-        groupName: name,
-        columns: elements.map(({ _id }) => ({ columnId: _id })),
-      })),
-      tests,
+      test: tests[0],
+      patientTypeMap,
     }
   }
 
   async prepareTableConfig(): Promise<TableConfig<Sample>> {
-    const { items, testColumnGroups, tests } = await this.fetchData()
+    const { test, items, patientTypeMap } = await this.fetchData()
 
     return {
-      name: `3 So KQ SH-HH-MD (${format(parseISO(this.options.fromDate), DATEONLY_FORMAT.replaceAll('/', '_'))} - ${format(parseISO(this.options.toDate), DATEONLY_FORMAT.replaceAll('/', '_'))}).xlsx`,
+      name: `5 SO XN Urine 10 thong so (${format(parseISO(this.options.fromDate), DATEONLY_FORMAT.replaceAll('/', '_'))} - ${format(parseISO(this.options.toDate), DATEONLY_FORMAT.replaceAll('/', '_'))}).xlsx`,
       items,
-      columnGroups: testColumnGroups,
       dateNF: DATETIME_FORMAT,
       columns: [
         {
@@ -102,19 +116,25 @@ export class ReportExportSinhHoaStrategy extends AbstractReportExportStrategy<
               : ''
           },
         },
-        ...tests.flatMap(({ _id: testId, elements }) =>
-          elements.map(({ _id: elementId, name }) => ({
-            columnId: elementId,
-            columnName: name,
-            valueGetter(item: Sample) {
-              const testResult = item.results.find((r) => r.testId === testId)
-              const elementResult = testResult?.elements.find(
-                (r) => r.testElementId === elementId,
-              )
-              return elementResult?.value ?? ''
-            },
-          })),
-        ),
+        {
+          columnId: 'patientType',
+          columnName: 'Đối tượng',
+          valueGetter(item) {
+            return patientTypeMap.get(item.patientTypeId)?.name
+          },
+        },
+        ...test.elements.map(({ _id, name }) => ({
+          columnId: _id,
+          columnName: name,
+          valueGetter(item: Sample) {
+            const testResult = item.results.find((r) => r.testId === test._id)
+            const elementResult = testResult?.elements.find(
+              (r) => r.testElementId === _id,
+            )
+
+            return elementResult?.value ?? ''
+          },
+        })),
         {
           columnId: 'note',
           columnName: 'Ghi chú',

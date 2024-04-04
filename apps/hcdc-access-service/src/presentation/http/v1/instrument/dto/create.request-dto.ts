@@ -9,7 +9,7 @@ export class InstrumentCreateRequestDto {
   @Expose()
   @ApiProperty(exampleInstrument.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()

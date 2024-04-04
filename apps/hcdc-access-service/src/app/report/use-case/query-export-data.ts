@@ -64,7 +64,7 @@ export class ReportQueryExportDataUseCase {
 
     for (const test of tests) {
       const { items } = await this.testElementSearchUseCase.execute({
-        filter: { testId: test._id },
+        filter: { testId: test._id, reportIndex: { $gt: 0 } },
         sort: { reportIndex: 1 },
       })
       test.elements = items

@@ -9,7 +9,7 @@ export class PatientTypeCreateRequestDto {
   @Expose()
   @ApiProperty(examplePatientType.displayIndex)
   @IsNumber()
-  @Min(1)
+  @Min(0)
   displayIndex: number
 
   @Expose()
