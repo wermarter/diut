@@ -68,6 +68,7 @@ import {
   urlSoNhanMauPage,
   urlReportExportPage,
 } from 'src/features/report'
+import { ManageUserPage, urlManageUserPage } from 'src/features/user'
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -120,6 +121,10 @@ export const appRoutes: CustomRouteObject[] = [
         path: urlManageTestElementPage(),
         element: <ManageTestElementPage />,
         loader: manageTestElementPageLoader,
+      },
+      {
+        path: urlManageUserPage(),
+        element: <ManageUserPage />,
       },
       // ------------------------------------------------------------------------
       {

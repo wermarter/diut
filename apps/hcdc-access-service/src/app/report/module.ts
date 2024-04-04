@@ -17,6 +17,16 @@ import { ReportExportHCGStrategy } from './export-strategy/hcg'
 import { ReportExportHCGUseCase } from './use-case/export-hcg'
 import { ReportExportPapStrategy } from './export-strategy/pap'
 import { ReportExportPapUseCase } from './use-case/export-pap'
+import { ReportExportThinprepUseCase } from './use-case/export-thinprep'
+import { ReportExportThinprepStrategy } from './export-strategy/thinprep'
+import { ReportExportHIVStrategy } from './export-strategy/hiv'
+import { ReportExportHIVUseCase } from './use-case/export-hiv'
+import { ReportExportCTMUseCase } from './use-case/export-ctm'
+import { ReportExportCTMStrategy } from './export-strategy/ctm'
+import { ReportExportTraKQStrategy } from './export-strategy/tra-kq'
+import { ReportExportTraKQUseCase } from './use-case/export-tra-kq'
+import { ReportExportGiaoNhanUseCase } from './use-case/export-giao-nhan'
+import { ReportExportGiaoNhanStrategy } from './export-strategy/giao-nhan'
 
 export const reportMetadata: ModuleMetadata = {
   providers: [
@@ -28,6 +38,11 @@ export const reportMetadata: ModuleMetadata = {
     ReportExportUrineStrategy,
     ReportExportHCGStrategy,
     ReportExportPapStrategy,
+    ReportExportThinprepStrategy,
+    ReportExportHIVStrategy,
+    ReportExportCTMStrategy,
+    ReportExportTraKQStrategy,
+    ReportExportGiaoNhanStrategy,
 
     ReportQuerySoNhanMauUseCase,
     ReportExportSoNhanMauUseCase,
@@ -38,5 +53,10 @@ export const reportMetadata: ModuleMetadata = {
     ReportExportUrineUseCase,
     ReportExportHCGUseCase,
     ReportExportPapUseCase,
+    ReportExportThinprepUseCase,
+    ReportExportHIVUseCase,
+    ReportExportCTMUseCase,
+    ReportExportTraKQUseCase,
+    ReportExportGiaoNhanUseCase,
   ],
 }

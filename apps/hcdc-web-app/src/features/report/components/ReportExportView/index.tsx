@@ -8,9 +8,20 @@ import { ExportTddButton } from '../ExportTDDButton'
 import { ExportUrineButton } from '../ExportUrineButton'
 import { ExportHCGButton } from '../ExportHCGButton'
 import { ExportPapButton } from '../ExportPapButton'
+import { ExportThinprepButton } from '../ExportThinprepButton'
+import { ExportHIVButton } from '../ExportHIVButton'
+import { ExportCTMButton } from '../ExportCTMButton'
+import { ExportTraKqButton } from '../ExportTraKqButton'
+import { ExportGiaoNhanButton } from '../ExportGiaoNhanButton'
+import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
+import { TestComboResponseDto } from 'src/infra/api/access-service/test-combo'
+import { TestResponseDto } from 'src/infra/api/access-service/test'
 
 export type ReportExportViewProps = {
   origins: BranchResponseDto[]
+  patientTypes: PatientTypeResponseDto[]
+  testCombos: TestComboResponseDto[]
+  tests: TestResponseDto[]
 }
 
 export function ReportExportView(props: ReportExportViewProps) {
@@ -38,15 +49,34 @@ export function ReportExportView(props: ReportExportViewProps) {
           <Grid xs={4}>
             <ExportPapButton origins={props.origins} />
           </Grid>
-          <Grid xs={4}>{/* <ExportThinPrep /> */}</Grid>
-          <Grid xs={4}>{/* <ExportHIV /> */}</Grid>
-          <Grid xs={4}>{/* <ExportCTM /> */}</Grid>
+          <Grid xs={4}>
+            <ExportThinprepButton origins={props.origins} />
+          </Grid>
+          <Grid xs={4}>
+            <ExportHIVButton origins={props.origins} />
+          </Grid>
+          <Grid xs={4}>
+            <ExportCTMButton origins={props.origins} />
+          </Grid>
         </Grid>
       </Paper>
       <Paper variant="outlined" sx={{ p: 2, my: 2 }}>
         <Grid container spacing={2}>
-          <Grid xs={6}>{/* <ExportTraKQ /> */}</Grid>
-          <Grid xs={6}>{/* <ExportGiaoNhanMau /> */}</Grid>
+          <Grid xs={6}>
+            <ExportTraKqButton
+              origins={props.origins}
+              patientTypes={props.patientTypes}
+              testCombos={props.testCombos}
+              tests={props.tests}
+            />
+          </Grid>
+          <Grid xs={6}>
+            <ExportGiaoNhanButton
+              origins={props.origins}
+              testCombos={props.testCombos}
+              tests={props.tests}
+            />
+          </Grid>
         </Grid>
       </Paper>
     </Box>

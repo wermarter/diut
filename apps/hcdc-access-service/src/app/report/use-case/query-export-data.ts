@@ -55,7 +55,7 @@ export class ReportQueryExportDataUseCase {
         testIds.push(...testCombo.testIds)
       })
     }
-    testIds = Array.from(new Set(input.testIds))
+    testIds = Array.from(new Set(testIds))
 
     const { items: tests } = (await this.testSearchUseCase.execute({
       filter: { _id: { $in: testIds } },

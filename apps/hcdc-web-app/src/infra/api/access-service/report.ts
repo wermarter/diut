@@ -102,6 +102,66 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['v1-reports'],
       }),
+      reportExportThinprep: build.mutation<
+        ReportExportThinprepApiResponse,
+        ReportExportThinprepApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/thinprep/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportHiv: build.mutation<
+        ReportExportHivApiResponse,
+        ReportExportHivApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/hiv/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportCtm: build.mutation<
+        ReportExportCtmApiResponse,
+        ReportExportCtmApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/ctm/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportTraKq: build.mutation<
+        ReportExportTraKqApiResponse,
+        ReportExportTraKqApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/tra-kq/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
+      reportExportGiaoNhan: build.mutation<
+        ReportExportGiaoNhanApiResponse,
+        ReportExportGiaoNhanApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/reports/giao-nhan/export`,
+          method: 'POST',
+          body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'download' }),
+        }),
+        invalidatesTags: ['v1-reports'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -123,6 +183,16 @@ export type ReportExportHcgApiResponse = unknown
 export type ReportExportHcgApiArg = ExportHcgRequestDto
 export type ReportExportPapApiResponse = unknown
 export type ReportExportPapApiArg = ExportPapRequestDto
+export type ReportExportThinprepApiResponse = unknown
+export type ReportExportThinprepApiArg = ExportThinprepRequestDto
+export type ReportExportHivApiResponse = unknown
+export type ReportExportHivApiArg = ExportHivRequestDto
+export type ReportExportCtmApiResponse = unknown
+export type ReportExportCtmApiArg = ExportCtmRequestDto
+export type ReportExportTraKqApiResponse = unknown
+export type ReportExportTraKqApiArg = ExportTraKqRequestDto
+export type ReportExportGiaoNhanApiResponse = unknown
+export type ReportExportGiaoNhanApiArg = ExportGiaoNhanRequestDto
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -363,6 +433,41 @@ export type ExportPapRequestDto = {
   branchId: string
   originIds: string[]
 }
+export type ExportThinprepRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
+export type ExportHivRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
+export type ExportCtmRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+}
+export type ExportTraKqRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+  patientTypeIds: string[]
+  testIds: string[]
+  testComboIds: string[]
+}
+export type ExportGiaoNhanRequestDto = {
+  fromDate: string
+  toDate: string
+  branchId: string
+  originIds: string[]
+  testIds: string[]
+  testComboIds: string[]
+}
 export const {
   useReportQuerySoNhanMauQuery,
   useLazyReportQuerySoNhanMauQuery,
@@ -373,4 +478,9 @@ export const {
   useReportExportUrineMutation,
   useReportExportHcgMutation,
   useReportExportPapMutation,
+  useReportExportThinprepMutation,
+  useReportExportHivMutation,
+  useReportExportCtmMutation,
+  useReportExportTraKqMutation,
+  useReportExportGiaoNhanMutation,
 } = injectedRtkApi

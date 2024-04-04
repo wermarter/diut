@@ -52,4 +52,29 @@ export const reportRoutes = {
     method: RequestMethod.POST,
     code: HttpStatus.OK,
   },
+  exportThinprep: {
+    path: 'thinprep/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
+  exportHIV: {
+    path: 'hiv/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
+  exportCTM: {
+    path: 'ctm/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
+  exportTraKQ: {
+    path: 'tra-kq/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
+  exportGiaoNhan: {
+    path: 'giao-nhan/export',
+    method: RequestMethod.POST,
+    code: HttpStatus.OK,
+  },
 } satisfies Record<string, CustomHttpRouteOptions>

@@ -29,4 +29,22 @@ export class ReportRequestDto {
   @IsArray()
   @IsObjectId({ each: true })
   originIds: string[]
+
+  @Expose()
+  @ApiProperty(exampleMongoObjectIds)
+  @IsArray()
+  @IsObjectId({ each: true })
+  patientTypeIds: string[]
+
+  @Expose()
+  @ApiProperty(exampleMongoObjectIds)
+  @IsArray()
+  @IsObjectId({ each: true })
+  testIds: string[]
+
+  @Expose()
+  @ApiProperty(exampleMongoObjectIds)
+  @IsArray()
+  @IsObjectId({ each: true })
+  testComboIds: string[]
 }

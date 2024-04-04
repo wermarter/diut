@@ -1,3 +1,5 @@
+import { allTestReportSortComparator } from '@diut/hcdc'
+
 import { appStore } from 'src/infra/redux'
 import {
   fetchPatientTypes,
@@ -24,7 +26,7 @@ export const reportExportPageLoader = async () => {
   ])
 
   return {
-    tests: testRes.items,
+    tests: testRes.items.toSorted(allTestReportSortComparator),
     testCombos: testComboRes.items,
     patientTypes: patientTypeRes.items,
     origins: originRes.items,

@@ -21,5 +21,12 @@ export function ReportExportPage() {
     revalidator.revalidate()
   }, [branchId])
 
-  return <ReportExportView origins={origins} />
+  return (
+    <ReportExportView
+      origins={origins}
+      patientTypes={patientTypes}
+      testCombos={testCombos}
+      tests={tests}
+    />
+  )
 }

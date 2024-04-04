@@ -2,6 +2,8 @@ import { utils } from 'xlsx'
 
 import { IReportExportStrategy, TableConfig } from './common'
 
+export const SKIP_LINE_EXCEPTION = 'SKIP_LINE_EXCEPTION'
+
 /**
  * Child class must be Transient scope and resolved with ModuleRef because setOptions may cause race condition
  */
@@ -54,14 +56,28 @@ export abstract class AbstractReportExportStrategy<TOptions, TItem>
 
     items.forEach((item, index) => {
       const row: unknown[] = []
+      let shouldSkip = false
+
       for (const column of columns) {
         if (column.valueGetter) {
-          row.push(column.valueGetter(item) ?? '')
+          try {
+            row.push(column.valueGetter(item) ?? '')
+          } catch (e) {
+            if (e === SKIP_LINE_EXCEPTION) {
+              shouldSkip = true
+              break
+            } else {
+              throw e
+            }
+          }
         } else {
           row.push((index + 1).toString())
         }
       }
-      aoa.push(row)
+
+      if (!shouldSkip) {
+        aoa.push(row)
+      }
     })
 
     aoa.push(columns.map((c) => c.summaryGetter?.() ?? ''))

@@ -42,6 +42,7 @@ import {
 } from 'src/features/sample-result'
 import { urlPatientSearchPage } from 'src/features/patient'
 import { urlReportExportPage, urlSoNhanMauPage } from 'src/features/report'
+import { urlManageUserPage } from 'src/features/user'
 
 export const drawerItems: DrawerItemGroup[] = [
   {
@@ -139,7 +140,7 @@ export const drawerItems: DrawerItemGroup[] = [
       {
         icon: <ManageAccountsIcon />,
         label: 'Người dùng',
-        destination: 'manage/users',
+        destination: urlManageUserPage(),
         isAuthorized: authOneOf([
           { subject: AuthSubject.User, action: AUTH_ACTION_ALL },
         ]),

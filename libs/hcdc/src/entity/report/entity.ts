@@ -8,6 +8,11 @@ export enum ReportType {
   Urine = 'Urine',
   HCG = 'HCG',
   Pap = 'Pap',
+  Thinprep = 'Thinprep',
+  HIV = 'HIV',
+  CTM = 'CTM',
+  TraKQ = 'TraKQ',
+  GiaoNhan = 'GiaoNhan',
 }
 
 export const ReportTypeValues = stringEnumValues(ReportType)
