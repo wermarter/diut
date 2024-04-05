@@ -11,12 +11,11 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-  Box,
   FormControl,
-  InputLabel,
   Select,
 } from '@mui/material'
 import { useNavigation, useRevalidator } from 'react-router-dom'
+import { BranchType } from '@diut/hcdc'
 
 import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
 import { ChangePassword, authSlice } from 'src/features/auth'
@@ -86,7 +85,11 @@ export function AppBar({ drawerWidth }: AppBarProps) {
             }}
           >
             {branches?.map((branch) => (
-              <MenuItem key={branch._id} value={branch._id}>
+              <MenuItem
+                key={branch._id}
+                value={branch._id}
+                dense={branch.type === BranchType.External}
+              >
                 {branch.name}
               </MenuItem>
             ))}

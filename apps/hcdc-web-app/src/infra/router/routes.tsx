@@ -68,7 +68,11 @@ import {
   urlSoNhanMauPage,
   urlReportExportPage,
 } from 'src/features/report'
-import { ManageUserPage, urlManageUserPage } from 'src/features/user'
+import {
+  ManageUserPage,
+  manageUserPageLoader,
+  urlManageUserPage,
+} from 'src/features/user'
 
 export const appRoutes: CustomRouteObject[] = [
   {
@@ -125,6 +129,7 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: urlManageUserPage(),
         element: <ManageUserPage />,
+        loader: manageUserPageLoader,
       },
       // ------------------------------------------------------------------------
       {

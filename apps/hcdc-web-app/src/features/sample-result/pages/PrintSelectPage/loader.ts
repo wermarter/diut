@@ -1,3 +1,5 @@
+import { allTestSortComparator } from '@diut/hcdc'
+
 import { appStore } from 'src/infra/redux'
 import {
   fetchPatientTypes,
@@ -7,7 +9,6 @@ import {
   fetchTests,
 } from 'src/infra/api'
 import { authSlice } from 'src/features/auth'
-import { allTestSortComparator } from '@diut/hcdc'
 
 export type PrintSelectPageQuery = {
   patientId?: string

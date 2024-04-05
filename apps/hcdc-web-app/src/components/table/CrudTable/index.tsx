@@ -130,7 +130,12 @@ export function CrudTable<R extends GridValidRowModel>({
   }
 
   const processRowUpdate = async (newRow: R, oldRow: R) => {
-    trimObjectValues(newRow)
+    try {
+      trimObjectValues(newRow)
+    } catch (e) {
+      console.error(e)
+    }
+
     if (newRow[itemIdField] === newItemId) {
       if (onItemCreate != undefined) {
         await onItemCreate(newRow)

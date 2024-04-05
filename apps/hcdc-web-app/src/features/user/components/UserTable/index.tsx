@@ -6,12 +6,17 @@ import {
   useUserSearchQuery,
   useUserUpdateByIdMutation,
   useLazyUserSearchQuery,
+  UserResponseDto,
 } from 'src/infra/api/access-service/user'
 import { CrudTable } from 'src/components/table'
-import { userColumns } from './columns'
+import { useUserColumns } from './columns'
 import { usePagination } from 'src/shared/hooks'
 import { useTypedSelector } from 'src/infra/redux'
 import { ChangePassword, authSlice } from 'src/features/auth'
+import { RoleResponseDto } from 'src/infra/api/access-service/role'
+import { UserRoleSelector } from '../UserRoleSelector'
+import { UserBranchSelector } from '../UserBranchSelector'
+import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 
 const USER_DEFAULT_PASSWORD = 'password'
 
@@ -20,6 +25,9 @@ type UserTableProps = {
   pageSize: number
   setPage: (page: number) => void
   setPageSize: (pageSize: number) => void
+  roleMap: Map<string, RoleResponseDto>
+  roles: RoleResponseDto[]
+  branches: BranchResponseDto[]
 }
 
 export function UserTable(props: UserTableProps) {
@@ -31,6 +39,8 @@ export function UserTable(props: UserTableProps) {
     filter: { branchIds: branchId },
   })
 
+  const [searchUsers] = useLazyUserSearchQuery()
+  const { data, isFetching } = useUserSearchQuery(filterObj)
   useEffect(() => {
     if (branchId) {
       setFilterObj((prev) => ({
@@ -43,14 +53,18 @@ export function UserTable(props: UserTableProps) {
     }
   }, [branchId])
 
-  const { data, isFetching } = useUserSearchQuery(filterObj)
-  const [searchUsers] = useLazyUserSearchQuery()
-
   const [createUser, { isLoading: isCreating }] = useUserCreateMutation()
   const [updateUser, { isLoading: isUpdating }] = useUserUpdateByIdMutation()
   const [deleteUser, { isLoading: isDeleting }] = useUserDeleteByIdMutation()
 
-  const [openChangePassword, setOpenChangePassword] = useState('')
+  const [changePassword, setChangePassword] = useState('')
+  const [manageUserRole, setManageUserRole] = useState<UserResponseDto | null>(
+    null,
+  )
+  const [manageUserBranch, setManageUserBranch] =
+    useState<UserResponseDto | null>(null)
+
+  const userColumns = useUserColumns(props.roleMap)
 
   return (
     <>
@@ -93,18 +107,44 @@ export function UserTable(props: UserTableProps) {
         }}
         customRowActions={[
           {
-            label: 'Đổi mật khẩu',
+            label: 'Phân quyền',
             action: (item) => {
-              setOpenChangePassword(item._id)
+              setManageUserRole(item)
+            },
+          },
+          {
+            label: 'Chi nhánh',
+            action: (item) => {
+              setManageUserBranch(item)
+            },
+          },
+          {
+            label: 'Mật khẩu',
+            action: (item) => {
+              setChangePassword(item._id)
             },
           },
         ]}
       />
       <ChangePassword
-        open={Boolean(openChangePassword)}
-        userId={openChangePassword}
+        open={Boolean(changePassword)}
+        userId={changePassword}
         onClose={() => {
-          setOpenChangePassword('')
+          setChangePassword('')
+        }}
+      />
+      <UserRoleSelector
+        user={manageUserRole}
+        branchRoles={props.roles}
+        onClose={() => {
+          setManageUserRole(null)
+        }}
+      />
+      <UserBranchSelector
+        user={manageUserBranch}
+        branches={props.branches}
+        onClose={() => {
+          setManageUserBranch(null)
         }}
       />
     </>

@@ -1,8 +1,16 @@
+export * from './loader'
 import { useCallback, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import {
+  useLoaderData,
+  useRevalidator,
+  useSearchParams,
+} from 'react-router-dom'
 
 import { UserTable } from '../../components'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { manageUserPageLoader } from './loader'
+import { useTypedSelector } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'
@@ -12,6 +20,15 @@ export function urlManageUserPage() {
 }
 
 export function ManageUserPage() {
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
+  const { roleMap, roles, branches } = useLoaderData() as Awaited<
+    ReturnType<typeof manageUserPageLoader>
+  >
+  const revalidator = useRevalidator()
+  useEffect(() => {
+    revalidator.revalidate()
+  }, [branchId])
+
   const [searchParams, setSearchParams] = useSearchParams({
     [PARAM_PAGE]: '0',
     [PARAM_PAGE_SIZE]: ROWS_PER_PAGE_OPTIONS[0].toString(),
@@ -41,6 +58,9 @@ export function ManageUserPage() {
         pageSize={parseInt(pageSize)}
         setPage={setPage}
         setPageSize={setPageSize}
+        roleMap={roleMap}
+        roles={roles}
+        branches={branches}
       />
     </>
   )

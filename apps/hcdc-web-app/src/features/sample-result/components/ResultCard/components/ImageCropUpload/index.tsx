@@ -110,7 +110,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
       open={!!props.imagePaths}
       onClose={props.onClose}
       title={props.title ?? ''}
-      disableClickOutside={false}
+      disableClickOutside={isUploading}
     >
       <Box
         sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, m: 1 }}

@@ -50,6 +50,10 @@ export function trimObjectValues<T extends { [key: string]: any }>(obj: T) {
   for (const key in obj) {
     if (typeof obj[key] === 'string') {
       obj[key] = obj[key].trim()
+    } else if (Array.isArray(obj[key])) {
+      obj[key] = obj[key].map((item: unknown) => {
+        return typeof item === 'string' ? item.trim() : trimObjectValues(item)
+      })
     } else if (typeof obj[key] === 'object') {
       trimObjectValues(obj[key])
     }

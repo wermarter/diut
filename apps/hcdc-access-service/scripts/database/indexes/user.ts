@@ -3,8 +3,8 @@ import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 import { SchemaFactory } from '@nestjs/mongoose'
 
-import { SampleSchema } from 'src/infra/mongo/sample'
 import { COLLECTION } from 'src/infra'
+import { UserSchema } from 'src/infra/mongo/user'
 dotenv.config()
 
 mongoose.set('debug', true)
@@ -15,14 +15,14 @@ async function main() {
   ])
   console.log('DB connected')
 
-  const schema = SchemaFactory.createForClass(SampleSchema)
-  const model = destDB.model(COLLECTION.SAMPLE, schema)
+  const schema = SchemaFactory.createForClass(UserSchema)
+  const model = destDB.model(COLLECTION.USER, schema)
 
   await model.collection.createIndex(
-    { sampleId: 1, branchId: 1 },
+    { username: 1 },
     {
       unique: true,
-      partialFilterExpression: <mongoose.FilterQuery<SampleSchema>>{
+      partialFilterExpression: <mongoose.FilterQuery<UserSchema>>{
         isDeleted: false,
       },
     },

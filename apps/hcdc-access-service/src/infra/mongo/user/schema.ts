@@ -31,7 +31,7 @@ import { RoleSchema } from '../role'
   },
 })
 export class UserSchema extends BaseSchema {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   username: string
 
   @Prop({ required: true })

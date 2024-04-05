@@ -1,28 +1,58 @@
 import { GridColDef } from '@mui/x-data-grid'
+import { identity } from 'lodash'
 
+import { RoleResponseDto } from 'src/infra/api/access-service/role'
 import { UserResponseDto } from 'src/infra/api/access-service/user'
 
-export const userColumns: GridColDef<UserResponseDto>[] = [
-  {
-    field: 'name',
-    headerName: 'Tên',
-    flex: 1,
-    minWidth: 200,
-    sortable: false,
-    editable: true,
-  },
-  {
-    field: 'username',
-    headerName: 'Tên đăng nhập',
-    width: 150,
-    sortable: false,
-    editable: true,
-  },
-  {
-    field: 'phoneNumber',
-    headerName: 'Điện thoại',
-    width: 120,
-    sortable: false,
-    editable: true,
-  },
-]
+export const useUserColumns = (
+  roleMap: Map<string, RoleResponseDto>,
+): GridColDef<UserResponseDto>[] => {
+  return [
+    {
+      field: 'branches',
+      headerName: 'Chi nhánh',
+      minWidth: 100,
+      sortable: false,
+      editable: false,
+      valueGetter: ({ row }) => {
+        return (row.branchIds ?? []).length
+      },
+    },
+    {
+      field: 'name',
+      headerName: 'Tên',
+      flex: 1,
+      minWidth: 200,
+      sortable: false,
+      editable: true,
+    },
+    {
+      field: 'username',
+      headerName: 'Tên đăng nhập',
+      width: 150,
+      sortable: false,
+      editable: true,
+    },
+    {
+      field: 'phoneNumber',
+      headerName: 'Điện thoại',
+      width: 120,
+      sortable: false,
+      editable: true,
+    },
+    {
+      field: 'roleIds',
+      headerName: 'Phân quyền',
+      minWidth: 200,
+      flex: 1,
+      sortable: false,
+      editable: false,
+      valueGetter: ({ row }) => {
+        return (row.roleIds ?? [])
+          .map((roleId) => roleMap.get(roleId)?.name)
+          .filter(identity)
+          .join(', ')
+      },
+    },
+  ]
+}

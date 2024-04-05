@@ -5,6 +5,7 @@ import { doctorApi } from './doctor'
 import { instrumentApi } from './instrument'
 import { patientTypeApi } from './patient-type'
 import { printFormApi } from './print-form'
+import { roleApi } from './role'
 import { sampleTypeApi } from './sample-type'
 import { testApi } from './test'
 import { testCategoryApi } from './test-category'
@@ -82,6 +83,19 @@ export function fetchSampleTypes(branchId: string) {
   return sampleTypeApi.endpoints.sampleTypeSearch.initiate({
     sort: { displayIndex: 1 },
     filter: { branchId },
+  })
+}
+
+export function fetchRoles(branchId: string) {
+  return roleApi.endpoints.roleSearch.initiate({
+    sort: { displayIndex: 1 },
+    filter: { branchId },
+  })
+}
+
+export function fetchBranches() {
+  return branchApi.endpoints.branchSearch.initiate({
+    sort: { displayIndex: 1 },
   })
 }
 
