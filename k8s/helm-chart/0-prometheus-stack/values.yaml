@@ -43,7 +43,7 @@ kube-prometheus-stack:
           targetLabel: instance
 
   kubeControllerManager:
-    enabled: true
+    enabled: false
 
   coreDns:
     enabled: true
@@ -55,10 +55,10 @@ kube-prometheus-stack:
     enabled: false
 
   kubeScheduler:
-    enabled: true
+    enabled: false
 
   kubeProxy:
-    enabled: true
+    enabled: false
 
   kubeStateMetrics:
     enabled: true
@@ -132,7 +132,7 @@ kube-prometheus-stack:
       replicaExternalLabelName: 'replica'
       volumeClaimTemplate:
         spec:
-          storageClassName: ''
+          storageClassName: 'local-path'
           accessModes: ['ReadWriteOnce']
           resources:
             requests:

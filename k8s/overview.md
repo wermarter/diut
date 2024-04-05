@@ -1,4 +1,4 @@
 observability: loki, prometheus-stack
 diut: mongodb, minio
-diut-hcdc: access-service, web-app
+diut-hcdc: hcdc-access-service, hcdc-web-app
 core: argocd

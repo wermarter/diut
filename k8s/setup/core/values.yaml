@@ -12,3 +12,7 @@ argo-cd:
   #       traefik.ingress.kubernetes.io/router.entrypoints: web
   crds:
     keep: false
+  notifications:
+    enabled: false
+  dex:
+    enabled: false
