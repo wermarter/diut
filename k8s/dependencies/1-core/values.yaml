@@ -1,0 +1,11 @@
+argo-cd:
+  fullnameOverride: argocd
+  configs:
+    params:
+      server.insecure: true
+  crds:
+    keep: true
+  notifications:
+    enabled: false
+  dex:
+    enabled: false
