@@ -1,4 +1,7 @@
 #!/bin/bash
 
-helm uninstall -n observability prometheus-stack
-kubectl -n observability delete secret grafana-credentials
+kubectl=/snap/bin/kubectl
+
+$kubectl -n observability delete secret grafana-credentials
+
+$kubectl delete -f argocd-application.yaml
