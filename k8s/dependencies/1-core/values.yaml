@@ -9,3 +9,13 @@ argo-cd:
     enabled: false
   dex:
     enabled: false
+
+longhorn:
+  namespaceOverride: longhorn-system
+  longhornUI:
+    replicas: 1
+  persistence:
+    defaultClassReplicaCount: 1
+  defaultSettings:
+    backupTarget: s3://diut-lab@ap-southeast-1/longhorn-backup
+    backupTargetCredentialSecret: longhorn-backup-secret

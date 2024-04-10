@@ -2,5 +2,8 @@ dependencies:
 - name: argo-cd
   repository: https://argoproj.github.io/argo-helm
   version: 6.7.10
-digest: sha256:ebf4d24e30acd70240a3b7e88367d17e0b99e2505802dc710713251472dfb3ab
-generated: "2024-04-09T15:24:32.082612572Z"
+- name: longhorn
+  repository: https://charts.longhorn.io
+  version: 1.6.1
+digest: sha256:fbcce7f32462176d1910b5a4f2e0607e81451eb509a45215837806d58cdbed29
+generated: "2024-04-10T13:26:50.506510874+07:00"

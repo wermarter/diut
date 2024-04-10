@@ -22,7 +22,7 @@ kube-prometheus-stack:
       passwordKey: admin-password
     persistence:
       enabled: true
-      size: 4Gi
+      size: 1Gi
 
   kubeApiServer:
     enabled: true
@@ -125,22 +125,21 @@ kube-prometheus-stack:
     prometheusSpec:
       replicas: 1
       replicaExternalLabelName: 'replica'
-      volumeClaimTemplate:
-        spec:
-          storageClassName: 'local-path'
-          accessModes: ['ReadWriteOnce']
-          resources:
-            requests:
-              storage: 5Gi
-        selector:
-          matchLabels:
-            app: prometheus
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ['ReadWriteOnce']
+            resources:
+              requests:
+                storage: 1Gi
+          selector:
+            matchLabels:
+              app: prometheus
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
       retention: 30d
-      retentionSize: 5GB
       enableAdminAPI: true
       walCompression: true
       # additionalScrapeConfigs:

@@ -67,6 +67,7 @@ extra_server_args: >-
   --tls-san {{ apiserver_endpoint }}
   --disable servicelb
   --disable traefik
+  --disable local-storage
 
 extra_agent_args: >-
   {{ extra_args }}
@@ -97,7 +98,7 @@ metal_lb_speaker_tag_version: "v0.14.3"
 metal_lb_controller_tag_version: "v0.14.3"
 
 # metallb ip range for load balancer
-metal_lb_ip_range: "192.168.1.100-192.168.1.200"
+metal_lb_ip_range: "10.1.1.97/32"
 
 # Only enable if your nodes are proxmox LXC nodes, make sure to configure your proxmox nodes
 # in your hosts.ini file.

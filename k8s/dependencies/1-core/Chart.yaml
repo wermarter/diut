@@ -8,3 +8,6 @@ dependencies:
   - name: argo-cd
     repository: https://argoproj.github.io/argo-helm
     version: 6.7.10
+  - name: longhorn
+    repository: https://charts.longhorn.io
+    version: v1.6.1
