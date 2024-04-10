@@ -6,7 +6,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install ansible ansible-lint
 
 ssh-keygen -f ~/.ssh/localhost
-ssh-copy-id -i ~/.ssh/localhost.pub localhost
+ssh-copy-id -i ~/.ssh/localhost.pub labo2@localhost
 
 echo "Host localhost
   User labo2
