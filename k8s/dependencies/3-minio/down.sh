@@ -1,4 +1,7 @@
 #!/bin/bash
 
-helm uninstall -n diut minio
-kubectl -n diut delete secret minio-credentials
+kubectl=/snap/bin/kubectl
+
+$kubectl -n observability delete secret minio-credentials
+
+$kubectl delete -f argocd-application.yaml

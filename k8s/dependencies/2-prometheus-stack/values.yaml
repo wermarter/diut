@@ -3,19 +3,10 @@ kube-prometheus-stack:
 
   alertmanager:
     fullnameOverride: alertmanager
-    enabled: true
-    ingress:
-      enabled: false
 
   grafana:
-    enabled: true
     fullnameOverride: grafana
-    forceDeployDatasources: false
-    forceDeployDashboards: false
-    defaultDashboardsEnabled: true
-    defaultDashboardsTimezone: utc
-    serviceMonitor:
-      enabled: true
+    defaultDashboardsTimezone: browser
     admin:
       existingSecret: grafana-credentials
       userKey: admin-user
@@ -24,11 +15,7 @@ kube-prometheus-stack:
       enabled: true
       size: 1Gi
 
-  kubeApiServer:
-    enabled: true
-
   kubelet:
-    enabled: true
     serviceMonitor:
       metricRelabelings:
         - action: replace
@@ -63,7 +50,6 @@ kube-prometheus-stack:
             targetLabel: kubernetes_node
 
   nodeExporter:
-    enabled: true
     serviceMonitor:
       relabelings:
         - action: replace
@@ -88,8 +74,13 @@ kube-prometheus-stack:
     fullnameOverride: prometheus-operator
 
   prometheus:
+    serviceMonitor:
+      relabelings:
+        - sourceLabels:
+            - container
+          targetLabel: cluster
+          replacement: prometheus
     prometheusSpec:
-      replicas: 1
       replicaExternalLabelName: 'replica'
       storageSpec:
         volumeClaimTemplate:
@@ -98,9 +89,6 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 1Gi
-          selector:
-            matchLabels:
-              app: prometheus
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false

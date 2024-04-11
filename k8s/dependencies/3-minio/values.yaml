@@ -1,12 +1,6 @@
 minio:
   auth:
     existingSecret: minio-credentials
-  # ingress:
-  #   enabled: true
-  #   ingressClassName: traefik
-  #   hostname: minio.diut.svc.cluster.local
-  #   annotations:
-  #     traefik.ingress.kubernetes.io/router.entrypoints: web
   metrics:
     serviceMonitor:
       enabled: true
@@ -17,6 +11,7 @@ minio:
       namespace: observability
   persistence:
     size: 8Gi
+    storageClass: longhorn
   extraEnvVars:
     - name: MINIO_PROMETHEUS_URL
       value: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090

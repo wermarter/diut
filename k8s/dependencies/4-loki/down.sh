@@ -1,4 +1,7 @@
 #!/bin/bash
 
-helm uninstall -n observability loki
-kubectl -n observability delete secret loki-credentials
+kubectl=/snap/bin/kubectl
+
+$kubectl -n observability delete secret loki-credentials
+
+$kubectl delete -f argocd-application.yaml

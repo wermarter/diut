@@ -6,13 +6,14 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install ansible ansible-lint
 
 ssh-keygen -f ~/.ssh/labo3
-ssh-copy-id -i ~/.ssh/labo3.pub werma@labo3
-
 echo "Host labo3
   User werma
   Port 957
   IdentityFile ~/.ssh/labo3
   AddKeysToAgent yes" >> ~/.ssh/config
+
+ssh-copy-id -i ~/.ssh/labo3.pub werma@labo3
+
 ssh labo3
 
 ansible-playbook playbooks/prepare-k3s.yaml
