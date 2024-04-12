@@ -5,5 +5,8 @@ dependencies:
 - name: longhorn
   repository: https://charts.longhorn.io
   version: 1.6.1
-digest: sha256:fbcce7f32462176d1910b5a4f2e0607e81451eb509a45215837806d58cdbed29
-generated: "2024-04-10T13:26:50.506510874+07:00"
+- name: prometheus-operator-crds
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 11.0.0
+digest: sha256:296bb824de5225c5a00de7d395c451cede3ff041161f139b3a18f51761ff0073
+generated: "2024-04-12T13:37:03.583017814+07:00"

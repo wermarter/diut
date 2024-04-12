@@ -10,7 +10,7 @@ minio:
       enabled: true
       namespace: observability
   persistence:
-    size: 8Gi
+    size: 20Gi
     storageClass: longhorn
   extraEnvVars:
     - name: MINIO_PROMETHEUS_URL

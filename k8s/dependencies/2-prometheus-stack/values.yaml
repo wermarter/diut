@@ -1,6 +1,9 @@
 kube-prometheus-stack:
   fullnameOverride: prometheus-stack
 
+  crds:
+    enabled: false
+
   alertmanager:
     fullnameOverride: alertmanager
 
@@ -13,7 +16,7 @@ kube-prometheus-stack:
       passwordKey: admin-password
     persistence:
       enabled: true
-      size: 1Gi
+      size: 2Gi
 
   kubelet:
     serviceMonitor:
@@ -88,7 +91,7 @@ kube-prometheus-stack:
             accessModes: ['ReadWriteOnce']
             resources:
               requests:
-                storage: 1Gi
+                storage: 10Gi
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false

@@ -5,9 +5,9 @@ mongodb:
     existingSecret: mongodb-credentials
 
   architecture: replicaset
-  # replicaCount: 3
-  # arbiter:
-  #   enabled: false
+  replicaCount: 3
+  arbiter:
+    enabled: false
 
   metrics:
     enabled: true
