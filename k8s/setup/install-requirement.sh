@@ -40,3 +40,8 @@ ansible-playbook playbooks/prepare-k3s.yaml
 
 sudo snap install kubectl --classic
 sudo snap install helm --classic
+
+git clone https://github.com/techno-tim/k3s-ansible
+cd k3s-ansible && git checkout cb03ee829efc003844581cf6fbb2e04d57f3055e && cd ..
+
+mkdir ./k3s-ansible/inventory/my-cluster/
