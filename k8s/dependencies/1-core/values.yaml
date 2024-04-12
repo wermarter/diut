@@ -10,21 +10,6 @@ argo-cd:
   dex:
     enabled: false
 
-longhorn:
-  namespaceOverride: longhorn-system
-  longhornUI:
-    replicas: 2
-  persistence:
-    defaultClassReplicaCount: 2
-  csi:
-    attacherReplicaCount: 2
-    provisionerReplicaCount: 2
-    resizerReplicaCount: 2
-    snapshotterReplicaCount: 2
-  defaultSettings:
-    backupTarget: s3://diut-lab@ap-southeast-1/longhorn-backup
-    backupTargetCredentialSecret: longhorn-backup-secret
-
 prometheus-operator-crds:
   crds:
     annotations:

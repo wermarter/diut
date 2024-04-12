@@ -8,8 +8,5 @@ PARENT_DIR=$( dirname $SCRIPT_DIR )
 kubectl=/snap/bin/kubectl
 
 $kubectl create ns core
-$kubectl create ns longhorn-system
-
-$kubectl -n longhorn-system create secret generic longhorn-backup-secret --from-file=$SCRIPT_DIR/AWS_ACCESS_KEY_ID --from-file=$SCRIPT_DIR/AWS_SECRET_ACCESS_KEY
 $kubectl apply -f $SCRIPT_DIR/contour-gateway-provisioner.yaml
 helm upgrade --install -n core core $SCRIPT_DIR --render-subchart-notes

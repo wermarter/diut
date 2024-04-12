@@ -8,4 +8,4 @@ kubectl=/snap/bin/kubectl
 # echo -n 'admin' > admin-password
 $kubectl -n observability create secret generic grafana-credentials --from-file=$SCRIPT_DIR/admin-user --from-file=$SCRIPT_DIR/admin-password
 
-$kubectl apply -f argocd-application.yaml
+$kubectl apply -f $SCRIPT_DIR/argocd-application.yaml

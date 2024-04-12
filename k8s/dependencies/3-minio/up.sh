@@ -8,4 +8,4 @@ kubectl=/snap/bin/kubectl
 # echo -n 'minioadmin' > root-password
 $kubectl -n diut create secret generic minio-credentials --from-file=$SCRIPT_DIR/root-user --from-file=$SCRIPT_DIR/root-password
 
-$kubectl apply -f argocd-application.yaml
+$kubectl apply -f $SCRIPT_DIR/argocd-application.yaml

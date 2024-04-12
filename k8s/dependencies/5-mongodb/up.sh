@@ -8,4 +8,4 @@ kubectl=/snap/bin/kubectl
 openssl rand -base64 756 > $SCRIPT_DIR/mongodb-replica-set-key
 $kubectl -n diut create secret generic mongodb-credentials --from-file=$SCRIPT_DIR/mongodb-root-password --from-file=$SCRIPT_DIR/mongodb-replica-set-key
 
-$kubectl apply -f argocd-application.yaml
+$kubectl apply -f $SCRIPT_DIR/argocd-application.yaml
