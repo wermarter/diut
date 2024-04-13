@@ -64,10 +64,8 @@ loki:
   gateway:
     replicas: 1
     service:
-      annotations:
-        prometheus.io/service-monitor: false
       labels:
-        prometheus.io/service-monitor: false
+        prometheus.io/service-monitor: "false"
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
