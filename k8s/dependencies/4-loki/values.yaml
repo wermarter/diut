@@ -63,6 +63,11 @@ loki:
           name: loki-credentials
   gateway:
     replicas: 1
+    service:
+      annotations:
+        prometheus.io/service-monitor: false
+      labels:
+        prometheus.io/service-monitor: false
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
