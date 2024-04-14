@@ -13,7 +13,7 @@ spec:
   source:
     path: apps/browser-service/k8s/helm-chart
     repoURL: https://github.com/wermarter/diut
-    targetRevision: develop
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true

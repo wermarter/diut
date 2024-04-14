@@ -13,7 +13,7 @@ spec:
   source:
     path: k8s/dependencies/5-mongodb
     repoURL: https://github.com/wermarter/diut
-    targetRevision: develop
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
