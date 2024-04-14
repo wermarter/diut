@@ -1,1 +1,0 @@
-k3d cluster create cluster --api-port 6443 --agents 2 --image rancher/k3s:v1.28.2-k3s1

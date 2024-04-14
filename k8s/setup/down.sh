@@ -1,0 +1,1 @@
+ansible-playbook ./k3s-ansible/reset.yml -i ./k3s-ansible/inventory/my-cluster/hosts.ini

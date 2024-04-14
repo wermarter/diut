@@ -1,0 +1,9 @@
+dependencies:
+- name: argo-cd
+  repository: https://argoproj.github.io/argo-helm
+  version: 6.7.10
+- name: prometheus-operator-crds
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 11.0.0
+digest: sha256:40e8e6d7c65a83b07f05165f8363c0d90eb4701a83ffe4b67ba44496d7b1fbbe
+generated: "2024-04-12T16:26:28.612042765+07:00"

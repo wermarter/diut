@@ -1,0 +1,28 @@
+name: browser-service
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'libs/common/**'
+      - 'libs/nestjs-infra/**'
+      - 'libs/services/**'
+      - 'apps/browser-service/**'
+
+jobs:
+  j1:
+    uses: ./.github/workflows/docker-publish.yaml
+    with:
+      dockerfile-path: ./apps/browser-service/k8s/Dockerfile
+      docker-image-name: diut-browser-service
+    secrets: inherit
+
+  j2:
+    needs: j1
+    uses: ./.github/workflows/helm-appversion.yaml
+    with:
+      chart-path: ./apps/browser-service/k8s/helm-chart/Chart.yaml
+      identity: browser-service
+    secrets: inherit

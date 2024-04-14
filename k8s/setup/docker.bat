@@ -1,1 +1,0 @@
-start /w "" "Docker Desktop Installer.exe" install --installation-dir=C:\Users\werma\DockerDesktop

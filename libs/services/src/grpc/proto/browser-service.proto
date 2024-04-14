@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package diut;
+
+// Enum for paper formats supported by Puppeteer.
+enum PageFormat {
+  LETTER = 0; // 8.5in x 11in
+  LEGAL = 1; // 8.5in x 14in
+  TABLOID = 2; // 11in x 17in
+  LEDGER = 3; // 17in x 11in
+  A0 = 4; // 33.1in x 46.8in
+  A1 = 5; // 23.4in x 33.1in
+  A2 = 6; // 16.54in x 23.4in
+  A3 = 7; // 11.7in x 16.54in
+  A4 = 8; // 8.27in x 11.7in
+  A5 = 9; // 5.83in x 8.27in
+  A6 = 10; // 4.13in x 5.83in
+}
+
+enum PageOrientation {
+  Portrait = 0;
+  Landscape = 1;
+}
+
+message PrintPageRequest {
+  string html_content = 1;
+  PageFormat page_format = 2;
+  PageOrientation page_orientation = 3;
+}
+
+message PrintPageReply {
+  bytes merged_pdf = 1;
+}
+
+service BrowserService {
+  rpc PrintMultiplePage(stream PrintPageRequest) returns (PrintPageReply) {}
+}

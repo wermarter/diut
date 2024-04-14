@@ -1,0 +1,46 @@
+{
+  "name": "@diut/browser-service",
+  "description": "browser-service",
+  "repository": "https://github.com/wermarter/diut",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "rimraf dist && nest build",
+    "dev2": "nodemon --signal SIGTERM -r tsconfig-paths/register -w '../../libs/**/dist/' -w .env -w src src/main.ts",
+    "dev": "nest start --watch --preserveWatchOutput",
+    "lint": "tsc && rimraf dist",
+    "puppeteer:browser": "pnpx @puppeteer/browsers install chromium"
+  },
+  "dependencies": {
+    "@diut/common": "workspace:*",
+    "@diut/nestjs-infra": "workspace:*",
+    "@diut/services": "workspace:*",
+    "@nestjs/cli": "^10.3.2",
+    "@nestjs/common": "^10.3.3",
+    "@nestjs/config": "^3.2.0",
+    "@nestjs/core": "^10.3.3",
+    "@nestjs/microservices": "^10.3.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.4.4",
+    "lodash": "^4.17.21",
+    "pdf-lib": "^1.17.1",
+    "puppeteer-core": "^22.5.0",
+    "reflect-metadata": "^0.1.14",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/schematics": "^10.1.1",
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20.11.17",
+    "nodemon": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "source-map-support": "^0.5.21",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "5.3.3",
+    "webpack": "^5.90.1"
+  }
+}

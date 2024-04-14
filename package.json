@@ -10,10 +10,11 @@
     "node": "20"
   },
   "devDependencies": {
-    "prettier": "^3.1.0"
+    "prettier": "^3.2.5"
   },
   "scripts": {
     "dev": "pnpm --filter \"./libs/**\" run --parallel dev",
+    "lint": "pnpm run -r --parallel lint",
     "postinstall": "syncpack list-mismatches"
   },
   "dependencies": {

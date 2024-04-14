@@ -1,0 +1,57 @@
+{
+  "name": "@diut/hcdc-web-app",
+  "version": "1.0.0",
+  "description": "Web client for the project",
+  "repository": "https://github.com/wermarter/diut",
+  "author": "Ha Minh Chien <wermarter@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc",
+    "api:access-service": "npx @rtk-query/codegen-openapi api-codegen/access-service.cts"
+  },
+  "dependencies": {
+    "@diut/common": "workspace:*",
+    "@diut/hcdc": "workspace:*",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.3.4",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/lab": "5.0.0-alpha.152",
+    "@mui/material": "^5.15.10",
+    "@mui/x-data-grid": "^6.19.4",
+    "@reduxjs/toolkit": "^2.2.1",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-barcode": "^1.4.6",
+    "react-dom": "^18.2.0",
+    "react-easy-crop": "^5.0.5",
+    "react-hook-form": "^7.50.1",
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^6.22.3",
+    "react-to-print": "^2.15.0",
+    "react-toastify": "^9.1.3",
+    "redux-persist": "^6.0.0",
+    "vite": "^4.5.2",
+    "vite-tsconfig-paths": "^4.3.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@rtk-query/codegen-openapi": "^1.2.0",
+    "@types/lodash": "^4.14.202",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "dotenv": "^16.4.4",
+    "typescript": "5.3.3"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-x64": "^0.19.12"
+  }
+}

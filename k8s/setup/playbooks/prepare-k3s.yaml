@@ -1,0 +1,26 @@
+- name: K3s requirement
+  hosts: all
+  tasks:
+    - name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
+      become: true
+      ansible.builtin.shell: |
+        swapoff -a
+      changed_when: false
+
+    - name: Disable SWAP in fstab since kubernetes can't work with swap enabled (2/2)
+      become: true
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        replace: '# \1'
+
+    - name: Ensure python3-pip are installed
+      become: true
+      ansible.builtin.package:
+        name: python3-pip
+        state: present
+
+    - name: Install netaddr Python library
+      ansible.builtin.pip:
+        name: netaddr
+        state: present

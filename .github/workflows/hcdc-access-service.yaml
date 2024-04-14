@@ -1,0 +1,29 @@
+name: hcdc-access-service
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'libs/common/**'
+      - 'libs/nestjs-infra/**'
+      - 'libs/hcdc/**'
+      - 'libs/services/**'
+      - 'apps/hcdc-access-service/**'
+
+jobs:
+  j1:
+    uses: ./.github/workflows/docker-publish.yaml
+    with:
+      dockerfile-path: ./apps/hcdc-access-service/k8s/Dockerfile
+      docker-image-name: diut-hcdc-access-service
+    secrets: inherit
+
+  j2:
+    needs: j1
+    uses: ./.github/workflows/helm-appversion.yaml
+    with:
+      chart-path: ./apps/hcdc-access-service/k8s/helm-chart/Chart.yaml
+      identity: hcdc-access-service
+    secrets: inherit

@@ -1,0 +1,40 @@
+ARG APP_PATH=/usr/src/app
+
+###################
+# build
+###################
+
+FROM node:20-alpine AS build
+ARG APP_PATH
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack prepare pnpm@8.15.7 --activate && corepack enable
+
+COPY . ${APP_PATH}
+WORKDIR ${APP_PATH}
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
+RUN pnpm --filter "@diut/browser-service..." run build && pnpm prune --prod
+
+###################
+# runtime
+###################
+
+FROM node:20-alpine AS production
+ARG APP_PATH
+
+RUN apk add --no-cache tzdata tini chromium msttcorefonts-installer fontconfig && \
+    update-ms-fonts && \
+    fc-cache -f && \
+    cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime && \
+    echo "Asia/Ho_Chi_Minh" > /etc/timezone
+
+USER node
+WORKDIR ${APP_PATH}
+COPY --from=build ${APP_PATH} .
+
+ENTRYPOINT ["/sbin/tini", "--"]
+
+CMD ["node", "./apps/browser-service/dist/main.js"]

@@ -1,0 +1,27 @@
+name: hcdc-web-app
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'libs/common/**'
+      - 'libs/hcdc/**'
+      - 'apps/hcdc-web-app/**'
+
+jobs:
+  j1:
+    uses: ./.github/workflows/docker-publish.yaml
+    with:
+      dockerfile-path: ./apps/hcdc-web-app/k8s/Dockerfile
+      docker-image-name: diut-hcdc-web-app
+    secrets: inherit
+
+  j2:
+    needs: j1
+    uses: ./.github/workflows/helm-appversion.yaml
+    with:
+      chart-path: ./apps/hcdc-web-app/k8s/helm-chart/Chart.yaml
+      identity: hcdc-web-app
+    secrets: inherit

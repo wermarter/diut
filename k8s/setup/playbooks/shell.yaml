@@ -1,0 +1,66 @@
+- name: "Setup shell environment"
+  hosts: all
+
+  tasks:
+    - name: Apt upgrade
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: true
+        autoremove: true
+        autoclean: true
+
+    - name: Install packages
+      become: true
+      ansible.builtin.package:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - name: git
+        - name: zsh
+
+    - name: Install Oh My Zsh
+      ansible.builtin.git:
+        repo: https://github.com/ohmyzsh/ohmyzsh.git
+        version: master
+        dest: ~/.oh-my-zsh
+        depth: 1
+
+    - name: Install zsh-autosuggestions plugin
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        version: master
+        dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        depth: 1
+
+    - name: Install zsh-syntax-highlighting plugin
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        version: master
+        dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+        depth: 1
+
+    - name: Change user shell to zsh
+      become: true
+      ansible.builtin.user:
+        name: "werma"
+        shell: /bin/zsh
+
+    - name: Install Powerline10k theme
+      ansible.builtin.git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        version: master
+        dest: ~/.oh-my-zsh/custom/themes/powerlevel10k
+        depth: 1
+
+    - name: Copy zshrc
+      ansible.builtin.copy:
+        src: .zshrc
+        dest: ~/.zshrc
+        mode: "0644"
+
+    - name: Copy p10k config
+      ansible.builtin.copy:
+        src: .p10k.zsh
+        dest: ~/.p10k.zsh
+        mode: "0644"
