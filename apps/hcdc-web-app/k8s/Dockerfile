@@ -1,43 +1,35 @@
+ARG APP_PATH=/usr/src/app
+
 ###################
-# DEVELOPMENT
+# build
 ###################
 
-FROM node:20-alpine AS development
+FROM node:20-alpine AS build
+ARG APP_PATH
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack prepare pnpm@8.7.6 --activate
-RUN corepack enable
+RUN corepack prepare pnpm@8.15.7 --activate && corepack enable
 
-COPY . /usr/src/app
-
-WORKDIR /usr/src/app
+COPY . ${APP_PATH}
+WORKDIR ${APP_PATH}
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
-
-CMD pnpm --filter "@diut/hcdc-web-app..." run --parallel dev
-
-EXPOSE 5173
+RUN pnpm --filter "@diut/hcdc-web-app..." run build
 
 ###################
-# BUILD
-###################
-
-FROM development AS build
-
-RUN pnpm --filter "@diut/hcdc-web-app" run build
-
-###################
-# FINAL
+# runtime
 ###################
 
 FROM nginx:alpine AS production
+ARG APP_PATH
 
-COPY --from=build /usr/src/app/apps/hcdc-web-app/dist /usr/share/nginx/web-app
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime && \
+    echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
-COPY --from=build /usr/src/app/apps/hcdc-web-app/k8s/nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
+COPY --from=build ${APP_PATH}/apps/hcdc-web-app/dist /usr/share/nginx/web-app
+COPY --from=build ${APP_PATH}/apps/hcdc-web-app/nginx.conf /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]

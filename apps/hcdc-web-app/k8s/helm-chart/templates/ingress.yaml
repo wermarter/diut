@@ -19,7 +19,6 @@ metadata:
   labels:
     {{- include "this.labels" . | nindent 4 }}
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: {{ .Values.ingress.entrypoints }}
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

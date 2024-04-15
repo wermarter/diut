@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hcdc-web-app
+  namespace: core
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: diut-hcdc
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: apps/hcdc-web-app/k8s/helm-chart
+    repoURL: https://github.com/wermarter/diut
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

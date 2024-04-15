@@ -2,4 +2,6 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PARENT_DIR=$( dirname $SCRIPT_DIR )
 
-helm upgrade --install -n diut-hcdc web-app $SCRIPT_DIR/helm-chart --render-subchart-notes
+kubectl=/snap/bin/kubectl
+
+$kubectl apply -f $SCRIPT_DIR/argocd-application.yaml
