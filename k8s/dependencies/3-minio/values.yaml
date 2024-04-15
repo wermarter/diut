@@ -9,7 +9,7 @@ minio:
     prometheusRule:
       enabled: true
       namespace: observability
-  resourcesPreset:
+  resourcesPreset: ''
   persistence:
     size: 20Gi
     storageClass: longhorn
