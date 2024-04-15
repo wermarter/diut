@@ -12,6 +12,7 @@ import { migrateTestCategory } from './test-category'
 import { migrateTest } from './test'
 import { migrateTestElement } from './test-element'
 import { migrateTestCombo } from './test-combo'
+import { migrateUser } from './user'
 
 // mongoose.set('debug', true)
 
@@ -22,6 +23,7 @@ async function main() {
   ])
   console.log('DB connected')
 
+  // await migrateUser(sourceDB, destDB)
   // await migrateDiagnosis(sourceDB, destDB)
   // await migrateDoctor(sourceDB, destDB)
   // await migratePatientType(sourceDB, destDB)

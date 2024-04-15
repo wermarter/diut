@@ -3,6 +3,7 @@ import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { DiagnosisSchema } from 'src/infra/mongo/diagnosis'
+import { branchId } from './branch'
 
 export async function migrateDiagnosis(
   sourceDB: Connection,
@@ -23,7 +24,7 @@ export async function migrateDiagnosis(
       createdAt: new Date(),
       updatedAt: new Date(),
 
-      branchId: '65b0b259a3a552cf47f563d9',
+      branchId,
 
       displayIndex: oldDoc.index,
       name: (oldDoc.name as string).trim(),

@@ -4,6 +4,7 @@ import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { PrintFormSchema } from 'src/infra/mongo/print-form'
+import { branchId } from './branch'
 
 export async function migratePrintForm(
   sourceDB: Connection,
@@ -24,7 +25,7 @@ export async function migratePrintForm(
       createdAt: new Date(),
       updatedAt: new Date(),
 
-      branchId: '65b0b259a3a552cf47f563d9',
+      branchId,
 
       displayIndex: oldDoc.index,
       name: oldDoc.name.trim(),

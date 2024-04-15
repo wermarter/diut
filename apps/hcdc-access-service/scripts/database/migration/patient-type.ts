@@ -3,6 +3,7 @@ import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { PatientTypeSchema } from 'src/infra/mongo/patient-type'
+import { branchId } from './branch'
 
 export async function migratePatientType(
   sourceDB: Connection,
@@ -23,7 +24,7 @@ export async function migratePatientType(
       createdAt: new Date(),
       updatedAt: new Date(),
 
-      branchId: '65b0b259a3a552cf47f563d9',
+      branchId,
 
       displayIndex: oldDoc.index,
       name: (oldDoc.name as string).trim(),

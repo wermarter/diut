@@ -7,7 +7,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-// import { fullLogo } from 'src/assets/images'
+import { fullLogo } from 'src/assets/images'
 import { formDefaultValues, formResolver, FormSchema } from './validation'
 import { FormTextField, FormContainer } from 'src/components/form'
 import {
@@ -70,10 +70,12 @@ export function LoginForm(props: LoginPageProps) {
         alignItems: 'center',
       }}
     >
-      {/* <img
-        src={fullLogo}
-        style={{ maxWidth: '50%', marginTop: '24px', marginBottom: '24px' }}
-      /> */}
+      {import.meta.env.PROD && (
+        <img
+          src={fullLogo}
+          style={{ maxWidth: '50%', marginTop: '24px', marginBottom: '24px' }}
+        />
+      )}
       <FormContainer
         onSubmit={handleSubmit(handleLogin)}
         sx={{ maxWidth: '350px' }}

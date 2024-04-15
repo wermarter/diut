@@ -70,4 +70,6 @@ export async function bootstrapApp<T extends INestApplicationContext>(
   process.on(ShutdownSignal.SIGINT, () => {
     Promise.all(onExitHooks)
   })
+
+  return app
 }

@@ -3,6 +3,7 @@ import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { TestSchema } from 'src/infra/mongo/test'
+import { branchId } from './branch'
 
 export async function migrateTest(sourceDB: Connection, destDB: Connection) {
   const schema = SchemaFactory.createForClass(TestSchema)
@@ -20,7 +21,7 @@ export async function migrateTest(sourceDB: Connection, destDB: Connection) {
       createdAt: new Date(),
       updatedAt: new Date(),
 
-      branchId: '65b0b259a3a552cf47f563d9',
+      branchId,
 
       displayIndex: oldDoc.index,
       name: (oldDoc.name as string).trim(),

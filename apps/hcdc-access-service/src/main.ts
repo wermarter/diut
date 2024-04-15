@@ -18,7 +18,7 @@ import { AppModule } from './app.module'
 
 dotenv.config()
 
-bootstrapApp(
+export const appPromise = bootstrapApp(
   HttpAppFactory,
   AppModule,
   {

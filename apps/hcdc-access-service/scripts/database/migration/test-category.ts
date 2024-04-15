@@ -3,6 +3,7 @@ import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { TestCategorySchema } from 'src/infra/mongo/test-category'
+import { branchId } from './branch'
 
 export async function migrateTestCategory(
   sourceDB: Connection,
@@ -23,7 +24,7 @@ export async function migrateTestCategory(
       createdAt: new Date(),
       updatedAt: new Date(),
 
-      branchId: '65b0b259a3a552cf47f563d9',
+      branchId,
 
       displayIndex: oldDoc.index,
       name: (oldDoc.name as string).trim(),

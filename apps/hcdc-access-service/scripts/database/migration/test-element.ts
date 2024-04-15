@@ -4,6 +4,7 @@ import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { TestElementSchema } from 'src/infra/mongo/test-element'
+import { branchId } from './branch'
 
 export async function migrateTestElement(
   sourceDB: Connection,
@@ -33,7 +34,7 @@ export async function migrateTestElement(
       createdAt: new Date(),
       updatedAt: new Date(),
 
-      branchId: '65b0b259a3a552cf47f563d9',
+      branchId,
 
       name: (oldDoc.name as string).trim(),
       displayIndex: oldDoc.index,

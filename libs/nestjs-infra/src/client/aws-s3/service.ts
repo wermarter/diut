@@ -4,6 +4,8 @@ import {
   GetObjectCommand,
   HeadBucketCommand,
   ListObjectsV2Command,
+  ListObjectsV2CommandInput,
+  ListObjectsV2CommandOutput,
   PutObjectCommand,
   S3Client,
   S3ClientConfigType,
@@ -97,6 +99,35 @@ export class AwsS3ClientService<
     }
 
     return keys.length
+  }
+
+  async *listKeysIterator(input: {
+    bucket: TBucket
+    prefix?: string
+    maxKeys?: number
+  }) {
+    let continuationToken: string | undefined = undefined
+
+    do {
+      const params: ListObjectsV2CommandInput = {
+        Bucket: input.bucket,
+        Prefix: input.prefix,
+        MaxKeys: input.maxKeys,
+        ContinuationToken: continuationToken,
+      }
+
+      const command = new ListObjectsV2Command(params)
+      let response: ListObjectsV2CommandOutput
+
+      response = await this.client.send(command)
+      if (response.Contents) {
+        for (const object of response.Contents) {
+          yield object
+        }
+      }
+
+      continuationToken = response.NextContinuationToken
+    } while (continuationToken)
   }
 
   async deleteKey(input: { key: string; bucket: TBucket }) {
