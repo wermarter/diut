@@ -1,60 +1,37 @@
+ARG APP_PATH=/usr/src/app
+
 ###################
-# base
+# build
 ###################
 
-FROM node:20-alpine AS base
-
-RUN apk add --no-cache tzdata
-RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-RUN echo "Asia/Ho_Chi_Minh" > /etc/timezone
+FROM node:20-alpine AS build
+ARG APP_PATH
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack prepare pnpm@8.7.6 --activate
-RUN corepack enable
+RUN corepack prepare pnpm@8.15.7 --activate && corepack enable
 
-COPY . /usr/src/app
-
-WORKDIR /usr/src/app
-
-###################
-# development
-###################
-
-FROM base AS development
+COPY . ${APP_PATH}
+WORKDIR ${APP_PATH}
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
-
-CMD pnpm --filter "@diut/hcdc-access-service..." run --parallel dev
-
-###################
-# build 
-###################
-
-FROM development AS build
-
-RUN pnpm --filter "@diut/hcdc-access-service" run build
-
-RUN pnpm prune --prod
+RUN pnpm --filter "@diut/hcdc-access-service..." run build && pnpm prune --prod
 
 ###################
-# production
+# runtime
 ###################
 
 FROM node:20-alpine AS production
+ARG APP_PATH
 
-RUN apk add --no-cache tzdata
-RUN cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-RUN echo "Asia/Ho_Chi_Minh" >  /etc/timezone
-
-RUN apk add --no-cache tini
+RUN apk add --no-cache tzdata tini && \
+    cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime && \
+    echo "Asia/Ho_Chi_Minh" > /etc/timezone
 
 USER node
-
-WORKDIR /usr/src/app
-
-COPY --from=build /usr/src/app .
+WORKDIR ${APP_PATH}
+COPY --from=build ${APP_PATH} .
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
