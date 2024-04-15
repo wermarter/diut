@@ -28,6 +28,8 @@ import {
   StorageServiceToken,
   assertPermission,
   printTemplateConfigs,
+  SampleRepositoryToken,
+  ISampleRepository,
 } from 'src/domain'
 import {
   SamplePrintContext,
@@ -60,6 +62,8 @@ export class SamplePrintUseCase {
     private readonly storageBucket: IStorageBucket,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,
+    @Inject(SampleRepositoryToken)
+    private readonly sampleRepository: ISampleRepository,
     private readonly moduleRef: ModuleRef,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
@@ -68,7 +72,7 @@ export class SamplePrintUseCase {
   ) {}
 
   async execute(input: SamplePrintOptions[]) {
-    const { ability } = this.authContext.getData()
+    const { ability, user } = this.authContext.getData()
     const printContexts: SamplePrintContext[] = []
     const printFormMap = new Map<string, PrintForm>()
 
@@ -203,6 +207,15 @@ export class SamplePrintUseCase {
     )
 
     const { mergedPdf } = await firstValueFrom(response$)
+    for (const { sampleId } of input) {
+      await this.sampleRepository.updateByIdIgnoreSoftDelete(sampleId, {
+        $set: {
+          printedById: user._id,
+          printedAt: new Date(),
+        },
+      })
+    }
+
     return mergedPdf
   }
 }

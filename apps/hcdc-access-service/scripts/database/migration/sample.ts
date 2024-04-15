@@ -80,8 +80,6 @@ export async function migrateSample(sourceDB: Connection, destDB: Connection) {
         }),
       ),
     })
-
-    break
   }
 
   console.log(`Completed ${counter} samples`)

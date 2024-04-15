@@ -14,7 +14,7 @@ export const StorageKeyFactory = {
   [StorageBucket.PUBLIC]: {},
   [StorageBucket.APP]: {
     printFormTemplate(input: { templatePath: string }) {
-      return `print-form-template/${input.templatePath}`
+      return `print-template/${input.templatePath}`
     },
   },
   [StorageBucket.SAMPLE_IMAGES]: {
