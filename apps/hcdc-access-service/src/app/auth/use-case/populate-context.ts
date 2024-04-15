@@ -33,6 +33,8 @@ export class AuthPopulateContextUseCase {
       throw new EAuthnPayloadUserNotFound()
     }
 
+    user._id = user._id.toString()
+
     const rolesPermissions: PermissionRule[] = []
     user.roles?.forEach((role) => {
       if (role !== null) {

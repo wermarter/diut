@@ -61,3 +61,10 @@ export function trimObjectValues<T extends { [key: string]: any }>(obj: T) {
 
   return obj
 }
+
+export function dedupSpaces(str: string) {
+  return str
+    .split(' ')
+    .filter((word) => word.length > 0)
+    .join(' ')
+}

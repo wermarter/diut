@@ -23,7 +23,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { difference, omit } from 'lodash'
-import { trimObjectValues } from '@diut/common'
+import { dedupSpaces, trimObjectValues } from '@diut/common'
 import { parseISO } from 'date-fns'
 
 import {
@@ -188,6 +188,7 @@ export function InfoEditView(props: InfoEditViewProps) {
               id: props.sampleRes.patient?._id!,
               patientUpdateRequestDto: {
                 ...values,
+                name: dedupSpaces(values.name),
                 gender:
                   values.gender === GENDER_PREGNANT_VALUE
                     ? PatientGender.Female

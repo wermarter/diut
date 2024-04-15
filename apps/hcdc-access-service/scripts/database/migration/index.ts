@@ -13,6 +13,8 @@ import { migrateTest } from './test'
 import { migrateTestElement } from './test-element'
 import { migrateTestCombo } from './test-combo'
 import { migrateUser } from './user'
+import { migratePatient } from './patient'
+import { migrateSample } from './sample'
 
 // mongoose.set('debug', true)
 
@@ -33,6 +35,8 @@ async function main() {
   // await migrateTest(sourceDB, destDB)
   // await migrateTestElement(sourceDB, destDB)
   // await migrateTestCombo(sourceDB, destDB)
+  // await migratePatient(sourceDB, destDB)
+  await migrateSample(sourceDB, destDB)
 
   await Promise.all([sourceDB.close(), destDB.close()])
   process.exit(0)

@@ -19,7 +19,7 @@ import {
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
-import { trimObjectValues } from '@diut/common'
+import { dedupSpaces, trimObjectValues } from '@diut/common'
 
 import { authSlice } from 'src/features/auth'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
@@ -210,6 +210,7 @@ export function InfoInputForm(props: InputFormProps) {
       let patient: PatientResponseDto
       const patientValues = trimObjectValues({
         ...values,
+        name: dedupSpaces(values.name),
         gender:
           values.gender === GENDER_PREGNANT_VALUE
             ? PatientGender.Female

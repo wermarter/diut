@@ -7,6 +7,7 @@ import { ReportType } from '@diut/hcdc'
 import { BranchRepository, BranchSchema } from 'src/infra/mongo/branch'
 import { TestRepository, TestSchema } from 'src/infra/mongo/test'
 import { COLLECTION } from 'src/infra'
+import { branchId } from '../migration/branch'
 dotenv.config()
 
 async function main() {
@@ -35,7 +36,7 @@ async function main() {
   console.log(`Found ${tests.items.length} Tests`)
 
   await branchRepo.update(
-    { _id: '65b0b259a3a552cf47f563d9' },
+    { _id: branchId },
     {
       [`reportConfig.${ReportType.SinhHoa}.testIds`]: tests.items.map(
         ({ _id }) => _id,

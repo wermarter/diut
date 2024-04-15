@@ -47,7 +47,6 @@ async function main() {
   })) {
     if (++counter % 100 === 0) {
       console.log(counter)
-      await new Promise((r) => setTimeout(r, 5000))
     }
 
     const srcKey = object.Key

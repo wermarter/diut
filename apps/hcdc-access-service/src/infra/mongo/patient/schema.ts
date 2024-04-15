@@ -33,7 +33,7 @@ export class PatientSchema extends BaseSchema {
   @Prop({ required: true })
   birthYear: number
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   address: string
 
   @Prop({ required: false })
