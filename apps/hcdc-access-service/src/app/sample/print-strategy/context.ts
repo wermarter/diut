@@ -1,8 +1,11 @@
 import { Inject, Injectable, Scope } from '@nestjs/common'
 import { PrintForm } from '@diut/hcdc'
+import { template } from 'lodash'
 
 import { ISamplePrintStrategy } from './common'
 import {
+  AuthContextToken,
+  IAuthContext,
   IPrintFormRepository,
   ISampleTypeRepository,
   PrintFormRepositoryToken,
@@ -24,6 +27,8 @@ export class SamplePrintContext {
   private printStrategy: ISamplePrintStrategy
 
   constructor(
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
     @Inject(PrintFormRepositoryToken)
     private readonly printFormRepository: IPrintFormRepository,
     @Inject(SampleTypeRepositoryToken)
@@ -37,6 +42,7 @@ export class SamplePrintContext {
   }
 
   async execute(options: SamplePrintOptions) {
+    const { user } = this.authContext.getData()
     const printForm = (await this.printFormRepository.findById(
       options.printFormId,
     ))!
@@ -58,6 +64,9 @@ export class SamplePrintContext {
       authorTitle: options.overrideAuthor?.authorTitle ?? printForm.authorTitle,
       titleMargin: options.overrideTitleMargin ?? printForm.titleMargin,
     }
+
+    const compileAuthorName = template(meta.authorName)
+    meta.authorName = compileAuthorName({ user })
 
     const data = await this.printStrategy.preparePrintData(
       options.sampleId,

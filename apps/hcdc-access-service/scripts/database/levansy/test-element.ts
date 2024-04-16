@@ -9,6 +9,7 @@ import { branchId } from './branch'
 export async function migrateTestElement(
   sourceDB: Connection,
   destDB: Connection,
+  testIdMap: Map<string, string>,
 ) {
   const schema = SchemaFactory.createForClass(TestElementSchema)
   const destModel = destDB.model(COLLECTION.TEST_ELEMENT, schema)
@@ -25,11 +26,12 @@ export async function migrateTestElement(
 
   let counter = 0
   const cursor = sourceDB.collection('test_elements').find()
+  const idMap = new Map<string, string>()
+
   for await (const oldDoc of cursor) {
     counter++
 
-    await destModel.create({
-      _id: oldDoc._id,
+    const { _id } = await destModel.create({
       isDeleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -42,7 +44,7 @@ export async function migrateTestElement(
       printIndex: oldDoc.printIndex,
       unit: (oldDoc.unit ?? '').trim(),
       isParent: oldDoc.isParent,
-      testId: oldDoc.test,
+      testId: testIdMap.get(oldDoc.test),
       normalRules: oldDoc.highlightRules.map((highlightRule) => ({
         category: patientCategoryMapping[highlightRule.category ?? 'any'],
         defaultChecked: highlightRule.defaultChecked ?? false,
@@ -53,7 +55,10 @@ export async function migrateTestElement(
         normalValue: highlightRule.normalValue?.trim?.() ?? undefined,
       })),
     })
+
+    idMap.set(oldDoc._id.toString(), _id.toString())
   }
 
   console.log(`Completed ${counter} test_elements`)
+  return idMap
 }

@@ -37,6 +37,7 @@ export const CardContentPap = (props: CardContentCommonProps) => {
   const generateCheckboxes = (
     elements: SampleResultTestElementResponseDto[],
     disableFirst = false,
+    hookResultValue = false,
   ) => {
     return elements.map((element, index) => {
       const elementState = props.resultState[element.testElement?._id!]
@@ -62,6 +63,11 @@ export const CardContentPap = (props: CardContentCommonProps) => {
                 props.setResultState(element.testElementId, {
                   isAbnormal: e.target.checked,
                 })
+                if (hookResultValue && e.target.checked) {
+                  props.setResultState(resultElement.testElementId, {
+                    value: element.testElement?.name,
+                  })
+                }
               }}
             />
           }
@@ -122,13 +128,13 @@ export const CardContentPap = (props: CardContentCommonProps) => {
           <Paper sx={{ p: 1, my: 1, mr: 1 }} variant="outlined">
             <FormGroup>
               <FormLabel>TB Vi sinh:</FormLabel>
-              {generateCheckboxes(visinhElements)}
+              {generateCheckboxes(visinhElements, false, true)}
             </FormGroup>
           </Paper>
           <Paper sx={{ p: 1, mt: 1, mr: 1 }} variant="outlined">
             <FormGroup>
               <FormLabel>TB Khác:</FormLabel>
-              {generateCheckboxes(khacElements)}
+              {generateCheckboxes(khacElements, false, true)}
             </FormGroup>
           </Paper>
         </Box>
@@ -136,13 +142,13 @@ export const CardContentPap = (props: CardContentCommonProps) => {
           <Paper sx={{ p: 1, my: 1 }} variant="outlined">
             <FormGroup>
               <FormLabel>TB Gai:</FormLabel>
-              {generateCheckboxes(tbgaiElements)}
+              {generateCheckboxes(tbgaiElements, false, true)}
             </FormGroup>
           </Paper>
           <Paper sx={{ p: 1, mt: 1 }} variant="outlined">
             <FormGroup>
               <FormLabel>TB Tuyến:</FormLabel>
-              {generateCheckboxes(tuyenElements)}
+              {generateCheckboxes(tuyenElements, false, true)}
             </FormGroup>
           </Paper>
         </Box>

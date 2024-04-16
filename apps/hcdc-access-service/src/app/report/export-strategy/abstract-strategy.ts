@@ -54,7 +54,8 @@ export abstract class AbstractReportExportStrategy<TOptions, TItem>
 
     aoa.push(columns.map((c) => c.columnName))
 
-    items.forEach((item, index) => {
+    let itemIndex = 1
+    items.forEach((item) => {
       const row: unknown[] = []
       let shouldSkip = false
 
@@ -71,11 +72,12 @@ export abstract class AbstractReportExportStrategy<TOptions, TItem>
             }
           }
         } else {
-          row.push((index + 1).toString())
+          row.push(itemIndex.toString())
         }
       }
 
       if (!shouldSkip) {
+        itemIndex++
         aoa.push(row)
       }
     })

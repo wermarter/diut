@@ -11,7 +11,7 @@ export async function migrateDiagnosis(
 ) {
   const schema = SchemaFactory.createForClass(DiagnosisSchema)
   const destModel = destDB.model(COLLECTION.DIAGNOSIS, schema)
-  await destModel.deleteMany().exec()
+  await destModel.deleteMany({ branchId }).exec()
 
   let counter = 0
   const cursor = sourceDB.collection('indications').find()

@@ -105,6 +105,13 @@ export class ReportExportPapStrategy extends AbstractReportExportStrategy<
           },
         },
         {
+          columnId: 'patientPhoneNumber',
+          columnName: 'SĐT',
+          valueGetter(item) {
+            return item.patient?.phoneNumber
+          },
+        },
+        {
           columnId: 'patientAddress',
           columnName: 'Địa chỉ',
           valueGetter(item) {
@@ -119,7 +126,7 @@ export class ReportExportPapStrategy extends AbstractReportExportStrategy<
             const testElement = testResult.elements.find(
               (e) => e.testElementId === paraElement._id,
             )!
-            return testElement.value
+            return testElement?.value
           },
         },
         {
@@ -130,7 +137,7 @@ export class ReportExportPapStrategy extends AbstractReportExportStrategy<
             const testElement = testResult.elements.find(
               (e) => e.testElementId === chanDoanElement._id,
             )!
-            return testElement.value
+            return testElement?.value
           },
         },
         {
@@ -149,7 +156,7 @@ export class ReportExportPapStrategy extends AbstractReportExportStrategy<
             const testElement = testResult.elements.find(
               (e) => e.testElementId === ketLuanElement._id,
             )!
-            return testElement.value
+            return testElement?.value
           },
         },
         {

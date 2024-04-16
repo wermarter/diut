@@ -11,7 +11,7 @@ export async function migrateSampleType(
 ) {
   const schema = SchemaFactory.createForClass(SampleTypeSchema)
   const destModel = destDB.model(COLLECTION.SAMPLE_TYPE, schema)
-  await destModel.deleteMany().exec()
+  await destModel.deleteMany({ branchId }).exec()
 
   let counter = 0
   const cursor = sourceDB.collection('sample_types').find()

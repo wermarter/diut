@@ -12,11 +12,12 @@ export async function migrateDoctor(sourceDB: Connection, destDB: Connection) {
 
   let counter = 0
   const cursor = sourceDB.collection('doctors').find()
+  const idMap = new Map<string, string>()
+
   for await (const oldDoc of cursor) {
     counter++
 
-    await destModel.create({
-      _id: oldDoc._id,
+    const { _id } = await destModel.create({
       isDeleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -26,7 +27,10 @@ export async function migrateDoctor(sourceDB: Connection, destDB: Connection) {
       displayIndex: oldDoc.index,
       name: (oldDoc.name as string).trim(),
     })
+
+    idMap.set(oldDoc._id.toString(), _id.toString())
   }
 
   console.log(`Completed ${counter} doctors`)
+  return idMap
 }

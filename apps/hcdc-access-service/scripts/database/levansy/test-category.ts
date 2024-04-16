@@ -15,11 +15,12 @@ export async function migrateTestCategory(
 
   let counter = 0
   const cursor = sourceDB.collection('test_categories').find()
+  const idMap = new Map<string, string>()
+
   for await (const oldDoc of cursor) {
     counter++
 
-    await destModel.create({
-      _id: oldDoc._id,
+    const { _id } = await destModel.create({
       isDeleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -30,7 +31,10 @@ export async function migrateTestCategory(
       name: (oldDoc.name as string).trim(),
       reportIndex: oldDoc.reportIndex,
     })
+
+    idMap.set(oldDoc._id.toString(), _id.toString())
   }
 
   console.log(`Completed ${counter} test_categories`)
+  return idMap
 }

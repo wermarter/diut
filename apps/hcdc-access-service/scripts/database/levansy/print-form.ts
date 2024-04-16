@@ -16,11 +16,12 @@ export async function migratePrintForm(
 
   let counter = 0
   const cursor = sourceDB.collection('print_forms').find()
+  const idMap = new Map<string, string>()
+
   for await (const oldDoc of cursor) {
     counter++
 
-    await destModel.create({
-      _id: oldDoc._id,
+    const { _id } = await destModel.create({
       isDeleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -36,7 +37,10 @@ export async function migratePrintForm(
       titleMargin: 0,
       template: PrintTemplate.FormChung,
     })
+
+    idMap.set(oldDoc._id.toString(), _id.toString())
   }
 
   console.log(`Completed ${counter} print_forms`)
+  return idMap
 }

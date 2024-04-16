@@ -10,7 +10,7 @@ import { branchId } from './branch'
 export async function migratePatient(sourceDB: Connection, destDB: Connection) {
   const schema = SchemaFactory.createForClass(PatientSchema)
   const destModel = destDB.model(COLLECTION.PATIENT, schema)
-  await destModel.deleteMany().exec()
+  await destModel.deleteMany({ branchId }).exec()
 
   let counter = 0
   const cursor = sourceDB.collection('patients').find()

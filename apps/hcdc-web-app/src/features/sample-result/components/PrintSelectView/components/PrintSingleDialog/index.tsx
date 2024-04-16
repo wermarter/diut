@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form'
 import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
 import { format } from 'date-fns'
+import { template } from 'lodash'
 
 import {
   OmittedSampleResponseDto,
@@ -48,6 +49,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
   const userPermissions = useTypedSelector(
     authSlice.selectors.selectUserPermissions,
   )
+  const userName = useTypedSelector(authSlice.selectors.selectUserName)
   const userAbility = useMemo(() => {
     return createAbility(userPermissions)
   }, [userPermissions])
@@ -169,9 +171,14 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 onChangeHook={(value) => {
                   const printForm = props.printFormMap.get(value)
                   if (printForm?.authorName) {
-                    setValue('authorName', printForm.authorName, {
-                      shouldDirty: false,
-                    })
+                    const compileAuthorName = template(printForm.authorName)
+                    setValue(
+                      'authorName',
+                      compileAuthorName({ user: { name: userName } }),
+                      {
+                        shouldDirty: false,
+                      },
+                    )
                   }
                   if (printForm?.authorTitle) {
                     setValue('authorTitle', printForm.authorTitle, {

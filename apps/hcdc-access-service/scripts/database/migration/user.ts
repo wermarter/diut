@@ -8,7 +8,7 @@ import { branchId } from './branch'
 export async function migrateUser(sourceDB: Connection, destDB: Connection) {
   const schema = SchemaFactory.createForClass(UserSchema)
   const destModel = destDB.model(COLLECTION.USER, schema)
-  await destModel.deleteMany().exec()
+  await destModel.deleteMany({ branchId }).exec()
 
   let counter = 0
   const cursor = sourceDB.collection('users').find()

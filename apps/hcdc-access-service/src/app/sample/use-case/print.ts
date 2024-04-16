@@ -200,7 +200,9 @@ export class SamplePrintUseCase {
         })()
           .then(() => subscriber.complete())
           .catch((e) => {
-            this.logger.warn(`Error when preparing print data: ${e}`)
+            this.logger.warn(
+              `Error when preparing print data: ${e?.stack ?? e}`,
+            )
             subscriber.error(e)
           })
       }),

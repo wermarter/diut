@@ -17,7 +17,7 @@ const ID_INDICATION_PREGNANT = '63533c653b685db3059d871e'
 export async function migrateSample(sourceDB: Connection, destDB: Connection) {
   const sampleSchema = SchemaFactory.createForClass(SampleSchema)
   const sampleModel = destDB.model(COLLECTION.SAMPLE, sampleSchema)
-  await sampleModel.deleteMany().exec()
+  await sampleModel.deleteMany({ branchId }).exec()
 
   let counter = 0
   const cursor = sourceDB.collection('samples').find()
@@ -52,10 +52,18 @@ export async function migrateSample(sourceDB: Connection, destDB: Connection) {
       originId: branchId,
       sampleTypeIds: oldDoc.sampleTypeIds.map((id) => id?.toString()),
       results: oldDoc.results?.map(
-        ({ testId, bioProductName, resultBy, testCompleted, elements }) => ({
+        ({
           testId,
           bioProductName,
           resultBy,
+          resultAt,
+          testCompleted,
+          elements,
+        }) => ({
+          testId,
+          bioProductName,
+          resultById: resultBy,
+          resultAt,
           isLocked: testCompleted ?? false,
           elements: elements.map(({ id, value, isHighlighted }) => {
             if (PAP_IMAGE_ELEMENT_IDS.includes(id)) {

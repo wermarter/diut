@@ -126,7 +126,7 @@ export class ReportExportThinprepStrategy extends AbstractReportExportStrategy<
             const testElement = testResult.elements.find(
               (e) => e.testElementId === paraElement._id,
             )!
-            return testElement.value
+            return testElement?.value
           },
         },
         {
@@ -137,7 +137,7 @@ export class ReportExportThinprepStrategy extends AbstractReportExportStrategy<
             const testElement = testResult.elements.find(
               (e) => e.testElementId === chanDoanElement._id,
             )!
-            return testElement.value
+            return testElement?.value
           },
         },
         {
@@ -156,7 +156,7 @@ export class ReportExportThinprepStrategy extends AbstractReportExportStrategy<
             const testElement = testResult.elements.find(
               (e) => e.testElementId === ketLuanElement._id,
             )!
-            return testElement.value
+            return testElement?.value
           },
         },
         {

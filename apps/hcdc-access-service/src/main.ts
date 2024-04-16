@@ -29,7 +29,7 @@ export const appPromise = bootstrapApp(
     LogBootstrap,
     CorsBootstrap({
       devOriginAllowList: ['http://localhost:5173'],
-      originAllowList: ['http://lab.hcdc.vn:8000'],
+      originAllowList: [],
     }),
     LifecycleBootstrap,
     PipeBootstrap,
