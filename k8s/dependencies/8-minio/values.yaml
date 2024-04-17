@@ -4,6 +4,8 @@ minio:
   service:
     type: 'LoadBalancer'
     loadBalancerIP: '10.1.1.208'
+    ports:
+      console: 80
   metrics:
     serviceMonitor:
       enabled: true
