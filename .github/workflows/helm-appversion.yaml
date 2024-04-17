@@ -27,7 +27,7 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore(helm): update ${{ inputs.identity }} appVersion'
+          commit_message: 'chore(helm): ${{ inputs.identity }}'
 
       - name: Push changes
         uses: ad-m/github-push-action@master

@@ -96,7 +96,7 @@ kube-prometheus-stack:
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
-      retention: 14d
+      retention: 7d
       # additionalScrapeConfigs:
       #   # Example scrape config for pods
       #   #
