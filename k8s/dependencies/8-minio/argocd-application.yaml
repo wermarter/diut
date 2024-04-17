@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: k8s/dependencies/3-minio
+    path: k8s/dependencies/8-minio
     repoURL: https://github.com/wermarter/diut
     targetRevision: main
   syncPolicy:

@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: loki
+  name: contour
   namespace: core
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: observability
+    namespace: projectcontour
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: k8s/dependencies/9-loki
+    path: k8s/dependencies/7-contour
     repoURL: https://github.com/wermarter/diut
     targetRevision: main
   syncPolicy:
