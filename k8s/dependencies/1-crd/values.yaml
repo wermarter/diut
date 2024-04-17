@@ -1,0 +1,4 @@
+prometheus-operator-crds:
+  crds:
+    annotations:
+      argocd.argoproj.io/sync-options: Replace=true

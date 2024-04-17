@@ -1,0 +1,13 @@
+argo-cd:
+  fullnameOverride: argocd
+  configs:
+    params:
+      server.insecure: true
+  notifications:
+    enabled: false
+  dex:
+    enabled: false
+  server:
+    service:
+      type: LoadBalancer
+      loadBalancerIP: 10.1.1.202
