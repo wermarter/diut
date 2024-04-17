@@ -8,7 +8,7 @@ spec:
   envoy:
     networkPublishing:
       serviceAnnotations:
-        metallb.universe.tf/loadBalancerIPs: 10.1.1.201
+        metallb.universe.tf/loadBalancerIPs: {{ .Values.loadBalancerIP }}
 ---
 kind: GatewayClass
 apiVersion: gateway.networking.k8s.io/v1
