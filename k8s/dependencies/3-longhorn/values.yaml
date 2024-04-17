@@ -1,7 +1,6 @@
 longhorn:
   preUpgradeChecker:
     jobEnabled: false
-  namespaceOverride:
   longhornUI:
     replicas: 2
   service:
