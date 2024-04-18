@@ -8,6 +8,9 @@ mongodb:
   replicaCount: 3
   arbiter:
     enabled: false
+  
+  volumePermissions:
+    enabled: true
 
   metrics:
     enabled: true
