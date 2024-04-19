@@ -1,6 +1,6 @@
 import { makeConfigLoader } from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 export class AuthConfig {
   @Expose()
@@ -9,9 +9,8 @@ export class AuthConfig {
   AUTH_JWT_SECRET: string
 
   @Expose()
-  @IsNumberString()
-  @IsNotEmpty()
-  AUTH_JWT_EXPIRE_SECONDS: string
+  @IsNumber()
+  AUTH_JWT_EXPIRE_SECONDS: number
 
   @Expose()
   @IsString()

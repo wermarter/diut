@@ -7,6 +7,7 @@ import { logMetadata } from './log'
 import { minioMetadata } from './minio'
 import { mongoMetadata } from './mongo'
 import { externalServiceMetadata } from './external-service'
+import { redisMetadata } from './redis'
 
 export const infraMetadata = concatModuleMetadata([
   {
@@ -18,7 +19,7 @@ export const infraMetadata = concatModuleMetadata([
           return {
             secret: authConfig.AUTH_JWT_SECRET,
             signOptions: {
-              expiresIn: parseInt(authConfig.AUTH_JWT_EXPIRE_SECONDS),
+              expiresIn: authConfig.AUTH_JWT_EXPIRE_SECONDS,
             },
           }
         },
@@ -28,6 +29,7 @@ export const infraMetadata = concatModuleMetadata([
   authMetadata,
   logMetadata,
   minioMetadata,
+  redisMetadata,
   mongoMetadata,
   externalServiceMetadata,
 ])

@@ -1,4 +1,3 @@
-import { PermissionRule, Role } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt'
@@ -9,54 +8,41 @@ import {
   UserRepositoryToken,
   EAuthnLoginInvalidPassword,
   EAuthnLoginInvalidUsername,
-  compilePermissionRules,
 } from 'src/domain'
+import { AuthPopulateContextUseCase } from './populate-context'
+import { AuthSetContextCacheUseCase } from './set-context-cache'
 
 @Injectable()
 export class AuthLoginUseCase {
   constructor(
-    @Inject(UserRepositoryToken) private userRepository: IUserRepository,
-    private jwtService: JwtService,
+    @Inject(UserRepositoryToken)
+    private readonly userRepository: IUserRepository,
+    private readonly jwtService: JwtService,
+    private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
+    private readonly authSetContextCacheUseCase: AuthSetContextCacheUseCase,
   ) {}
 
-  async execute({
-    username,
-    password,
-  }: {
-    username: string
-    password: string
-  }) {
-    const user = await this.userRepository.findOne({
-      filter: { username },
-      populates: [
-        { path: 'roles', fields: ['permissions'] satisfies (keyof Role)[] },
-        { path: 'branches' },
-      ],
+  async execute(input: { username: string; password: string }) {
+    const _user = await this.userRepository.findOne({
+      filter: { username: input.username },
     })
-    if (!user) {
+    if (!_user) {
       throw new EAuthnLoginInvalidUsername()
     }
 
-    const isCorrect = await argon2.verify(user.passwordHash, password)
+    const isCorrect = await argon2.verify(_user.passwordHash, input.password)
     if (!isCorrect) {
       throw new EAuthnLoginInvalidPassword()
     }
 
     const authPayload: AuthPayload = {
-      userId: user._id,
+      userId: _user._id,
     }
     const accessToken = await this.jwtService.signAsync(authPayload)
 
-    const rolesPermissions: PermissionRule[] = []
-    user.roles?.forEach((role) => {
-      if (role !== null) {
-        rolesPermissions.push(...role.permissions)
-      }
-    })
-    const compiledPermissions = compilePermissionRules(
-      [...rolesPermissions, ...user.inlinePermissions],
-      { user },
-    )
+    const { user, compiledPermissions } =
+      await this.authPopulateContextUseCase.execute(authPayload)
+    await this.authSetContextCacheUseCase.execute({ user, compiledPermissions })
 
     return { user, accessToken, compiledPermissions }
   }

@@ -21,7 +21,7 @@ export class AuthCookieService {
     @Inject(loadAuthConfig.KEY) private authConfig: AuthConfig,
     @Inject(loadAppConfig.KEY) private appConfig: AppConfig,
   ) {
-    this.accessTokenCookieName = `${appConfig.SERVICE_NAME}-access_token`
+    this.accessTokenCookieName = `access_token`
   }
 
   private makeCookieOptions(): CookieOptions {
@@ -33,7 +33,7 @@ export class AuthCookieService {
       secure: false, // !isDevelopment,
       sameSite: 'lax',
       expires: new Date(
-        Date.now() + parseInt(this.authConfig.AUTH_JWT_EXPIRE_SECONDS) * 1000,
+        Date.now() + this.authConfig.AUTH_JWT_EXPIRE_SECONDS * 1000,
       ),
     }
   }

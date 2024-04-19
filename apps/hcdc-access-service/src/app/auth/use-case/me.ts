@@ -1,10 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import {
-  EAuthnPayloadUserNotFound,
-  AuthContextToken,
-  IAuthContext,
-} from 'src/domain'
+import { AuthContextToken, IAuthContext } from 'src/domain'
 
 @Injectable()
 export class AuthMeUseCase {
@@ -15,10 +11,6 @@ export class AuthMeUseCase {
 
   execute() {
     const data = this.authContext.getData()
-
-    if (data === undefined) {
-      throw new EAuthnPayloadUserNotFound()
-    }
 
     return data
   }

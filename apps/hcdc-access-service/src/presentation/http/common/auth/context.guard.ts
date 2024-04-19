@@ -8,13 +8,13 @@ import { Reflector } from '@nestjs/core'
 
 import { AuthContextToken, AuthPayload, IAuthContext } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from './common'
-import { AuthPopulateContextUseCase } from 'src/app'
+import { AuthGetContextUseCase } from 'src/app'
 
 @Injectable()
 export class HttpAuthContextGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
+    private readonly authGetContextUseCase: AuthGetContextUseCase,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
   ) {}
@@ -28,7 +28,7 @@ export class HttpAuthContextGuard implements CanActivate {
     )
 
     if (!shouldSkip) {
-      const authContextData = await this.authPopulateContextUseCase.execute(
+      const authContextData = await this.authGetContextUseCase.execute(
         request.user as AuthPayload,
       )
       this.authContext.setData(authContextData)
