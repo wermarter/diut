@@ -2,19 +2,20 @@ redis:
   fullnameOverride: redis
   auth:
     enabled: false
+    sentinel: false
+  sentinel:
+    enabled: true
   master:
     disableCommands: []
-    resourcesPreset: 'large'
+    resourcesPreset: 'medium'
     persistence:
       storageClass:
       size: 5Gi
   replica:
-    replicaCount: 1
-    resourcesPreset: 'large'
+    replicaCount: 2
+    resourcesPreset: 'medium'
     autoscaling:
-      enabled: true
-      maxReplicas: 3
-      targetCPU: 80
+      enabled: false
   metrics:
     enabled: true
     serviceMonitor:
