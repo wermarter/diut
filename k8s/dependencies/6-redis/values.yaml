@@ -12,7 +12,7 @@ redis:
       storageClass:
       size: 5Gi
   replica:
-    replicaCount: 2
+    replicaCount: 3
     resourcesPreset: 'medium'
     autoscaling:
       enabled: false
