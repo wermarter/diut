@@ -4,14 +4,14 @@ import {
   CustomHttpControllerOptions,
 } from '@diut/nestjs-infra'
 
-import { authGuards } from '../auth'
+import { HttpAuthGuard } from '../auth'
 
 export const HttpController = (options: CustomHttpControllerOptions) => {
   const customOptions: CustomHttpControllerOptions = {
     ...options,
     controllerDecorators: [
       ...(options?.controllerDecorators ?? []),
-      UseGuards(...authGuards),
+      UseGuards(HttpAuthGuard),
     ],
   }
 

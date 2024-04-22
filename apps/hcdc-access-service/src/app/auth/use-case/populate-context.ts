@@ -2,9 +2,10 @@ import { PermissionRule, Role } from '@diut/hcdc'
 import { Inject } from '@nestjs/common'
 
 import {
+  AuthPayload,
+  EEntityNotFound,
   IUserRepository,
   UserRepositoryToken,
-  EAuthnPayloadUserNotFound,
   compilePermissionRules,
 } from 'src/domain'
 
@@ -14,16 +15,15 @@ export class AuthPopulateContextUseCase {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(input: { userId: string }) {
+  async execute(input: AuthPayload) {
     const user = await this.userRepository.findOne({
       filter: { _id: input.userId },
       populates: [
         { path: 'roles', fields: ['permissions'] satisfies (keyof Role)[] },
-        { path: 'branches' },
       ],
     })
     if (!user) {
-      throw new EAuthnPayloadUserNotFound()
+      throw new EEntityNotFound(`User ${JSON.stringify(input)}`)
     }
 
     user._id = user._id.toString()

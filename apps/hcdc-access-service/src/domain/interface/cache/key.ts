@@ -1,14 +1,22 @@
 export const CacheKeyFactory = {
   /**
-   * datatype: string
+   * datatype: string - 1
    */
-  jwtBlacklist(jwt: string) {
-    return `jwtBlacklist:jwt:${jwt}`
+  refreshTokenBlacklist(jwt: string) {
+    return `refreshTokenBlacklist:jwt:${jwt}`
   },
   /**
-   * datatype: string
+   * datatype: string - JSON
    */
   authContextInfo(userId: string) {
     return `authContextInfo:userId:${userId}`
+  },
+  /**
+   * datatype: string
+   * - 0: in progress
+   * - JSON: {accessToken: string, refreshToken: string}
+   */
+  refreshTokenTask(currentRefreshToken: string) {
+    return `refreshTokenTask:currentRefreshToken:${currentRefreshToken}`
   },
 }

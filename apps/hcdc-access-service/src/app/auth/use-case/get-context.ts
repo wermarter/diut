@@ -1,5 +1,5 @@
 import { createAbility } from '@diut/hcdc'
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 
 import {
   AuthContextData,
@@ -14,6 +14,8 @@ import { AuthPopulateContextUseCase } from './populate-context'
 
 @Injectable()
 export class AuthGetContextUseCase {
+  private readonly logger = new Logger(AuthGetContextUseCase.name)
+
   constructor(
     @Inject(CacheSecondaryServiceToken)
     private readonly cacheSecondaryService: ICacheSecondaryService,
@@ -42,7 +44,7 @@ export class AuthGetContextUseCase {
       return { user: payload.user, ability }
     }
 
-    console.log('cache miss')
+    this.logger.log({ message: 'cache miss', input })
 
     const { user, compiledPermissions } =
       await this.authPopulateContextUseCase.execute({ userId: input.userId })

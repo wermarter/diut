@@ -6,16 +6,20 @@ export class AuthConfig {
   @Expose()
   @IsString()
   @IsNotEmpty()
-  AUTH_JWT_SECRET: string
-
-  @Expose()
-  @IsNumber()
-  AUTH_JWT_EXPIRE_SECONDS: number
+  AUTH_JWT_ACCESS_TOKEN_SECRET: string
 
   @Expose()
   @IsString()
   @IsNotEmpty()
-  COOKIE_SECRET: string
+  AUTH_JWT_REFRESH_TOKEN_SECRET: string
+
+  @Expose()
+  @IsNumber()
+  AUTH_JWT_ACCESS_TOKEN_EXPIRE_SECONDS: number
+
+  @Expose()
+  @IsNumber()
+  AUTH_JWT_REFRESH_TOKEN_EXPIRE_SECONDS: number
 }
 
 export const loadAuthConfig = makeConfigLoader(AuthConfig)

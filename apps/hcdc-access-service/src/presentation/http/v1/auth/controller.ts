@@ -5,7 +5,7 @@ import { AuthMeUseCase, AuthLoginUseCase } from 'src/app'
 import { AuthLoginRequestDto } from './dto/login.request-dto'
 import { authRoutes } from './routes'
 import {
-  AuthCookieService,
+  HttpAuthService,
   HttpController,
   HttpPublicRoute,
   HttpRoute,
@@ -16,7 +16,7 @@ export class AuthController {
   constructor(
     private authMeUseCase: AuthMeUseCase,
     private authLoginUseCase: AuthLoginUseCase,
-    private authCookieService: AuthCookieService,
+    private authCookieService: HttpAuthService,
   ) {}
 
   @HttpRoute(authRoutes.login)
@@ -25,10 +25,13 @@ export class AuthController {
     @Body() body: AuthLoginRequestDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { user, accessToken, compiledPermissions } =
+    const { user, compiledPermissions } =
       await this.authLoginUseCase.execute(body)
 
-    this.authCookieService.setAuthCookie(res, { accessToken })
+    const tokens = await this.authCookieService.generateAuthTokens({
+      userId: user._id,
+    })
+    this.authCookieService.setAuthCookie(res, tokens)
 
     return { user, permissions: compiledPermissions }
   }

@@ -1,5 +1,4 @@
 export * from './module'
-export * from './jwt'
-export * from './guards'
+export * from './guard'
 export * from './common'
-export * from './cookie.service'
+export * from './service'

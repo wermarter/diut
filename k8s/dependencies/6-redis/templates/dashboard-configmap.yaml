@@ -7,4 +7,4 @@ metadata:
     grafana_dashboard: '1'
 data:
   'redis-dashboard.json': |
-    {{ $.Files.Get "src/11835_rev1.json" | fromJson | toJson }}
+    {{ $.Files.Get "src/763_rev6.json" | fromJson | toJson }}

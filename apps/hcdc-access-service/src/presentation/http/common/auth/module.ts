@@ -1,8 +1,9 @@
 import { ModuleMetadata } from '@nestjs/common'
+import { JwtModule } from '@nestjs/jwt'
 
-import { HttpJwtStrategy } from './jwt'
-import { AuthCookieService } from './cookie.service'
+import { HttpAuthService } from './service'
 
 export const authMetadata: ModuleMetadata = {
-  providers: [HttpJwtStrategy, AuthCookieService],
+  imports: [JwtModule.register({})],
+  providers: [HttpAuthService],
 }

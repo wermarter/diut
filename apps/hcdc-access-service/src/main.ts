@@ -35,7 +35,7 @@ export const appPromise = bootstrapApp(
     PipeBootstrap,
     PrefixBootstrap,
     SwaggerBootstrap,
-    CookieBootstrap(process.env.COOKIE_SECRET),
+    CookieBootstrap(),
     HttpListenBootstrap(process.env.HTTP_PORT),
   ],
 )

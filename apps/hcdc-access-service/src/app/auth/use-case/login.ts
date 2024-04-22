@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
-import { JwtService } from '@nestjs/jwt'
 
 import {
   AuthPayload,
@@ -17,7 +16,6 @@ export class AuthLoginUseCase {
   constructor(
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
-    private readonly jwtService: JwtService,
     private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
     private readonly authSetContextCacheUseCase: AuthSetContextCacheUseCase,
   ) {}
@@ -25,6 +23,7 @@ export class AuthLoginUseCase {
   async execute(input: { username: string; password: string }) {
     const _user = await this.userRepository.findOne({
       filter: { username: input.username },
+      populates: [{ path: 'branches' }],
     })
     if (!_user) {
       throw new EAuthnLoginInvalidUsername()
@@ -38,12 +37,11 @@ export class AuthLoginUseCase {
     const authPayload: AuthPayload = {
       userId: _user._id,
     }
-    const accessToken = await this.jwtService.signAsync(authPayload)
-
     const { user, compiledPermissions } =
       await this.authPopulateContextUseCase.execute(authPayload)
     await this.authSetContextCacheUseCase.execute({ user, compiledPermissions })
+    user.branches = _user.branches
 
-    return { user, accessToken, compiledPermissions }
+    return { user, compiledPermissions }
   }
 }

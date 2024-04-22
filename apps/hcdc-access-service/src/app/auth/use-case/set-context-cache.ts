@@ -24,7 +24,7 @@ export class AuthSetContextCacheUseCase {
       CacheKeyFactory.authContextInfo(input.user._id),
       content,
       'EX',
-      this.authConfig.AUTH_JWT_EXPIRE_SECONDS,
+      this.authConfig.AUTH_JWT_ACCESS_TOKEN_EXPIRE_SECONDS,
     )
 
     await this.cacheService.synchronize()
