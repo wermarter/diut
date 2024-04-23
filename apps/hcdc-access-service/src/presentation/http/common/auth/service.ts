@@ -1,5 +1,5 @@
 import { NodeEnv } from '@diut/common'
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { CookieOptions, Response, Request } from 'express'
 
@@ -30,10 +30,12 @@ type RefreshTokenTaskResult = {
   refreshToken: string
 }
 
-const REFRESH_TOKEN_TASK_TIMEOUT_SECONDS = 10
+const REFRESH_TOKEN_TASK_TIMEOUT_SECONDS = 5
 
 @Injectable()
 export class HttpAuthService {
+  private readonly logger = new Logger(HttpAuthService.name)
+
   constructor(
     @Inject(loadAuthConfig.KEY) private authConfig: AuthConfig,
     @Inject(loadAppConfig.KEY) private appConfig: AppConfig,
@@ -97,6 +99,7 @@ export class HttpAuthService {
         secret: this.authConfig.AUTH_JWT_ACCESS_TOKEN_SECRET,
       })
     } catch (error) {
+      this.logger.error(error)
       return null
     }
   }
@@ -107,35 +110,9 @@ export class HttpAuthService {
         secret: this.authConfig.AUTH_JWT_REFRESH_TOKEN_SECRET,
       })
     } catch (error) {
-      console.log(error)
+      this.logger.error(error)
       return null
     }
-  }
-
-  async checkRefreshTokenTask(currentRefreshToken: string) {
-    const value = await this.cacheService.client.get(
-      CacheKeyFactory.refreshTokenTask(currentRefreshToken),
-    )
-
-    if (value === null) {
-      return {
-        isRunning: false,
-        result: null,
-      }
-    }
-
-    if (value === '0') {
-      return {
-        isRunning: true,
-        result: null,
-      }
-    }
-
-    const result = JSON.parse(value) as RefreshTokenTaskResult
-    return {
-      isRunning: false,
-      result,
-    } as const
   }
 
   async refreshTokenPair(currentRefreshToken: string) {
@@ -150,57 +127,52 @@ export class HttpAuthService {
     // @ts-ignore
     delete payload.exp
 
-    let isRunning: boolean
-    let result: null | RefreshTokenTaskResult
-
-    do {
-      await new Promise((resolve) => setTimeout(resolve, 100))
-      const rv = await this.checkRefreshTokenTask(currentRefreshToken)
-      isRunning = rv.isRunning
-      result = rv.result
-      if (isRunning === true) console.log('waiting')
-    } while (isRunning === true)
-
-    if (result !== null) {
-      console.log('cache hit', currentRefreshToken.slice(-5))
-      return result
-    }
-
-    console.log('cache miss', currentRefreshToken.slice(-5), result)
-    let rv = await this.cacheService.client.set(
-      CacheKeyFactory.refreshTokenTask(currentRefreshToken),
-      '0',
-      'EX',
+    return this.cacheService.mutex(
+      `refreshTokenPair:currentRefreshToken:${currentRefreshToken}`,
       REFRESH_TOKEN_TASK_TIMEOUT_SECONDS,
-      'NX',
+      async (signal) => {
+        const cacheKey = CacheKeyFactory.refreshTokenTask(currentRefreshToken)
+
+        const rv = await this.cacheService.client.get(cacheKey)
+        if (rv !== null) {
+          return JSON.parse(rv) as RefreshTokenTaskResult
+        }
+
+        const accessToken = this.jwtService.sign(payload, {
+          secret: this.authConfig.AUTH_JWT_ACCESS_TOKEN_SECRET,
+          expiresIn: this.authConfig.AUTH_JWT_ACCESS_TOKEN_EXPIRE_SECONDS,
+        })
+
+        const expiresIn = exp - Math.ceil(Date.now() / 1000)
+        const refreshToken = this.jwtService.sign(payload, {
+          secret: this.authConfig.AUTH_JWT_REFRESH_TOKEN_SECRET,
+          expiresIn,
+        })
+        const result: RefreshTokenTaskResult = {
+          accessToken,
+          refreshToken,
+        }
+
+        if (signal.aborted === false) {
+          const rv = await this.cacheService.client.set(
+            cacheKey,
+            JSON.stringify(<RefreshTokenTaskResult>{
+              accessToken,
+              refreshToken,
+            }),
+            'EX',
+            expiresIn,
+            'NX',
+          )
+          if (rv !== 'OK') {
+            throw new Error('task result existed')
+          }
+          return result
+        } else {
+          throw new Error('aborted')
+        }
+      },
     )
-    if (rv !== 'OK') {
-      throw new Error('Redis set error')
-    }
-
-    const accessToken = this.jwtService.sign(payload, {
-      secret: this.authConfig.AUTH_JWT_ACCESS_TOKEN_SECRET,
-      expiresIn: this.authConfig.AUTH_JWT_ACCESS_TOKEN_EXPIRE_SECONDS,
-    })
-
-    const expiresIn = exp - Math.ceil(Date.now() / 1000)
-    const refreshToken = this.jwtService.sign(payload, {
-      secret: this.authConfig.AUTH_JWT_REFRESH_TOKEN_SECRET,
-      expiresIn,
-    })
-
-    rv = await this.cacheService.client.set(
-      CacheKeyFactory.refreshTokenTask(currentRefreshToken),
-      '0',
-      'EX',
-      expiresIn,
-      'NX',
-    )
-    if (rv !== 'OK') {
-      throw new Error('Redis set error')
-    }
-
-    return { accessToken, refreshToken }
   }
 
   async generateAuthTokens(payload: AuthPayload) {
