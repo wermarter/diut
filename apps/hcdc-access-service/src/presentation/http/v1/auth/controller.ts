@@ -44,5 +44,6 @@ export class AuthController {
   @HttpRoute(authRoutes.logout)
   logout(@Res({ passthrough: true }) res: Response): void {
     this.authCookieService.clearAuthCookie(res)
+    this.authCookieService.setBlacklisted(res.locals.refreshToken)
   }
 }

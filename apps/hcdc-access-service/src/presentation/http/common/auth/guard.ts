@@ -43,6 +43,9 @@ export class HttpAuthGuard implements CanActivate {
     if (!refreshToken) {
       throw new EAuthnCookieNotFound()
     }
+    if (await this.httpAuthService.checkBlacklisted(refreshToken)) {
+      throw new EAuthnJwtInvalidToken()
+    }
 
     if (!accessToken) {
       const newTokens =
@@ -58,8 +61,11 @@ export class HttpAuthGuard implements CanActivate {
     }
 
     const authContextData = await this.authGetContextUseCase.execute(payload)
-
     this.authContext.setData(authContextData)
+
+    // used for logout handler in auth controller
+    response.locals.accessToken = accessToken
+    response.locals.refreshToken = refreshToken
 
     return true
   }

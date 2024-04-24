@@ -54,6 +54,20 @@ const defaultOptions: Partial<RedisClientOptions> = {
   },
 }
 
+function RequireMaster() {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    const originalMethod: Function = descriptor.value
+    descriptor.value = async function (...args: any[]) {
+      const { role } = this.clientOptions
+      if (role === 'slave') {
+        throw new Error(`calling ${propertyKey}() from slave connection`)
+      }
+
+      return originalMethod.apply(this, args)
+    }
+  }
+}
+
 @Injectable()
 export class RedisClientService extends AbstractClientService {
   public client: Redis
@@ -81,13 +95,9 @@ export class RedisClientService extends AbstractClientService {
     await this.client.quit()
   }
 
+  @RequireMaster()
   async synchronize() {
-    const { replicaCount, role } = this.clientOptions
-    if (role === 'slave') {
-      this.logger.warn('calling synchronize from slave connection, canceled')
-      return
-    }
-
+    const { replicaCount } = this.clientOptions
     const ackCount = await this.client.wait(replicaCount, 2000)
 
     if (ackCount < replicaCount) {
@@ -97,7 +107,7 @@ export class RedisClientService extends AbstractClientService {
     }
   }
 
-  async mutexLock(lockKey: string, lockValue: string, ttl: number) {
+  private async mutexLock(lockKey: string, lockValue: string, ttl: number) {
     const result = await this.client.set(lockKey, lockValue, 'EX', ttl, 'NX')
 
     const isLockAcquired = result === 'OK'
@@ -108,7 +118,7 @@ export class RedisClientService extends AbstractClientService {
     return isLockAcquired
   }
 
-  async mutexUnlock(lockKey: string, lockValue: string) {
+  private async mutexUnlock(lockKey: string, lockValue: string) {
     const result = await this.client[LoadedLuaScript.MutexUnlock](
       lockKey,
       lockValue,
@@ -125,6 +135,7 @@ export class RedisClientService extends AbstractClientService {
   /**
    * note: replace with Redlock for Redis Cluster setup
    */
+  @RequireMaster()
   async mutex<T>(
     lockIdentifier: string,
     executionTimeout: number, // seconds

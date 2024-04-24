@@ -21,6 +21,7 @@ import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
 import { ChangePassword, authSlice } from 'src/features/auth'
 import { ProgressBar } from 'src/components/ui'
 import { userLogout } from 'src/features/auth/state/actions'
+import { authApi } from 'src/infra/api/access-service/auth'
 
 interface AppBarProps {
   drawerWidth: number
@@ -50,6 +51,7 @@ export function AppBar({ drawerWidth }: AppBarProps) {
 
   const handleLogout = () => {
     handleClose()
+    dispatch(authApi.endpoints.authLogout.initiate())
     dispatch(userLogout())
   }
 

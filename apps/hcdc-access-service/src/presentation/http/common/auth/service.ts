@@ -13,8 +13,10 @@ import {
   AuthPayload,
   CacheKeyFactory,
   CachePrimaryServiceToken,
+  CacheSecondaryServiceToken,
   EAuthnJwtInvalidToken,
   ICachePrimaryService,
+  ICacheSecondaryService,
 } from 'src/domain'
 
 export type AuthCookies = {
@@ -42,6 +44,8 @@ export class HttpAuthService {
     private readonly jwtService: JwtService,
     @Inject(CachePrimaryServiceToken)
     private readonly cacheService: ICachePrimaryService,
+    @Inject(CacheSecondaryServiceToken)
+    private readonly cacheSecondaryService: ICacheSecondaryService,
   ) {}
 
   private makeCookieOptions(options?: CookieOptions): CookieOptions {
@@ -127,12 +131,16 @@ export class HttpAuthService {
     // @ts-ignore
     delete payload.exp
 
+    const cacheKey = CacheKeyFactory.refreshTokenTask(currentRefreshToken)
+    const rv = await this.cacheSecondaryService.client.get(cacheKey)
+    if (rv !== null) {
+      return JSON.parse(rv) as RefreshTokenTaskResult
+    }
+
     return this.cacheService.mutex(
       `refreshTokenPair:currentRefreshToken:${currentRefreshToken}`,
       REFRESH_TOKEN_TASK_TIMEOUT_SECONDS,
       async (signal) => {
-        const cacheKey = CacheKeyFactory.refreshTokenTask(currentRefreshToken)
-
         const rv = await this.cacheService.client.get(cacheKey)
         if (rv !== null) {
           return JSON.parse(rv) as RefreshTokenTaskResult
@@ -169,7 +177,7 @@ export class HttpAuthService {
           }
           return result
         } else {
-          throw new Error('aborted')
+          throw new Error('mutex aborted')
         }
       },
     )
@@ -187,5 +195,29 @@ export class HttpAuthService {
     })
 
     return { accessToken, refreshToken }
+  }
+
+  async checkBlacklisted(refreshToken: string) {
+    const rv = await this.cacheSecondaryService.client.get(
+      CacheKeyFactory.refreshTokenBlacklist(refreshToken),
+    )
+
+    return rv !== null
+  }
+
+  async setBlacklisted(refreshToken: string) {
+    const rv = await this.cacheService.client.set(
+      CacheKeyFactory.refreshTokenBlacklist(refreshToken),
+      '1',
+      'EX',
+      this.authConfig.AUTH_JWT_REFRESH_TOKEN_EXPIRE_SECONDS, // can be more precise
+      'NX',
+    )
+
+    if (rv === 'OK') {
+      await this.cacheService.synchronize()
+    } else {
+      this.logger.warn('Refresh token blacklist existed')
+    }
   }
 }
