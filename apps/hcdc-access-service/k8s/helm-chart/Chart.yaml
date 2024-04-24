@@ -3,4 +3,4 @@ name: access-service
 description: A Helm chart for Kubernetes
 type: application
 version: 0.0.1
-appVersion: '13'
+appVersion: '14'
