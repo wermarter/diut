@@ -9,6 +9,7 @@ kube-prometheus-stack:
 
   grafana:
     fullnameOverride: grafana
+    replicas: 2
     defaultDashboardsTimezone: browser
     admin:
       existingSecret: grafana-credentials
@@ -87,6 +88,7 @@ kube-prometheus-stack:
           targetLabel: cluster
           replacement: prometheus
     prometheusSpec:
+      replicas: 2
       replicaExternalLabelName: 'replica'
       storageSpec:
         volumeClaimTemplate:
