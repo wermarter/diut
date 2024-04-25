@@ -51,6 +51,8 @@ ingress:
         - path: /api
           pathType: Prefix
   tls: []
+  annotations:
+    projectcontour.io/response-timeout: 30s
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
