@@ -18,6 +18,8 @@ kube-prometheus-stack:
     persistence:
       enabled: true
       size: 2Gi
+      accessModes:
+        - ReadWriteMany
     service:
       type: 'LoadBalancer'
       loadBalancerIP: '10.1.1.204'
