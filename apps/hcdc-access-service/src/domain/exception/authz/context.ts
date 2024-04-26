@@ -3,11 +3,11 @@ import { DomainErrorCode } from '@diut/hcdc'
 
 import { EAuthz } from './base'
 
-export class EAuthzPermissionDenied extends EAuthz {
+export class EAuthzContextInvalid extends EAuthz {
   constructor(reason: string) {
     super(
-      DomainErrorCode.AUTHZ_PERMISSION_DENIED,
-      `permission denied: ${reason}`,
+      DomainErrorCode.AUTHZ_CONTEXT_INVALID,
+      `context invalid: ${reason}`,
       undefined,
       HttpStatus.FORBIDDEN,
     )

@@ -18,6 +18,7 @@ export function buildErrorLog(
   const cause = input.exception.cause ?? input.cause
 
   return {
+    // @ts-ignore
     userId: input.authContextData?.user._id,
     message: input.exception.message ?? input.message,
     stack: input.exception.stack ?? input.stack,

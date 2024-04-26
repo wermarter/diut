@@ -42,7 +42,7 @@ export class SamplePrintContext {
   }
 
   async execute(options: SamplePrintOptions) {
-    const { user } = this.authContext.getData()
+    const { user } = this.authContext.getDataInternal()
     const printForm = (await this.printFormRepository.findById(
       options.printFormId,
     ))!

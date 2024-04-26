@@ -10,11 +10,13 @@ import {
   loadAuthConfig,
 } from 'src/config'
 import {
+  AuthContextDataInternal,
   AuthPayload,
   CacheKeyFactory,
   CachePrimaryServiceToken,
   CacheSecondaryServiceToken,
   EAuthnJwtInvalidToken,
+  IAuthService,
   ICachePrimaryService,
   ICacheSecondaryService,
 } from 'src/domain'
@@ -35,7 +37,7 @@ type RefreshTokenTaskResult = {
 const REFRESH_TOKEN_TASK_TIMEOUT_SECONDS = 5
 
 @Injectable()
-export class HttpAuthService {
+export class HttpAuthService implements IAuthService {
   private readonly logger = new Logger(HttpAuthService.name)
 
   constructor(
@@ -47,6 +49,28 @@ export class HttpAuthService {
     @Inject(CacheSecondaryServiceToken)
     private readonly cacheSecondaryService: ICacheSecondaryService,
   ) {}
+
+  async invalidate(input: AuthContextDataInternal) {
+    const stream = this.cacheService.client.scanStream({
+      match: CacheKeyFactory.activeRefreshToken(input.user._id, '*'),
+    })
+
+    for await (const keys of stream) {
+      for (const key of keys) {
+        const refreshToken = key.match(
+          CacheKeyFactory.activeRefreshToken(input.user._id, '(.+?)'),
+        )![1] as string
+        console.log(refreshToken)
+        await this.setBlacklisted(refreshToken)
+      }
+    }
+
+    await this.cacheService.client.del(
+      CacheKeyFactory.authContextInfo(input.user._id),
+    )
+
+    await this.cacheService.synchronize()
+  }
 
   private makeCookieOptions(options?: CookieOptions): CookieOptions {
     const isDevelopment = this.appConfig.NODE_ENV === NodeEnv.Development
@@ -194,15 +218,23 @@ export class HttpAuthService {
       expiresIn: this.authConfig.AUTH_JWT_REFRESH_TOKEN_EXPIRE_SECONDS,
     })
 
+    // keep track for auth invalidation
+    await this.cacheService.client.set(
+      CacheKeyFactory.activeRefreshToken(payload.userId, refreshToken),
+      refreshToken,
+      'EX',
+      this.authConfig.AUTH_JWT_REFRESH_TOKEN_EXPIRE_SECONDS,
+    )
+
     return { accessToken, refreshToken }
   }
 
   async checkBlacklisted(refreshToken: string) {
-    const rv = await this.cacheSecondaryService.client.get(
+    const rv = await this.cacheSecondaryService.client.exists(
       CacheKeyFactory.refreshTokenBlacklist(refreshToken),
     )
 
-    return rv !== null
+    return rv !== 0
   }
 
   async setBlacklisted(refreshToken: string) {

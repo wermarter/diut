@@ -1,16 +1,9 @@
-import { concatModuleMetadata } from '@diut/nestjs-infra'
-import { APP_FILTER } from '@nestjs/core'
+import { Module } from '@nestjs/common'
 
-import { httpControllerV1Metadata } from './v1'
-import { authMetadata, exceptionFilters } from './common'
+import { HttpExternalModule } from './external'
+import { HttpV1Module } from './v1'
 
-export const httpControllerMetadata = concatModuleMetadata([
-  {
-    providers: exceptionFilters.map((FilterClass) => ({
-      provide: APP_FILTER,
-      useClass: FilterClass,
-    })),
-  },
-  authMetadata,
-  httpControllerV1Metadata,
-])
+@Module({
+  imports: [HttpExternalModule, HttpV1Module],
+})
+export class HttpModule {}

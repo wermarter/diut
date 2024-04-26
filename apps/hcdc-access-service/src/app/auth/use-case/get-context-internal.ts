@@ -2,7 +2,8 @@ import { createAbility } from '@diut/hcdc'
 import { Inject, Injectable, Logger } from '@nestjs/common'
 
 import {
-  AuthContextData,
+  AuthContextDataInternal,
+  AuthType,
   CacheKeyFactory,
   CachePrimaryServiceToken,
   CacheSecondaryServiceToken,
@@ -13,8 +14,8 @@ import { AuthSetContextCacheUseCase } from './set-context-cache'
 import { AuthPopulateContextUseCase } from './populate-context'
 
 @Injectable()
-export class AuthGetContextUseCase {
-  private readonly logger = new Logger(AuthGetContextUseCase.name)
+export class AuthGetContextInternalUseCase {
+  private readonly logger = new Logger(AuthGetContextInternalUseCase.name)
   private readonly executionTimeoutSeconds = 5
 
   constructor(
@@ -26,15 +27,17 @@ export class AuthGetContextUseCase {
     private readonly authSetContextCacheUseCase: AuthSetContextCacheUseCase,
   ) {}
 
-  private async parseContent(content: string): Promise<AuthContextData> {
+  private async parseContent(
+    content: string,
+  ): Promise<AuthContextDataInternal> {
     const payload: Parameters<AuthSetContextCacheUseCase['execute']>[0] =
       JSON.parse(content)
     const ability = createAbility(payload.compiledPermissions)
 
-    return { user: payload.user, ability }
+    return { type: AuthType.Internal, user: payload.user, ability }
   }
 
-  async execute(input: { userId: string }): Promise<AuthContextData> {
+  async execute(input: { userId: string }): Promise<AuthContextDataInternal> {
     let content = await this.cacheSecondaryService.client.get(
       CacheKeyFactory.authContextInfo(input.userId),
     )
@@ -71,7 +74,7 @@ export class AuthGetContextUseCase {
           })
           const ability = createAbility(compiledPermissions)
 
-          return { user, ability }
+          return { type: AuthType.Internal, user, ability }
         } else {
           throw new Error('mutex aborted')
         }

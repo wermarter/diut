@@ -72,7 +72,7 @@ export class SamplePrintUseCase {
   ) {}
 
   async execute(input: SamplePrintOptions[]) {
-    const { ability, user } = this.authContext.getData()
+    const { ability, user } = this.authContext.getDataInternal()
     const printContexts: SamplePrintContext[] = []
     const printFormMap = new Map<string, PrintForm>()
 

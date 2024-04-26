@@ -1,4 +1,7 @@
-import { ModuleMetadata } from '@nestjs/common'
+import { concatModuleMetadata } from '@diut/nestjs-infra'
+import { Module, ModuleMetadata } from '@nestjs/common'
+import { JwtModule } from '@nestjs/jwt'
+import { ClassConstructor } from 'class-transformer'
 
 import { BioProductController } from './bio-product/controller'
 import { AuthController } from './auth/controller'
@@ -18,26 +21,43 @@ import { PatientController } from './patient/controller'
 import { TestComboController } from './test-combo/controller'
 import { SampleController } from './sample/controller'
 import { ReportController } from './report/controller'
+import { AuthServiceToken, IAuthService } from 'src/domain'
+import { HttpAuthService, commonModuleMetadata } from '../common'
 
-export const httpControllerV1Metadata: ModuleMetadata = {
-  controllers: [
-    BioProductController,
-    PatientTypeController,
-    DiagnosisController,
-    DoctorController,
-    InstrumentController,
-    SampleTypeController,
-    AuthController,
-    RoleController,
-    BranchController,
-    UserController,
-    TestCategoryController,
-    PrintFormController,
-    TestController,
-    TestElementController,
-    PatientController,
-    TestComboController,
-    SampleController,
-    ReportController,
-  ],
-}
+export const httpControllerV1Metadata: ModuleMetadata = {}
+@Module(
+  concatModuleMetadata([
+    ...commonModuleMetadata,
+    {
+      imports: [JwtModule.register({})],
+      providers: [
+        HttpAuthService,
+        {
+          provide: AuthServiceToken,
+          useExisting: HttpAuthService satisfies ClassConstructor<IAuthService>,
+        },
+      ],
+      controllers: [
+        BioProductController,
+        PatientTypeController,
+        DiagnosisController,
+        DoctorController,
+        InstrumentController,
+        SampleTypeController,
+        AuthController,
+        RoleController,
+        BranchController,
+        UserController,
+        TestCategoryController,
+        PrintFormController,
+        TestController,
+        TestElementController,
+        PatientController,
+        TestComboController,
+        SampleController,
+        ReportController,
+      ],
+    },
+  ]),
+)
+export class HttpV1Module {}

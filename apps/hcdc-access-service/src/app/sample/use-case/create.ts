@@ -31,7 +31,7 @@ export class SampleCreateUseCase {
       testIds: string[]
     },
   ) {
-    const { ability, user } = this.authContext.getData()
+    const { ability, user } = this.authContext.getDataInternal()
     assertPermission(ability, AuthSubject.Sample, SampleAction.Create, input)
 
     const existed = await this.sampleRepository.exists({

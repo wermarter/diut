@@ -1,17 +1,8 @@
-import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { Module } from '@nestjs/common'
 
-import { infraMetadata } from './infra'
-import { appMetadata } from './app'
-import { presentationMetadata } from './presentation'
-import { configMetadata } from './config'
+import { HttpModule } from './presentation'
 
-@Module(
-  concatModuleMetadata([
-    configMetadata,
-    infraMetadata,
-    appMetadata,
-    presentationMetadata,
-  ]),
-)
+@Module({
+  imports: [HttpModule],
+})
 export class AppModule {}

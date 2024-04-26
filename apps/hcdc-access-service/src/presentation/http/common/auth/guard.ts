@@ -14,7 +14,7 @@ import {
   IAuthContext,
 } from 'src/domain'
 import { HTTP_PUBLIC_ROUTE } from './common'
-import { AuthGetContextUseCase } from 'src/app'
+import { AuthGetContextInternalUseCase } from 'src/app'
 import { HttpAuthService } from './service'
 
 @Injectable()
@@ -23,8 +23,8 @@ export class HttpAuthGuard implements CanActivate {
     private readonly reflector: Reflector,
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
-    private readonly httpAuthService: HttpAuthService,
-    private readonly authGetContextUseCase: AuthGetContextUseCase,
+    private readonly authService: HttpAuthService,
+    private readonly authGetContextInternalUseCase: AuthGetContextInternalUseCase,
   ) {}
 
   async canActivate(context: ExecutionContext) {
@@ -38,34 +38,37 @@ export class HttpAuthGuard implements CanActivate {
       return true
     }
 
-    let { accessToken, refreshToken } =
-      this.httpAuthService.getAuthCookie(request)
+    let { accessToken, refreshToken } = this.authService.getAuthCookie(request)
     if (!refreshToken) {
       throw new EAuthnCookieNotFound()
     }
-    if (await this.httpAuthService.checkBlacklisted(refreshToken)) {
+    if (await this.authService.checkBlacklisted(refreshToken)) {
+      this.authService.clearAuthCookie(response)
       throw new EAuthnJwtInvalidToken()
     }
 
     if (!accessToken) {
-      const newTokens =
-        await this.httpAuthService.refreshTokenPair(refreshToken)
-      this.httpAuthService.setAuthCookie(response, newTokens)
+      const newTokens = await this.authService.refreshTokenPair(refreshToken)
+      this.authService.setAuthCookie(response, newTokens)
       accessToken = newTokens.accessToken
       refreshToken = newTokens.refreshToken
     }
 
-    const payload = await this.httpAuthService.verifyAccessToken(accessToken)
+    const payload = await this.authService.verifyAccessToken(accessToken)
     if (payload === null) {
       throw new EAuthnJwtInvalidToken()
     }
 
-    const authContextData = await this.authGetContextUseCase.execute(payload)
-    this.authContext.setData(authContextData)
+    const authContextData =
+      await this.authGetContextInternalUseCase.execute(payload)
 
-    // used for logout handler in auth controller
-    response.locals.accessToken = accessToken
-    response.locals.refreshToken = refreshToken
+    this.authContext.setData({
+      ...authContextData,
+      metadata: {
+        accessToken,
+        refreshToken,
+      },
+    })
 
     return true
   }

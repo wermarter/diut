@@ -88,7 +88,7 @@ kube-prometheus-stack:
           targetLabel: cluster
           replacement: prometheus
     prometheusSpec:
-      replicas: 2
+      replicas: 1
       replicaExternalLabelName: 'replica'
       storageSpec:
         volumeClaimTemplate:

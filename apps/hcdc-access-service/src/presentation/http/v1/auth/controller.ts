@@ -1,4 +1,4 @@
-import { Body, Res } from '@nestjs/common'
+import { Body, Inject, Res } from '@nestjs/common'
 import { Response } from 'express'
 
 import { AuthMeUseCase, AuthLoginUseCase } from 'src/app'
@@ -10,13 +10,16 @@ import {
   HttpPublicRoute,
   HttpRoute,
 } from '../../common'
+import { AuthContextToken, IAuthContext } from 'src/domain'
 
 @HttpController({ basePath: 'v1/auth' })
 export class AuthController {
   constructor(
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
     private authMeUseCase: AuthMeUseCase,
     private authLoginUseCase: AuthLoginUseCase,
-    private authCookieService: HttpAuthService,
+    private authService: HttpAuthService,
   ) {}
 
   @HttpRoute(authRoutes.login)
@@ -28,10 +31,10 @@ export class AuthController {
     const { user, compiledPermissions } =
       await this.authLoginUseCase.execute(body)
 
-    const tokens = await this.authCookieService.generateAuthTokens({
+    const tokens = await this.authService.generateAuthTokens({
       userId: user._id,
     })
-    this.authCookieService.setAuthCookie(res, tokens)
+    this.authService.setAuthCookie(res, tokens)
 
     return { user, permissions: compiledPermissions }
   }
@@ -43,7 +46,9 @@ export class AuthController {
 
   @HttpRoute(authRoutes.logout)
   logout(@Res({ passthrough: true }) res: Response): void {
-    this.authCookieService.clearAuthCookie(res)
-    this.authCookieService.setBlacklisted(res.locals.refreshToken)
+    const { metadata } = this.authContext.getDataInternal()
+
+    this.authService.clearAuthCookie(res)
+    this.authService.setBlacklisted(metadata.refreshToken)
   }
 }

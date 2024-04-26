@@ -5,6 +5,9 @@ import {
   IAuthContext,
   EAuthzAuthenticationRequired,
   AuthContextData,
+  AuthContextDataInternal,
+  AuthType,
+  EAuthzContextInvalid,
 } from 'src/domain'
 
 @Injectable()
@@ -22,5 +25,22 @@ export class AuthContext implements IAuthContext {
     }
 
     return authContextData
+  }
+
+  getDataInternal(): Required<AuthContextDataInternal> {
+    const authContextData = this.cls.get('authContextData')
+    if (authContextData === undefined) {
+      throw new EAuthzAuthenticationRequired()
+    }
+
+    if (authContextData.type !== AuthType.Internal) {
+      throw new EAuthzContextInvalid(`type=${authContextData.type}`)
+    }
+
+    if (authContextData.metadata == undefined) {
+      throw new EAuthzContextInvalid(`metadata=${authContextData.metadata}`)
+    }
+
+    return authContextData as Required<AuthContextDataInternal>
   }
 }
