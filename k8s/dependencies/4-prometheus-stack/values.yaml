@@ -9,7 +9,7 @@ kube-prometheus-stack:
 
   grafana:
     fullnameOverride: grafana
-    replicas: 2
+    replicas: 1
     defaultDashboardsTimezone: browser
     admin:
       existingSecret: grafana-credentials
