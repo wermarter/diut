@@ -2,7 +2,7 @@ import { PermissionRule, Role } from '@diut/hcdc'
 import { Inject } from '@nestjs/common'
 
 import {
-  AuthPayload,
+  AuthPayloadInternal,
   EEntityNotFound,
   IUserRepository,
   UserRepositoryToken,
@@ -15,7 +15,7 @@ export class AuthPopulateContextUseCase {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(input: AuthPayload) {
+  async execute(input: AuthPayloadInternal) {
     const user = await this.userRepository.findOne({
       filter: { _id: input.userId },
       populates: [

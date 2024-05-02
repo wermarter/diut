@@ -1,6 +1,5 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { Module, ModuleMetadata } from '@nestjs/common'
-import { JwtModule } from '@nestjs/jwt'
 import { ClassConstructor } from 'class-transformer'
 
 import { BioProductController } from './bio-product/controller'
@@ -29,7 +28,6 @@ export const httpControllerV1Metadata: ModuleMetadata = {}
   concatModuleMetadata([
     ...commonModuleMetadata,
     {
-      imports: [JwtModule.register({})],
       providers: [
         HttpAuthService,
         {

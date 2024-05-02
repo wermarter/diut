@@ -2,7 +2,7 @@ import { DomainErrorCode } from '@diut/hcdc'
 import { HttpStatus } from '@nestjs/common'
 import { inspect } from 'util'
 
-import { AuthContextData } from '../interface'
+import { AuthContextData, AuthType } from '../interface'
 
 export function buildErrorLog(
   input: Partial<{
@@ -18,8 +18,10 @@ export function buildErrorLog(
   const cause = input.exception.cause ?? input.cause
 
   return {
-    // @ts-ignore
-    userId: input.authContextData?.user._id,
+    userId:
+      input.authContextData?.type === AuthType.Internal
+        ? input.authContextData.user._id
+        : input.authContextData?.authorizedByUserId,
     message: input.exception.message ?? input.message,
     stack: input.exception.stack ?? input.stack,
     cause: cause && inspect(cause),

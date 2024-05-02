@@ -34,7 +34,14 @@ export class AuthGetContextInternalUseCase {
       JSON.parse(content)
     const ability = createAbility(payload.compiledPermissions)
 
-    return { type: AuthType.Internal, user: payload.user, ability }
+    return {
+      type: AuthType.Internal,
+      user: payload.user,
+      ability,
+      permissions: payload.compiledPermissions,
+      accessToken: 'override by guard',
+      refreshToken: 'override by guard',
+    }
   }
 
   async execute(input: { userId: string }): Promise<AuthContextDataInternal> {
@@ -74,7 +81,14 @@ export class AuthGetContextInternalUseCase {
           })
           const ability = createAbility(compiledPermissions)
 
-          return { type: AuthType.Internal, user, ability }
+          return {
+            type: AuthType.Internal,
+            user,
+            ability,
+            permissions: compiledPermissions,
+            accessToken: 'override by guard',
+            refreshToken: 'override by guard',
+          }
         } else {
           throw new Error('mutex aborted')
         }

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 
 import {
-  AuthPayload,
+  AuthPayloadInternal,
   IUserRepository,
   UserRepositoryToken,
   EAuthnLoginInvalidPassword,
@@ -34,7 +34,7 @@ export class AuthLoginUseCase {
       throw new EAuthnLoginInvalidPassword()
     }
 
-    const authPayload: AuthPayload = {
+    const authPayload: AuthPayloadInternal = {
       userId: _user._id,
     }
     const { user, compiledPermissions } =

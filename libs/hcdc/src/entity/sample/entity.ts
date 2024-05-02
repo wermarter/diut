@@ -101,6 +101,7 @@ export enum SampleAction {
   UpdateResult = 'UpdateResult',
   Delete = 'Delete',
   PrintResult = 'PrintResult',
+  GeneratePrintUrl = 'GeneratePrintUrl',
 
   ExportReport = 'ExportReport',
 }

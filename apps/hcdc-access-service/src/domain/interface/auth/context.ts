@@ -1,5 +1,5 @@
 import { MongoAbility } from '@casl/ability'
-import { User } from '@diut/hcdc'
+import { PermissionRule, User } from '@diut/hcdc'
 
 export const AuthContextToken = Symbol('AuthContext')
 
@@ -9,11 +9,22 @@ export interface IAuthContext {
   getData(unsafe?: false): AuthContextData
   getData(unsafe: true): AuthContextData | undefined
 
-  getDataInternal(): Required<AuthContextDataInternal>
+  getDataInternal(): AuthContextDataInternal
+  getDataExternal(): AuthContextDataExternal
 }
 
-export type AuthPayload = {
+export type AuthPayloadInternal = {
   userId: string
+}
+
+export type AuthPayloadExternal = {
+  authorizedByUserId: string
+  authorizedRoute: string
+  permissions: PermissionRule[]
+  origin: AuthExternalOrigin
+  description: string
+
+  routeOptions: unknown
 }
 
 export enum AuthType {
@@ -24,15 +35,15 @@ export enum AuthType {
 export type AuthContextDataInternal = {
   type: AuthType.Internal
   user: User
+  permissions: PermissionRule[]
   ability: MongoAbility
-  metadata?: {
-    accessToken: string
-    refreshToken: string
-  }
+
+  accessToken: string
+  refreshToken: string
 }
 
 export enum AuthExternalOrigin {
-  Temporary = 'Temporary',
+  Delegated = 'Delegated',
   Clinic = 'Clinic',
 }
 
@@ -40,7 +51,12 @@ export type AuthContextDataExternal = {
   type: AuthType.External
   origin: AuthExternalOrigin
   ability: MongoAbility
-  metadata?: unknown
+  authorizedByUserId: string
+  authorizedRoute: string
+  description: string
+
+  jwt: string
+  routeOptions: unknown
 }
 
 export type AuthContextData = AuthContextDataInternal | AuthContextDataExternal

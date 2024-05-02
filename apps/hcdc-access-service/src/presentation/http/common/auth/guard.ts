@@ -64,10 +64,8 @@ export class HttpAuthGuard implements CanActivate {
 
     this.authContext.setData({
       ...authContextData,
-      metadata: {
-        accessToken,
-        refreshToken,
-      },
+      accessToken,
+      refreshToken,
     })
 
     return true

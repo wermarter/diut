@@ -21,6 +21,7 @@ import { SamplePrintFormPapStrategy } from './print-strategy/form-pap'
 import { SamplePrintFormTDStrategy } from './print-strategy/form-td'
 import { SamplePrintFormHIVStrategy } from './print-strategy/form-hiv'
 import { SamplePrintFormSoiNhuomStrategy } from './print-strategy/form-soi-nhuom'
+import { SampleGeneratePrintUrlUseCase } from './use-case/generate-print-url'
 
 export const sampleMetadata: ModuleMetadata = {
   providers: [
@@ -46,5 +47,6 @@ export const sampleMetadata: ModuleMetadata = {
     SamplePrintUseCase,
     SampleUploadResultImageUseCase,
     SampleDownloadResultImageUseCase,
+    SampleGeneratePrintUrlUseCase,
   ],
 }

@@ -10,12 +10,14 @@ import {
   loadAuthConfig,
 } from 'src/config'
 import {
-  AuthContextDataInternal,
-  AuthPayload,
+  AuthContextData,
+  AuthPayloadInternal,
+  AuthType,
   CacheKeyFactory,
   CachePrimaryServiceToken,
   CacheSecondaryServiceToken,
   EAuthnJwtInvalidToken,
+  EAuthzContextInvalid,
   IAuthService,
   ICachePrimaryService,
   ICacheSecondaryService,
@@ -41,16 +43,22 @@ export class HttpAuthService implements IAuthService {
   private readonly logger = new Logger(HttpAuthService.name)
 
   constructor(
-    @Inject(loadAuthConfig.KEY) private authConfig: AuthConfig,
-    @Inject(loadAppConfig.KEY) private appConfig: AppConfig,
     private readonly jwtService: JwtService,
+    @Inject(loadAuthConfig.KEY)
+    private readonly authConfig: AuthConfig,
+    @Inject(loadAppConfig.KEY)
+    private readonly appConfig: AppConfig,
     @Inject(CachePrimaryServiceToken)
     private readonly cacheService: ICachePrimaryService,
     @Inject(CacheSecondaryServiceToken)
     private readonly cacheSecondaryService: ICacheSecondaryService,
   ) {}
 
-  async invalidate(input: AuthContextDataInternal) {
+  async invalidate(input: AuthContextData) {
+    if (input.type !== AuthType.Internal) {
+      throw new EAuthzContextInvalid(`type=${input.type}`)
+    }
+
     const stream = this.cacheService.client.scanStream({
       match: CacheKeyFactory.activeRefreshToken(input.user._id, '*'),
     })
@@ -58,10 +66,11 @@ export class HttpAuthService implements IAuthService {
     for await (const keys of stream) {
       for (const key of keys) {
         const refreshToken = key.match(
-          CacheKeyFactory.activeRefreshToken(input.user._id, '(.+?)'),
+          CacheKeyFactory.activeRefreshToken(input.user._id, '(.+)'),
         )![1] as string
-        console.log(refreshToken)
+
         await this.setBlacklisted(refreshToken)
+        await this.cacheService.client.del(key)
       }
     }
 
@@ -123,9 +132,12 @@ export class HttpAuthService implements IAuthService {
 
   async verifyAccessToken(accessToken: string) {
     try {
-      return await this.jwtService.verifyAsync<AuthPayload>(accessToken, {
-        secret: this.authConfig.AUTH_JWT_ACCESS_TOKEN_SECRET,
-      })
+      return await this.jwtService.verifyAsync<AuthPayloadInternal>(
+        accessToken,
+        {
+          secret: this.authConfig.AUTH_JWT_ACCESS_TOKEN_SECRET,
+        },
+      )
     } catch (error) {
       this.logger.error(error)
       return null
@@ -134,9 +146,12 @@ export class HttpAuthService implements IAuthService {
 
   async verifyRefreshToken(refreshToken: string) {
     try {
-      return await this.jwtService.verifyAsync<AuthPayload>(refreshToken, {
-        secret: this.authConfig.AUTH_JWT_REFRESH_TOKEN_SECRET,
-      })
+      return await this.jwtService.verifyAsync<AuthPayloadInternal>(
+        refreshToken,
+        {
+          secret: this.authConfig.AUTH_JWT_REFRESH_TOKEN_SECRET,
+        },
+      )
     } catch (error) {
       this.logger.error(error)
       return null
@@ -207,7 +222,7 @@ export class HttpAuthService implements IAuthService {
     )
   }
 
-  async generateAuthTokens(payload: AuthPayload) {
+  async generateAuthTokens(payload: AuthPayloadInternal) {
     const accessToken = await this.jwtService.signAsync(payload, {
       secret: this.authConfig.AUTH_JWT_ACCESS_TOKEN_SECRET,
       expiresIn: this.authConfig.AUTH_JWT_ACCESS_TOKEN_EXPIRE_SECONDS,
@@ -218,10 +233,10 @@ export class HttpAuthService implements IAuthService {
       expiresIn: this.authConfig.AUTH_JWT_REFRESH_TOKEN_EXPIRE_SECONDS,
     })
 
-    // keep track for auth invalidation
+    // keep track for invalidation
     await this.cacheService.client.set(
       CacheKeyFactory.activeRefreshToken(payload.userId, refreshToken),
-      refreshToken,
+      '1',
       'EX',
       this.authConfig.AUTH_JWT_REFRESH_TOKEN_EXPIRE_SECONDS,
     )

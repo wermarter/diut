@@ -30,6 +30,7 @@ import {
   printTemplateConfigs,
   SampleRepositoryToken,
   ISampleRepository,
+  AuthType,
 } from 'src/domain'
 import {
   SamplePrintContext,
@@ -46,6 +47,7 @@ import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
 import { SamplePrintFormTDStrategy } from '../print-strategy/form-td'
 import { SamplePrintFormHIVStrategy } from '../print-strategy/form-hiv'
 import { SamplePrintFormSoiNhuomStrategy } from '../print-strategy/form-soi-nhuom'
+import { SampleGeneratePrintUrlUseCase } from './generate-print-url'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -69,10 +71,12 @@ export class SamplePrintUseCase {
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
     private readonly printFormAssertExistsUseCase: PrintFormAssertExistsUseCase,
+    private readonly sampleGeneratePrintUrlUseCase: SampleGeneratePrintUrlUseCase,
   ) {}
 
   async execute(input: SamplePrintOptions[]) {
-    const { ability, user } = this.authContext.getDataInternal()
+    const authContextData = this.authContext.getData()
+    const ability = authContextData.ability
     const printContexts: SamplePrintContext[] = []
     const printFormMap = new Map<string, PrintForm>()
 
@@ -209,13 +213,27 @@ export class SamplePrintUseCase {
     )
 
     const { mergedPdf } = await firstValueFrom(response$)
+    const printedAt = new Date()
+    const printedById =
+      authContextData.type === AuthType.Internal
+        ? authContextData.user._id
+        : authContextData.authorizedByUserId
+
     for (const { sampleId } of input) {
       await this.sampleRepository.updateByIdIgnoreSoftDelete(sampleId, {
         $set: {
-          printedById: user._id,
-          printedAt: new Date(),
+          printedById,
+          printedAt,
         },
       })
+    }
+
+    if (authContextData.type === AuthType.Internal) {
+      const url = await this.sampleGeneratePrintUrlUseCase.execute({
+        ability,
+        printOptions: input,
+      })
+      this.logger.log(url)
     }
 
     return mergedPdf

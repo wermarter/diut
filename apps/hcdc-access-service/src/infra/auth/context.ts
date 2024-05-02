@@ -5,7 +5,6 @@ import {
   IAuthContext,
   EAuthzAuthenticationRequired,
   AuthContextData,
-  AuthContextDataInternal,
   AuthType,
   EAuthzContextInvalid,
 } from 'src/domain'
@@ -27,7 +26,7 @@ export class AuthContext implements IAuthContext {
     return authContextData
   }
 
-  getDataInternal(): Required<AuthContextDataInternal> {
+  getDataInternal() {
     const authContextData = this.cls.get('authContextData')
     if (authContextData === undefined) {
       throw new EAuthzAuthenticationRequired()
@@ -37,10 +36,19 @@ export class AuthContext implements IAuthContext {
       throw new EAuthzContextInvalid(`type=${authContextData.type}`)
     }
 
-    if (authContextData.metadata == undefined) {
-      throw new EAuthzContextInvalid(`metadata=${authContextData.metadata}`)
+    return authContextData
+  }
+
+  getDataExternal() {
+    const authContextData = this.cls.get('authContextData')
+    if (authContextData === undefined) {
+      throw new EAuthzAuthenticationRequired()
     }
 
-    return authContextData as Required<AuthContextDataInternal>
+    if (authContextData.type !== AuthType.External) {
+      throw new EAuthzContextInvalid(`type=${authContextData.type}`)
+    }
+
+    return authContextData
   }
 }

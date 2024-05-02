@@ -1,10 +1,11 @@
 import { Inject, Injectable, Scope } from '@nestjs/common'
-import { PrintForm } from '@diut/hcdc'
+import { PrintForm, User } from '@diut/hcdc'
 import { template } from 'lodash'
 
 import { ISamplePrintStrategy } from './common'
 import {
   AuthContextToken,
+  AuthType,
   IAuthContext,
   IPrintFormRepository,
   ISampleTypeRepository,
@@ -12,6 +13,7 @@ import {
   SampleTypeRepositoryToken,
 } from 'src/domain'
 import { BranchAssertExistsUseCase } from 'src/app/branch'
+import { UserAssertExistsUseCase } from 'src/app/user'
 
 export type SamplePrintOptions = {
   sampleId: string
@@ -34,6 +36,7 @@ export class SamplePrintContext {
     @Inject(SampleTypeRepositoryToken)
     private readonly sampleTypeRepository: ISampleTypeRepository,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
+    private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
   ) {}
 
   setStrategy(printStrategy: ISamplePrintStrategy) {
@@ -42,7 +45,7 @@ export class SamplePrintContext {
   }
 
   async execute(options: SamplePrintOptions) {
-    const { user } = this.authContext.getDataInternal()
+    const authContext = this.authContext.getData()
     const printForm = (await this.printFormRepository.findById(
       options.printFormId,
     ))!
@@ -66,6 +69,14 @@ export class SamplePrintContext {
     }
 
     const compileAuthorName = template(meta.authorName)
+    let user: User
+    if (authContext.type === AuthType.Internal) {
+      user = authContext.user
+    } else {
+      user = await this.userAssertExistsUseCase.execute({
+        _id: authContext.authorizedByUserId,
+      })
+    }
     meta.authorName = compileAuthorName({ user })
 
     const data = await this.printStrategy.preparePrintData(

@@ -23,4 +23,16 @@ export const CacheKeyFactory = {
   activeRefreshToken(userId: string, refreshToken: string) {
     return `activeRefreshToken:userId:${userId}:refreshToken:${refreshToken}`
   },
+  /**
+   * datatype: string - "1"
+   */
+  activeExternalToken(userId: string, sampleId: string, jwt: string) {
+    return `activeExternalToken:userId:${userId}:sampleId:${sampleId}:jwt:${jwt}`
+  },
+  /**
+   * datatype: string - "1"
+   */
+  externalTokenBlacklist(jwt: string) {
+    return `externalTokenBlacklist:jwt:${jwt}`
+  },
 }

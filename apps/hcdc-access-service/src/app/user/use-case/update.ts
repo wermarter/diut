@@ -7,6 +7,10 @@ import {
   IAuthContext,
   IUserRepository,
   assertPermission,
+  AuthServiceToken,
+  IAuthService,
+  AuthType,
+  AuthContextData,
 } from 'src/domain'
 import { UserValidateUseCase } from './validate'
 import { UserAssertExistsUseCase } from './assert-exists'
@@ -24,6 +28,8 @@ export class UserUpdateUseCase {
     private readonly authContext: IAuthContext,
     private readonly userValidateUseCase: UserValidateUseCase,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
+    @Inject(AuthServiceToken)
+    private readonly authService: IAuthService,
   ) {}
 
   async execute(
@@ -31,11 +37,28 @@ export class UserUpdateUseCase {
     data: Omit<InputData, 'passwordHash'>,
     options?: InputOptions,
   ) {
+    delete filter.passwordHash
+    delete data.passwordHash
+
     const entity = await this.userAssertExistsUseCase.execute(filter)
-    const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.User, UserAction.Update, entity)
+    const authContext = this.authContext.getData()
+    assertPermission(
+      authContext.ability,
+      AuthSubject.User,
+      UserAction.Update,
+      entity,
+    )
     await this.userValidateUseCase.execute(data)
 
-    return this.userRepository.update(filter, data, options)
+    const rv = await this.userRepository.update(filter, data, options)
+
+    if (rv !== null) {
+      await this.authService.invalidate({
+        type: AuthType.Internal,
+        user: { _id: entity._id },
+      } as AuthContextData)
+    }
+
+    return rv
   }
 }

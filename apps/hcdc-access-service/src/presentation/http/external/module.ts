@@ -1,22 +1,22 @@
-import { JwtModule } from '@nestjs/jwt'
 import { Module } from '@nestjs/common'
 import { concatModuleMetadata } from '@diut/nestjs-infra'
+import { ClassConstructor } from 'class-transformer'
 
 import { ExternalController } from './controller'
 import { AuthServiceToken, IAuthService } from 'src/domain'
-import { HttpAuthService, commonModuleMetadata } from '../common'
-import { ClassConstructor } from 'class-transformer'
+import { commonModuleMetadata } from '../common'
+import { HttpExternalAuthService } from './auth'
 
 @Module(
   concatModuleMetadata([
     ...commonModuleMetadata,
     {
-      imports: [JwtModule.register({})],
       providers: [
-        HttpAuthService,
+        HttpExternalAuthService,
         {
           provide: AuthServiceToken,
-          useExisting: HttpAuthService satisfies ClassConstructor<IAuthService>,
+          useExisting:
+            HttpExternalAuthService satisfies ClassConstructor<IAuthService>,
         },
       ],
       controllers: [ExternalController],

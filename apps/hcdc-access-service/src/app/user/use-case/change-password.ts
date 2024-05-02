@@ -8,6 +8,10 @@ import {
   IAuthContext,
   IUserRepository,
   assertPermission,
+  AuthServiceToken,
+  IAuthService,
+  AuthType,
+  AuthContextData,
 } from 'src/domain'
 import { UserAssertExistsUseCase } from './assert-exists'
 
@@ -19,19 +23,30 @@ export class UserChangePasswordUseCase {
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
+    @Inject(AuthServiceToken)
+    private readonly authService: IAuthService,
   ) {}
 
   async execute(input: { id: string; newPassword: string }) {
     const entity = await this.userAssertExistsUseCase.execute({ _id: input.id })
-    const { ability } = this.authContext.getData()
+    const authContext = this.authContext.getData()
     assertPermission(
-      ability,
+      authContext.ability,
       AuthSubject.User,
       UserAction.ChangePassword,
       entity,
     )
 
     const passwordHash = await argon2.hash(input.newPassword)
-    return this.userRepository.update({ _id: input.id }, { passwordHash })
+    const rv = this.userRepository.update({ _id: input.id }, { passwordHash })
+
+    if (rv !== null) {
+      await this.authService.invalidate({
+        type: AuthType.Internal,
+        user: { _id: input.id },
+      } as AuthContextData)
+    }
+
+    return rv
   }
 }

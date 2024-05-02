@@ -46,9 +46,9 @@ export class AuthController {
 
   @HttpRoute(authRoutes.logout)
   logout(@Res({ passthrough: true }) res: Response): void {
-    const { metadata } = this.authContext.getDataInternal()
+    const { refreshToken } = this.authContext.getDataInternal()
 
     this.authService.clearAuthCookie(res)
-    this.authService.setBlacklisted(metadata.refreshToken)
+    this.authService.setBlacklisted(refreshToken)
   }
 }

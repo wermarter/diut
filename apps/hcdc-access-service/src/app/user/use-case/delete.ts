@@ -7,6 +7,10 @@ import {
   IAuthContext,
   IUserRepository,
   assertPermission,
+  AuthServiceToken,
+  IAuthService,
+  AuthType,
+  AuthContextData,
 } from 'src/domain'
 import { UserAssertExistsUseCase } from './assert-exists'
 
@@ -18,16 +22,27 @@ export class UserDeleteUseCase {
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
+    @Inject(AuthServiceToken)
+    private readonly authService: IAuthService,
   ) {}
 
   async execute(input: { id: string }) {
     const entity = await this.userAssertExistsUseCase.execute({
       _id: input.id,
     })
-    const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.User, UserAction.Delete, entity)
+    const authContext = this.authContext.getData()
+    assertPermission(
+      authContext.ability,
+      AuthSubject.User,
+      UserAction.Delete,
+      entity,
+    )
 
     await this.userRepository.deleteById(input.id)
+    await this.authService.invalidate({
+      type: AuthType.Internal,
+      user: { _id: entity._id },
+    } as AuthContextData)
 
     return entity
   }
