@@ -6,6 +6,7 @@ import {
   TextField,
   TextFieldProps,
 } from '@mui/material'
+import { useMemo } from 'react'
 import { Control, Controller, Path, FieldValues } from 'react-hook-form'
 
 export type FormAutocompleteProps<
@@ -19,6 +20,7 @@ export type FormAutocompleteProps<
   options: OptionType[]
   getOptionLabel: (option: OptionType) => string
   getOptionValue: (option: OptionType) => unknown
+  preserveInputOrder?: boolean
 
   disableError?: boolean
   multiple?: boolean
@@ -45,9 +47,14 @@ export function FormAutocomplete<
   groupBy,
   multiple = false,
   disableError = false,
+  preserveInputOrder = false,
   size = 'small',
   textFieldProps = {},
 }: FormAutocompleteProps<TFieldValues, OptionType>) {
+  const optionMap = useMemo(() => {
+    return new Map(options.map((option) => [getOptionValue(option), option]))
+  }, [options])
+
   return (
     <Controller
       name={name}
@@ -81,9 +88,11 @@ export function FormAutocomplete<
             }}
             value={
               multiple === true
-                ? options.filter((option) =>
-                    value?.includes(getOptionValue(option)),
-                  )
+                ? preserveInputOrder === true
+                  ? value?.map((val: string) => optionMap.get(val))
+                  : options.filter((option) =>
+                      value?.includes(getOptionValue(option)),
+                    )
                 : options.find((option) => getOptionValue(option) === value)
             }
             renderInput={(params) => (

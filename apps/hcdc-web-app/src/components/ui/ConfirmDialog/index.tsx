@@ -62,7 +62,7 @@ export function ConfirmDialog({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent dividers={children !== undefined}>
         {contentText.length > 0 && (
-          <DialogContentText>{contentText}</DialogContentText>
+          <DialogContentText mb={2}>{contentText}</DialogContentText>
         )}
         {children}
       </DialogContent>

@@ -5,12 +5,15 @@ import { FormAutocomplete, FormAutocompleteProps } from 'src/components/form'
 import { ConfirmDialog } from '../ConfirmDialog'
 import { useEffect } from 'react'
 
-type RequiredProps = Pick<FormAutocompleteProps, 'getOptionLabel' | 'options'>
+type RequiredProps = Pick<
+  FormAutocompleteProps,
+  'getOptionLabel' | 'getOptionValue' | 'options'
+>
 type RequiredPropNames = keyof RequiredProps
 
 type ExcludedProps = Pick<
   FormAutocompleteProps,
-  'name' | 'control' | 'multiple' | 'getOptionValue'
+  'name' | 'control' | 'multiple'
 >
 type ExcludedPropNames = keyof ExcludedProps
 
@@ -19,13 +22,13 @@ type OptionalPropNames = Exclude<
   RequiredPropNames | ExcludedPropNames
 >
 
-export type AutocompleteDialogProps<TOption> = {
+export type AutocompleteDialogProps<TOption, TValue> = {
   title: string
   contentText?: string
   open: boolean
   onClose: Function
-  onSubmit: (selectedOptions: TOption[]) => unknown
-  selectedOptions: TOption[]
+  onSubmit: (selectedOptionValues: TValue[]) => unknown
+  selectedOptionValues: TValue[]
   maxWidth?: DialogProps['maxWidth']
   fullWidth?: boolean
 
@@ -37,18 +40,18 @@ export type AutocompleteDialogProps<TOption> = {
     >
 }
 
-export function AutocompleteDialog<TOption>(
-  props: AutocompleteDialogProps<TOption>,
+export function AutocompleteDialog<TOption, TValue>(
+  props: AutocompleteDialogProps<TOption, TValue>,
 ) {
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
-      optionValues: props.selectedOptions,
+      optionValues: props.selectedOptionValues,
     },
   })
 
   useEffect(() => {
     if (props.open) {
-      setValue('optionValues', props.selectedOptions)
+      setValue('optionValues', props.selectedOptionValues)
     }
   }, [props.open])
 
@@ -62,6 +65,7 @@ export function AutocompleteDialog<TOption>(
       onClose={props.onClose}
       onConfirm={handleSubmit(({ optionValues }) => {
         props.onSubmit(optionValues)
+        props.onClose()
       })}
       open={props.open}
       title={props.title}
@@ -75,7 +79,6 @@ export function AutocompleteDialog<TOption>(
         {...props.FormAutocompleteProps}
         control={control}
         name="optionValues"
-        getOptionValue={(option) => option}
         multiple
       />
     </ConfirmDialog>

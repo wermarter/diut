@@ -28,6 +28,7 @@ export function ManageTestPage() {
     instruments,
     sampleTypes,
     printFormMap,
+    printForms,
   } = useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
   const revalidator = useRevalidator()
   const revalidateCallback = useCallback(() => {
@@ -83,6 +84,7 @@ export function ManageTestPage() {
       testCategories={testCategories}
       bioProducts={bioProducts}
       instruments={instruments}
+      printForms={printForms}
       printFormMap={printFormMap}
       sampleTypes={sampleTypes}
       revalidateCallback={revalidateCallback}

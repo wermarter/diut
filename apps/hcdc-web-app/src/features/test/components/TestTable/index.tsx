@@ -33,6 +33,7 @@ type TestTableProps = {
   bioProducts: BioProductResponseDto[]
   instruments: InstrumentResponseDto[]
   sampleTypes: SampleTypeResponseDto[]
+  printForms: PrintFormResponseDto[]
   printFormMap: Map<string, PrintFormResponseDto>
   revalidateCallback: () => void
   testCategoryId: string
@@ -218,31 +219,32 @@ export function TestTable(props: TestTableProps) {
         <InstrumentTable testId={instrumentTest?._id!} />
       </SideAction>
       <AutocompleteDialog
-        title={`Form in: ${printFormTest?.name!}`}
+        title={printFormTest?.name!}
         open={printFormTest !== null}
         onClose={() => {
           setPrintFormTest(null)
           props.revalidateCallback()
         }}
-        selectedOptions={
-          printFormTest?.printFormIds?.map(
-            (printFormId) => props.printFormMap.get(printFormId)!,
-          )!
-        }
-        onSubmit={(selectedPrintForms) => {
+        selectedOptionValues={printFormTest?.printFormIds!}
+        onSubmit={(selectedPrintFormIds) => {
           updateTest({
             id: printFormTest?._id!,
             testUpdateRequestDto: {
-              printFormIds: selectedPrintForms.map(({ _id }) => _id),
+              printFormIds: selectedPrintFormIds,
             },
           })
         }}
         fullWidth
         maxWidth="sm"
+        contentText="Form đầu tiên quyết hình thức nhập KQ"
         FormAutocompleteProps={{
+          preserveInputOrder: true,
           size: 'medium',
-          label: 'Chọn Form in',
-          options: Array.from(props.printFormMap.values()),
+          label: 'Form in',
+          options: props.printForms,
+          getOptionValue(option) {
+            return option._id
+          },
           getOptionLabel(option) {
             return option.name
           },

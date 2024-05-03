@@ -17,3 +17,4 @@ longhorn:
   defaultSettings:
     backupTarget: s3://diut-lab@ap-southeast-1/longhorn-backup
     backupTargetCredentialSecret: longhorn-backup-secret
+    backupstorePollInterval: '36000'

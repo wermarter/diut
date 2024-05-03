@@ -111,9 +111,7 @@ export function useTestColumns(
           value: sampleType._id,
           label: sampleType.name,
         }))
-        .concat([
-          { label: '-- không có --', value: null as unknown as string },
-        ]),
+        .concat([{ label: '-- không --', value: null as unknown as string }]),
     },
     {
       field: 'shouldDisplayWithChildren',
@@ -132,13 +130,13 @@ export function useTestColumns(
       editable: false,
       valueGetter: ({ row }) => {
         const printFormNames = row.printFormIds
-          .map((printFormId) => printFormMap.get(printFormId)?.name)
+          ?.map((printFormId) => printFormMap.get(printFormId)?.name)
           .filter(identity)
-        if (printFormNames.length === 0) {
-          return '-- không in --'
+        if (printFormNames?.length === 0) {
+          return '-- không --'
         }
 
-        return printFormNames.join(', ')
+        return printFormNames?.join(', ')
       },
     },
   ]
