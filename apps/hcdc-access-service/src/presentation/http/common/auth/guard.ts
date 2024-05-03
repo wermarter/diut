@@ -42,13 +42,12 @@ export class HttpAuthGuard implements CanActivate {
     if (!refreshToken) {
       throw new EAuthnCookieNotFound()
     }
-    if (await this.authService.checkBlacklisted(refreshToken)) {
-      this.authService.clearAuthCookie(response)
-      throw new EAuthnJwtInvalidToken()
-    }
 
     if (!accessToken) {
-      const newTokens = await this.authService.refreshTokenPair(refreshToken)
+      const newTokens = await this.authService.refreshTokenPair(
+        response,
+        refreshToken,
+      )
       this.authService.setAuthCookie(response, newTokens)
       accessToken = newTokens.accessToken
       refreshToken = newTokens.refreshToken

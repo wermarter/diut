@@ -158,8 +158,14 @@ export class HttpAuthService implements IAuthService {
     }
   }
 
-  async refreshTokenPair(currentRefreshToken: string) {
+  async refreshTokenPair(response: Response, currentRefreshToken: string) {
     const payload = await this.verifyRefreshToken(currentRefreshToken)
+
+    if (await this.checkBlacklisted(currentRefreshToken)) {
+      this.clearAuthCookie(response)
+      throw new EAuthnJwtInvalidToken()
+    }
+
     if (payload === null) {
       throw new EAuthnJwtInvalidToken()
     }
