@@ -87,10 +87,17 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     }).unwrap()
   }
 
+  const [allTestOptions, setAllTestOptions] = useState<
+    OmittedTestResponseDto[]
+  >([])
   const [testOptions, setTestOptions] = useState<OmittedTestResponseDto[]>([])
   const [sampleTypeOptions, setSampleTypeOptions] = useState<
     SampleTypeResponseDto[]
   >([])
+  const [printFormOptions, setPrintFormOptions] = useState<
+    PrintFormResponseDto[]
+  >([])
+
   useEffect(() => {
     if (props.sample?._id) {
       const allTestOptions =
@@ -107,11 +114,26 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
           (sampleTypeId) => props.sampleTypeMap.get(sampleTypeId)!,
         ),
       )
-      setTestOptions(allTestOptions)
-      setValue(
-        'testIds',
-        allTestOptions.map(({ testId }) => testId) as FormSchema['testIds'],
-      )
+      setAllTestOptions(allTestOptions)
+
+      const printFormIdSet = new Set<string>()
+      allTestOptions.forEach(({ testId }) => {
+        const test = props.testMap.get(testId)!
+
+        for (const printFormId of test.printFormIds) {
+          printFormIdSet.add(printFormId)
+        }
+      })
+
+      const printFormOptions: PrintFormResponseDto[] = []
+      printFormIdSet.forEach((printFormId) => {
+        printFormOptions.push(props.printFormMap.get(printFormId)!)
+      })
+
+      setPrintFormOptions(printFormOptions)
+      if (printFormOptions.length > 0) {
+        setValue('printFormId', printFormOptions[0]._id)
+      }
     }
   }, [props.sample?._id])
 
@@ -134,6 +156,40 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     )
   }, [testIds])
 
+  const printFormId = watch('printFormId')
+  useEffect(() => {
+    if (printFormId.length > 1) {
+      const printForm = props.printFormMap.get(printFormId)!
+
+      const testOptions = allTestOptions.filter(({ testId }) => {
+        const test = props.testMap.get(testId)!
+        return test.printFormIds.includes(printFormId)
+      })
+
+      setTestOptions(testOptions)
+      setValue(
+        'testIds',
+        testOptions.map(({ testId }) => testId) as FormSchema['testIds'],
+      )
+
+      if (printForm.authorName) {
+        const compileAuthorName = template(printForm.authorName)
+        setValue(
+          'authorName',
+          compileAuthorName({ user: { name: userName } }),
+          {
+            shouldDirty: false,
+          },
+        )
+      }
+      if (printForm.authorTitle) {
+        setValue('authorTitle', printForm.authorTitle, {
+          shouldDirty: false,
+        })
+      }
+    }
+  }, [printFormId])
+
   return (
     <Dialog
       TransitionComponent={DialogTransition}
@@ -151,6 +207,17 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
         <FormContainer onSubmit={handleSubmit(handlePrint)}>
           <Grid container spacing={2}>
             <Grid xs={12}>
+              <FormSelect
+                control={control}
+                size="small"
+                name="printFormId"
+                label="Form In"
+                options={printFormOptions}
+                getOptionLabel={(printForm) => printForm.name}
+                getOptionValue={(printForm) => printForm._id}
+              />
+            </Grid>
+            <Grid xs={12}>
               <FormAutocomplete
                 size="medium"
                 multiple
@@ -163,41 +230,6 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 }
                 getOptionValue={(option) => option.testId}
                 label="Chọn XN"
-              />
-            </Grid>
-            <Grid xs={12}>
-              <FormSelect
-                control={control}
-                onChangeHook={(value) => {
-                  const printForm = props.printFormMap.get(value)
-                  if (printForm?.authorName) {
-                    const compileAuthorName = template(printForm.authorName)
-                    setValue(
-                      'authorName',
-                      compileAuthorName({ user: { name: userName } }),
-                      {
-                        shouldDirty: false,
-                      },
-                    )
-                  }
-                  if (printForm?.authorTitle) {
-                    setValue('authorTitle', printForm.authorTitle, {
-                      shouldDirty: false,
-                    })
-                  }
-                }}
-                size="small"
-                name="printFormId"
-                label="Form In"
-                options={Array.from(props.printFormMap.values()).filter(
-                  ({ _id }) =>
-                    watch('testIds')?.some(
-                      (testId) =>
-                        props.testMap.get(testId)?.printFormId === _id,
-                    ) ?? true,
-                )}
-                getOptionLabel={(printForm) => printForm.name}
-                getOptionValue={(printForm) => printForm._id}
               />
             </Grid>
             <Grid xs={12}>
@@ -223,8 +255,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                     userAbility,
                     AuthSubject.PrintForm,
                     PrintFormAction.OverrideAuthor,
-                  ) &&
-                  props.printFormMap.get(watch('printFormId'))?.isAuthorLocked!
+                  ) && props.printFormMap.get(printFormId)?.isAuthorLocked!
                 }
               />
             </Grid>
@@ -239,8 +270,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                     userAbility,
                     AuthSubject.PrintForm,
                     PrintFormAction.OverrideAuthor,
-                  ) &&
-                  props.printFormMap.get(watch('printFormId'))?.isAuthorLocked!
+                  ) && props.printFormMap.get(printFormId)?.isAuthorLocked!
                 }
               />
             </Grid>

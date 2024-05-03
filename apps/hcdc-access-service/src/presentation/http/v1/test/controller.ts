@@ -46,7 +46,7 @@ export class TestController {
         { path: 'instrument' },
         { path: 'sampleType' },
         { path: 'testCategory' },
-        { path: 'printForm' },
+        { path: 'printForms' },
         { path: 'branch' },
       ],
     })

@@ -1,7 +1,7 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
-import { IsOptional, ValidateNested } from 'class-validator'
+import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
 import { TestCreateRequestDto } from './create.request-dto'
 import { exampleTest } from 'src/domain'
@@ -60,13 +60,14 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
 
   @Expose()
   @ApiProperty({
-    ...exampleTest.printForm,
+    ...exampleTest.printForms,
     type: () => PrintFormUnpopulatedResponseDto,
   })
-  @ValidateNested()
+  @IsArray()
+  @ValidateNested({ each: true })
   @Type(() => PrintFormUnpopulatedResponseDto)
   @IsOptional()
-  printForm?: PrintFormUnpopulatedResponseDto | null
+  printForms?: PrintFormUnpopulatedResponseDto[]
 
   @Expose()
   @ApiProperty({

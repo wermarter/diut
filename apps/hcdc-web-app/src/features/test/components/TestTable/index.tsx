@@ -15,7 +15,7 @@ import { usePagination } from 'src/shared/hooks'
 import { useTestColumns } from './columns'
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
-import { SideAction } from 'src/components/ui'
+import { AutocompleteDialog, SideAction } from 'src/components/ui'
 import { BioProductTable } from 'src/features/bio-product'
 import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-category'
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
@@ -33,7 +33,7 @@ type TestTableProps = {
   bioProducts: BioProductResponseDto[]
   instruments: InstrumentResponseDto[]
   sampleTypes: SampleTypeResponseDto[]
-  printForms: PrintFormResponseDto[]
+  printFormMap: Map<string, PrintFormResponseDto>
   revalidateCallback: () => void
   testCategoryId: string
   setTestCategoryId: (id: string) => void
@@ -44,8 +44,8 @@ export function TestTable(props: TestTableProps) {
   const columns = useTestColumns(
     props.bioProducts,
     props.instruments,
-    props.printForms,
     props.sampleTypes,
+    props.printFormMap,
   )
 
   const { filterObj, setFilterObj } = usePagination<TestSearchRequestDto>({
@@ -96,6 +96,9 @@ export function TestTable(props: TestTableProps) {
   const [instrumentTest, setInstrumentTest] = useState<TestResponseDto | null>(
     null,
   )
+  const [printFormTest, setPrintFormTest] = useState<TestResponseDto | null>(
+    null,
+  )
 
   return (
     <>
@@ -114,7 +117,7 @@ export function TestTable(props: TestTableProps) {
             name: item.name,
             displayIndex: item.displayIndex,
             bioProductId: item.bioProductId ?? null,
-            printFormId: item.printFormId ?? null,
+            printFormIds: [],
             instrumentId: item.instrumentId ?? null,
             sampleTypeId: item.sampleTypeId ?? null,
             shouldDisplayWithChildren: item.shouldDisplayWithChildren ?? false,
@@ -129,7 +132,6 @@ export function TestTable(props: TestTableProps) {
               name: newItem.name,
               displayIndex: newItem.displayIndex,
               bioProductId: newItem.bioProductId,
-              printFormId: newItem.printFormId,
               instrumentId: newItem.instrumentId,
               sampleTypeId: newItem.sampleTypeId,
               shouldDisplayWithChildren: newItem.shouldDisplayWithChildren,
@@ -153,6 +155,12 @@ export function TestTable(props: TestTableProps) {
             label: 'Máy XN',
             action(test) {
               setInstrumentTest(test)
+            },
+          },
+          {
+            label: 'Form in',
+            action(test) {
+              setPrintFormTest(test)
             },
           },
         ]}
@@ -209,6 +217,37 @@ export function TestTable(props: TestTableProps) {
       >
         <InstrumentTable testId={instrumentTest?._id!} />
       </SideAction>
+      <AutocompleteDialog
+        title={`Form in: ${printFormTest?.name!}`}
+        open={printFormTest !== null}
+        onClose={() => {
+          setPrintFormTest(null)
+          props.revalidateCallback()
+        }}
+        selectedOptions={
+          printFormTest?.printFormIds?.map(
+            (printFormId) => props.printFormMap.get(printFormId)!,
+          )!
+        }
+        onSubmit={(selectedPrintForms) => {
+          updateTest({
+            id: printFormTest?._id!,
+            testUpdateRequestDto: {
+              printFormIds: selectedPrintForms.map(({ _id }) => _id),
+            },
+          })
+        }}
+        fullWidth
+        maxWidth="sm"
+        FormAutocompleteProps={{
+          size: 'medium',
+          label: 'Chọn Form in',
+          options: Array.from(props.printFormMap.values()),
+          getOptionLabel(option) {
+            return option.name
+          },
+        }}
+      />
     </>
   )
 }

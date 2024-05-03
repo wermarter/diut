@@ -66,7 +66,7 @@ export function ResultCard(props: ResultCardProps) {
 
   const CardContentComponent = useMemo(() => {
     const printForm = props.printFormMap.get(
-      props.testResult.test?.printFormId!,
+      props.testResult.test?.printFormIds[0]!,
     )
     switch (printForm?.template!) {
       case PrintTemplate.FormPap:
@@ -76,7 +76,7 @@ export function ResultCard(props: ResultCardProps) {
       default:
         return CardContentChung
     }
-  }, [props.testResult.test?.printFormId])
+  }, [props.testResult.test?.printFormIds[0]])
 
   const [updateSampleResult, { isLoading }] =
     useSampleUpdateResultByIdMutation()
@@ -111,7 +111,9 @@ export function ResultCard(props: ResultCardProps) {
         titleTypographyProps={{
           color: props.testResult.isLocked ? '#CCC' : 'primary',
           fontWeight:
-            props.testResult.test?.printFormId === null ? 'normal' : 'bold',
+            props.testResult.test?.printFormIds.length === 0
+              ? 'normal'
+              : 'bold',
         }}
         subheader={props.testResult.bioProductName}
         action={

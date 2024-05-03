@@ -65,7 +65,6 @@ export abstract class AbstractSamplePrintStrategy
         },
         {
           path: 'results.test',
-          populate: { path: 'printForm', match: { isDeleted: false } },
         },
         {
           path: 'results.elements.testElement',
@@ -95,31 +94,27 @@ export abstract class AbstractSamplePrintStrategy
 
       for (const testResult of testResults) {
         const test = testResult.test!
+        const elements: SamplePrintData['categories'][number]['tests'][number]['elements'] =
+          []
 
-        if (test.printForm?.template === this.template) {
-          const elements: SamplePrintData['categories'][number]['tests'][number]['elements'] =
-            []
-
-          for (const elementResult of testResult.elements) {
-            if (
-              elementResult.testElement &&
-              elementResult.testElement.printIndex > 0
-            ) {
-              elements.push(elementResult)
-            }
+        for (const elementResult of testResult.elements) {
+          if (
+            elementResult.testElement &&
+            elementResult.testElement.printIndex > 0
+          ) {
+            elements.push(elementResult)
           }
+        }
 
-          if (elements.length > 0) {
-            tests.push({
-              ...test,
-              bioProductName: testResult.bioProductName,
-              instrumentName: testResult.instrumentName,
-              elements: elements.toSorted(
-                (a, b) =>
-                  a.testElement?.printIndex! - b.testElement?.printIndex!,
-              ),
-            })
-          }
+        if (elements.length > 0) {
+          tests.push({
+            ...test,
+            bioProductName: testResult.bioProductName,
+            instrumentName: testResult.instrumentName,
+            elements: elements.toSorted(
+              (a, b) => a.testElement?.printIndex! - b.testElement?.printIndex!,
+            ),
+          })
         }
       }
 

@@ -1,12 +1,12 @@
+import { PropsWithChildren, forwardRef } from 'react'
 import { Slide } from '@mui/material'
 import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
+import Dialog, { DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { TransitionProps } from '@mui/material/transitions'
-import { forwardRef } from 'react'
 
 export const DialogTransition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -17,12 +17,14 @@ export const DialogTransition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-interface ConfirmDialogProps {
+interface ConfirmDialogProps extends PropsWithChildren {
   open: boolean
   onClose: Function
   onConfirm: Function
   title?: string
-  content?: string
+  contentText?: string
+  maxWidth?: DialogProps['maxWidth']
+  fullWidth?: boolean
 }
 
 export function ConfirmDialog({
@@ -30,7 +32,10 @@ export function ConfirmDialog({
   onClose,
   onConfirm,
   title = 'Bạn có chắc chắn không?',
-  content = '',
+  contentText = '',
+  maxWidth,
+  fullWidth,
+  children,
 }: ConfirmDialogProps) {
   const handleClose = (
     event: object,
@@ -49,12 +54,17 @@ export function ConfirmDialog({
   return (
     <Dialog
       open={open}
+      maxWidth={maxWidth}
+      fullWidth={fullWidth}
       onClose={handleClose}
       TransitionComponent={DialogTransition}
     >
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{content}</DialogContentText>
+      <DialogContent dividers={children !== undefined}>
+        {contentText.length > 0 && (
+          <DialogContentText>{contentText}</DialogContentText>
+        )}
+        {children}
       </DialogContent>
       <DialogActions>
         <Button

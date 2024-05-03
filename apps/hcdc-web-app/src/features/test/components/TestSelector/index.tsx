@@ -157,7 +157,7 @@ export function TestSelector({
                         <ListItemText
                           primaryTypographyProps={{
                             sx:
-                              test.printFormId === null
+                              test.printFormIds.length === 0
                                 ? {}
                                 : { fontWeight: 'bold' },
                           }}

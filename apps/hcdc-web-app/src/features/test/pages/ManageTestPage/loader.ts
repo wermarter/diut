@@ -31,7 +31,9 @@ export const manageTestPageLoader = async () => {
     testCategories: categoryRes?.items ?? [],
     bioProducts: bioProductRes?.items ?? [],
     instruments: instrumentRes?.items ?? [],
-    printForms: printFormRes?.items ?? [],
     sampleTypes: sampleTypeRes?.items ?? [],
+    printFormMap: new Map(
+      printFormRes.items.map((printForm) => [printForm._id, printForm]),
+    ),
   }
 }

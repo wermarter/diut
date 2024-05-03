@@ -23,8 +23,8 @@ export type Test = BaseEntity & {
   testCategoryId: string
   testCategory?: TestCategory | null
 
-  printFormId: string | null
-  printForm?: PrintForm | null
+  printFormIds: string[]
+  printForms?: (PrintForm | null)[]
 
   branchId: string
   branch?: Branch | null

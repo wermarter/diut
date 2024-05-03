@@ -169,7 +169,7 @@ export function PatientSearchView(props: PatientSearchViewProps) {
         onClose={() => {
           setOpenDeleteItem(null)
         }}
-        content="Tất cả các mẫu XN liên kết với bệnh nhân này cũng sẽ bị xoá!"
+        contentText="Tất cả các mẫu XN liên kết với bệnh nhân này cũng sẽ bị xoá!"
         onConfirm={() => {
           if (openDeleteItem != null) {
             // this should be async, but i like this behavior better

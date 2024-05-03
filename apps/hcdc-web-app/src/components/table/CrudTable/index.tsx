@@ -258,7 +258,7 @@ export function CrudTable<R extends GridValidRowModel>({
         onPageSizeChange={onPageSizeChange}
       />
       <ConfirmDialog
-        content={JSON.stringify(openDeleteItem)}
+        contentText={JSON.stringify(openDeleteItem)}
         open={openDeleteItem != null}
         onClose={() => {
           setOpenDeleteItem(null)

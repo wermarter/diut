@@ -49,7 +49,7 @@ export class TestAuthorizePopulatesUseCase {
             subject: AuthSubject.TestCategory,
             action: TestCategoryAction.Read,
           }
-        case 'printForm':
+        case 'printForms':
           return {
             subject: AuthSubject.PrintForm,
             action: PrintFormAction.Read,

@@ -1,4 +1,4 @@
-import { exampleMongoObjectId } from '@diut/common'
+import { exampleMongoObjectId, exampleMongoObjectIds } from '@diut/common'
 import { Test } from '@diut/hcdc'
 
 import { EntityDataExample } from '../base-entity'
@@ -31,10 +31,10 @@ export const exampleTest = {
     required: false,
     nullable: true,
   },
-  printFormId: { ...exampleMongoObjectId, nullable: true },
-  printForm: {
+  printFormIds: exampleMongoObjectIds,
+  printForms: {
     required: false,
-    nullable: true,
+    isArray: true,
   },
   branchId: exampleMongoObjectId,
   branch: {

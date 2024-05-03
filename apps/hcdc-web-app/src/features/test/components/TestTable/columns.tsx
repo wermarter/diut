@@ -1,4 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid'
+import { identity } from 'lodash'
 import { useMemo } from 'react'
 
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'
@@ -10,8 +11,8 @@ import { TestResponseDto } from 'src/infra/api/access-service/test'
 export function useTestColumns(
   bioProducts: BioProductResponseDto[],
   instruments: InstrumentResponseDto[],
-  printForms: PrintFormResponseDto[],
   sampleTypes: SampleTypeResponseDto[],
+  printFormMap: Map<string, PrintFormResponseDto>,
 ): GridColDef<TestResponseDto>[] {
   const bioProductLookup = useMemo(() => {
     const bioProductMap: Record<string, BioProductResponseDto[]> = {}
@@ -80,7 +81,7 @@ export function useTestColumns(
       field: 'bioProductId',
       headerName: 'Sinh phẩm',
       type: 'singleSelect',
-      width: 180,
+      width: 150,
       sortable: false,
       editable: true,
       valueOptions(params) {
@@ -91,7 +92,7 @@ export function useTestColumns(
       field: 'instrumentId',
       headerName: 'Máy XN',
       type: 'singleSelect',
-      width: 180,
+      width: 150,
       sortable: false,
       editable: true,
       valueOptions(params) {
@@ -123,20 +124,22 @@ export function useTestColumns(
       editable: true,
     },
     {
-      field: 'printFormId',
+      field: 'printForms',
       type: 'singleSelect',
       headerName: 'Form In',
-      width: 120,
+      width: 180,
       sortable: false,
-      editable: true,
-      valueOptions: printForms
-        .map((printForm) => ({
-          value: printForm._id,
-          label: printForm.name,
-        }))
-        .concat([
-          { label: '-- không in --', value: null as unknown as string },
-        ]),
+      editable: false,
+      valueGetter: ({ row }) => {
+        const printFormNames = row.printFormIds
+          .map((printFormId) => printFormMap.get(printFormId)?.name)
+          .filter(identity)
+        if (printFormNames.length === 0) {
+          return '-- không in --'
+        }
+
+        return printFormNames.join(', ')
+      },
     },
   ]
 }

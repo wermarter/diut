@@ -1,7 +1,14 @@
 import { IsNullable, IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsBoolean, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import {
+  IsArray,
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Min,
+} from 'class-validator'
 
 import { exampleTest } from 'src/domain'
 
@@ -47,10 +54,10 @@ export class TestCreateRequestDto {
   testCategoryId: string
 
   @Expose()
-  @ApiProperty(exampleTest.printFormId)
-  @IsNullable()
-  @IsObjectId()
-  printFormId: string | null
+  @ApiProperty(exampleTest.printFormIds)
+  @IsObjectId({ each: true })
+  @IsArray()
+  printFormIds: string[]
 
   @Expose()
   @ApiProperty(exampleTest.branchId)

@@ -43,7 +43,7 @@ export class TestValidateUseCase {
       instrumentId,
       sampleTypeId,
       testCategoryId,
-      printFormId,
+      printFormIds,
       branchId,
     } = input
 
@@ -100,16 +100,18 @@ export class TestValidateUseCase {
       )
     }
 
-    if (printFormId != undefined) {
-      const printForm = await this.printFormAssertExistsUseCase.execute({
-        _id: printFormId,
-      })
-      assertPermission(
-        ability,
-        AuthSubject.PrintForm,
-        PrintFormAction.Read,
-        printForm,
-      )
+    if (printFormIds?.length) {
+      for (const printFormId of printFormIds) {
+        const printForm = await this.printFormAssertExistsUseCase.execute({
+          _id: printFormId,
+        })
+        assertPermission(
+          ability,
+          AuthSubject.PrintForm,
+          PrintFormAction.Read,
+          printForm,
+        )
+      }
     }
 
     if (branchId !== undefined) {

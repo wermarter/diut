@@ -112,6 +112,7 @@ export type BranchUnpopulatedResponseDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
 }
 export type TestResponseDto = {
@@ -123,13 +124,13 @@ export type TestResponseDto = {
   instrumentId: string | null
   sampleTypeId: string | null
   testCategoryId: string
-  printFormId: string | null
+  printFormIds: string[]
   branchId: string
   bioProduct?: BioProductUnpopulatedResponseDto | null
   instrument?: InstrumentUnpopulatedResponseDto | null
   sampleType?: SampleTypeUnpopulatedResponseDto | null
   testCategory?: TestCategoryUnpopulatedResponseDto | null
-  printForm?: PrintFormUnpopulatedResponseDto | null
+  printForms?: PrintFormUnpopulatedResponseDto[]
   branch?: BranchUnpopulatedResponseDto | null
 }
 export type TestSearchResponseDto = {
@@ -145,12 +146,12 @@ export type HttpErrorResponse = {
     | 'AUTHN_JWT_INVALID_TOKEN'
     | 'AUTHN_LOGIN_INVALID_USERNAME'
     | 'AUTHN_LOGIN_INVALID_PASSWORD'
-    | 'AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_USER_NOT_FOUND'
+    | 'AUTHN_COOKIE_NOT_FOUND'
+    | 'AUTHN_PAYLOAD_INVALID'
     | 'AUTHZ'
     | 'AUTHZ_AUTHENTICATION_REQUIRED'
     | 'AUTHZ_PERMISSION_DENIED'
+    | 'AUTHZ_CONTEXT_INVALID'
     | 'ENTITY'
     | 'ENTITY_NOT_FOUND'
     | 'ENTITY_CANNOT_DELETE'
@@ -186,7 +187,7 @@ export type TestUnpopulatedResponseDto = {
   instrumentId: string | null
   sampleTypeId: string | null
   testCategoryId: string
-  printFormId: string | null
+  printFormIds: string[]
   branchId: string
 }
 export type TestCreateRequestDto = {
@@ -197,7 +198,7 @@ export type TestCreateRequestDto = {
   instrumentId: string | null
   sampleTypeId: string | null
   testCategoryId: string
-  printFormId: string | null
+  printFormIds: string[]
   branchId: string
 }
 export type TestUpdateRequestDto = {
@@ -208,7 +209,7 @@ export type TestUpdateRequestDto = {
   instrumentId?: string | null
   sampleTypeId?: string | null
   testCategoryId?: string
-  printFormId?: string | null
+  printFormIds?: string[]
   branchId?: string
 }
 export const {

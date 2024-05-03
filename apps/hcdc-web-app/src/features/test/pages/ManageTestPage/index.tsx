@@ -22,8 +22,13 @@ export function urlManageTestPage() {
 
 export function ManageTestPage() {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
-  const { testCategories, bioProducts, instruments, printForms, sampleTypes } =
-    useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
+  const {
+    testCategories,
+    bioProducts,
+    instruments,
+    sampleTypes,
+    printFormMap,
+  } = useLoaderData() as Awaited<ReturnType<typeof manageTestPageLoader>>
   const revalidator = useRevalidator()
   const revalidateCallback = useCallback(() => {
     revalidator.revalidate()
@@ -78,7 +83,7 @@ export function ManageTestPage() {
       testCategories={testCategories}
       bioProducts={bioProducts}
       instruments={instruments}
-      printForms={printForms}
+      printFormMap={printFormMap}
       sampleTypes={sampleTypes}
       revalidateCallback={revalidateCallback}
       testCategoryId={testCategoryId}

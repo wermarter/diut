@@ -46,12 +46,12 @@ import { PrintFormSchema } from '../print-form'
         justOne: true,
       },
     },
-    printForm: {
+    printForms: {
       options: {
         ref: 'PrintFormSchema',
-        localField: 'printFormId',
+        localField: 'printFormIds',
         foreignField: '_id',
-        justOne: true,
+        justOne: false,
       },
     },
     branch: {
@@ -91,8 +91,8 @@ export class TestSchema extends BaseSchema {
   testCategory?: TestCategorySchema | null
 
   @Prop({ required: false, type: Types.ObjectId })
-  printFormId: string | null
-  printForm?: PrintFormSchema | null
+  printFormIds: string[]
+  printForms?: (PrintFormSchema | null)[]
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string

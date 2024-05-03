@@ -20,8 +20,8 @@ export class TestComboCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleTestCombo.testIds)
-  @IsArray()
   @IsObjectId({ each: true })
+  @IsArray()
   testIds: string[]
 
   @Expose()

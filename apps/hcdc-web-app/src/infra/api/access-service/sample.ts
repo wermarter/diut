@@ -282,7 +282,7 @@ export type TestUnpopulatedResponseDto = {
   instrumentId: string | null
   sampleTypeId: string | null
   testCategoryId: string
-  printFormId: string | null
+  printFormIds: string[]
   branchId: string
 }
 export type OmittedTestResponseDto = {
