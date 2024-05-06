@@ -35,4 +35,6 @@ export enum BranchAction {
   Read = 'Read',
   Update = 'Update',
   Delete = 'Delete',
+  AuthorizeUser = 'AuthorizeUser',
+  DeauthorizeUser = 'DeauthorizeUser',
 }

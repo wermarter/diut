@@ -9,20 +9,9 @@ export const useUserColumns = (
 ): GridColDef<UserResponseDto>[] => {
   return [
     {
-      field: 'branches',
-      headerName: 'Chi nhánh',
-      minWidth: 100,
-      sortable: false,
-      editable: false,
-      valueGetter: ({ row }) => {
-        return (row.branchIds ?? []).length
-      },
-    },
-    {
       field: 'name',
       headerName: 'Tên',
-      flex: 1,
-      minWidth: 200,
+      width: 250,
       sortable: false,
       editable: true,
     },

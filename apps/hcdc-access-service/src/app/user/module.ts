@@ -9,6 +9,8 @@ import { UserAssertExistsUseCase } from './use-case/assert-exists'
 import { UserValidateUseCase } from './use-case/validate'
 import { UserAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { UserChangePasswordUseCase } from './use-case/change-password'
+import { UserBranchAuthorizeUseCase } from './use-case/branch-authorize'
+import { UserBranchDeauthorizeUseCase } from './use-case/branch-deauthorize'
 
 export const userMetadata: ModuleMetadata = {
   providers: [
@@ -21,5 +23,7 @@ export const userMetadata: ModuleMetadata = {
     UserValidateUseCase,
     UserAuthorizePopulatesUseCase,
     UserChangePasswordUseCase,
+    UserBranchAuthorizeUseCase,
+    UserBranchDeauthorizeUseCase,
   ],
 }

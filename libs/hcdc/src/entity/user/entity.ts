@@ -24,3 +24,5 @@ export enum UserAction {
   Delete = 'Delete',
   ChangePassword = 'ChangePassword',
 }
+
+export const USER_DEFAULT_PASSWORD = 'password'

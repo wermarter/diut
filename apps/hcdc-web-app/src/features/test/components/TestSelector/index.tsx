@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { groupBy } from 'lodash'
 
-import { SideAction } from 'src/components/ui'
+import { ProgressBar, SideAction } from 'src/components/ui'
 import {
   useTestSearchQuery,
   TestResponseDto,
@@ -123,7 +123,7 @@ export function TestSelector({
           </ButtonGroup>
         )}
       </Box>
-      {!isFetching && (
+      {!isFetching ? (
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           {categories.map((groupName) => {
             return (
@@ -171,6 +171,8 @@ export function TestSelector({
             )
           })}
         </Box>
+      ) : (
+        <ProgressBar />
       )}
     </SideAction>
   )

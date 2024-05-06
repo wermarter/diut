@@ -58,6 +58,16 @@ export const userRoutes = {
     },
   },
 
+  branchAuthorize: {
+    path: ':userId/branch-authorize/:branchId',
+    method: RequestMethod.POST,
+  },
+
+  branchDeauthorize: {
+    path: ':userId/branch-deauthorize/:branchId',
+    method: RequestMethod.POST,
+  },
+
   findById: {
     path: ':id',
     method: RequestMethod.GET,

@@ -51,14 +51,13 @@ export class SearchRequestDto<TEntity = unknown> {
   offset: number
 
   @ApiProperty({
-    default: 10,
     required: false,
     type: 'number',
   })
   @IsOptional()
   @IsNumber()
   @Min(1)
-  limit = 10
+  limit: number
 
   @ApiProperty({
     example: { createdAt: -1 },
@@ -68,6 +67,16 @@ export class SearchRequestDto<TEntity = unknown> {
   @IsOptional()
   @IsObject()
   sort?: { [key in keyof TEntity]?: SortOrder | { $meta: 'textScore' } }
+
+  @ApiProperty({
+    example: { _id: 1 },
+    required: false,
+  })
+  @IsOptional()
+  projection?:
+    | keyof TEntity
+    | (keyof TEntity)[]
+    | Partial<Record<keyof TEntity, number | boolean | object>>
 
   @ApiProperty({
     example: {},

@@ -130,6 +130,7 @@ export type PopulateOptionDto = {
 export type BranchSearchRequestDto = {
   offset?: number
   limit?: number
+  projection?: unknown
   sort?: object
   filter?: object
   populates?: PopulateOptionDto[]

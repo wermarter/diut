@@ -148,6 +148,7 @@ export type PopulateOptionDto = {
 export type TestComboSearchRequestDto = {
   offset?: number
   limit?: number
+  projection?: unknown
   sort?: object
   filter?: object
   populates?: PopulateOptionDto[]

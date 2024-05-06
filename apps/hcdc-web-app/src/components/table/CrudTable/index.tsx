@@ -13,11 +13,11 @@ import {
   GridEventListener,
   GridValidRowModel,
 } from '@mui/x-data-grid'
+import { trimObjectValues } from '@diut/common'
 
 import { DataTable } from '../DataTable'
 import { CrudToolbar } from './components/CrudToolbar'
 import { ConfirmDialog } from 'src/components/ui'
-import { trimObjectValues } from '@diut/common'
 
 interface CustomRowAction<R extends GridValidRowModel> {
   label: string
@@ -267,7 +267,6 @@ export function CrudTable<R extends GridValidRowModel>({
           if (openDeleteItem != null && onItemDelete != undefined) {
             onItemDelete(openDeleteItem)
           }
-          setOpenDeleteItem(null)
         }}
       />
     </>

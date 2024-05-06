@@ -1,9 +1,9 @@
+import { useEffect } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { DialogProps } from '@mui/material'
 
 import { FormAutocomplete, FormAutocompleteProps } from 'src/components/form'
 import { ConfirmDialog } from '../ConfirmDialog'
-import { useEffect } from 'react'
 
 type RequiredProps = Pick<
   FormAutocompleteProps,
@@ -43,7 +43,7 @@ export type AutocompleteDialogProps<TOption, TValue> = {
 export function AutocompleteDialog<TOption, TValue>(
   props: AutocompleteDialogProps<TOption, TValue>,
 ) {
-  const { control, handleSubmit, setValue, watch } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       optionValues: props.selectedOptionValues,
     },
@@ -55,17 +55,11 @@ export function AutocompleteDialog<TOption, TValue>(
     }
   }, [props.open])
 
-  const value = watch('optionValues')
-  useEffect(() => {
-    console.log(value)
-  }, [value])
-
   return (
     <ConfirmDialog
       onClose={props.onClose}
       onConfirm={handleSubmit(({ optionValues }) => {
         props.onSubmit(optionValues)
-        props.onClose()
       })}
       open={props.open}
       title={props.title}

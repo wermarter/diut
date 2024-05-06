@@ -49,6 +49,7 @@ export function ConfirmDialog({
 
   const handleConfirm = () => {
     onConfirm()
+    onClose()
   }
 
   return (

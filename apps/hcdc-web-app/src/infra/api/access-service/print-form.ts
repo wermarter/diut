@@ -140,6 +140,7 @@ export type PopulateOptionDto = {
 export type PrintFormSearchRequestDto = {
   offset?: number
   limit?: number
+  projection?: unknown
   sort?: object
   filter?: object
   populates?: PopulateOptionDto[]

@@ -7,6 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { Response } from 'express'
+import { ApiTags } from '@nestjs/swagger'
 
 import { SamplePrintUseCase } from 'src/app'
 import { AuthContextToken, IAuthContext } from 'src/domain'
@@ -14,6 +15,7 @@ import { HttpExternalAuthGuard } from './auth'
 import { SamplePrintOptions } from 'src/app/sample/print-strategy/context'
 
 @Controller('external')
+@ApiTags('external')
 @UseGuards(HttpExternalAuthGuard)
 export class ExternalController {
   constructor(

@@ -58,6 +58,26 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['v1-users'],
       }),
+      userBranchAuthorize: build.mutation<
+        UserBranchAuthorizeApiResponse,
+        UserBranchAuthorizeApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/users/${queryArg.userId}/branch-authorize/${queryArg.branchId}`,
+          method: 'POST',
+        }),
+        invalidatesTags: ['v1-users'],
+      }),
+      userBranchDeauthorize: build.mutation<
+        UserBranchDeauthorizeApiResponse,
+        UserBranchDeauthorizeApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/users/${queryArg.userId}/branch-deauthorize/${queryArg.branchId}`,
+          method: 'POST',
+        }),
+        invalidatesTags: ['v1-users'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -80,6 +100,16 @@ export type UserChangePasswordApiArg = {
   id: string
   userChangePasswordRequestDto: UserChangePasswordRequestDto
 }
+export type UserBranchAuthorizeApiResponse = unknown
+export type UserBranchAuthorizeApiArg = {
+  userId: string
+  branchId: string
+}
+export type UserBranchDeauthorizeApiResponse = unknown
+export type UserBranchDeauthorizeApiArg = {
+  userId: string
+  branchId: string
+}
 export type PermissionRuleRequestDto = {
   subject:
     | 'BioProduct'
@@ -99,12 +129,15 @@ export type PermissionRuleRequestDto = {
     | 'Patient'
     | 'TestCombo'
     | 'Sample'
+    | 'Report'
     | 'all'
   action:
     | 'Create'
     | 'Read'
     | 'Update'
     | 'Delete'
+    | 'AuthorizeUser'
+    | 'DeauthorizeUser'
     | 'AssignToUser'
     | 'AssignUserInline'
     | 'ChangePassword'
@@ -113,8 +146,10 @@ export type PermissionRuleRequestDto = {
     | 'UpdateInfo'
     | 'UpdateResult'
     | 'PrintResult'
+    | 'GeneratePrintUrl'
     | 'ExportReport'
     | 'View'
+    | 'Export'
     | 'manage'
   inverted?: boolean
   conditions: object
@@ -125,6 +160,7 @@ export type BranchUnpopulatedResponseDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
 }
 export type RoleUnpopulatedResponseDto = {
@@ -159,12 +195,12 @@ export type HttpErrorResponse = {
     | 'AUTHN_JWT_INVALID_TOKEN'
     | 'AUTHN_LOGIN_INVALID_USERNAME'
     | 'AUTHN_LOGIN_INVALID_PASSWORD'
-    | 'AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_USER_NOT_FOUND'
+    | 'AUTHN_COOKIE_NOT_FOUND'
+    | 'AUTHN_PAYLOAD_INVALID'
     | 'AUTHZ'
     | 'AUTHZ_AUTHENTICATION_REQUIRED'
     | 'AUTHZ_PERMISSION_DENIED'
+    | 'AUTHZ_CONTEXT_INVALID'
     | 'ENTITY'
     | 'ENTITY_NOT_FOUND'
     | 'ENTITY_CANNOT_DELETE'
@@ -187,6 +223,7 @@ export type PopulateOptionDto = {
 export type UserSearchRequestDto = {
   offset?: number
   limit?: number
+  projection?: unknown
   sort?: object
   filter?: object
   populates?: PopulateOptionDto[]
@@ -221,4 +258,6 @@ export const {
   useUserUpdateByIdMutation,
   useUserDeleteByIdMutation,
   useUserChangePasswordMutation,
+  useUserBranchAuthorizeMutation,
+  useUserBranchDeauthorizeMutation,
 } = injectedRtkApi

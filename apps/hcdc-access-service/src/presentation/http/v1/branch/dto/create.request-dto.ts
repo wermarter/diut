@@ -39,6 +39,7 @@ export class BranchCreateRequestDto {
 
   @Expose()
   @ApiProperty(exampleBranch.reportConfig)
+  @IsNotEmpty()
   reportConfig: BranchReportConfig
 
   @Expose()

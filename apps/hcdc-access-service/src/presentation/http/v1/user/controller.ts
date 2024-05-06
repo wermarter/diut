@@ -10,6 +10,8 @@ import {
   UserUpdateUseCase,
   UserFindOneUseCase,
   UserChangePasswordUseCase,
+  UserBranchAuthorizeUseCase,
+  UserBranchDeauthorizeUseCase,
 } from 'src/app'
 import { UserCreateRequestDto } from './dto/create.request-dto'
 import { UserUpdateRequestDto } from './dto/update.request-dto'
@@ -26,6 +28,8 @@ export class UserController {
     private readonly userSearchUseCase: UserSearchUseCase,
     private readonly userFindOneUseCase: UserFindOneUseCase,
     private readonly userChangePasswordUseCase: UserChangePasswordUseCase,
+    private readonly userBranchAuthorizeUseCase: UserBranchAuthorizeUseCase,
+    private readonly userBranchDeauthorizeUseCase: UserBranchDeauthorizeUseCase,
   ) {}
 
   @HttpRoute(userRoutes.search)
@@ -69,6 +73,22 @@ export class UserController {
       id,
       newPassword: body.password,
     })
+  }
+
+  @HttpRoute(userRoutes.branchAuthorize)
+  branchAuthorize(
+    @Param('userId', ObjectIdPipe) userId: string,
+    @Param('branchId', ObjectIdPipe) branchId: string,
+  ) {
+    return this.userBranchAuthorizeUseCase.execute({ userId, branchId })
+  }
+
+  @HttpRoute(userRoutes.branchDeauthorize)
+  branchDeauthorize(
+    @Param('userId', ObjectIdPipe) userId: string,
+    @Param('branchId', ObjectIdPipe) branchId: string,
+  ) {
+    return this.userBranchDeauthorizeUseCase.execute({ userId, branchId })
   }
 
   @HttpRoute(userRoutes.deleteById)

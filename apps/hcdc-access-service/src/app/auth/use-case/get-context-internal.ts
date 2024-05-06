@@ -1,5 +1,5 @@
 import { createAbility } from '@diut/hcdc'
-import { Inject, Injectable, Logger } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
 import {
   AuthContextDataInternal,
@@ -15,7 +15,6 @@ import { AuthPopulateContextUseCase } from './populate-context'
 
 @Injectable()
 export class AuthGetContextInternalUseCase {
-  private readonly logger = new Logger(AuthGetContextInternalUseCase.name)
   private readonly executionTimeoutSeconds = 5
 
   constructor(
@@ -66,8 +65,6 @@ export class AuthGetContextInternalUseCase {
         if (content !== null) {
           return this.parseContent(content)
         }
-
-        this.logger.log({ message: 'cache miss', input })
 
         const { user, compiledPermissions } =
           await this.authPopulateContextUseCase.execute({

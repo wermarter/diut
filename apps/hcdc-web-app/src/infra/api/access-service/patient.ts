@@ -137,6 +137,7 @@ export type PopulateOptionDto = {
 export type PatientSearchRequestDto = {
   offset?: number
   limit?: number
+  projection?: unknown
   sort?: object
   filter?: object
   populates?: PopulateOptionDto[]

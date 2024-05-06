@@ -174,6 +174,7 @@ export type PopulateOptionDto = {
 export type TestSearchRequestDto = {
   offset?: number
   limit?: number
+  projection?: unknown
   sort?: object
   filter?: object
   populates?: PopulateOptionDto[]

@@ -175,7 +175,6 @@ export function PatientSearchView(props: PatientSearchViewProps) {
             // this should be async, but i like this behavior better
             handleDeletePatient(openDeleteItem)
           }
-          setOpenDeleteItem(null)
         }}
       />
     </Box>

@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import { USER_DEFAULT_PASSWORD } from '@diut/hcdc'
+import { Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 
 import {
   useUserCreateMutation,
@@ -7,6 +10,8 @@ import {
   useUserUpdateByIdMutation,
   useLazyUserSearchQuery,
   UserResponseDto,
+  useUserBranchDeauthorizeMutation,
+  useUserBranchAuthorizeMutation,
 } from 'src/infra/api/access-service/user'
 import { CrudTable } from 'src/components/table'
 import { useUserColumns } from './columns'
@@ -15,10 +20,9 @@ import { useTypedSelector } from 'src/infra/redux'
 import { ChangePassword, authSlice } from 'src/features/auth'
 import { RoleResponseDto } from 'src/infra/api/access-service/role'
 import { UserRoleSelector } from '../UserRoleSelector'
-import { UserBranchSelector } from '../UserBranchSelector'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
-
-const USER_DEFAULT_PASSWORD = 'password'
+import { ConfirmDialog } from 'src/components/ui'
+import { UserSelectDialog } from '../UserSelectDialog'
 
 type UserTableProps = {
   page: number
@@ -32,6 +36,9 @@ type UserTableProps = {
 
 export function UserTable(props: UserTableProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
+  const branch = useTypedSelector((state) =>
+    authSlice.selectors.selectActiveBranch(state, branchId),
+  )!
   const { filterObj, setFilterObj } = usePagination({
     offset: props.page,
     limit: props.pageSize,
@@ -56,13 +63,18 @@ export function UserTable(props: UserTableProps) {
   const [createUser, { isLoading: isCreating }] = useUserCreateMutation()
   const [updateUser, { isLoading: isUpdating }] = useUserUpdateByIdMutation()
   const [deleteUser, { isLoading: isDeleting }] = useUserDeleteByIdMutation()
+  const [deauthorizeUser, { isLoading: isDeauthorizing }] =
+    useUserBranchDeauthorizeMutation()
+  const [authorizeUser, { isLoading: isAuthorizing }] =
+    useUserBranchAuthorizeMutation()
 
   const [changePassword, setChangePassword] = useState('')
   const [manageUserRole, setManageUserRole] = useState<UserResponseDto | null>(
     null,
   )
-  const [manageUserBranch, setManageUserBranch] =
+  const [branchDeauthorizeUser, setBranchDeauthorizeUser] =
     useState<UserResponseDto | null>(null)
+  const [isAuthorizeOpen, setIsAuthorizeOpen] = useState(false)
 
   const userColumns = useUserColumns(props.roleMap)
 
@@ -71,13 +83,34 @@ export function UserTable(props: UserTableProps) {
       <CrudTable
         items={data?.items}
         itemIdField="_id"
-        isLoading={isFetching || isCreating || isUpdating || isDeleting}
+        isLoading={
+          isFetching ||
+          isCreating ||
+          isUpdating ||
+          isDeleting ||
+          isAuthorizing ||
+          isDeauthorizing
+        }
         fieldColumns={userColumns}
         rowCount={data?.total ?? 0}
         page={data?.offset!}
         pageSize={data?.limit!}
         onPageChange={props.setPage}
         onPageSizeChange={props.setPageSize}
+        TopLeftComponent={
+          <Button
+            fullWidth
+            size="large"
+            startIcon={<AddIcon />}
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              setIsAuthorizeOpen(true)
+            }}
+          >
+            nhập
+          </Button>
+        }
         onItemCreate={async (item) => {
           await createUser({
             name: item.name,
@@ -113,15 +146,15 @@ export function UserTable(props: UserTableProps) {
             },
           },
           {
-            label: 'Chi nhánh',
-            action: (item) => {
-              setManageUserBranch(item)
-            },
-          },
-          {
             label: 'Mật khẩu',
             action: (item) => {
               setChangePassword(item._id)
+            },
+          },
+          {
+            label: 'Loại bỏ',
+            action: (item) => {
+              setBranchDeauthorizeUser(item)
             },
           },
         ]}
@@ -140,11 +173,30 @@ export function UserTable(props: UserTableProps) {
           setManageUserRole(null)
         }}
       />
-      <UserBranchSelector
-        user={manageUserBranch}
-        branches={props.branches}
+      <ConfirmDialog
+        contentText={`Loại bỏ "${branchDeauthorizeUser?.name!}" ra khỏi chi nhánh ${branch.name}`}
+        open={branchDeauthorizeUser != null}
         onClose={() => {
-          setManageUserBranch(null)
+          setBranchDeauthorizeUser(null)
+        }}
+        onConfirm={() => {
+          deauthorizeUser({
+            userId: branchDeauthorizeUser!._id,
+            branchId,
+          })
+        }}
+      />
+      <UserSelectDialog
+        open={isAuthorizeOpen}
+        onClose={() => setIsAuthorizeOpen(false)}
+        excludeBranchId={branchId}
+        onSubmit={(userIds) => {
+          userIds.forEach((userId) => {
+            authorizeUser({
+              userId,
+              branchId,
+            })
+          })
         }}
       />
     </>
