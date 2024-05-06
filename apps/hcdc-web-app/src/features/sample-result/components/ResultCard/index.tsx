@@ -1,6 +1,5 @@
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
-import SaveIcon from '@mui/icons-material/Save'
 import { format } from 'date-fns'
 import { DATETIME_FORMAT, trimObjectValues } from '@diut/common'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -16,7 +15,6 @@ import {
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
@@ -104,18 +102,47 @@ export function ResultCard(props: ResultCardProps) {
     )
   }, [props.testResult.testId, setElementResult])
 
+  const handleUpdateResult = (isLocked: boolean) =>
+    updateSampleResult({
+      id: props.sampleId,
+      sampleUpdateResultRequestDto: {
+        results: [
+          {
+            isLocked,
+            testId: props.testResult.testId,
+            elements: Object.keys(testElementResult).map((testElementId) => ({
+              testElementId,
+              ...trimObjectValues(testElementResult[testElementId]),
+            })),
+          },
+        ],
+      },
+    })
+
   return (
     <Card sx={{ mb: 4 }} raised={!isLoading} id={props.testResult.testId}>
       <CardHeader
         title={props.testResult.test?.name}
         titleTypographyProps={{
+          mt: 1,
+          ml: 1,
           color: props.testResult.isLocked ? '#CCC' : 'primary',
           fontWeight:
             props.testResult.test?.printFormIds.length === 0
               ? 'normal'
               : 'bold',
         }}
+        sx={{
+          alignItems: 'flex-start',
+          pb: 0,
+          mb: 2,
+          borderBottom: '1px solid #CCC',
+        }}
         subheader={props.testResult.bioProductName}
+        subheaderTypographyProps={{
+          ml: 1,
+          color: props.testResult.isLocked ? '#CCC' : 'primary',
+        }}
         action={
           <Box
             sx={{
@@ -125,61 +152,33 @@ export function ResultCard(props: ResultCardProps) {
               alignItems: 'flex-end',
             }}
           >
-            <ButtonGroup>
-              {isLocked ? (
-                <Button
-                  size="large"
-                  variant="outlined"
-                  disabled={!isAuthorized}
-                  onClick={() => {
-                    setIsLocked(false)
-                  }}
-                >
-                  <LockPersonIcon />
-                </Button>
-              ) : (
-                <Button
-                  size="large"
-                  variant="contained"
-                  disabled={!isAuthorized}
-                  color="secondary"
-                  sx={{ color: 'white' }}
-                  onClick={() => {
-                    setIsLocked(true)
-                  }}
-                >
-                  <LockOpenIcon />
-                </Button>
-              )}
+            {isLocked ? (
               <Button
                 size="large"
                 variant="outlined"
                 disabled={!isAuthorized}
                 onClick={() => {
-                  updateSampleResult({
-                    id: props.sampleId,
-                    sampleUpdateResultRequestDto: {
-                      results: [
-                        {
-                          isLocked,
-                          testId: props.testResult.testId,
-                          elements: Object.keys(testElementResult).map(
-                            (testElementId) => ({
-                              testElementId,
-                              ...trimObjectValues(
-                                testElementResult[testElementId],
-                              ),
-                            }),
-                          ),
-                        },
-                      ],
-                    },
-                  })
+                  setIsLocked(false)
+                  handleUpdateResult(false)
                 }}
               >
-                <SaveIcon />
+                <LockPersonIcon />
               </Button>
-            </ButtonGroup>
+            ) : (
+              <Button
+                size="large"
+                variant="contained"
+                disabled={!isAuthorized}
+                color="secondary"
+                sx={{ color: 'white' }}
+                onClick={() => {
+                  setIsLocked(true)
+                  handleUpdateResult(true)
+                }}
+              >
+                <LockOpenIcon />
+              </Button>
+            )}
             {props.testResult.resultBy != null && (
               <Typography sx={{ opacity: 0.5 }} variant="overline">
                 {props.testResult.resultBy.name}
