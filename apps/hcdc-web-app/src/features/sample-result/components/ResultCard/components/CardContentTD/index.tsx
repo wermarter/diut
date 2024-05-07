@@ -47,7 +47,6 @@ export const CardContentTD = (props: CardContentCommonProps) => {
                       'yyyy-MM-dd HH:mm',
                     )}
                     onChange={(e) => {
-                      console.log(e.target.value)
                       props.setResultState(element.testElement?._id!, {
                         value: e.target.value,
                         isAbnormal: false,

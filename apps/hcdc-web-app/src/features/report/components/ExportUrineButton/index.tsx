@@ -67,7 +67,7 @@ export function ExportUrineButton(props: ExportUrineButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.Urine },
+            { type: ReportType.Urine, branchId },
           )
         }
       >

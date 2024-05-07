@@ -67,7 +67,7 @@ export function ExportThinprepButton(props: ExportThinprepButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.Thinprep },
+            { type: ReportType.Thinprep, branchId },
           )
         }
       >

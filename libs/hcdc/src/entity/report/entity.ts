@@ -19,6 +19,7 @@ export const ReportTypeValues = stringEnumValues(ReportType)
 
 export type Report = {
   type: ReportType
+  branchId: string
 }
 
 export enum ReportAction {

@@ -21,6 +21,7 @@ export class ReportExportThinprepUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
       type: ReportType.Thinprep,
+      branchId: input.branchId,
     })
 
     const strategy = await this.moduleRef.resolve(ReportExportThinprepStrategy)

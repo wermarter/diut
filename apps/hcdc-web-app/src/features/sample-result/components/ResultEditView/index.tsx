@@ -137,7 +137,7 @@ export function ResultEditView(props: ResultEditViewProps) {
         {sortedTests.map((testResult) => (
           <ResultCard
             key={testResult.testId}
-            sampleId={props.sampleRes._id}
+            sampleRes={props.sampleRes}
             testResult={testResult}
             patientCategory={patientCategory}
             printFormMap={props.printFormMap}

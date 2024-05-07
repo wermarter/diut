@@ -1,20 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common'
-import {
-  AuthSubject,
-  ReportAction,
-  Test,
-  TestCombo,
-  TestElement,
-  cringySortCompareFn,
-} from '@diut/hcdc'
+import { Injectable } from '@nestjs/common'
+import { Test, TestCombo, TestElement, cringySortCompareFn } from '@diut/hcdc'
 import { parseISO } from 'date-fns'
 
-import {
-  AuthContextToken,
-  IAuthContext,
-  SearchResult,
-  assertPermission,
-} from 'src/domain'
+import { SearchResult } from 'src/domain'
 import { SampleSearchUseCase } from 'src/app/sample'
 import { TestSearchUseCase } from 'src/app/test'
 import { TestComboSearchUseCase } from 'src/app/test-combo'
@@ -23,8 +11,6 @@ import { TestElementSearchUseCase } from 'src/app/test-element'
 @Injectable()
 export class ReportQueryExportDataUseCase {
   constructor(
-    @Inject(AuthContextToken)
-    private readonly authContext: IAuthContext,
     private readonly sampleSearchUseCase: SampleSearchUseCase,
     private readonly testSearchUseCase: TestSearchUseCase,
     private readonly testElementSearchUseCase: TestElementSearchUseCase,
@@ -40,9 +26,6 @@ export class ReportQueryExportDataUseCase {
     patientTypeIds?: string[]
     testComboIds?: string[]
   }) {
-    const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Report, ReportAction.Export)
-
     const testCombos: TestCombo[] = []
     let testIds = Array.from(input.testIds)
 

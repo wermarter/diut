@@ -67,7 +67,7 @@ export function ExportSinhHoaButton(props: ExportSinhHoaButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.SinhHoa },
+            { type: ReportType.SinhHoa, branchId },
           )
         }
       >

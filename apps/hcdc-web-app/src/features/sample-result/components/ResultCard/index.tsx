@@ -7,8 +7,9 @@ import {
   AuthSubject,
   PatientCategory,
   PrintTemplate,
+  Sample,
   SampleResultTest,
-  TestResultAction,
+  SampleTestResultAction,
   checkPermission,
   createAbility,
 } from '@diut/hcdc'
@@ -28,6 +29,7 @@ import {
   TestElementResultData,
 } from './components'
 import {
+  SampleResponseDto,
   SampleResultTestResponseDto,
   useSampleUpdateResultByIdMutation,
 } from 'src/infra/api/access-service/sample'
@@ -37,7 +39,7 @@ import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import { ProgressBar } from 'src/components/ui'
 
 export type ResultCardProps = {
-  sampleId: string
+  sampleRes: SampleResponseDto
   testResult: SampleResultTestResponseDto
   patientCategory: PatientCategory
   printFormMap: Map<string, PrintFormResponseDto>
@@ -51,9 +53,12 @@ export function ResultCard(props: ResultCardProps) {
     const ability = createAbility(userPermissions)
     return checkPermission(
       ability,
-      AuthSubject.TestResult,
-      TestResultAction.Modify,
-      { ...props.testResult } as SampleResultTest,
+      AuthSubject.SampleTestResult,
+      SampleTestResultAction.Modify,
+      {
+        sample: props.sampleRes as unknown as Sample,
+        oldResult: props.testResult as unknown as Required<SampleResultTest>,
+      },
     )
   }, [userPermissions])
 
@@ -104,7 +109,7 @@ export function ResultCard(props: ResultCardProps) {
 
   const handleUpdateResult = (isLocked: boolean) =>
     updateSampleResult({
-      id: props.sampleId,
+      id: props.sampleRes._id,
       sampleUpdateResultRequestDto: {
         results: [
           {
@@ -192,7 +197,7 @@ export function ResultCard(props: ResultCardProps) {
       {isLoading && <ProgressBar />}
       <CardContent sx={{ px: 6, py: 0 }}>
         <CardContentComponent
-          sampleId={props.sampleId}
+          sampleId={props.sampleRes._id}
           isDisabled={isLocked || !isAuthorized || isLoading}
           resultState={testElementResult}
           resultRes={props.testResult}

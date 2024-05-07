@@ -79,7 +79,7 @@ export function ExportTraKqButton(props: ExportTraKqButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.TraKQ },
+            { type: ReportType.TraKQ, branchId },
           )
         }
       >

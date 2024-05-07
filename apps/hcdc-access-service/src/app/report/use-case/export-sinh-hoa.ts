@@ -21,6 +21,7 @@ export class ReportExportSinhHoaUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
       type: ReportType.SinhHoa,
+      branchId: input.branchId,
     })
 
     const strategy = await this.moduleRef.resolve(ReportExportSinhHoaStrategy)

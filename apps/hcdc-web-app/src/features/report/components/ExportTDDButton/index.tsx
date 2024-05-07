@@ -67,7 +67,7 @@ export function ExportTddButton(props: ExportTddButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.TDD },
+            { type: ReportType.TDD, branchId },
           )
         }
       >

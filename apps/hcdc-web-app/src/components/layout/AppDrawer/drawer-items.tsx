@@ -130,6 +130,51 @@ export const drawerItems: DrawerItemGroup[] = [
             action: ReportAction.Export,
             filterObj: { type: ReportType.SoiNhuom } as Report,
           },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.TDD } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.Urine } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.HCG } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.Pap } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.Thinprep } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.HIV } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.CTM } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.TraKQ } as Report,
+          },
+          {
+            subject: AuthSubject.Report,
+            action: ReportAction.Export,
+            filterObj: { type: ReportType.GiaoNhan } as Report,
+          },
         ]),
       },
     ],
@@ -141,9 +186,10 @@ export const drawerItems: DrawerItemGroup[] = [
         icon: <ManageAccountsIcon />,
         label: 'Người dùng',
         destination: urlManageUserPage(),
-        isAuthorized: authOneOf([
-          { subject: AuthSubject.User, action: AUTH_ACTION_ALL },
-        ]),
+        isAuthorized: authOneOf(
+          [{ subject: AuthSubject.User, action: AUTH_ACTION_ALL }],
+          'branchIds',
+        ),
       },
       {
         icon: <AccountBoxIcon />,

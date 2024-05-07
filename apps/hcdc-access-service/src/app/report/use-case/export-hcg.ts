@@ -21,6 +21,7 @@ export class ReportExportHCGUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
       type: ReportType.HCG,
+      branchId: input.branchId,
     })
 
     const strategy = await this.moduleRef.resolve(ReportExportHCGStrategy)

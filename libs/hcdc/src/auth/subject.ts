@@ -9,7 +9,6 @@ import {
   PrintForm,
   Role,
   Sample,
-  SampleResultTest,
   SampleType,
   Test,
   TestCategory,
@@ -17,28 +16,32 @@ import {
   TestElement,
   User,
   Report,
+  SampleTestResult,
 } from '../entity'
 import { AUTH_SUBJECT_ALL } from './constants'
 
 // key-value must be identical for working with '@casl/mongoose'.accessibleBy()
 export const AuthSubject = {
-  BioProduct: 'BioProduct',
-  TestCategory: 'TestCategory',
   Branch: 'Branch',
   Role: 'Role',
   User: 'User',
+
+  PrintForm: 'PrintForm',
+  BioProduct: 'BioProduct',
   Instrument: 'Instrument',
   SampleType: 'SampleType',
   Doctor: 'Doctor',
   PatientType: 'PatientType',
   Diagnosis: 'Diagnosis',
-  PrintForm: 'PrintForm',
-  Test: 'Test',
-  TestResult: 'TestResult',
+
+  TestCategory: 'TestCategory',
   TestElement: 'TestElement',
-  Patient: 'Patient',
+  Test: 'Test',
   TestCombo: 'TestCombo',
+
+  Patient: 'Patient',
   Sample: 'Sample',
+  SampleTestResult: 'SampleTestResult',
   Report: 'Report',
 } as const
 
@@ -62,7 +65,7 @@ export type SubjectEntityMapping = {
   Diagnosis: Diagnosis
   PrintForm: PrintForm
   Test: Test
-  TestResult: SampleResultTest
+  SampleTestResult: SampleTestResult
   TestElement: TestElement
   Patient: Patient
   TestCombo: TestCombo

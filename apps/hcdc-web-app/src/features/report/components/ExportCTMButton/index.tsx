@@ -67,7 +67,7 @@ export function ExportCTMButton(props: ExportCTMButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.CTM },
+            { type: ReportType.CTM, branchId },
           )
         }
       >

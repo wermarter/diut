@@ -67,7 +67,7 @@ export function ExportPapButton(props: ExportPapButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.Pap },
+            { type: ReportType.Pap, branchId },
           )
         }
       >

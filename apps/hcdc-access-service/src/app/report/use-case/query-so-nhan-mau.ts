@@ -46,6 +46,7 @@ export class ReportQuerySoNhanMauUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.View, {
       type: ReportType.SoNhanMau,
+      branchId: input.branchId,
     })
 
     const { items: tests } = await this.testSearchUseCase.execute({

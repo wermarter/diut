@@ -1,9 +1,16 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
 import { omit } from 'lodash'
+import {
+  AuthSubject,
+  ReportAction,
+  ReportType,
+  checkPermission,
+  createAbility,
+} from '@diut/hcdc'
 
 import {
   OmittedSampleResponseDto,
@@ -65,6 +72,12 @@ export type SoNhanMauViewProps = {
 
 export function SoNhanMauView(props: SoNhanMauViewProps) {
   const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
+  const userPermissions = useTypedSelector(
+    authSlice.selectors.selectUserPermissions,
+  )
+  const userAbility = useMemo(() => {
+    return createAbility(userPermissions)
+  }, [userPermissions])
 
   const { filterObj, setFilterObj } =
     usePagination<ReportQuerySoNhanMauRequestDto>({
@@ -256,7 +269,14 @@ export function SoNhanMauView(props: SoNhanMauViewProps) {
                 variant="outlined"
                 fullWidth
                 sx={{ height: '100%' }}
-                disabled={isLoading}
+                disabled={
+                  !checkPermission(
+                    userAbility,
+                    AuthSubject.Report,
+                    ReportAction.Export,
+                    { type: ReportType.SoNhanMau, branchId },
+                  )
+                }
                 loading={isLoading}
                 onClick={() => {
                   exportDownload(omit(filterObj, ['limit', 'offset']))

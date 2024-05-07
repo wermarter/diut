@@ -23,6 +23,7 @@ export interface DrawerItemGroup {
 
 export function authOneOf(
   authDetails: Parameters<typeof isAuthorizedOneOf>[1],
+  branchIdFieldName = 'branchId',
 ) {
   return (userPermissions: PermissionRule[], branchId: string) => {
     if (branchId) {
@@ -30,7 +31,10 @@ export function authOneOf(
         userPermissions,
         authDetails.map(({ filterObj: originalFilterObj, ...details }) => ({
           ...details,
-          filterObj: { ...(originalFilterObj ?? {}), branchId },
+          filterObj: {
+            ...(originalFilterObj ?? {}),
+            [branchIdFieldName]: branchId,
+          },
         })),
       )
     }

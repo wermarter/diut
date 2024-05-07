@@ -21,6 +21,7 @@ export class ReportExportPapUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
       type: ReportType.Pap,
+      branchId: input.branchId,
     })
 
     const strategy = await this.moduleRef.resolve(ReportExportPapStrategy)

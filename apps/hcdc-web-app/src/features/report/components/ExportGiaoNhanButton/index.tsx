@@ -75,7 +75,7 @@ export function ExportGiaoNhanButton(props: ExportGiaoNhanButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.TraKQ },
+            { type: ReportType.TraKQ, branchId },
           )
         }
       >

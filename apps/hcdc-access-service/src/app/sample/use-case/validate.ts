@@ -10,7 +10,8 @@ import {
   PatientAction,
   PatientTypeAction,
   DiagnosisAction,
-  TestResultAction,
+  SampleTestResultAction,
+  SampleResultTest,
 } from '@diut/hcdc'
 
 import {
@@ -18,6 +19,8 @@ import {
   assertPermission,
   AuthContextToken,
   IAuthContext,
+  UserRepositoryToken,
+  IUserRepository,
 } from 'src/domain'
 import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 import { SampleTypeAssertExistsUseCase } from '../../sample-type/use-case/assert-exists'
@@ -34,6 +37,8 @@ export class SampleValidateUseCase {
   constructor(
     @Inject(AuthContextToken)
     private readonly authContext: IAuthContext,
+    @Inject(UserRepositoryToken)
+    private readonly userRepository: IUserRepository,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
@@ -45,7 +50,7 @@ export class SampleValidateUseCase {
     private readonly diagnosisAssertExistsUseCase: DiagnosisAssertExistsUseCase,
   ) {}
 
-  async execute(input: Partial<EntityData<Sample>>) {
+  async execute(input: Partial<EntityData<Sample>>, sample?: Sample) {
     const { ability } = this.authContext.getData()
     const {
       results,
@@ -90,12 +95,26 @@ export class SampleValidateUseCase {
           )
         }
 
-        assertPermission(
-          ability,
-          AuthSubject.TestResult,
-          TestResultAction.Modify,
-          testResult,
-        )
+        // validate result update
+        if (sample) {
+          const oldResult = sample.results.find(
+            ({ testId }) => testId === testResult.testId,
+          )!
+          oldResult.test = test
+          oldResult.resultBy = await this.userRepository.findById(
+            oldResult.resultById!,
+          )
+
+          assertPermission(
+            ability,
+            AuthSubject.SampleTestResult,
+            SampleTestResultAction.Modify,
+            {
+              sample,
+              oldResult: oldResult as Required<SampleResultTest>,
+            },
+          )
+        }
       }
     }
 

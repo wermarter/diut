@@ -21,6 +21,7 @@ export class ReportExportCTMUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Report, ReportAction.Export, {
       type: ReportType.CTM,
+      branchId: input.branchId,
     })
 
     const strategy = await this.moduleRef.resolve(ReportExportCTMStrategy)

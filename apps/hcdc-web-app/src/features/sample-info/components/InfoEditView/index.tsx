@@ -97,6 +97,7 @@ export function InfoEditView(props: InfoEditViewProps) {
       address: props.sampleRes.patient?.address!,
       originId: props.sampleRes.originId,
       sampleId: props.sampleRes.sampleId,
+      billId: props.sampleRes.billId,
       phoneNumber: props.sampleRes.patient?.phoneNumber!,
       SSN: props.sampleRes.patient?.SSN!,
       isTraBuuDien: props.sampleRes.isTraBuuDien,

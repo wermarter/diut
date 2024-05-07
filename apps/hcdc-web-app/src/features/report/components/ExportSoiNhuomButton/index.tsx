@@ -67,7 +67,7 @@ export function ExportSoiNhuomButton(props: ExportSoiNhuomButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.SoiNhuom },
+            { type: ReportType.SoiNhuom, branchId },
           )
         }
       >

@@ -67,7 +67,7 @@ export function ExportHIVButton(props: ExportHIVButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.HIV },
+            { type: ReportType.HIV, branchId },
           )
         }
       >

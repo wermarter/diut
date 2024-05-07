@@ -34,15 +34,17 @@ export class SampleUpdateResultUseCase {
   ) {}
 
   async execute(input: { filter: FilterQuery<Sample>; data: SampleResult }) {
-    const entity = await this.sampleAssertExistsUseCase.execute(input.filter)
     const { ability, user } = this.authContext.getDataInternal()
+
+    const entity = await this.sampleAssertExistsUseCase.execute(input.filter)
     assertPermission(
       ability,
       AuthSubject.Sample,
       SampleAction.UpdateResult,
       entity,
     )
-    await this.sampleValidateUseCase.execute(input.data)
+
+    await this.sampleValidateUseCase.execute(input.data, entity)
 
     let sampleCompleted = true
 

@@ -67,7 +67,7 @@ export function ExportHCGButton(props: ExportHCGButtonProps) {
             userAbility,
             AuthSubject.Report,
             ReportAction.Export,
-            { type: ReportType.HCG },
+            { type: ReportType.HCG, branchId },
           )
         }
       >

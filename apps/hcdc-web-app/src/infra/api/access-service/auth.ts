@@ -46,7 +46,7 @@ export type PermissionRuleRequestDto = {
     | 'Diagnosis'
     | 'PrintForm'
     | 'Test'
-    | 'TestResult'
+    | 'SampleTestResult'
     | 'TestElement'
     | 'Patient'
     | 'TestCombo'
