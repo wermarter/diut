@@ -34,6 +34,7 @@ export async function migrateSample(sourceDB: Connection, destDB: Connection) {
       branchId,
 
       sampleId: oldDoc.sampleId,
+      billId: '',
       sampledAt: oldDoc.sampledAt,
       infoAt: oldDoc.infoAt,
       infoById: oldDoc.infoBy?.toString(),

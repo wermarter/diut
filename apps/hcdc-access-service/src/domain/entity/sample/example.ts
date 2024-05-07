@@ -48,6 +48,9 @@ export const exampleSample = {
   sampleId: {
     example: '2232010819',
   },
+  billId: {
+    example: '123456',
+  },
   note: {
     example: 'ghi chú nho nhỏ...',
   },

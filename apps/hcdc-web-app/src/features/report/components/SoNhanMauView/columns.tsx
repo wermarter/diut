@@ -187,5 +187,11 @@ export const useColumns = (props: {
         return ''
       },
     },
+    {
+      field: 'billId',
+      headerName: 'Số biên lai',
+      width: 120,
+      sortable: false,
+    },
   ]
 }

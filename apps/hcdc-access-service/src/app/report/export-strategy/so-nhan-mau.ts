@@ -203,6 +203,13 @@ export class ReportExportSoNhanMauStrategy extends AbstractReportExportStrategy<
             return summary.isNgoaiGio ?? ''
           },
         },
+        {
+          columnId: 'billId',
+          columnName: 'Số biên lai',
+          valueGetter(item) {
+            return item.billId
+          },
+        },
       ],
     }
   }

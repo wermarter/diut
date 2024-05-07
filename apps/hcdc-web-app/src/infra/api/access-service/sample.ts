@@ -298,6 +298,7 @@ export type OmittedTestResponseDto = {
 export type OmittedSampleResponseDto = {
   _id: string
   sampleId: string
+  billId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
@@ -350,6 +351,7 @@ export type SampleSearchRequestDto = {
 export type SampleCreateResponseDto = {
   _id: string
   sampleId: string
+  billId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
@@ -367,6 +369,7 @@ export type SampleCreateResponseDto = {
 }
 export type SampleCreateRequestDto = {
   sampleId: string
+  billId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
@@ -429,6 +432,7 @@ export type SampleResultTestResponseDto = {
 export type SampleResponseDto = {
   _id: string
   sampleId: string
+  billId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
@@ -461,6 +465,7 @@ export type SampleResponseDto = {
 export type SampleUpdateInfoResponseDto = {
   _id: string
   sampleId: string
+  billId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
@@ -479,6 +484,7 @@ export type SampleUpdateInfoResponseDto = {
 }
 export type SampleUpdateInfoRequestDto = {
   sampleId?: string
+  billId?: string
   note?: string
   isNgoaiGio?: boolean
   isTraBuuDien?: boolean
@@ -509,6 +515,7 @@ export type SampleResultTestRequestDto = {
 export type SampleUnpopulatedResponseDto = {
   _id: string
   sampleId: string
+  billId: string
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean

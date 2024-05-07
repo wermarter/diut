@@ -22,6 +22,11 @@ export class SampleRequestDto {
   sampleId: string
 
   @Expose()
+  @ApiProperty(exampleSample.billId)
+  @IsString()
+  billId: string
+
+  @Expose()
   @ApiProperty(exampleSample.note)
   @IsString()
   note: string

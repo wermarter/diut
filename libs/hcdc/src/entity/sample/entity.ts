@@ -31,6 +31,7 @@ export type SampleResultTest = {
 }
 
 export type Sample = BaseEntity & {
+  billId: string
   sampleId: string
   note: string
   isNgoaiGio: boolean
@@ -74,6 +75,7 @@ export type Sample = BaseEntity & {
 
 export const sampleInfoFieldNames = [
   'sampleId',
+  'billId',
   'note',
   'isPregnant',
   'isNgoaiGio',

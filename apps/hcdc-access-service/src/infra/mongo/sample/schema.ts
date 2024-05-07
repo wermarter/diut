@@ -171,6 +171,9 @@ export class SampleSchema extends BaseSchema {
   sampleId: string
 
   @Prop({ required: false })
+  billId: string
+
+  @Prop({ required: false })
   note: string
 
   @Prop({ required: true })

@@ -168,6 +168,7 @@ export class ReportQuerySoNhanMauUseCase {
                   $project: {
                     infoAt: 1,
                     sampleId: 1,
+                    billId: 1,
                     patientTypeId: 1,
                     results: {
                       testId: 1,
@@ -225,7 +226,12 @@ export class ReportQuerySoNhanMauUseCase {
 
 export type ReportQuerySoNhanMauItemOutput = Pick<
   Sample,
-  'sampleId' | 'isNgoaiGio' | 'isTraBuuDien' | 'infoAt' | 'patientTypeId'
+  | 'sampleId'
+  | 'isNgoaiGio'
+  | 'isTraBuuDien'
+  | 'infoAt'
+  | 'patientTypeId'
+  | 'billId'
 > & {
   patient: Patient
 } & {

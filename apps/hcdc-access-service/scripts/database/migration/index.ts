@@ -35,8 +35,8 @@ async function main() {
   // await migrateTest(sourceDB, destDB)
   // await migrateTestElement(sourceDB, destDB)
   // await migrateTestCombo(sourceDB, destDB)
-  // await migratePatient(sourceDB, destDB)
-  // await migrateSample(sourceDB, destDB)
+  await migratePatient(sourceDB, destDB)
+  await migrateSample(sourceDB, destDB)
 
   await Promise.all([sourceDB.close(), destDB.close()])
   process.exit(0)

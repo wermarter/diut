@@ -214,7 +214,16 @@ export function InfoEditView(props: InfoEditViewProps) {
         <Paper sx={{ p: 2, mb: 2 }} elevation={4}>
           <Grid container spacing={2}>
             {/* ----------------------------- Row 1 ----------------------------- */}
-            <Grid xs={3}>
+            <Grid xs={1.5}>
+              <FormTextField
+                name="billId"
+                autoComplete="off"
+                control={control}
+                fullWidth
+                label="Số biên lai"
+              />
+            </Grid>
+            <Grid xs={1.5}>
               <FormTextField
                 autoComplete="off"
                 name="externalId"

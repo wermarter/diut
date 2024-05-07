@@ -35,6 +35,7 @@ const schema = z.object({
   testIds: z.array(z.string()),
 
   sampleId: z.string().length(10, 'Phải đúng 10 kí tự'),
+  billId: z.string(),
   sampledAt: z.date({ invalid_type_error: 'Không được để trống' }),
   infoAt: z.date({ invalid_type_error: 'Không được để trống' }),
 
@@ -59,6 +60,7 @@ export const formDefaultValues: Partial<FormSchema> = {
   testIds: [],
 
   sampleId: '',
+  billId: '',
   infoAt: new Date(),
   sampledAt: new Date(),
 

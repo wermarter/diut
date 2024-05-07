@@ -2,8 +2,12 @@ import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, BranchAction, UserAction } from '@diut/hcdc'
 
 import {
+  AuthContextData,
   AuthContextToken,
+  AuthServiceToken,
+  AuthType,
   IAuthContext,
+  IAuthService,
   IRoleRepository,
   IUserRepository,
   RoleRepositoryToken,
@@ -24,6 +28,8 @@ export class UserBranchDeauthorizeUseCase {
     private readonly authContext: IAuthContext,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
+    @Inject(AuthServiceToken)
+    private readonly authService: IAuthService,
   ) {}
 
   async execute(input: { userId: string; branchId: string }) {
@@ -62,5 +68,10 @@ export class UserBranchDeauthorizeUseCase {
         },
       },
     )
+
+    await this.authService.invalidate({
+      type: AuthType.Internal,
+      user: { _id: input.userId },
+    } as AuthContextData)
   }
 }
