@@ -126,6 +126,7 @@ export function ResultCard(props: ResultCardProps) {
 
   return (
     <Card sx={{ mb: 4 }} raised={!isLoading} id={props.testResult.testId}>
+      {isLoading && <ProgressBar />}
       <CardHeader
         title={props.testResult.test?.name}
         titleTypographyProps={{
@@ -194,7 +195,6 @@ export function ResultCard(props: ResultCardProps) {
           </Box>
         }
       />
-      {isLoading && <ProgressBar />}
       <CardContent sx={{ px: 6, py: 0 }}>
         <CardContentComponent
           sampleId={props.sampleRes._id}

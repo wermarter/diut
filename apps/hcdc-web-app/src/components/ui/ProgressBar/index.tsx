@@ -1,5 +1,7 @@
-import { LinearProgress } from '@mui/material'
+import { LinearProgress, LinearProgressProps } from '@mui/material'
 
-export function ProgressBar() {
-  return <LinearProgress color="secondary" />
+type ProgressBarProps = LinearProgressProps
+
+export function ProgressBar(props: ProgressBarProps) {
+  return <LinearProgress {...props} color="secondary" />
 }
