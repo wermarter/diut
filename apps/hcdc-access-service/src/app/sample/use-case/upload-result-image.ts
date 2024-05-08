@@ -54,13 +54,6 @@ export class SampleUploadResultImageUseCase {
       elementId: input.testElementId,
     })
 
-    await this.storageService.upload({
-      bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
-      key: storageKey,
-      buffer: input.imageBuffer,
-      mimeType: input.mimeType,
-    })
-
     elementResult.value = storageKey
 
     await this.sampleUpdateResultUseCase.execute({
@@ -68,6 +61,13 @@ export class SampleUploadResultImageUseCase {
       data: {
         results: [{ ...testResult, elements: [elementResult] }],
       },
+    })
+
+    await this.storageService.upload({
+      bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
+      key: storageKey,
+      buffer: input.imageBuffer,
+      mimeType: input.mimeType,
     })
 
     return storageKey

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   AuthSubject,
   PatientGender,
+  Sample,
   SampleAction,
   checkPermission,
   createAbility,
@@ -166,8 +167,8 @@ export const useColumns = (
               !checkPermission(
                 userAbility,
                 AuthSubject.Sample,
-                SampleAction.UpdateInfo,
-                { ...row } as any,
+                SampleAction.UpdateResult,
+                { ...row } as unknown as Sample,
               )
             }
           />,

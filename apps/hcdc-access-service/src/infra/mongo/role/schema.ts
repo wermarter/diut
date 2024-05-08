@@ -28,7 +28,7 @@ export class RoleSchema extends BaseSchema {
   @Prop({ required: true })
   name: string
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   description: string
 
   @Prop({

@@ -7,7 +7,6 @@ import {
   AuthSubject,
   PatientCategory,
   PrintTemplate,
-  Sample,
   SampleResultTest,
   SampleTestResultAction,
   checkPermission,
@@ -55,10 +54,7 @@ export function ResultCard(props: ResultCardProps) {
       ability,
       AuthSubject.SampleTestResult,
       SampleTestResultAction.Modify,
-      {
-        sample: props.sampleRes as unknown as Sample,
-        oldResult: props.testResult as unknown as Required<SampleResultTest>,
-      },
+      props.testResult as unknown as Required<SampleResultTest>,
     )
   }, [userPermissions])
 

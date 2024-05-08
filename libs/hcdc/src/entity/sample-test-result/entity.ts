@@ -1,9 +1,6 @@
-import { Sample, SampleResultTest } from '../sample/entity'
+import { SampleResultTest } from '../sample/entity'
 
-export type SampleTestResult = {
-  sample: Sample
-  oldResult: Required<SampleResultTest>
-}
+export type SampleTestResult = Required<SampleResultTest>
 
 export enum SampleTestResultAction {
   Modify = 'Modify',

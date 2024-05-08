@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import {
   Box,
   Button,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -78,12 +79,17 @@ export function UserRoleSelector(props: UserRoleSelectorProps) {
           color="primary"
           size="large"
           onClick={handleSubmit}
-          sx={{ flexGrow: 1, mr: 2 }}
+          sx={{ flexGrow: 1 }}
         >
           Lưu
         </Button>
-        <Typography>Đã ẩn {numHiddenRoles} phân quyền</Typography>
+        {numHiddenRoles > 0 && (
+          <Typography sx={{ ml: 2 }}>
+            Đã ẩn {numHiddenRoles} phân quyền
+          </Typography>
+        )}
       </Box>
+      <Divider />
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <List
           sx={{

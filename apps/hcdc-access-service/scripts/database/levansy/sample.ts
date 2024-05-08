@@ -56,8 +56,8 @@ export async function migrateSample(sourceDB: Connection, destDB: Connection) {
         elements: [
           {
             testElementId: '661e923e89866edff2c9f1b8',
-            value: result.elements[0].value,
-            isAbnormal: result.elements[0].isHighlighted,
+            value: result.elements[0]?.value,
+            isAbnormal: result.elements[0]?.isHighlighted,
           },
         ],
       },

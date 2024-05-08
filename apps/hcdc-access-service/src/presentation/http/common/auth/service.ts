@@ -270,7 +270,7 @@ export class HttpAuthService implements IAuthService {
     if (rv === 'OK') {
       await this.cacheService.synchronize()
     } else {
-      this.logger.warn('Refresh token blacklist existed')
+      this.logger.warn(`Refresh token blacklist existed: ${refreshToken}`)
     }
   }
 }

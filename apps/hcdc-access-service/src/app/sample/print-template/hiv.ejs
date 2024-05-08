@@ -107,7 +107,7 @@
           <p class="font-bold text-lg">Kháng thể kháng HIV</p>
           <p class="text-lg"><%= data.categories[0].tests[0].bioProductName %></p>
           <p class="font-bold text-lg">
-            <%= data.categories[0].tests[0].elements[0].value %>
+            <%= data.categories[0].tests[0].elements[0]?.value %>
           </p>
           <p class="text-lg"><%= data.sample.infoAt.toLocaleDateString('vi') %></p>
         </div>

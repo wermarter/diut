@@ -132,7 +132,7 @@ export const useColumns = (props: {
       headerName: 'Bưu điện',
       width: 80,
       sortable: false,
-      editable: true,
+      editable: false,
       align: 'center',
       renderCell: ({ value }) => (
         <Typography fontWeight="bold">{value}</Typography>
@@ -159,7 +159,7 @@ export const useColumns = (props: {
       headerName: 'TG',
       width: 90,
       sortable: false,
-      editable: true,
+      editable: false,
       renderCell: ({ value, row }) => {
         //@ts-ignore
         if (row?.isSummary === true) {
@@ -181,9 +181,8 @@ export const useColumns = (props: {
 
         if (value === true) {
           return 'Ngoài giờ'
-        } else if (value === false) {
-          return 'Trong giờ'
         }
+
         return ''
       },
     },

@@ -98,12 +98,12 @@ export type SampleResult = Pick<Sample, 'results'>
 export enum SampleAction {
   Create = 'Create',
   Read = 'Read',
+  ReadInfo = 'ReadInfo',
+  ReadResult = 'ReadResult',
   Update = 'Update',
   UpdateInfo = 'UpdateInfo',
   UpdateResult = 'UpdateResult',
   Delete = 'Delete',
   PrintResult = 'PrintResult',
   GeneratePrintUrl = 'GeneratePrintUrl',
-
-  ExportReport = 'ExportReport',
 }

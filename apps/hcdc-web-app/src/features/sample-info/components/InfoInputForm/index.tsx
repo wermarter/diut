@@ -153,10 +153,12 @@ export function InfoInputForm(props: InputFormProps) {
   const { data: patients, isFetching: isFetchingPatients } =
     usePatientSearchQuery(
       {
-        filter:
-          deferredExternalId?.length! > 0
+        filter: {
+          branchId,
+          ...(deferredExternalId?.length! > 0
             ? { externalId: deferredExternalId }
-            : { name: { $regex: '^' + deferredName, $options: 'i' } },
+            : { name: { $regex: '^' + deferredName, $options: 'i' } }),
+        },
         offset: 0,
         limit: 10,
       },

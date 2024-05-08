@@ -1,6 +1,7 @@
 import {
   Body,
   FileTypeValidator,
+  Inject,
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
@@ -13,9 +14,16 @@ import {
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Response } from 'express'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { AuthSubject, SampleAction } from '@diut/hcdc'
 
 import { sampleRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
+import {
+  AuthContextToken,
+  EEntityNotFound,
+  IAuthContext,
+  assertPermission,
+} from 'src/domain'
 import {
   SampleCreateUseCase,
   SampleDeleteUseCase,
@@ -34,13 +42,14 @@ import { HttpController, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
 import { SamplePrintRequestDto } from './dto/print.dto'
 import { SampleUploadImageDto } from './dto/upload-image.dto'
-import { FileInterceptor } from '@nestjs/platform-express'
 
 @HttpController({
   basePath: 'v1/samples',
 })
 export class SampleController {
   constructor(
+    @Inject(AuthContextToken)
+    private readonly authContext: IAuthContext,
     private readonly sampleCreateUseCase: SampleCreateUseCase,
     private readonly sampleUpdateInfoUseCase: SampleUpdateInfoUseCase,
     private readonly sampleUpdateResultUseCase: SampleUpdateResultUseCase,
@@ -116,6 +125,9 @@ export class SampleController {
       throw new EEntityNotFound(`Sample id=${id}`)
     }
 
+    const { ability } = this.authContext.getData()
+    assertPermission(ability, AuthSubject.Sample, SampleAction.ReadInfo, rv)
+
     return rv
   }
 
@@ -135,6 +147,9 @@ export class SampleController {
     if (rv === null) {
       throw new EEntityNotFound(`Sample id=${id}`)
     }
+
+    const { ability } = this.authContext.getData()
+    assertPermission(ability, AuthSubject.Sample, SampleAction.ReadResult, rv)
 
     return rv
   }

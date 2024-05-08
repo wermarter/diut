@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import { PermissionRule } from '@diut/hcdc'
 
 import { authApi } from 'src/infra/api/access-service/auth'
 import {
@@ -66,7 +67,7 @@ export const authSlice = createSlice({
             (a, b) => a.displayIndex - b.displayIndex,
           )!,
           activeBranchId: payload.user.branchIds[0],
-          permissions: payload.permissions,
+          permissions: payload.permissions as unknown as PermissionRule[],
         }
       },
     )

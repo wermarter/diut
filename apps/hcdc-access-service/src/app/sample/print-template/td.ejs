@@ -80,9 +80,9 @@
             TG lấy mẫu:
             <span
               ><%= new
-              Date(data.categories[0].tests[0].elements[0].value).toLocaleDateString('vi')
+              Date(data.categories[0].tests[0].elements[0]?.value).toLocaleDateString('vi')
               %>, <%= new
-              Date(data.categories[0].tests[0].elements[0].value).toLocaleTimeString('vi').slice(0,-3)
+              Date(data.categories[0].tests[0].elements[0]?.value).toLocaleTimeString('vi').slice(0,-3)
               %>
             </span>
           </p>
@@ -108,7 +108,7 @@
             Ngày XN:
             <span
               ><%= new
-              Date(data.categories[0].tests[0].elements[0].value).toLocaleDateString('vi')
+              Date(data.categories[0].tests[0].elements[0]?.value).toLocaleDateString('vi')
               %></span
             >
           </p>

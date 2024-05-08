@@ -109,10 +109,7 @@ export class SampleValidateUseCase {
             ability,
             AuthSubject.SampleTestResult,
             SampleTestResultAction.Modify,
-            {
-              sample,
-              oldResult: oldResult as Required<SampleResultTest>,
-            },
+            oldResult as Required<SampleResultTest>,
           )
         }
       }

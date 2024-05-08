@@ -132,7 +132,7 @@ export class ReportExportHCGStrategy extends AbstractReportExportStrategy<
           columnName: 'Kết luận',
           valueGetter(item) {
             const testResult = item.results.find((r) => r.testId === test._id)!
-            return testResult.elements[0].value
+            return testResult.elements[0]?.value
           },
         },
         {

@@ -29,7 +29,6 @@ export class RoleCreateRequestDto {
   @Expose()
   @ApiProperty(exampleRole.description)
   @IsString()
-  @IsNotEmpty()
   description: string
 
   @Expose()
