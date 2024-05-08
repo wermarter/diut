@@ -13,7 +13,7 @@ export class SampleDeleteManyUseCase {
   ) {}
 
   async execute(input: FilterQuery<Sample>) {
-    const samples = await this.sampleSearchUseCase.execute(input)
+    const samples = await this.sampleSearchUseCase.execute({ filter: input })
 
     for (const sample of samples.items) {
       await this.sampleDeleteUseCase.execute({ id: sample._id })
