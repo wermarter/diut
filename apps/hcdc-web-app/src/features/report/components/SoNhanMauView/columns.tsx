@@ -181,9 +181,9 @@ export const useColumns = (props: {
 
         if (value === true) {
           return 'Ngoài giờ'
+        } else {
+          return 'Trong giờ'
         }
-
-        return ''
       },
     },
     {

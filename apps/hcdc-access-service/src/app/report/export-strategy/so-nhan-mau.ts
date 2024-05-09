@@ -197,7 +197,7 @@ export class ReportExportSoNhanMauStrategy extends AbstractReportExportStrategy<
           columnId: 'isNgoaiGio',
           columnName: 'TG',
           valueGetter(item) {
-            return item.isNgoaiGio ? 'Ngoài giờ' : ''
+            return item.isNgoaiGio ? 'Ngoài giờ' : 'Trong giờ'
           },
           summaryGetter() {
             return summary.isNgoaiGio ?? ''
