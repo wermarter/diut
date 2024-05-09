@@ -8,3 +8,6 @@ dependencies:
   - name: kafka
     repository: oci://registry-1.docker.io/bitnamicharts
     version: 28.2.1
+  - name: kafbat-ui
+    repository: https://ui.charts.kafbat.io
+    version: 1.4.0

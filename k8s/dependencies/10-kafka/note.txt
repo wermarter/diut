@@ -1,0 +1,27 @@
+
+# To connect a client to your Kafka, you need to create the 'client.properties' configuration files with the content below:
+
+# security.protocol=SASL_PLAINTEXT
+# sasl.mechanism=SCRAM-SHA-256
+# sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
+#     username="user1" \
+#     password="$(kubectl get secret kafka-user-passwords --namespace diut -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
+
+# To create a pod that you can use as a Kafka client run the following commands:
+
+    kubectl run kafka-client --restart='Never' --image docker.io/bitnami/kafka:3.7.0-debian-12-r3 --namespace diut --command -- sleep infinity
+    kubectl cp --namespace diut client.properties kafka-client:/tmp/client.properties
+    kubectl exec --tty -i kafka-client --namespace diut -- bash
+
+#     PRODUCER:
+        kafka-console-producer.sh \
+            --producer.config /tmp/client.properties \
+            --broker-list kafka-controller-0.kafka-controller-headless.diut.svc.cluster.local:9092,kafka-controller-1.kafka-controller-headless.diut.svc.cluster.local:9092,kafka-controller-2.kafka-controller-headless.diut.svc.cluster.local:9092 \
+            --topic test
+
+#     CONSUMER:
+        kafka-console-consumer.sh \
+            --consumer.config /tmp/client.properties \
+            --bootstrap-server kafka.diut.svc.cluster.local:9092 \
+            --topic test \
+            --from-beginning
