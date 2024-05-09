@@ -7,4 +7,4 @@ version: 0.0.1
 dependencies:
   - name: redis
     repository: oci://registry-1.docker.io/bitnamicharts
-    version: 19.1.0
+    version: 19.2.0

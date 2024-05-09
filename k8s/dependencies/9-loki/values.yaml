@@ -2,7 +2,7 @@ loki:
   loki:
     auth_enabled: false
     commonConfig:
-      replication_factor: 2
+      replication_factor: 1
     schemaConfig:
       configs:
         - from: 2024-04-01
@@ -41,14 +41,18 @@ loki:
   chunksCache:
     enabled: false
   backend:
-    replicas: 2
+    replicas: 1
+    persistence:
+      size: 1Gi
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
       - secretRef:
           name: loki-credentials
   write:
-    replicas: 2
+    replicas: 1
+    persistence:
+      size: 1Gi
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
@@ -56,6 +60,8 @@ loki:
           name: loki-credentials
   read:
     replicas: 1
+    persistence:
+      size: 1Gi
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:

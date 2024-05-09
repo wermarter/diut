@@ -22,7 +22,7 @@ RUN pnpm --filter "@diut/browser-service..." run build && pnpm prune --prod
 # runtime
 ###################
 
-FROM node:20-alpine AS production
+FROM node:20-alpine AS runtime
 ARG APP_PATH
 
 RUN apk add --no-cache tzdata tini chromium msttcorefonts-installer fontconfig && \
@@ -34,6 +34,8 @@ RUN apk add --no-cache tzdata tini chromium msttcorefonts-installer fontconfig &
 USER node
 WORKDIR ${APP_PATH}
 COPY --from=build ${APP_PATH} .
+
+STOPSIGNAL SIGTERM
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
