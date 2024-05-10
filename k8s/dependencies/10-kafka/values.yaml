@@ -1,3 +1,7 @@
 kafka:
   fullnameOverride: kafka
   metrics.kafka.enabled: true
+kafka-ui:
+  env:
+    - name: DYNAMIC_CONFIG_ENABLED
+      value: 'true'
