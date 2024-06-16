@@ -20,6 +20,7 @@ async function main() {
       accessKeyId: process.env.SRC_MINIO_ACCESS_KEY!,
       secretAccessKey: process.env.SRC_MINIO_SECRET_KEY!,
     },
+    region: process.env.MINIO_REGION,
     forcePathStyle: true,
   })
   const destClientService = new AwsS3ClientService({

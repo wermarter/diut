@@ -38,7 +38,7 @@ export class PrintFormDeleteUseCase {
     )
 
     const connectedTestCount = await this.testRepository.count({
-      printFormId: input.id,
+      printFormIds: input.id,
     })
     if (connectedTestCount > 0) {
       throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
