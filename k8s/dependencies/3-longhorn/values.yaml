@@ -8,7 +8,7 @@ longhorn:
       type: 'LoadBalancer'
       loadBalancerIP: '10.1.1.203'
   persistence:
-    defaultClassReplicaCount: 3
+    defaultClassReplicaCount: 2
   csi:
     attacherReplicaCount: 2
     provisionerReplicaCount: 2

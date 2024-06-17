@@ -4,6 +4,7 @@ import {
   SampleResultTestElement,
   Test,
   TestCategory,
+  getPatientCategory,
 } from '@diut/hcdc'
 
 import { ISampleRepository, ITestCategoryRepository } from 'src/domain'
@@ -14,7 +15,9 @@ export type SamplePrintData = {
     tests: (Test & {
       bioProductName?: string
       instrumentName?: string
-      elements: SampleResultTestElement[]
+      elements: (SampleResultTestElement & {
+        description: string
+      })[]
     })[]
   })[]
 }
@@ -76,6 +79,11 @@ export abstract class AbstractSamplePrintStrategy
       testIds.includes(testId),
     )
 
+    const patientCategory = getPatientCategory(
+      sample.patient!,
+      sample.isPregnant,
+    )
+
     const testCategoryIds = Array.from(
       new Set(sample.results.map(({ test }) => test?.testCategoryId)),
     )
@@ -102,7 +110,15 @@ export abstract class AbstractSamplePrintStrategy
             elementResult.testElement &&
             elementResult.testElement.printIndex > 0
           ) {
-            elements.push(elementResult)
+            const normalRule =
+              elementResult.testElement.normalRules.find(
+                ({ category }) => category === patientCategory,
+              ) ?? elementResult.testElement.normalRules[0]
+
+            elements.push({
+              ...elementResult,
+              description: normalRule?.description!,
+            })
           }
         }
 
