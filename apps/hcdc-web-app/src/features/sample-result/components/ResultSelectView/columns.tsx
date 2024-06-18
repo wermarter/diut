@@ -119,8 +119,8 @@ export const useColumns = (
         valueGetter: ({ row }) => row.patient?.address,
       },
       {
-        field: 'address',
-        headerName: 'Địa chỉ',
+        field: 'phoneNumber',
+        headerName: 'SĐT',
         width: 120,
         sortable: false,
         valueGetter: ({ row }) => row.patient?.phoneNumber,
