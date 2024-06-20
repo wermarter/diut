@@ -221,7 +221,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
               )!
               const formData = prepareFormData(croppedFile!)
               rightRes = await fetch(
-                `${import.meta.env.VITE_API_BASE_URL}/api/v1/samples/upload?sampleId=${props.sampleId}&testElementId=${props.rightElementId}`,
+                `${import.meta.env.VITE_API_BASE_URL}api/v1/samples/upload?sampleId=${props.sampleId}&testElementId=${props.rightElementId}`,
                 {
                   method: 'POST',
                   body: formData,
