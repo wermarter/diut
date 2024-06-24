@@ -159,7 +159,8 @@
     </table>
     <p class="text-base mt-1 ml-8">
       <span><%= data.categories[0].tests[0].elements.slice(-1)[0].testElement.name %>:</span>
-      <span><%= data.categories[0].tests[0].elements.slice(-1)[0].value ?? '' %></span>
+      <span class="<%= (data.categories[0].tests[0].elements.slice(-1)[0].isAbnormal) ? "font-bold" : "" %>"
+      ><%= data.categories[0].tests[0].elements.slice(-1)[0].value ?? '' %></span>
     </p>
     <div
       class="flex flex-row justify-end mt-2"
