@@ -31,6 +31,8 @@ spec:
   listeners:
     - name: grpc
       protocol: HTTPS
+      tls:
+        mode: Passthrough
       port: 9000
       allowedRoutes:
         namespaces:
