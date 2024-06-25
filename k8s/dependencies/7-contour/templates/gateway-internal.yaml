@@ -32,7 +32,9 @@ spec:
     - name: grpc
       protocol: HTTPS
       tls:
-        mode: Passthrough
+        mode: Terminate
+        certificateRefs:
+          - name: envoycert-gateway-internal
       port: 9000
       allowedRoutes:
         namespaces:
