@@ -11,7 +11,7 @@ spec:
   rules:
     - backendRefs:
         - name: browser-service
-          sectionName: grpc
+          port: 50051
       matches:
         - path:
             type: PathPrefix
