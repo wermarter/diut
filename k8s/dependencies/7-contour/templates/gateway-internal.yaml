@@ -1,0 +1,37 @@
+# https://projectcontour.io/docs/main/config/api/#projectcontour.io/v1alpha1.ContourDeployment
+kind: ContourDeployment
+apiVersion: projectcontour.io/v1alpha1
+metadata:
+  namespace: projectcontour
+  name: contour-internal-params
+spec:
+  envoy:
+    networkPublishing:
+      type: ClusterIPService
+---
+kind: GatewayClass
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: contour-internal
+spec:
+  controllerName: projectcontour.io/gateway-controller
+  parametersRef:
+    kind: ContourDeployment
+    group: projectcontour.io
+    name: contour-internal-params
+    namespace: projectcontour
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: gateway-internal
+  namespace: projectcontour
+spec:
+  gatewayClassName: contour-internal
+  listeners:
+    - name: grpc
+      protocol: TCP
+      port: 9000
+      allowedRoutes:
+        namespaces:
+          from: All
