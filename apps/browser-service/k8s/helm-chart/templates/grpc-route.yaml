@@ -13,7 +13,3 @@ spec:
     - backendRefs:
         - name: browser-service
           port: 50051
-      matches:
-        - method:
-            service: BrowserService
-            method: PrintMultiplePage
