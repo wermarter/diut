@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: GRPCRoute
+metadata:
+  name: browser-service
+  namespace: diut
+spec:
+  parentRefs:
+    - kind: Gateway
+      name: gateway-internal
+      namespace: projectcontour
+      sectionName: grpc
+  rules:
+    - backendRefs:
+        - name: browser-service
+          port: 50051
+      matches:
+        - method:
+            service: BrowserService
+            method: PrintMultiplePage
