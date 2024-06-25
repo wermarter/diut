@@ -30,7 +30,7 @@ spec:
   gatewayClassName: contour-internal
   listeners:
     - name: grpc
-      protocol: GRPC
+      protocol: TCP
       port: 9000
       allowedRoutes:
         namespaces:
