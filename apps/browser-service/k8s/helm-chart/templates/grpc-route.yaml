@@ -13,3 +13,7 @@ spec:
     - backendRefs:
         - name: browser-service
           port: 50051
+      matches:
+        - method:
+            service: diut.BrowserService
+            method: PrintMultiplePage

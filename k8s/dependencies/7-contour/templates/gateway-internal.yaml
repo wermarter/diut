@@ -30,11 +30,7 @@ spec:
   gatewayClassName: contour-internal
   listeners:
     - name: grpc
-      protocol: HTTPS
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: envoycert-gateway-internal
+      protocol: projectcontour.io/https
       port: 9000
       allowedRoutes:
         namespaces:
