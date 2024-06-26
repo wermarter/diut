@@ -28,6 +28,7 @@ export const browserServiceMetadata: ModuleMetadata = {
                 protoPath: resolveProtoPath(DiutGrpcService.Browser, __dirname),
                 url: clientConfig.BROWSER_SERVICE_URL,
                 gracefulShutdown: true,
+                maxReceiveMessageLength: 20_000_000,
               },
             }
           },
