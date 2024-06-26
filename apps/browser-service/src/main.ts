@@ -22,6 +22,9 @@ bootstrapApp<INestMicroservice>(
     `0.0.0.0:${process.env.GRPC_PORT}`,
     DIUT_PACKAGE_NAME,
     resolveProtoPath(DiutGrpcService.Browser, __dirname),
+    {
+      maxReceiveMessageLength: 20_000_000,
+    },
   ),
   AppModule,
   { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },
