@@ -12,6 +12,11 @@
     "lint": "tsc && rimraf dist",
     "puppeteer:browser": "pnpx @puppeteer/browsers install chromium"
   },
+  "dependenciesMeta": {
+    "@diut/nestjs-infra": {
+      "injected": true
+    }
+  },
   "dependencies": {
     "@diut/common": "workspace:*",
     "@diut/nestjs-infra": "workspace:*",
@@ -26,7 +31,7 @@
     "dotenv": "^16.4.4",
     "lodash": "^4.17.21",
     "pdf-lib": "^1.17.1",
-    "puppeteer-core": "^22.5.0",
+    "puppeteer-core": "^22.9.0",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1"
   },

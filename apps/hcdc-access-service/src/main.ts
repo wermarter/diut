@@ -3,7 +3,6 @@ Error.stackTraceLimit = Infinity
 import {
   CookieBootstrap,
   CorsBootstrap,
-  HttpAppFactory,
   HttpListenBootstrap,
   LifecycleBootstrap,
   LogBootstrap,
@@ -13,13 +12,15 @@ import {
   bootstrapApp,
 } from '@diut/nestjs-infra'
 import * as dotenv from 'dotenv'
+import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module'
 
 dotenv.config()
 
-export const appPromise = bootstrapApp(
-  HttpAppFactory,
+bootstrapApp(
+  (AppModule, options) =>
+    NestFactory.create(AppModule, { ...options, forceCloseConnections: true }),
   AppModule,
   {
     serviceName: process.env.SERVICE_NAME,

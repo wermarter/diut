@@ -6,9 +6,7 @@
   "private": true,
   "license": "MIT",
   "main": "dist/index",
-  "types": "dist/index",
   "scripts": {
-    "postinstall": "pnpm --filter '@diut/services...' run build",
     "build": "rimraf dist && cpy 'src/grpc/proto/*.proto' 'dist/grpc/proto/' && tsc",
     "lint": "tsc --noEmit",
     "dev:proto:command": "concurrently 'cpy \"src/grpc/proto/*.proto\" \"dist/grpc/proto/\"' 'pnpm run proto'",

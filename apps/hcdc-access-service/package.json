@@ -11,6 +11,11 @@
     "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist"
   },
+  "dependenciesMeta": {
+    "@diut/nestjs-infra": {
+      "injected": true
+    }
+  },
   "dependencies": {
     "@casl/ability": "^6.5.0",
     "@casl/mongoose": "^7.2.2",

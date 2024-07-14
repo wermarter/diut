@@ -1,3 +1,6 @@
+// weird hack to prevent typing issue with leaking @diut/nestjs-infra
+import '@nestjs/config'
+
 export * from './module'
 
 export * from './app.config'

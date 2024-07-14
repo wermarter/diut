@@ -14,7 +14,6 @@ import {
 
 async function main() {
   const srcClientService = new AwsS3ClientService({
-    connectionId: 'SRC',
     endpoint: `http://localhost:9000`,
     credentials: {
       accessKeyId: process.env.SRC_MINIO_ACCESS_KEY!,
@@ -24,7 +23,6 @@ async function main() {
     forcePathStyle: true,
   })
   const destClientService = new AwsS3ClientService({
-    connectionId: 'DEST',
     endpoint: `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}`,
     region: process.env.MINIO_REGION,
     credentials: {
@@ -81,8 +79,8 @@ async function main() {
     }
   }
 
-  await srcClientService.onModuleDestroy()
-  await destClientService.onModuleDestroy()
+  srcClientService.close()
+  destClientService.close()
   process.exit(0)
 }
 

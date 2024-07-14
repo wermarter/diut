@@ -1,4 +1,3 @@
-import { registerAs } from '@nestjs/config'
 import { makeConfigLoader } from '@diut/nestjs-infra'
 import { IsOptional, IsString, MinLength } from 'class-validator'
 import { Expose } from 'class-transformer'
