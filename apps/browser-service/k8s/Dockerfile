@@ -15,7 +15,7 @@ RUN corepack prepare pnpm@9.1.2 --activate && corepack enable
 COPY . ${APP_PATH}
 WORKDIR ${APP_PATH}
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline && pnpm run build-libs && pnpm install --frozen-lockfile --prefer-offline
 RUN pnpm --filter "@diut/browser-service..." run build && pnpm prune --prod
 
 ###################
