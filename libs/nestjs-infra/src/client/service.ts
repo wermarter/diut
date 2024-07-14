@@ -1,10 +1,12 @@
-import { Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
+import { Logger, OnApplicationShutdown, OnModuleInit } from '@nestjs/common'
+import { HealthCheckError, HealthIndicator } from '@nestjs/terminus'
 import { RetryOptions, retry } from 'async'
 
 export const DEFAULT_CLIENT_CONNECTION_ID = 'default'
 
 export abstract class AbstractClientService
-  implements OnModuleInit, OnModuleDestroy
+  extends HealthIndicator
+  implements OnModuleInit, OnApplicationShutdown
 {
   protected logger: Logger
   private retryOptions: RetryOptions<unknown>
@@ -16,6 +18,8 @@ export abstract class AbstractClientService
     retryOptions?: RetryOptions<unknown>
     ignoreConnectFail?: boolean
   }) {
+    super()
+
     const connectionId =
       clientConfig.connectionId ?? DEFAULT_CLIENT_CONNECTION_ID
     this.retryOptions = clientConfig.retryOptions ?? {
@@ -52,7 +56,7 @@ export abstract class AbstractClientService
     isSuccessful && this.logger.verbose('Connected!')
   }
 
-  async onModuleDestroy() {
+  async onApplicationShutdown() {
     this.logger.verbose('Closing...')
     try {
       await retry(
@@ -73,13 +77,29 @@ export abstract class AbstractClientService
     this.logger.verbose('Closed!')
   }
 
-  async safeReadyCheck() {
+  async healthcheck() {
     try {
       await this.readyCheck()
-      return true
+
+      return this.getStatus(this.constructor.name, true)
     } catch (e) {
-      this.logger.error(`Ready check failed:${e}`)
-      return false
+      try {
+        // re-connect if possible
+        this.logger.warn(`Reconnecting due to healthcheck failure: ${e}`)
+        await this.connect()
+        await this.readyCheck()
+
+        return this.getStatus(this.constructor.name, true, {
+          reconnected: true,
+        })
+      } catch (reconnectError) {
+        throw new HealthCheckError(
+          'down',
+          this.getStatus(this.constructor.name, false, {
+            retryError: reconnectError,
+          }),
+        )
+      }
     }
   }
 

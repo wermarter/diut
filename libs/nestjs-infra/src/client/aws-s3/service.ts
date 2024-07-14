@@ -21,11 +21,13 @@ import { formatUrl } from '@aws-sdk/util-format-url'
 import { StringOrKeysOf } from '@diut/common'
 
 import { AbstractClientService } from '../service'
-import { MODULE_OPTIONS_TOKEN } from './module-builder'
+import {
+  CONNECTION_ID_TOKEN,
+  DEFAULT_CONNECTION_ID,
+  MODULE_OPTIONS_TOKEN,
+} from './module-builder'
 
-export type AwsS3ClientOptions = S3ClientConfigType & {
-  connectionId?: string
-}
+export type AwsS3ClientOptions = S3ClientConfigType & {}
 
 export interface AwsS3Buckets {}
 /**
@@ -45,10 +47,14 @@ export class AwsS3ClientService<
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
     private readonly clientOptions: AwsS3ClientOptions,
+    @Inject(CONNECTION_ID_TOKEN)
+    connectionId?: string,
   ) {
+    connectionId = connectionId ?? DEFAULT_CONNECTION_ID
+
     super({
       name: AwsS3ClientService.name,
-      connectionId: clientOptions.connectionId,
+      connectionId,
     })
   }
 

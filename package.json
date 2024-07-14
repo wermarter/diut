@@ -13,6 +13,7 @@
     "prettier": "^3.2.5"
   },
   "scripts": {
+    "build-libs": "pnpm --filter \"./libs/**\" run build",
     "dev": "pnpm --filter \"./libs/**\" run --parallel dev",
     "lint": "pnpm run -r --parallel lint",
     "postinstall": "syncpack list-mismatches"

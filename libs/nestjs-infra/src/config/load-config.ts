@@ -8,6 +8,14 @@ import { ConfigurationException } from './config.exception'
  * Please add this line to the top where this function is used
  *
  * `import { registerAs } from '@nestjs/config'`
+ *  and manually type: ReturnType<typeof registerAs>
+ * 
+ *  or just add to package.json 
+ *  "dependenciesMeta": {
+ *   "@diut/nestjs-infra": {
+ *     "injected": true
+ *   }
+ *  },
  */
 export function makeConfigLoader(ConfigClass: ClassConstructor<any>) {
   return registerAs(ConfigClass.name, () => {

@@ -5,12 +5,10 @@
   "license": "MIT",
   "private": true,
   "main": "dist/index",
-  "types": "dist/index",
   "files": [
     "dist"
   ],
   "scripts": {
-    "postinstall": "pnpm --filter '@diut/common...' run build",
     "build": "tsc",
     "lint": "tsc --noEmit",
     "dev": "tsc --watch --preserveWatchOutput"

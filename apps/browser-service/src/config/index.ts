@@ -1,3 +1,5 @@
+import '@nestjs/config'
+
 export * from './module'
 
 export * from './app.config'

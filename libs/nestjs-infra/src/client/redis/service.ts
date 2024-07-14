@@ -1,21 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common'
-import {
-  Callback,
-  CommonRedisOptions,
-  Redis,
-  Result,
-  SentinelConnectionOptions,
-} from 'ioredis'
+import { Callback, RedisOptions, Redis, Result } from 'ioredis'
 import { retry } from 'async'
 
 import { AbstractClientService } from '../service'
-import { MODULE_OPTIONS_TOKEN } from './module-builder'
+import {
+  CONNECTION_ID_TOKEN,
+  DEFAULT_CONNECTION_ID,
+  MODULE_OPTIONS_TOKEN,
+} from './module-builder'
 
-export type RedisClientOptions = CommonRedisOptions &
-  SentinelConnectionOptions & {
-    connectionId?: string
-    replicaCount: number
-  }
+export type RedisClientOptions = RedisOptions & {
+  replicaCount: number
+}
 
 export type RedisValue = string | Buffer | number
 
@@ -75,15 +71,22 @@ export class RedisClientService extends AbstractClientService {
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
     private readonly clientOptions: RedisClientOptions,
+    @Inject(CONNECTION_ID_TOKEN)
+    connectionId: string,
   ) {
+    connectionId = connectionId ?? DEFAULT_CONNECTION_ID
+
     super({
       name: RedisClientService.name,
-      connectionId: clientOptions.connectionId,
+      connectionId,
     })
   }
 
   async readyCheck() {
-    await this.client.ping()
+    const rv = await this.client.ping()
+    if (rv !== 'PONG') {
+      throw new Error(`redis ping failed: ${rv}`)
+    }
   }
 
   async connect() {
@@ -93,6 +96,48 @@ export class RedisClientService extends AbstractClientService {
 
   async close() {
     await this.client.quit()
+  }
+
+  async *scan(pattern = '*', count = 10) {
+    let cursor = '0'
+    do {
+      const [newCursor, keys] = await this.client.scan(
+        cursor,
+        'MATCH',
+        pattern,
+        'COUNT',
+        count,
+      )
+      cursor = newCursor
+      for (const key of keys) {
+        yield key
+      }
+    } while (cursor !== '0')
+  }
+
+  async deleteMatch(pattern = '*') {
+    for await (const key of this.scan(pattern)) {
+      await this.client.del(key)
+    }
+  }
+
+  async incrExpire(key: string, ttl: number, amount = 1) {
+    const rv = await this.client
+      .multi()
+      .set(key, 0, 'EX', ttl, 'NX')
+      .incrby(key, amount)
+      .exec()
+
+    if (rv === null) {
+      throw new Error('cannot incrExpire')
+    }
+
+    const [error, result] = rv[1]
+    if (error) {
+      throw error
+    }
+
+    return result
   }
 
   @RequireMaster()
