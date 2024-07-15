@@ -34,7 +34,9 @@ export class DiagnosisSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, DiagnosisAction.Read).Diagnosis,
+          accessibleBy(ability, DiagnosisAction.Read).ofType(
+            AuthSubject.Diagnosis,
+          ),
         ],
       },
     })

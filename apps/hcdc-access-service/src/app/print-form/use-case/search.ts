@@ -34,7 +34,9 @@ export class PrintFormSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, PrintFormAction.Read).PrintForm,
+          accessibleBy(ability, PrintFormAction.Read).ofType(
+            AuthSubject.PrintForm,
+          ),
         ],
       },
     })

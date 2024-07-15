@@ -34,7 +34,7 @@ export class BranchSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, BranchAction.Read).Branch,
+          accessibleBy(ability, BranchAction.Read).ofType(AuthSubject.Branch),
         ],
       },
     })

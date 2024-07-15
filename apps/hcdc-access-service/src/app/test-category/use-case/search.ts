@@ -34,7 +34,9 @@ export class TestCategorySearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, TestCategoryAction.Read).TestCategory,
+          accessibleBy(ability, TestCategoryAction.Read).ofType(
+            AuthSubject.TestCategory,
+          ),
         ],
       },
     })

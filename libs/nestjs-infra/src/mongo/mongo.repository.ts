@@ -234,7 +234,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       }
     }
 
-    await this.model.updateMany(filterObj, data, options).lean()
+    await this.model.updateMany(filterObj, data, options as any).lean()
   }
 
   public async deleteById(id: string, softDelete = true) {
@@ -280,7 +280,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       }
     })
 
-    await this.model.bulkWrite(writes)
+    await this.model.bulkWrite(writes as any)
   }
 
   public async bulkWriteIgnoreSoftDelete(data: Array<object>) {

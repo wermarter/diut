@@ -32,7 +32,10 @@ export class UserSearchUseCase {
     const paginationResult = await this.userRepository.search({
       ...input,
       filter: {
-        $and: [input.filter ?? {}, accessibleBy(ability, UserAction.Read).User],
+        $and: [
+          input.filter ?? {},
+          accessibleBy(ability, UserAction.Read).ofType(AuthSubject.User),
+        ],
       },
     })
 

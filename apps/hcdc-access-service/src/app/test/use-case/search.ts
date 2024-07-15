@@ -32,7 +32,10 @@ export class TestSearchUseCase {
     const paginationResult = await this.testRepository.search({
       ...input,
       filter: {
-        $and: [input.filter ?? {}, accessibleBy(ability, TestAction.Read).Test],
+        $and: [
+          input.filter ?? {},
+          accessibleBy(ability, TestAction.Read).ofType(AuthSubject.Test),
+        ],
       },
     })
 

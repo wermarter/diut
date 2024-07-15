@@ -59,7 +59,7 @@ export function authorizePopulates<TEntity extends BaseEntity>(
   const rv: EntityFindOneOptions<TEntity>['populates'] = []
   for (const populate of populates) {
     const { subject, action } = authMapping(populate.path)
-    const authMatchObj = accessibleBy(ability, action)[subject]
+    const authMatchObj = accessibleBy(ability, action).ofType(subject)
 
     if (populate.match) {
       let matchObject: FilterQuery<TEntity>

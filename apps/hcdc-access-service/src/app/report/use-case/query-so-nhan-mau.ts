@@ -84,7 +84,9 @@ export class ReportQuerySoNhanMauUseCase {
                     isNgoaiGio: input.isNgoaiGio,
                   }),
                 } satisfies Partial<Record<keyof SampleSchema, unknown>>,
-                accessibleBy(ability, SampleAction.Read).Sample,
+                accessibleBy(ability, SampleAction.Read).ofType(
+                  AuthSubject.Sample,
+                ),
               ],
             },
           },
@@ -149,7 +151,9 @@ export class ReportQuerySoNhanMauUseCase {
                               isDeleted: false,
                               branchId: input.branchId,
                             },
-                            accessibleBy(ability, PatientAction.Read).Patient,
+                            accessibleBy(ability, PatientAction.Read).ofType(
+                              AuthSubject.Patient,
+                            ),
                           ],
                         },
                       },
