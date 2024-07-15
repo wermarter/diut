@@ -24,8 +24,5 @@ jobs:
       - name: Build libs
         run: pnpm run build-libs
 
-      - name: Link libs
-        run: PUPPETEER_SKIP_DOWNLOAD=true && pnpm install --frozen-lockfile
-
       - name: Lint all
         run: pnpm lint

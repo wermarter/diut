@@ -52,6 +52,6 @@
     "typescript": "5.3.3"
   },
   "optionalDependencies": {
-    "@esbuild/darwin-x64": "^0.19.12"
+    "@esbuild/darwin-x64": "^0.23.0"
   }
 }

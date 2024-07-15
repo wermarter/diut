@@ -7,9 +7,9 @@
   "license": "MIT",
   "main": "dist/index",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc && pnpm-sync copy",
     "lint": "tsc --noEmit",
-    "dev": "tsc --watch --preserveWatchOutput"
+    "dev": "nodemon --watch src -e ts --exec \"pnpm-sync copy && tsc\""
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.3",
@@ -64,6 +64,7 @@
     "@types/express": "^4.17.21",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.17",
+    "nodemon": "^3.0.3",
     "rimraf": "^5.0.5",
     "typescript": "5.3.3"
   }

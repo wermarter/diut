@@ -34,7 +34,7 @@ export class PatientSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, PatientAction.Read).Patient,
+          accessibleBy(ability, PatientAction.Read).ofType(AuthSubject.Patient),
         ],
       },
     })

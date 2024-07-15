@@ -34,7 +34,9 @@ export class BioProductSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, BioProductAction.Read).BioProduct,
+          accessibleBy(ability, BioProductAction.Read).ofType(
+            AuthSubject.BioProduct,
+          ),
         ],
       },
     })

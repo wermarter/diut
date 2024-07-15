@@ -32,7 +32,10 @@ export class RoleSearchUseCase {
     const paginationResult = await this.roleRepository.search({
       ...input,
       filter: {
-        $and: [input.filter ?? {}, accessibleBy(ability, RoleAction.Read).Role],
+        $and: [
+          input.filter ?? {},
+          accessibleBy(ability, RoleAction.Read).ofType(AuthSubject.Role),
+        ],
       },
     })
 

@@ -34,7 +34,9 @@ export class TestElementSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, TestElementAction.Read).TestElement,
+          accessibleBy(ability, TestElementAction.Read).ofType(
+            AuthSubject.TestElement,
+          ),
         ],
       },
     })

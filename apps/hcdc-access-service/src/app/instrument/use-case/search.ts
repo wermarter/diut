@@ -34,7 +34,9 @@ export class InstrumentSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, InstrumentAction.Read).Instrument,
+          accessibleBy(ability, InstrumentAction.Read).ofType(
+            AuthSubject.Instrument,
+          ),
         ],
       },
     })

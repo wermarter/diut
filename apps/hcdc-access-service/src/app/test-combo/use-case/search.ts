@@ -34,7 +34,9 @@ export class TestComboSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, TestComboAction.Read).TestCombo,
+          accessibleBy(ability, TestComboAction.Read).ofType(
+            AuthSubject.TestCombo,
+          ),
         ],
       },
     })

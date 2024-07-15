@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "build": "rimraf dist && nest build",
-    "dev2": "nodemon --signal SIGTERM -r tsconfig-paths/register -w '../../libs/**/dist/' -w .env -w src src/main.ts",
     "dev": "nest start --watch --preserveWatchOutput",
     "lint": "tsc && rimraf dist",
     "puppeteer:browser": "pnpx @puppeteer/browsers install chromium"
@@ -39,7 +38,6 @@
     "@nestjs/schematics": "^10.1.1",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.17",
-    "nodemon": "^3.0.3",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.5.1",

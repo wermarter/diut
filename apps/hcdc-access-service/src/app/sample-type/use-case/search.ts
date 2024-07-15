@@ -34,7 +34,9 @@ export class SampleTypeSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, SampleTypeAction.Read).SampleType,
+          accessibleBy(ability, SampleTypeAction.Read).ofType(
+            AuthSubject.SampleType,
+          ),
         ],
       },
     })
