@@ -5,6 +5,9 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "build": "rimraf dist && nest build",
     "dev": "nest start --watch --preserveWatchOutput",
