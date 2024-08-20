@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PrintForm, PrintFormAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PrintFormRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PRINTFORM_REPO_TOKEN,
   IAuthContext,
   IPrintFormRepository,
   EntityData,
@@ -14,9 +14,9 @@ import { PrintFormValidateUseCase } from './validate'
 @Injectable()
 export class PrintFormCreateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(PrintFormRepositoryToken)
+    @Inject(PRINTFORM_REPO_TOKEN)
     private readonly printFormRepository: IPrintFormRepository,
     private readonly printFormValidateUseCase: PrintFormValidateUseCase,
   ) {}

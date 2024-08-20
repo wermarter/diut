@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { User } from '@diut/hcdc'
 
 import {
-  UserRepositoryToken,
+  USER_REPO_TOKEN,
   EntityFindOneOptions,
   IUserRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class UserAssertExistsUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
   ) {}
 

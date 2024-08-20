@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, UserAction } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  UserRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  USER_REPO_TOKEN,
   IAuthContext,
   IUserRepository,
   assertPermission,
-  AuthServiceToken,
+  AUTH_SERVICE_TOKEN,
   IAuthService,
   AuthType,
   AuthContextData,
@@ -22,13 +22,13 @@ type InputOptions = Parameters<IUserRepository['update']>[2]
 @Injectable()
 export class UserUpdateUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly userValidateUseCase: UserValidateUseCase,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
-    @Inject(AuthServiceToken)
+    @Inject(AUTH_SERVICE_TOKEN)
     private readonly authService: IAuthService,
   ) {}
 

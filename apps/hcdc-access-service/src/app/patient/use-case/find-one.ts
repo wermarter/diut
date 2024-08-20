@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Patient, PatientAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PatientRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PATIENT_REPO_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   IPatientRepository,
@@ -14,9 +14,9 @@ import { PatientAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class PatientFindOneUseCase {
   constructor(
-    @Inject(PatientRepositoryToken)
+    @Inject(PATIENT_REPO_TOKEN)
     private readonly patientRepository: IPatientRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly patientAuthorizePopulatesUseCase: PatientAuthorizePopulatesUseCase,
   ) {}

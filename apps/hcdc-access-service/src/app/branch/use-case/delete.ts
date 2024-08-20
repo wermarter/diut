@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, BranchAction } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  BranchRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  BRANCH_REPO_TOKEN,
   EEntityCannotDelete,
   IAuthContext,
   IBranchRepository,
@@ -14,9 +14,9 @@ import { BranchAssertExistsUseCase } from './assert-exists'
 @Injectable()
 export class BranchDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(BranchRepositoryToken)
+    @Inject(BRANCH_REPO_TOKEN)
     private readonly branchRepository: IBranchRepository,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}

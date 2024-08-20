@@ -4,13 +4,13 @@ import { template } from 'lodash'
 
 import { ISamplePrintStrategy } from './common'
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   AuthType,
   IAuthContext,
   IPrintFormRepository,
   ISampleTypeRepository,
-  PrintFormRepositoryToken,
-  SampleTypeRepositoryToken,
+  PRINTFORM_REPO_TOKEN,
+  SAMPLETYPE_REPO_TOKEN,
 } from 'src/domain'
 import { BranchAssertExistsUseCase } from 'src/app/branch'
 import { UserAssertExistsUseCase } from 'src/app/user'
@@ -29,11 +29,11 @@ export class SamplePrintContext {
   private printStrategy: ISamplePrintStrategy
 
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(PrintFormRepositoryToken)
+    @Inject(PRINTFORM_REPO_TOKEN)
     private readonly printFormRepository: IPrintFormRepository,
-    @Inject(SampleTypeRepositoryToken)
+    @Inject(SAMPLETYPE_REPO_TOKEN)
     private readonly sampleTypeRepository: ISampleTypeRepository,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,

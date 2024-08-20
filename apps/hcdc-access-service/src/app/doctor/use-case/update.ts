@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { DoctorAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  DoctorRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  DOCTOR_REPO_TOKEN,
   IAuthContext,
   IDoctorRepository,
   assertPermission,
@@ -14,9 +14,9 @@ import { DoctorValidateUseCase } from './validate'
 @Injectable()
 export class DoctorUpdateUseCase {
   constructor(
-    @Inject(DoctorRepositoryToken)
+    @Inject(DOCTOR_REPO_TOKEN)
     private readonly doctorRepository: IDoctorRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly doctorAssertExistsUseCase: DoctorAssertExistsUseCase,
     private readonly doctorValidateUseCase: DoctorValidateUseCase,

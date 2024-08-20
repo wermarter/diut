@@ -8,7 +8,7 @@ import {
   IStorageService,
   StorageBucket,
   StorageBucketToken,
-  StorageServiceToken,
+  STORAGE_SERVICE_TOKEN,
 } from 'src/domain'
 
 @Injectable()
@@ -16,7 +16,7 @@ export class SampleDownloadResultImageUseCase {
   constructor(
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly testElementAssertExistsUseCase: TestElementAssertExistsUseCase,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
     @Inject(StorageBucketToken)
     private readonly storageBucket: IStorageBucket,

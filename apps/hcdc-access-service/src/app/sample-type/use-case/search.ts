@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { SampleType, SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  SampleTypeRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  SAMPLETYPE_REPO_TOKEN,
   IAuthContext,
   ISampleTypeRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { SampleTypeAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class SampleTypeSearchUseCase {
   constructor(
-    @Inject(SampleTypeRepositoryToken)
+    @Inject(SAMPLETYPE_REPO_TOKEN)
     private readonly sampleTypeRepository: ISampleTypeRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly sampleTypeAuthorizePopulatesUseCase: SampleTypeAuthorizePopulatesUseCase,
   ) {}

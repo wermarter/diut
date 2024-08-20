@@ -3,8 +3,8 @@ import * as argon2 from 'argon2'
 import { User, UserAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  UserRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  USER_REPO_TOKEN,
   IAuthContext,
   IUserRepository,
   assertPermission,
@@ -15,9 +15,9 @@ import { UserValidateUseCase } from './validate'
 @Injectable()
 export class UserCreateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
     private readonly userValidateUseCase: UserValidateUseCase,
   ) {}

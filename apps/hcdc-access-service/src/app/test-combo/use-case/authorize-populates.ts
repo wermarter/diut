@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { BranchAction, TestAction, TestCombo, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   authorizePopulates,
@@ -12,9 +12,10 @@ import {
 @Injectable()
 export class TestComboAuthorizePopulatesUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
+
   execute(input: EntityFindOneOptions<TestCombo>['populates']) {
     const { ability } = this.authContext.getData()
 

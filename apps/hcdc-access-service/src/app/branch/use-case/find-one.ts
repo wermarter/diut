@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Branch, BranchAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  BranchRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  BRANCH_REPO_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   IBranchRepository,
@@ -14,9 +14,9 @@ import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class BranchFindOneUseCase {
   constructor(
-    @Inject(BranchRepositoryToken)
+    @Inject(BRANCH_REPO_TOKEN)
     private readonly branchRepository: IBranchRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly branchAuthorizePopulatesUseCase: BranchAuthorizePopulatesUseCase,
   ) {}

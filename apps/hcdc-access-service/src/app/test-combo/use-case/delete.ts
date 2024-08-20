@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestComboAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestComboRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTCOMBO_REPO_TOKEN,
   IAuthContext,
   ITestComboRepository,
   assertPermission,
@@ -13,9 +13,9 @@ import { TestComboAssertExistsUseCase } from './assert-exists'
 @Injectable()
 export class TestComboDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(TestComboRepositoryToken)
+    @Inject(TESTCOMBO_REPO_TOKEN)
     private readonly testComboRepository: ITestComboRepository,
     private readonly testComboAssertExistsUseCase: TestComboAssertExistsUseCase,
   ) {}

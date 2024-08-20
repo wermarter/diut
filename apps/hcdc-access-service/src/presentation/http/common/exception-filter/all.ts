@@ -11,7 +11,7 @@ import { HttpAdapterHost } from '@nestjs/core'
 import { DomainErrorCode } from '@diut/hcdc'
 
 import { HttpErrorResponse } from '../dto'
-import { AuthContextToken, IAuthContext, buildErrorLog } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext, buildErrorLog } from 'src/domain'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -19,7 +19,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   constructor(
     private readonly httpAdapterHost: HttpAdapterHost,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
 

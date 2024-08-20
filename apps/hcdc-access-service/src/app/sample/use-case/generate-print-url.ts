@@ -4,7 +4,7 @@ import { MongoAbility } from '@casl/ability'
 import { JwtService } from '@nestjs/jwt'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   AuthExternalOrigin,
   AuthPayloadExternal,
   CacheKeyFactory,
@@ -20,7 +20,7 @@ import { SamplePrintOptions } from '../print-strategy/context'
 @Injectable()
 export class SampleGeneratePrintUrlUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,

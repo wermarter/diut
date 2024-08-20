@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { BioProduct } from '@diut/hcdc'
 
 import {
-  BioProductRepositoryToken,
+  BIOPRODUCT_REPO_TOKEN,
   EntityFindOneOptions,
   IBioProductRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class BioProductAssertExistsUseCase {
   constructor(
-    @Inject(BioProductRepositoryToken)
+    @Inject(BIOPRODUCT_REPO_TOKEN)
     private readonly bioProductRepository: IBioProductRepository,
   ) {}
 

@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, RoleAction } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  RoleRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  ROLE_REPO_TOKEN,
   IAuthContext,
   IRoleRepository,
   assertPermission,
-  UserRepositoryToken,
+  USER_REPO_TOKEN,
   IUserRepository,
   EEntityCannotDelete,
 } from 'src/domain'
@@ -16,11 +16,11 @@ import { RoleAssertExistsUseCase } from './assert-exists'
 @Injectable()
 export class RoleDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(RoleRepositoryToken)
+    @Inject(ROLE_REPO_TOKEN)
     private readonly roleRepository: IRoleRepository,
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
     private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
   ) {}

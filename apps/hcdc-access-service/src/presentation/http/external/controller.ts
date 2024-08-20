@@ -10,7 +10,7 @@ import { Response } from 'express'
 import { ApiTags } from '@nestjs/swagger'
 
 import { SamplePrintUseCase } from 'src/app'
-import { AuthContextToken, IAuthContext } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 import { HttpExternalAuthGuard } from './auth'
 import { SamplePrintOptions } from 'src/app/sample/print-strategy/context'
 
@@ -20,7 +20,7 @@ import { SamplePrintOptions } from 'src/app/sample/print-strategy/context'
 export class ExternalController {
   constructor(
     private readonly samplePrintUseCase: SamplePrintUseCase,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
 

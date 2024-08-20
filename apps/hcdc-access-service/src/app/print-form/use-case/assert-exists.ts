@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PrintForm } from '@diut/hcdc'
 
 import {
-  PrintFormRepositoryToken,
+  PRINTFORM_REPO_TOKEN,
   EntityFindOneOptions,
   IPrintFormRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class PrintFormAssertExistsUseCase {
   constructor(
-    @Inject(PrintFormRepositoryToken)
+    @Inject(PRINTFORM_REPO_TOKEN)
     private readonly printFormRepository: IPrintFormRepository,
   ) {}
 

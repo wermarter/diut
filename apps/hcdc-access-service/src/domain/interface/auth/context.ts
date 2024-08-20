@@ -1,7 +1,7 @@
 import { MongoAbility } from '@casl/ability'
 import { PermissionRule, User } from '@diut/hcdc'
 
-export const AuthContextToken = Symbol('AuthContext')
+export const AUTH_CONTEXT_TOKEN = Symbol('AuthContext')
 
 export interface IAuthContext {
   setData(data: AuthContextData): void

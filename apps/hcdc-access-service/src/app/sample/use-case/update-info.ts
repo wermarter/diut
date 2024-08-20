@@ -3,8 +3,8 @@ import { FilterQuery, UpdateQuery } from 'mongoose'
 import { AuthSubject, Sample, SampleAction, SampleInfo } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  SampleRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  SAMPLE_REPO_TOKEN,
   IAuthContext,
   ISampleRepository,
   assertPermission,
@@ -17,9 +17,9 @@ import { PatientGetCategoryUseCase } from '../../patient/use-case/get-category'
 @Injectable()
 export class SampleUpdateInfoUseCase {
   constructor(
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly sampleValidateUseCase: SampleValidateUseCase,

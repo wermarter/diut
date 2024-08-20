@@ -9,7 +9,7 @@ import {
   IStorageService,
   StorageBucket,
   StorageBucketToken,
-  StorageServiceToken,
+  STORAGE_SERVICE_TOKEN,
 } from 'src/domain'
 import { SampleUpdateResultUseCase } from './update-result'
 
@@ -19,7 +19,7 @@ export class SampleUploadResultImageUseCase {
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly testElementAssertExistsUseCase: TestElementAssertExistsUseCase,
     private readonly sampleUpdateResultUseCase: SampleUpdateResultUseCase,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
     @Inject(StorageBucketToken)
     private readonly storageBucket: IStorageBucket,

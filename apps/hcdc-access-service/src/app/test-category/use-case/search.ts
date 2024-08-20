@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { TestCategory, TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestCategoryRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTCATEGORY_REPO_TOKEN,
   IAuthContext,
   ITestCategoryRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { TestCategoryAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class TestCategorySearchUseCase {
   constructor(
-    @Inject(TestCategoryRepositoryToken)
+    @Inject(TESTCATEGORY_REPO_TOKEN)
     private readonly testCategoryRepository: ITestCategoryRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testCategoryAuthorizePopulatesUseCase: TestCategoryAuthorizePopulatesUseCase,
   ) {}

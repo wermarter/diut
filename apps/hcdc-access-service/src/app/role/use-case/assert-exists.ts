@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Role } from '@diut/hcdc'
 
 import {
-  RoleRepositoryToken,
+  ROLE_REPO_TOKEN,
   EntityFindOneOptions,
   IRoleRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class RoleAssertExistsUseCase {
   constructor(
-    @Inject(RoleRepositoryToken)
+    @Inject(ROLE_REPO_TOKEN)
     private readonly roleRepository: IRoleRepository,
   ) {}
 

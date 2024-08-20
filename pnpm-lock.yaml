@@ -9936,6 +9936,7 @@ packages:
     resolution: {directory: libs/nestjs-infra, type: directory}
     id: file:libs/nestjs-infra
     name: '@diut/nestjs-infra'
+    engines: {node: '20'}
     peerDependencies:
       '@nestjs/common': ^10.3.3
       '@nestjs/config': ^3.2.0

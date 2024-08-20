@@ -9,7 +9,7 @@ import { ModuleMetadata } from '@nestjs/common'
 import {
   IStorageService,
   StorageBucketToken,
-  StorageServiceToken,
+  STORAGE_SERVICE_TOKEN,
 } from 'src/domain'
 import { MinioConfig, loadMinioConfig } from 'src/config'
 import { StorageBucketProvider } from './bucket'
@@ -33,7 +33,7 @@ export const minioMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: StorageServiceToken,
+      provide: STORAGE_SERVICE_TOKEN,
       useExisting: getAwsS3ClientServiceToken('MinIO'),
     },
     {

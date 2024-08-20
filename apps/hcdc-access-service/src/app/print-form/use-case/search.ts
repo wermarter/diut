@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { PrintForm, PrintFormAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PrintFormRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PRINTFORM_REPO_TOKEN,
   IAuthContext,
   IPrintFormRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { PrintFormAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class PrintFormSearchUseCase {
   constructor(
-    @Inject(PrintFormRepositoryToken)
+    @Inject(PRINTFORM_REPO_TOKEN)
     private readonly printFormRepository: IPrintFormRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly printFormAuthorizePopulatesUseCase: PrintFormAuthorizePopulatesUseCase,
   ) {}

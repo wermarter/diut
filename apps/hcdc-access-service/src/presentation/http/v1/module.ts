@@ -20,7 +20,7 @@ import { PatientController } from './patient/controller'
 import { TestComboController } from './test-combo/controller'
 import { SampleController } from './sample/controller'
 import { ReportController } from './report/controller'
-import { AuthServiceToken, IAuthService } from 'src/domain'
+import { AUTH_SERVICE_TOKEN, IAuthService } from 'src/domain'
 import { HttpAuthService, commonModuleMetadata } from '../common'
 
 export const httpControllerV1Metadata: ModuleMetadata = {}
@@ -31,7 +31,7 @@ export const httpControllerV1Metadata: ModuleMetadata = {}
       providers: [
         HttpAuthService,
         {
-          provide: AuthServiceToken,
+          provide: AUTH_SERVICE_TOKEN,
           useExisting: HttpAuthService satisfies ClassConstructor<IAuthService>,
         },
       ],

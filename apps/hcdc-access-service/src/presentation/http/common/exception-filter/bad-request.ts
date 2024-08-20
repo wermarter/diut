@@ -10,7 +10,7 @@ import {
 import { DomainErrorCode } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   ERequestInvalidInput,
   IAuthContext,
   buildErrorLog,
@@ -22,7 +22,7 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
   private logger = new Logger(BadRequestExceptionFilter.name)
 
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
 

@@ -3,12 +3,12 @@ import * as argon2 from 'argon2'
 import { AuthSubject, UserAction } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  UserRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  USER_REPO_TOKEN,
   IAuthContext,
   IUserRepository,
   assertPermission,
-  AuthServiceToken,
+  AUTH_SERVICE_TOKEN,
   IAuthService,
   AuthType,
   AuthContextData,
@@ -18,12 +18,12 @@ import { UserAssertExistsUseCase } from './assert-exists'
 @Injectable()
 export class UserChangePasswordUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
-    @Inject(AuthServiceToken)
+    @Inject(AUTH_SERVICE_TOKEN)
     private readonly authService: IAuthService,
   ) {}
 

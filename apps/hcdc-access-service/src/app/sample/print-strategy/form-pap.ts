@@ -7,23 +7,23 @@ import {
   IStorageBucket,
   IStorageService,
   ITestCategoryRepository,
-  SampleRepositoryToken,
+  SAMPLE_REPO_TOKEN,
   StorageBucket,
   StorageBucketToken,
-  StorageServiceToken,
-  TestCategoryRepositoryToken,
+  STORAGE_SERVICE_TOKEN,
+  TESTCATEGORY_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()
 export class SamplePrintFormPapStrategy extends AbstractSamplePrintStrategy {
   constructor(
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     sampleRepository: ISampleRepository,
-    @Inject(TestCategoryRepositoryToken)
+    @Inject(TESTCATEGORY_REPO_TOKEN)
     testCategoryRepository: ITestCategoryRepository,
     @Inject(StorageBucketToken)
     private readonly storageBucket: IStorageBucket,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
   ) {
     super(sampleRepository, testCategoryRepository, PrintTemplate.FormPap)

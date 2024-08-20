@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Doctor, BranchAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   IAuthContext,
   assertPermission,
   EntityData,
@@ -12,7 +12,7 @@ import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
 @Injectable()
 export class DoctorValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}

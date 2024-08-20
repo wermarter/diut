@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PatientAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PatientRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PATIENT_REPO_TOKEN,
   IAuthContext,
   IPatientRepository,
   assertPermission,
@@ -14,9 +14,9 @@ import { SampleDeleteManyUseCase } from '../../sample/use-case/delete-many'
 @Injectable()
 export class PatientDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(PatientRepositoryToken)
+    @Inject(PATIENT_REPO_TOKEN)
     private readonly patientRepository: IPatientRepository,
     private readonly patientAssertExistsUseCase: PatientAssertExistsUseCase,
     private readonly sampleDeleteManyUseCase: SampleDeleteManyUseCase,

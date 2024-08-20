@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { BioProduct, BranchAction, AuthSubject, TestAction } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   IAuthContext,
   assertPermission,
   EntityData,
@@ -13,7 +13,7 @@ import { TestAssertExistsUseCase } from 'src/app/test'
 @Injectable()
 export class BioProductValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,

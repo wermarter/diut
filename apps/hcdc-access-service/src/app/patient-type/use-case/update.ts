@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PatientTypeAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PatientTypeRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PATIENTTYPE_REPO_TOKEN,
   IAuthContext,
   IPatientTypeRepository,
   assertPermission,
@@ -14,9 +14,9 @@ import { PatientTypeValidateUseCase } from './validate'
 @Injectable()
 export class PatientTypeUpdateUseCase {
   constructor(
-    @Inject(PatientTypeRepositoryToken)
+    @Inject(PATIENTTYPE_REPO_TOKEN)
     private readonly patientTypeRepository: IPatientTypeRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly patientTypeAssertExistsUseCase: PatientTypeAssertExistsUseCase,
     private readonly patientTypeValidateUseCase: PatientTypeValidateUseCase,

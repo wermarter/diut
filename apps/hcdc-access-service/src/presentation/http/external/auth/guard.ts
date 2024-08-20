@@ -3,12 +3,12 @@ import { createAbility } from '@diut/hcdc'
 import { Request } from 'express'
 
 import { HttpExternalAuthService } from './service'
-import { AuthContextToken, AuthType, IAuthContext } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, AuthType, IAuthContext } from 'src/domain'
 
 export class HttpExternalAuthGuard implements CanActivate {
   constructor(
     private readonly authService: HttpExternalAuthService,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
 
@@ -17,7 +17,7 @@ export class HttpExternalAuthGuard implements CanActivate {
     const jwt = request.query.jwt as string
     if (!jwt) return false
 
-    const payload = await this.authService.verifyToken(jwt as string)
+    const payload = await this.authService.verifyToken(jwt)
     if (!payload) return false
 
     if (!request.path.startsWith(payload.authorizedRoute)) return false

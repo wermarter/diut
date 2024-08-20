@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Role, RoleAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  RoleRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  ROLE_REPO_TOKEN,
   IAuthContext,
   IRoleRepository,
   EntityData,
@@ -14,9 +14,9 @@ import { RoleValidateUseCase } from './validate'
 @Injectable()
 export class RoleCreateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(RoleRepositoryToken)
+    @Inject(ROLE_REPO_TOKEN)
     private readonly roleRepository: IRoleRepository,
     private readonly roleValidateUseCase: RoleValidateUseCase,
   ) {}

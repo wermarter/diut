@@ -17,9 +17,9 @@ import {
 import {
   EntityData,
   assertPermission,
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   IAuthContext,
-  UserRepositoryToken,
+  USER_REPO_TOKEN,
   IUserRepository,
 } from 'src/domain'
 import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
@@ -35,9 +35,9 @@ import { DiagnosisAssertExistsUseCase } from '../../diagnosis/use-case/assert-ex
 @Injectable()
 export class SampleValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,

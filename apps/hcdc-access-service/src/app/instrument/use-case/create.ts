@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Instrument, InstrumentAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  InstrumentRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  INSTRUMENT_REPO_TOKEN,
   IAuthContext,
   IInstrumentRepository,
   EntityData,
@@ -14,9 +14,9 @@ import { InstrumentValidateUseCase } from './validate'
 @Injectable()
 export class InstrumentCreateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(InstrumentRepositoryToken)
+    @Inject(INSTRUMENT_REPO_TOKEN)
     private readonly instrumentRepository: IInstrumentRepository,
     private readonly instrumentValidateUseCase: InstrumentValidateUseCase,
   ) {}

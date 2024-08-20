@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestCombo } from '@diut/hcdc'
 
 import {
-  TestComboRepositoryToken,
+  TESTCOMBO_REPO_TOKEN,
   EntityFindOneOptions,
   ITestComboRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class TestComboAssertExistsUseCase {
   constructor(
-    @Inject(TestComboRepositoryToken)
+    @Inject(TESTCOMBO_REPO_TOKEN)
     private readonly testComboRepository: ITestComboRepository,
   ) {}
 

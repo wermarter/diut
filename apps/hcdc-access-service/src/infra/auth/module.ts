@@ -1,7 +1,7 @@
 import { ModuleMetadata } from '@nestjs/common'
 import { ClsModule } from 'nestjs-cls'
 
-import { AuthContextToken } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN } from 'src/domain'
 import { AuthContext } from './context'
 
 export const authMetadata: ModuleMetadata = {
@@ -12,7 +12,7 @@ export const authMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: AuthContextToken,
+      provide: AUTH_CONTEXT_TOKEN,
       useClass: AuthContext,
     },
   ],

@@ -6,14 +6,14 @@ import { RoleAssertExistsUseCase } from '../../role/use-case/assert-exists'
 import {
   EntityData,
   assertPermission,
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   IAuthContext,
 } from 'src/domain'
 
 @Injectable()
 export class UserValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
     private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,

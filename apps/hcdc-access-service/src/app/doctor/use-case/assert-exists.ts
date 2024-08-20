@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Doctor } from '@diut/hcdc'
 
 import {
-  DoctorRepositoryToken,
+  DOCTOR_REPO_TOKEN,
   EntityFindOneOptions,
   IDoctorRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class DoctorAssertExistsUseCase {
   constructor(
-    @Inject(DoctorRepositoryToken)
+    @Inject(DOCTOR_REPO_TOKEN)
     private readonly doctorRepository: IDoctorRepository,
   ) {}
 

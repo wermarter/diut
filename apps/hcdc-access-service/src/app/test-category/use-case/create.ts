@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestCategory, TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestCategoryRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTCATEGORY_REPO_TOKEN,
   IAuthContext,
   ITestCategoryRepository,
   EntityData,
@@ -14,9 +14,9 @@ import { TestCategoryValidateUseCase } from './validate'
 @Injectable()
 export class TestCategoryCreateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(TestCategoryRepositoryToken)
+    @Inject(TESTCATEGORY_REPO_TOKEN)
     private readonly testCategoryRepository: ITestCategoryRepository,
     private readonly testCategoryValidateUseCase: TestCategoryValidateUseCase,
   ) {}

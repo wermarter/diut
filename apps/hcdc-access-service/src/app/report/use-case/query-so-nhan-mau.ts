@@ -13,10 +13,10 @@ import { parseISO } from 'date-fns'
 
 import { TestSearchUseCase } from 'src/app/test'
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   IAuthContext,
   ISampleRepository,
-  SampleRepositoryToken,
+  SAMPLE_REPO_TOKEN,
   assertPermission,
 } from 'src/domain'
 import { COLLECTION } from 'src/infra'
@@ -26,9 +26,9 @@ import { SampleSchema } from 'src/infra/mongo/sample'
 @Injectable()
 export class ReportQuerySoNhanMauUseCase {
   constructor(
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testSearchUseCase: TestSearchUseCase,
   ) {}

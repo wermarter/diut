@@ -3,7 +3,7 @@ import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { ClassConstructor } from 'class-transformer'
 
 import { ExternalController } from './controller'
-import { AuthServiceToken, IAuthService } from 'src/domain'
+import { AUTH_SERVICE_TOKEN, IAuthService } from 'src/domain'
 import { commonModuleMetadata } from '../common'
 import { HttpExternalAuthService } from './auth'
 
@@ -14,7 +14,7 @@ import { HttpExternalAuthService } from './auth'
       providers: [
         HttpExternalAuthService,
         {
-          provide: AuthServiceToken,
+          provide: AUTH_SERVICE_TOKEN,
           useExisting:
             HttpExternalAuthService satisfies ClassConstructor<IAuthService>,
         },

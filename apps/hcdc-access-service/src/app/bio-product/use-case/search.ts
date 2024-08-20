@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { BioProduct, BioProductAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  BioProductRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  BIOPRODUCT_REPO_TOKEN,
   IAuthContext,
   IBioProductRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { BioProductAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class BioProductSearchUseCase {
   constructor(
-    @Inject(BioProductRepositoryToken)
+    @Inject(BIOPRODUCT_REPO_TOKEN)
     private readonly bioProductRepository: IBioProductRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly bioProductAuthorizePopulatesUseCase: BioProductAuthorizePopulatesUseCase,
   ) {}

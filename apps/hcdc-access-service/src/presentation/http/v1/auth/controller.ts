@@ -10,12 +10,12 @@ import {
   HttpPublicRoute,
   HttpRoute,
 } from '../../common'
-import { AuthContextToken, IAuthContext } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 
 @HttpController({ basePath: 'v1/auth' })
 export class AuthController {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private authMeUseCase: AuthMeUseCase,
     private authLoginUseCase: AuthLoginUseCase,

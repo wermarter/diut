@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EDomain,
   IAuthContext,
   buildErrorLog,
@@ -20,7 +20,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
   private logger = new Logger(DomainExceptionFilter.name)
 
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
 

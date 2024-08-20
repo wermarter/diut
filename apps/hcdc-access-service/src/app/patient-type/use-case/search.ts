@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { PatientType, PatientTypeAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PatientTypeRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PATIENTTYPE_REPO_TOKEN,
   IAuthContext,
   IPatientTypeRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { PatientTypeAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class PatientTypeSearchUseCase {
   constructor(
-    @Inject(PatientTypeRepositoryToken)
+    @Inject(PATIENTTYPE_REPO_TOKEN)
     private readonly patientTypeRepository: IPatientTypeRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly patientTypeAuthorizePopulatesUseCase: PatientTypeAuthorizePopulatesUseCase,
   ) {}

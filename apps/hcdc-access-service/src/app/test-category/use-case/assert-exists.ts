@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestCategory } from '@diut/hcdc'
 
 import {
-  TestCategoryRepositoryToken,
+  TESTCATEGORY_REPO_TOKEN,
   EntityFindOneOptions,
   ITestCategoryRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class TestCategoryAssertExistsUseCase {
   constructor(
-    @Inject(TestCategoryRepositoryToken)
+    @Inject(TESTCATEGORY_REPO_TOKEN)
     private readonly testCategoryRepository: ITestCategoryRepository,
   ) {}
 

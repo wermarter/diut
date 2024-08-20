@@ -11,7 +11,7 @@ import {
 } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EEntityTestInvalidBioProduct,
   IAuthContext,
   assertPermission,
@@ -26,7 +26,7 @@ import { PrintFormAssertExistsUseCase } from '../../print-form/use-case/assert-e
 @Injectable()
 export class TestValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
     private readonly instrumentAssertExistsUseCase: InstrumentAssertExistsUseCase,

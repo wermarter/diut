@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Branch } from '@diut/hcdc'
 
 import {
-  BranchRepositoryToken,
+  BRANCH_REPO_TOKEN,
   EntityFindOneOptions,
   IBranchRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class BranchAssertExistsUseCase {
   constructor(
-    @Inject(BranchRepositoryToken)
+    @Inject(BRANCH_REPO_TOKEN)
     private readonly branchRepository: IBranchRepository,
   ) {}
 

@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core'
 import { Request, Response } from 'express'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EAuthnCookieNotFound,
   EAuthnJwtInvalidToken,
   IAuthContext,
@@ -21,7 +21,7 @@ import { HttpAuthService } from './service'
 export class HttpAuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly authService: HttpAuthService,
     private readonly authGetContextInternalUseCase: AuthGetContextInternalUseCase,

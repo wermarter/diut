@@ -3,15 +3,15 @@ import { AuthSubject, BranchAction, UserAction } from '@diut/hcdc'
 
 import {
   AuthContextData,
-  AuthContextToken,
-  AuthServiceToken,
+  AUTH_CONTEXT_TOKEN,
+  AUTH_SERVICE_TOKEN,
   AuthType,
   IAuthContext,
   IAuthService,
   IRoleRepository,
   IUserRepository,
-  RoleRepositoryToken,
-  UserRepositoryToken,
+  ROLE_REPO_TOKEN,
+  USER_REPO_TOKEN,
   assertPermission,
 } from 'src/domain'
 import { UserAssertExistsUseCase } from './assert-exists'
@@ -20,15 +20,15 @@ import { BranchAssertExistsUseCase } from 'src/app/branch'
 @Injectable()
 export class UserBranchDeauthorizeUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
-    @Inject(RoleRepositoryToken)
+    @Inject(ROLE_REPO_TOKEN)
     private readonly roleRepository: IRoleRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
-    @Inject(AuthServiceToken)
+    @Inject(AUTH_SERVICE_TOKEN)
     private readonly authService: IAuthService,
   ) {}
 

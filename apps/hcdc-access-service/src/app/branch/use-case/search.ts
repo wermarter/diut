@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { Branch, BranchAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  BranchRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  BRANCH_REPO_TOKEN,
   IAuthContext,
   IBranchRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class BranchSearchUseCase {
   constructor(
-    @Inject(BranchRepositoryToken)
+    @Inject(BRANCH_REPO_TOKEN)
     private readonly branchRepository: IBranchRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly branchAuthorizePopulatesUseCase: BranchAuthorizePopulatesUseCase,
   ) {}

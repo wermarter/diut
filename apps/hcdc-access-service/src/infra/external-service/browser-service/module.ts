@@ -9,7 +9,7 @@ import { ModuleMetadata } from '@nestjs/common'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
 import { ClientConfig, loadClientConfig } from 'src/config'
-import { BrowserServiceToken } from 'src/domain'
+import { BROWSER_SERVICE_TOKEN } from 'src/domain'
 import { BrowserService } from './service'
 
 export const browserServiceMetadata: ModuleMetadata = {
@@ -38,7 +38,7 @@ export const browserServiceMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: BrowserServiceToken,
+      provide: BROWSER_SERVICE_TOKEN,
       useClass: BrowserService,
     },
   ],

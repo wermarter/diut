@@ -6,12 +6,12 @@ import {
   PatientGender,
 } from '@diut/hcdc'
 
-import { AuthContextToken, IAuthContext, assertPermission } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext, assertPermission } from 'src/domain'
 import { PatientAssertExistsUseCase } from './assert-exists'
 
 export class PatientGetCategoryUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly patientAssertExistsUseCase: PatientAssertExistsUseCase,
   ) {}

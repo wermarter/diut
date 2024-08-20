@@ -16,8 +16,8 @@ import { NodeEnv } from '@diut/common'
 import { join } from 'path'
 
 import {
-  AuthContextToken,
-  BrowserServiceToken,
+  AUTH_CONTEXT_TOKEN,
+  BROWSER_SERVICE_TOKEN,
   StorageKeyFactory,
   EEntityNotFound,
   IAuthContext,
@@ -25,10 +25,10 @@ import {
   IStorageService,
   StorageBucket,
   StorageBucketToken,
-  StorageServiceToken,
+  STORAGE_SERVICE_TOKEN,
   assertPermission,
   printTemplateConfigs,
-  SampleRepositoryToken,
+  SAMPLE_REPO_TOKEN,
   ISampleRepository,
   AuthType,
 } from 'src/domain'
@@ -54,17 +54,17 @@ export class SamplePrintUseCase {
   private logger = new Logger(SamplePrintUseCase.name)
 
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(BrowserServiceToken)
+    @Inject(BROWSER_SERVICE_TOKEN)
     private readonly browserService: BrowserServiceClient,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
     @Inject(StorageBucketToken)
     private readonly storageBucket: IStorageBucket,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
     private readonly moduleRef: ModuleRef,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,

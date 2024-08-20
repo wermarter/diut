@@ -19,7 +19,7 @@ import { AuthSubject, SampleAction } from '@diut/hcdc'
 
 import { sampleRoutes } from './routes'
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EEntityNotFound,
   IAuthContext,
   assertPermission,
@@ -41,14 +41,14 @@ import { SampleSearchRequestDto } from './dto/search.dto'
 import { HttpController, HttpRoute } from '../../common'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
 import { SamplePrintRequestDto } from './dto/print.dto'
-import { SampleUploadImageDto } from './dto/upload-image.dto'
+import { SampleUploadImageRequestDto } from './dto/upload-image.dto'
 
 @HttpController({
   basePath: 'v1/samples',
 })
 export class SampleController {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly sampleCreateUseCase: SampleCreateUseCase,
     private readonly sampleUpdateInfoUseCase: SampleUpdateInfoUseCase,
@@ -65,7 +65,7 @@ export class SampleController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    type: SampleUploadImageDto,
+    type: SampleUploadImageRequestDto,
   })
   async uploadResultImage(
     @Query('sampleId', ObjectIdPipe) sampleId: string,

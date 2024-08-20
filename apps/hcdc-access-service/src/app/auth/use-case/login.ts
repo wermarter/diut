@@ -4,7 +4,7 @@ import * as argon2 from 'argon2'
 import {
   AuthPayloadInternal,
   IUserRepository,
-  UserRepositoryToken,
+  USER_REPO_TOKEN,
   EAuthnLoginInvalidPassword,
   EAuthnLoginInvalidUsername,
 } from 'src/domain'
@@ -14,7 +14,7 @@ import { AuthSetContextCacheUseCase } from './set-context-cache'
 @Injectable()
 export class AuthLoginUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
     private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
     private readonly authSetContextCacheUseCase: AuthSetContextCacheUseCase,

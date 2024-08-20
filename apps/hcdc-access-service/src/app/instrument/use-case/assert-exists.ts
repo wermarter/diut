@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Instrument } from '@diut/hcdc'
 
 import {
-  InstrumentRepositoryToken,
+  INSTRUMENT_REPO_TOKEN,
   EntityFindOneOptions,
   IInstrumentRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class InstrumentAssertExistsUseCase {
   constructor(
-    @Inject(InstrumentRepositoryToken)
+    @Inject(INSTRUMENT_REPO_TOKEN)
     private readonly instrumentRepository: IInstrumentRepository,
   ) {}
 

@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { BioProduct, BioProductAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  BioProductRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  BIOPRODUCT_REPO_TOKEN,
   IAuthContext,
   IBioProductRepository,
   EntityData,
@@ -14,9 +14,9 @@ import { BioProductValidateUseCase } from './validate'
 @Injectable()
 export class BioProductCreateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(BioProductRepositoryToken)
+    @Inject(BIOPRODUCT_REPO_TOKEN)
     private readonly bioProductRepository: IBioProductRepository,
     private readonly bioProductValidateUseCase: BioProductValidateUseCase,
   ) {}

@@ -3,8 +3,8 @@ import { accessibleBy } from '@casl/mongoose'
 import { Diagnosis, DiagnosisAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  DiagnosisRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  DIAGNOSIS_REPO_TOKEN,
   IAuthContext,
   IDiagnosisRepository,
   EntitySearchOptions,
@@ -15,9 +15,9 @@ import { DiagnosisAuthorizePopulatesUseCase } from './authorize-populates'
 @Injectable()
 export class DiagnosisSearchUseCase {
   constructor(
-    @Inject(DiagnosisRepositoryToken)
+    @Inject(DIAGNOSIS_REPO_TOKEN)
     private readonly diagnosisRepository: IDiagnosisRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly diagnosisAuthorizePopulatesUseCase: DiagnosisAuthorizePopulatesUseCase,
   ) {}
