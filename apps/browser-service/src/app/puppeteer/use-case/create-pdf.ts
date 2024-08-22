@@ -1,7 +1,7 @@
 import * as puppeteer from 'puppeteer-core'
 import { Inject, Injectable } from '@nestjs/common'
 
-import { IPuppeteerService, PuppeteerServiceToken } from 'src/domain'
+import { IPuppeteerService, PUPPETEER_SERVICE_TOKEN } from 'src/domain'
 
 export enum Orientation {
   Portrait = 'Portrait',
@@ -17,7 +17,7 @@ export type PdfCreateOption = {
 @Injectable()
 export class PuppeteerCreatePDFUseCase {
   constructor(
-    @Inject(PuppeteerServiceToken)
+    @Inject(PUPPETEER_SERVICE_TOKEN)
     private readonly puppeteerService: IPuppeteerService,
   ) {}
 

@@ -1,12 +1,12 @@
 import { ConfigModule } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
-import { loadAppConfig } from './app.config'
-import { loadAuthConfig } from './auth.config'
-import { loadMinioConfig } from './minio.config'
-import { loadClientConfig } from './client.config'
-import { loadMongoConfig } from './mongo.config'
-import { loadLogConfig } from './log.config'
+import { loadAppConfig } from './app'
+import { loadAuthConfig } from './auth'
+import { loadMinioConfig } from './minio'
+import { loadClientConfig } from './client'
+import { loadMongoConfig } from './mongo'
+import { loadLogConfig } from './log'
 
 export const configMetadata: ModuleMetadata = {
   imports: [
