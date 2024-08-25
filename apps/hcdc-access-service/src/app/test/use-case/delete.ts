@@ -8,10 +8,10 @@ import {
   ITestRepository,
   TESTELEMENT_REPO_TOKEN,
   ITestElementRepository,
-  assertPermission,
   EEntityCannotDelete,
 } from 'src/domain'
 import { TestAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class TestDeleteUseCase {

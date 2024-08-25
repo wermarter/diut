@@ -1,4 +1,4 @@
-Error.stackTraceLimit = Infinity
+// Error.stackTraceLimit = Infinity
 
 import {
   CookieBootstrap,

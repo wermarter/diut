@@ -14,7 +14,7 @@ import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import LoopIcon from '@mui/icons-material/Loop'
 import CheckIcon from '@mui/icons-material/Check'
 import EditIcon from '@mui/icons-material/Edit'
-import { identity } from 'lodash'
+import { identity } from 'es-toolkit'
 
 import {
   OmittedSampleResponseDto,

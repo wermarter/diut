@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 
-import { exampleInstrument } from 'src/domain'
+import { exampleInstrument } from '../../../shared'
 
 export class InstrumentCreateRequestDto {
   @Expose()

@@ -6,8 +6,8 @@ import {
   ROLE_REPO_TOKEN,
   IAuthContext,
   IRoleRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { RoleAssertExistsUseCase } from './assert-exists'
 import { RoleValidateUseCase } from './validate'
 

@@ -1,18 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { Sample, SampleAction, AuthSubject, SampleInfo } from '@diut/hcdc'
+import {
+  Sample,
+  SampleAction,
+  AuthSubject,
+  SampleInfo,
+  EntityData,
+} from '@diut/hcdc'
 
 import {
   AUTH_CONTEXT_TOKEN,
   SAMPLE_REPO_TOKEN,
   IAuthContext,
   ISampleRepository,
-  assertPermission,
-  EntityData,
   EEntitySampleIdAlreadyExists,
 } from 'src/domain'
 import { SampleValidateUseCase } from './validate'
-import { PatientGetCategoryUseCase } from '../../patient/use-case/get-category'
+import { PatientGetCategoryUseCase } from 'src/app/patient/use-case/get-category'
 import { SampleInitResultUseCase } from './init-result'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SampleCreateUseCase {

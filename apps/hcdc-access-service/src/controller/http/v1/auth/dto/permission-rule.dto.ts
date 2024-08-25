@@ -9,7 +9,7 @@ import {
   AuthSubjectValues,
 } from '@diut/hcdc'
 
-import { examplePermissionRule } from 'src/domain'
+import { examplePermissionRule } from '../../../shared'
 
 export class PermissionRuleRequestDto {
   @Expose()

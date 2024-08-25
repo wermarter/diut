@@ -17,10 +17,9 @@
     "dev": "tsc --watch --preserveWatchOutput"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "es-toolkit": "^1.16.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.202",
     "typescript": "5.3.3"
   }
 }

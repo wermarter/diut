@@ -11,7 +11,7 @@ import {
   Min,
 } from 'class-validator'
 
-import { exampleBranch } from 'src/domain'
+import { exampleBranch } from '../../../shared'
 
 export class BranchCreateRequestDto {
   @Expose()

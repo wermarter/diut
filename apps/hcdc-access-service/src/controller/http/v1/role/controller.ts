@@ -3,19 +3,17 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { roleRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  RoleCreateUseCase,
-  RoleDeleteUseCase,
-  RoleSearchUseCase,
-  RoleUpdateUseCase,
-  RoleFindOneUseCase,
-} from 'src/app'
 import { RoleCreateRequestDto } from './dto/create.request-dto'
 import { RoleUpdateRequestDto } from './dto/update.request-dto'
 import { RoleSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { RoleCreateUseCase } from 'src/app/role/use-case/create'
+import { RoleUpdateUseCase } from 'src/app/role/use-case/update'
+import { RoleDeleteUseCase } from 'src/app/role/use-case/delete'
+import { RoleSearchUseCase } from 'src/app/role/use-case/search'
+import { RoleFindOneUseCase } from 'src/app/role/use-case/find-one'
 
-@HttpController({ basePath: 'v1/roles' })
+@HttpController({ basePath: 'roles' })
 export class RoleController {
   constructor(
     private readonly roleCreateUseCase: RoleCreateUseCase,

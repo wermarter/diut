@@ -13,12 +13,12 @@ import {
   SAMPLE_REPO_TOKEN,
   IAuthContext,
   ISampleRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { SampleValidateUseCase } from './validate'
 import { SampleInitResultUseCase } from './init-result'
-import { PatientGetCategoryUseCase } from '../../patient/use-case/get-category'
+import { PatientGetCategoryUseCase } from 'src/app/patient/use-case/get-category'
 
 @Injectable()
 export class SampleUpdateResultUseCase {

@@ -149,7 +149,10 @@ export class RedisClientService extends AbstractClientService {
       this.logger.warn(
         `synchronize failed: ackCount:${ackCount} < replicaCount:${replicaCount}`,
       )
+      return false
     }
+
+    return true
   }
 
   private async mutexLock(lockKey: string, lockValue: string, ttl: number) {

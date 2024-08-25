@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { testElementRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  TestElementCreateUseCase,
-  TestElementDeleteUseCase,
-  TestElementSearchUseCase,
-  TestElementUpdateUseCase,
-  TestElementFindOneUseCase,
-} from 'src/app'
 import { TestElementCreateRequestDto } from './dto/create.request-dto'
 import { TestElementUpdateRequestDto } from './dto/update.request-dto'
 import { TestElementSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { TestElementCreateUseCase } from 'src/app/test-element/use-case/create'
+import { TestElementUpdateUseCase } from 'src/app/test-element/use-case/update'
+import { TestElementDeleteUseCase } from 'src/app/test-element/use-case/delete'
+import { TestElementSearchUseCase } from 'src/app/test-element/use-case/search'
+import { TestElementFindOneUseCase } from 'src/app/test-element/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/test-elements',
+  basePath: 'test-elements',
 })
 export class TestElementController {
   constructor(

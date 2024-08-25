@@ -6,8 +6,8 @@ import {
   PRINTFORM_REPO_TOKEN,
   IAuthContext,
   IPrintFormRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PrintFormAssertExistsUseCase } from './assert-exists'
 import { PrintFormValidateUseCase } from './validate'
 

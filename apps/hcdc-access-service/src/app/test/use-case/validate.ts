@@ -14,14 +14,14 @@ import {
   AUTH_CONTEXT_TOKEN,
   EEntityTestInvalidBioProduct,
   IAuthContext,
-  assertPermission,
 } from 'src/domain'
-import { BranchAssertExistsUseCase } from '../../branch/use-case/assert-exists'
-import { BioProductAssertExistsUseCase } from '../../bio-product/use-case/assert-exists'
-import { InstrumentAssertExistsUseCase } from '../../instrument/use-case/assert-exists'
-import { SampleTypeAssertExistsUseCase } from '../../sample-type/use-case/assert-exists'
-import { TestCategoryAssertExistsUseCase } from '../../test-category/use-case/assert-exists'
-import { PrintFormAssertExistsUseCase } from '../../print-form/use-case/assert-exists'
+import { assertPermission } from 'src/app/auth/common'
+import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
+import { BioProductAssertExistsUseCase } from 'src/app/bio-product/use-case/assert-exists'
+import { InstrumentAssertExistsUseCase } from 'src/app/instrument/use-case/assert-exists'
+import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type/use-case/assert-exists'
+import { TestCategoryAssertExistsUseCase } from 'src/app/test-category/use-case/assert-exists'
+import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
 
 @Injectable()
 export class TestValidateUseCase {

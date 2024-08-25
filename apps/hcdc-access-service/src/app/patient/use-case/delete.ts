@@ -6,8 +6,8 @@ import {
   PATIENT_REPO_TOKEN,
   IAuthContext,
   IPatientRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PatientAssertExistsUseCase } from './assert-exists'
 import { SampleDeleteManyUseCase } from '../../sample/use-case/delete-many'
 

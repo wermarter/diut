@@ -6,8 +6,8 @@ import {
   DIAGNOSIS_REPO_TOKEN,
   IAuthContext,
   IDiagnosisRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { DiagnosisAssertExistsUseCase } from './assert-exists'
 import { DiagnosisValidateUseCase } from './validate'
 

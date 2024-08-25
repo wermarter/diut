@@ -12,10 +12,10 @@ import {
   IUserRepository,
   ROLE_REPO_TOKEN,
   USER_REPO_TOKEN,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { UserAssertExistsUseCase } from './assert-exists'
-import { BranchAssertExistsUseCase } from 'src/app/branch'
+import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 
 @Injectable()
 export class UserBranchDeauthorizeUseCase {

@@ -6,12 +6,12 @@ import {
   PATIENTTYPE_REPO_TOKEN,
   IAuthContext,
   IPatientTypeRepository,
-  assertPermission,
   SAMPLE_REPO_TOKEN,
   ISampleRepository,
   EEntityCannotDelete,
 } from 'src/domain'
 import { PatientTypeAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class PatientTypeDeleteUseCase {

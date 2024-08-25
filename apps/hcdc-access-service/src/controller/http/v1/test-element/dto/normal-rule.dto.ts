@@ -9,7 +9,7 @@ import {
   IsString,
 } from 'class-validator'
 
-import { exampleNormalRule } from 'src/domain'
+import { exampleNormalRule } from '../../../shared'
 
 export class TestElementNormalRuleDto {
   @Expose()

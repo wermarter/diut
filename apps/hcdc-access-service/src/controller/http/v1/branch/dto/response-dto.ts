@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
 import { BranchCreateRequestDto } from './create.request-dto'
-import { exampleBranch } from 'src/domain'
+import { exampleBranch } from '../../../shared'
 
 export class BranchUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,

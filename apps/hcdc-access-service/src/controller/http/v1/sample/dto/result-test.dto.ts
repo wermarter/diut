@@ -1,4 +1,4 @@
-import { IsObjectId } from '@diut/nestjs-infra'
+import { IsNullable, IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { exampleTestResult } from 'src/domain'
+import { exampleTestResult } from '../../../shared'
 import {
   SampleResultTestElementRequestDto,
   SampleResultTestElementResponseDto,
@@ -34,9 +34,9 @@ export class SampleResultTestRequestDto {
     ...exampleTestResult.elements,
     type: () => SampleResultTestElementRequestDto,
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => SampleResultTestElementRequestDto)
+  @IsArray()
   elements: SampleResultTestElementRequestDto[]
 }
 
@@ -48,6 +48,7 @@ export class SampleResultTestResponseDto extends SampleResultTestRequestDto {
   })
   @ValidateNested()
   @Type(() => TestUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   test?: TestUnpopulatedResponseDto | null
 
@@ -63,25 +64,26 @@ export class SampleResultTestResponseDto extends SampleResultTestRequestDto {
   })
   @ValidateNested()
   @Type(() => UserUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   resultBy?: UserUnpopulatedResponseDto | null
 
   @Expose()
   @ApiProperty(exampleTestResult.resultAt)
-  @IsOptional()
   @IsDateString()
+  @IsOptional()
   resultAt?: Date
 
   @Expose()
   @ApiProperty(exampleTestResult.bioProductName)
-  @IsOptional()
   @IsString()
+  @IsOptional()
   bioProductName?: string
 
   @Expose()
   @ApiProperty(exampleTestResult.instrumentName)
-  @IsOptional()
   @IsString()
+  @IsOptional()
   instrumentName?: string
 
   @Expose()
@@ -89,9 +91,9 @@ export class SampleResultTestResponseDto extends SampleResultTestRequestDto {
     ...exampleTestResult.elements,
     type: () => SampleResultTestElementResponseDto,
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => SampleResultTestElementResponseDto)
+  @IsArray()
   elements: SampleResultTestElementResponseDto[] = []
 }
 

@@ -2,10 +2,10 @@ import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { JwtModule } from '@nestjs/jwt'
 
 import { authMetadata } from './auth'
-import { logMetadata } from './log'
+import { logMetadata } from './pino'
 import { minioMetadata } from './minio'
 import { mongoMetadata } from './mongo'
-import { externalServiceMetadata } from './external-service'
+import { browserServiceMetadata } from './browser-service'
 import { redisMetadata } from './redis'
 
 export const infraMetadata = concatModuleMetadata([
@@ -15,5 +15,5 @@ export const infraMetadata = concatModuleMetadata([
   minioMetadata,
   redisMetadata,
   mongoMetadata,
-  externalServiceMetadata,
+  browserServiceMetadata,
 ])

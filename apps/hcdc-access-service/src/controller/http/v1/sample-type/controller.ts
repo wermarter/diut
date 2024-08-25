@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { sampleTypeRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  SampleTypeCreateUseCase,
-  SampleTypeDeleteUseCase,
-  SampleTypeSearchUseCase,
-  SampleTypeUpdateUseCase,
-  SampleTypeFindOneUseCase,
-} from 'src/app'
 import { SampleTypeCreateRequestDto } from './dto/create.request-dto'
 import { SampleTypeUpdateRequestDto } from './dto/update.request-dto'
 import { SampleTypeSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { SampleTypeCreateUseCase } from 'src/app/sample-type/use-case/create'
+import { SampleTypeUpdateUseCase } from 'src/app/sample-type/use-case/update'
+import { SampleTypeDeleteUseCase } from 'src/app/sample-type/use-case/delete'
+import { SampleTypeSearchUseCase } from 'src/app/sample-type/use-case/search'
+import { SampleTypeFindOneUseCase } from 'src/app/sample-type/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/sample-types',
+  basePath: 'sample-types',
 })
 export class SampleTypeController {
   constructor(

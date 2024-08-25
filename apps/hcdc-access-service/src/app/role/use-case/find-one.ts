@@ -7,8 +7,8 @@ import {
   EntityFindOneOptions,
   IAuthContext,
   IRoleRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { RoleAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

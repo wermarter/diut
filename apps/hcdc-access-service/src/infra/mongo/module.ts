@@ -1,5 +1,5 @@
 import { ModuleMetadata } from '@nestjs/common'
-import { ConfigModule, MongoModule } from '@diut/nestjs-infra'
+import { MongoModule } from '@diut/nestjs-infra'
 
 import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
@@ -40,7 +40,6 @@ import { SampleRepository, SampleSchema } from './sample'
 export const mongoMetadata: ModuleMetadata = {
   imports: [
     MongoModule.forRootAsync({
-      imports: [ConfigModule.forFeature(loadMongoConfig)],
       inject: [loadMongoConfig.KEY],
       useFactory: async (mongoConfig: MongoConfig) => ({
         uri: mongoConfig.MONGO_URI,

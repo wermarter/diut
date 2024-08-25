@@ -1,5 +1,5 @@
 import type { ConfigFile } from '@rtk-query/codegen-openapi'
-import { camelCase, kebabCase, upperFirst } from 'lodash'
+import { camelCase, kebabCase, upperFirst } from 'es-toolkit'
 
 const ENDPOINTS = [
   // 'bio product',

@@ -1,9 +1,9 @@
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
-import { BaseResourceResponseDto } from '@diut/nestjs-infra'
+import { BaseResourceResponseDto, IsNullable } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
-import { exampleSample } from 'src/domain'
+import { exampleSample } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { SampleTypeUnpopulatedResponseDto } from '../../sample-type/dto/response-dto'
 import { UserUnpopulatedResponseDto } from '../../user/dto/response-dto'
@@ -28,9 +28,9 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
     ...exampleSample.results,
     type: () => SampleResultTestResponseDto,
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => SampleResultTestResponseDto)
+  @IsArray()
   results: SampleResultTestResponseDto[] = []
 
   @Expose()
@@ -40,6 +40,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => UserUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   infoBy?: UserUnpopulatedResponseDto | null
 
@@ -50,6 +51,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => UserUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   printedBy?: UserUnpopulatedResponseDto | null
 
@@ -60,6 +62,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => PatientUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   patient?: PatientUnpopulatedResponseDto | null
 
@@ -70,6 +73,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => DoctorUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   doctor?: DoctorUnpopulatedResponseDto | null
 
@@ -80,6 +84,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => PatientTypeUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   patientType?: PatientTypeUnpopulatedResponseDto | null
 
@@ -90,6 +95,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => DiagnosisUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   diagnosis?: DiagnosisUnpopulatedResponseDto | null
 
@@ -100,6 +106,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   origin?: BranchUnpopulatedResponseDto | null
 
@@ -108,9 +115,9 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
     ...exampleSample.sampleTypes,
     type: () => SampleTypeUnpopulatedResponseDto,
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => SampleTypeUnpopulatedResponseDto)
+  @IsArray()
   @IsOptional()
   sampleTypes?: SampleTypeUnpopulatedResponseDto[]
 
@@ -121,6 +128,7 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   branch?: BranchUnpopulatedResponseDto | null
 }
@@ -133,8 +141,8 @@ export class OmittedSampleResponseDto extends OmitType(SampleResponseDto, [
     ...exampleSample.results,
     type: () => OmittedTestResponseDto,
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => OmittedTestResponseDto)
+  @IsArray()
   results: OmittedTestResponseDto[]
 }

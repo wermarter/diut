@@ -7,8 +7,8 @@ import {
   EEntityCannotDelete,
   IAuthContext,
   IBranchRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { BranchAssertExistsUseCase } from './assert-exists'
 
 @Injectable()

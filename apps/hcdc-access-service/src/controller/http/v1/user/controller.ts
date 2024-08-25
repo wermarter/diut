@@ -3,23 +3,21 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { userRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  UserCreateUseCase,
-  UserDeleteUseCase,
-  UserSearchUseCase,
-  UserUpdateUseCase,
-  UserFindOneUseCase,
-  UserChangePasswordUseCase,
-  UserBranchAuthorizeUseCase,
-  UserBranchDeauthorizeUseCase,
-} from 'src/app'
 import { UserCreateRequestDto } from './dto/create.request-dto'
 import { UserUpdateRequestDto } from './dto/update.request-dto'
 import { UserSearchRequestDto } from './dto/search.request-dto'
 import { UserChangePasswordRequestDto } from './dto/change-password.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { UserCreateUseCase } from 'src/app/user/use-case/create'
+import { UserUpdateUseCase } from 'src/app/user/use-case/update'
+import { UserDeleteUseCase } from 'src/app/user/use-case/delete'
+import { UserSearchUseCase } from 'src/app/user/use-case/search'
+import { UserFindOneUseCase } from 'src/app/user/use-case/find-one'
+import { UserChangePasswordUseCase } from 'src/app/user/use-case/change-password'
+import { UserBranchAuthorizeUseCase } from 'src/app/user/use-case/branch-authorize'
+import { UserBranchDeauthorizeUseCase } from 'src/app/user/use-case/branch-deauthorize'
 
-@HttpController({ basePath: 'v1/users' })
+@HttpController({ basePath: 'users' })
 export class UserController {
   constructor(
     private readonly userCreateUseCase: UserCreateUseCase,

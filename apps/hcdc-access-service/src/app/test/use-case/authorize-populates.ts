@@ -15,8 +15,8 @@ import {
   EntityFindOneOptions,
   IAuthContext,
   EEntityPopulatePathUnknown,
-  authorizePopulates,
 } from 'src/domain'
+import { authorizePopulates } from 'src/app/auth/common'
 
 @Injectable()
 export class TestAuthorizePopulatesUseCase {

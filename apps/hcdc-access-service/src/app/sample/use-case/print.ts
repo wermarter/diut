@@ -24,10 +24,8 @@ import {
   IStorageBucket,
   IStorageService,
   StorageBucket,
-  StorageBucketToken,
+  STORAGE_BUCKET_TOKEN,
   STORAGE_SERVICE_TOKEN,
-  assertPermission,
-  printTemplateConfigs,
   SAMPLE_REPO_TOKEN,
   ISampleRepository,
   AuthType,
@@ -40,14 +38,16 @@ import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
 import { ISamplePrintStrategy } from '../print-strategy/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
-import { TestAssertExistsUseCase } from 'src/app/test'
-import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
 import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
 import { SamplePrintFormTDStrategy } from '../print-strategy/form-td'
 import { SamplePrintFormHIVStrategy } from '../print-strategy/form-hiv'
 import { SamplePrintFormSoiNhuomStrategy } from '../print-strategy/form-soi-nhuom'
 import { SampleGeneratePrintUrlUseCase } from './generate-print-url'
+import { printTemplateConfigs } from 'src/app/print-form/print-template'
+import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type/use-case/assert-exists'
+import { TestAssertExistsUseCase } from 'src/app/test/use-case/assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SamplePrintUseCase {
@@ -60,7 +60,7 @@ export class SamplePrintUseCase {
     private readonly browserService: BrowserServiceClient,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
-    @Inject(StorageBucketToken)
+    @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,
@@ -178,7 +178,8 @@ export class SamplePrintUseCase {
                 join(
                   __dirname,
                   '..',
-                  `print-template/${printConfig.templatePath}`,
+                  '..',
+                  `print-form/print-template/${printConfig.templatePath}`,
                 ),
                 printRequest,
               )

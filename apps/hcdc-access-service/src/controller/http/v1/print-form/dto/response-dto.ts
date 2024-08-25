@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { PrintFormCreateRequestDto } from './create.request-dto'
-import { examplePrintForm } from 'src/domain'
+import { examplePrintForm } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class PrintFormUnpopulatedResponseDto extends IntersectionType(

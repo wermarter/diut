@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { PatientCreateRequestDto } from './create.request-dto'
-import { examplePatient } from 'src/domain'
+import { examplePatient } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class PatientUnpopulatedResponseDto extends IntersectionType(

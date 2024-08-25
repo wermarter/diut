@@ -7,13 +7,13 @@ import {
   USER_REPO_TOKEN,
   IAuthContext,
   IUserRepository,
-  assertPermission,
   AUTH_SERVICE_TOKEN,
   IAuthService,
   AuthType,
   AuthContextData,
 } from 'src/domain'
 import { UserAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class UserChangePasswordUseCase {

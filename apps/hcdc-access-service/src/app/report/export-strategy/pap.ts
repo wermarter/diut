@@ -6,9 +6,9 @@ import { DATEONLY_FORMAT, DATETIME_FORMAT } from '@diut/common'
 import { TableConfig } from './common'
 import { AbstractReportExportStrategy } from './abstract-strategy'
 import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
-import { BranchAssertExistsUseCase } from 'src/app/branch'
 import { EEntityNotFound } from 'src/domain'
-import { UserSearchUseCase } from 'src/app/user'
+import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
+import { UserSearchUseCase } from 'src/app/user/use-case/search'
 
 export type ReportExportPapStrategyInput = {
   fromDate: string

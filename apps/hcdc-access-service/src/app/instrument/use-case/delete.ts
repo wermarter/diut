@@ -6,12 +6,12 @@ import {
   INSTRUMENT_REPO_TOKEN,
   IAuthContext,
   IInstrumentRepository,
-  assertPermission,
   TEST_REPO_TOKEN,
   ITestRepository,
   EEntityCannotDelete,
 } from 'src/domain'
 import { InstrumentAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class InstrumentDeleteUseCase {

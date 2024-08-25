@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { patientRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  PatientCreateUseCase,
-  PatientDeleteUseCase,
-  PatientSearchUseCase,
-  PatientUpdateUseCase,
-  PatientFindOneUseCase,
-} from 'src/app'
 import { PatientCreateRequestDto } from './dto/create.request-dto'
 import { PatientUpdateRequestDto } from './dto/update.request-dto'
 import { PatientSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { PatientCreateUseCase } from 'src/app/patient/use-case/create'
+import { PatientUpdateUseCase } from 'src/app/patient/use-case/update'
+import { PatientDeleteUseCase } from 'src/app/patient/use-case/delete'
+import { PatientSearchUseCase } from 'src/app/patient/use-case/search'
+import { PatientFindOneUseCase } from 'src/app/patient/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/patients',
+  basePath: 'patients',
 })
 export class PatientController {
   constructor(

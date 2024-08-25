@@ -10,7 +10,7 @@ import {
   Min,
 } from 'class-validator'
 
-import { exampleTest } from 'src/domain'
+import { exampleTest } from '../../../shared'
 
 export class TestCreateRequestDto {
   @Expose()

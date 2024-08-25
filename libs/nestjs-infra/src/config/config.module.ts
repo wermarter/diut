@@ -4,7 +4,7 @@ import {
   ConfigFactory,
 } from '@nestjs/config'
 import { Module } from '@nestjs/common'
-import { merge } from 'lodash'
+import { merge } from 'es-toolkit'
 
 const defaultRootConfig: ConfigModuleOptions = {
   isGlobal: true,

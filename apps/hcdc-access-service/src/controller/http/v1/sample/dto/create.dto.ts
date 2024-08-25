@@ -19,8 +19,8 @@ export class SampleCreateRequestDto extends PickType(
 ) {
   @Expose()
   @ApiProperty(exampleMongoObjectIds)
-  @IsArray()
   @IsObjectId({ each: true })
+  @IsArray()
   testIds: string[]
 }
 

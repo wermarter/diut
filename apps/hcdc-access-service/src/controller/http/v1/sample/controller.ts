@@ -18,33 +18,27 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { AuthSubject, SampleAction } from '@diut/hcdc'
 
 import { sampleRoutes } from './routes'
-import {
-  AUTH_CONTEXT_TOKEN,
-  EEntityNotFound,
-  IAuthContext,
-  assertPermission,
-} from 'src/domain'
-import {
-  SampleCreateUseCase,
-  SampleDeleteUseCase,
-  SampleSearchUseCase,
-  SampleFindOneUseCase,
-  SampleUpdateResultUseCase,
-  SampleUpdateInfoUseCase,
-  SamplePrintUseCase,
-  SampleUploadResultImageUseCase,
-  SampleDownloadResultImageUseCase,
-} from 'src/app'
+import { AUTH_CONTEXT_TOKEN, EEntityNotFound, IAuthContext } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleCreateRequestDto } from './dto/create.dto'
 import { SampleUpdateInfoRequestDto } from './dto/update-info.dto'
 import { SampleSearchRequestDto } from './dto/search.dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
 import { SampleUpdateResultRequestDto } from './dto/update-result.dto'
 import { SamplePrintRequestDto } from './dto/print.dto'
 import { SampleUploadImageRequestDto } from './dto/upload-image.dto'
+import { SampleCreateUseCase } from 'src/app/sample/use-case/create'
+import { SampleUpdateInfoUseCase } from 'src/app/sample/use-case/update-info'
+import { SampleUpdateResultUseCase } from 'src/app/sample/use-case/update-result'
+import { SampleDeleteUseCase } from 'src/app/sample/use-case/delete'
+import { SampleSearchUseCase } from 'src/app/sample/use-case/search'
+import { SampleFindOneUseCase } from 'src/app/sample/use-case/find-one'
+import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
+import { SampleUploadResultImageUseCase } from 'src/app/sample/use-case/upload-result-image'
+import { SampleDownloadResultImageUseCase } from 'src/app/sample/use-case/download-result-image'
 
 @HttpController({
-  basePath: 'v1/samples',
+  basePath: 'samples',
 })
 export class SampleController {
   constructor(

@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { printFormRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  PrintFormCreateUseCase,
-  PrintFormDeleteUseCase,
-  PrintFormSearchUseCase,
-  PrintFormUpdateUseCase,
-  PrintFormFindOneUseCase,
-} from 'src/app'
 import { PrintFormCreateRequestDto } from './dto/create.request-dto'
 import { PrintFormUpdateRequestDto } from './dto/update.request-dto'
 import { PrintFormSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { PrintFormCreateUseCase } from 'src/app/print-form/use-case/create'
+import { PrintFormUpdateUseCase } from 'src/app/print-form/use-case/update'
+import { PrintFormDeleteUseCase } from 'src/app/print-form/use-case/delete'
+import { PrintFormSearchUseCase } from 'src/app/print-form/use-case/search'
+import { PrintFormFindOneUseCase } from 'src/app/print-form/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/print-forms',
+  basePath: 'print-forms',
 })
 export class PrintFormController {
   constructor(

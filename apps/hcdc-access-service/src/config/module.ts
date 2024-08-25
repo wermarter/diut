@@ -10,12 +10,16 @@ import { loadLogConfig } from './log'
 
 export const configMetadata: ModuleMetadata = {
   imports: [
-    ConfigModule.forRoot({}),
-    ConfigModule.forFeature(loadAppConfig),
-    ConfigModule.forFeature(loadAuthConfig),
-    ConfigModule.forFeature(loadClientConfig),
-    ConfigModule.forFeature(loadLogConfig),
-    ConfigModule.forFeature(loadMinioConfig),
-    ConfigModule.forFeature(loadMongoConfig),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [
+        loadAppConfig,
+        loadAuthConfig,
+        loadClientConfig,
+        loadLogConfig,
+        loadMinioConfig,
+        loadMongoConfig,
+      ],
+    }),
   ],
 }

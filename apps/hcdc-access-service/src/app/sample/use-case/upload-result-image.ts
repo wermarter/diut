@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common'
 
 import { SampleAssertExistsUseCase } from './assert-exists'
-import { TestElementAssertExistsUseCase } from 'src/app/test-element'
 import {
   StorageKeyFactory,
   EEntityNotFound,
   IStorageBucket,
   IStorageService,
   StorageBucket,
-  StorageBucketToken,
+  STORAGE_BUCKET_TOKEN,
   STORAGE_SERVICE_TOKEN,
 } from 'src/domain'
 import { SampleUpdateResultUseCase } from './update-result'
+import { TestElementAssertExistsUseCase } from 'src/app/test-element/use-case/assert-exists'
 
 @Injectable()
 export class SampleUploadResultImageUseCase {
@@ -21,7 +21,7 @@ export class SampleUploadResultImageUseCase {
     private readonly sampleUpdateResultUseCase: SampleUpdateResultUseCase,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
-    @Inject(StorageBucketToken)
+    @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
   ) {}
 

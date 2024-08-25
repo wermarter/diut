@@ -11,14 +11,14 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { exampleSample } from 'src/domain'
+import { exampleSample } from '../../../shared'
 import { SampleResultTestRequestDto } from './result-test.dto'
 
 export class SampleRequestDto {
   @Expose()
   @ApiProperty(exampleSample.sampleId)
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   sampleId: string
 
   @Expose()
@@ -96,9 +96,9 @@ export class SampleRequestDto {
     ...exampleSample.results,
     type: () => SampleResultTestRequestDto,
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => SampleResultTestRequestDto)
+  @IsArray()
   results: SampleResultTestRequestDto[]
 
   @Expose()
@@ -113,8 +113,8 @@ export class SampleRequestDto {
 
   @Expose()
   @ApiProperty(exampleSample.printedAt)
-  @IsOptional()
   @IsDateString()
+  @IsOptional()
   printedAt?: Date
 
   @Expose()
@@ -124,7 +124,7 @@ export class SampleRequestDto {
 
   @Expose()
   @ApiProperty(exampleSample.printedById)
-  @IsOptional()
   @IsObjectId()
+  @IsOptional()
   printedById?: string
 }

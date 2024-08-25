@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 
-import { exampleTestCategory } from 'src/domain'
+import { exampleTestCategory } from '../../../shared'
 
 export class TestCategoryCreateRequestDto {
   @Expose()

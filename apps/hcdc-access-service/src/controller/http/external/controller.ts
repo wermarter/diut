@@ -9,12 +9,12 @@ import {
 import { Response } from 'express'
 import { ApiTags } from '@nestjs/swagger'
 
-import { SamplePrintUseCase } from 'src/app'
 import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 import { HttpExternalAuthGuard } from './auth'
 import { SamplePrintOptions } from 'src/app/sample/print-strategy/context'
+import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
 
-@Controller('external')
+@Controller()
 @ApiTags('external')
 @UseGuards(HttpExternalAuthGuard)
 export class ExternalController {

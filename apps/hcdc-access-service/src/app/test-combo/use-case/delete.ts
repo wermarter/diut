@@ -6,8 +6,8 @@ import {
   TESTCOMBO_REPO_TOKEN,
   IAuthContext,
   ITestComboRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestComboAssertExistsUseCase } from './assert-exists'
 
 @Injectable()

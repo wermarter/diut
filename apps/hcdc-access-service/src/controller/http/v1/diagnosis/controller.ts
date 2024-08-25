@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { diagnosisRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  DiagnosisCreateUseCase,
-  DiagnosisDeleteUseCase,
-  DiagnosisSearchUseCase,
-  DiagnosisUpdateUseCase,
-  DiagnosisFindOneUseCase,
-} from 'src/app'
 import { DiagnosisCreateRequestDto } from './dto/create.request-dto'
 import { DiagnosisUpdateRequestDto } from './dto/update.request-dto'
 import { DiagnosisSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { DiagnosisCreateUseCase } from 'src/app/diagnosis/use-case/create'
+import { DiagnosisUpdateUseCase } from 'src/app/diagnosis/use-case/update'
+import { DiagnosisDeleteUseCase } from 'src/app/diagnosis/use-case/delete'
+import { DiagnosisSearchUseCase } from 'src/app/diagnosis/use-case/search'
+import { DiagnosisFindOneUseCase } from 'src/app/diagnosis/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/diagnoses',
+  basePath: 'diagnoses',
 })
 export class DiagnosisController {
   constructor(

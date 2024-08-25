@@ -8,8 +8,8 @@ import {
   IAuthContext,
   IPrintFormRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PrintFormAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

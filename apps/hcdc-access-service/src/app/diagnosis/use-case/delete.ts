@@ -9,8 +9,8 @@ import {
   IDiagnosisRepository,
   ISampleRepository,
   SAMPLE_REPO_TOKEN,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { DiagnosisAssertExistsUseCase } from './assert-exists'
 
 @Injectable()

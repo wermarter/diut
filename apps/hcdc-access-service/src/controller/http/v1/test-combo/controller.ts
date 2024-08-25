@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { testComboRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  TestComboCreateUseCase,
-  TestComboDeleteUseCase,
-  TestComboSearchUseCase,
-  TestComboUpdateUseCase,
-  TestComboFindOneUseCase,
-} from 'src/app'
 import { TestComboCreateRequestDto } from './dto/create.request-dto'
 import { TestComboUpdateRequestDto } from './dto/update.request-dto'
 import { TestComboSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { TestComboCreateUseCase } from 'src/app/test-combo/use-case/create'
+import { TestComboUpdateUseCase } from 'src/app/test-combo/use-case/update'
+import { TestComboDeleteUseCase } from 'src/app/test-combo/use-case/delete'
+import { TestComboSearchUseCase } from 'src/app/test-combo/use-case/search'
+import { TestComboFindOneUseCase } from 'src/app/test-combo/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/test-combos',
+  basePath: 'test-combos',
 })
 export class TestComboController {
   constructor(

@@ -1,5 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid'
-import { identity } from 'lodash'
+import { identity } from 'es-toolkit'
 import { useMemo } from 'react'
 
 import { BioProductResponseDto } from 'src/infra/api/access-service/bio-product'

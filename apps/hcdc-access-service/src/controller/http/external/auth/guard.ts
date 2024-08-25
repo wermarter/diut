@@ -2,12 +2,12 @@ import { CanActivate, ExecutionContext, Inject } from '@nestjs/common'
 import { createAbility } from '@diut/hcdc'
 import { Request } from 'express'
 
-import { HttpExternalAuthService } from './service'
+import { AuthServiceHttpExternal } from './service'
 import { AUTH_CONTEXT_TOKEN, AuthType, IAuthContext } from 'src/domain'
 
 export class HttpExternalAuthGuard implements CanActivate {
   constructor(
-    private readonly authService: HttpExternalAuthService,
+    private readonly authService: AuthServiceHttpExternal,
     @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}

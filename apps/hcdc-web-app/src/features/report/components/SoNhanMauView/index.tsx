@@ -3,7 +3,7 @@ import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useForm } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
-import { omit } from 'lodash'
+import { omit } from 'es-toolkit'
 import {
   AuthSubject,
   ReportAction,

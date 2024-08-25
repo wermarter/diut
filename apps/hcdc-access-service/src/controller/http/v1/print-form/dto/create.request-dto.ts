@@ -11,7 +11,7 @@ import {
   Min,
 } from 'class-validator'
 
-import { examplePrintForm } from 'src/domain'
+import { examplePrintForm } from '../../../shared'
 
 export class PrintFormCreateRequestDto {
   @Expose()

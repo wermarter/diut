@@ -6,8 +6,8 @@ import {
   BIOPRODUCT_REPO_TOKEN,
   IAuthContext,
   IBioProductRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { BioProductAssertExistsUseCase } from './assert-exists'
 import { BioProductValidateUseCase } from './validate'
 

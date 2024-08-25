@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { branchRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  BranchCreateUseCase,
-  BranchDeleteUseCase,
-  BranchSearchUseCase,
-  BranchUpdateUseCase,
-  BranchFindOneUseCase,
-} from 'src/app'
 import { BranchCreateRequestDto } from './dto/create.request-dto'
 import { BranchUpdateRequestDto } from './dto/update.request-dto'
 import { BranchSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { BranchCreateUseCase } from 'src/app/branch/use-case/create'
+import { BranchUpdateUseCase } from 'src/app/branch/use-case/update'
+import { BranchDeleteUseCase } from 'src/app/branch/use-case/delete'
+import { BranchSearchUseCase } from 'src/app/branch/use-case/search'
+import { BranchFindOneUseCase } from 'src/app/branch/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/branches',
+  basePath: 'branches',
 })
 export class BranchController {
   constructor(

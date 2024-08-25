@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { instrumentRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  InstrumentCreateUseCase,
-  InstrumentDeleteUseCase,
-  InstrumentSearchUseCase,
-  InstrumentUpdateUseCase,
-  InstrumentFindOneUseCase,
-} from 'src/app'
 import { InstrumentCreateRequestDto } from './dto/create.request-dto'
 import { InstrumentUpdateRequestDto } from './dto/update.request-dto'
 import { InstrumentSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { InstrumentCreateUseCase } from 'src/app/instrument/use-case/create'
+import { InstrumentUpdateUseCase } from 'src/app/instrument/use-case/update'
+import { InstrumentDeleteUseCase } from 'src/app/instrument/use-case/delete'
+import { InstrumentSearchUseCase } from 'src/app/instrument/use-case/search'
+import { InstrumentFindOneUseCase } from 'src/app/instrument/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/instruments',
+  basePath: 'instruments',
 })
 export class InstrumentController {
   constructor(

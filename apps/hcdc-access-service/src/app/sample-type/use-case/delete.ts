@@ -6,7 +6,6 @@ import {
   SAMPLETYPE_REPO_TOKEN,
   IAuthContext,
   ISampleTypeRepository,
-  assertPermission,
   TEST_REPO_TOKEN,
   ITestRepository,
   SAMPLE_REPO_TOKEN,
@@ -14,6 +13,7 @@ import {
   EEntityCannotDelete,
 } from 'src/domain'
 import { SampleTypeAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SampleTypeDeleteUseCase {

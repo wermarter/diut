@@ -6,8 +6,8 @@ import {
   TEST_REPO_TOKEN,
   IAuthContext,
   ITestRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestAssertExistsUseCase } from './assert-exists'
 import { TestValidateUseCase } from './validate'
 

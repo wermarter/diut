@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { SampleTypeCreateRequestDto } from './create.request-dto'
-import { exampleSampleType } from 'src/domain'
+import { exampleSampleType } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class SampleTypeUnpopulatedResponseDto extends IntersectionType(

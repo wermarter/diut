@@ -6,8 +6,8 @@ import {
   EEntityNotFound,
   IUserRepository,
   USER_REPO_TOKEN,
-  compilePermissionRules,
 } from 'src/domain'
+import { compilePermissionRules } from '../common'
 
 export class AuthPopulateContextUseCase {
   constructor(

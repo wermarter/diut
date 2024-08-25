@@ -6,7 +6,6 @@ import {
   USER_REPO_TOKEN,
   IAuthContext,
   IUserRepository,
-  assertPermission,
   AUTH_SERVICE_TOKEN,
   IAuthService,
   AuthType,
@@ -14,6 +13,7 @@ import {
 } from 'src/domain'
 import { UserValidateUseCase } from './validate'
 import { UserAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 type InputFilter = Parameters<IUserRepository['update']>[0]
 type InputData = Parameters<IUserRepository['update']>[1]

@@ -9,7 +9,7 @@ import {
   ITestCategoryRepository,
   SAMPLE_REPO_TOKEN,
   StorageBucket,
-  StorageBucketToken,
+  STORAGE_BUCKET_TOKEN,
   STORAGE_SERVICE_TOKEN,
   TESTCATEGORY_REPO_TOKEN,
 } from 'src/domain'
@@ -21,7 +21,7 @@ export class SamplePrintFormPapStrategy extends AbstractSamplePrintStrategy {
     sampleRepository: ISampleRepository,
     @Inject(TESTCATEGORY_REPO_TOKEN)
     testCategoryRepository: ITestCategoryRepository,
-    @Inject(StorageBucketToken)
+    @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,

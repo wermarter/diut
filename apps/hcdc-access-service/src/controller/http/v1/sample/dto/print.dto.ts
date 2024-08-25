@@ -24,28 +24,28 @@ export class SamplePrintSingleRequestDto {
 
   @Expose()
   @ApiProperty(exampleMongoObjectIds)
-  @IsArray()
   @IsObjectId({ each: true })
+  @IsArray()
   testIds: string[]
 
   @Expose()
   @ApiProperty(exampleMongoObjectIds)
-  @IsArray()
   @IsObjectId({ each: true })
+  @IsArray()
   sampleTypeIds: string[]
 
   @Expose()
   @ApiProperty({ required: false })
-  @IsOptional()
-  @Type(() => OverrideAuthorRequestDto)
   @ValidateNested()
-  overrideAuthor: OverrideAuthorRequestDto
+  @Type(() => OverrideAuthorRequestDto)
+  @IsOptional()
+  overrideAuthor?: OverrideAuthorRequestDto
 
   @Expose()
   @ApiProperty({ required: false })
-  @IsOptional()
   @IsNumber()
-  overrideTitleMargin: number
+  @IsOptional()
+  overrideTitleMargin?: number
 }
 
 export class SamplePrintRequestDto {
@@ -55,7 +55,7 @@ export class SamplePrintRequestDto {
     isArray: true,
   })
   @ValidateNested({ each: true })
-  @IsArray()
   @Type(() => SamplePrintSingleRequestDto)
+  @IsArray()
   requests: SamplePrintSingleRequestDto[]
 }

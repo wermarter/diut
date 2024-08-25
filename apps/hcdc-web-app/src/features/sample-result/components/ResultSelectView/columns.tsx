@@ -14,7 +14,7 @@ import { IconButton } from '@mui/material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import LoopIcon from '@mui/icons-material/Loop'
 import EditIcon from '@mui/icons-material/Edit'
-import { identity } from 'lodash'
+import { identity } from 'es-toolkit'
 
 import { OmittedSampleResponseDto } from 'src/infra/api/access-service/sample'
 import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'

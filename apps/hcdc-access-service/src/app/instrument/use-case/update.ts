@@ -6,8 +6,8 @@ import {
   INSTRUMENT_REPO_TOKEN,
   IAuthContext,
   IInstrumentRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { InstrumentAssertExistsUseCase } from './assert-exists'
 import { InstrumentValidateUseCase } from './validate'
 

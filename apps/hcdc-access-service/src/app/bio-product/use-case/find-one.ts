@@ -7,8 +7,8 @@ import {
   EntityFindOneOptions,
   IAuthContext,
   IBioProductRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { BioProductAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

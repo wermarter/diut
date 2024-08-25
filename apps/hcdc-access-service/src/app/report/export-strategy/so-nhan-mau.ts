@@ -12,9 +12,9 @@ import {
   ReportQuerySoNhanMauItemOutput,
   ReportQuerySoNhanMauUseCase,
 } from '../use-case/query-so-nhan-mau'
-import { TestSearchUseCase } from 'src/app/test'
-import { PatientTypeSearchUseCase } from 'src/app/patient-type'
 import { AbstractReportExportStrategy } from './abstract-strategy'
+import { TestSearchUseCase } from 'src/app/test/use-case/search'
+import { PatientTypeSearchUseCase } from 'src/app/patient-type/use-case/search'
 
 export type ReportExportSoNhanMauStrategyInput = {
   fromDate: string

@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { bioProductRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  BioProductCreateUseCase,
-  BioProductDeleteUseCase,
-  BioProductSearchUseCase,
-  BioProductUpdateUseCase,
-  BioProductFindOneUseCase,
-} from 'src/app'
 import { BioProductCreateRequestDto } from './dto/create.request-dto'
 import { BioProductUpdateRequestDto } from './dto/update.request-dto'
 import { BioProductSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { BioProductCreateUseCase } from 'src/app/bio-product/use-case/create'
+import { BioProductUpdateUseCase } from 'src/app/bio-product/use-case/update'
+import { BioProductDeleteUseCase } from 'src/app/bio-product/use-case/delete'
+import { BioProductSearchUseCase } from 'src/app/bio-product/use-case/search'
+import { BioProductFindOneUseCase } from 'src/app/bio-product/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/bio-products',
+  basePath: 'bio-products',
 })
 export class BioProductController {
   constructor(

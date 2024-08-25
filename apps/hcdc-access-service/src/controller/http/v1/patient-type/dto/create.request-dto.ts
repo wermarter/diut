@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
 
-import { examplePatientType } from 'src/domain'
+import { examplePatientType } from '../../../shared'
 
 export class PatientTypeCreateRequestDto {
   @Expose()

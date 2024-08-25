@@ -10,7 +10,7 @@ import {
 } from 'class-validator'
 import { IsObjectId } from '@diut/nestjs-infra'
 
-import { exampleRole } from 'src/domain'
+import { exampleRole } from '../../../shared'
 import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'
 
 export class RoleCreateRequestDto {

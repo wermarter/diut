@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import Grid from '@mui/material/Unstable_Grid2'
 import { LoadingButton } from '@mui/lab'
 import { format } from 'date-fns'
-import { template } from 'lodash'
+import { template } from 'es-toolkit'
 
 import {
   OmittedSampleResponseDto,

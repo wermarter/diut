@@ -1,22 +1,7 @@
 import { Body } from '@nestjs/common'
 
 import { reportRoutes } from './routes'
-import { HttpController, HttpRoute, streamExcel } from '../../common'
-import {
-  ReportQuerySoNhanMauUseCase,
-  ReportExportSoNhanMauUseCase,
-  ReportExportSinhHoaUseCase,
-  ReportExportSoiNhuomUseCase,
-  ReportExportTDDUseCase,
-  ReportExportUrineUseCase,
-  ReportExportHCGUseCase,
-  ReportExportPapUseCase,
-  ReportExportThinprepUseCase,
-  ReportExportHIVUseCase,
-  ReportExportCTMUseCase,
-  ReportExportTraKQUseCase,
-  ReportExportGiaoNhanUseCase,
-} from 'src/app/report'
+import { HttpController, HttpRoute, streamExcel } from '../../shared'
 import { ReportQuerySoNhanMauRequestDto } from './dto/query-so-nhan-mau.dto'
 import { ExportSoNhanMauRequestDto } from './dto/export-so-nhan-mau.dto'
 import { ExportSinhHoaRequestDto } from './dto/export-sinh-hoa.dto'
@@ -30,9 +15,22 @@ import { ExportHIVRequestDto } from './dto/export-hiv.dto'
 import { ExportCTMRequestDto } from './dto/export-ctm.dto'
 import { ExportTraKQRequestDto } from './dto/export-tra-kq.dto'
 import { ExportGiaoNhanRequestDto } from './dto/export-giao-nhan.dto'
+import { ReportQuerySoNhanMauUseCase } from 'src/app/report/use-case/query-so-nhan-mau'
+import { ReportExportSoNhanMauUseCase } from 'src/app/report/use-case/export-so-nhan-mau'
+import { ReportExportSinhHoaUseCase } from 'src/app/report/use-case/export-sinh-hoa'
+import { ReportExportSoiNhuomUseCase } from 'src/app/report/use-case/export-soi-nhuom'
+import { ReportExportTDDUseCase } from 'src/app/report/use-case/export-tdd'
+import { ReportExportUrineUseCase } from 'src/app/report/use-case/export-urine'
+import { ReportExportHCGUseCase } from 'src/app/report/use-case/export-hcg'
+import { ReportExportPapUseCase } from 'src/app/report/use-case/export-pap'
+import { ReportExportThinprepUseCase } from 'src/app/report/use-case/export-thinprep'
+import { ReportExportHIVUseCase } from 'src/app/report/use-case/export-hiv'
+import { ReportExportCTMUseCase } from 'src/app/report/use-case/export-ctm'
+import { ReportExportTraKQUseCase } from 'src/app/report/use-case/export-tra-kq'
+import { ReportExportGiaoNhanUseCase } from 'src/app/report/use-case/export-giao-nhan'
 
 @HttpController({
-  basePath: 'v1/reports',
+  basePath: 'reports',
 })
 export class ReportController {
   constructor(

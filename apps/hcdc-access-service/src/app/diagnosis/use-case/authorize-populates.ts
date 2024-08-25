@@ -5,9 +5,9 @@ import {
   AUTH_CONTEXT_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
-  authorizePopulates,
   EEntityPopulatePathUnknown,
 } from 'src/domain'
+import { authorizePopulates } from 'src/app/auth/common'
 
 @Injectable()
 export class DiagnosisAuthorizePopulatesUseCase {

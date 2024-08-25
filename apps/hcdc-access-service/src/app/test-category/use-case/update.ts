@@ -6,8 +6,8 @@ import {
   TESTCATEGORY_REPO_TOKEN,
   IAuthContext,
   ITestCategoryRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestCategoryAssertExistsUseCase } from './assert-exists'
 import { TestCategoryValidateUseCase } from './validate'
 

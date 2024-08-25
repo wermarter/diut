@@ -3,7 +3,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
 import { IsObjectId } from '@diut/nestjs-infra'
 
-import { exampleUser } from 'src/domain'
+import { exampleUser } from '../../../shared'
 import { PermissionRuleRequestDto } from '../../auth/dto/permission-rule.dto'
 
 export class UserCreateRequestDto {

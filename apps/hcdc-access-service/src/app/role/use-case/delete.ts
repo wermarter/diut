@@ -6,12 +6,12 @@ import {
   ROLE_REPO_TOKEN,
   IAuthContext,
   IRoleRepository,
-  assertPermission,
   USER_REPO_TOKEN,
   IUserRepository,
   EEntityCannotDelete,
 } from 'src/domain'
 import { RoleAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class RoleDeleteUseCase {

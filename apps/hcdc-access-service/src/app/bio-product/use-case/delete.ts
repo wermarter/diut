@@ -9,8 +9,8 @@ import {
   IBioProductRepository,
   ITestRepository,
   TEST_REPO_TOKEN,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { BioProductAssertExistsUseCase } from './assert-exists'
 
 @Injectable()

@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
 import { UserCreateRequestDto } from './create.request-dto'
-import { exampleUser } from 'src/domain'
+import { exampleUser } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { RoleUnpopulatedResponseDto } from '../../role/dto/response-dto'
 

@@ -6,8 +6,9 @@ import {
   PatientGender,
 } from '@diut/hcdc'
 
-import { AUTH_CONTEXT_TOKEN, IAuthContext, assertPermission } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 import { PatientAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 export class PatientGetCategoryUseCase {
   constructor(

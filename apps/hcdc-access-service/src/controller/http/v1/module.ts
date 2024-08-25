@@ -1,6 +1,5 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { Module, ModuleMetadata } from '@nestjs/common'
-import { ClassConstructor } from 'class-transformer'
 
 import { BioProductController } from './bio-product/controller'
 import { AuthController } from './auth/controller'
@@ -20,8 +19,9 @@ import { PatientController } from './patient/controller'
 import { TestComboController } from './test-combo/controller'
 import { SampleController } from './sample/controller'
 import { ReportController } from './report/controller'
-import { AUTH_SERVICE_TOKEN, IAuthService } from 'src/domain'
-import { HttpAuthService, commonModuleMetadata } from '../common'
+import { AUTH_SERVICE_TOKEN } from 'src/domain'
+import { commonModuleMetadata } from '../shared'
+import { AuthServiceHttpV1 } from './auth/service/auth'
 
 export const httpControllerV1Metadata: ModuleMetadata = {}
 @Module(
@@ -29,10 +29,10 @@ export const httpControllerV1Metadata: ModuleMetadata = {}
     ...commonModuleMetadata,
     {
       providers: [
-        HttpAuthService,
+        AuthServiceHttpV1,
         {
           provide: AUTH_SERVICE_TOKEN,
-          useExisting: HttpAuthService satisfies ClassConstructor<IAuthService>,
+          useExisting: AuthServiceHttpV1,
         },
       ],
       controllers: [

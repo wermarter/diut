@@ -1,4 +1,4 @@
-import { IsObjectId } from '@diut/nestjs-infra'
+import { IsNullable, IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
@@ -8,7 +8,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { exampleTestElementResult } from 'src/domain'
+import { exampleTestElementResult } from '../../../shared'
 import { TestElementUnpopulatedResponseDto } from '../../test-element/dto/response-dto'
 
 export class SampleResultTestElementRequestDto {
@@ -36,6 +36,7 @@ export class SampleResultTestElementResponseDto extends SampleResultTestElementR
   })
   @ValidateNested()
   @Type(() => TestElementUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   testElement?: TestElementUnpopulatedResponseDto | null
 }

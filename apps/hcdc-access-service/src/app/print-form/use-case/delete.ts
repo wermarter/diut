@@ -6,12 +6,12 @@ import {
   PRINTFORM_REPO_TOKEN,
   IAuthContext,
   IPrintFormRepository,
-  assertPermission,
   TEST_REPO_TOKEN,
   ITestRepository,
   EEntityCannotDelete,
 } from 'src/domain'
 import { PrintFormAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class PrintFormDeleteUseCase {

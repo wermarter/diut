@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { TestCategoryCreateRequestDto } from './create.request-dto'
-import { exampleTestCategory } from 'src/domain'
+import { exampleTestCategory } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class TestCategoryUnpopulatedResponseDto extends IntersectionType(

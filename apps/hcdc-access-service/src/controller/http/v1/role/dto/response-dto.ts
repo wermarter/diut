@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { RoleCreateRequestDto } from './create.request-dto'
-import { exampleRole } from 'src/domain'
+import { exampleRole } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 
 export class RoleUnpopulatedResponseDto extends IntersectionType(

@@ -16,8 +16,8 @@ import {
 } from 'src/domain'
 
 @Injectable()
-export class HttpExternalAuthService implements IAuthService {
-  private readonly logger = new Logger(HttpExternalAuthService.name)
+export class AuthServiceHttpExternal implements IAuthService {
+  private readonly logger = new Logger(AuthServiceHttpExternal.name)
 
   constructor(
     @Inject(CachePrimaryServiceToken)

@@ -7,8 +7,8 @@ import {
   EntityFindOneOptions,
   IAuthContext,
   ISampleRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

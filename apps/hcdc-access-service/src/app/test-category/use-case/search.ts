@@ -8,8 +8,8 @@ import {
   IAuthContext,
   ITestCategoryRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestCategoryAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

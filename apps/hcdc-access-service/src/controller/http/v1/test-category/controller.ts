@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { testCategoryRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  TestCategoryCreateUseCase,
-  TestCategoryDeleteUseCase,
-  TestCategorySearchUseCase,
-  TestCategoryUpdateUseCase,
-  TestCategoryFindOneUseCase,
-} from 'src/app'
 import { TestCategoryCreateRequestDto } from './dto/create.request-dto'
 import { TestCategoryUpdateRequestDto } from './dto/update.request-dto'
 import { TestCategorySearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { TestCategoryCreateUseCase } from 'src/app/test-category/use-case/create'
+import { TestCategoryUpdateUseCase } from 'src/app/test-category/use-case/update'
+import { TestCategoryDeleteUseCase } from 'src/app/test-category/use-case/delete'
+import { TestCategorySearchUseCase } from 'src/app/test-category/use-case/search'
+import { TestCategoryFindOneUseCase } from 'src/app/test-category/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/test-categories',
+  basePath: 'test-categories',
 })
 export class TestCategoryController {
   constructor(

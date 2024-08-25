@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { BioProductCreateRequestDto } from './create.request-dto'
-import { exampleBioProduct } from 'src/domain'
+import { exampleBioProduct } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { TestUnpopulatedResponseDto } from '../../test/dto/response-dto'
 

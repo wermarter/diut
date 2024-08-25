@@ -8,8 +8,8 @@ import {
   IAuthContext,
   IPatientTypeRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PatientTypeAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

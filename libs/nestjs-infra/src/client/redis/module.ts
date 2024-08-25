@@ -8,7 +8,7 @@ import {
 } from './module-builder'
 import { RedisClientService } from './service'
 
-export const getRedisClientModuleToken = getClientServiceToken
+export const getRedisClientServiceToken = getClientServiceToken
 
 export class RedisClientModule extends ConfigurableModuleClass {
   static registerAsync(

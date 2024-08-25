@@ -1,4 +1,4 @@
-import { isPlainObject } from 'lodash'
+import { isPlainObject } from 'es-toolkit'
 
 export const flattenKeys = (obj: object, currentpath: string) => {
   let paths: string[] = []

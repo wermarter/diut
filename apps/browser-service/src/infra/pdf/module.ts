@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 import { ClassConstructor } from 'class-transformer'
 
-import { IPdfService, PdfServiceToken } from 'src/domain'
+import { IPdfService, PDF_SERVICE_TOKEN } from 'src/domain'
 import { PdfService } from './service'
 
 export const pdfMetadata: ModuleMetadata = {
   providers: [
     {
-      provide: PdfServiceToken,
+      provide: PDF_SERVICE_TOKEN,
       useClass: PdfService satisfies ClassConstructor<IPdfService>,
     },
   ],

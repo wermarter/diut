@@ -10,7 +10,7 @@ export class SampleUploadImageRequestDto {
 export class SampleUploadImageResponseDto {
   @Expose()
   @ApiProperty()
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   storageKey: string
 }

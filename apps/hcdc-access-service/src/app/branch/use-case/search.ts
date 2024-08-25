@@ -8,8 +8,8 @@ import {
   IAuthContext,
   IBranchRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

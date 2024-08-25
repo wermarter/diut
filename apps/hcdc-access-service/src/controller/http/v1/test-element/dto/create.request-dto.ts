@@ -11,7 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 
-import { exampleTestElement } from 'src/domain'
+import { exampleTestElement } from '../../../shared'
 import { TestElementNormalRuleDto } from './normal-rule.dto'
 
 export class TestElementCreateRequestDto {

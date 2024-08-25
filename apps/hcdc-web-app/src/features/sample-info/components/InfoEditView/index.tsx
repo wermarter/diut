@@ -22,7 +22,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { difference, omit } from 'lodash'
+import { difference, omit } from 'es-toolkit'
 import { dedupSpaces, trimObjectValues } from '@diut/common'
 import { parseISO } from 'date-fns'
 

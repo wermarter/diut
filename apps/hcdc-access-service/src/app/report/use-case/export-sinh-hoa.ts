@@ -2,7 +2,8 @@ import { ModuleRef } from '@nestjs/core'
 import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, ReportAction, ReportType } from '@diut/hcdc'
 
-import { AUTH_CONTEXT_TOKEN, IAuthContext, assertPermission } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { ReportExportContext } from '../export-strategy/context'
 import {
   ReportExportSinhHoaStrategy,

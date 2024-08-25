@@ -31,7 +31,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.4",
-    "lodash": "^4.17.21",
+    "es-toolkit": "^1.16.0",
     "pdf-lib": "^1.17.1",
     "puppeteer-core": "^22.9.0",
     "reflect-metadata": "^0.1.14",
@@ -39,7 +39,6 @@
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.1.1",
-    "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.17",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.21",

@@ -6,8 +6,8 @@ import {
   DOCTOR_REPO_TOKEN,
   IAuthContext,
   IDoctorRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { DoctorAssertExistsUseCase } from './assert-exists'
 import { DoctorValidateUseCase } from './validate'
 

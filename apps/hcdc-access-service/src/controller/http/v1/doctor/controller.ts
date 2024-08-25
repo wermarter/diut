@@ -3,20 +3,18 @@ import { ObjectIdPipe } from '@diut/nestjs-infra'
 
 import { doctorRoutes } from './routes'
 import { EEntityNotFound } from 'src/domain'
-import {
-  DoctorCreateUseCase,
-  DoctorDeleteUseCase,
-  DoctorSearchUseCase,
-  DoctorUpdateUseCase,
-  DoctorFindOneUseCase,
-} from 'src/app'
 import { DoctorCreateRequestDto } from './dto/create.request-dto'
 import { DoctorUpdateRequestDto } from './dto/update.request-dto'
 import { DoctorSearchRequestDto } from './dto/search.request-dto'
-import { HttpController, HttpRoute } from '../../common'
+import { HttpController, HttpRoute } from '../../shared'
+import { DoctorCreateUseCase } from 'src/app/doctor/use-case/create'
+import { DoctorUpdateUseCase } from 'src/app/doctor/use-case/update'
+import { DoctorDeleteUseCase } from 'src/app/doctor/use-case/delete'
+import { DoctorSearchUseCase } from 'src/app/doctor/use-case/search'
+import { DoctorFindOneUseCase } from 'src/app/doctor/use-case/find-one'
 
 @HttpController({
-  basePath: 'v1/doctors',
+  basePath: 'doctors',
 })
 export class DoctorController {
   constructor(

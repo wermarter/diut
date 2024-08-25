@@ -6,8 +6,8 @@ import {
   PATIENTTYPE_REPO_TOKEN,
   IAuthContext,
   IPatientTypeRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PatientTypeAssertExistsUseCase } from './assert-exists'
 import { PatientTypeValidateUseCase } from './validate'
 

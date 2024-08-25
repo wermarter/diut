@@ -11,8 +11,8 @@ import {
   CachePrimaryServiceToken,
   IAuthContext,
   ICachePrimaryService,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintOptions } from '../print-strategy/context'

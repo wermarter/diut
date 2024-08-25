@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
 import { InstrumentCreateRequestDto } from './create.request-dto'
-import { exampleInstrument } from 'src/domain'
+import { exampleInstrument } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { TestUnpopulatedResponseDto } from '../../test/dto/response-dto'
 

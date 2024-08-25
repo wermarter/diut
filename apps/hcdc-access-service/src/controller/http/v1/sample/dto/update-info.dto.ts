@@ -21,16 +21,16 @@ class SampleInfoDto extends PickType(SampleRequestDto, [
 export class SampleUpdateInfoRequestDto extends PartialType(SampleInfoDto) {
   @Expose()
   @ApiPropertyOptional(exampleMongoObjectIds)
-  @IsOptional()
-  @IsArray()
   @IsObjectId({ each: true })
+  @IsArray()
+  @IsOptional()
   addedTestIds?: string[]
 
   @Expose()
   @ApiPropertyOptional(exampleMongoObjectIds)
-  @IsOptional()
-  @IsArray()
   @IsObjectId({ each: true })
+  @IsArray()
+  @IsOptional()
   removedTestIds?: string[]
 }
 

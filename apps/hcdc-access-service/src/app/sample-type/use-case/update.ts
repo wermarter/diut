@@ -6,8 +6,8 @@ import {
   SAMPLETYPE_REPO_TOKEN,
   IAuthContext,
   ISampleTypeRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleTypeAssertExistsUseCase } from './assert-exists'
 import { SampleTypeValidateUseCase } from './validate'
 

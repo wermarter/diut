@@ -6,15 +6,15 @@ import {
   SAMPLE_REPO_TOKEN,
   IAuthContext,
   ISampleRepository,
-  assertPermission,
   STORAGE_SERVICE_TOKEN,
-  StorageBucketToken,
+  STORAGE_BUCKET_TOKEN,
   IStorageService,
   IStorageBucket,
   StorageBucket,
   StorageKeyFactory,
 } from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SampleDeleteUseCase {
@@ -26,7 +26,7 @@ export class SampleDeleteUseCase {
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
-    @Inject(StorageBucketToken)
+    @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
   ) {}
 
