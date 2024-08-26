@@ -1,5 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid'
-import { identity } from 'es-toolkit'
+import { identity } from 'lodash'
 
 import { RoleResponseDto } from 'src/infra/api/access-service/role'
 import { UserResponseDto } from 'src/infra/api/access-service/user'

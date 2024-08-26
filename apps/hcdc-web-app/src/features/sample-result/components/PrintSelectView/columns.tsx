@@ -15,7 +15,7 @@ import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import LoopIcon from '@mui/icons-material/Loop'
 import EditIcon from '@mui/icons-material/Edit'
 import PrintIcon from '@mui/icons-material/Print'
-import { identity } from 'es-toolkit'
+import { identity } from 'lodash'
 
 import { OmittedSampleResponseDto } from 'src/infra/api/access-service/sample'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'

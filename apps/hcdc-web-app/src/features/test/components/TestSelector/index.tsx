@@ -9,7 +9,7 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material'
-import { groupBy } from 'es-toolkit'
+import { groupBy } from 'lodash'
 
 import { ProgressBar, SideAction } from 'src/components/ui'
 import {
