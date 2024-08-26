@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { TestElementSearchResponseDto } from './dto/search.response-dto'
+import { TestElementSearchResponseDto } from './dto/search'
 import {
   TestElementResponseDto,
   TestElementUnpopulatedResponseDto,

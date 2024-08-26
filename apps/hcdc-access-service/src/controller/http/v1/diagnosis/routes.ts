@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { DiagnosisSearchResponseDto } from './dto/search.response-dto'
+import { DiagnosisSearchResponseDto } from './dto/search'
 import {
   DiagnosisResponseDto,
   DiagnosisUnpopulatedResponseDto,

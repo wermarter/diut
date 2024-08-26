@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { PrintFormSearchResponseDto } from './dto/search.response-dto'
+import { PrintFormSearchResponseDto } from './dto/search'
 import {
   PrintFormResponseDto,
   PrintFormUnpopulatedResponseDto,

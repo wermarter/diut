@@ -1,7 +1,7 @@
 import { Body, Inject, Res } from '@nestjs/common'
 import { Response } from 'express'
 
-import { AuthLoginRequestDto } from './dto/login.request-dto'
+import { LoginRequestDto } from './dto/login'
 import { authRoutes } from './routes'
 import { HttpController, HttpPublicRoute, HttpRoute } from '../../shared'
 import {
@@ -34,7 +34,7 @@ export class AuthController {
   @HttpRoute(authRoutes.login)
   @HttpPublicRoute
   async login(
-    @Body() body: AuthLoginRequestDto,
+    @Body() body: LoginRequestDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { user, compiledPermissions } =

@@ -9,18 +9,18 @@ export class AppConfig {
   HTTP_PORT: number
 
   @Expose()
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   SERVICE_NAME: string
 
   @Expose()
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   EXTERNAL_URL_PREFIX: string
 
   @Expose()
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   EXTERNAL_JWT_SECRET: string
 
   @Expose()

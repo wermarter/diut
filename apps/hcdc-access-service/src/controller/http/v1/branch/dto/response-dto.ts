@@ -3,12 +3,12 @@ import { BaseResourceResponseDto } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
-import { BranchCreateRequestDto } from './create.request-dto'
 import { exampleBranch } from '../../../shared'
+import { BranchRequestDto } from './request-dto'
 
 export class BranchUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
-  BranchCreateRequestDto,
+  BranchRequestDto,
 ) {}
 
 export class BranchResponseDto extends BranchUnpopulatedResponseDto {

@@ -1,8 +1,8 @@
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { LoginResponseDto } from './dto/login.response-dto'
-import { AuthMeResponseDto } from './dto/me.response-dto'
+import { LoginResponseDto } from './dto/login'
+import { MeResponseDto } from './dto/me'
 
 export const authRoutes = {
   login: {
@@ -22,11 +22,11 @@ export const authRoutes = {
 
   me: {
     path: 'me',
-    serialize: AuthMeResponseDto,
+    serialize: MeResponseDto,
     openApi: {
       responses: [
         {
-          type: AuthMeResponseDto,
+          type: MeResponseDto,
         },
       ],
     },

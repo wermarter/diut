@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { ReportQuerySoNhanMauResponseDto } from './dto/query-so-nhan-mau.dto'
+import { ReportQuerySoNhanMauResponseDto } from './dto/query-so-nhan-mau'
 
 export const reportRoutes = {
   querySoNhanMau: {

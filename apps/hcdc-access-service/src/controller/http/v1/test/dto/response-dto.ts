@@ -1,9 +1,8 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
-import { BaseResourceResponseDto } from '@diut/nestjs-infra'
+import { BaseResourceResponseDto, IsNullable } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
-import { TestCreateRequestDto } from './create.request-dto'
 import { exampleTest } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { BioProductUnpopulatedResponseDto } from '../../bio-product/dto/response-dto'
@@ -11,10 +10,11 @@ import { InstrumentUnpopulatedResponseDto } from '../../instrument/dto/response-
 import { SampleTypeUnpopulatedResponseDto } from '../../sample-type/dto/response-dto'
 import { TestCategoryUnpopulatedResponseDto } from '../../test-category/dto/response-dto'
 import { PrintFormUnpopulatedResponseDto } from '../../print-form/dto/response-dto'
+import { TestRequestDto } from './request-dto'
 
 export class TestUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
-  TestCreateRequestDto,
+  TestRequestDto,
 ) {}
 
 export class TestResponseDto extends TestUnpopulatedResponseDto {
@@ -25,6 +25,7 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BioProductUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   bioProduct?: BioProductUnpopulatedResponseDto | null
 
@@ -35,6 +36,7 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => InstrumentUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   instrument?: InstrumentUnpopulatedResponseDto | null
 
@@ -45,6 +47,7 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => SampleTypeUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   sampleType?: SampleTypeUnpopulatedResponseDto | null
 
@@ -55,6 +58,7 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => TestCategoryUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   testCategory?: TestCategoryUnpopulatedResponseDto | null
 
@@ -66,6 +70,7 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PrintFormUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   printForms?: PrintFormUnpopulatedResponseDto[]
 
@@ -76,6 +81,7 @@ export class TestResponseDto extends TestUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   branch?: BranchUnpopulatedResponseDto | null
 }

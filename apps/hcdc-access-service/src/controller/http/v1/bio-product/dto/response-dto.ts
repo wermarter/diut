@@ -1,16 +1,16 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
-import { BaseResourceResponseDto } from '@diut/nestjs-infra'
+import { BaseResourceResponseDto, IsNullable } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
 
-import { BioProductCreateRequestDto } from './create.request-dto'
 import { exampleBioProduct } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { TestUnpopulatedResponseDto } from '../../test/dto/response-dto'
+import { BioProductRequestDto } from './request-dto'
 
 export class BioProductUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
-  BioProductCreateRequestDto,
+  BioProductRequestDto,
 ) {}
 
 export class BioProductResponseDto extends BioProductUnpopulatedResponseDto {
@@ -21,6 +21,7 @@ export class BioProductResponseDto extends BioProductUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => TestUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   test?: TestUnpopulatedResponseDto | null
 
@@ -31,6 +32,7 @@ export class BioProductResponseDto extends BioProductUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
+  @IsNullable()
   @IsOptional()
   branch?: BranchUnpopulatedResponseDto | null
 }

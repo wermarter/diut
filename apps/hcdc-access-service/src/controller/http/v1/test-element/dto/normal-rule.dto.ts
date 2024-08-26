@@ -19,26 +19,26 @@ export class TestElementNormalRuleDto {
 
   @Expose()
   @ApiProperty(exampleNormalRule.defaultChecked)
-  @IsOptional()
   @IsBoolean()
+  @IsOptional()
   defaultChecked?: boolean
 
   @Expose()
   @ApiProperty(exampleNormalRule.normalValue)
-  @IsOptional()
   @IsString()
+  @IsOptional()
   normalValue?: string
 
   @Expose()
   @ApiProperty(exampleNormalRule.normalLowerBound)
-  @IsOptional()
   @IsNumber()
+  @IsOptional()
   normalLowerBound?: number
 
   @Expose()
   @ApiProperty(exampleNormalRule.normalUpperBound)
-  @IsOptional()
   @IsNumber()
+  @IsOptional()
   normalUpperBound?: number
 
   @Expose()

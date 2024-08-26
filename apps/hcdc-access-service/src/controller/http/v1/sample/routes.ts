@@ -1,15 +1,15 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { SampleSearchResponseDto } from './dto/search.dto'
+import { SampleSearchResponseDto } from './dto/search'
 import {
   SampleResponseDto,
   SampleUnpopulatedResponseDto,
 } from './dto/response-dto'
-import { SampleUpdateInfoResponseDto } from './dto/update-info.dto'
-import { SampleUpdateResultResponseDto } from './dto/update-result.dto'
-import { SampleCreateResponseDto } from './dto/create.dto'
-import { SampleUploadImageResponseDto } from './dto/upload-image.dto'
+import { SampleUpdateInfoResponseDto } from './dto/update-info'
+import { SampleUpdateResultResponseDto } from './dto/update-result'
+import { SampleCreateResponseDto } from './dto/create'
+import { SampleUploadImageResponseDto } from './dto/upload-image'
 
 export const sampleRoutes = {
   search: {

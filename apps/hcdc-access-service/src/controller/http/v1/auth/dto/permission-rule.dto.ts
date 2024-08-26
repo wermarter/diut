@@ -11,7 +11,7 @@ import {
 
 import { examplePermissionRule } from '../../../shared'
 
-export class PermissionRuleRequestDto {
+export class PermissionRuleDto {
   @Expose()
   @ApiProperty(examplePermissionRule.subject)
   @IsEnum(AuthSubjectValues)

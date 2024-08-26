@@ -3,7 +3,7 @@ import { BaseResourceResponseDto } from '@diut/nestjs-infra'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
-import { UserCreateRequestDto } from './create.request-dto'
+import { UserCreateRequestDto } from './create'
 import { exampleUser } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { RoleUnpopulatedResponseDto } from '../../role/dto/response-dto'

@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { UserSearchResponseDto } from './dto/search.response-dto'
+import { UserSearchResponseDto } from './dto/search'
 import { UserResponseDto } from './dto/response-dto'
 
 export const userRoutes = {

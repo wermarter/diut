@@ -1,7 +1,7 @@
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 
-import { BranchSearchResponseDto } from './dto/search.response-dto'
+import { BranchSearchResponseDto } from './dto/search'
 import {
   BranchResponseDto,
   BranchUnpopulatedResponseDto,
