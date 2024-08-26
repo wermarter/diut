@@ -11,7 +11,12 @@ import {
 } from 'src/domain'
 import { KeyFactory } from '../key'
 import { REDIS_PRIMARY_CONNECTION, REDIS_SECONDARY_CONNECTION } from '../common'
-import { AuthConfig, loadAuthConfig } from 'src/config'
+import {
+  AppConfig,
+  AuthConfig,
+  loadAppConfig,
+  loadAuthConfig,
+} from 'src/config'
 
 @Injectable()
 export class AuthCacheService implements IAuthCacheService {
@@ -22,6 +27,8 @@ export class AuthCacheService implements IAuthCacheService {
     private readonly secondaryClient: RedisClientService,
     @Inject(loadAuthConfig.KEY)
     private readonly authConfig: AuthConfig,
+    @Inject(loadAppConfig.KEY)
+    private readonly appConfig: AppConfig,
   ) {}
 
   async *iterateActiveRefreshTokens(userId: string) {
@@ -60,6 +67,14 @@ export class AuthCacheService implements IAuthCacheService {
   async isRefreshTokenBlacklisted(refreshToken: string) {
     const rv = await this.secondaryClient.client.exists(
       KeyFactory.refreshTokenBlacklist(refreshToken),
+    )
+
+    return rv !== 0
+  }
+
+  async isExternalTokenBlacklisted(jwt: string) {
+    const rv = await this.secondaryClient.client.exists(
+      KeyFactory.externalTokenBlacklist(jwt),
     )
 
     return rv !== 0
@@ -151,6 +166,33 @@ export class AuthCacheService implements IAuthCacheService {
       JSON.stringify(payload),
       'EX',
       this.authConfig.AUTH_JWT_ACCESS_TOKEN_EXPIRE_SECONDS,
+    )
+
+    if (rv !== 'OK') {
+      return false
+    }
+
+    return this.primaryClient.synchronize()
+  }
+
+  async setActiveExternalToken(userId: string, sampleId: string, jwt: string) {
+    const rv = await this.primaryClient.client.set(
+      KeyFactory.activeExternalToken(userId, sampleId, jwt),
+      '1',
+      'EX',
+      this.appConfig.EXTERNAL_JWT_EXPIRE_SECONDS,
+    )
+
+    return rv === 'OK'
+  }
+
+  async blacklistExternalToken(jwt: string) {
+    const rv = await this.primaryClient.client.set(
+      KeyFactory.externalTokenBlacklist(jwt),
+      '1',
+      'EX',
+      this.appConfig.EXTERNAL_JWT_EXPIRE_SECONDS,
+      'NX',
     )
 
     if (rv !== 'OK') {

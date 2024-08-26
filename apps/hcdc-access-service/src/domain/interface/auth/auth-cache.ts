@@ -25,6 +25,15 @@ export interface IAuthCacheService {
     ttlSeconds: number,
   ): Promise<boolean>
 
+  /**
+   * keep track for invalidation
+   */
+  setActiveExternalToken(
+    userId: string,
+    sampleId: string,
+    jwt: string,
+  ): Promise<boolean>
+
   deleteKey(key: string): Promise<boolean>
 
   deleteAuthContext(userId: string): Promise<boolean>
@@ -55,4 +64,8 @@ export interface IAuthCacheService {
   setAuthContextInfo(
     payload: AuthContextDataInternalSerialized,
   ): Promise<boolean>
+
+  blacklistExternalToken(jwt: string): Promise<boolean>
+
+  isExternalTokenBlacklisted(jwt: string): Promise<boolean>
 }
