@@ -4,7 +4,7 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": [
-      { "include": "./app/sample/print-template/**/*", "watchAssets": true }
+      { "include": "./app/print-form/print-template/**/*", "watchAssets": true }
     ],
     "deleteOutDir": true
   }

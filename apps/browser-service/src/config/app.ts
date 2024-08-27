@@ -9,8 +9,8 @@ export class AppConfig {
   GRPC_PORT: number
 
   @Expose()
-  @IsString()
   @MinLength(3)
+  @IsString()
   SERVICE_NAME: string
 
   @Expose()

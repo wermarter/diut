@@ -2,7 +2,7 @@ import { LogModule, concatModuleMetadata } from '@diut/nestjs-infra'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from 'src/config'
 
-export const logMetadata = concatModuleMetadata([
+export const winstonMetadata = concatModuleMetadata([
   {
     imports: [
       LogModule.forRootAsync({

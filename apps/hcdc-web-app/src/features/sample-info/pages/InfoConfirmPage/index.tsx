@@ -119,7 +119,7 @@ export function InfoConfirmPage() {
           [PARAM_IS_CONFIRMED]: isConfirmed,
         }),
       },
-      { replace: false },
+      { replace: true },
     )
   }, [
     page,

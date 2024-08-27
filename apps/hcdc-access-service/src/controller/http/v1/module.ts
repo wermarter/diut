@@ -31,12 +31,11 @@ export const httpControllerV1Metadata: ModuleMetadata = {}
     ...commonModuleMetadata,
     {
       providers: [
-        AuthServiceHttpV1,
         AuthTokenService,
         AuthCookieService,
         {
           provide: AUTH_SERVICE_TOKEN,
-          useExisting: AuthServiceHttpV1,
+          useClass: AuthServiceHttpV1,
         },
       ],
       controllers: [

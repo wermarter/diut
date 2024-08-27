@@ -1,7 +1,10 @@
 import { Inject } from '@nestjs/common'
 import { Observable, concatMap } from 'rxjs'
 
-import { PdfCreateOption, PuppeteerCreatePDFUseCase } from 'src/app/puppeteer'
+import {
+  PdfCreateOption,
+  PuppeteerCreatePDFUseCase,
+} from 'src/app/puppeteer/use-case/create-pdf'
 import { IPdfService, PDF_SERVICE_TOKEN } from 'src/domain'
 
 export class BrowserPrintMultipleUseCase {

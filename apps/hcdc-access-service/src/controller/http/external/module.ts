@@ -11,10 +11,9 @@ import { AuthServiceHttpExternal } from './auth'
     ...commonModuleMetadata,
     {
       providers: [
-        AuthServiceHttpExternal,
         {
           provide: AUTH_SERVICE_TOKEN,
-          useExisting: AuthServiceHttpExternal,
+          useClass: AuthServiceHttpExternal,
         },
       ],
       controllers: [ExternalController],

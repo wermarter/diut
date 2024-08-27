@@ -119,7 +119,7 @@ export function ResultSelectPage() {
           [PARAM_IS_CONFIRMED]: sampleCompleted,
         }),
       },
-      { replace: false },
+      { replace: true },
     )
   }, [
     page,

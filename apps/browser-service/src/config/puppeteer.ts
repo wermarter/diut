@@ -4,9 +4,9 @@ import { Expose } from 'class-transformer'
 
 export class PuppeteerConfig {
   @Expose()
-  @IsOptional()
   @MinLength(3)
   @IsString()
+  @IsOptional()
   CHROMIUM_PATH = '/usr/bin/chromium-browser'
 }
 

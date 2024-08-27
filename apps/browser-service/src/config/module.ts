@@ -1,15 +1,15 @@
 import { ConfigModule } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
-import { loadAppConfig } from './app.config'
-import { loadLogConfig } from './log.config'
-import { loadPuppeteerConfig } from './puppeteer.config'
+import { loadAppConfig } from './app'
+import { loadLogConfig } from './log'
+import { loadPuppeteerConfig } from './puppeteer'
 
 export const configMetadata: ModuleMetadata = {
   imports: [
-    ConfigModule.forRoot({}),
-    ConfigModule.forFeature(loadAppConfig),
-    ConfigModule.forFeature(loadLogConfig),
-    ConfigModule.forFeature(loadPuppeteerConfig),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [loadAppConfig, loadLogConfig, loadPuppeteerConfig],
+    }),
   ],
 }

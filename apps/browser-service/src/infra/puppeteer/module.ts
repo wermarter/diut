@@ -1,5 +1,4 @@
 import {
-  ConfigModule,
   PuppeteerClientModule,
   concatModuleMetadata,
   PuppeteerClientService,
@@ -13,7 +12,6 @@ export const puppeteerMetadata = concatModuleMetadata([
   {
     imports: [
       PuppeteerClientModule.registerAsync({
-        imports: [ConfigModule.forFeature(loadPuppeteerConfig)],
         inject: [loadPuppeteerConfig.KEY],
         useFactory: async (config: PuppeteerConfig) => ({
           executablePath: config.CHROMIUM_PATH,

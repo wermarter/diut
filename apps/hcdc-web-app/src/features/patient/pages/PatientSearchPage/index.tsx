@@ -68,7 +68,7 @@ export function PatientSearchPage() {
           [PARAM_EXTERNAL_ID]: externalId,
         }),
       },
-      { replace: false },
+      { replace: true },
     )
   }, [page, pageSize])
 

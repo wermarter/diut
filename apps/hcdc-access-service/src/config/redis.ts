@@ -4,13 +4,13 @@ import { IsNumber, IsString, MinLength } from 'class-validator'
 
 export class RedisConfig {
   @Expose()
-  @IsString()
   @MinLength(3)
+  @IsString()
   REDIS_MASTER_GROUP_NAME: string
 
   @Expose()
-  @IsString()
   @MinLength(3)
+  @IsString()
   REDIS_SENTINEL_HOST: string
 
   @Expose()

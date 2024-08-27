@@ -4,8 +4,8 @@ import { IsOptional, IsString } from 'class-validator'
 
 export class LogConfig {
   @Expose()
-  @IsOptional()
   @IsString()
+  @IsOptional()
   LOKI_URL?: string
 }
 

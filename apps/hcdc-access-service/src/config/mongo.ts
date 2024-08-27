@@ -4,8 +4,8 @@ import { IsString, MinLength } from 'class-validator'
 
 export class MongoConfig {
   @Expose()
-  @IsString()
   @MinLength(3)
+  @IsString()
   MONGO_URI: string
 }
 

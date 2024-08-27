@@ -61,7 +61,7 @@ export function ManageTestPage() {
         [PARAM_PAGE_SIZE]: pageSize,
         [PARAM_CATEGORY_ID]: testCategoryId,
       },
-      { replace: false },
+      { replace: true },
     )
   }, [page, pageSize, testCategoryId])
 

@@ -1,17 +1,8 @@
 import { Module } from '@nestjs/common'
-import { concatModuleMetadata } from '@diut/nestjs-infra'
 
-import { configMetadata } from './config'
-import { infraMetadata } from './infra'
-import { appMetadata } from './app'
-import { presentationMetadata } from './presentation'
+import { GrpcModule } from './controller'
 
-@Module(
-  concatModuleMetadata([
-    configMetadata,
-    infraMetadata,
-    appMetadata,
-    presentationMetadata,
-  ]),
-)
+@Module({
+  imports: [GrpcModule],
+})
 export class AppModule {}

@@ -4,8 +4,8 @@ import { IsNumber, IsString, MinLength } from 'class-validator'
 
 export class MinioConfig {
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_ENDPOINT: string
 
   @Expose()
@@ -13,33 +13,33 @@ export class MinioConfig {
   MINIO_PORT: number
 
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_ACCESS_KEY: string
 
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_SECRET_KEY: string
 
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_SAMPLE_IMAGES_BUCKET: string
 
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_PUBLIC_BUCKET: string
 
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_APP_BUCKET: string
 
   @Expose()
-  @IsString()
   @MinLength(1)
+  @IsString()
   MINIO_REGION: string
 }
 

@@ -121,7 +121,7 @@ export function PrintSelectPage() {
           [PARAM_PATIENT_ID]: patientId,
         }),
       },
-      { replace: false },
+      { replace: true },
     )
   }, [
     page,

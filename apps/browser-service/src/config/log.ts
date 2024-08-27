@@ -4,8 +4,8 @@ import { Expose } from 'class-transformer'
 
 export class LogConfig {
   @Expose()
-  @IsOptional()
   @IsString()
+  @IsOptional()
   LOKI_URL?: string
 }
 

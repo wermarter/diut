@@ -6,11 +6,10 @@ import {
 } from '@diut/services'
 import { Observable, concatMap } from 'rxjs'
 
-import { GrpcController, validateDto } from './common'
-import { BrowserPrintMultipleUseCase } from 'src/app/browser'
+import { validateDto } from './shared'
 import { PrintPageRequestDto } from './dto/print-page.request-dto'
+import { BrowserPrintMultipleUseCase } from 'src/app/browser/use-case/print-multiple'
 
-@GrpcController()
 @BrowserServiceControllerMethods()
 export class BrowserServiceController implements IBrowserServiceController {
   constructor(

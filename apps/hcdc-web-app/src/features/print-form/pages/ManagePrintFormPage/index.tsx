@@ -30,7 +30,7 @@ export function ManagePrintFormPage() {
         [PARAM_PAGE]: page,
         [PARAM_PAGE_SIZE]: pageSize,
       },
-      { replace: false },
+      { replace: true },
     )
   }, [page, pageSize])
 
