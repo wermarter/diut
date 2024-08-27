@@ -2,25 +2,25 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestCategoryRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTCATEGORY_REPO_TOKEN,
   IAuthContext,
   ITestCategoryRepository,
-  TestRepositoryToken,
+  TEST_REPO_TOKEN,
   ITestRepository,
-  assertPermission,
   EEntityCannotDelete,
 } from 'src/domain'
 import { TestCategoryAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class TestCategoryDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(TestCategoryRepositoryToken)
+    @Inject(TESTCATEGORY_REPO_TOKEN)
     private readonly testCategoryRepository: ITestCategoryRepository,
-    @Inject(TestRepositoryToken)
+    @Inject(TEST_REPO_TOKEN)
     private readonly testRepository: ITestRepository,
     private readonly testCategoryAssertExistsUseCase: TestCategoryAssertExistsUseCase,
   ) {}

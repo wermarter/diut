@@ -3,21 +3,21 @@ import { accessibleBy } from '@casl/mongoose'
 import { Patient, PatientAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PatientRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PATIENT_REPO_TOKEN,
   IAuthContext,
   IPatientRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PatientAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class PatientSearchUseCase {
   constructor(
-    @Inject(PatientRepositoryToken)
+    @Inject(PATIENT_REPO_TOKEN)
     private readonly patientRepository: IPatientRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly patientAuthorizePopulatesUseCase: PatientAuthorizePopulatesUseCase,
   ) {}
@@ -34,7 +34,7 @@ export class PatientSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, PatientAction.Read).Patient,
+          accessibleBy(ability, PatientAction.Read).ofType(AuthSubject.Patient),
         ],
       },
     })

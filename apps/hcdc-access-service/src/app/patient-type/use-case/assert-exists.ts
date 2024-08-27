@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { PatientType } from '@diut/hcdc'
 
 import {
-  PatientTypeRepositoryToken,
+  PATIENTTYPE_REPO_TOKEN,
   EntityFindOneOptions,
   IPatientTypeRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class PatientTypeAssertExistsUseCase {
   constructor(
-    @Inject(PatientTypeRepositoryToken)
+    @Inject(PATIENTTYPE_REPO_TOKEN)
     private readonly patientTypeRepository: IPatientTypeRepository,
   ) {}
 

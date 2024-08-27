@@ -3,21 +3,21 @@ import { accessibleBy } from '@casl/mongoose'
 import { TestElement, TestElementAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestElementRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTELEMENT_REPO_TOKEN,
   IAuthContext,
   ITestElementRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestElementAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class TestElementSearchUseCase {
   constructor(
-    @Inject(TestElementRepositoryToken)
+    @Inject(TESTELEMENT_REPO_TOKEN)
     private readonly testElementRepository: ITestElementRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testElementAuthorizePopulatesUseCase: TestElementAuthorizePopulatesUseCase,
   ) {}
@@ -34,7 +34,9 @@ export class TestElementSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, TestElementAction.Read).TestElement,
+          accessibleBy(ability, TestElementAction.Read).ofType(
+            AuthSubject.TestElement,
+          ),
         ],
       },
     })

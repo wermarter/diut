@@ -11,24 +11,24 @@ import {
 import { Inject, Injectable } from '@nestjs/common'
 import { parseISO } from 'date-fns'
 
-import { TestSearchUseCase } from 'src/app/test'
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   IAuthContext,
   ISampleRepository,
-  SampleRepositoryToken,
-  assertPermission,
+  SAMPLE_REPO_TOKEN,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { COLLECTION } from 'src/infra'
 import { PatientSchema } from 'src/infra/mongo/patient'
 import { SampleSchema } from 'src/infra/mongo/sample'
+import { TestSearchUseCase } from 'src/app/test/use-case/search'
 
 @Injectable()
 export class ReportQuerySoNhanMauUseCase {
   constructor(
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testSearchUseCase: TestSearchUseCase,
   ) {}
@@ -84,7 +84,9 @@ export class ReportQuerySoNhanMauUseCase {
                     isNgoaiGio: input.isNgoaiGio,
                   }),
                 } satisfies Partial<Record<keyof SampleSchema, unknown>>,
-                accessibleBy(ability, SampleAction.Read).Sample,
+                accessibleBy(ability, SampleAction.Read).ofType(
+                  AuthSubject.Sample,
+                ),
               ],
             },
           },
@@ -149,7 +151,9 @@ export class ReportQuerySoNhanMauUseCase {
                               isDeleted: false,
                               branchId: input.branchId,
                             },
-                            accessibleBy(ability, PatientAction.Read).Patient,
+                            accessibleBy(ability, PatientAction.Read).ofType(
+                              AuthSubject.Patient,
+                            ),
                           ],
                         },
                       },

@@ -3,21 +3,21 @@ import { accessibleBy } from '@casl/mongoose'
 import { PrintForm, PrintFormAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  PrintFormRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  PRINTFORM_REPO_TOKEN,
   IAuthContext,
   IPrintFormRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { PrintFormAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class PrintFormSearchUseCase {
   constructor(
-    @Inject(PrintFormRepositoryToken)
+    @Inject(PRINTFORM_REPO_TOKEN)
     private readonly printFormRepository: IPrintFormRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly printFormAuthorizePopulatesUseCase: PrintFormAuthorizePopulatesUseCase,
   ) {}
@@ -34,7 +34,9 @@ export class PrintFormSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, PrintFormAction.Read).PrintForm,
+          accessibleBy(ability, PrintFormAction.Read).ofType(
+            AuthSubject.PrintForm,
+          ),
         ],
       },
     })

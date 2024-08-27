@@ -106,7 +106,7 @@ export function SoNhanMauPage() {
           [PARAM_IS_NGOAI_GIO]: isNgoaiGio,
         }),
       },
-      { replace: false },
+      { replace: true },
     )
   }, [page, pageSize, isNgoaiGio, patientTypeId, originId, fromDate, toDate])
 

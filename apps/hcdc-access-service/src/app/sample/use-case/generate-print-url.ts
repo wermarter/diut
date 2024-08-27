@@ -4,15 +4,14 @@ import { MongoAbility } from '@casl/ability'
 import { JwtService } from '@nestjs/jwt'
 
 import {
-  AuthContextToken,
+  AUTH_CACHE_SERVICE_TOKEN,
+  AUTH_CONTEXT_TOKEN,
   AuthExternalOrigin,
   AuthPayloadExternal,
-  CacheKeyFactory,
-  CachePrimaryServiceToken,
+  IAuthCacheService,
   IAuthContext,
-  ICachePrimaryService,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintOptions } from '../print-strategy/context'
@@ -20,14 +19,14 @@ import { SamplePrintOptions } from '../print-strategy/context'
 @Injectable()
 export class SampleGeneratePrintUrlUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
     private readonly jwtService: JwtService,
-    @Inject(CachePrimaryServiceToken)
-    private readonly cacheService: ICachePrimaryService,
+    @Inject(AUTH_CACHE_SERVICE_TOKEN)
+    private readonly cacheService: IAuthCacheService,
   ) {}
 
   async execute(input: {
@@ -64,16 +63,10 @@ export class SampleGeneratePrintUrlUseCase {
         entity,
       )
 
-      // keep track for invalidation
-      await this.cacheService.client.set(
-        CacheKeyFactory.activeExternalToken(
-          user._id,
-          printOptions.sampleId,
-          jwt,
-        ),
-        '1',
-        'EX',
-        this.appConfig.EXTERNAL_JWT_EXPIRE_SECONDS,
+      await this.cacheService.setActiveExternalToken(
+        user._id,
+        printOptions.sampleId,
+        jwt,
       )
     }
 

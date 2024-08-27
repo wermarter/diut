@@ -6,7 +6,7 @@ import {
   IStorageBucket,
   IStorageService,
   StorageBucket,
-  StorageServiceToken,
+  STORAGE_SERVICE_TOKEN,
 } from 'src/domain'
 
 @Injectable()
@@ -15,7 +15,7 @@ export class StorageBucketProvider implements IStorageBucket, OnModuleInit {
 
   constructor(
     @Inject(loadMinioConfig.KEY) private readonly minioConfig: MinioConfig,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
   ) {}
 

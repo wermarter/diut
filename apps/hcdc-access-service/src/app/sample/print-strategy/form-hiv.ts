@@ -5,16 +5,16 @@ import { AbstractSamplePrintStrategy } from './common'
 import {
   ISampleRepository,
   ITestCategoryRepository,
-  SampleRepositoryToken,
-  TestCategoryRepositoryToken,
+  SAMPLE_REPO_TOKEN,
+  TESTCATEGORY_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()
 export class SamplePrintFormHIVStrategy extends AbstractSamplePrintStrategy {
   constructor(
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     sampleRepository: ISampleRepository,
-    @Inject(TestCategoryRepositoryToken)
+    @Inject(TESTCATEGORY_REPO_TOKEN)
     testCategoryRepository: ITestCategoryRepository,
   ) {
     super(sampleRepository, testCategoryRepository, PrintTemplate.FormHIV)

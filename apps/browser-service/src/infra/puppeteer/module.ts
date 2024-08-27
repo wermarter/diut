@@ -1,5 +1,4 @@
 import {
-  ConfigModule,
   PuppeteerClientModule,
   concatModuleMetadata,
   PuppeteerClientService,
@@ -7,13 +6,12 @@ import {
 } from '@diut/nestjs-infra'
 
 import { loadPuppeteerConfig, PuppeteerConfig } from 'src/config'
-import { IPuppeteerService, PuppeteerServiceToken } from 'src/domain'
+import { IPuppeteerService, PUPPETEER_SERVICE_TOKEN } from 'src/domain'
 
 export const puppeteerMetadata = concatModuleMetadata([
   {
     imports: [
       PuppeteerClientModule.registerAsync({
-        imports: [ConfigModule.forFeature(loadPuppeteerConfig)],
         inject: [loadPuppeteerConfig.KEY],
         useFactory: async (config: PuppeteerConfig) => ({
           executablePath: config.CHROMIUM_PATH,
@@ -22,7 +20,7 @@ export const puppeteerMetadata = concatModuleMetadata([
     ],
     providers: [
       {
-        provide: PuppeteerServiceToken,
+        provide: PUPPETEER_SERVICE_TOKEN,
         inject: [getPuppeteerClientServiceToken()],
         useFactory(service: PuppeteerClientService) {
           return {

@@ -23,8 +23,8 @@ const PARAM_TEST_IDS = 'testIds'
 const PARAM_PATIENT_ID = 'patientId'
 
 export function urlPrintSelectPage(query?: PrintSelectPageQuery) {
-  if (query?.patientId) {
-    return `/result/print?${PARAM_PATIENT_ID}=${query.patientId}`
+  if (query) {
+    return `/result/print?${new URLSearchParams(query)}`
   }
   return '/result/print'
 }
@@ -121,7 +121,7 @@ export function PrintSelectPage() {
           [PARAM_PATIENT_ID]: patientId,
         }),
       },
-      { replace: false },
+      { replace: true },
     )
   }, [
     page,

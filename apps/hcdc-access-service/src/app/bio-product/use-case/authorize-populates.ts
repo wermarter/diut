@@ -2,19 +2,20 @@ import { Inject, Injectable } from '@nestjs/common'
 import { BranchAction, BioProduct, AuthSubject, TestAction } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
-  authorizePopulates,
   EEntityPopulatePathUnknown,
 } from 'src/domain'
+import { authorizePopulates } from 'src/app/auth/common'
 
 @Injectable()
 export class BioProductAuthorizePopulatesUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
+
   execute(input: EntityFindOneOptions<BioProduct>['populates']) {
     const { ability } = this.authContext.getData()
 

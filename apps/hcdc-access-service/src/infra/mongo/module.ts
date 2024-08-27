@@ -1,24 +1,24 @@
 import { ModuleMetadata } from '@nestjs/common'
-import { ConfigModule, MongoModule } from '@diut/nestjs-infra'
+import { MongoModule } from '@diut/nestjs-infra'
 
 import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
-  BioProductRepositoryToken,
-  BranchRepositoryToken,
-  DiagnosisRepositoryToken,
-  DoctorRepositoryToken,
-  InstrumentRepositoryToken,
-  PatientRepositoryToken,
-  PatientTypeRepositoryToken,
-  PrintFormRepositoryToken,
-  RoleRepositoryToken,
-  SampleRepositoryToken,
-  SampleTypeRepositoryToken,
-  TestCategoryRepositoryToken,
-  TestComboRepositoryToken,
-  TestElementRepositoryToken,
-  TestRepositoryToken,
-  UserRepositoryToken,
+  BIOPRODUCT_REPO_TOKEN,
+  BRANCH_REPO_TOKEN,
+  DIAGNOSIS_REPO_TOKEN,
+  DOCTOR_REPO_TOKEN,
+  INSTRUMENT_REPO_TOKEN,
+  PATIENT_REPO_TOKEN,
+  PATIENTTYPE_REPO_TOKEN,
+  PRINTFORM_REPO_TOKEN,
+  ROLE_REPO_TOKEN,
+  SAMPLE_REPO_TOKEN,
+  SAMPLETYPE_REPO_TOKEN,
+  TESTCATEGORY_REPO_TOKEN,
+  TESTCOMBO_REPO_TOKEN,
+  TESTELEMENT_REPO_TOKEN,
+  TEST_REPO_TOKEN,
+  USER_REPO_TOKEN,
 } from 'src/domain'
 import { BioProductSchema, BioProductRepository } from './bio-product'
 import { TestCategoryRepository, TestCategorySchema } from './test-category'
@@ -40,7 +40,6 @@ import { SampleRepository, SampleSchema } from './sample'
 export const mongoMetadata: ModuleMetadata = {
   imports: [
     MongoModule.forRootAsync({
-      imports: [ConfigModule.forFeature(loadMongoConfig)],
       inject: [loadMongoConfig.KEY],
       useFactory: async (mongoConfig: MongoConfig) => ({
         uri: mongoConfig.MONGO_URI,
@@ -65,67 +64,67 @@ export const mongoMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: BioProductRepositoryToken,
+      provide: BIOPRODUCT_REPO_TOKEN,
       useClass: BioProductRepository,
     },
     {
-      provide: PatientTypeRepositoryToken,
+      provide: PATIENTTYPE_REPO_TOKEN,
       useClass: PatientTypeRepository,
     },
     {
-      provide: DiagnosisRepositoryToken,
+      provide: DIAGNOSIS_REPO_TOKEN,
       useClass: DiagnosisRepository,
     },
     {
-      provide: DoctorRepositoryToken,
+      provide: DOCTOR_REPO_TOKEN,
       useClass: DoctorRepository,
     },
     {
-      provide: InstrumentRepositoryToken,
+      provide: INSTRUMENT_REPO_TOKEN,
       useClass: InstrumentRepository,
     },
     {
-      provide: SampleTypeRepositoryToken,
+      provide: SAMPLETYPE_REPO_TOKEN,
       useClass: SampleTypeRepository,
     },
     {
-      provide: TestCategoryRepositoryToken,
+      provide: TESTCATEGORY_REPO_TOKEN,
       useClass: TestCategoryRepository,
     },
     {
-      provide: UserRepositoryToken,
+      provide: USER_REPO_TOKEN,
       useClass: UserRepository,
     },
     {
-      provide: BranchRepositoryToken,
+      provide: BRANCH_REPO_TOKEN,
       useClass: BranchRepository,
     },
     {
-      provide: RoleRepositoryToken,
+      provide: ROLE_REPO_TOKEN,
       useClass: RoleRepository,
     },
     {
-      provide: PrintFormRepositoryToken,
+      provide: PRINTFORM_REPO_TOKEN,
       useClass: PrintFormRepository,
     },
     {
-      provide: TestRepositoryToken,
+      provide: TEST_REPO_TOKEN,
       useClass: TestRepository,
     },
     {
-      provide: TestElementRepositoryToken,
+      provide: TESTELEMENT_REPO_TOKEN,
       useClass: TestElementRepository,
     },
     {
-      provide: PatientRepositoryToken,
+      provide: PATIENT_REPO_TOKEN,
       useClass: PatientRepository,
     },
     {
-      provide: TestComboRepositoryToken,
+      provide: TESTCOMBO_REPO_TOKEN,
       useClass: TestComboRepository,
     },
     {
-      provide: SampleRepositoryToken,
+      provide: SAMPLE_REPO_TOKEN,
       useClass: SampleRepository,
     },
   ],

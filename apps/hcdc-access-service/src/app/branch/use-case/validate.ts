@@ -1,18 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { AuthSubject, Branch, BranchAction } from '@diut/hcdc'
+import { AuthSubject, Branch, BranchAction, EntityData } from '@diut/hcdc'
 
-import {
-  AuthContextToken,
-  IAuthContext,
-  assertPermission,
-  EntityData,
-} from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { BranchAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class BranchValidateUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}

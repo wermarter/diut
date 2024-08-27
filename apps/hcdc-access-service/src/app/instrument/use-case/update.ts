@@ -2,21 +2,21 @@ import { Inject, Injectable } from '@nestjs/common'
 import { InstrumentAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  InstrumentRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  INSTRUMENT_REPO_TOKEN,
   IAuthContext,
   IInstrumentRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { InstrumentAssertExistsUseCase } from './assert-exists'
 import { InstrumentValidateUseCase } from './validate'
 
 @Injectable()
 export class InstrumentUpdateUseCase {
   constructor(
-    @Inject(InstrumentRepositoryToken)
+    @Inject(INSTRUMENT_REPO_TOKEN)
     private readonly instrumentRepository: IInstrumentRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly instrumentAssertExistsUseCase: InstrumentAssertExistsUseCase,
     private readonly instrumentValidateUseCase: InstrumentValidateUseCase,

@@ -5,10 +5,11 @@
     "**/dist": true,
     "pnpm-lock.yaml": true
   },
+  "prettier.withNodeModules": true,
   "npm.packageManager": "pnpm",
   // "explorer.fileNesting.enabled": true,
   // "explorer.fileNesting.patterns": {
-  //   "package.json": "pnpm-workspace.yaml, pnpm-lock.yaml"
+  //   "package.json": "pnpm-workspace.yaml, pnpm-lock.yaml, .nvmrc, .npmrc"
   // },
   "typescript.tsdk": "node_modules/.pnpm/typescript@5.3.3/node_modules/typescript/lib",
   "ansible.python.interpreterPath": "/bin/python3"

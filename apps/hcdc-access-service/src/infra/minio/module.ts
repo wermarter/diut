@@ -1,24 +1,19 @@
 import {
   AwsS3ClientModule,
-  AwsS3ClientService,
-  ConfigModule,
   getAwsS3ClientServiceToken,
 } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
-import {
-  IStorageService,
-  StorageBucketToken,
-  StorageServiceToken,
-} from 'src/domain'
+import { STORAGE_BUCKET_TOKEN, STORAGE_SERVICE_TOKEN } from 'src/domain'
 import { MinioConfig, loadMinioConfig } from 'src/config'
 import { StorageBucketProvider } from './bucket'
+
+const MINIO_CONNECTION_ID = 'MinIO'
 
 export const minioMetadata: ModuleMetadata = {
   imports: [
     AwsS3ClientModule.registerAsync({
-      connectionId: 'MinIO',
-      imports: [ConfigModule.forFeature(loadMinioConfig)],
+      connectionId: MINIO_CONNECTION_ID,
       inject: [loadMinioConfig.KEY],
       useFactory: async (minioConfig: MinioConfig) => ({
         endpoint: `http://${minioConfig.MINIO_ENDPOINT}:${minioConfig.MINIO_PORT}`,
@@ -33,11 +28,11 @@ export const minioMetadata: ModuleMetadata = {
   ],
   providers: [
     {
-      provide: StorageServiceToken,
-      useExisting: getAwsS3ClientServiceToken('MinIO'),
+      provide: STORAGE_SERVICE_TOKEN,
+      useExisting: getAwsS3ClientServiceToken(MINIO_CONNECTION_ID),
     },
     {
-      provide: StorageBucketToken,
+      provide: STORAGE_BUCKET_TOKEN,
       useClass: StorageBucketProvider,
     },
   ],

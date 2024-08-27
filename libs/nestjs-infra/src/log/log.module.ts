@@ -1,4 +1,4 @@
-import { merge } from 'lodash'
+import { merge } from 'es-toolkit'
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common'
 import { WinstonModule, WinstonModuleOptions } from 'nest-winston'
 

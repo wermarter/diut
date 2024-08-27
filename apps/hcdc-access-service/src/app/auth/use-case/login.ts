@@ -4,20 +4,22 @@ import * as argon2 from 'argon2'
 import {
   AuthPayloadInternal,
   IUserRepository,
-  UserRepositoryToken,
+  USER_REPO_TOKEN,
   EAuthnLoginInvalidPassword,
   EAuthnLoginInvalidUsername,
+  AUTH_CACHE_SERVICE_TOKEN,
+  IAuthCacheService,
 } from 'src/domain'
 import { AuthPopulateContextUseCase } from './populate-context'
-import { AuthSetContextCacheUseCase } from './set-context-cache'
 
 @Injectable()
 export class AuthLoginUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
     private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
-    private readonly authSetContextCacheUseCase: AuthSetContextCacheUseCase,
+    @Inject(AUTH_CACHE_SERVICE_TOKEN)
+    private readonly cacheService: IAuthCacheService,
   ) {}
 
   async execute(input: { username: string; password: string }) {
@@ -39,7 +41,10 @@ export class AuthLoginUseCase {
     }
     const { user, compiledPermissions } =
       await this.authPopulateContextUseCase.execute(authPayload)
-    await this.authSetContextCacheUseCase.execute({ user, compiledPermissions })
+    await this.cacheService.setAuthContextInfo({
+      user,
+      permissions: compiledPermissions,
+    })
     user.branches = _user.branches
 
     return { user, compiledPermissions }

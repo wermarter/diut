@@ -3,21 +3,21 @@ import { accessibleBy } from '@casl/mongoose'
 import { TestCombo, TestComboAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestComboRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTCOMBO_REPO_TOKEN,
   IAuthContext,
   ITestComboRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestComboAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class TestComboSearchUseCase {
   constructor(
-    @Inject(TestComboRepositoryToken)
+    @Inject(TESTCOMBO_REPO_TOKEN)
     private readonly testComboRepository: ITestComboRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testComboAuthorizePopulatesUseCase: TestComboAuthorizePopulatesUseCase,
   ) {}
@@ -34,7 +34,9 @@ export class TestComboSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, TestComboAction.Read).TestCombo,
+          accessibleBy(ability, TestComboAction.Read).ofType(
+            AuthSubject.TestCombo,
+          ),
         ],
       },
     })

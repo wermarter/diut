@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { AuthContextToken, IAuthContext } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 
 @Injectable()
 export class AuthMeUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private authContext: IAuthContext,
   ) {}
 

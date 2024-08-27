@@ -5,13 +5,13 @@ import {
   AuthPayloadInternal,
   EEntityNotFound,
   IUserRepository,
-  UserRepositoryToken,
-  compilePermissionRules,
+  USER_REPO_TOKEN,
 } from 'src/domain'
+import { compilePermissionRules } from '../common'
 
 export class AuthPopulateContextUseCase {
   constructor(
-    @Inject(UserRepositoryToken)
+    @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
   ) {}
 

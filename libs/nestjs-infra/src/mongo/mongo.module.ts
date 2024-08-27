@@ -6,7 +6,7 @@ import {
 } from '@nestjs/mongoose'
 import { ClassConstructor } from 'class-transformer'
 import mongoose from 'mongoose'
-import { merge } from 'lodash'
+import { merge } from 'es-toolkit'
 
 const defaultOptions: MongooseModuleOptions = {
   retryAttempts: 3,

@@ -2,21 +2,21 @@ import { Inject, Injectable } from '@nestjs/common'
 import { SampleType, SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  SampleTypeRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  SAMPLETYPE_REPO_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   ISampleTypeRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleTypeAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class SampleTypeFindOneUseCase {
   constructor(
-    @Inject(SampleTypeRepositoryToken)
+    @Inject(SAMPLETYPE_REPO_TOKEN)
     private readonly sampleTypeRepository: ISampleTypeRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly sampleTypeAuthorizePopulatesUseCase: SampleTypeAuthorizePopulatesUseCase,
   ) {}

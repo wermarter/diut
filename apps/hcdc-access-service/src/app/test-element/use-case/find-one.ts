@@ -2,21 +2,21 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestElement, TestElementAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestElementRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTELEMENT_REPO_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   ITestElementRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestElementAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class TestElementFindOneUseCase {
   constructor(
-    @Inject(TestElementRepositoryToken)
+    @Inject(TESTELEMENT_REPO_TOKEN)
     private readonly testElementRepository: ITestElementRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testElementAuthorizePopulatesUseCase: TestElementAuthorizePopulatesUseCase,
   ) {}

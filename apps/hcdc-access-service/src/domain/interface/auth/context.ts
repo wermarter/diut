@@ -1,7 +1,7 @@
 import { MongoAbility } from '@casl/ability'
 import { PermissionRule, User } from '@diut/hcdc'
 
-export const AuthContextToken = Symbol('AuthContext')
+export const AUTH_CONTEXT_TOKEN = Symbol('AUTH_CONTEXT_TOKEN')
 
 export interface IAuthContext {
   setData(data: AuthContextData): void
@@ -41,6 +41,11 @@ export type AuthContextDataInternal = {
   accessToken: string
   refreshToken: string
 }
+
+export type AuthContextDataInternalSerialized = Pick<
+  AuthContextDataInternal,
+  'user' | 'permissions'
+>
 
 export enum AuthExternalOrigin {
   Delegated = 'Delegated',

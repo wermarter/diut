@@ -2,31 +2,31 @@ import { Inject, Injectable } from '@nestjs/common'
 import { SampleAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  SampleRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  SAMPLE_REPO_TOKEN,
   IAuthContext,
   ISampleRepository,
-  assertPermission,
-  StorageServiceToken,
-  StorageBucketToken,
+  STORAGE_SERVICE_TOKEN,
+  STORAGE_BUCKET_TOKEN,
   IStorageService,
   IStorageBucket,
   StorageBucket,
   StorageKeyFactory,
 } from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SampleDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
-    @Inject(StorageBucketToken)
+    @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
   ) {}
 

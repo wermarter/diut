@@ -2,89 +2,84 @@ import { createAbility } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 
 import {
+  AUTH_CACHE_SERVICE_TOKEN,
   AuthContextDataInternal,
+  AuthContextDataInternalSerialized,
   AuthType,
-  CacheKeyFactory,
-  CachePrimaryServiceToken,
-  CacheSecondaryServiceToken,
-  ICachePrimaryService,
-  ICacheSecondaryService,
+  IAuthCacheService,
+  IMutexService,
+  MUTEX_SERVICE_TOKEN,
 } from 'src/domain'
-import { AuthSetContextCacheUseCase } from './set-context-cache'
 import { AuthPopulateContextUseCase } from './populate-context'
+
+const EXECUTION_TIMEOUT_SECONDS = 5
+
+type OmmitedAuthContextDataInternal = Omit<
+  AuthContextDataInternal,
+  'accessToken' | 'refreshToken'
+>
 
 @Injectable()
 export class AuthGetContextInternalUseCase {
-  private readonly executionTimeoutSeconds = 5
-
   constructor(
-    @Inject(CacheSecondaryServiceToken)
-    private readonly cacheSecondaryService: ICacheSecondaryService,
-    @Inject(CachePrimaryServiceToken)
-    private readonly cachePrimaryService: ICachePrimaryService,
+    @Inject(AUTH_CACHE_SERVICE_TOKEN)
+    private readonly cacheService: IAuthCacheService,
+    @Inject(MUTEX_SERVICE_TOKEN)
+    private readonly mutexService: IMutexService,
     private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
-    private readonly authSetContextCacheUseCase: AuthSetContextCacheUseCase,
   ) {}
 
-  private async parseContent(
-    content: string,
-  ): Promise<AuthContextDataInternal> {
-    const payload: Parameters<AuthSetContextCacheUseCase['execute']>[0] =
-      JSON.parse(content)
-    const ability = createAbility(payload.compiledPermissions)
+  private async createContextData(
+    payload: AuthContextDataInternalSerialized,
+  ): Promise<OmmitedAuthContextDataInternal> {
+    const ability = createAbility(payload.permissions)
 
     return {
       type: AuthType.Internal,
       user: payload.user,
       ability,
-      permissions: payload.compiledPermissions,
-      accessToken: 'override by guard',
-      refreshToken: 'override by guard',
+      permissions: payload.permissions,
     }
   }
 
-  async execute(input: { userId: string }): Promise<AuthContextDataInternal> {
-    let content = await this.cacheSecondaryService.client.get(
-      CacheKeyFactory.authContextInfo(input.userId),
-    )
-
-    if (content !== null) {
-      return this.parseContent(content)
+  async execute(input: {
+    userId: string
+  }): Promise<OmmitedAuthContextDataInternal> {
+    let cachedData = await this.cacheService.getAuthContextInfo(input.userId)
+    if (cachedData !== null) {
+      return this.createContextData(cachedData)
     }
 
-    return this.cachePrimaryService.mutex(
+    return this.mutexService.mutex(
       `getAuthContext:userId:${input.userId}`,
-      this.executionTimeoutSeconds,
+      EXECUTION_TIMEOUT_SECONDS,
       async (signal) => {
-        if (content === null) {
-          content = await this.cachePrimaryService.client.get(
-            CacheKeyFactory.authContextInfo(input.userId),
-          )
+        cachedData = await this.cacheService.getAuthContextInfo(
+          input.userId,
+          true,
+        )
+        if (cachedData !== null) {
+          return this.createContextData(cachedData)
         }
 
-        if (content !== null) {
-          return this.parseContent(content)
-        }
-
-        const { user, compiledPermissions } =
+        // create new
+        const { user, compiledPermissions: permissions } =
           await this.authPopulateContextUseCase.execute({
             userId: input.userId,
           })
 
         if (signal.aborted === false) {
-          await this.authSetContextCacheUseCase.execute({
+          await this.cacheService.setAuthContextInfo({
             user,
-            compiledPermissions,
+            permissions,
           })
-          const ability = createAbility(compiledPermissions)
+          const ability = createAbility(permissions)
 
           return {
             type: AuthType.Internal,
             user,
             ability,
-            permissions: compiledPermissions,
-            accessToken: 'override by guard',
-            refreshToken: 'override by guard',
+            permissions,
           }
         } else {
           throw new Error('mutex aborted')

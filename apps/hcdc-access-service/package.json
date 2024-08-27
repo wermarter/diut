@@ -6,6 +6,9 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "build": "rimraf dist && nest build",
     "dev": "nest start --watch --preserveWatchOutput",
@@ -17,8 +20,8 @@
     }
   },
   "dependencies": {
-    "@casl/ability": "^6.5.0",
-    "@casl/mongoose": "^7.2.2",
+    "@casl/ability": "^6.7.1",
+    "@casl/mongoose": "^8.0.2",
     "@diut/common": "workspace:*",
     "@diut/hcdc": "workspace:*",
     "@diut/nestjs-infra": "workspace:*",
@@ -33,7 +36,7 @@
     "@nestjs/platform-express": "^10.3.3",
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/terminus": "^10.2.3",
-    "argon2": "^0.31.2",
+    "argon2": "^0.40.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "date-fns": "^2.30.0",
@@ -41,6 +44,7 @@
     "ejs": "^3.1.9",
     "json-templates": "^5.0.0",
     "lodash": "^4.17.21",
+    "es-toolkit": "^1.16.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.2",
     "nestjs-cls": "^4.3.0",

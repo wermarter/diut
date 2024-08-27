@@ -7,6 +7,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -45,13 +48,13 @@
   },
   "devDependencies": {
     "@rtk-query/codegen-openapi": "^1.2.0",
-    "@types/lodash": "^4.14.202",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "@types/lodash": "^4.14.202",
     "dotenv": "^16.4.4",
     "typescript": "5.3.3"
   },
   "optionalDependencies": {
-    "@esbuild/darwin-x64": "^0.19.12"
+    "@esbuild/darwin-x64": "^0.23.0"
   }
 }

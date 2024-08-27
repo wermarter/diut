@@ -9,8 +9,8 @@ import { ConfigurationException } from './config.exception'
  *
  * `import { registerAs } from '@nestjs/config'`
  *  and manually type: ReturnType<typeof registerAs>
- * 
- *  or just add to package.json 
+ *
+ *  or just add to package.json
  *  "dependenciesMeta": {
  *   "@diut/nestjs-infra": {
  *     "injected": true
@@ -23,7 +23,7 @@ export function makeConfigLoader(ConfigClass: ClassConstructor<any>) {
   })
 }
 
-export function loadConfigFromEnv<T = unknown>(
+export function loadConfigFromEnv<T extends object = object>(
   ConfigClass: ClassConstructor<T>,
 ) {
   const config = plainToInstance(ConfigClass, process.env, {

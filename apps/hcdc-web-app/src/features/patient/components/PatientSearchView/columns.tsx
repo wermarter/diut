@@ -10,6 +10,7 @@ import { useMemo } from 'react'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { startOfDay, subMonths } from 'date-fns'
 
 import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
@@ -41,7 +42,13 @@ export const useColumns = (
             label="Tra cứu"
             color="primary"
             onClick={() => {
-              navigate(urlPrintSelectPage({ patientId: row._id }))
+              const now = new Date()
+              navigate(
+                urlPrintSelectPage({
+                  patientId: row._id,
+                  fromDate: startOfDay(subMonths(now, 12)).getTime().toString(),
+                }),
+              )
             }}
           />,
         ],

@@ -6,6 +6,9 @@
   "private": true,
   "license": "MIT",
   "main": "dist/index",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "build": "rimraf dist && cpy 'src/grpc/proto/*.proto' 'dist/grpc/proto/' && tsc",
     "lint": "tsc --noEmit",

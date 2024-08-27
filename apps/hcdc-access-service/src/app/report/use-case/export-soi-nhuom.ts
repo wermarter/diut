@@ -2,7 +2,8 @@ import { ModuleRef } from '@nestjs/core'
 import { Inject, Injectable } from '@nestjs/common'
 import { AuthSubject, ReportAction, ReportType } from '@diut/hcdc'
 
-import { AuthContextToken, IAuthContext, assertPermission } from 'src/domain'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { ReportExportContext } from '../export-strategy/context'
 import {
   ReportExportSoiNhuomStrategy,
@@ -12,7 +13,7 @@ import {
 @Injectable()
 export class ReportExportSoiNhuomUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly moduleRef: ModuleRef,
   ) {}

@@ -2,21 +2,21 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TEST_REPO_TOKEN,
   IAuthContext,
   ITestRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestAssertExistsUseCase } from './assert-exists'
 import { TestValidateUseCase } from './validate'
 
 @Injectable()
 export class TestUpdateUseCase {
   constructor(
-    @Inject(TestRepositoryToken)
+    @Inject(TEST_REPO_TOKEN)
     private readonly testRepository: ITestRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
     private readonly testValidateUseCase: TestValidateUseCase,

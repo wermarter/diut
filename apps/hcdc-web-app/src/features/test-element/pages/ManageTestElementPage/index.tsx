@@ -51,7 +51,7 @@ export function ManageTestElementPage() {
         [PARAM_PAGE_SIZE]: pageSize,
         [PARAM_TEST_ID]: testId,
       },
-      { replace: false },
+      { replace: true },
     )
   }, [page, pageSize, testId])
 

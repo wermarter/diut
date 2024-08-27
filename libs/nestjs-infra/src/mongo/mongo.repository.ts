@@ -7,7 +7,7 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
-import { pick, isNil } from 'lodash'
+import { pick, isNil } from 'es-toolkit'
 import { UpdateOptions } from 'mongodb'
 
 import { BaseSchema, PopulateConfig } from './mongo.common'
@@ -95,7 +95,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   private populate(query: any, populates: PopulateConfig<TEntity>[]) {
     populates.forEach((populate) => {
       const isDeleted =
-        populate.isDeleted !== null ? populate.isDeleted ?? false : null
+        populate.isDeleted !== null ? (populate.isDeleted ?? false) : null
       if (populate.path) {
         let populateObj = { path: populate.path, populate: populate.populate }
 
@@ -144,7 +144,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   }) {
     const { offset, limit, filter, sort, projection, populates } = options ?? {}
     const isDeleted =
-      options.isDeleted !== null ? options.isDeleted ?? false : null
+      options.isDeleted !== null ? (options.isDeleted ?? false) : null
 
     let filterObj = filter ?? {}
 
@@ -234,7 +234,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       }
     }
 
-    await this.model.updateMany(filterObj, data, options).lean()
+    await this.model.updateMany(filterObj, data, options as any).lean()
   }
 
   public async deleteById(id: string, softDelete = true) {
@@ -271,16 +271,18 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     const writes = docs?.map((doc) => {
       return {
         updateOne: {
-          filter: pick(doc, conditions ?? ['id']),
+          filter: pick(doc as any, conditions ?? ['id']),
           update: {
-            [`$${operator}`]: selectedFields ? pick(doc, selectedFields) : doc,
+            [`$${operator}`]: selectedFields
+              ? pick(doc as any, selectedFields)
+              : doc,
           },
           upsert: true,
         },
       }
     })
 
-    await this.model.bulkWrite(writes)
+    await this.model.bulkWrite(writes as any)
   }
 
   public async bulkWriteIgnoreSoftDelete(data: Array<object>) {

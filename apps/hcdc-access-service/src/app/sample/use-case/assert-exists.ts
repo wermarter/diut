@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Sample } from '@diut/hcdc'
 
 import {
-  SampleRepositoryToken,
+  SAMPLE_REPO_TOKEN,
   EntityFindOneOptions,
   ISampleRepository,
   EEntityNotFound,
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class SampleAssertExistsUseCase {
   constructor(
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
   ) {}
 

@@ -16,19 +16,17 @@ import { NodeEnv } from '@diut/common'
 import { join } from 'path'
 
 import {
-  AuthContextToken,
-  BrowserServiceToken,
+  AUTH_CONTEXT_TOKEN,
+  BROWSER_SERVICE_TOKEN,
   StorageKeyFactory,
   EEntityNotFound,
   IAuthContext,
   IStorageBucket,
   IStorageService,
   StorageBucket,
-  StorageBucketToken,
-  StorageServiceToken,
-  assertPermission,
-  printTemplateConfigs,
-  SampleRepositoryToken,
+  STORAGE_BUCKET_TOKEN,
+  STORAGE_SERVICE_TOKEN,
+  SAMPLE_REPO_TOKEN,
   ISampleRepository,
   AuthType,
 } from 'src/domain'
@@ -40,31 +38,33 @@ import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
 import { ISamplePrintStrategy } from '../print-strategy/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'
-import { TestAssertExistsUseCase } from 'src/app/test'
-import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type'
 import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
 import { SamplePrintFormTDStrategy } from '../print-strategy/form-td'
 import { SamplePrintFormHIVStrategy } from '../print-strategy/form-hiv'
 import { SamplePrintFormSoiNhuomStrategy } from '../print-strategy/form-soi-nhuom'
 import { SampleGeneratePrintUrlUseCase } from './generate-print-url'
+import { printTemplateConfigs } from 'src/app/print-form/print-template'
+import { SampleTypeAssertExistsUseCase } from 'src/app/sample-type/use-case/assert-exists'
+import { TestAssertExistsUseCase } from 'src/app/test/use-case/assert-exists'
+import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SamplePrintUseCase {
   private logger = new Logger(SamplePrintUseCase.name)
 
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(BrowserServiceToken)
+    @Inject(BROWSER_SERVICE_TOKEN)
     private readonly browserService: BrowserServiceClient,
-    @Inject(StorageServiceToken)
+    @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
-    @Inject(StorageBucketToken)
+    @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
     private readonly moduleRef: ModuleRef,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
@@ -178,7 +178,8 @@ export class SamplePrintUseCase {
                 join(
                   __dirname,
                   '..',
-                  `print-template/${printConfig.templatePath}`,
+                  '..',
+                  `print-form/print-template/${printConfig.templatePath}`,
                 ),
                 printRequest,
               )

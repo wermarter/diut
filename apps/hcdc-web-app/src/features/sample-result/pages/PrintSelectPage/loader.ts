@@ -12,6 +12,7 @@ import { authSlice } from 'src/features/auth'
 
 export type PrintSelectPageQuery = {
   patientId?: string
+  fromDate?: string
 }
 
 export const printSelectPageLoader = async () => {

@@ -11,19 +11,20 @@ import {
 } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
+  AUTH_CONTEXT_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   EEntityPopulatePathUnknown,
-  authorizePopulates,
 } from 'src/domain'
+import { authorizePopulates } from 'src/app/auth/common'
 
 @Injectable()
 export class TestAuthorizePopulatesUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
   ) {}
+
   execute(input: EntityFindOneOptions<Test>['populates']) {
     const { ability } = this.authContext.getData()
 

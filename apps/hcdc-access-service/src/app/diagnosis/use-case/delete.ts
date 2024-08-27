@@ -2,25 +2,25 @@ import { Inject, Injectable } from '@nestjs/common'
 import { DiagnosisAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  DiagnosisRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  DIAGNOSIS_REPO_TOKEN,
   EEntityCannotDelete,
   IAuthContext,
   IDiagnosisRepository,
   ISampleRepository,
-  SampleRepositoryToken,
-  assertPermission,
+  SAMPLE_REPO_TOKEN,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { DiagnosisAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class DiagnosisDeleteUseCase {
   constructor(
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    @Inject(DiagnosisRepositoryToken)
+    @Inject(DIAGNOSIS_REPO_TOKEN)
     private readonly diagnosisRepository: IDiagnosisRepository,
-    @Inject(SampleRepositoryToken)
+    @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
     private readonly diagnosisAssertExistsUseCase: DiagnosisAssertExistsUseCase,
   ) {}

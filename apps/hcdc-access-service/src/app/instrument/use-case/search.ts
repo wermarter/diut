@@ -3,21 +3,21 @@ import { accessibleBy } from '@casl/mongoose'
 import { Instrument, InstrumentAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  InstrumentRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  INSTRUMENT_REPO_TOKEN,
   IAuthContext,
   IInstrumentRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { InstrumentAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class InstrumentSearchUseCase {
   constructor(
-    @Inject(InstrumentRepositoryToken)
+    @Inject(INSTRUMENT_REPO_TOKEN)
     private readonly instrumentRepository: IInstrumentRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly instrumentAuthorizePopulatesUseCase: InstrumentAuthorizePopulatesUseCase,
   ) {}
@@ -34,7 +34,9 @@ export class InstrumentSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, InstrumentAction.Read).Instrument,
+          accessibleBy(ability, InstrumentAction.Read).ofType(
+            AuthSubject.Instrument,
+          ),
         ],
       },
     })

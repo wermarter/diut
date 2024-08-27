@@ -6,7 +6,7 @@ import { DATEONLY_FORMAT, DATETIME_FORMAT } from '@diut/common'
 import { TableConfig } from './common'
 import { AbstractReportExportStrategy } from './abstract-strategy'
 import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
-import { BranchAssertExistsUseCase } from 'src/app/branch'
+import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 
 export type ReportExportSinhHoaStrategyInput = {
   fromDate: string

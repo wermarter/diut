@@ -3,21 +3,21 @@ import { accessibleBy } from '@casl/mongoose'
 import { SampleType, SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  SampleTypeRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  SAMPLETYPE_REPO_TOKEN,
   IAuthContext,
   ISampleTypeRepository,
   EntitySearchOptions,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { SampleTypeAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class SampleTypeSearchUseCase {
   constructor(
-    @Inject(SampleTypeRepositoryToken)
+    @Inject(SAMPLETYPE_REPO_TOKEN)
     private readonly sampleTypeRepository: ISampleTypeRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly sampleTypeAuthorizePopulatesUseCase: SampleTypeAuthorizePopulatesUseCase,
   ) {}
@@ -34,7 +34,9 @@ export class SampleTypeSearchUseCase {
       filter: {
         $and: [
           input.filter ?? {},
-          accessibleBy(ability, SampleTypeAction.Read).SampleType,
+          accessibleBy(ability, SampleTypeAction.Read).ofType(
+            AuthSubject.SampleType,
+          ),
         ],
       },
     })

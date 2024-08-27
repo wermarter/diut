@@ -1,6 +1,6 @@
 import { INestApplicationContext, ShutdownSignal } from '@nestjs/common'
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface'
-import { clone, merge } from 'lodash'
+import { clone, merge } from 'es-toolkit'
 
 export type BootstrapContext = {
   serviceName?: string

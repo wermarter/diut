@@ -2,6 +2,6 @@ import '@nestjs/config'
 
 export * from './module'
 
-export * from './app.config'
-export * from './log.config'
-export * from './puppeteer.config'
+export * from './app'
+export * from './log'
+export * from './puppeteer'

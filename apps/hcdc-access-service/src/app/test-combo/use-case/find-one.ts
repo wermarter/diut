@@ -2,21 +2,21 @@ import { Inject, Injectable } from '@nestjs/common'
 import { TestCombo, TestComboAction, AuthSubject } from '@diut/hcdc'
 
 import {
-  AuthContextToken,
-  TestComboRepositoryToken,
+  AUTH_CONTEXT_TOKEN,
+  TESTCOMBO_REPO_TOKEN,
   EntityFindOneOptions,
   IAuthContext,
   ITestComboRepository,
-  assertPermission,
 } from 'src/domain'
+import { assertPermission } from 'src/app/auth/common'
 import { TestComboAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()
 export class TestComboFindOneUseCase {
   constructor(
-    @Inject(TestComboRepositoryToken)
+    @Inject(TESTCOMBO_REPO_TOKEN)
     private readonly testComboRepository: ITestComboRepository,
-    @Inject(AuthContextToken)
+    @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly testComboAuthorizePopulatesUseCase: TestComboAuthorizePopulatesUseCase,
   ) {}
