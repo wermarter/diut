@@ -1,13 +1,13 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import * as mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
-import { SchemaFactory } from '@nestjs/mongoose'
 import { ReportType } from '@diut/hcdc'
+import { SchemaFactory } from '@nestjs/mongoose'
+import * as dotenv from 'dotenv'
+import * as mongoose from 'mongoose'
 
+import { COLLECTION } from 'src/infra'
 import { BranchRepository, BranchSchema } from 'src/infra/mongo/branch'
 import { TestRepository, TestSchema } from 'src/infra/mongo/test'
-import { COLLECTION } from 'src/infra'
-import { branchId } from '../migration/branch'
+// import { branchId } from '../migration/branch'
 dotenv.config()
 
 async function main() {
@@ -29,14 +29,14 @@ async function main() {
 
   // ---------------
   const tests = await testRepo.search({
-    filter: { testCategoryId: '63533e0c3b685db3059d8889' },
+    filter: { testCategoryId: '661e922489866edff2c9f0d4' },
     projection: { _id: 1 },
   })
 
   console.log(`Found ${tests.items.length} Tests`)
 
   await branchRepo.update(
-    { _id: branchId },
+    { _id: '661e1d78e3e5260ffd92ea75' },
     {
       [`reportConfig.${ReportType.SinhHoa}.testIds`]: tests.items.map(
         ({ _id }) => _id,
