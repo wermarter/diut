@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common'
 import { Test, TestCombo, TestElement, cringySortCompareFn } from '@diut/hcdc'
+import { Injectable } from '@nestjs/common'
 import { parseISO } from 'date-fns'
 
-import { SearchResult } from 'src/domain'
 import { SampleSearchUseCase } from 'src/app/sample/use-case/search'
-import { TestSearchUseCase } from 'src/app/test/use-case/search'
-import { TestElementSearchUseCase } from 'src/app/test-element/use-case/search'
 import { TestComboSearchUseCase } from 'src/app/test-combo/use-case/search'
+import { TestElementSearchUseCase } from 'src/app/test-element/use-case/search'
+import { TestSearchUseCase } from 'src/app/test/use-case/search'
+import { SearchResult } from 'src/domain'
 
 @Injectable()
 export class ReportQueryExportDataUseCase {

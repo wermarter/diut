@@ -1,10 +1,10 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import * as mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
 import { SchemaFactory } from '@nestjs/mongoose'
+import * as dotenv from 'dotenv'
+import * as mongoose from 'mongoose'
 
-import { SampleSchema } from 'src/infra/mongo/sample'
 import { COLLECTION } from 'src/infra'
+import { SampleSchema } from 'src/infra/mongo/sample'
 dotenv.config()
 
 mongoose.set('debug', true)

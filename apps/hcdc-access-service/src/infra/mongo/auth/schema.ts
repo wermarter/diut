@@ -1,12 +1,12 @@
 import { MongoQuery } from '@casl/ability'
-import { Prop, Schema } from '@nestjs/mongoose'
-import { Schema as MongooseSchema } from 'mongoose'
 import {
   AuthActionUnionType,
   AuthActionValues,
   AuthSubjectUnionType,
   AuthSubjectValues,
 } from '@diut/hcdc'
+import { Prop, Schema } from '@nestjs/mongoose'
+import { Schema as MongooseSchema } from 'mongoose'
 
 @Schema({ _id: false })
 export class PermissionRuleSchema {

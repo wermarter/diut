@@ -1,7 +1,7 @@
 import {
+  BROWSER_SERVICE_NAME,
   DIUT_PACKAGE_NAME,
   DiutGrpcService,
-  BROWSER_SERVICE_NAME,
   resolveProtoPath,
 } from '@diut/services'
 import { ModuleMetadata } from '@nestjs/common'

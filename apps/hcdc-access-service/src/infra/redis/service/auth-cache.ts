@@ -5,18 +5,18 @@ import {
 import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  AuthContextDataInternalSerialized,
-  IAuthCacheService,
-  RefreshTokenTaskResult,
-} from 'src/domain'
-import { KeyFactory } from '../key'
-import { REDIS_PRIMARY_CONNECTION, REDIS_SECONDARY_CONNECTION } from '../common'
-import {
   AppConfig,
   AuthConfig,
   loadAppConfig,
   loadAuthConfig,
 } from 'src/config'
+import {
+  AuthContextDataInternalSerialized,
+  IAuthCacheService,
+  RefreshTokenTaskResult,
+} from 'src/domain'
+import { REDIS_PRIMARY_CONNECTION, REDIS_SECONDARY_CONNECTION } from '../common'
+import { KeyFactory } from '../key'
 
 @Injectable()
 export class AuthCacheService implements IAuthCacheService {

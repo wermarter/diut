@@ -1,6 +1,6 @@
-import { ModuleMetadata } from '@nestjs/common'
-import { RedisClientModule, RedisClientOptions } from '@diut/nestjs-infra'
 import { NodeEnv } from '@diut/common'
+import { RedisClientModule, RedisClientOptions } from '@diut/nestjs-infra'
+import { ModuleMetadata } from '@nestjs/common'
 
 import {
   AppConfig,
@@ -8,8 +8,8 @@ import {
   loadRedisConfig,
   RedisConfig,
 } from 'src/config'
-import { REDIS_PRIMARY_CONNECTION, REDIS_SECONDARY_CONNECTION } from './common'
 import { AUTH_CACHE_SERVICE_TOKEN, MUTEX_SERVICE_TOKEN } from 'src/domain'
+import { REDIS_PRIMARY_CONNECTION, REDIS_SECONDARY_CONNECTION } from './common'
 import { AuthCacheService } from './service/auth-cache'
 import { MutexService } from './service/mutex'
 

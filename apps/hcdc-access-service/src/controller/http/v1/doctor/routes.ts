@@ -1,11 +1,11 @@
-import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
+import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { DoctorSearchResponseDto } from './dto/search'
 import {
   DoctorResponseDto,
   DoctorUnpopulatedResponseDto,
 } from './dto/response-dto'
+import { DoctorSearchResponseDto } from './dto/search'
 
 export const doctorRoutes = {
   search: {

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { Callback, RedisOptions, Redis, Result } from 'ioredis'
 import { retry } from 'async'
+import { Callback, Redis, RedisOptions, Result } from 'ioredis'
 
-import { AbstractClientService } from '../service'
+import { AbstractClientService } from '../abstract-service'
 import {
   CONNECTION_ID_TOKEN,
   DEFAULT_CONNECTION_ID,
@@ -76,10 +76,7 @@ export class RedisClientService extends AbstractClientService {
   ) {
     connectionId = connectionId ?? DEFAULT_CONNECTION_ID
 
-    super({
-      name: RedisClientService.name,
-      connectionId,
-    })
+    super({ connectionId })
   }
 
   async readyCheck() {

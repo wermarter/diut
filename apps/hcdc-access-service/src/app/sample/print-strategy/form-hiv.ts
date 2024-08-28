@@ -1,13 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { PrintTemplate } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { AbstractSamplePrintStrategy } from './common'
 import {
   ISampleRepository,
   ITestCategoryRepository,
   SAMPLE_REPO_TOKEN,
   TESTCATEGORY_REPO_TOKEN,
 } from 'src/domain'
+import { AbstractSamplePrintStrategy } from './common'
 
 @Injectable()
 export class SamplePrintFormHIVStrategy extends AbstractSamplePrintStrategy {

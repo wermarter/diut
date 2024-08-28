@@ -1,17 +1,17 @@
-import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Body, Param } from '@nestjs/common'
 
-import { diagnosisRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
-import { DiagnosisCreateRequestDto } from './dto/create'
-import { DiagnosisUpdateRequestDto } from './dto/update'
-import { DiagnosisSearchRequestDto } from './dto/search'
-import { HttpController, HttpRoute } from '../../shared'
 import { DiagnosisCreateUseCase } from 'src/app/diagnosis/use-case/create'
-import { DiagnosisUpdateUseCase } from 'src/app/diagnosis/use-case/update'
 import { DiagnosisDeleteUseCase } from 'src/app/diagnosis/use-case/delete'
-import { DiagnosisSearchUseCase } from 'src/app/diagnosis/use-case/search'
 import { DiagnosisFindOneUseCase } from 'src/app/diagnosis/use-case/find-one'
+import { DiagnosisSearchUseCase } from 'src/app/diagnosis/use-case/search'
+import { DiagnosisUpdateUseCase } from 'src/app/diagnosis/use-case/update'
+import { EEntityNotFound } from 'src/domain'
+import { HttpController, HttpRoute } from '../../shared'
+import { DiagnosisCreateRequestDto } from './dto/create'
+import { DiagnosisSearchRequestDto } from './dto/search'
+import { DiagnosisUpdateRequestDto } from './dto/update'
+import { diagnosisRoutes } from './routes'
 
 @HttpController({
   basePath: 'diagnoses',

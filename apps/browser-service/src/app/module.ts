@@ -1,7 +1,7 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
 
-import { puppeteerMetadata } from './puppeteer'
 import { browserMetadata } from './browser'
+import { puppeteerMetadata } from './puppeteer'
 
 export const appMetadata = concatModuleMetadata([
   puppeteerMetadata,

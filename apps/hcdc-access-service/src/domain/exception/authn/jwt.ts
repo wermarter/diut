@@ -1,5 +1,5 @@
-import { HttpStatus } from '@nestjs/common'
 import { DomainErrorCode } from '@diut/hcdc'
+import { HttpStatus } from '@nestjs/common'
 
 import { EAuthn } from './base'
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export const usePagination = <T extends { limit?: number; offset?: number }>(
   currentFilterObj: T,

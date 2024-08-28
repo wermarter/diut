@@ -1,19 +1,19 @@
+import { AuthSubject, SampleTypeAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { SampleTypeAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
-  SAMPLETYPE_REPO_TOKEN,
-  IAuthContext,
-  ISampleTypeRepository,
-  TEST_REPO_TOKEN,
-  ITestRepository,
-  SAMPLE_REPO_TOKEN,
-  ISampleRepository,
   EEntityCannotDelete,
+  IAuthContext,
+  ISampleRepository,
+  ISampleTypeRepository,
+  ITestRepository,
+  SAMPLETYPE_REPO_TOKEN,
+  SAMPLE_REPO_TOKEN,
+  TEST_REPO_TOKEN,
 } from 'src/domain'
 import { SampleTypeAssertExistsUseCase } from './assert-exists'
-import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class SampleTypeDeleteUseCase {

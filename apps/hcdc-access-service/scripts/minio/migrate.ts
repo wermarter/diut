@@ -1,8 +1,8 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
 import { AwsS3ClientService } from '@diut/nestjs-infra'
 import { SchemaFactory } from '@nestjs/mongoose'
-import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
+import * as mongoose from 'mongoose'
 dotenv.config()
 
 import { StorageBucket, StorageKeyFactory } from 'src/domain'

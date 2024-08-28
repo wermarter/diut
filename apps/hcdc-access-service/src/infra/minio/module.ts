@@ -4,8 +4,8 @@ import {
 } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
-import { STORAGE_BUCKET_TOKEN, STORAGE_SERVICE_TOKEN } from 'src/domain'
 import { MinioConfig, loadMinioConfig } from 'src/config'
+import { STORAGE_BUCKET_TOKEN, STORAGE_SERVICE_TOKEN } from 'src/domain'
 import { StorageBucketProvider } from './bucket'
 
 const MINIO_CONNECTION_ID = 'MinIO'

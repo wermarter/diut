@@ -1,11 +1,11 @@
-import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
+import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { PrintFormSearchResponseDto } from './dto/search'
 import {
   PrintFormResponseDto,
   PrintFormUnpopulatedResponseDto,
 } from './dto/response-dto'
+import { PrintFormSearchResponseDto } from './dto/search'
 
 export const printFormRoutes = {
   search: {

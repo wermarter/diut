@@ -1,11 +1,11 @@
-import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
+import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { InstrumentSearchResponseDto } from './dto/search'
 import {
   InstrumentResponseDto,
   InstrumentUnpopulatedResponseDto,
 } from './dto/response-dto'
+import { InstrumentSearchResponseDto } from './dto/search'
 
 export const instrumentRoutes = {
   search: {

@@ -1,13 +1,13 @@
+import { AuthSubject, DiagnosisAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { DiagnosisAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
   DIAGNOSIS_REPO_TOKEN,
   IAuthContext,
   IDiagnosisRepository,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { DiagnosisAssertExistsUseCase } from './assert-exists'
 import { DiagnosisValidateUseCase } from './validate'
 

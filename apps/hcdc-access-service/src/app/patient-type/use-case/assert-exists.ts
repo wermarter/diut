@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { PatientType } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  PATIENTTYPE_REPO_TOKEN,
+  EEntityNotFound,
   EntityFindOneOptions,
   IPatientTypeRepository,
-  EEntityNotFound,
+  PATIENTTYPE_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()

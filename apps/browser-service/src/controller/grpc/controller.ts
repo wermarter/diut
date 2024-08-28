@@ -6,9 +6,9 @@ import {
 } from '@diut/services'
 import { Observable, concatMap } from 'rxjs'
 
-import { validateDto } from './shared'
-import { PrintPageRequestDto } from './dto/print-page.request-dto'
 import { BrowserPrintMultipleUseCase } from 'src/app/browser/use-case/print-multiple'
+import { PrintPageRequestDto } from './dto/print-page.request-dto'
+import { validateDto } from './shared'
 
 @BrowserServiceControllerMethods()
 export class BrowserServiceController implements IBrowserServiceController {

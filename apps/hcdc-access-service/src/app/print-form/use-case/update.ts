@@ -1,13 +1,13 @@
+import { AuthSubject, PrintFormAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { PrintFormAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
-  PRINTFORM_REPO_TOKEN,
   IAuthContext,
   IPrintFormRepository,
+  PRINTFORM_REPO_TOKEN,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { PrintFormAssertExistsUseCase } from './assert-exists'
 import { PrintFormValidateUseCase } from './validate'
 

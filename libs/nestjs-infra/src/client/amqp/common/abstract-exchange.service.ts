@@ -1,11 +1,11 @@
 import { BeforeApplicationShutdown, Logger, OnModuleInit } from '@nestjs/common'
-import { Options, ConsumeMessage, ConfirmChannel } from 'amqplib'
-import { inspect } from 'util'
+import { ConfirmChannel, ConsumeMessage, Options } from 'amqplib'
 import { hostname } from 'os'
+import { inspect } from 'util'
 
 import { AmqpClientService } from '../service'
-import { IConsumable, NackMessage } from './interface'
 import { AbstractQueueService } from './abstract-queue.service'
+import { IConsumable, NackMessage } from './interface'
 
 type AbstractQueueBinding<TPayload> = {
   routingKey: string

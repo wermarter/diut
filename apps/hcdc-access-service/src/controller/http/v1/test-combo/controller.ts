@@ -1,17 +1,17 @@
-import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Body, Param } from '@nestjs/common'
 
-import { testComboRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
-import { TestComboCreateRequestDto } from './dto/create'
-import { TestComboUpdateRequestDto } from './dto/update'
-import { TestComboSearchRequestDto } from './dto/search'
-import { HttpController, HttpRoute } from '../../shared'
 import { TestComboCreateUseCase } from 'src/app/test-combo/use-case/create'
-import { TestComboUpdateUseCase } from 'src/app/test-combo/use-case/update'
 import { TestComboDeleteUseCase } from 'src/app/test-combo/use-case/delete'
-import { TestComboSearchUseCase } from 'src/app/test-combo/use-case/search'
 import { TestComboFindOneUseCase } from 'src/app/test-combo/use-case/find-one'
+import { TestComboSearchUseCase } from 'src/app/test-combo/use-case/search'
+import { TestComboUpdateUseCase } from 'src/app/test-combo/use-case/update'
+import { EEntityNotFound } from 'src/domain'
+import { HttpController, HttpRoute } from '../../shared'
+import { TestComboCreateRequestDto } from './dto/create'
+import { TestComboSearchRequestDto } from './dto/search'
+import { TestComboUpdateRequestDto } from './dto/update'
+import { testComboRoutes } from './routes'
 
 @HttpController({
   basePath: 'test-combos',

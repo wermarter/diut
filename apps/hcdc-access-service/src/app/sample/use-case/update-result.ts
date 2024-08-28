@@ -1,5 +1,3 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { FilterQuery } from 'mongoose'
 import {
   AuthSubject,
   Sample,
@@ -7,18 +5,20 @@ import {
   SampleResult,
   SampleResultTest,
 } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 
+import { assertPermission } from 'src/app/auth/common'
+import { PatientGetCategoryUseCase } from 'src/app/patient/use-case/get-category'
 import {
   AUTH_CONTEXT_TOKEN,
-  SAMPLE_REPO_TOKEN,
   IAuthContext,
   ISampleRepository,
+  SAMPLE_REPO_TOKEN,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { SampleAssertExistsUseCase } from './assert-exists'
-import { SampleValidateUseCase } from './validate'
 import { SampleInitResultUseCase } from './init-result'
-import { PatientGetCategoryUseCase } from 'src/app/patient/use-case/get-category'
+import { SampleValidateUseCase } from './validate'
 
 @Injectable()
 export class SampleUpdateResultUseCase {

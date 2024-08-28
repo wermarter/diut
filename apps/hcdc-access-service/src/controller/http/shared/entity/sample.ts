@@ -3,7 +3,7 @@ import {
   exampleMongoObjectId,
   exampleMongoObjectIds,
 } from '@diut/common'
-import { SampleResultTestElement, SampleResultTest, Sample } from '@diut/hcdc'
+import { Sample, SampleResultTest, SampleResultTestElement } from '@diut/hcdc'
 
 import { EntityDataExample } from './base-entity'
 import { exampleBioProduct } from './bio-product'

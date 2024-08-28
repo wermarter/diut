@@ -1,17 +1,17 @@
-import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Body, Param } from '@nestjs/common'
 
-import { patientTypeRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
-import { PatientTypeCreateRequestDto } from './dto/create'
-import { PatientTypeUpdateRequestDto } from './dto/update'
-import { PatientTypeSearchRequestDto } from './dto/search'
-import { HttpController, HttpRoute } from '../../shared'
 import { PatientTypeCreateUseCase } from 'src/app/patient-type/use-case/create'
-import { PatientTypeUpdateUseCase } from 'src/app/patient-type/use-case/update'
 import { PatientTypeDeleteUseCase } from 'src/app/patient-type/use-case/delete'
-import { PatientTypeSearchUseCase } from 'src/app/patient-type/use-case/search'
 import { PatientTypeFindOneUseCase } from 'src/app/patient-type/use-case/find-one'
+import { PatientTypeSearchUseCase } from 'src/app/patient-type/use-case/search'
+import { PatientTypeUpdateUseCase } from 'src/app/patient-type/use-case/update'
+import { EEntityNotFound } from 'src/domain'
+import { HttpController, HttpRoute } from '../../shared'
+import { PatientTypeCreateRequestDto } from './dto/create'
+import { PatientTypeSearchRequestDto } from './dto/search'
+import { PatientTypeUpdateRequestDto } from './dto/update'
+import { patientTypeRoutes } from './routes'
 
 @HttpController({
   basePath: 'patient-types',

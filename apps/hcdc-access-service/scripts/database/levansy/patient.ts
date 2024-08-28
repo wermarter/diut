@@ -3,10 +3,10 @@ import { PatientGender } from '@diut/hcdc'
 import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
 
+import { ObjectId } from 'mongodb'
 import { COLLECTION } from 'src/infra'
 import { PatientSchema } from 'src/infra/mongo/patient'
 import { branchId } from './branch'
-import { ObjectId } from 'mongodb'
 
 export async function migratePatient(
   sourceDB: Connection,

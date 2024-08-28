@@ -1,7 +1,7 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import * as mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
 import { SchemaFactory } from '@nestjs/mongoose'
+import * as dotenv from 'dotenv'
+import * as mongoose from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
 import { UserSchema } from 'src/infra/mongo/user'

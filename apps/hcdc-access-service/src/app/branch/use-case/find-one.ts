@@ -1,6 +1,7 @@
+import { AuthSubject, Branch, BranchAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { Branch, BranchAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
   BRANCH_REPO_TOKEN,
@@ -8,7 +9,6 @@ import {
   IAuthContext,
   IBranchRepository,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { BranchAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

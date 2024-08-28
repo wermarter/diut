@@ -1,17 +1,17 @@
-import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Body, Param } from '@nestjs/common'
 
-import { roleRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
-import { RoleCreateRequestDto } from './dto/create'
-import { RoleUpdateRequestDto } from './dto/update'
-import { RoleSearchRequestDto } from './dto/search'
-import { HttpController, HttpRoute } from '../../shared'
 import { RoleCreateUseCase } from 'src/app/role/use-case/create'
-import { RoleUpdateUseCase } from 'src/app/role/use-case/update'
 import { RoleDeleteUseCase } from 'src/app/role/use-case/delete'
-import { RoleSearchUseCase } from 'src/app/role/use-case/search'
 import { RoleFindOneUseCase } from 'src/app/role/use-case/find-one'
+import { RoleSearchUseCase } from 'src/app/role/use-case/search'
+import { RoleUpdateUseCase } from 'src/app/role/use-case/update'
+import { EEntityNotFound } from 'src/domain'
+import { HttpController, HttpRoute } from '../../shared'
+import { RoleCreateRequestDto } from './dto/create'
+import { RoleSearchRequestDto } from './dto/search'
+import { RoleUpdateRequestDto } from './dto/update'
+import { roleRoutes } from './routes'
 
 @HttpController({ basePath: 'roles' })
 export class RoleController {

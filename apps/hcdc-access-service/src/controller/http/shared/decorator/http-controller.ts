@@ -1,8 +1,8 @@
-import { UseGuards } from '@nestjs/common'
 import {
   CustomHttpController,
   CustomHttpControllerOptions,
 } from '@diut/nestjs-infra'
+import { UseGuards } from '@nestjs/common'
 
 import { HttpAuthGuard } from '../../v1/auth/guard'
 

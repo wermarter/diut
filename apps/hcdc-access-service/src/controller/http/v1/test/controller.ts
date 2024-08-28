@@ -1,17 +1,17 @@
-import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Body, Param } from '@nestjs/common'
 
-import { testRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
-import { TestCreateRequestDto } from './dto/create'
-import { TestUpdateRequestDto } from './dto/update'
-import { TestSearchRequestDto } from './dto/search'
-import { HttpController, HttpRoute } from '../../shared'
 import { TestCreateUseCase } from 'src/app/test/use-case/create'
-import { TestUpdateUseCase } from 'src/app/test/use-case/update'
 import { TestDeleteUseCase } from 'src/app/test/use-case/delete'
-import { TestSearchUseCase } from 'src/app/test/use-case/search'
 import { TestFindOneUseCase } from 'src/app/test/use-case/find-one'
+import { TestSearchUseCase } from 'src/app/test/use-case/search'
+import { TestUpdateUseCase } from 'src/app/test/use-case/update'
+import { EEntityNotFound } from 'src/domain'
+import { HttpController, HttpRoute } from '../../shared'
+import { TestCreateRequestDto } from './dto/create'
+import { TestSearchRequestDto } from './dto/search'
+import { TestUpdateRequestDto } from './dto/update'
+import { testRoutes } from './routes'
 
 @HttpController({
   basePath: 'tests',

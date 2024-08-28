@@ -2,8 +2,8 @@ import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
 
 import { COLLECTION } from 'src/infra'
-import { branchId } from './branch'
 import { SampleSchema } from 'src/infra/mongo/sample'
+import { branchId } from './branch'
 
 export async function migrateSample(sourceDB: Connection, destDB: Connection) {
   const sampleSchema = SchemaFactory.createForClass(SampleSchema)

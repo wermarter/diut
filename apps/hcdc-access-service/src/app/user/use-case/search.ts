@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { accessibleBy } from '@casl/mongoose'
-import { User, UserAction, AuthSubject } from '@diut/hcdc'
+import { AuthSubject, User, UserAction } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
-  USER_REPO_TOKEN,
+  EntitySearchOptions,
   IAuthContext,
   IUserRepository,
-  EntitySearchOptions,
+  USER_REPO_TOKEN,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { UserAuthorizePopulatesUseCase } from './authorize-populates'
 
 @Injectable()

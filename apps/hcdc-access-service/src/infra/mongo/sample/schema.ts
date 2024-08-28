@@ -1,17 +1,17 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
 
-import { COLLECTION } from '../collections'
 import { BranchSchema } from '../branch'
-import { SampleTypeSchema } from '../sample-type'
-import { TestElementSchema } from '../test-element'
-import { TestSchema } from '../test'
-import { UserSchema } from '../user'
-import { PatientSchema } from '../patient'
-import { DoctorSchema } from '../doctor'
-import { PatientTypeSchema } from '../patient-type'
+import { COLLECTION } from '../collections'
 import { DiagnosisSchema } from '../diagnosis'
+import { DoctorSchema } from '../doctor'
+import { PatientSchema } from '../patient'
+import { PatientTypeSchema } from '../patient-type'
+import { SampleTypeSchema } from '../sample-type'
+import { TestSchema } from '../test'
+import { TestElementSchema } from '../test-element'
+import { UserSchema } from '../user'
 
 @Schema({
   _id: false,

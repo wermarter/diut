@@ -1,13 +1,11 @@
-import {
-  ConfigModule as NestConfigModule,
-  ConfigModuleOptions,
-  ConfigFactory,
-} from '@nestjs/config'
 import { Module } from '@nestjs/common'
+import {
+  ConfigModuleOptions,
+  ConfigModule as NestConfigModule,
+} from '@nestjs/config'
 import { merge } from 'es-toolkit'
 
 const defaultRootConfig: ConfigModuleOptions = {
-  isGlobal: true,
   cache: true,
   expandVariables: true,
 }
@@ -15,12 +13,8 @@ const defaultRootConfig: ConfigModuleOptions = {
 @Module({
   imports: [NestConfigModule.forRoot(defaultRootConfig)],
 })
-export class ConfigModule {
+export class ConfigModule extends NestConfigModule {
   static forRoot(options: ConfigModuleOptions) {
-    return NestConfigModule.forRoot(merge(defaultRootConfig, options))
-  }
-
-  static forFeature(options: ConfigFactory) {
-    return NestConfigModule.forFeature(options)
+    return super.forRoot(merge(defaultRootConfig, options))
   }
 }

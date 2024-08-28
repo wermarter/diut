@@ -1,10 +1,10 @@
 import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
 
-import { COLLECTION } from 'src/infra'
-import { branchId } from './branch'
 import { StorageBucket, StorageKeyFactory } from 'src/domain'
+import { COLLECTION } from 'src/infra'
 import { SampleSchema } from 'src/infra/mongo/sample'
+import { branchId } from './branch'
 
 const PAP_IMAGE_ELEMENT_IDS = [
   '638493130ee21e62196b965c',

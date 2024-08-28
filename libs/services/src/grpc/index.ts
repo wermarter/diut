@@ -1,5 +1,5 @@
-import * as ModuleResolve from 'resolve'
 import { resolve } from 'path'
+import * as ModuleResolve from 'resolve'
 
 export * from './browser-service'
 

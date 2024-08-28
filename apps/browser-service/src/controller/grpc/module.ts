@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common'
 import { concatModuleMetadata } from '@diut/nestjs-infra'
+import { Module } from '@nestjs/common'
 
 import { BrowserServiceController } from './controller'
 import { commonModuleMetadata } from './shared'

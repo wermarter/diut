@@ -1,17 +1,17 @@
+import { AuthSubject, TestCategoryAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { TestCategoryAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
-  TESTCATEGORY_REPO_TOKEN,
+  EEntityCannotDelete,
   IAuthContext,
   ITestCategoryRepository,
-  TEST_REPO_TOKEN,
   ITestRepository,
-  EEntityCannotDelete,
+  TESTCATEGORY_REPO_TOKEN,
+  TEST_REPO_TOKEN,
 } from 'src/domain'
 import { TestCategoryAssertExistsUseCase } from './assert-exists'
-import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class TestCategoryDeleteUseCase {

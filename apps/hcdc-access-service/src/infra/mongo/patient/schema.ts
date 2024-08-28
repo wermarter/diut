@@ -1,10 +1,10 @@
-import { Prop, Schema } from '@nestjs/mongoose'
-import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
-import { Types } from 'mongoose'
 import { PatientGender, PatientGenderValues } from '@diut/hcdc'
+import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
+import { Prop, Schema } from '@nestjs/mongoose'
+import { Types } from 'mongoose'
 
-import { COLLECTION } from '../collections'
 import { BranchSchema } from '../branch'
+import { COLLECTION } from '../collections'
 
 @Schema({
   ...baseSchemaOptions,

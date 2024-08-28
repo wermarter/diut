@@ -1,14 +1,14 @@
-import { Injectable, Scope } from '@nestjs/common'
-import { Sample, separateTestCombo } from '@diut/hcdc'
-import { format, parseISO } from 'date-fns'
 import { DATEONLY_FORMAT } from '@diut/common'
+import { Sample, separateTestCombo } from '@diut/hcdc'
+import { Injectable, Scope } from '@nestjs/common'
+import { format, parseISO } from 'date-fns'
 
-import { TableConfig } from './common'
+import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
 import {
   AbstractReportExportStrategy,
   SKIP_LINE_EXCEPTION,
 } from './abstract-strategy'
-import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
+import { TableConfig } from './common'
 
 export type ReportExportGiaoNhanStrategyInput = {
   fromDate: string

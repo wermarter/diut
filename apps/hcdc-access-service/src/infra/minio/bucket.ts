@@ -5,8 +5,8 @@ import { MinioConfig, loadMinioConfig } from 'src/config'
 import {
   IStorageBucket,
   IStorageService,
-  StorageBucket,
   STORAGE_SERVICE_TOKEN,
+  StorageBucket,
 } from 'src/domain'
 
 @Injectable()

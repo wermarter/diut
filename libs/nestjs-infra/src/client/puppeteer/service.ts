@@ -3,13 +3,13 @@ import * as puppeteer from 'puppeteer-core'
 import PuppeteerExtra from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
-import { AbstractClientService } from '../service'
+import { AbstractClientService } from '../abstract-service'
+import { chromeArgs } from './common'
 import {
   CONNECTION_ID_TOKEN,
   DEFAULT_CONNECTION_ID,
   MODULE_OPTIONS_TOKEN,
 } from './module-builder'
-import { chromeArgs } from './common'
 
 export type PuppeteerClientOptions = puppeteer.PuppeteerLaunchOptions & {
   stealth?: boolean
@@ -27,10 +27,7 @@ export class PuppeteerClientService extends AbstractClientService {
   ) {
     connectionId = connectionId ?? DEFAULT_CONNECTION_ID
 
-    super({
-      name: PuppeteerClientService.name,
-      connectionId,
-    })
+    super({ connectionId })
   }
 
   readyCheck() {

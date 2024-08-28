@@ -1,8 +1,9 @@
-import { Inject, Injectable, Scope } from '@nestjs/common'
 import { PrintForm, User } from '@diut/hcdc'
+import { Inject, Injectable, Scope } from '@nestjs/common'
 import { template } from 'lodash'
 
-import { ISamplePrintStrategy } from './common'
+import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
+import { UserAssertExistsUseCase } from 'src/app/user/use-case/assert-exists'
 import {
   AUTH_CONTEXT_TOKEN,
   AuthType,
@@ -12,8 +13,7 @@ import {
   PRINTFORM_REPO_TOKEN,
   SAMPLETYPE_REPO_TOKEN,
 } from 'src/domain'
-import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
-import { UserAssertExistsUseCase } from 'src/app/user/use-case/assert-exists'
+import { ISamplePrintStrategy } from './common'
 
 export type SamplePrintOptions = {
   sampleId: string

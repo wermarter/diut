@@ -3,10 +3,10 @@ import { ModuleMetadata } from '@nestjs/common'
 
 import { loadAppConfig } from './app'
 import { loadAuthConfig } from './auth'
-import { loadMinioConfig } from './minio'
 import { loadClientConfig } from './client'
-import { loadMongoConfig } from './mongo'
 import { loadLogConfig } from './log'
+import { loadMinioConfig } from './minio'
+import { loadMongoConfig } from './mongo'
 import { loadRedisConfig } from './redis'
 
 export const configMetadata: ModuleMetadata = {

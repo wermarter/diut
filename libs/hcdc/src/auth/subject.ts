@@ -7,16 +7,16 @@ import {
   Patient,
   PatientType,
   PrintForm,
+  Report,
   Role,
   Sample,
+  SampleTestResult,
   SampleType,
   Test,
   TestCategory,
   TestCombo,
   TestElement,
   User,
-  Report,
-  SampleTestResult,
 } from '../entity'
 import { AUTH_SUBJECT_ALL } from './constants'
 

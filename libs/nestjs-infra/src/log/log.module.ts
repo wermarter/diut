@@ -1,10 +1,10 @@
-import { merge } from 'es-toolkit'
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common'
+import { merge } from 'es-toolkit'
 import { WinstonModule, WinstonModuleOptions } from 'nest-winston'
 
-import { buildLokiTransport } from './transports/loki.transport'
-import { buildConsoleTransport } from './transports/console.transport'
 import { buildWinstonDefaultMeta } from './default-meta'
+import { buildConsoleTransport } from './transports/console.transport'
+import { buildLokiTransport } from './transports/loki.transport'
 
 type LogModuleExtraOptions = {
   // if empty string, app will not send logs to Loki

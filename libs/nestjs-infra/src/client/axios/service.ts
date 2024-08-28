@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios'
 import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 
-import { AbstractClientService } from '../service'
+import { AbstractClientService } from '../abstract-service'
 import {
   CONNECTION_ID_TOKEN,
   DEFAULT_CONNECTION_ID,
@@ -26,10 +26,7 @@ export class AxiosClientService extends AbstractClientService {
   ) {
     connectionId = connectionId ?? DEFAULT_CONNECTION_ID
 
-    super({
-      name: AxiosClientService.name,
-      connectionId,
-    })
+    super({ connectionId })
   }
 
   readyCheck() {
