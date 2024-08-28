@@ -1,19 +1,7 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
+import * as mongoose from 'mongoose'
 dotenv.config()
-
-import { migrateDiagnosis } from './diagnosis'
-import { migrateDoctor } from './doctor'
-import { migratePatientType } from './patient-type'
-import { migratePrintForm } from './print-form'
-import { migrateSampleType } from './sample-type'
-import { migrateTestCategory } from './test-category'
-import { migrateTest } from './test'
-import { migrateTestElement } from './test-element'
-import { migrateTestCombo } from './test-combo'
-import { migratePatient } from './patient'
-import { migrateSample } from './sample'
 
 // mongoose.set('debug', true)
 

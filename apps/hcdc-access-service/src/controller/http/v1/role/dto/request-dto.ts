@@ -1,3 +1,4 @@
+import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import {
@@ -8,7 +9,6 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator'
-import { IsObjectId } from '@diut/nestjs-infra'
 
 import { exampleRole } from '../../../shared'
 import { PermissionRuleDto } from '../../auth/dto/permission-rule.dto'

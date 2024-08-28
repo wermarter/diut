@@ -1,14 +1,14 @@
-import { Inject } from '@nestjs/common'
 import {
   AuthSubject,
   PatientAction,
   PatientCategory,
   PatientGender,
 } from '@diut/hcdc'
+import { Inject } from '@nestjs/common'
 
+import { assertPermission } from 'src/app/auth/common'
 import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 import { PatientAssertExistsUseCase } from './assert-exists'
-import { assertPermission } from 'src/app/auth/common'
 
 export class PatientGetCategoryUseCase {
   constructor(

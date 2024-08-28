@@ -9,6 +9,7 @@ import { instrumentMetadata } from './instrument'
 import { patientMetadata } from './patient'
 import { patientTypeMetadata } from './patient-type'
 import { printFormMetadata } from './print-form'
+import { reportMetadata } from './report'
 import { roleMetadata } from './role'
 import { sampleMetadata } from './sample'
 import { sampleTypeMetadata } from './sample-type'
@@ -17,7 +18,6 @@ import { testCategoryMetadata } from './test-category'
 import { testComboMetadata } from './test-combo'
 import { testElementMetadata } from './test-element'
 import { userMetadata } from './user'
-import { reportMetadata } from './report'
 
 export const appMetadata = concatModuleMetadata([
   authMetadata,

@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common'
 
 import { AuthConfig, loadAuthConfig } from 'src/config'
 import {
+  AUTH_CACHE_SERVICE_TOKEN,
   AuthContextData,
   AuthType,
-  AUTH_CACHE_SERVICE_TOKEN,
   EAuthzContextInvalid,
-  IAuthService,
   IAuthCacheService,
+  IAuthService,
 } from 'src/domain'
 
 @Injectable()

@@ -1,13 +1,13 @@
+import { AuthSubject, BranchAction, TestAction, TestElement } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { BranchAction, TestAction, TestElement, AuthSubject } from '@diut/hcdc'
 
+import { authorizePopulates } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
+  EEntityPopulatePathUnknown,
   EntityFindOneOptions,
   IAuthContext,
-  EEntityPopulatePathUnknown,
 } from 'src/domain'
-import { authorizePopulates } from 'src/app/auth/common'
 
 @Injectable()
 export class TestElementAuthorizePopulatesUseCase {

@@ -1,12 +1,12 @@
 import { FactoryProvider, Logger, ModuleMetadata } from '@nestjs/common'
 import {
-  MongooseModuleOptions,
   MongooseModule,
+  MongooseModuleOptions,
   SchemaFactory,
 } from '@nestjs/mongoose'
 import { ClassConstructor } from 'class-transformer'
-import mongoose from 'mongoose'
 import { merge } from 'es-toolkit'
+import mongoose from 'mongoose'
 
 const defaultOptions: MongooseModuleOptions = {
   retryAttempts: 3,

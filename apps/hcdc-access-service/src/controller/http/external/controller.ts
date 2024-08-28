@@ -6,13 +6,13 @@ import {
   StreamableFile,
   UseGuards,
 } from '@nestjs/common'
-import { Response } from 'express'
 import { ApiTags } from '@nestjs/swagger'
+import { Response } from 'express'
 
-import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
-import { HttpExternalAuthGuard } from './auth'
 import { SamplePrintOptions } from 'src/app/sample/print-strategy/context'
 import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
+import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
+import { HttpExternalAuthGuard } from './auth'
 
 @Controller()
 @ApiTags('external')

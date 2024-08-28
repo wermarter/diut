@@ -1,8 +1,8 @@
 import {
-  PuppeteerClientModule,
   concatModuleMetadata,
-  PuppeteerClientService,
   getPuppeteerClientServiceToken,
+  PuppeteerClientModule,
+  PuppeteerClientService,
 } from '@diut/nestjs-infra'
 
 import { loadPuppeteerConfig, PuppeteerConfig } from 'src/config'

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
 import { Expose, Type } from 'class-transformer'
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
 
 import { exampleUser } from '../../../shared'
 import { UserResponseDto } from '../../user/dto/response-dto'

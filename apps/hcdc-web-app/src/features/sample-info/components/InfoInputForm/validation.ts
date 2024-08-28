@@ -1,6 +1,6 @@
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { PatientGender } from '@diut/hcdc'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 export const GENDER_PREGNANT_VALUE = 'pregnant_value'
 

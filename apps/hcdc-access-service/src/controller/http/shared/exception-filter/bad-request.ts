@@ -1,3 +1,4 @@
+import { DomainErrorCode } from '@diut/hcdc'
 import {
   ArgumentsHost,
   BadRequestException,
@@ -7,7 +8,6 @@ import {
   Inject,
   Logger,
 } from '@nestjs/common'
-import { DomainErrorCode } from '@diut/hcdc'
 
 import {
   AUTH_CONTEXT_TOKEN,

@@ -1,8 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { SampleAction, AuthSubject } from '@diut/hcdc'
 import { MongoAbility } from '@casl/ability'
+import { AuthSubject, SampleAction } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
+import { assertPermission } from 'src/app/auth/common'
+import { AppConfig, loadAppConfig } from 'src/config'
 import {
   AUTH_CACHE_SERVICE_TOKEN,
   AUTH_CONTEXT_TOKEN,
@@ -11,10 +13,8 @@ import {
   IAuthCacheService,
   IAuthContext,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
-import { SampleAssertExistsUseCase } from './assert-exists'
-import { AppConfig, loadAppConfig } from 'src/config'
 import { SamplePrintOptions } from '../print-strategy/context'
+import { SampleAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
 export class SampleGeneratePrintUrlUseCase {

@@ -1,6 +1,6 @@
-import { appStore } from 'src/infra/redux'
-import { fetchBranches, fetchRoles } from 'src/infra/api'
 import { authSlice } from 'src/features/auth'
+import { fetchBranches, fetchRoles } from 'src/infra/api'
+import { appStore } from 'src/infra/redux'
 
 export const manageUserPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import * as mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
+import * as mongoose from 'mongoose'
 dotenv.config()
 
 async function testConnection() {

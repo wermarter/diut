@@ -1,17 +1,17 @@
+import { AuthSubject, PrintFormAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { PrintFormAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
-  PRINTFORM_REPO_TOKEN,
+  EEntityCannotDelete,
   IAuthContext,
   IPrintFormRepository,
-  TEST_REPO_TOKEN,
   ITestRepository,
-  EEntityCannotDelete,
+  PRINTFORM_REPO_TOKEN,
+  TEST_REPO_TOKEN,
 } from 'src/domain'
 import { PrintFormAssertExistsUseCase } from './assert-exists'
-import { assertPermission } from 'src/app/auth/common'
 
 @Injectable()
 export class PrintFormDeleteUseCase {

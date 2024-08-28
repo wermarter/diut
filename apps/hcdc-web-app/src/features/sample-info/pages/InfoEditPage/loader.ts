@@ -1,7 +1,5 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
 
-import { appStore } from 'src/infra/redux'
-import { sampleApi } from 'src/infra/api/access-service/sample'
 import {
   fetchDiagnoses,
   fetchDoctors,
@@ -9,6 +7,8 @@ import {
   fetchSampleOrigins,
   fetchSampleTypes,
 } from 'src/infra/api'
+import { sampleApi } from 'src/infra/api/access-service/sample'
+import { appStore } from 'src/infra/redux'
 
 export type InfoEditPageParams = {
   sampleId: string

@@ -1,4 +1,3 @@
-import { appStore } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 import {
   fetchDiagnoses,
@@ -7,6 +6,7 @@ import {
   fetchSampleOrigins,
   fetchSampleTypes,
 } from 'src/infra/api'
+import { appStore } from 'src/infra/redux'
 
 export const infoInputPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(

@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { Role } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  ROLE_REPO_TOKEN,
+  EEntityNotFound,
   EntityFindOneOptions,
   IRoleRepository,
-  EEntityNotFound,
+  ROLE_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()

@@ -1,8 +1,9 @@
+import { createAbility } from '@diut/hcdc'
 import { CanActivate, ExecutionContext, Inject, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { createAbility } from '@diut/hcdc'
 import { Request } from 'express'
 
+import { AppConfig, loadAppConfig } from 'src/config'
 import {
   AUTH_CACHE_SERVICE_TOKEN,
   AUTH_CONTEXT_TOKEN,
@@ -11,7 +12,6 @@ import {
   IAuthCacheService,
   IAuthContext,
 } from 'src/domain'
-import { AppConfig, loadAppConfig } from 'src/config'
 
 export class HttpExternalAuthGuard implements CanActivate {
   private readonly logger = new Logger(this.constructor.name)

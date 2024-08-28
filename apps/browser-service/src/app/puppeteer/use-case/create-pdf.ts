@@ -1,5 +1,5 @@
-import * as puppeteer from 'puppeteer-core'
 import { Inject, Injectable } from '@nestjs/common'
+import * as puppeteer from 'puppeteer-core'
 
 import { IPuppeteerService, PUPPETEER_SERVICE_TOKEN } from 'src/domain'
 

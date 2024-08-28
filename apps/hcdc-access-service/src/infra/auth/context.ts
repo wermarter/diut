@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common'
 import { ClsService } from 'nestjs-cls'
 
 import {
-  IAuthContext,
-  EAuthzAuthenticationRequired,
   AuthContextData,
   AuthType,
+  EAuthzAuthenticationRequired,
   EAuthzContextInvalid,
+  IAuthContext,
 } from 'src/domain'
 
 @Injectable()

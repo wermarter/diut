@@ -1,12 +1,12 @@
-import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nestjs-infra'
+import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
-import { UserCreateRequestDto } from './create'
 import { exampleUser } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
 import { RoleUnpopulatedResponseDto } from '../../role/dto/response-dto'
+import { UserCreateRequestDto } from './create'
 
 export class UserUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,

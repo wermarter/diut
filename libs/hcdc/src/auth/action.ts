@@ -1,6 +1,5 @@
 import { stringEnumValues } from '@diut/common'
 
-import { AuthSubject, AuthSubjectUnionType } from './subject'
 import {
   BioProductAction,
   BranchAction,
@@ -10,18 +9,19 @@ import {
   PatientAction,
   PatientTypeAction,
   PrintFormAction,
+  ReportAction,
   RoleAction,
   SampleAction,
+  SampleTestResultAction,
   SampleTypeAction,
   TestAction,
   TestCategoryAction,
   TestComboAction,
   TestElementAction,
-  SampleTestResultAction,
   UserAction,
-  ReportAction,
 } from '../entity'
 import { AUTH_ACTION_ALL } from './constants'
+import { AuthSubject, AuthSubjectUnionType } from './subject'
 
 export const AuthAction = {
   BioProduct: stringEnumValues(BioProductAction),

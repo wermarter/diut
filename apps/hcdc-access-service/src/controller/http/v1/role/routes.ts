@@ -1,8 +1,8 @@
-import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
+import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { RoleSearchResponseDto } from './dto/search'
 import { RoleResponseDto, RoleUnpopulatedResponseDto } from './dto/response-dto'
+import { RoleSearchResponseDto } from './dto/search'
 
 export const roleRoutes = {
   search: {

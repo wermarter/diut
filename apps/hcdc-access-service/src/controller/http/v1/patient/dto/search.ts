@@ -1,5 +1,5 @@
-import { SearchRequestDto, PaginatedResponse } from '@diut/nestjs-infra'
 import { Patient } from '@diut/hcdc'
+import { PaginatedResponse, SearchRequestDto } from '@diut/nestjs-infra'
 
 import { PatientResponseDto } from './response-dto'
 

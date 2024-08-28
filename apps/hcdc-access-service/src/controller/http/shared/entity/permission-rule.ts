@@ -1,4 +1,4 @@
-import { PermissionRule, AuthActionValues, AuthSubjectValues } from '@diut/hcdc'
+import { AuthActionValues, AuthSubjectValues, PermissionRule } from '@diut/hcdc'
 
 import { EntityDataExample } from './base-entity'
 

@@ -11,17 +11,17 @@ import {
 import { Inject, Injectable } from '@nestjs/common'
 import { parseISO } from 'date-fns'
 
+import { assertPermission } from 'src/app/auth/common'
+import { TestSearchUseCase } from 'src/app/test/use-case/search'
 import {
   AUTH_CONTEXT_TOKEN,
   IAuthContext,
   ISampleRepository,
   SAMPLE_REPO_TOKEN,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { COLLECTION } from 'src/infra'
 import { PatientSchema } from 'src/infra/mongo/patient'
 import { SampleSchema } from 'src/infra/mongo/sample'
-import { TestSearchUseCase } from 'src/app/test/use-case/search'
 
 @Injectable()
 export class ReportQuerySoNhanMauUseCase {

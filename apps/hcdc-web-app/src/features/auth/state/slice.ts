@@ -1,15 +1,15 @@
+import { PermissionRule } from '@diut/hcdc'
 import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { PermissionRule } from '@diut/hcdc'
 
 import { authApi } from 'src/infra/api/access-service/auth'
+import { userLogout } from './actions'
 import {
   AuthState,
   AuthStateAuthenticated,
   AuthStateUnauthenticated,
 } from './types'
-import { userLogout } from './actions'
 
 export const authSlice = createSlice({
   name: 'auth',

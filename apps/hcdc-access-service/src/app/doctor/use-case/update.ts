@@ -1,13 +1,13 @@
+import { AuthSubject, DoctorAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-import { DoctorAction, AuthSubject } from '@diut/hcdc'
 
+import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
   DOCTOR_REPO_TOKEN,
   IAuthContext,
   IDoctorRepository,
 } from 'src/domain'
-import { assertPermission } from 'src/app/auth/common'
 import { DoctorAssertExistsUseCase } from './assert-exists'
 import { DoctorValidateUseCase } from './validate'
 

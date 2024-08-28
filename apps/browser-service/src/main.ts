@@ -1,18 +1,18 @@
 import {
+  GrpcListenBootstrap,
   LifecycleBootstrap,
   LogBootstrap,
   bootstrapApp,
-  GrpcListenBootstrap,
 } from '@diut/nestjs-infra'
 import {
+  DIUT_PACKAGE_NAME,
   DiutGrpcService,
   resolveProtoPath,
-  DIUT_PACKAGE_NAME,
 } from '@diut/services'
-import * as dotenv from 'dotenv'
 import { INestMicroservice } from '@nestjs/common'
-import { MicroserviceOptions, Transport } from '@nestjs/microservices'
 import { NestFactory } from '@nestjs/core'
+import { MicroserviceOptions, Transport } from '@nestjs/microservices'
+import * as dotenv from 'dotenv'
 
 import { AppModule } from './app.module'
 

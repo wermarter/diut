@@ -1,3 +1,5 @@
+import { isNil, pick } from 'es-toolkit'
+import { UpdateOptions } from 'mongodb'
 import {
   FilterQuery,
   Model,
@@ -7,10 +9,8 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
-import { pick, isNil } from 'es-toolkit'
-import { UpdateOptions } from 'mongodb'
 
-import { BaseSchema, PopulateConfig } from './mongo.common'
+import { BaseSchema, PopulateConfig } from './common'
 
 export abstract class MongoRepository<TEntity extends BaseSchema> {
   constructor(public readonly model: Model<TEntity>) {}

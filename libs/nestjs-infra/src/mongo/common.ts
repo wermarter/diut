@@ -1,19 +1,19 @@
-import { Prop, SchemaOptions } from '@nestjs/mongoose'
-import { Expose, Transform } from 'class-transformer'
-import { ApiProperty } from '@nestjs/swagger'
+import { exampleMongoObjectId } from '@diut/common'
 import {
   BadRequestException,
   Injectable,
   PipeTransform,
   applyDecorators,
 } from '@nestjs/common'
-import { FilterQuery, ObjectId, PopulateOptions, Types } from 'mongoose'
+import { Prop, SchemaOptions } from '@nestjs/mongoose'
+import { ApiProperty } from '@nestjs/swagger'
+import { Expose, Transform } from 'class-transformer'
 import {
-  registerDecorator,
   ValidationArguments,
   ValidationOptions,
+  registerDecorator,
 } from 'class-validator'
-import { exampleMongoObjectId } from '@diut/common'
+import { FilterQuery, ObjectId, PopulateOptions, Types } from 'mongoose'
 
 // https://github.com/typestack/class-transformer/issues/494
 export const ExposeObjectId = () =>

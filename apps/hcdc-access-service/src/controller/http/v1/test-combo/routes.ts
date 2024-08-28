@@ -1,11 +1,11 @@
-import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
+import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { TestComboSearchResponseDto } from './dto/search'
 import {
   TestComboResponseDto,
   TestComboUnpopulatedResponseDto,
 } from './dto/response-dto'
+import { TestComboSearchResponseDto } from './dto/search'
 
 export const testComboRoutes = {
   search: {

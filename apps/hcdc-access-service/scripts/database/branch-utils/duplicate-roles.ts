@@ -1,11 +1,11 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import * as mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
 import { SchemaFactory } from '@nestjs/mongoose'
+import * as dotenv from 'dotenv'
 import { omit } from 'es-toolkit'
+import * as mongoose from 'mongoose'
 
-import { RoleRepository, RoleSchema } from 'src/infra/mongo/role'
 import { COLLECTION } from 'src/infra'
+import { RoleRepository, RoleSchema } from 'src/infra/mongo/role'
 dotenv.config()
 
 async function main(

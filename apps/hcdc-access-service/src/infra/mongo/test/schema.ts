@@ -1,14 +1,14 @@
-import { Prop, Schema } from '@nestjs/mongoose'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
+import { Prop, Schema } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
 
-import { COLLECTION } from '../collections'
-import { BranchSchema } from '../branch'
 import { BioProductSchema } from '../bio-product'
+import { BranchSchema } from '../branch'
+import { COLLECTION } from '../collections'
 import { InstrumentSchema } from '../instrument'
+import { PrintFormSchema } from '../print-form'
 import { SampleTypeSchema } from '../sample-type'
 import { TestCategorySchema } from '../test-category'
-import { PrintFormSchema } from '../print-form'
 
 @Schema({
   ...baseSchemaOptions,

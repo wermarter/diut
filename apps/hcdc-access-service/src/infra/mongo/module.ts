@@ -1,5 +1,5 @@
-import { ModuleMetadata } from '@nestjs/common'
 import { MongoModule } from '@diut/nestjs-infra'
+import { ModuleMetadata } from '@nestjs/common'
 
 import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
@@ -8,34 +8,34 @@ import {
   DIAGNOSIS_REPO_TOKEN,
   DOCTOR_REPO_TOKEN,
   INSTRUMENT_REPO_TOKEN,
-  PATIENT_REPO_TOKEN,
   PATIENTTYPE_REPO_TOKEN,
+  PATIENT_REPO_TOKEN,
   PRINTFORM_REPO_TOKEN,
   ROLE_REPO_TOKEN,
-  SAMPLE_REPO_TOKEN,
   SAMPLETYPE_REPO_TOKEN,
+  SAMPLE_REPO_TOKEN,
   TESTCATEGORY_REPO_TOKEN,
   TESTCOMBO_REPO_TOKEN,
   TESTELEMENT_REPO_TOKEN,
   TEST_REPO_TOKEN,
   USER_REPO_TOKEN,
 } from 'src/domain'
-import { BioProductSchema, BioProductRepository } from './bio-product'
-import { TestCategoryRepository, TestCategorySchema } from './test-category'
-import { UserRepository, UserSchema } from './user'
+import { BioProductRepository, BioProductSchema } from './bio-product'
 import { BranchRepository, BranchSchema } from './branch'
-import { RoleRepository, RoleSchema } from './role'
-import { InstrumentRepository, InstrumentSchema } from './instrument'
-import { SampleTypeRepository, SampleTypeSchema } from './sample-type'
-import { DoctorRepository, DoctorSchema } from './doctor'
-import { PatientTypeRepository, PatientTypeSchema } from './patient-type'
 import { DiagnosisRepository, DiagnosisSchema } from './diagnosis'
-import { PrintFormRepository, PrintFormSchema } from './print-form'
-import { TestRepository, TestSchema } from './test'
-import { TestElementRepository, TestElementSchema } from './test-element'
+import { DoctorRepository, DoctorSchema } from './doctor'
+import { InstrumentRepository, InstrumentSchema } from './instrument'
 import { PatientRepository, PatientSchema } from './patient'
-import { TestComboRepository, TestComboSchema } from './test-combo'
+import { PatientTypeRepository, PatientTypeSchema } from './patient-type'
+import { PrintFormRepository, PrintFormSchema } from './print-form'
+import { RoleRepository, RoleSchema } from './role'
 import { SampleRepository, SampleSchema } from './sample'
+import { SampleTypeRepository, SampleTypeSchema } from './sample-type'
+import { TestRepository, TestSchema } from './test'
+import { TestCategoryRepository, TestCategorySchema } from './test-category'
+import { TestComboRepository, TestComboSchema } from './test-combo'
+import { TestElementRepository, TestElementSchema } from './test-element'
+import { UserRepository, UserSchema } from './user'
 
 export const mongoMetadata: ModuleMetadata = {
   imports: [

@@ -1,14 +1,14 @@
+import { exampleMongoObjectIds } from '@diut/common'
+import { sampleInfoFieldNames } from '@diut/hcdc'
+import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import {
   ApiPropertyOptional,
   IntersectionType,
   PartialType,
   PickType,
 } from '@nestjs/swagger'
-import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import { Expose } from 'class-transformer'
 import { IsArray, IsOptional } from 'class-validator'
-import { exampleMongoObjectIds } from '@diut/common'
-import { sampleInfoFieldNames } from '@diut/hcdc'
 
 import { SampleRequestDto } from './request-dto'
 import { OmittedSampleResponseDto } from './response-dto'

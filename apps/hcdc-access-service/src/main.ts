@@ -11,8 +11,8 @@ import {
   SwaggerBootstrap,
   bootstrapApp,
 } from '@diut/nestjs-infra'
-import * as dotenv from 'dotenv'
 import { NestFactory } from '@nestjs/core'
+import * as dotenv from 'dotenv'
 
 import { AppModule } from './app.module'
 

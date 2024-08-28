@@ -1,13 +1,13 @@
 import { ModuleMetadata } from '@nestjs/common'
 
-import { RoleCreateUseCase } from './use-case/create'
-import { RoleFindOneUseCase } from './use-case/find-one'
-import { RoleUpdateUseCase } from './use-case/update'
-import { RoleDeleteUseCase } from './use-case/delete'
-import { RoleSearchUseCase } from './use-case/search'
 import { RoleAssertExistsUseCase } from './use-case/assert-exists'
-import { RoleValidateUseCase } from './use-case/validate'
 import { RoleAuthorizePopulatesUseCase } from './use-case/authorize-populates'
+import { RoleCreateUseCase } from './use-case/create'
+import { RoleDeleteUseCase } from './use-case/delete'
+import { RoleFindOneUseCase } from './use-case/find-one'
+import { RoleSearchUseCase } from './use-case/search'
+import { RoleUpdateUseCase } from './use-case/update'
+import { RoleValidateUseCase } from './use-case/validate'
 
 export const roleMetadata: ModuleMetadata = {
   providers: [

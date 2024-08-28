@@ -1,7 +1,7 @@
 import { Logger, OnApplicationBootstrap, OnModuleDestroy } from '@nestjs/common'
+import { HealthCheckError, HealthIndicator } from '@nestjs/terminus'
 import { ConfirmChannel, ConsumeMessage, Options } from 'amqplib'
 import { setTimeout } from 'timers/promises'
-import { HealthCheckError, HealthIndicator } from '@nestjs/terminus'
 
 import { IConsumable } from './interface'
 

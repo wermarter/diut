@@ -1,5 +1,5 @@
-import { IntersectionType, PickType } from '@nestjs/swagger'
 import { BaseResourceResponseDto } from '@diut/nestjs-infra'
+import { IntersectionType, PickType } from '@nestjs/swagger'
 
 import { SampleRequestDto } from './request-dto'
 

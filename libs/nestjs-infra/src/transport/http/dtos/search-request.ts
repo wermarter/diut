@@ -11,8 +11,8 @@ import {
 } from 'class-validator'
 import { FilterQuery, SortOrder } from 'mongoose'
 
-import { PopulatePath } from '../../../mongo'
 import { Type } from 'class-transformer'
+import { PopulatePath } from '../../../mongo'
 
 class PopulateOptionDto<TEntity = unknown> {
   @ApiProperty({

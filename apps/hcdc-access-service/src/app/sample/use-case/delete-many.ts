@@ -1,9 +1,9 @@
+import { Sample } from '@diut/hcdc'
 import { Injectable } from '@nestjs/common'
 import { FilterQuery } from 'mongoose'
-import { Sample } from '@diut/hcdc'
 
-import { SampleSearchUseCase } from './search'
 import { SampleDeleteUseCase } from './delete'
+import { SampleSearchUseCase } from './search'
 
 @Injectable()
 export class SampleDeleteManyUseCase {

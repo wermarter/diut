@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { TestCombo } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  TESTCOMBO_REPO_TOKEN,
+  EEntityNotFound,
   EntityFindOneOptions,
   ITestComboRepository,
-  EEntityNotFound,
+  TESTCOMBO_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()

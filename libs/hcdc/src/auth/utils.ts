@@ -6,14 +6,14 @@ import {
 } from '@casl/ability'
 import { $or, or } from '@ucast/mongo2js'
 
+import { PermissionRule } from '../entity'
 import { AuthAction, AuthActionUnionType } from './action'
+import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
 import {
   AuthSubject,
   AuthSubjectUnionType,
   SubjectEntityMapping,
 } from './subject'
-import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
-import { PermissionRule } from '../entity'
 
 const conditionsMatcher = buildMongoQueryMatcher({ $or }, { or })
 

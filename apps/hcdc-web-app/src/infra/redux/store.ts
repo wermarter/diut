@@ -2,17 +2,17 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import {
-  persistStore,
   FLUSH,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
   REHYDRATE,
+  persistStore,
 } from 'redux-persist'
 
-import { accessServiceApiSlice } from 'src/infra/api'
 import { authReducer, authSlice } from 'src/features/auth'
+import { accessServiceApiSlice } from 'src/infra/api'
 
 const reducers = {
   [accessServiceApiSlice.reducerPath]: accessServiceApiSlice.reducer,

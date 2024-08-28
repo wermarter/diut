@@ -1,14 +1,14 @@
-import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
+import { HttpStatus, RequestMethod } from '@nestjs/common'
 
-import { SampleSearchResponseDto } from './dto/search'
+import { SampleCreateResponseDto } from './dto/create'
 import {
   SampleResponseDto,
   SampleUnpopulatedResponseDto,
 } from './dto/response-dto'
+import { SampleSearchResponseDto } from './dto/search'
 import { SampleUpdateInfoResponseDto } from './dto/update-info'
 import { SampleUpdateResultResponseDto } from './dto/update-result'
-import { SampleCreateResponseDto } from './dto/create'
 import { SampleUploadImageResponseDto } from './dto/upload-image'
 
 export const sampleRoutes = {

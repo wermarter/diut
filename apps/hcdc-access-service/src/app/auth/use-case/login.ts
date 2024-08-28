@@ -2,13 +2,13 @@ import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 
 import {
+  AUTH_CACHE_SERVICE_TOKEN,
   AuthPayloadInternal,
-  IUserRepository,
-  USER_REPO_TOKEN,
   EAuthnLoginInvalidPassword,
   EAuthnLoginInvalidUsername,
-  AUTH_CACHE_SERVICE_TOKEN,
   IAuthCacheService,
+  IUserRepository,
+  USER_REPO_TOKEN,
 } from 'src/domain'
 import { AuthPopulateContextUseCase } from './populate-context'
 

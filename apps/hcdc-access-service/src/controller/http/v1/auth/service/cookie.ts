@@ -1,6 +1,6 @@
 import { NodeEnv } from '@diut/common'
 import { Inject } from '@nestjs/common'
-import { CookieOptions, Response, Request } from 'express'
+import { CookieOptions, Request, Response } from 'express'
 
 import {
   AppConfig,

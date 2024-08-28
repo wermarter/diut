@@ -1,13 +1,13 @@
 import { MongoQuery } from '@casl/ability'
-import { ApiProperty } from '@nestjs/swagger'
-import { Expose } from 'class-transformer'
-import { IsBoolean, IsEnum, IsObject, IsOptional } from 'class-validator'
 import {
   AuthActionUnionType,
   AuthActionValues,
   AuthSubjectUnionType,
   AuthSubjectValues,
 } from '@diut/hcdc'
+import { ApiProperty } from '@nestjs/swagger'
+import { Expose } from 'class-transformer'
+import { IsBoolean, IsEnum, IsObject, IsOptional } from 'class-validator'
 
 import { examplePermissionRule } from '../../../shared'
 

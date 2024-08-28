@@ -1,21 +1,21 @@
-import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { BaseResourceResponseDto, IsNullable } from '@diut/nestjs-infra'
+import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 
 import { exampleSample } from '../../../shared'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'
+import { DiagnosisUnpopulatedResponseDto } from '../../diagnosis/dto/response-dto'
+import { DoctorUnpopulatedResponseDto } from '../../doctor/dto/response-dto'
+import { PatientTypeUnpopulatedResponseDto } from '../../patient-type/dto/response-dto'
+import { PatientUnpopulatedResponseDto } from '../../patient/dto/response-dto'
 import { SampleTypeUnpopulatedResponseDto } from '../../sample-type/dto/response-dto'
 import { UserUnpopulatedResponseDto } from '../../user/dto/response-dto'
+import { SampleRequestDto } from './request-dto'
 import {
   OmittedTestResponseDto,
   SampleResultTestResponseDto,
 } from './result-test.dto'
-import { PatientUnpopulatedResponseDto } from '../../patient/dto/response-dto'
-import { DoctorUnpopulatedResponseDto } from '../../doctor/dto/response-dto'
-import { PatientTypeUnpopulatedResponseDto } from '../../patient-type/dto/response-dto'
-import { DiagnosisUnpopulatedResponseDto } from '../../diagnosis/dto/response-dto'
-import { SampleRequestDto } from './request-dto'
 
 export class SampleUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,

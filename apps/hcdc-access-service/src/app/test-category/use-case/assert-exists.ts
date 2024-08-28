@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { TestCategory } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  TESTCATEGORY_REPO_TOKEN,
+  EEntityNotFound,
   EntityFindOneOptions,
   ITestCategoryRepository,
-  EEntityNotFound,
+  TESTCATEGORY_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()

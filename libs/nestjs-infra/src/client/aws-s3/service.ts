@@ -11,16 +11,16 @@ import {
   S3ClientConfigType,
   S3ServiceException,
 } from '@aws-sdk/client-s3'
-import { Inject, Injectable } from '@nestjs/common'
-import { Readable, Stream } from 'stream'
-import { parseUrl } from '@smithy/url-parser'
 import { S3RequestPresigner } from '@aws-sdk/s3-request-presigner'
-import { Hash } from '@smithy/hash-node'
-import { HttpRequest } from '@smithy/protocol-http'
 import { formatUrl } from '@aws-sdk/util-format-url'
 import { StringOrKeysOf } from '@diut/common'
+import { Inject, Injectable } from '@nestjs/common'
+import { Hash } from '@smithy/hash-node'
+import { HttpRequest } from '@smithy/protocol-http'
+import { parseUrl } from '@smithy/url-parser'
+import { Readable, Stream } from 'stream'
 
-import { AbstractClientService } from '../service'
+import { AbstractClientService } from '../abstract-service'
 import {
   CONNECTION_ID_TOKEN,
   DEFAULT_CONNECTION_ID,
@@ -52,10 +52,7 @@ export class AwsS3ClientService<
   ) {
     connectionId = connectionId ?? DEFAULT_CONNECTION_ID
 
-    super({
-      name: AwsS3ClientService.name,
-      connectionId,
-    })
+    super({ connectionId })
   }
 
   async readyCheck() {

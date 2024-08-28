@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { Sample } from '@diut/hcdc'
+import { Inject, Injectable } from '@nestjs/common'
 
 import {
-  SAMPLE_REPO_TOKEN,
+  EEntityNotFound,
   EntityFindOneOptions,
   ISampleRepository,
-  EEntityNotFound,
+  SAMPLE_REPO_TOKEN,
 } from 'src/domain'
 
 @Injectable()

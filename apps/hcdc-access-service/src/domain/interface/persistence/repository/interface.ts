@@ -1,3 +1,4 @@
+import { BaseEntity } from '@diut/hcdc'
 import { PopulateConfig } from '@diut/nestjs-infra'
 import { UpdateOptions } from 'mongodb'
 import {
@@ -8,7 +9,6 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
-import { BaseEntity } from '@diut/hcdc'
 
 export type EntityFindOneOptions<TEntity extends BaseEntity = BaseEntity> = {
   filter?: FilterQuery<TEntity>

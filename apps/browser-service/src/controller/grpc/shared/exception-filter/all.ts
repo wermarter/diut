@@ -1,6 +1,6 @@
 import {
-  ServiceErrorCode,
   Metadata,
+  ServiceErrorCode,
   StatusBuilder,
   status,
 } from '@diut/services'

@@ -1,7 +1,7 @@
+import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
-import { IsObjectId } from '@diut/nestjs-infra'
 
 import { exampleUser } from '../../../shared'
 import { PermissionRuleDto } from '../../auth/dto/permission-rule.dto'

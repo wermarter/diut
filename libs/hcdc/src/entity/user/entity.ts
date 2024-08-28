@@ -1,6 +1,6 @@
-import { PermissionRule } from '../permission-rule'
 import { BaseEntity } from '../base-entity'
 import { Branch } from '../branch'
+import { PermissionRule } from '../permission-rule'
 import { Role } from '../role'
 
 export type User = BaseEntity & {

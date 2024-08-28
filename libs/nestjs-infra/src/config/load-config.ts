@@ -1,8 +1,6 @@
 import { registerAs } from '@nestjs/config'
 import { ClassConstructor, plainToInstance } from 'class-transformer'
-import { validateSync } from 'class-validator'
-
-import { ConfigurationException } from './config.exception'
+import { validate } from 'class-validator'
 
 /**
  * Please add this line to the top where this function is used
@@ -18,12 +16,12 @@ import { ConfigurationException } from './config.exception'
  *  },
  */
 export function makeConfigLoader(ConfigClass: ClassConstructor<any>) {
-  return registerAs(ConfigClass.name, () => {
-    return loadConfigFromEnv(ConfigClass)
+  return registerAs(ConfigClass.name, async () => {
+    return await loadConfigFromEnv(ConfigClass)
   })
 }
 
-export function loadConfigFromEnv<T extends object = object>(
+export async function loadConfigFromEnv<T extends object = object>(
   ConfigClass: ClassConstructor<T>,
 ) {
   const config = plainToInstance(ConfigClass, process.env, {
@@ -32,7 +30,7 @@ export function loadConfigFromEnv<T extends object = object>(
     exposeDefaultValues: true,
   })
 
-  const errors = validateSync(config as object, {
+  const errors = await validate(config as object, {
     skipMissingProperties: false,
   })
 
@@ -42,3 +40,5 @@ export function loadConfigFromEnv<T extends object = object>(
 
   return config
 }
+
+export class ConfigurationException extends Error {}

@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common'
 import { Connection, Options, connect } from 'amqplib'
 import { inspect } from 'util'
 
+import { AbstractClientService } from '../abstract-service'
 import {
   CONNECTION_ID_TOKEN,
   DEFAULT_CONNECTION_ID,
   MODULE_OPTIONS_TOKEN,
 } from './module-builder'
-import { AbstractClientService } from '../service'
 
 export type AmqpClientOptions = {
   connect: string | Options.Connect
@@ -26,10 +26,7 @@ export class AmqpClientService extends AbstractClientService {
   ) {
     connectionId = connectionId ?? DEFAULT_CONNECTION_ID
 
-    super({
-      name: AmqpClientService.name,
-      connectionId,
-    })
+    super({ connectionId })
   }
 
   async connect() {

@@ -13,7 +13,7 @@ export abstract class AbstractClientService
   private ignoreConnectFail: boolean
 
   constructor(clientConfig: {
-    name: string
+    name?: string
     connectionId?: string
     retryOptions?: RetryOptions<unknown>
     ignoreConnectFail?: boolean
@@ -27,7 +27,9 @@ export abstract class AbstractClientService
       interval: 1000,
     }
     this.ignoreConnectFail = clientConfig.ignoreConnectFail ?? false
-    this.logger = new Logger(`${clientConfig.name}:${connectionId}`)
+    this.logger = new Logger(
+      `${clientConfig.name ?? this.constructor.name}:${connectionId}`,
+    )
   }
 
   async onModuleInit() {

@@ -1,3 +1,4 @@
+import { DomainErrorCode } from '@diut/hcdc'
 import {
   ArgumentsHost,
   Catch,
@@ -8,10 +9,9 @@ import {
   Logger,
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
-import { DomainErrorCode } from '@diut/hcdc'
 
-import { HttpErrorResponse } from '../dto'
 import { AUTH_CONTEXT_TOKEN, IAuthContext, buildErrorLog } from 'src/domain'
+import { HttpErrorResponse } from '../dto'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

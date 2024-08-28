@@ -1,3 +1,4 @@
+import { exampleMongoObjectId } from '@diut/common'
 import {
   IsObjectId,
   PaginatedResponse,
@@ -11,7 +12,6 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator'
-import { exampleMongoObjectId } from '@diut/common'
 
 import { OmittedSampleResponseDto } from '../../sample/dto/response-dto'
 import { ReportRequestDto } from './request-dto'

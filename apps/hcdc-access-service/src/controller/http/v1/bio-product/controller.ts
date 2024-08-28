@@ -1,17 +1,17 @@
-import { Body, Param } from '@nestjs/common'
 import { ObjectIdPipe } from '@diut/nestjs-infra'
+import { Body, Param } from '@nestjs/common'
 
-import { bioProductRoutes } from './routes'
-import { EEntityNotFound } from 'src/domain'
-import { BioProductCreateRequestDto } from './dto/create'
-import { BioProductUpdateRequestDto } from './dto/update'
-import { BioProductSearchRequestDto } from './dto/search'
-import { HttpController, HttpRoute } from '../../shared'
 import { BioProductCreateUseCase } from 'src/app/bio-product/use-case/create'
-import { BioProductUpdateUseCase } from 'src/app/bio-product/use-case/update'
 import { BioProductDeleteUseCase } from 'src/app/bio-product/use-case/delete'
-import { BioProductSearchUseCase } from 'src/app/bio-product/use-case/search'
 import { BioProductFindOneUseCase } from 'src/app/bio-product/use-case/find-one'
+import { BioProductSearchUseCase } from 'src/app/bio-product/use-case/search'
+import { BioProductUpdateUseCase } from 'src/app/bio-product/use-case/update'
+import { EEntityNotFound } from 'src/domain'
+import { HttpController, HttpRoute } from '../../shared'
+import { BioProductCreateRequestDto } from './dto/create'
+import { BioProductSearchRequestDto } from './dto/search'
+import { BioProductUpdateRequestDto } from './dto/update'
+import { bioProductRoutes } from './routes'
 
 @HttpController({
   basePath: 'bio-products',
