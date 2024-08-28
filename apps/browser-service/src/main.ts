@@ -1,7 +1,7 @@
 import {
   GrpcListenBootstrap,
   LifecycleBootstrap,
-  LogBootstrap,
+  WinstonBootstrap,
   bootstrapApp,
 } from '@diut/nestjs-infra'
 import {
@@ -32,5 +32,5 @@ bootstrapApp<INestMicroservice>(
     }),
   AppModule,
   { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },
-  [LogBootstrap, LifecycleBootstrap, GrpcListenBootstrap],
+  [WinstonBootstrap, LifecycleBootstrap, GrpcListenBootstrap],
 )

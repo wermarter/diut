@@ -3,13 +3,10 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 
 import { BootstrapConfig } from '../bootstrap'
 
-export const LogBootstrap: BootstrapConfig = {
+export const WinstonBootstrap: BootstrapConfig = {
   initOptions: { bufferLogs: true },
   afterInit(ctx) {
     const logger: LoggerService = ctx.app.get(WINSTON_MODULE_NEST_PROVIDER)
-    if (logger === undefined) {
-      console.log('logger missing')
-    }
 
     ctx.app.useLogger(logger)
     ctx.app.flushLogs()
