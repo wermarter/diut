@@ -1,6 +1,9 @@
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common'
 import { merge } from 'es-toolkit'
-import { WinstonModule, WinstonModuleOptions } from 'nest-winston'
+import {
+  WinstonModule as NestWinstonModule,
+  WinstonModuleOptions,
+} from 'nest-winston'
 
 import { buildWinstonDefaultMeta } from './default-meta'
 import { buildConsoleTransport } from './transports/console.transport'
@@ -23,9 +26,9 @@ type LogModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &
     useFactory: (...args: any[]) => LogModuleOptions | Promise<LogModuleOptions>
   }
 
-export class LogModule {
+export class WinstonModule {
   static forRootAsync({ imports, inject, useFactory }: LogModuleAsyncOptions) {
-    return WinstonModule.forRootAsync({
+    return NestWinstonModule.forRootAsync({
       imports,
       inject,
       useFactory: async (...args) => {

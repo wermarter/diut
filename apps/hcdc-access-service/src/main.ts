@@ -5,10 +5,10 @@ import {
   CorsBootstrap,
   HttpListenBootstrap,
   LifecycleBootstrap,
-  LogBootstrap,
   PipeBootstrap,
   PrefixBootstrap,
   SwaggerBootstrap,
+  WinstonBootstrap,
   bootstrapApp,
 } from '@diut/nestjs-infra'
 import { NestFactory } from '@nestjs/core'
@@ -27,7 +27,7 @@ bootstrapApp(
     nodeEnv: process.env.NODE_ENV,
   },
   [
-    LogBootstrap,
+    WinstonBootstrap,
     CorsBootstrap({
       devOriginAllowList: ['http://localhost:5173'],
       originAllowList: [],

@@ -1,11 +1,11 @@
-import { LogModule, concatModuleMetadata } from '@diut/nestjs-infra'
+import { WinstonModule, concatModuleMetadata } from '@diut/nestjs-infra'
 
 import { AppConfig, LogConfig, loadAppConfig, loadLogConfig } from 'src/config'
 
 export const winstonMetadata = concatModuleMetadata([
   {
     imports: [
-      LogModule.forRootAsync({
+      WinstonModule.forRootAsync({
         inject: [loadAppConfig.KEY, loadLogConfig.KEY],
         useFactory: async (appConfig: AppConfig, logConfig: LogConfig) => ({
           serviceName: appConfig.SERVICE_NAME,
