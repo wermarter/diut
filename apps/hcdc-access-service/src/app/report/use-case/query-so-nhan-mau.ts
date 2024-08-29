@@ -60,11 +60,6 @@ export class ReportQuerySoNhanMauUseCase {
       await this.sampleRepository.aggregateIgnoreSoftDelete(
         [
           {
-            $sort: { infoAt: -1, sampleId: -1 } satisfies Partial<
-              Record<keyof SampleSchema, -1>
-            >,
-          },
-          {
             $match: {
               $and: [
                 {
@@ -89,6 +84,11 @@ export class ReportQuerySoNhanMauUseCase {
                 ),
               ],
             },
+          },
+          {
+            $sort: { infoAt: -1, sampleId: -1 } satisfies Partial<
+              Record<keyof SampleSchema, -1>
+            >,
           },
           {
             $facet: {

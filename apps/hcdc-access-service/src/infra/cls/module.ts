@@ -2,9 +2,9 @@ import { ModuleMetadata } from '@nestjs/common'
 import { ClsModule } from 'nestjs-cls'
 
 import { AUTH_CONTEXT_TOKEN } from 'src/domain'
-import { AuthContext } from './context'
+import { AuthContext } from './auth-context'
 
-export const authMetadata: ModuleMetadata = {
+export const clsMetadata: ModuleMetadata = {
   imports: [
     ClsModule.forRoot({
       guard: { mount: true },
