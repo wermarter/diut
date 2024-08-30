@@ -1,21 +1,25 @@
 import { Inject, LoggerService } from '@nestjs/common'
 import { Level } from 'pino'
 
-import { PinoModuleOptions } from '../common'
-import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from '../module-builder'
+import {
+  PINO_DEFAULT_CONTEXT_KEY,
+  PINO_DEFAULT_ERROR_KEY,
+  PinoModuleOptions,
+} from '../common'
+import { MODULE_OPTIONS_TOKEN } from '../module-builder'
 import { PinoLogger } from './pino'
 
 export class PinoNestjsLogger implements LoggerService {
   private readonly contextKey: string
+  private readonly errorKey: string
 
   constructor(
-    @Inject(INSTANCE_ID_TOKEN)
-    private readonly instanceId: string,
     @Inject(MODULE_OPTIONS_TOKEN)
     readonly options: PinoModuleOptions,
     protected readonly logger: PinoLogger,
   ) {
-    this.contextKey = options.alternateContextKey ?? 'context'
+    this.contextKey = options.alternateContextKey ?? PINO_DEFAULT_CONTEXT_KEY
+    this.errorKey = options.alternateErrorKey ?? PINO_DEFAULT_ERROR_KEY
   }
 
   verbose(message: any, ...optionalParams: any[]) {
@@ -55,11 +59,10 @@ export class PinoNestjsLogger implements LoggerService {
 
     if (typeof message === 'object') {
       if (message instanceof Error) {
-        objArg.err = message
+        objArg[this.errorKey] = message
       } else {
         Object.assign(objArg, message)
       }
-
       this.logger[level](objArg, ...params)
     } else {
       this.logger[level](objArg, message, ...params)
