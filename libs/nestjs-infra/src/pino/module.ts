@@ -1,7 +1,7 @@
 import { DynamicModule, Inject } from '@nestjs/common'
 
 import {
-  DEFAULT_INSTANCE_ID,
+  PINO_DEFAULT_INSTANCE_ID,
   getPinoLoggerToken,
   getPinoNestjsLoggerToken,
 } from './common'
@@ -27,8 +27,9 @@ export class PinoModule extends ConfigurableModuleClass {
         ...(factoryModule.providers ?? []),
         {
           provide: INSTANCE_ID_TOKEN,
-          useValue: options.instanceId ?? DEFAULT_INSTANCE_ID,
+          useValue: options.instanceId ?? PINO_DEFAULT_INSTANCE_ID,
         },
+        PinoLogger,
         {
           provide: pinoLoggerToken,
           useClass: PinoLogger,
@@ -38,7 +39,7 @@ export class PinoModule extends ConfigurableModuleClass {
           useClass: PinoNestjsLogger,
         },
       ],
-      exports: [pinoLoggerToken],
+      exports: [pinoLoggerToken, pinoNestjsLoggerToken],
     }
   }
 }

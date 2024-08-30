@@ -19,7 +19,7 @@ import {
   ISampleRepository,
   SAMPLE_REPO_TOKEN,
 } from 'src/domain'
-import { COLLECTION } from 'src/infra'
+import { COLLECTION } from 'src/infra/mongo'
 import { PatientSchema } from 'src/infra/mongo/patient'
 import { SampleSchema } from 'src/infra/mongo/sample'
 
