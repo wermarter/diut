@@ -1,4 +1,5 @@
 // Error.stackTraceLimit = Infinity
+import './otel'
 
 import {
   CookieBootstrap,

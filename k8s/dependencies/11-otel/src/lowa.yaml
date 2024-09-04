@@ -1,0 +1,29 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: lowa
+spec:
+  mode: daemonset
+  config: |
+    receivers:
+      filelog:
+        include_file_path: true
+        include:
+          - /var/log/pods/*/*/*.log
+        operators:
+          - id: container-parser
+            type: container
+
+    processors:
+      batch:
+
+    exporters:
+      otlphttp:
+        endpoint: http://loki-gateway.observability.svc.cluster.local/otlp/v1/logs
+
+    service:
+      pipelines:
+        logs:
+          receivers: [filelog]
+          processors: [batch]
+          exporters: [otlphttp]
