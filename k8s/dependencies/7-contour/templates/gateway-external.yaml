@@ -3,7 +3,7 @@ kind: ContourDeployment
 apiVersion: projectcontour.io/v1alpha1
 metadata:
   namespace: projectcontour
-  name: contour-with-deployment-params
+  name: contour-external-params
 spec:
   envoy:
     networkPublishing:
@@ -13,22 +13,22 @@ spec:
 kind: GatewayClass
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
-  name: contour
+  name: contour-external
 spec:
   controllerName: projectcontour.io/gateway-controller
   parametersRef:
     kind: ContourDeployment
     group: projectcontour.io
-    name: contour-with-deployment-params
+    name: contour-external-params
     namespace: projectcontour
 ---
 kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
-  name: contour
+  name: gateway-external
   namespace: projectcontour
 spec:
-  gatewayClassName: contour
+  gatewayClassName: contour-external
   listeners:
     - name: http
       protocol: HTTP

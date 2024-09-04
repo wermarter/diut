@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv'
 import { omit } from 'es-toolkit'
 import * as mongoose from 'mongoose'
 
-import { COLLECTION } from 'src/infra'
+import { COLLECTION } from 'src/infra/mongo'
 import { RoleRepository, RoleSchema } from 'src/infra/mongo/role'
 dotenv.config()
 

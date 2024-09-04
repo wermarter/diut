@@ -6,7 +6,7 @@ import * as mongoose from 'mongoose'
 dotenv.config()
 
 import { StorageBucket, StorageKeyFactory } from 'src/domain'
-import { COLLECTION } from 'src/infra'
+import { COLLECTION } from 'src/infra/mongo'
 import {
   TestElementRepository,
   TestElementSchema,

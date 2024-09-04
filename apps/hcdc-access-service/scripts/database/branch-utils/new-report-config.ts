@@ -4,7 +4,7 @@ import { SchemaFactory } from '@nestjs/mongoose'
 import * as dotenv from 'dotenv'
 import * as mongoose from 'mongoose'
 
-import { COLLECTION } from 'src/infra'
+import { COLLECTION } from 'src/infra/mongo'
 import { BranchRepository, BranchSchema } from 'src/infra/mongo/branch'
 import { TestRepository, TestSchema } from 'src/infra/mongo/test'
 // import { branchId } from '../migration/branch'
