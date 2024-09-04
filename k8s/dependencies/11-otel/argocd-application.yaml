@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: otel-operator
-  namespace: observability
+  namespace: core
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: projectcontour
+    namespace: observability
     server: https://kubernetes.default.svc
   project: default
   source:
