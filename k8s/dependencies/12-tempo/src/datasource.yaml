@@ -1,0 +1,20 @@
+apiVersion: 12
+datasources:
+  - name: Tempo
+    type: tempo
+    uid: tempo
+    access: proxy
+    orgId: 1
+    url: http://tempo-query-frontend.observability.svc.cluster.local:3100
+    isDefault: true
+    readOnly: false
+    editable: true
+    version: 1
+    jsonData:
+      httpMethod: GET
+      serviceMap:
+        datasourceUid: 'prometheus'
+      tracesToMetrics:
+        datasourceUid: 'prometheus'
+      nodeGraph:
+        enabled: true

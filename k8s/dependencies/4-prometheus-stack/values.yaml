@@ -21,6 +21,11 @@ kube-prometheus-stack:
     service:
       type: 'LoadBalancer'
       loadBalancerIP: '10.1.1.204'
+    sidecar:
+      datasources:
+        exemplarTraceIdDestinations:
+          datasourceUid: tempo
+          traceIdLabelName: traceID
 
   kubeControllerManager:
     enabled: false
@@ -47,6 +52,12 @@ kube-prometheus-stack:
       scrapeInterval: 60s
       evaluationInterval: 60s
       retention: 7d
+      enableFeatures:
+        - exemplar-storage
+      exemplars:
+        maxSize: 1000000
+      # query:
+      #   lookbackDelta: 7d
       storageSpec:
         volumeClaimTemplate:
           spec:
@@ -58,3 +69,4 @@ kube-prometheus-stack:
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
       probeSelectorNilUsesHelmValues: false
+      enableRemoteWriteReceiver: true

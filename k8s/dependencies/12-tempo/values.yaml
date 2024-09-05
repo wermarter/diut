@@ -1,0 +1,103 @@
+tempo-distributed:
+  fullnameOverride: tempo
+  reportingEnabled: false
+  server:
+    grpc_server_max_recv_msg_size: 100000000
+    grpc_server_max_send_msg_size: 100000000
+  compactor:
+    extraArgs:
+      - -config.expand-env=true
+    extraEnvFrom:
+      - secretRef:
+          name: tempo-credentials
+    config:
+      compaction:
+        block_retention: 168h
+    resources:
+      requests:
+        memory: 1Gi
+  ingester:
+    extraArgs:
+      - -config.expand-env=true
+    extraEnvFrom:
+      - secretRef:
+          name: tempo-credentials
+  querier:
+    extraArgs:
+      - -config.expand-env=true
+    extraEnvFrom:
+      - secretRef:
+          name: tempo-credentials
+    config:
+      frontend_worker:
+        grpc_client_config:
+          max_send_msg_size: 100000000
+    resources:
+      requests:
+        memory: 2Gi
+  queryFrontend:
+    extraArgs:
+      - -config.expand-env=true
+    extraEnvFrom:
+      - secretRef:
+          name: tempo-credentials
+    resources:
+      memory: 1Gi
+  traces:
+    otlp:
+      grpc:
+        enabled: true
+        receiverConfig: {}
+  storage:
+    trace:
+      backend: s3
+      s3:
+        bucket: tempo
+        region: ap-southeast-1
+        endpoint: minio.diut.svc.cluster.local:9000
+        access_key: ${TEMPO_MINIO_ACCESS_KEY}
+        secret_key: ${TEMPO_MINIO_SECRET_KEY}
+        forcepathstyle: true
+        insecure: true
+  metricsGenerator:
+    enabled: true
+    config:
+      storage:
+        remote_write:
+          - url: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090/api/v1/write
+            send_exemplars: true
+      processor:
+        span_metrics:
+          dimensions:
+            - 'cc.schedule.id'
+            - 'cc.step.index'
+            - 'cc.preprocess_type'
+            - 'cc.execute_type'
+            - 'cc.postprocess_type'
+            - 'cc.postprocess_type_http.url'
+          filter_policies:
+            - include:
+                match_type: strict
+                attributes:
+                  - key: kind
+                    value: SPAN_KIND_INTERNAL
+  global_overrides:
+    defaults:
+      metrics_generator:
+        processors:
+          - service-graphs
+          - span-metrics
+          - local-blocks # direct metrics from raw traces is computationally costly
+        trace_id_label_name: traceID
+        # storage:
+        #   parquet_dedicated_columns:
+        #     - name: cc.step.id
+        #       type: INT32
+        #       scope: span
+#
+# kubectl edit configmaps tempo-config
+#query_frontend:
+# metrics:
+#   concurrent_jobs: 8
+#   max_duration: 168h
+#   target_bytes_per_job: 1250000000
