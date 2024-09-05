@@ -41,8 +41,9 @@ tempo-distributed:
     extraEnvFrom:
       - secretRef:
           name: tempo-credentials
-    requests:
-      memory: 1Gi
+    resources:
+      requests:
+        memory: 1Gi
   traces:
     otlp:
       grpc:
