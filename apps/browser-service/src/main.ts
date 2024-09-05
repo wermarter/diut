@@ -1,7 +1,9 @@
+import './otel'
+
 import {
   GrpcListenBootstrap,
   LifecycleBootstrap,
-  WinstonBootstrap,
+  PinoBootstrapFactory,
   bootstrapApp,
 } from '@diut/nestjs-infra'
 import {
@@ -32,5 +34,5 @@ bootstrapApp<INestMicroservice>(
     }),
   AppModule,
   { serviceName: process.env.SERVICE_NAME, nodeEnv: process.env.NODE_ENV },
-  [WinstonBootstrap, LifecycleBootstrap, GrpcListenBootstrap],
+  [PinoBootstrapFactory(), LifecycleBootstrap, GrpcListenBootstrap],
 )

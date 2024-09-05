@@ -59,7 +59,6 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.2",
     "nestjs-cls": "^4.3.0",
-    "pino": "^9.3.2",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",
     "xlsx": "file:../../vendor/xlsx-0.20.1.tgz"

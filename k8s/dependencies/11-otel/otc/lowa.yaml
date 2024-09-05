@@ -4,7 +4,7 @@ metadata:
   name: lowa
 spec:
   mode: daemonset
-  hostNetwork: true
+  hostNetwork: false
   securityContext:
     privileged: true
     runAsUser: 0
@@ -16,38 +16,58 @@ spec:
   volumeMounts:
     - name: logs
       mountPath: /var/log/pods
-
+  resources:
+    limits:
+      cpu: 500m
+      memory: 200Mi
+  env:
+    - name: KUBE_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
   config:
     receivers:
       filelog:
+        include_file_name: false
         include_file_path: true
         include:
           - /var/log/pods/*/*/*.log
         operators:
           - id: container-parser
             type: container
+          - type: remove
+            field: attributes["log.iostream"]
+          - type: remove
+            field: attributes["log.file.path"]
+          - type: remove
+            field: attributes.logtag
     processors:
-      batch:
+      batch/slow:
         send_batch_size: 10000
         timeout: 10s
+      memory_limiter:
+        check_interval: 5s
+        limit_percentage: 80
+        spike_limit_percentage: 25
       k8sattributes:
         auth_type: 'serviceAccount'
+        filter:
+          node_from_env_var: KUBE_NODE_NAME
         extract:
-          metadata: # extracted from the pod
-            - k8s.namespace.name
-            - k8s.pod.name
-            - k8s.pod.start_time
+          metadata:
             - k8s.pod.uid
+            - k8s.pod.name
+            - k8s.namespace.name
             - k8s.deployment.name
-            - k8s.node.name
-        pod_association: # How to associate the data to a pod (order matters)
-          - sources: # First try to use the value of the resource attribute k8s.pod.ip
-              - from: resource_attribute
-                name: k8s.pod.ip
-          - sources: # Then try to use the value of the resource attribute k8s.pod.uid
+            - k8s.daemonset.name
+            - k8s.statefulset.name
+            - k8s.cronjob.name
+            - k8s.job.name
+        pod_association:
+          - sources:
               - from: resource_attribute
                 name: k8s.pod.uid
-          - sources: # If neither of those work, use the request's connection to get the pod IP.
+          - sources:
               - from: connection
     exporters:
       otlphttp:
@@ -58,8 +78,9 @@ spec:
           receivers:
             - filelog
           processors:
+            - memory_limiter
             - k8sattributes
-            - batch
+            - batch/slow
           exporters:
             - otlphttp
 ---

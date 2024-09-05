@@ -10,7 +10,7 @@ ARG APP_PATH
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack prepare pnpm@9.1.2 --activate && corepack enable
+RUN corepack prepare pnpm@8.15.8 --activate && corepack enable
 
 COPY . ${APP_PATH}
 WORKDIR ${APP_PATH}

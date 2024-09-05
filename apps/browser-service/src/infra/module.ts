@@ -1,11 +1,11 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
 
 import { pdfMetadata } from './pdf'
+import { pinoMetadata } from './pino'
 import { puppeteerMetadata } from './puppeteer'
-import { winstonMetadata } from './winston'
 
 export const infraMetadata = concatModuleMetadata([
-  winstonMetadata,
+  pinoMetadata,
   puppeteerMetadata,
   pdfMetadata,
 ])

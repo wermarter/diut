@@ -4,4 +4,4 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 kubectl=/snap/bin/kubectl
 
 $kubectl apply -f $SCRIPT_DIR/argocd-application.yaml
-$kubectl apply -f $SCRIPT_DIR/src/lowa.yaml
+$kubectl apply -f $SCRIPT_DIR/otc/lowa.yaml
