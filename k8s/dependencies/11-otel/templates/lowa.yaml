@@ -4,7 +4,6 @@ metadata:
   name: lowa
 spec:
   mode: daemonset
-  hostNetwork: false
   securityContext:
     privileged: true
     runAsUser: 0
