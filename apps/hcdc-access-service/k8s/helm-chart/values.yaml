@@ -81,7 +81,16 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+                - hcdc-access-service
+        topologyKey: 'kubernetes.io/hostname'
 
 envFrom:
   - configMapRef:
