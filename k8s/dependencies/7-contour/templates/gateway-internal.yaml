@@ -8,6 +8,11 @@ spec:
   envoy:
     networkPublishing:
       type: ClusterIPService
+  runtimeSettings:
+    tracing:
+      extensionService:
+        name: tempo
+        namespace: observability
 ---
 kind: GatewayClass
 apiVersion: gateway.networking.k8s.io/v1

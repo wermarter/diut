@@ -9,6 +9,11 @@ spec:
     networkPublishing:
       serviceAnnotations:
         metallb.universe.tf/loadBalancerIPs: {{ .Values.loadBalancerIP }}
+  runtimeSettings:
+    tracing:
+      extensionService:
+        name: tempo
+        namespace: observability
 ---
 kind: GatewayClass
 apiVersion: gateway.networking.k8s.io/v1

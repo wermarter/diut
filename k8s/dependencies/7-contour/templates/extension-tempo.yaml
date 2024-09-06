@@ -1,0 +1,10 @@
+apiVersion: projectcontour.io/v1alpha1
+kind: ExtensionService
+metadata:
+  name: tempo
+  namespace: observability
+spec:
+  protocol: h2c
+  services:
+    - name: tempo-distributor
+      port: 4317
