@@ -23,6 +23,7 @@ tempo-distributed:
       - secretRef:
           name: tempo-credentials
   querier:
+    replicas: 2
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
@@ -71,11 +72,6 @@ tempo-distributed:
         span_metrics:
           dimensions:
             - 'cc.schedule.id'
-            - 'cc.step.index'
-            - 'cc.preprocess_type'
-            - 'cc.execute_type'
-            - 'cc.postprocess_type'
-            - 'cc.postprocess_type_http.url'
           filter_policies:
             - include:
                 match_type: strict

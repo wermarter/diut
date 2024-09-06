@@ -27,6 +27,12 @@ const sdk = new NodeSDK({
     '@opentelemetry/instrumentation-pino': {
       disableLogSending: true,
     },
+    '@opentelemetry/instrumentation-express': {
+      enabled: false,
+    },
+    '@opentelemetry/instrumentation-http': {
+      enabled: false,
+    },
   }),
 })
 

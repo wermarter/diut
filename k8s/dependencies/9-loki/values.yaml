@@ -104,7 +104,7 @@ loki:
       - secretRef:
           name: loki-credentials
   read:
-    replicas: 1
+    replicas: 2
     persistence:
       size: 1Gi
     extraArgs:
