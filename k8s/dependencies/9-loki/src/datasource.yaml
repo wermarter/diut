@@ -7,6 +7,6 @@ datasources:
     orgId: 1
     url: http://loki-gateway.observability.svc.cluster.local
     basicAuth: false
-    isDefault: false
+    isDefault: true
     version: 1
-    editable: false
+    editable: true
