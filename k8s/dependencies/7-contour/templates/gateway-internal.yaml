@@ -13,6 +13,7 @@ spec:
       extensionService:
         name: tempo
         namespace: observability
+      serviceName: contour-internal
 ---
 kind: GatewayClass
 apiVersion: gateway.networking.k8s.io/v1

@@ -30,9 +30,6 @@ const sdk = new NodeSDK({
     '@opentelemetry/instrumentation-express': {
       enabled: false,
     },
-    '@opentelemetry/instrumentation-http': {
-      enabled: false,
-    },
     '@opentelemetry/instrumentation-net': {
       enabled: false,
     },
