@@ -7,6 +7,7 @@ import { loadClientConfig } from './client'
 import { loadMinioConfig } from './minio'
 import { loadMongoConfig } from './mongo'
 import { loadRedisConfig } from './redis'
+import { loadTelemetryConfig } from './telemetry'
 
 export const configMetadata: ModuleMetadata = {
   imports: [
@@ -19,6 +20,7 @@ export const configMetadata: ModuleMetadata = {
         loadMinioConfig,
         loadMongoConfig,
         loadRedisConfig,
+        loadTelemetryConfig,
       ],
     }),
   ],

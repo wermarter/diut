@@ -1,8 +1,8 @@
 import {
   concatModuleMetadata,
-  getPuppeteerClientServiceToken,
-  PuppeteerClientModule,
-  PuppeteerClientService,
+  getPuppeteerServiceToken,
+  PuppeteerModule,
+  PuppeteerService,
 } from '@diut/nestjs-infra'
 
 import { loadPuppeteerConfig, PuppeteerConfig } from 'src/config'
@@ -11,7 +11,7 @@ import { IPuppeteerService, PUPPETEER_SERVICE_TOKEN } from 'src/domain'
 export const puppeteerMetadata = concatModuleMetadata([
   {
     imports: [
-      PuppeteerClientModule.registerAsync({
+      PuppeteerModule.registerAsync({
         inject: [loadPuppeteerConfig.KEY],
         useFactory: async (config: PuppeteerConfig) => ({
           executablePath: config.CHROMIUM_PATH,
@@ -21,8 +21,8 @@ export const puppeteerMetadata = concatModuleMetadata([
     providers: [
       {
         provide: PUPPETEER_SERVICE_TOKEN,
-        inject: [getPuppeteerClientServiceToken()],
-        useFactory(service: PuppeteerClientService) {
+        inject: [getPuppeteerServiceToken()],
+        useFactory(service: PuppeteerService) {
           return {
             getBrowser() {
               return service.browser

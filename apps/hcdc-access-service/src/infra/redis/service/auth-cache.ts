@@ -1,7 +1,4 @@
-import {
-  getRedisClientServiceToken,
-  RedisClientService,
-} from '@diut/nestjs-infra'
+import { getRedisServiceToken, RedisService } from '@diut/nestjs-infra'
 import { Inject, Injectable } from '@nestjs/common'
 
 import {
@@ -21,10 +18,10 @@ import { KeyFactory } from '../key'
 @Injectable()
 export class AuthCacheService implements IAuthCacheService {
   constructor(
-    @Inject(getRedisClientServiceToken(REDIS_PRIMARY_CONNECTION))
-    private readonly primaryClient: RedisClientService,
-    @Inject(getRedisClientServiceToken(REDIS_SECONDARY_CONNECTION))
-    private readonly secondaryClient: RedisClientService,
+    @Inject(getRedisServiceToken(REDIS_PRIMARY_CONNECTION))
+    private readonly primaryClient: RedisService,
+    @Inject(getRedisServiceToken(REDIS_SECONDARY_CONNECTION))
+    private readonly secondaryClient: RedisService,
     @Inject(loadAuthConfig.KEY)
     private readonly authConfig: AuthConfig,
     @Inject(loadAppConfig.KEY)

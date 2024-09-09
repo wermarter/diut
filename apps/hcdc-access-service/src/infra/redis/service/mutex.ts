@@ -1,7 +1,4 @@
-import {
-  getRedisClientServiceToken,
-  RedisClientService,
-} from '@diut/nestjs-infra'
+import { getRedisServiceToken, RedisService } from '@diut/nestjs-infra'
 import { Inject, Injectable } from '@nestjs/common'
 
 import { IMutexService } from 'src/domain'
@@ -10,8 +7,8 @@ import { REDIS_PRIMARY_CONNECTION } from '../common'
 @Injectable()
 export class MutexService implements IMutexService {
   constructor(
-    @Inject(getRedisClientServiceToken(REDIS_PRIMARY_CONNECTION))
-    private readonly client: RedisClientService,
+    @Inject(getRedisServiceToken(REDIS_PRIMARY_CONNECTION))
+    private readonly client: RedisService,
   ) {}
 
   mutex<T>(

@@ -504,12 +504,6 @@ importers:
       async:
         specifier: ^3.2.5
         version: 3.2.5
-      axios:
-        specifier: ^1.7.2
-        version: 1.7.2
-      axios-retry:
-        specifier: ^4.3.0
-        version: 4.4.1(axios@1.7.2)
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
@@ -531,15 +525,6 @@ importers:
       mongoose:
         specifier: ^8.1.2
         version: 8.5.1
-      mongoose-autopopulate:
-        specifier: ^1.1.0
-        version: 1.1.0(mongoose@8.5.1)
-      mysql2:
-        specifier: ^3.9.7
-        version: 3.10.2
-      nest-winston:
-        specifier: ^1.9.4
-        version: 1.9.7(@nestjs/common@10.3.10)(winston@3.13.1)
       pino:
         specifier: ^9.3.2
         version: 9.3.2
@@ -558,12 +543,6 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
-      winston:
-        specifier: ^3.11.0
-        version: 3.13.1
-      winston-loki:
-        specifier: ^6.0.8
-        version: 6.1.2
     devDependencies:
       '@types/amqplib':
         specifier: ^0.10.5
@@ -10694,7 +10673,6 @@ packages:
       - aws-crt
       - bufferutil
       - cache-manager
-      - debug
       - gcp-metadata
       - kafkajs
       - kerberos

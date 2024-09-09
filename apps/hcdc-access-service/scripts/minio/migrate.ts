@@ -13,7 +13,7 @@ import {
 } from 'src/infra/mongo/test-element'
 
 async function main() {
-  const srcClientService = new AwsS3ClientService({
+  const srcService = new AwsS3ClientService({
     endpoint: `http://localhost:9000`,
     credentials: {
       accessKeyId: process.env.SRC_MINIO_ACCESS_KEY!,
@@ -22,7 +22,7 @@ async function main() {
     region: process.env.MINIO_REGION,
     forcePathStyle: true,
   })
-  const destClientService = new AwsS3ClientService({
+  const destService = new AwsS3ClientService({
     endpoint: `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}`,
     region: process.env.MINIO_REGION,
     credentials: {
@@ -34,14 +34,14 @@ async function main() {
   const connection = await mongoose
     .createConnection(process.env.DEST_MONGO_URI!)
     .asPromise()
-  await srcClientService.onModuleInit()
-  await destClientService.onModuleInit()
+  await srcService.onModuleInit()
+  await destService.onModuleInit()
   const schema = SchemaFactory.createForClass(TestElementSchema)
   const model = connection.model(COLLECTION.TEST_ELEMENT, schema)
   const repository = new TestElementRepository(model)
 
   let counter = 0
-  for await (const object of srcClientService.listKeysIterator({
+  for await (const object of srcService.listKeysIterator({
     bucket: 'bathanghai-result-image',
   })) {
     if (++counter % 100 === 0) {
@@ -61,12 +61,12 @@ async function main() {
           sampleId,
           elementId: testElement._id,
         })
-        const { buffer, mimeType } = await srcClientService.readToBuffer({
+        const { buffer, mimeType } = await srcService.readToBuffer({
           bucket: 'bathanghai-result-image',
           key: srcKey,
         })
 
-        await destClientService.upload({
+        await destService.upload({
           bucket: process.env.MINIO_SAMPLE_IMAGES_BUCKET!,
           buffer,
           key: newKey,
@@ -79,8 +79,8 @@ async function main() {
     }
   }
 
-  srcClientService.close()
-  destClientService.close()
+  srcService.close()
+  destService.close()
   process.exit(0)
 }
 

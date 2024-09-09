@@ -1,1 +1,1 @@
-export * from './concat-module-metadata'
+export * from './otel'

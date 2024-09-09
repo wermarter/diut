@@ -1,5 +1,5 @@
 import { NodeEnv } from '@diut/common'
-import { RedisClientModule, RedisClientOptions } from '@diut/nestjs-infra'
+import { RedisClientOptions, RedisModule } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
 import {
@@ -32,7 +32,7 @@ function getCommonConfig(
 
 export const redisMetadata: ModuleMetadata = {
   imports: [
-    RedisClientModule.registerAsync({
+    RedisModule.registerAsync({
       connectionId: REDIS_PRIMARY_CONNECTION,
       inject: [loadRedisConfig.KEY, loadAppConfig.KEY],
       useFactory: async (redisConfig: RedisConfig, appConfig: AppConfig) => ({
@@ -40,7 +40,7 @@ export const redisMetadata: ModuleMetadata = {
         ...getCommonConfig(redisConfig, appConfig),
       }),
     }),
-    RedisClientModule.registerAsync({
+    RedisModule.registerAsync({
       connectionId: REDIS_SECONDARY_CONNECTION,
       inject: [loadRedisConfig.KEY, loadAppConfig.KEY],
       useFactory: async (redisConfig: RedisConfig, appConfig: AppConfig) => ({

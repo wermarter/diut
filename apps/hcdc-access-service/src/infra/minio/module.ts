@@ -1,7 +1,4 @@
-import {
-  AwsS3ClientModule,
-  getAwsS3ClientServiceToken,
-} from '@diut/nestjs-infra'
+import { AwsS3ClientModule, getAwsS3ServiceToken } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
 import { MinioConfig, loadMinioConfig } from 'src/config'
@@ -29,7 +26,7 @@ export const minioMetadata: ModuleMetadata = {
   providers: [
     {
       provide: STORAGE_SERVICE_TOKEN,
-      useExisting: getAwsS3ClientServiceToken(MINIO_CONNECTION_ID),
+      useExisting: getAwsS3ServiceToken(MINIO_CONNECTION_ID),
     },
     {
       provide: STORAGE_BUCKET_TOKEN,
