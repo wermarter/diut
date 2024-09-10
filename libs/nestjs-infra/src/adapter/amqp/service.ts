@@ -4,8 +4,8 @@ import { inspect } from 'util'
 
 import { AbstractService } from '../abstract.service'
 import {
-  CONNECTION_ID_TOKEN,
-  DEFAULT_CONNECTION_ID,
+  DEFAULT_INSTANCE_ID,
+  INSTANCE_ID_TOKEN,
   MODULE_OPTIONS_TOKEN,
 } from './module-builder'
 
@@ -21,12 +21,12 @@ export class AmqpService extends AbstractService {
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
     private readonly clientOptions: AmqpClientOptions,
-    @Inject(CONNECTION_ID_TOKEN)
-    connectionId: string,
+    @Inject(INSTANCE_ID_TOKEN)
+    instanceId: string,
   ) {
-    connectionId = connectionId ?? DEFAULT_CONNECTION_ID
+    instanceId = instanceId ?? DEFAULT_INSTANCE_ID
 
-    super({ connectionId })
+    super({ instanceId })
   }
 
   async connect() {

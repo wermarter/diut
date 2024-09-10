@@ -5,12 +5,12 @@ import { MinioConfig, loadMinioConfig } from 'src/config'
 import { STORAGE_BUCKET_TOKEN, STORAGE_SERVICE_TOKEN } from 'src/domain'
 import { StorageBucketProvider } from './bucket'
 
-const MINIO_CONNECTION_ID = 'MinIO'
+const MINIO_INSTANCE_ID = 'MinIO'
 
 export const minioMetadata: ModuleMetadata = {
   imports: [
     AwsS3ClientModule.registerAsync({
-      connectionId: MINIO_CONNECTION_ID,
+      instanceId: MINIO_INSTANCE_ID,
       inject: [loadMinioConfig.KEY],
       useFactory: async (minioConfig: MinioConfig) => ({
         endpoint: `http://${minioConfig.MINIO_ENDPOINT}:${minioConfig.MINIO_PORT}`,
@@ -26,7 +26,7 @@ export const minioMetadata: ModuleMetadata = {
   providers: [
     {
       provide: STORAGE_SERVICE_TOKEN,
-      useExisting: getAwsS3ServiceToken(MINIO_CONNECTION_ID),
+      useExisting: getAwsS3ServiceToken(MINIO_INSTANCE_ID),
     },
     {
       provide: STORAGE_BUCKET_TOKEN,

@@ -22,8 +22,8 @@ import { Readable, Stream } from 'stream'
 
 import { AbstractService } from '../abstract.service'
 import {
-  CONNECTION_ID_TOKEN,
-  DEFAULT_CONNECTION_ID,
+  DEFAULT_INSTANCE_ID,
+  INSTANCE_ID_TOKEN,
   MODULE_OPTIONS_TOKEN,
 } from './module-builder'
 
@@ -39,7 +39,7 @@ export interface AwsS3Buckets {}
  */
 
 @Injectable()
-export class AwsS3ClientService<
+export class AwsS3Service<
   TBucket extends string = StringOrKeysOf<AwsS3Buckets>,
 > extends AbstractService {
   private client: S3Client
@@ -47,12 +47,12 @@ export class AwsS3ClientService<
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
     private readonly clientOptions: AwsS3ClientOptions,
-    @Inject(CONNECTION_ID_TOKEN)
-    connectionId?: string,
+    @Inject(INSTANCE_ID_TOKEN)
+    instanceId?: string,
   ) {
-    connectionId = connectionId ?? DEFAULT_CONNECTION_ID
+    instanceId = instanceId ?? DEFAULT_INSTANCE_ID
 
-    super({ connectionId })
+    super({ instanceId })
   }
 
   async readyCheck() {

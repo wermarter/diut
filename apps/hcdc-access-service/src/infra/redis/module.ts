@@ -33,7 +33,7 @@ function getCommonConfig(
 export const redisMetadata: ModuleMetadata = {
   imports: [
     RedisModule.registerAsync({
-      connectionId: REDIS_PRIMARY_CONNECTION,
+      instanceId: REDIS_PRIMARY_CONNECTION,
       inject: [loadRedisConfig.KEY, loadAppConfig.KEY],
       useFactory: async (redisConfig: RedisConfig, appConfig: AppConfig) => ({
         role: 'master',
@@ -41,7 +41,7 @@ export const redisMetadata: ModuleMetadata = {
       }),
     }),
     RedisModule.registerAsync({
-      connectionId: REDIS_SECONDARY_CONNECTION,
+      instanceId: REDIS_SECONDARY_CONNECTION,
       inject: [loadRedisConfig.KEY, loadAppConfig.KEY],
       useFactory: async (redisConfig: RedisConfig, appConfig: AppConfig) => ({
         role: 'slave',

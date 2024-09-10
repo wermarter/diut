@@ -8,9 +8,9 @@ export const {
   ASYNC_OPTIONS_TYPE,
 } = new ConfigurableModuleBuilder<AwsS3ClientOptions>().build()
 
-export function getServiceToken(connectionId?: string) {
-  return `AwsS3ClientService:${connectionId ?? DEFAULT_CONNECTION_ID}`
+export function getServiceToken(instanceId?: string) {
+  return `AwsS3Service:${instanceId ?? DEFAULT_INSTANCE_ID}`
 }
 
-export const CONNECTION_ID_TOKEN = 'AWS_S3_CONNECTION_ID'
-export const DEFAULT_CONNECTION_ID = 'default'
+export const INSTANCE_ID_TOKEN = 'AWS_S3_INSTANCE_ID'
+export const DEFAULT_INSTANCE_ID = 'default'

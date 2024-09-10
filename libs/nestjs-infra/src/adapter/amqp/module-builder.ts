@@ -8,9 +8,9 @@ export const {
   ASYNC_OPTIONS_TYPE,
 } = new ConfigurableModuleBuilder<AmqpClientOptions>().build()
 
-export function getServiceToken(connectionId?: string) {
-  return `AmqpService:${connectionId ?? DEFAULT_CONNECTION_ID}`
+export function getServiceToken(instanceId?: string) {
+  return `AmqpService:${instanceId ?? DEFAULT_INSTANCE_ID}`
 }
 
-export const CONNECTION_ID_TOKEN = 'AMQP_CONNECTION_ID'
-export const DEFAULT_CONNECTION_ID = 'default'
+export const INSTANCE_ID_TOKEN = 'AMQP_INSTANCE_ID'
+export const DEFAULT_INSTANCE_ID = 'default'

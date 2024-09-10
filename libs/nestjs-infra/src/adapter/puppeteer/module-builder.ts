@@ -8,9 +8,9 @@ export const {
   ASYNC_OPTIONS_TYPE,
 } = new ConfigurableModuleBuilder<PuppeteerClientOptions>().build()
 
-export function getServiceToken(connectionId?: string) {
-  return `PuppeteerService:${connectionId ?? DEFAULT_CONNECTION_ID}`
+export function getServiceToken(instanceId?: string) {
+  return `PuppeteerService:${instanceId ?? DEFAULT_INSTANCE_ID}`
 }
 
-export const CONNECTION_ID_TOKEN = 'PUPPETEER_CONNECTION_ID'
-export const DEFAULT_CONNECTION_ID = 'default'
+export const INSTANCE_ID_TOKEN = 'PUPPETEER_INSTANCE_ID'
+export const DEFAULT_INSTANCE_ID = 'default'

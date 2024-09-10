@@ -1,5 +1,5 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
-import { AwsS3ClientService } from '@diut/nestjs-infra'
+import { AwsS3Service } from '@diut/nestjs-infra'
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as dotenv from 'dotenv'
 import * as mongoose from 'mongoose'
@@ -13,7 +13,7 @@ import {
 } from 'src/infra/mongo/test-element'
 
 async function main() {
-  const srcService = new AwsS3ClientService({
+  const srcService = new AwsS3Service({
     endpoint: `http://localhost:9000`,
     credentials: {
       accessKeyId: process.env.SRC_MINIO_ACCESS_KEY!,
@@ -22,7 +22,7 @@ async function main() {
     region: process.env.MINIO_REGION,
     forcePathStyle: true,
   })
-  const destService = new AwsS3ClientService({
+  const destService = new AwsS3Service({
     endpoint: `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}`,
     region: process.env.MINIO_REGION,
     credentials: {

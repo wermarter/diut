@@ -2,7 +2,7 @@ import { Logger, OnApplicationShutdown, OnModuleInit } from '@nestjs/common'
 import { HealthCheckError, HealthIndicator } from '@nestjs/terminus'
 import { RetryOptions, retry } from 'async'
 
-export const DEFAULT_CLIENT_CONNECTION_ID = 'default'
+export const DEFAULT_CLIENT_INSTANCE_ID = 'default'
 
 export abstract class AbstractService
   extends HealthIndicator
@@ -14,21 +14,20 @@ export abstract class AbstractService
 
   constructor(clientConfig: {
     name?: string
-    connectionId?: string
+    instanceId?: string
     retryOptions?: RetryOptions<unknown>
     ignoreConnectFail?: boolean
   }) {
     super()
 
-    const connectionId =
-      clientConfig.connectionId ?? DEFAULT_CLIENT_CONNECTION_ID
+    const instanceId = clientConfig.instanceId ?? DEFAULT_CLIENT_INSTANCE_ID
     this.retryOptions = clientConfig.retryOptions ?? {
       times: 3,
       interval: 1000,
     }
     this.ignoreConnectFail = clientConfig.ignoreConnectFail ?? false
     this.logger = new Logger(
-      `${clientConfig.name ?? this.constructor.name}:${connectionId}`,
+      `${clientConfig.name ?? this.constructor.name}:${instanceId}`,
     )
   }
 
