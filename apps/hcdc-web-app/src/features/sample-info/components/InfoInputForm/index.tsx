@@ -1,50 +1,26 @@
-import { useCallback, useDeferredValue, useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { addMinutes, setMinutes, setHours } from 'date-fns'
+import { dedupSpaces, trimObjectValues } from '@diut/common'
 import { DomainErrorCode, PatientGender } from '@diut/hcdc'
-import { toast } from 'react-toastify'
-import { GridActionsCellItem } from '@mui/x-data-grid'
-import LoopIcon from '@mui/icons-material/Loop'
 import LinkIcon from '@mui/icons-material/Link'
+import LoopIcon from '@mui/icons-material/Loop'
+import { LoadingButton } from '@mui/lab'
 import {
   Box,
   Button,
   FormControl,
   FormControlLabel,
-  RadioGroup,
-  Radio,
-  Paper,
-  TextField,
   IconButton,
+  Paper,
+  Radio,
+  RadioGroup,
+  TextField,
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { LoadingButton } from '@mui/lab'
-import { dedupSpaces, trimObjectValues } from '@diut/common'
+import { GridActionsCellItem } from '@mui/x-data-grid'
+import { addMinutes, setHours, setMinutes } from 'date-fns'
+import { useCallback, useDeferredValue, useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
-import { authSlice } from 'src/features/auth'
-import { BranchResponseDto } from 'src/infra/api/access-service/branch'
-import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
-import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
-import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
-import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
-import { useTypedSelector } from 'src/infra/redux'
-import { useDebouncedValue } from 'src/shared/hooks'
-import {
-  useSampleCreateMutation,
-  HttpErrorResponse,
-} from 'src/infra/api/access-service/sample'
-import {
-  PatientResponseDto,
-  usePatientCreateMutation,
-  usePatientSearchQuery,
-  usePatientUpdateByIdMutation,
-} from 'src/infra/api/access-service/patient'
-import {
-  FormSchema,
-  formResolver,
-  formDefaultValues,
-  GENDER_PREGNANT_VALUE,
-} from './validation'
 import {
   FormCheckboxGroup,
   FormContainer,
@@ -53,9 +29,33 @@ import {
   FormSwitch,
   FormTextField,
 } from 'src/components/form'
-import { TestSelector } from 'src/features/test'
 import { DataTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
+import { TestSelector } from 'src/features/test'
+import { BranchResponseDto } from 'src/infra/api/access-service/branch'
+import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
+import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
+import {
+  PatientResponseDto,
+  usePatientCreateMutation,
+  usePatientSearchQuery,
+  usePatientUpdateByIdMutation,
+} from 'src/infra/api/access-service/patient'
+import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
+import {
+  HttpErrorResponse,
+  useSampleCreateMutation,
+} from 'src/infra/api/access-service/sample'
+import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
+import { useTypedSelector } from 'src/infra/redux'
+import { useDebouncedValue } from 'src/shared/hooks'
 import { BarcodeModal } from '../BarcodeModal'
+import {
+  formDefaultValues,
+  formResolver,
+  FormSchema,
+  GENDER_PREGNANT_VALUE,
+} from './validation'
 
 export type InputFormProps = {
   patientTypes: PatientTypeResponseDto[]

@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 
+import { CrudTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
+import { TestSelector } from 'src/features/test'
 import {
+  TestComboResponseDto,
+  useLazyTestComboSearchQuery,
   useTestComboCreateMutation,
   useTestComboDeleteByIdMutation,
   useTestComboSearchQuery,
   useTestComboUpdateByIdMutation,
-  useLazyTestComboSearchQuery,
-  TestComboResponseDto,
 } from 'src/infra/api/access-service/test-combo'
-import { CrudTable } from 'src/components/table'
+import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
 import { testComboColumns } from './columns'
-import { TestSelector } from 'src/features/test'
-import { authSlice } from 'src/features/auth'
-import { useTypedSelector } from 'src/infra/redux'
 
 type TestComboTableProps = {
   page: number

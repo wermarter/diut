@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -10,15 +9,16 @@ import {
   ListSubheader,
 } from '@mui/material'
 import { groupBy } from 'lodash'
+import { useEffect, useState } from 'react'
 
 import { ProgressBar, SideAction } from 'src/components/ui'
+import { authSlice } from 'src/features/auth'
 import {
-  useTestSearchQuery,
   TestResponseDto,
+  useTestSearchQuery,
 } from 'src/infra/api/access-service/test'
 import { useTestComboSearchQuery } from 'src/infra/api/access-service/test-combo'
 import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
 
 interface TestSelectorProps {
   open: boolean

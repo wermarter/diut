@@ -1,4 +1,3 @@
-import { PropsWithChildren, forwardRef } from 'react'
 import { Slide } from '@mui/material'
 import Button from '@mui/material/Button'
 import Dialog, { DialogProps } from '@mui/material/Dialog'
@@ -7,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { TransitionProps } from '@mui/material/transitions'
+import { PropsWithChildren, forwardRef } from 'react'
 
 export const DialogTransition = forwardRef(function Transition(
   props: TransitionProps & {

@@ -1,9 +1,9 @@
-import viLocale from 'date-fns/locale/vi'
-import setDefaultOptions from 'date-fns/setDefaultOptions'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import { viVN } from '@mui/material/locale'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import type {} from '@mui/x-data-grid/themeAugmentation'
+import viLocale from 'date-fns/locale/vi'
+import setDefaultOptions from 'date-fns/setDefaultOptions'
 import { PropsWithChildren } from 'react'
 
 setDefaultOptions({ locale: viLocale })

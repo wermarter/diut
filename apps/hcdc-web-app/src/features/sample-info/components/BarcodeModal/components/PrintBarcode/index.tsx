@@ -1,4 +1,4 @@
-import { ReactElement, useRef, PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactElement, useRef } from 'react'
 import ReactToPrint from 'react-to-print'
 
 import { SingleBarcode, SinglePrintRow } from '../SingleBarcode'

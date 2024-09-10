@@ -1,60 +1,60 @@
+import { dedupSpaces, trimObjectValues } from '@diut/common'
 import {
   AuthSubject,
-  PatientGender,
-  SampleAction,
   checkPermission,
   createAbility,
+  PatientGender,
+  SampleAction,
 } from '@diut/hcdc'
-import { useEffect, useState, useMemo } from 'react'
 import { LoadingButton } from '@mui/lab'
 import {
+  Box,
   Button,
   FormControl,
   FormControlLabel,
-  RadioGroup,
-  Radio,
   Paper,
+  Radio,
+  RadioGroup,
   TextField,
-  Box,
   Typography,
 } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Controller, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
-import { difference, omit } from 'lodash'
-import { dedupSpaces, trimObjectValues } from '@diut/common'
 import { parseISO } from 'date-fns'
+import { difference, omit } from 'lodash'
+import { useEffect, useMemo, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import {
+  FormCheckboxGroup,
   FormContainer,
+  FormDateTimePicker,
+  FormSelect,
   FormSwitch,
   FormTextField,
-  FormDateTimePicker,
-  FormCheckboxGroup,
-  FormSelect,
 } from 'src/components/form'
-import {
-  formResolver,
-  FormSchema,
-  GENDER_PREGNANT_VALUE,
-} from '../InfoInputForm/validation'
+import { authSlice } from 'src/features/auth'
 import { TestSelector } from 'src/features/test/components/TestSelector'
+import { BranchResponseDto } from 'src/infra/api/access-service/branch'
+import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
+import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
+import { usePatientUpdateByIdMutation } from 'src/infra/api/access-service/patient'
+import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
 import {
   SampleResponseDto,
   SampleUnpopulatedResponseDto,
   useSampleDeleteByIdMutation,
   useSampleUpdateInfoByIdMutation,
 } from 'src/infra/api/access-service/sample'
-import { usePatientUpdateByIdMutation } from 'src/infra/api/access-service/patient'
+import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { useTypedSelector } from 'src/infra/redux'
 import { BarcodeModal } from '../BarcodeModal'
-import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
-import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
-import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
-import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
-import { BranchResponseDto } from 'src/infra/api/access-service/branch'
-import { authSlice } from 'src/features/auth'
+import {
+  formResolver,
+  FormSchema,
+  GENDER_PREGNANT_VALUE,
+} from '../InfoInputForm/validation'
 
 const currentYear = new Date().getFullYear()
 

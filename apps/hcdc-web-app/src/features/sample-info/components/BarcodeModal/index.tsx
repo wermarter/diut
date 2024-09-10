@@ -1,13 +1,13 @@
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   Slide,
-  Button,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { ReactElement, Ref, forwardRef } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
+import { ReactElement, Ref, forwardRef } from 'react'
 
 import { PrintBarcode, PrintBarcodeProps } from './components'
 

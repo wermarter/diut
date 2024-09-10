@@ -1,13 +1,13 @@
 import { allTestReportSortComparator } from '@diut/hcdc'
 
-import { appStore } from 'src/infra/redux'
+import { authSlice } from 'src/features/auth'
 import {
   fetchPatientTypes,
   fetchSampleOrigins,
   fetchTestCombos,
   fetchTests,
 } from 'src/infra/api'
-import { authSlice } from 'src/features/auth'
+import { appStore } from 'src/infra/redux'
 
 export const reportExportPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(

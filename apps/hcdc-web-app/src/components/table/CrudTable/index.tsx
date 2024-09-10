@@ -1,23 +1,23 @@
-import * as React from 'react'
+import { trimObjectValues } from '@diut/common'
+import CancelIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/Edit'
 import SaveIcon from '@mui/icons-material/Save'
-import CancelIcon from '@mui/icons-material/Close'
 import {
-  GridRowsProp,
-  GridRowModesModel,
-  GridRowModes,
-  GridColDef,
-  GridRowParams,
-  MuiEvent,
   GridActionsCellItem,
+  GridColDef,
   GridEventListener,
+  GridRowModes,
+  GridRowModesModel,
+  GridRowParams,
+  GridRowsProp,
   GridValidRowModel,
+  MuiEvent,
 } from '@mui/x-data-grid'
-import { trimObjectValues } from '@diut/common'
+import * as React from 'react'
 
+import { ConfirmDialog } from 'src/components/ui'
 import { DataTable } from '../DataTable'
 import { CrudToolbar } from './components/CrudToolbar'
-import { ConfirmDialog } from 'src/components/ui'
 
 interface CustomRowAction<R extends GridValidRowModel> {
   label: string

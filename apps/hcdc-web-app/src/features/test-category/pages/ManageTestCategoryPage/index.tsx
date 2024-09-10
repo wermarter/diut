@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { TestCategoryTable } from '../../components'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { TestCategoryTable } from '../../components'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'

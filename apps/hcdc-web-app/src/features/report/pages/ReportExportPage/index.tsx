@@ -2,10 +2,10 @@ export * from './loader'
 import { useEffect } from 'react'
 import { useLoaderData, useRevalidator } from 'react-router-dom'
 
+import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
 import { ReportExportView } from '../../components'
 import { reportExportPageLoader } from './loader'
-import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
 
 export function urlReportExportPage() {
   return '/report/export'

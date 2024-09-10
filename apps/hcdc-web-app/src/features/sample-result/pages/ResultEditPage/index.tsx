@@ -1,10 +1,10 @@
 export * from './loader'
 import { useLoaderData } from 'react-router-dom'
 
-import { ResultEditPageParams, resultEditPageLoader } from './loader'
-import { ResultEditView } from '../../components'
-import { useSampleFindByIdQuery } from 'src/infra/api/access-service/sample'
 import { ProgressBar } from 'src/components/ui'
+import { useSampleFindByIdQuery } from 'src/infra/api/access-service/sample'
+import { ResultEditView } from '../../components'
+import { ResultEditPageParams, resultEditPageLoader } from './loader'
 
 export function urlResultEditPage(
   params: ResultEditPageParams = {

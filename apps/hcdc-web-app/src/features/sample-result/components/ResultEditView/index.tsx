@@ -10,10 +10,10 @@ import {
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { SampleResponseDto } from 'src/infra/api/access-service/sample'
 import { FormContainer } from 'src/components/form'
-import { ResultCard } from '../ResultCard'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
+import { SampleResponseDto } from 'src/infra/api/access-service/sample'
+import { ResultCard } from '../ResultCard'
 
 export type ResultEditViewProps = {
   sampleRes: SampleResponseDto

@@ -2,10 +2,10 @@ export * from './loader'
 import { useEffect } from 'react'
 import { useLoaderData, useRevalidator } from 'react-router-dom'
 
-import { infoInputPageLoader } from './loader'
-import { InfoInputForm } from '../../components'
-import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
+import { InfoInputForm } from '../../components'
+import { infoInputPageLoader } from './loader'
 
 export function urlInfoInputPage() {
   return '/info'

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import {
   AuthSubject,
   PatientAction,
@@ -6,16 +5,17 @@ import {
   checkPermission,
   createAbility,
 } from '@diut/hcdc'
-import { useMemo } from 'react'
-import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
-import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import ManageSearchIcon from '@mui/icons-material/ManageSearch'
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { startOfDay, subMonths } from 'date-fns'
+import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
-import { PatientResponseDto } from 'src/infra/api/access-service/patient'
 import { urlPrintSelectPage } from 'src/features/sample-result'
+import { PatientResponseDto } from 'src/infra/api/access-service/patient'
+import { useTypedSelector } from 'src/infra/redux'
 
 export const useColumns = (
   handleDeleteClick: (patientId: string) => void,

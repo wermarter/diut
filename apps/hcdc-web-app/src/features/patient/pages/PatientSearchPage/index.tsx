@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRevalidator, useSearchParams } from 'react-router-dom'
 
-import { PatientSearchView } from '../../components'
-import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { PatientSearchView } from '../../components'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'

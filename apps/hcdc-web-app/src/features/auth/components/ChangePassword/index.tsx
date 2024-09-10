@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify'
 
-import { useUserChangePasswordMutation } from 'src/infra/api/access-service/user'
 import { SideAction } from 'src/components/ui'
-import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { useUserChangePasswordMutation } from 'src/infra/api/access-service/user'
+import { useTypedSelector } from 'src/infra/redux'
 import { ChangePasswordForm } from './form'
 
 type ChangePasswordProps = {

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -9,6 +8,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 import { SideAction } from 'src/components/ui'
 import { RoleResponseDto } from 'src/infra/api/access-service/role'

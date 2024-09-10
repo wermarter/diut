@@ -6,11 +6,11 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 
+import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
+import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
 import { TestElementTable } from '../../components'
 import { manageTestElementPageLoader } from './loader'
-import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
-import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'

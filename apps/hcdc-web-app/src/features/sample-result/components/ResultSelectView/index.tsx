@@ -1,25 +1,25 @@
-import { useEffect, useRef } from 'react'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useSampleSearchQuery } from 'src/infra/api/access-service/sample'
-import { DataTable } from 'src/components/table'
-import { useTypedSelector } from 'src/infra/redux'
-import { usePagination } from 'src/shared/hooks'
 import {
   FormContainer,
   FormDateTimePicker,
   FormSelect,
   FormTextField,
 } from 'src/components/form'
-import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
+import { DataTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
+import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
 import { DoctorResponseDto } from 'src/infra/api/access-service/doctor'
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
+import { useSampleSearchQuery } from 'src/infra/api/access-service/sample'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
-import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
 import { makeDateFilter } from 'src/shared'
+import { usePagination } from 'src/shared/hooks'
 import { useColumns } from './columns'
 
 interface FormData {

@@ -1,27 +1,27 @@
-import * as React from 'react'
+import { BranchType } from '@diut/hcdc'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Lock from '@mui/icons-material/Lock'
 import Logout from '@mui/icons-material/Logout'
 import {
-  AppBar as MuiAppBar,
+  FormControl,
   IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
+  AppBar as MuiAppBar,
+  Select,
   Toolbar,
   Typography,
-  FormControl,
-  Select,
 } from '@mui/material'
+import * as React from 'react'
 import { useNavigation, useRevalidator } from 'react-router-dom'
-import { BranchType } from '@diut/hcdc'
 
-import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
-import { ChangePassword, authSlice } from 'src/features/auth'
 import { ProgressBar } from 'src/components/ui'
+import { ChangePassword, authSlice } from 'src/features/auth'
 import { userLogout } from 'src/features/auth/state/actions'
 import { authApi } from 'src/infra/api/access-service/auth'
+import { useTypedDispatch, useTypedSelector } from 'src/infra/redux'
 
 interface AppBarProps {
   drawerWidth: number

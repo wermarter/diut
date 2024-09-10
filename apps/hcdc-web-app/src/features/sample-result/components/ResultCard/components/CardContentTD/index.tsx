@@ -1,3 +1,4 @@
+import { NormalRule, isTestElementValueNormal } from '@diut/hcdc'
 import {
   Checkbox,
   Input,
@@ -9,7 +10,6 @@ import {
   Typography,
 } from '@mui/material'
 import { format } from 'date-fns'
-import { NormalRule, isTestElementValueNormal } from '@diut/hcdc'
 
 import { CardContentCommonProps } from '../utils'
 

@@ -6,11 +6,11 @@ import {
   useSearchParams,
 } from 'react-router-dom'
 
-import { soNhanMauPageLoader } from './loader'
-import { SoNhanMauView } from '../../components'
-import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { SoNhanMauView } from '../../components'
+import { soNhanMauPageLoader } from './loader'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'

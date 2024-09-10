@@ -1,15 +1,15 @@
+import { PatientCategory } from '@diut/hcdc'
 import { Box } from '@mui/material'
 import { useCallback, useEffect } from 'react'
-import { PatientCategory } from '@diut/hcdc'
 
+import { CrudTable } from 'src/components/table'
+import { SideAction } from 'src/components/ui/SideAction'
 import {
   TestElementNormalRuleDto,
   useLazyTestElementFindByIdQuery,
   useTestElementFindByIdQuery,
   useTestElementUpdateByIdMutation,
 } from 'src/infra/api/access-service/test-element'
-import { CrudTable } from 'src/components/table'
-import { SideAction } from 'src/components/ui/SideAction'
 import { normalRuleColumns } from './columns'
 
 type NormalRuleEditorProps = {

@@ -10,9 +10,9 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-import { CardContentCommonProps } from '../utils'
 import { SampleResultTestElementResponseDto } from 'src/infra/api/access-service/sample'
 import { ImageCropUpload } from '../ImageCropUpload'
+import { CardContentCommonProps } from '../utils'
 
 export const CardContentPap = (props: CardContentCommonProps) => {
   const { elements } = props.resultRes

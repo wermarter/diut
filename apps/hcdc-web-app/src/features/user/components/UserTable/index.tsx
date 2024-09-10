@@ -1,28 +1,28 @@
-import { useEffect, useState } from 'react'
 import { USER_DEFAULT_PASSWORD } from '@diut/hcdc'
-import { Button } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import { Button } from '@mui/material'
+import { useEffect, useState } from 'react'
 
+import { CrudTable } from 'src/components/table'
+import { ConfirmDialog } from 'src/components/ui'
+import { authSlice, ChangePassword } from 'src/features/auth'
+import { BranchResponseDto } from 'src/infra/api/access-service/branch'
+import { RoleResponseDto } from 'src/infra/api/access-service/role'
 import {
+  useLazyUserSearchQuery,
+  UserResponseDto,
+  useUserBranchAuthorizeMutation,
+  useUserBranchDeauthorizeMutation,
   useUserCreateMutation,
   useUserDeleteByIdMutation,
   useUserSearchQuery,
   useUserUpdateByIdMutation,
-  useLazyUserSearchQuery,
-  UserResponseDto,
-  useUserBranchDeauthorizeMutation,
-  useUserBranchAuthorizeMutation,
 } from 'src/infra/api/access-service/user'
-import { CrudTable } from 'src/components/table'
-import { useUserColumns } from './columns'
-import { usePagination } from 'src/shared/hooks'
 import { useTypedSelector } from 'src/infra/redux'
-import { ChangePassword, authSlice } from 'src/features/auth'
-import { RoleResponseDto } from 'src/infra/api/access-service/role'
+import { usePagination } from 'src/shared/hooks'
 import { UserRoleSelector } from '../UserRoleSelector'
-import { BranchResponseDto } from 'src/infra/api/access-service/branch'
-import { ConfirmDialog } from 'src/components/ui'
 import { UserSelectDialog } from '../UserSelectDialog'
+import { useUserColumns } from './columns'
 
 type UserTableProps = {
   page: number

@@ -1,53 +1,39 @@
 import { MainLayout } from 'src/components/layout'
-import { CustomRouteObject } from 'src/infra/router'
-import {
-  urlInfoEditPage,
-  infoEditPageLoader,
-  infoConfirmPageLoader,
-  infoInputPageLoader,
-  urlInfoConfirmPage,
-  urlInfoInputPage,
-  InfoInputPage,
-  InfoConfirmPage,
-  InfoEditPage,
-} from 'src/features/sample-info'
 import { LoginPage, urlLoginPage } from 'src/features/auth'
+import {
+  ManageDiagnosisPage,
+  urlManageDiagnosisPage,
+} from 'src/features/diagnosis'
 import { ManageDoctorPage, urlManageDoctorPage } from 'src/features/doctor'
+import { HomePage } from 'src/features/homepage'
+import { PatientSearchPage, urlPatientSearchPage } from 'src/features/patient'
 import {
   ManagePatientTypePage,
   urlManagePatientTypePage,
 } from 'src/features/patient-type'
 import {
-  ManageDiagnosisPage,
-  urlManageDiagnosisPage,
-} from 'src/features/diagnosis'
-import {
-  ManageTestCategoryPage,
-  urlManageTestCategoryPage,
-} from 'src/features/test-category'
-import {
-  urlManageTestPage,
-  manageTestPageLoader,
-  ManageTestPage,
-} from 'src/features/test'
-import {
-  ManageTestElementPage,
-  manageTestElementPageLoader,
-  urlManageTestElementPage,
-} from 'src/features/test-element'
-import {
-  ManageSampleTypePage,
-  urlManageSampleTypePage,
-} from 'src/features/sample-type'
-import {
-  ManageTestComboPage,
-  urlManageTestComboPage,
-} from 'src/features/test-combo'
-import {
   ManagePrintFormPage,
   urlManagePrintFormPage,
 } from 'src/features/print-form'
-import { HomePage } from 'src/features/homepage'
+import {
+  ReportExportPage,
+  SoNhanMauPage,
+  reportExportPageLoader,
+  soNhanMauPageLoader,
+  urlReportExportPage,
+  urlSoNhanMauPage,
+} from 'src/features/report'
+import {
+  InfoConfirmPage,
+  InfoEditPage,
+  InfoInputPage,
+  infoConfirmPageLoader,
+  infoEditPageLoader,
+  infoInputPageLoader,
+  urlInfoConfirmPage,
+  urlInfoEditPage,
+  urlInfoInputPage,
+} from 'src/features/sample-info'
 import {
   PrintSelectPage,
   ResultEditPage,
@@ -59,20 +45,34 @@ import {
   urlResultEditPage,
   urlResultSelectPage,
 } from 'src/features/sample-result'
-import { PatientSearchPage, urlPatientSearchPage } from 'src/features/patient'
 import {
-  ReportExportPage,
-  SoNhanMauPage,
-  reportExportPageLoader,
-  soNhanMauPageLoader,
-  urlSoNhanMauPage,
-  urlReportExportPage,
-} from 'src/features/report'
+  ManageSampleTypePage,
+  urlManageSampleTypePage,
+} from 'src/features/sample-type'
+import {
+  ManageTestPage,
+  manageTestPageLoader,
+  urlManageTestPage,
+} from 'src/features/test'
+import {
+  ManageTestCategoryPage,
+  urlManageTestCategoryPage,
+} from 'src/features/test-category'
+import {
+  ManageTestComboPage,
+  urlManageTestComboPage,
+} from 'src/features/test-combo'
+import {
+  ManageTestElementPage,
+  manageTestElementPageLoader,
+  urlManageTestElementPage,
+} from 'src/features/test-element'
 import {
   ManageUserPage,
   manageUserPageLoader,
   urlManageUserPage,
 } from 'src/features/user'
+import { CustomRouteObject } from 'src/infra/router'
 
 export const appRoutes: CustomRouteObject[] = [
   {

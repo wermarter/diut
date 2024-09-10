@@ -1,13 +1,12 @@
 import { Suspense } from 'react'
-import _ from 'lodash'
 import {
   IndexRouteObject,
   NonIndexRouteObject,
   RouteObject,
 } from 'react-router-dom'
 
-import { AuthenticationCheck } from 'src/features/auth'
 import { ErrorPage } from 'src/components/layout'
+import { AuthenticationCheck } from 'src/features/auth'
 
 export type AdditionalRouteProps = {
   authenticatedOnly?: boolean

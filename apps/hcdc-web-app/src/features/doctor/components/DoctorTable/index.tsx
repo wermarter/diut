@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import { CrudTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
 import {
   useDoctorCreateMutation,
   useDoctorDeleteByIdMutation,
@@ -7,11 +9,9 @@ import {
   useDoctorUpdateByIdMutation,
   useLazyDoctorSearchQuery,
 } from 'src/infra/api/access-service/doctor'
-import { CrudTable } from 'src/components/table'
+import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
 import { doctorColumns } from './columns'
-import { authSlice } from 'src/features/auth'
-import { useTypedSelector } from 'src/infra/redux'
 
 type DoctorTableProps = {
   page: number

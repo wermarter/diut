@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { DoctorTable } from '../../components'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { DoctorTable } from '../../components'
 
 const PARAM_PAGE = 'page'
 const PARAM_PAGE_SIZE = 'pageSize'

@@ -2,10 +2,10 @@ export * from './loader'
 import { useEffect } from 'react'
 import { useLoaderData, useRevalidator } from 'react-router-dom'
 
-import { InfoEditPageParams, infoEditPageLoader } from './loader'
-import { InfoEditView } from '../../components'
-import { useTypedSelector } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
+import { useTypedSelector } from 'src/infra/redux'
+import { InfoEditView } from '../../components'
+import { InfoEditPageParams, infoEditPageLoader } from './loader'
 
 export function urlInfoEditPage(
   params: InfoEditPageParams = {

@@ -1,19 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { FormContainer, FormTextField } from 'src/components/form'
+import { DataTable } from 'src/components/table'
+import { ConfirmDialog } from 'src/components/ui/ConfirmDialog'
+import { authSlice } from 'src/features/auth'
 import {
   PatientSearchRequestDto,
   usePatientDeleteByIdMutation,
   usePatientSearchQuery,
 } from 'src/infra/api/access-service/patient'
-import { DataTable } from 'src/components/table'
-import { FormContainer, FormTextField } from 'src/components/form'
-import { usePagination } from 'src/shared/hooks'
-import { ConfirmDialog } from 'src/components/ui/ConfirmDialog'
 import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
+import { usePagination } from 'src/shared/hooks'
 import { useColumns } from './columns'
 
 interface FormData {

@@ -1,8 +1,4 @@
-import LockPersonIcon from '@mui/icons-material/LockPerson'
-import LockOpenIcon from '@mui/icons-material/LockOpen'
-import { format } from 'date-fns'
 import { DATETIME_FORMAT, trimObjectValues } from '@diut/common'
-import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   AuthSubject,
   PatientCategory,
@@ -12,6 +8,8 @@ import {
   checkPermission,
   createAbility,
 } from '@diut/hcdc'
+import LockOpenIcon from '@mui/icons-material/LockOpen'
+import LockPersonIcon from '@mui/icons-material/LockPerson'
 import {
   Box,
   Button,
@@ -20,22 +18,24 @@ import {
   CardHeader,
   Typography,
 } from '@mui/material'
+import { format } from 'date-fns'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import {
-  CardContentChung,
-  CardContentPap,
-  CardContentTD,
-  TestElementResultData,
-} from './components'
+import { ProgressBar } from 'src/components/ui'
+import { authSlice } from 'src/features/auth'
+import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import {
   SampleResponseDto,
   SampleResultTestResponseDto,
   useSampleUpdateResultByIdMutation,
 } from 'src/infra/api/access-service/sample'
 import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
-import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
-import { ProgressBar } from 'src/components/ui'
+import {
+  CardContentChung,
+  CardContentPap,
+  CardContentTD,
+  TestElementResultData,
+} from './components'
 
 export type ResultCardProps = {
   sampleRes: SampleResponseDto

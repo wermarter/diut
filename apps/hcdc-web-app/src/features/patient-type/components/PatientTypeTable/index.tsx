@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 
+import { CrudTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
 import {
+  useLazyPatientTypeSearchQuery,
   usePatientTypeCreateMutation,
   usePatientTypeDeleteByIdMutation,
   usePatientTypeSearchQuery,
   usePatientTypeUpdateByIdMutation,
-  useLazyPatientTypeSearchQuery,
 } from 'src/infra/api/access-service/patient-type'
-import { CrudTable } from 'src/components/table'
+import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
 import { patientTypeColumns } from './columns'
-import { authSlice } from 'src/features/auth'
-import { useTypedSelector } from 'src/infra/redux'
 
 type PatientTypeTableProps = {
   page: number

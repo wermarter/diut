@@ -1,12 +1,12 @@
 import { allTestReportSortComparator } from '@diut/hcdc'
 
-import { appStore } from 'src/infra/redux'
 import { authSlice } from 'src/features/auth'
 import {
   fetchPatientTypes,
   fetchSampleOrigins,
   fetchTests,
 } from 'src/infra/api'
+import { appStore } from 'src/infra/redux'
 
 export const soNhanMauPageLoader = async () => {
   const branchId = authSlice.selectors.selectActiveBranchId(

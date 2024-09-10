@@ -1,4 +1,5 @@
-import * as React from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import LoopIcon from '@mui/icons-material/Loop'
 import { Box, Button } from '@mui/material'
 import {
   GridRowModes,
@@ -7,8 +8,7 @@ import {
   GridToolbarContainer,
   GridValidRowModel,
 } from '@mui/x-data-grid'
-import AddIcon from '@mui/icons-material/Add'
-import LoopIcon from '@mui/icons-material/Loop'
+import * as React from 'react'
 
 interface CrudToolbarProps<R extends GridValidRowModel> {
   setRows: (newRows: (oldRows: GridRowsProp<R>) => GridRowsProp) => void

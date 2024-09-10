@@ -1,6 +1,6 @@
+import Grid from '@mui/material/Unstable_Grid2'
 import { PropsWithChildren } from 'react'
 import Barcode from 'react-barcode'
-import Grid from '@mui/material/Unstable_Grid2'
 
 import { normalizeString } from 'src/shared/utils'
 

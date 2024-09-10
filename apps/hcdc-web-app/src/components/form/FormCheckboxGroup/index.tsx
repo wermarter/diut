@@ -6,7 +6,7 @@ import {
   FormHelperText,
   FormLabel,
 } from '@mui/material'
-import { Control, Controller, Path, FieldValues } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 
 export type FormCheckboxGroupProps<
   T extends FieldValues = FieldValues,

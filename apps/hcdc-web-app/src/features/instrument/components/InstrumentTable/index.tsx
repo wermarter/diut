@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import { CrudTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
 import {
   useInstrumentCreateMutation,
   useInstrumentDeleteByIdMutation,
@@ -7,10 +9,8 @@ import {
   useInstrumentUpdateByIdMutation,
   useLazyInstrumentSearchQuery,
 } from 'src/infra/api/access-service/instrument'
-import { CrudTable } from 'src/components/table'
-import { usePagination } from 'src/shared/hooks'
 import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
+import { usePagination } from 'src/shared/hooks'
 import { instrumentColumns } from './columns'
 
 type InstrumentTableProps = {

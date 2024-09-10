@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import { CrudTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
 import {
   BioProductSearchRequestDto,
   useBioProductCreateMutation,
@@ -8,10 +10,8 @@ import {
   useBioProductUpdateByIdMutation,
   useLazyBioProductSearchQuery,
 } from 'src/infra/api/access-service/bio-product'
-import { CrudTable } from 'src/components/table'
-import { usePagination } from 'src/shared/hooks'
 import { useTypedSelector } from 'src/infra/redux'
-import { authSlice } from 'src/features/auth'
+import { usePagination } from 'src/shared/hooks'
 import { bioProductColumns } from './columns'
 
 type BioProductTableProps = {

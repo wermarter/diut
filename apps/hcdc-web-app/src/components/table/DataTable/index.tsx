@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import {
   DataGrid,
   DataGridProps,
@@ -7,10 +6,11 @@ import {
   GridValidRowModel,
   viVN,
 } from '@mui/x-data-grid'
+import { useCallback } from 'react'
 
-import { EmptyRowsOverlay } from './components/EmptyRows'
 import { ProgressBar } from 'src/components/ui'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
+import { EmptyRowsOverlay } from './components/EmptyRows'
 
 export type DataTableProps<R extends GridValidRowModel> = DataGridProps<R> &
   React.RefAttributes<HTMLDivElement> & {
