@@ -47,6 +47,7 @@ export abstract class AbstractService
           await this.connect()
         },
       )
+      await this.readyCheck()
     } catch (e) {
       this.logger.error({ message: `Cannot connect`, error: e, stack: e.stack })
       isSuccessful = false
@@ -106,5 +107,9 @@ export abstract class AbstractService
 
   abstract connect(): void | Promise<void>
   abstract close(): void | Promise<void>
+
+  /**
+   * Throw if error
+   */
   abstract readyCheck(): void | Promise<void>
 }
