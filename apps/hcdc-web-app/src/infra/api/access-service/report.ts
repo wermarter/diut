@@ -465,6 +465,7 @@ export type ExportGiaoNhanRequestDto = {
   toDate: string
   branchId: string
   originIds: string[]
+  patientTypeIds: string[]
   testIds: string[]
   testComboIds: string[]
 }

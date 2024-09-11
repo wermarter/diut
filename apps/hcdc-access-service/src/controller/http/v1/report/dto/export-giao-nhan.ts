@@ -9,4 +9,5 @@ export class ExportGiaoNhanRequestDto extends PickType(ReportRequestDto, [
   'originIds',
   'testIds',
   'testComboIds',
+  'patientTypeIds',
 ]) {}

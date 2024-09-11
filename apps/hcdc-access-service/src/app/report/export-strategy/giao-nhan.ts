@@ -17,6 +17,7 @@ export type ReportExportGiaoNhanStrategyInput = {
   originIds: string[]
   testIds: string[]
   testComboIds: string[]
+  patientTypeIds: string[]
 }
 
 @Injectable({ scope: Scope.TRANSIENT })
@@ -39,6 +40,7 @@ export class ReportExportGiaoNhanStrategy extends AbstractReportExportStrategy<
         originIds: this.options.originIds,
         testIds: this.options.testIds,
         testComboIds: this.options.testComboIds,
+        patientTypeIds: this.options.patientTypeIds,
       })
 
     return {

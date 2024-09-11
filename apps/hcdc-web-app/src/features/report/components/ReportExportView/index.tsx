@@ -73,6 +73,7 @@ export function ReportExportView(props: ReportExportViewProps) {
           <Grid xs={6}>
             <ExportGiaoNhanButton
               origins={props.origins}
+              patientTypes={props.patientTypes}
               testCombos={props.testCombos}
               tests={props.tests}
             />

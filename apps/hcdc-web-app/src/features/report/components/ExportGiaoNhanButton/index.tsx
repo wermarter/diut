@@ -16,6 +16,7 @@ import { z } from 'zod'
 import { FormAutocomplete, FormDateTimePicker } from 'src/components/form'
 import { authSlice } from 'src/features/auth'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
+import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
 import { useReportExportGiaoNhanMutation } from 'src/infra/api/access-service/report'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
 import { TestComboResponseDto } from 'src/infra/api/access-service/test-combo'
@@ -26,6 +27,7 @@ const schema = z.object({
   fromDate: z.date({ invalid_type_error: 'Không được để trống' }),
   toDate: z.date({ invalid_type_error: 'Không được để trống' }),
   originIds: z.array(z.string()),
+  patientTypeIds: z.array(z.string()),
   testIds: z.array(z.string()),
   testComboIds: z.array(z.string()),
 })
@@ -34,6 +36,7 @@ type FormSchema = z.infer<typeof schema>
 
 export type ExportGiaoNhanButtonProps = {
   origins: BranchResponseDto[]
+  patientTypes: PatientTypeResponseDto[]
   testCombos: TestComboResponseDto[]
   tests: TestResponseDto[]
 }
@@ -56,6 +59,7 @@ export function ExportGiaoNhanButton(props: ExportGiaoNhanButtonProps) {
       fromDate: new Date(),
       toDate: new Date(),
       originIds: [],
+      patientTypeIds: [],
       testIds: [],
       testComboIds: [],
     },
@@ -92,6 +96,7 @@ export function ExportGiaoNhanButton(props: ExportGiaoNhanButtonProps) {
             fromDate: startOfDay(values.fromDate).toISOString(),
             toDate: endOfDay(values.toDate).toISOString(),
             originIds: values.originIds,
+            patientTypeIds: values.patientTypeIds,
             testComboIds: values.testComboIds,
             testIds: values.testIds,
           })
@@ -146,6 +151,17 @@ export function ExportGiaoNhanButton(props: ExportGiaoNhanButtonProps) {
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option._id}
               label="Chọn bộ XN"
+            />
+          </Grid>
+          <Grid xs={12}>
+            <FormAutocomplete
+              multiple
+              control={control}
+              name="patientTypeIds"
+              options={props.patientTypes}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option._id}
+              label="Chọn đối tượng"
             />
           </Grid>
         </Grid>
