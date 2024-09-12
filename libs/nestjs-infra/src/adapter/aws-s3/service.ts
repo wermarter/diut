@@ -67,7 +67,6 @@ export class AwsS3Service<
 
   async connect() {
     this.client = new S3Client(this.clientOptions)
-    await this.readyCheck()
   }
 
   close() {

@@ -51,8 +51,6 @@ export class PuppeteerService extends AbstractService {
     } else {
       this.browser = await puppeteer.launch(launchOptions)
     }
-
-    this.readyCheck()
   }
 
   async close() {

@@ -88,7 +88,6 @@ export class RedisService extends AbstractService {
 
   async connect() {
     this.client = new Redis({ ...defaultOptions, ...this.clientOptions })
-    await this.readyCheck()
   }
 
   async close() {

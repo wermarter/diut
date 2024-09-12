@@ -37,7 +37,6 @@ export class AmqpService extends AbstractService {
       this.error = inspect(err)
       this.logger.error(err)
     })
-    this.readyCheck()
   }
 
   readyCheck() {
