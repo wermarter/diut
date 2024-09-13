@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 import { PermissionRule } from '../permission-rule'
 
@@ -20,3 +22,15 @@ export enum RoleAction {
   AssignToUser = 'AssignToUser',
   AssignUserInline = 'AssignUserInline',
 }
+
+export const RoleFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'description',
+  'permissions',
+  'branchId',
+  'branch',
+] satisfies (keyof Role)[]
+
+true satisfies AssertAllKeysInArray<typeof RoleFields, Role>

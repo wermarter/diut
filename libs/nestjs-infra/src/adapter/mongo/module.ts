@@ -6,7 +6,7 @@ import {
 } from '@nestjs/mongoose'
 import { ClassConstructor } from 'class-transformer'
 import { merge } from 'es-toolkit'
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const defaultOptions: MongooseModuleOptions = {
   retryAttempts: 3,
@@ -53,8 +53,8 @@ export class MongoModule {
 
             const client = connection.client
 
-            client.on('serverHeartbeatFailed', ({ instanceId }) => {
-              logger.warn(`MongoDB heartbeat failed: ${instanceId}`)
+            client.on('serverHeartbeatFailed', ({ connectionId }) => {
+              logger.warn(`MongoDB heartbeat failed: ${connectionId}`)
             })
 
             return connection
@@ -64,11 +64,20 @@ export class MongoModule {
     })
   }
 
-  static forFeature(SchemaClass: ClassConstructor<unknown>) {
+  static forFeature(
+    SchemaClass: ClassConstructor<unknown>,
+    schemaHook?: (schema: Schema) => void,
+  ) {
     return MongooseModule.forFeatureAsync([
       {
         name: SchemaClass.name,
-        useFactory: () => SchemaFactory.createForClass(SchemaClass),
+        useFactory: () => {
+          const schema = SchemaFactory.createForClass(SchemaClass)
+
+          schemaHook && schemaHook(schema)
+
+          return schema
+        },
       },
     ])
   }

@@ -26,6 +26,7 @@ const sdk = new NodeSDK({
   instrumentations: getNodeAutoInstrumentations({
     '@opentelemetry/instrumentation-pino': {
       disableLogSending: true,
+      enabled: process.env.TRACE_OTLP_URL !== undefined,
     },
     '@opentelemetry/instrumentation-express': {
       enabled: false,

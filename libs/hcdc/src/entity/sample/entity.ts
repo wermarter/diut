@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 import { Diagnosis } from '../diagnosis'
 import { Doctor } from '../doctor'
@@ -89,7 +91,7 @@ export const sampleInfoFieldNames = [
   'originId',
   'sampleTypeIds',
   'branchId',
-] as const
+] satisfies (keyof Sample)[]
 
 export type SampleInfo = Pick<Sample, (typeof sampleInfoFieldNames)[number]>
 
@@ -107,3 +109,25 @@ export enum SampleAction {
   PrintResult = 'PrintResult',
   GeneratePrintUrl = 'GeneratePrintUrl',
 }
+
+export const SampleFields = [
+  ...baseEntityKeys,
+  ...sampleInfoFieldNames,
+  'results',
+  'infoById',
+  'infoBy',
+  'printedById',
+  'printedBy',
+  'patient',
+  'doctor',
+  'patientType',
+  'diagnosis',
+  'origin',
+  'sampleTypes',
+  'branch',
+  'printedAt',
+  'sampleCompleted',
+  'isConfirmed',
+] satisfies (keyof Sample)[]
+
+true satisfies AssertAllKeysInArray<typeof SampleFields, Sample>

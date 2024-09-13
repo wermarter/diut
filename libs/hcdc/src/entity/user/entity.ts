@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 import { PermissionRule } from '../permission-rule'
 import { Role } from '../role'
@@ -26,3 +28,18 @@ export enum UserAction {
 }
 
 export const USER_DEFAULT_PASSWORD = 'password'
+
+export const UserFields = [
+  ...baseEntityKeys,
+  'username',
+  'passwordHash',
+  'name',
+  'phoneNumber',
+  'inlinePermissions',
+  'branchIds',
+  'branches',
+  'roleIds',
+  'roles',
+] satisfies (keyof User)[]
+
+true satisfies AssertAllKeysInArray<typeof UserFields, User>

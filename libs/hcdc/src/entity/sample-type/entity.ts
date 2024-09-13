@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 
 export type SampleType = BaseEntity & {
@@ -15,3 +17,13 @@ export enum SampleTypeAction {
   Update = 'Update',
   Delete = 'Delete',
 }
+
+export const SampleTypeFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'branchId',
+  'branch',
+] satisfies (keyof SampleType)[]
+
+true satisfies AssertAllKeysInArray<typeof SampleTypeFields, SampleType>

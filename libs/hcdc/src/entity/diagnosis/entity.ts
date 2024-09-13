@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 
 export type Diagnosis = BaseEntity & {
@@ -15,3 +17,13 @@ export enum DiagnosisAction {
   Update = 'Update',
   Delete = 'Delete',
 }
+
+export const DiagnosisFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'branchId',
+  'branch',
+] satisfies (keyof Diagnosis)[]
+
+true satisfies AssertAllKeysInArray<typeof DiagnosisFields, Diagnosis>

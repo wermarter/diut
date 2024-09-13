@@ -1,22 +1,40 @@
 import {
   BioProduct,
+  BioProductFields,
   Branch,
+  BranchFields,
   Diagnosis,
+  DiagnosisFields,
   Doctor,
+  DoctorFields,
   Instrument,
+  InstrumentFields,
   Patient,
+  PatientFields,
   PatientType,
+  PatientTypeFields,
   PrintForm,
+  PrintFormFields,
   Report,
+  ReportFields,
   Role,
+  RoleFields,
   Sample,
+  SampleFields,
   SampleTestResult,
+  SampleTestResultFields,
   SampleType,
+  SampleTypeFields,
   Test,
   TestCategory,
+  TestCategoryFields,
   TestCombo,
+  TestComboFields,
   TestElement,
+  TestElementFields,
+  TestFields,
   User,
+  UserFields,
 } from '../entity'
 import { AUTH_SUBJECT_ALL } from './constants'
 
@@ -71,4 +89,27 @@ export type SubjectEntityMapping = {
   TestCombo: TestCombo
   Sample: Sample
   Report: Report
+}
+
+export const subjectFieldsMapping = {
+  BioProduct: BioProductFields,
+  Branch: BranchFields,
+  Diagnosis: DiagnosisFields,
+  Doctor: DoctorFields,
+  Instrument: InstrumentFields,
+  Patient: PatientFields,
+  PatientType: PatientTypeFields,
+  PrintForm: PrintFormFields,
+  Report: ReportFields,
+  Role: RoleFields,
+  Sample: SampleFields,
+  SampleTestResult: SampleTestResultFields,
+  SampleType: SampleTypeFields,
+  Test: TestFields,
+  TestCategory: TestCategoryFields,
+  TestCombo: TestComboFields,
+  TestElement: TestElementFields,
+  User: UserFields,
+} satisfies {
+  [key in AuthSubjectUnionType]: string[]
 }

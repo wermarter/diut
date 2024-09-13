@@ -62,7 +62,6 @@ export class ReportExportTraKQStrategy extends AbstractReportExportStrategy<
           columnId: 'index',
           columnName: 'STT',
         },
-
         {
           columnId: 'sampleId',
           columnName: 'ID XN',

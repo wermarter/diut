@@ -1,6 +1,6 @@
-import { stringEnumValues } from '@diut/common'
+import { AssertAllKeysInArray, stringEnumValues } from '@diut/common'
 
-import { BaseEntity } from '../base-entity'
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 
 export enum PrintTemplate {
@@ -35,3 +35,19 @@ export enum PrintFormAction {
   Delete = 'Delete',
   OverrideAuthor = 'OverrideAuthor',
 }
+
+export const PrintFormFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'isA4',
+  'isAuthorLocked',
+  'authorTitle',
+  'authorName',
+  'titleMargin',
+  'template',
+  'branchId',
+  'branch',
+] satisfies (keyof PrintForm)[]
+
+true satisfies AssertAllKeysInArray<typeof PrintFormFields, PrintForm>

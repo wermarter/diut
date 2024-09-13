@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 import { Test } from '../test/entity'
 
@@ -19,3 +21,15 @@ export enum TestComboAction {
   Update = 'Update',
   Delete = 'Delete',
 }
+
+export const TestComboFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'testIds',
+  'tests',
+  'branchId',
+  'branch',
+] satisfies (keyof TestCombo)[]
+
+true satisfies AssertAllKeysInArray<typeof TestComboFields, TestCombo>

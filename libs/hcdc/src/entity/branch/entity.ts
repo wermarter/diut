@@ -1,6 +1,6 @@
-import { stringEnumValues } from '@diut/common'
+import { AssertAllKeysInArray, stringEnumValues } from '@diut/common'
 
-import { BaseEntity } from '../base-entity'
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { ReportType } from '../report'
 
 export enum BranchType {
@@ -38,3 +38,16 @@ export enum BranchAction {
   AuthorizeUser = 'AuthorizeUser',
   DeauthorizeUser = 'DeauthorizeUser',
 }
+
+export const BranchFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'address',
+  'type',
+  'reportConfig',
+  'sampleOriginIds',
+  'sampleOrigins',
+] satisfies (keyof Branch)[]
+
+true satisfies AssertAllKeysInArray<typeof BranchFields, Branch>

@@ -16,4 +16,9 @@ export const examplePermissionRule = {
   conditions: {
     example: {},
   },
+  fields: {
+    isArray: true,
+    example: [],
+    required: false,
+  },
 } satisfies EntityDataExample<PermissionRule>

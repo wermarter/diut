@@ -5,7 +5,9 @@ export const pinoMetadata: ModuleMetadata = {
   imports: [
     PinoModule.registerAsync({
       useFactory() {
-        return {}
+        return {
+          options: {},
+        }
       },
     }),
   ],

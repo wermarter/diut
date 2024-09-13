@@ -1,4 +1,5 @@
 import { MongoQuery } from '@casl/ability'
+import { StringOrKeysOf } from '@diut/common'
 
 import {
   AUTH_ACTION_ALL,
@@ -15,4 +16,5 @@ export type PermissionRule<
   action: (typeof AuthAction)[TSubject][number] | typeof AUTH_ACTION_ALL
   inverted?: boolean
   conditions?: MongoQuery<SubjectEntityMapping[TSubject]>
+  fields?: StringOrKeysOf<SubjectEntityMapping[TSubject]>[]
 }

@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { BioProduct } from '../bio-product'
 import { Branch } from '../branch'
 import { Instrument } from '../instrument'
@@ -36,3 +38,24 @@ export enum TestAction {
   Update = 'Update',
   Delete = 'Delete',
 }
+
+export const TestFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'shouldDisplayWithChildren',
+  'bioProductId',
+  'bioProduct',
+  'instrumentId',
+  'instrument',
+  'sampleTypeId',
+  'sampleType',
+  'testCategoryId',
+  'testCategory',
+  'printFormIds',
+  'printForms',
+  'branchId',
+  'branch',
+] satisfies (keyof Test)[]
+
+true satisfies AssertAllKeysInArray<typeof TestFields, Test>

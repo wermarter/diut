@@ -1,6 +1,9 @@
-export type PinoModuleOptions = {
+import { LoggerOptions } from 'pino'
+
+export type PinoModuleOptions<CustomLevels extends string = never> = {
   alternateContextKey?: string
   alternateErrorKey?: string
+  options?: LoggerOptions<CustomLevels>
 }
 
 export const PINO_DEFAULT_INSTANCE_ID = 'default'

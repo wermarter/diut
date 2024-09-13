@@ -1,4 +1,6 @@
-import { BaseEntity } from '../base-entity'
+import { AssertAllKeysInArray } from '@diut/common'
+
+import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { Branch } from '../branch'
 
 export type TestCategory = BaseEntity & {
@@ -16,3 +18,14 @@ export enum TestCategoryAction {
   Update = 'Update',
   Delete = 'Delete',
 }
+
+export const TestCategoryFields = [
+  ...baseEntityKeys,
+  'displayIndex',
+  'name',
+  'reportIndex',
+  'branchId',
+  'branch',
+] satisfies (keyof TestCategory)[]
+
+true satisfies AssertAllKeysInArray<typeof TestCategoryFields, TestCategory>

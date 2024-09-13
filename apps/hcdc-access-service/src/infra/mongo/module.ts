@@ -1,5 +1,6 @@
 import { MongoModule } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
+import { Schema } from 'mongoose'
 
 import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
@@ -37,6 +38,10 @@ import { TestComboRepository, TestComboSchema } from './test-combo'
 import { TestElementRepository, TestElementSchema } from './test-element'
 import { UserRepository, UserSchema } from './user'
 
+function schemaHook(schema: Schema) {
+  // schema.plugin(accessibleRecordsPlugin)
+}
+
 export const mongoMetadata: ModuleMetadata = {
   imports: [
     MongoModule.forRootAsync({
@@ -45,22 +50,22 @@ export const mongoMetadata: ModuleMetadata = {
         uri: mongoConfig.MONGO_URI,
       }),
     }),
-    MongoModule.forFeature(BioProductSchema),
-    MongoModule.forFeature(PatientTypeSchema),
-    MongoModule.forFeature(DiagnosisSchema),
-    MongoModule.forFeature(TestCategorySchema),
-    MongoModule.forFeature(UserSchema),
-    MongoModule.forFeature(BranchSchema),
-    MongoModule.forFeature(RoleSchema),
-    MongoModule.forFeature(InstrumentSchema),
-    MongoModule.forFeature(SampleTypeSchema),
-    MongoModule.forFeature(DoctorSchema),
-    MongoModule.forFeature(PrintFormSchema),
-    MongoModule.forFeature(TestSchema),
-    MongoModule.forFeature(TestElementSchema),
-    MongoModule.forFeature(PatientSchema),
-    MongoModule.forFeature(TestComboSchema),
-    MongoModule.forFeature(SampleSchema),
+    MongoModule.forFeature(BioProductSchema, schemaHook),
+    MongoModule.forFeature(PatientTypeSchema, schemaHook),
+    MongoModule.forFeature(DiagnosisSchema, schemaHook),
+    MongoModule.forFeature(TestCategorySchema, schemaHook),
+    MongoModule.forFeature(UserSchema, schemaHook),
+    MongoModule.forFeature(BranchSchema, schemaHook),
+    MongoModule.forFeature(RoleSchema, schemaHook),
+    MongoModule.forFeature(InstrumentSchema, schemaHook),
+    MongoModule.forFeature(SampleTypeSchema, schemaHook),
+    MongoModule.forFeature(DoctorSchema, schemaHook),
+    MongoModule.forFeature(PrintFormSchema, schemaHook),
+    MongoModule.forFeature(TestSchema, schemaHook),
+    MongoModule.forFeature(TestElementSchema, schemaHook),
+    MongoModule.forFeature(PatientSchema, schemaHook),
+    MongoModule.forFeature(TestComboSchema, schemaHook),
+    MongoModule.forFeature(SampleSchema, schemaHook),
   ],
   providers: [
     {

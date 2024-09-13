@@ -1,4 +1,4 @@
-import { stringEnumValues } from '@diut/common'
+import { AssertAllKeysInArray, stringEnumValues } from '@diut/common'
 
 export enum ReportType {
   SoNhanMau = 'SoNhanMau',
@@ -26,3 +26,7 @@ export enum ReportAction {
   View = 'View',
   Export = 'Export',
 }
+
+export const ReportFields = ['type', 'branchId'] satisfies (keyof Report)[]
+
+true satisfies AssertAllKeysInArray<typeof ReportFields, Report>

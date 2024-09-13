@@ -1,3 +1,5 @@
+import { AssertAllKeysInArray } from '@diut/common'
+
 export type BaseEntity = {
   _id: string
 
@@ -15,8 +17,7 @@ export const baseEntityKeys = [
   'isDeleted',
   'deletedAt',
 ] satisfies (keyof BaseEntity)[]
-type MissingKeys = Exclude<keyof BaseEntity, (typeof baseEntityKeys)[number]>
-type EnsureAllKeysAreIncluded = MissingKeys extends never ? true : false
-const allKeysIncluded: EnsureAllKeysAreIncluded = true
+
+true satisfies AssertAllKeysInArray<typeof baseEntityKeys, BaseEntity>
 
 export type EntityData<TEntity> = Omit<TEntity, keyof BaseEntity>

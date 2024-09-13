@@ -37,6 +37,7 @@ export class PinoLogger implements IPinoLogger {
           return { level: label }
         },
       },
+      ...options,
     })
   }
 

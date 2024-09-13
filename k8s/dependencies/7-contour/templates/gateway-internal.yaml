@@ -9,6 +9,9 @@ spec:
     networkPublishing:
       type: ClusterIPService
   runtimeSettings:
+    envoy:
+      timeouts:
+        connectionIdleTimeout: 'infinity'
     tracing:
       extensionService:
         name: tempo

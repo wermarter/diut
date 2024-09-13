@@ -7,7 +7,13 @@ import {
 } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IsBoolean, IsEnum, IsObject, IsOptional } from 'class-validator'
+import {
+  IsBoolean,
+  IsEnum,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator'
 
 import { examplePermissionRule } from '../../../shared'
 
@@ -24,12 +30,18 @@ export class PermissionRuleDto {
 
   @Expose()
   @ApiProperty(examplePermissionRule.inverted)
-  @IsOptional()
   @IsBoolean()
-  inverted: boolean
+  @IsOptional()
+  inverted?: boolean
 
   @Expose()
   @ApiProperty(examplePermissionRule.conditions)
   @IsObject()
   conditions: MongoQuery
+
+  @Expose()
+  @ApiProperty(examplePermissionRule.fields)
+  @IsString({ each: true })
+  @IsOptional()
+  fields?: string[]
 }

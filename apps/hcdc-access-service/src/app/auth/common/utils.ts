@@ -1,4 +1,5 @@
 import { MongoAbility } from '@casl/ability'
+import { permittedFieldsOf } from '@casl/ability/extra'
 import { accessibleBy } from '@casl/mongoose'
 import {
   AUTH_ACTION_ALL,
@@ -12,9 +13,9 @@ import {
   SubjectEntityMapping,
   User,
   checkPermission,
+  subjectFieldsMapping,
 } from '@diut/hcdc'
 import type { PopulatePath } from '@diut/nestjs-infra'
-import type { FilterQuery } from 'mongoose'
 const buildJSONTemplate = require('json-templates')
 
 import { EAuthzPermissionDenied, EntityFindOneOptions } from 'src/domain'
@@ -56,26 +57,27 @@ export function authorizePopulates<TEntity extends BaseEntity>(
   }
 
   const rv: EntityFindOneOptions<TEntity>['populates'] = []
+
   for (const populate of populates) {
     const { subject, action } = authMapping(populate.path)
+
+    const allowedFields = permittedFieldsOf(ability, action, subject, {
+      fieldsFrom: (rule) => rule.fields || subjectFieldsMapping[subject],
+    })
+    populate.fields = populate.fields?.filter((field) =>
+      allowedFields.includes(field),
+    )
+
     const authMatchObj = accessibleBy(ability, action).ofType(subject)
-
     if (populate.match) {
-      let matchObject: FilterQuery<TEntity>
-
       if (typeof populate.match === 'function') {
-        matchObject = populate.match()
-      } else {
-        matchObject = populate.match
+        populate.match = populate.match()
       }
 
-      rv.push({
-        ...populate,
-        match: { $and: [matchObject, authMatchObj] },
-      })
-    } else {
-      rv.push({ ...populate, match: authMatchObj })
+      populate.match = { $and: [populate.match, authMatchObj] }
     }
+
+    rv.push(populate)
   }
 
   return rv
