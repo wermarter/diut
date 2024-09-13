@@ -69,6 +69,7 @@ export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
                 }}
               >
                 <ListItemButton
+                  href={item.destination.toString()}
                   disableRipple
                   selected={
                     matchPath(item.destination as string, pathname)?.pattern

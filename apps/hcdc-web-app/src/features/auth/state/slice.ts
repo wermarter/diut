@@ -1,4 +1,4 @@
-import { PermissionRule } from '@diut/hcdc'
+import { BranchType, PermissionRule } from '@diut/hcdc'
 import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -63,9 +63,17 @@ export const authSlice = createSlice({
           id: payload.user._id,
           name: payload.user.name,
           branchIds: payload.user.branchIds,
-          branches: payload.user.branches?.toSorted(
-            (a, b) => a.displayIndex - b.displayIndex,
-          )!,
+          branches: payload.user.branches?.toSorted((a, b) => {
+            if (a.type === b.type) {
+              return a.displayIndex - b.displayIndex
+            }
+
+            if (a.type === BranchType.Internal) {
+              return 1
+            } else {
+              return -1
+            }
+          })!,
           activeBranchId: payload.user.branchIds[0],
           permissions: payload.permissions as unknown as PermissionRule[],
         }

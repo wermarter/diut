@@ -41,6 +41,12 @@ export class ReportExportGiaoNhanStrategy extends AbstractReportExportStrategy<
         testIds: this.options.testIds,
         testComboIds: this.options.testComboIds,
         patientTypeIds: this.options.patientTypeIds,
+        populates: [
+          {
+            path: 'doctor',
+            fields: ['name'],
+          },
+        ],
       })
 
     return {
@@ -84,6 +90,20 @@ export class ReportExportGiaoNhanStrategy extends AbstractReportExportStrategy<
           },
         },
         {
+          columnId: 'patientAddress',
+          columnName: 'Địa chỉ',
+          valueGetter(item) {
+            return item.patient?.address
+          },
+        },
+        {
+          columnId: 'doctorName',
+          columnName: 'BSĩ chỉ định',
+          valueGetter(item) {
+            return item.doctor?.name
+          },
+        },
+        {
           columnId: 'infoAt',
           columnName: 'Ngày nhận mẫu',
           valueGetter(item) {
@@ -113,20 +133,6 @@ export class ReportExportGiaoNhanStrategy extends AbstractReportExportStrategy<
             }
 
             return testNames.join(', ')
-          },
-        },
-        {
-          columnId: 'Ngày trả KQ',
-          columnName: 'Ngày trả KQ',
-          valueGetter() {
-            return ''
-          },
-        },
-        {
-          columnId: 'Người trả KQ',
-          columnName: 'Người trả KQ',
-          valueGetter() {
-            return ''
           },
         },
         {

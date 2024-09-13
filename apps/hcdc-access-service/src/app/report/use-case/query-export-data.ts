@@ -1,4 +1,11 @@
-import { Test, TestCombo, TestElement, cringySortCompareFn } from '@diut/hcdc'
+import {
+  Sample,
+  Test,
+  TestCombo,
+  TestElement,
+  cringySortCompareFn,
+} from '@diut/hcdc'
+import { PopulateConfig } from '@diut/nestjs-infra'
 import { Injectable } from '@nestjs/common'
 import { parseISO } from 'date-fns'
 
@@ -25,6 +32,7 @@ export class ReportQueryExportDataUseCase {
     originIds?: string[]
     patientTypeIds?: string[]
     testComboIds?: string[]
+    populates?: PopulateConfig<Sample>[]
   }) {
     const testCombos: TestCombo[] = []
     let testIds = Array.from(input.testIds)
@@ -75,7 +83,7 @@ export class ReportQueryExportDataUseCase {
           originId: { $in: input.originIds },
         }),
       },
-      populates: [{ path: 'patient' }],
+      populates: (input.populates ?? []).concat([{ path: 'patient' }]),
     })
 
     return { samples: samples.toSorted(cringySortCompareFn), tests, testCombos }
