@@ -38,8 +38,6 @@ export function ResultSelectPage() {
   const [searchParams, setSearchParams] = useSearchParams({
     [PARAM_PAGE]: '0',
     [PARAM_PAGE_SIZE]: ROWS_PER_PAGE_OPTIONS[0].toString(),
-    [PARAM_FROM_DATE]: new Date().getTime().toString(),
-    [PARAM_TO_DATE]: new Date().getTime().toString(),
   })
   const [page, setPageCb] = useState(searchParams.get(PARAM_PAGE)!)
   const [pageSize, setPageSizeCb] = useState(searchParams.get(PARAM_PAGE_SIZE)!)
@@ -51,14 +49,14 @@ export function ResultSelectPage() {
   )
   const [originId, setOriginIdCb] = useState(searchParams.get(PARAM_ORIGIN_ID))
   const [sampleId, setSampleIdCb] = useState(searchParams.get(PARAM_SAMPLE_ID))
-  const [fromDate, setFromDateCb] = useState(searchParams.get(PARAM_FROM_DATE)!)
-  const [toDate, setToDateCb] = useState(searchParams.get(PARAM_TO_DATE)!)
+  const [fromDate, setFromDateCb] = useState(searchParams.get(PARAM_FROM_DATE))
+  const [toDate, setToDateCb] = useState(searchParams.get(PARAM_TO_DATE))
 
-  const setFromDate = useCallback((fromDate: Date) => {
-    setFromDateCb(fromDate.getTime().toString())
+  const setFromDate = useCallback((fromDate: Date | null) => {
+    setFromDateCb(fromDate && fromDate.getTime().toString())
   }, [])
-  const setToDate = useCallback((toDate: Date) => {
-    setToDateCb(toDate.getTime().toString())
+  const setToDate = useCallback((toDate: Date | null) => {
+    setToDateCb(toDate && toDate.getTime().toString())
   }, [])
 
   const setPage = useCallback((page: number) => setPageCb(page.toString()), [])
@@ -104,8 +102,12 @@ export function ResultSelectPage() {
       {
         [PARAM_PAGE]: page,
         [PARAM_PAGE_SIZE]: pageSize,
-        [PARAM_FROM_DATE]: fromDate,
-        [PARAM_TO_DATE]: toDate,
+        ...(fromDate && {
+          [PARAM_FROM_DATE]: fromDate,
+        }),
+        ...(toDate && {
+          [PARAM_TO_DATE]: toDate,
+        }),
         ...(originId && {
           [PARAM_ORIGIN_ID]: originId,
         }),
@@ -165,9 +167,9 @@ export function ResultSelectPage() {
       setOriginId={setOriginId}
       sampleId={sampleId}
       setSampleId={setSampleId}
-      fromDate={new Date(parseInt(fromDate))}
+      fromDate={fromDate ? new Date(parseInt(fromDate)) : null}
       setFromDate={setFromDate}
-      toDate={new Date(parseInt(toDate))}
+      toDate={toDate ? new Date(parseInt(toDate)) : null}
       setToDate={setToDate}
     />
   )

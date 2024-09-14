@@ -69,9 +69,9 @@ export const authSlice = createSlice({
             }
 
             if (a.type === BranchType.Internal) {
-              return 1
-            } else {
               return -1
+            } else {
+              return +1
             }
           })!,
           activeBranchId: payload.user.branchIds[0],

@@ -60,7 +60,7 @@ export function FormDateTimePicker<
               notched
               title={label}
               value={format(
-                value,
+                value ?? new Date(),
                 dateOnly ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm',
               )}
               onChange={(e) => {

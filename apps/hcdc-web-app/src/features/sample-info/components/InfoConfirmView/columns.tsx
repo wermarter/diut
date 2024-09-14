@@ -13,7 +13,7 @@ import { IconButton } from '@mui/material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { format } from 'date-fns'
 import { identity } from 'lodash'
-import { useCallback, useMemo } from 'react'
+import { MouseEventHandler, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { authSlice } from 'src/features/auth'
@@ -58,11 +58,15 @@ export const useColumns = (
       })
     }
   }, [])
-  const handleEditClick = useCallback((sample: OmittedSampleResponseDto) => {
-    return () => {
-      navigate(urlInfoEditPage({ sampleId: sample._id }))
-    }
-  }, [])
+  const handleEditClick = useCallback(
+    (sample: OmittedSampleResponseDto): MouseEventHandler => {
+      return (e) => {
+        e.preventDefault()
+        navigate(urlInfoEditPage({ sampleId: sample._id }))
+      }
+    },
+    [],
+  )
 
   const columns: GridColDef<OmittedSampleResponseDto>[] = useMemo(() => {
     return [
@@ -209,6 +213,9 @@ export const useColumns = (
             icon={<EditIcon />}
             label="Sửa"
             onClick={handleEditClick(row)}
+            component="a"
+            // @ts-ignore
+            href={urlInfoEditPage({ sampleId: row._id })}
           />,
         ],
       },

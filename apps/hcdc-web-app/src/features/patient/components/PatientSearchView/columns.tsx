@@ -8,7 +8,6 @@ import {
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
-import { startOfDay, subMonths } from 'date-fns'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -41,15 +40,13 @@ export const useColumns = (
             icon={<ManageSearchIcon />}
             label="Tra cứu"
             color="primary"
-            onClick={() => {
-              const now = new Date()
-              navigate(
-                urlPrintSelectPage({
-                  patientId: row._id,
-                  fromDate: startOfDay(subMonths(now, 12)).getTime().toString(),
-                }),
-              )
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(urlPrintSelectPage({ patientId: row._id }))
             }}
+            component="a"
+            // @ts-ignore
+            href={urlPrintSelectPage({ patientId: row._id })}
           />,
         ],
       },

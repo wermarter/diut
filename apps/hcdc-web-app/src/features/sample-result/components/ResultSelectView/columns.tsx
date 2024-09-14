@@ -13,7 +13,7 @@ import { IconButton } from '@mui/material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { format, parseISO } from 'date-fns'
 import { identity } from 'lodash'
-import { useCallback, useMemo } from 'react'
+import { MouseEventHandler, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { authSlice } from 'src/features/auth'
@@ -43,11 +43,15 @@ export const useColumns = (
     return createAbility(userPermissions)
   }, [userPermissions])
 
-  const handleEditClick = useCallback((sample: OmittedSampleResponseDto) => {
-    return () => {
-      navigate(urlResultEditPage({ sampleId: sample._id }))
-    }
-  }, [])
+  const handleEditClick = useCallback(
+    (sample: OmittedSampleResponseDto): MouseEventHandler => {
+      return (e) => {
+        e.preventDefault()
+        navigate(urlResultEditPage({ sampleId: sample._id }))
+      }
+    },
+    [],
+  )
 
   const columns: GridColDef<OmittedSampleResponseDto>[] = useMemo(() => {
     return [
@@ -170,6 +174,9 @@ export const useColumns = (
             label="Sửa"
             color={row.sampleCompleted ? 'default' : 'secondary'}
             onClick={handleEditClick(row)}
+            component="a"
+            // @ts-ignore
+            href={urlResultEditPage({ sampleId: row._id })}
             disabled={
               !checkPermission(
                 userAbility,

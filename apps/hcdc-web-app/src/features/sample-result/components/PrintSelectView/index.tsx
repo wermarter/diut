@@ -1,5 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { startOfDay, subMonths } from 'date-fns'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -28,8 +29,8 @@ import { useColumns } from './columns'
 import { PrintSingleDialog } from './components'
 
 interface FormData {
-  fromDate: Date
-  toDate: Date
+  fromDate: Date | null
+  toDate: Date | null
   sampleId: string
   patientTypeId: string
   originId: string
@@ -52,10 +53,10 @@ export type PrintSelectViewProps = {
   setOriginId: (originId: string | null) => void
   sampleId: string | null
   setSampleId: (originId: string | null) => void
-  fromDate: Date
-  setFromDate: (fromDate: Date) => void
-  toDate: Date
-  setToDate: (toDate: Date) => void
+  fromDate: Date | null
+  setFromDate: (fromDate: Date | null) => void
+  toDate: Date | null
+  setToDate: (toDate: Date | null) => void
   testIds: string[]
   setTestIds: (testIds: string[]) => void
   tests: TestResponseDto[]
@@ -95,10 +96,10 @@ export function PrintSelectView(props: PrintSelectViewProps) {
       testIds: [],
     },
   })
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
 
   useEffect(() => {
-    setValue('fromDate', props.fromDate)
-    setValue('toDate', props.toDate)
     setValue(
       'patientTypeId',
       props.patientTypeId === null ? 'null' : `"${props.patientTypeId}"`,
@@ -112,6 +113,18 @@ export function PrintSelectView(props: PrintSelectViewProps) {
     }
     setValue('testIds', props.testIds)
 
+    let newFromDate = props.fromDate
+    let newToDate = props.toDate
+    if (
+      props.fromDate === null &&
+      props.toDate === null &&
+      (props.sampleId !== null || props.patientId !== null)
+    ) {
+      newFromDate = startOfDay(subMonths(new Date(), 12))
+    }
+    setValue('fromDate', newFromDate)
+    setValue('toDate', newToDate)
+
     setFilterObj((obj) => ({
       ...obj,
       filter: {
@@ -119,7 +132,7 @@ export function PrintSelectView(props: PrintSelectViewProps) {
         sampleId: props.sampleId
           ? { $regex: props.sampleId + '$', $options: 'i' }
           : undefined,
-        infoAt: makeDateFilter(props.fromDate, props.toDate),
+        infoAt: makeDateFilter(newFromDate, newToDate),
         patientTypeId:
           props.patientTypeId === null ? undefined : props.patientTypeId,
         originId: props.originId === null ? undefined : props.originId,
@@ -176,14 +189,6 @@ export function PrintSelectView(props: PrintSelectViewProps) {
     }
   }
 
-  const fromDate = watch('fromDate')
-  const toDate = watch('toDate')
-  useEffect(() => {
-    if (toDate < fromDate) {
-      props.setFromDate(toDate)
-    }
-  }, [fromDate, toDate])
-
   const [printSample, setPrintSample] =
     useState<null | OmittedSampleResponseDto>(null)
 
@@ -231,7 +236,13 @@ export function PrintSelectView(props: PrintSelectViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                onChangeHook={props.setFromDate}
+                onChangeHook={(newFromDate) => {
+                  if (newFromDate > (toDate ?? new Date())) {
+                    props.setToDate(newFromDate)
+                  }
+
+                  props.setFromDate(newFromDate)
+                }}
                 name="fromDate"
                 dateOnly
                 label="Từ ngày"
@@ -240,7 +251,13 @@ export function PrintSelectView(props: PrintSelectViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                onChangeHook={props.setToDate}
+                onChangeHook={(newToDate) => {
+                  if (newToDate < (fromDate ?? new Date())) {
+                    props.setFromDate(newToDate)
+                  }
+
+                  props.setToDate(newToDate)
+                }}
                 name="toDate"
                 dateOnly
                 label="Đến ngày"

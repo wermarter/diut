@@ -41,7 +41,7 @@ async function main() {
   const repository = new TestElementRepository(model)
 
   let counter = 0
-  for await (const object of srcService.listKeysIterator({
+  for await (const object of srcService.listObjects({
     bucket: 'bathanghai-result-image',
   })) {
     if (++counter % 100 === 0) {

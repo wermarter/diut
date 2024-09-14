@@ -83,27 +83,18 @@ export class AwsS3Service<
     }
   }
 
-  async deleteKeys(input: { prefix: string; bucket: TBucket }) {
-    const response = await this.client.send(
-      new ListObjectsV2Command({
-        Bucket: input.bucket,
-        Prefix: input.prefix,
-      }),
-    )
+  async deleteKeysMatch(input: { prefix: string; bucket: TBucket }) {
+    let deletedCount = 0
 
-    const keys = response.Contents?.map((item) => item.Key!)
-    if (!keys) {
-      return 0
+    for await (const object of this.listObjects(input)) {
+      await this.deleteKey({ key: object.Key!, bucket: input.bucket })
+      deletedCount++
     }
 
-    for (const key of keys) {
-      await this.deleteKey({ key, bucket: input.bucket })
-    }
-
-    return keys.length
+    return deletedCount
   }
 
-  async *listKeysIterator(input: {
+  async *listObjects(input: {
     bucket: TBucket
     prefix?: string
     maxKeys?: number

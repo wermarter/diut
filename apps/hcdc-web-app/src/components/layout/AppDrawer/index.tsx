@@ -61,13 +61,7 @@ export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
               {group.title}
             </ListSubheader>
             {group.children.map((item) => (
-              <ListItem
-                key={item.label}
-                disablePadding
-                onClick={() => {
-                  navigate(item.destination)
-                }}
-              >
+              <ListItem key={item.label} disablePadding>
                 <ListItemButton
                   href={item.destination.toString()}
                   disableRipple
@@ -75,6 +69,10 @@ export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {
                     matchPath(item.destination as string, pathname)?.pattern
                       .path === item.destination
                   }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate(item.destination)
+                  }}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.label} />

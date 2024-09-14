@@ -37,7 +37,7 @@ export class SampleDeleteUseCase {
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Sample, SampleAction.Delete, entity)
 
-    await this.storageService.deleteKeys({
+    await this.storageService.deleteKeysMatch({
       bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
       prefix: StorageKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
         sampleId: input.id,

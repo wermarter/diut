@@ -1,5 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
+import { startOfDay, subMonths } from 'date-fns'
 import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -26,8 +27,8 @@ import { usePagination } from 'src/shared/hooks'
 import { useColumns } from './columns'
 
 interface FormData {
-  fromDate: Date
-  toDate: Date
+  fromDate: Date | null
+  toDate: Date | null
   sampleId: string
   isConfirmed: string
   patientTypeId: string
@@ -52,10 +53,10 @@ export type InfoConfirmViewProps = {
   setOriginId: (originId: string | null) => void
   sampleId: string | null
   setSampleId: (originId: string | null) => void
-  fromDate: Date
-  setFromDate: (fromDate: Date) => void
-  toDate: Date
-  setToDate: (toDate: Date) => void
+  fromDate: Date | null
+  setFromDate: (fromDate: Date | null) => void
+  toDate: Date | null
+  setToDate: (toDate: Date | null) => void
 }
 
 export function InfoConfirmView(props: InfoConfirmViewProps) {
@@ -90,10 +91,10 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
       originId: '',
     },
   })
+  const fromDate = watch('fromDate')
+  const toDate = watch('toDate')
 
   useEffect(() => {
-    setValue('fromDate', props.fromDate)
-    setValue('toDate', props.toDate)
     setValue(
       'patientTypeId',
       props.patientTypeId === null ? 'null' : `"${props.patientTypeId}"`,
@@ -110,6 +111,18 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
       setValue('sampleId', props.sampleId)
     }
 
+    let newFromDate = props.fromDate
+    let newToDate = props.toDate
+    if (
+      props.fromDate === null &&
+      props.toDate === null &&
+      props.sampleId !== null
+    ) {
+      newFromDate = startOfDay(subMonths(new Date(), 12))
+    }
+    setValue('fromDate', newFromDate)
+    setValue('toDate', newToDate)
+
     setFilterObj((obj) => ({
       ...obj,
       filter: {
@@ -117,7 +130,7 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
         sampleId: props.sampleId
           ? { $regex: props.sampleId + '$', $options: 'i' }
           : undefined,
-        infoAt: makeDateFilter(props.fromDate, props.toDate),
+        infoAt: makeDateFilter(newFromDate, newToDate),
         isConfirmed: props.isConfirmed === null ? undefined : props.isConfirmed,
         patientTypeId:
           props.patientTypeId === null ? undefined : props.patientTypeId,
@@ -164,15 +177,6 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
     props.setOriginId(JSON.parse(originId))
   }
 
-  const fromDate = watch('fromDate')
-  const toDate = watch('toDate')
-
-  useEffect(() => {
-    if (toDate < fromDate) {
-      props.setFromDate(toDate)
-    }
-  }, [fromDate, toDate])
-
   const columns = useColumns(
     refetch,
     props.diagnosisMap,
@@ -215,7 +219,13 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                onChangeHook={props.setFromDate}
+                onChangeHook={(newFromDate) => {
+                  if (newFromDate > (toDate ?? new Date())) {
+                    props.setToDate(newFromDate)
+                  }
+
+                  props.setFromDate(newFromDate)
+                }}
                 name="fromDate"
                 dateOnly
                 label="Từ ngày"
@@ -224,7 +234,13 @@ export function InfoConfirmView(props: InfoConfirmViewProps) {
             <Grid xs={2}>
               <FormDateTimePicker
                 control={control}
-                onChangeHook={props.setToDate}
+                onChangeHook={(newToDate) => {
+                  if (newToDate < (fromDate ?? new Date())) {
+                    props.setFromDate(newToDate)
+                  }
+
+                  props.setToDate(newToDate)
+                }}
                 name="toDate"
                 dateOnly
                 label="Đến ngày"
