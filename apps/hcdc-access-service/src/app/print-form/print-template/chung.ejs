@@ -142,9 +142,9 @@
           <% } %>
         <% test.elements.forEach(element => { %>
         <tr class="border border-gray-300" style="page-break-before: avoid;">
-          <% if (element.isParent) { %>
+          <% if (element.testElement.isParent) { %>
           <td class="pl-8 border border-gray-300 font-bold text-sm">
-            <%= element.name %>
+            <%= element.testElement.name %>
           </td>
           <% } else { %>
           <td class="pl-8 border border-gray-300">- <%= element.testElement.name %></td>

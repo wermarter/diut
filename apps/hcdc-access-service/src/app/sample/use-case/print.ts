@@ -36,16 +36,16 @@ import {
   StorageBucket,
   StorageKeyFactory,
 } from 'src/domain'
-import { ISamplePrintStrategy } from '../print-strategy/common'
+import { ISamplePrintStrategy } from '../../print-form/print-strategy/common'
 import {
   SamplePrintContext,
   SamplePrintOptions,
-} from '../print-strategy/context'
-import { SamplePrintFormChungStrategy } from '../print-strategy/form-chung'
-import { SamplePrintFormHIVStrategy } from '../print-strategy/form-hiv'
-import { SamplePrintFormPapStrategy } from '../print-strategy/form-pap'
-import { SamplePrintFormSoiNhuomStrategy } from '../print-strategy/form-soi-nhuom'
-import { SamplePrintFormTDStrategy } from '../print-strategy/form-td'
+} from '../../print-form/print-strategy/context'
+import { SamplePrintFormChungStrategy } from '../../print-form/print-strategy/form-chung'
+import { SamplePrintFormHIVStrategy } from '../../print-form/print-strategy/form-hiv'
+import { SamplePrintFormPapStrategy } from '../../print-form/print-strategy/form-pap'
+import { SamplePrintFormSoiNhuomStrategy } from '../../print-form/print-strategy/form-soi-nhuom'
+import { SamplePrintFormTDStrategy } from '../../print-form/print-strategy/form-td'
 import { SampleAssertExistsUseCase } from './assert-exists'
 import { SampleGeneratePrintUrlUseCase } from './generate-print-url'
 
@@ -161,6 +161,7 @@ export class SamplePrintUseCase {
       samplePrintContext.setStrategy(strategy)
       printContexts.push(samplePrintContext)
     }
+
     const response$ = this.browserService.printMultiplePage(
       new Observable((subscriber) => {
         ;(async () => {

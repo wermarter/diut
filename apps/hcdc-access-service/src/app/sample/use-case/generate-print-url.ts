@@ -13,7 +13,7 @@ import {
   IAuthCacheService,
   IAuthContext,
 } from 'src/domain'
-import { SamplePrintOptions } from '../print-strategy/context'
+import { SamplePrintOptions } from '../../print-form/print-strategy/context'
 import { SampleAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
