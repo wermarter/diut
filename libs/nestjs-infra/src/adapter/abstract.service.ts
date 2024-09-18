@@ -49,6 +49,7 @@ export abstract class AbstractService
       )
       await this.readyCheck()
     } catch (e) {
+      Error.captureStackTrace(e)
       this.logger.error({ message: `Cannot connect`, error: e, stack: e.stack })
       isSuccessful = false
       if (!this.ignoreConnectFail) {
