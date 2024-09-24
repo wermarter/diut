@@ -1,0 +1,17 @@
+- name: Longhorn requirement
+  hosts: all
+  tasks:
+    - name: Append blacklist block to /etc/multipath.conf
+      blockinfile:
+        path: /etc/multipath.conf
+        block: |
+          blacklist {
+              devnode "^sd[a-z0-9]+"
+          }
+        state: present
+        insertafter: EOF
+
+    - name: Restart the multipathd service
+      service:
+        name: multipathd
+        state: restarted

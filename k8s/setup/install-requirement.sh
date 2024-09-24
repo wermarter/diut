@@ -37,6 +37,7 @@ ssh labo5
 
 ansible-playbook playbooks/shell.yaml
 ansible-playbook playbooks/prepare-k3s.yaml
+ansible-playbook playbooks/prepare-longhorn.yaml
 
 sudo snap install kubectl --classic
 sudo snap install helm --classic
