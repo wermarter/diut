@@ -4,6 +4,10 @@ tempo-distributed:
   server:
     grpc_server_max_recv_msg_size: 100000000
     grpc_server_max_send_msg_size: 100000000
+  distributor:
+    resources:
+      requests:
+        memory: 1Gi
   compactor:
     extraArgs:
       - -config.expand-env=true
@@ -17,6 +21,9 @@ tempo-distributed:
       requests:
         memory: 1Gi
   ingester:
+    resources:
+      requests:
+        memory: 1Gi
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
@@ -35,16 +42,13 @@ tempo-distributed:
           max_send_msg_size: 100000000
     resources:
       requests:
-        memory: 2Gi
+        memory: 1Gi
   queryFrontend:
     extraArgs:
       - -config.expand-env=true
     extraEnvFrom:
       - secretRef:
           name: tempo-credentials
-    resources:
-      requests:
-        memory: 1Gi
   traces:
     otlp:
       grpc:
@@ -63,6 +67,9 @@ tempo-distributed:
         insecure: true
   metricsGenerator:
     enabled: true
+    resources:
+      requests:
+        memory: 1Gi
     config:
       storage:
         remote_write:
