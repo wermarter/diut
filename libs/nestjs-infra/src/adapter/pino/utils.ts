@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common'
 import { LoggerOptions } from 'pino'
 
 export type PinoModuleOptions<CustomLevels extends string = never> = {
@@ -17,3 +18,6 @@ export function getPinoLoggerToken(instanceId?: string) {
 export function getPinoNestjsLoggerToken(instanceId?: string) {
   return `PinoNestjsLogger:${instanceId ?? PINO_DEFAULT_INSTANCE_ID}`
 }
+
+export const InjectPinoLogger = (instanceId?: string) =>
+  Inject(getPinoLoggerToken(instanceId))

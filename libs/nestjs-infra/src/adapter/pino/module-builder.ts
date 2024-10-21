@@ -1,6 +1,6 @@
 import { ConfigurableModuleBuilder } from '@nestjs/common'
 
-import { PinoModuleOptions } from './common'
+import { PinoModuleOptions } from './utils'
 
 export const {
   ConfigurableModuleClass,
@@ -8,4 +8,4 @@ export const {
   ASYNC_OPTIONS_TYPE,
 } = new ConfigurableModuleBuilder<PinoModuleOptions>().build()
 
-export const INSTANCE_ID_TOKEN = Symbol('INSTANCE_ID_TOKEN')
+export const INSTANCE_ID_TOKEN = 'INSTANCE_ID_TOKEN'

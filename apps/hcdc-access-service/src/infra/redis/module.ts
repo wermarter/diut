@@ -1,5 +1,5 @@
 import { NodeEnv } from '@diut/common'
-import { RedisClientOptions, RedisModule } from '@diut/nestjs-infra'
+import { RedisModule, RedisModuleOptions } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 
 import {
@@ -16,7 +16,7 @@ import { MutexService } from './service/mutex'
 function getCommonConfig(
   redisConfig: RedisConfig,
   appConfig: AppConfig,
-): RedisClientOptions {
+): RedisModuleOptions {
   return {
     name: redisConfig.REDIS_MASTER_GROUP_NAME,
     replicaCount: redisConfig.REDIS_REPLICAS_COUNT,

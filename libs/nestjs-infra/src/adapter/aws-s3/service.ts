@@ -1,33 +1,29 @@
 import {
+  CompleteMultipartUploadCommand,
   CreateBucketCommand,
+  CreateMultipartUploadCommand,
   DeleteObjectCommand,
   GetObjectCommand,
   HeadBucketCommand,
+  HeadObjectCommand,
   ListObjectsV2Command,
   ListObjectsV2CommandInput,
-  ListObjectsV2CommandOutput,
   PutObjectCommand,
   S3Client,
   S3ClientConfigType,
-  S3ServiceException,
+  UploadPartCommand,
 } from '@aws-sdk/client-s3'
-import { S3RequestPresigner } from '@aws-sdk/s3-request-presigner'
-import { formatUrl } from '@aws-sdk/util-format-url'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { StringOrKeysOf } from '@diut/common'
 import { Inject, Injectable } from '@nestjs/common'
-import { Hash } from '@smithy/hash-node'
-import { HttpRequest } from '@smithy/protocol-http'
-import { parseUrl } from '@smithy/url-parser'
 import { Readable, Stream } from 'stream'
 
 import { AbstractService } from '../abstract.service'
-import {
-  DEFAULT_INSTANCE_ID,
-  INSTANCE_ID_TOKEN,
-  MODULE_OPTIONS_TOKEN,
-} from './module-builder'
+import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from './module-builder'
 
-export type AwsS3ClientOptions = S3ClientConfigType & {}
+export type AwsS3ModuleOptions = S3ClientConfigType & {
+  bucketName: string
+}
 
 export interface AwsS3Buckets {}
 /**
@@ -42,31 +38,25 @@ export interface AwsS3Buckets {}
 export class AwsS3Service<
   TBucket extends string = StringOrKeysOf<AwsS3Buckets>,
 > extends AbstractService {
-  private client: S3Client
+  public client: S3Client
 
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
-    private readonly clientOptions: AwsS3ClientOptions,
+    private readonly options: AwsS3ModuleOptions,
     @Inject(INSTANCE_ID_TOKEN)
-    instanceId?: string,
+    private readonly instanceId: string,
   ) {
-    instanceId = instanceId ?? DEFAULT_INSTANCE_ID
-
     super({ instanceId })
   }
 
   async readyCheck() {
-    try {
-      await this.client.send(new HeadBucketCommand({ Bucket: 'bucket-name' }))
-    } catch (e) {
-      if (!(e instanceof S3ServiceException)) {
-        throw e
-      }
-    }
+    await this.client.send(
+      new HeadBucketCommand({ Bucket: this.options.bucketName }),
+    )
   }
 
   async connect() {
-    this.client = new S3Client(this.clientOptions)
+    this.client = new S3Client(this.options)
   }
 
   close() {
@@ -110,9 +100,8 @@ export class AwsS3Service<
       }
 
       const command = new ListObjectsV2Command(params)
-      let response: ListObjectsV2CommandOutput
 
-      response = await this.client.send(command)
+      const response = await this.client.send(command)
       if (response.Contents) {
         for (const object of response.Contents) {
           yield object
@@ -148,26 +137,90 @@ export class AwsS3Service<
     )
   }
 
-  async getPresignedUrl(input: { key: string }) {
-    const credentials = this.clientOptions.credentials
-    const region = this.clientOptions.region
-    if (!credentials || !region) {
-      throw new Error('Missing credentials or region required for signing URL')
-    }
+  async getPresignedUrl(input: {
+    key: string
+    bucket: TBucket
+    expiresIn: number
+  }) {
+    return getSignedUrl(
+      this.client,
+      new PutObjectCommand({
+        Bucket: input.bucket,
+        Key: input.key,
+      }),
+      {
+        expiresIn: input.expiresIn,
+      },
+    )
+  }
 
-    const s3ObjectUrl = parseUrl(
-      `https://${process.env.S3_BUCKET}.s3.${region}.amazonaws.com/${input.key}`,
+  async createMultipartUpload(input: { key: string; bucket: TBucket }) {
+    const { UploadId } = await this.client.send(
+      new CreateMultipartUploadCommand({
+        Bucket: input.bucket,
+        Key: input.key,
+      }),
     )
 
-    const presigner = new S3RequestPresigner({
-      credentials,
-      region,
-      sha256: Hash.bind(null, 'sha256'),
+    return UploadId
+  }
+
+  async getMultipartPresignedUrls(input: {
+    key: string
+    bucket: TBucket
+    expiresIn: number
+    uploadId: string
+    multipart: {
+      totalSize: number
+      chunkSize: number
+    }
+  }) {
+    const numberOfParts = Math.ceil(
+      input.multipart.totalSize / input.multipart.chunkSize,
+    )
+
+    const presignedUrls: string[] = []
+    for (let i = 0; i < numberOfParts; i++) {
+      const presignedUrl = await getSignedUrl(
+        this.client,
+        new UploadPartCommand({
+          Bucket: input.bucket,
+          Key: input.key,
+          UploadId: input.uploadId,
+          PartNumber: i + 1,
+        }),
+        {
+          expiresIn: input.expiresIn,
+        },
+      )
+
+      presignedUrls.push(presignedUrl)
+    }
+
+    return presignedUrls
+  }
+
+  async completeMultipartUpload(input: {
+    key: string
+    bucket: TBucket
+    uploadId: string
+    multiparts: {
+      ETag: string
+      partNo: number
+    }[]
+  }) {
+    const completeMultipartUploadCommand = new CompleteMultipartUploadCommand({
+      Key: input.key,
+      Bucket: input.bucket,
+      UploadId: input.uploadId,
+      MultipartUpload: {
+        Parts: input.multiparts.map((part) => {
+          return { ETag: part.ETag, PartNumber: part.partNo }
+        }),
+      },
     })
 
-    const url = await presigner.presign(new HttpRequest(s3ObjectUrl))
-
-    return formatUrl(url)
+    return this.client.send(completeMultipartUploadCommand)
   }
 
   async readToStream(input: { key: string; bucket: TBucket }) {
@@ -199,19 +252,11 @@ export class AwsS3Service<
         .then((response) => {
           mimeType = response.ContentType
 
-          // Store all of data chunks returned from the response data stream
-          // into an array then use Array#join() to use the returned contents as a String
-          const responseDataChunks: any[] = []
+          const responseDataChunks: Buffer[] = []
           const responseStream = response.Body as Stream
 
-          // Handle an error while streaming the response body
           responseStream.once('error', (err) => reject(err))
-
-          // Attach a 'data' listener to add the chunks of data to our array
-          // Each chunk is a Buffer instance
           responseStream.on('data', (chunk) => responseDataChunks.push(chunk))
-
-          // Once the stream has no more data, join the chunks into a Buffer
           responseStream.once('end', () =>
             resolve(Buffer.concat(responseDataChunks)),
           )
@@ -223,7 +268,6 @@ export class AwsS3Service<
 
     return { buffer, mimeType }
   }
-
   async deleteByKey(input: { key: string; bucket: TBucket }) {
     await this.client.send(
       new DeleteObjectCommand({
@@ -231,5 +275,26 @@ export class AwsS3Service<
         Key: input.key,
       }),
     )
+  }
+
+  async checkIfKeyExists(input: {
+    bucketName: string
+    key: string
+  }): Promise<boolean> {
+    try {
+      const command = new HeadObjectCommand({
+        Bucket: input.bucketName,
+        Key: input.key,
+      })
+      await this.client.send(command)
+
+      return true
+    } catch (error) {
+      if (error.name === 'NotFound') {
+        return false
+      }
+
+      throw error
+    }
   }
 }

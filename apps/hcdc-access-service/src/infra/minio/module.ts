@@ -13,6 +13,7 @@ export const minioMetadata: ModuleMetadata = {
       instanceId: MINIO_INSTANCE_ID,
       inject: [loadMinioConfig.KEY],
       useFactory: async (minioConfig: MinioConfig) => ({
+        bucketName: minioConfig.MINIO_PUBLIC_BUCKET,
         endpoint: `http://${minioConfig.MINIO_ENDPOINT}:${minioConfig.MINIO_PORT}`,
         region: minioConfig.MINIO_REGION,
         credentials: {

@@ -3,13 +3,9 @@ import { retry } from 'async'
 import { Callback, Redis, RedisOptions, Result } from 'ioredis'
 
 import { AbstractService } from '../abstract.service'
-import {
-  DEFAULT_INSTANCE_ID,
-  INSTANCE_ID_TOKEN,
-  MODULE_OPTIONS_TOKEN,
-} from './module-builder'
+import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from './module-builder'
 
-export type RedisClientOptions = RedisOptions & {
+export type RedisModuleOptions = RedisOptions & {
   replicaCount: number
 }
 
@@ -34,7 +30,7 @@ declare module 'ioredis' {
   }
 }
 
-const defaultOptions: Partial<RedisClientOptions> = {
+const defaultOptions: Partial<RedisModuleOptions> = {
   // https://www.youtube.com/watch?v=0L0ER4pZbX4
   enableAutoPipelining: true,
   scripts: {
@@ -70,12 +66,10 @@ export class RedisService extends AbstractService {
 
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
-    private readonly clientOptions: RedisClientOptions,
+    private readonly options: RedisModuleOptions,
     @Inject(INSTANCE_ID_TOKEN)
-    instanceId: string,
+    private readonly instanceId: string,
   ) {
-    instanceId = instanceId ?? DEFAULT_INSTANCE_ID
-
     super({ instanceId })
   }
 
@@ -87,7 +81,7 @@ export class RedisService extends AbstractService {
   }
 
   async connect() {
-    this.client = new Redis({ ...defaultOptions, ...this.clientOptions })
+    this.client = new Redis({ ...defaultOptions, ...this.options })
   }
 
   async close() {
@@ -138,7 +132,7 @@ export class RedisService extends AbstractService {
 
   @RequireMaster()
   async synchronize() {
-    const { replicaCount } = this.clientOptions
+    const { replicaCount } = this.options
     const ackCount = await this.client.wait(replicaCount, 2000)
 
     if (ackCount < replicaCount) {

@@ -1,21 +1,20 @@
-import { DynamicModule, Inject } from '@nestjs/common'
+import { DynamicModule } from '@nestjs/common'
 
 import {
   ASYNC_OPTIONS_TYPE,
   ConfigurableModuleClass,
+  DEFAULT_INSTANCE_ID,
   INSTANCE_ID_TOKEN,
-  getServiceToken,
 } from './module-builder'
 import { PuppeteerService } from './service'
-
-export const getPuppeteerServiceToken = getServiceToken
+import { getPuppeteerServiceToken } from './utils'
 
 export class PuppeteerModule extends ConfigurableModuleClass {
   static registerAsync(
     options: typeof ASYNC_OPTIONS_TYPE & { instanceId?: string },
   ): DynamicModule {
     const factoryModule = super.registerAsync(options)
-    const injectionToken = getServiceToken(options.instanceId)
+    const injectionToken = getPuppeteerServiceToken(options.instanceId)
 
     return {
       ...factoryModule,
@@ -23,7 +22,7 @@ export class PuppeteerModule extends ConfigurableModuleClass {
         ...(factoryModule.providers ?? []),
         {
           provide: INSTANCE_ID_TOKEN,
-          useValue: options.instanceId,
+          useValue: options.instanceId ?? DEFAULT_INSTANCE_ID,
         },
         {
           provide: injectionToken,
@@ -34,6 +33,3 @@ export class PuppeteerModule extends ConfigurableModuleClass {
     }
   }
 }
-
-export const InjectPuppeteerService = (instanceId?: string) =>
-  Inject(getServiceToken(instanceId))

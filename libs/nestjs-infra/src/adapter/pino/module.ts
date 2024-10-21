@@ -1,10 +1,5 @@
-import { DynamicModule, Inject } from '@nestjs/common'
+import { DynamicModule } from '@nestjs/common'
 
-import {
-  PINO_DEFAULT_INSTANCE_ID,
-  getPinoLoggerToken,
-  getPinoNestjsLoggerToken,
-} from './common'
 import { PinoNestjsLogger } from './logger-service/nestjs'
 import { PinoLogger } from './logger-service/pino'
 import {
@@ -12,6 +7,11 @@ import {
   ConfigurableModuleClass,
   INSTANCE_ID_TOKEN,
 } from './module-builder'
+import {
+  PINO_DEFAULT_INSTANCE_ID,
+  getPinoLoggerToken,
+  getPinoNestjsLoggerToken,
+} from './utils'
 
 export class PinoModule extends ConfigurableModuleClass {
   static registerAsync(
@@ -43,6 +43,3 @@ export class PinoModule extends ConfigurableModuleClass {
     }
   }
 }
-
-export const InjectPinoLogger = (instanceId?: string) =>
-  Inject(getPinoLoggerToken(instanceId))

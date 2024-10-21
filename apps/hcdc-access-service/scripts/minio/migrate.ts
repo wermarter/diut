@@ -13,24 +13,32 @@ import {
 } from 'src/infra/mongo/test-element'
 
 async function main() {
-  const srcService = new AwsS3Service({
-    endpoint: `http://localhost:9000`,
-    credentials: {
-      accessKeyId: process.env.SRC_MINIO_ACCESS_KEY!,
-      secretAccessKey: process.env.SRC_MINIO_SECRET_KEY!,
+  const srcService = new AwsS3Service(
+    {
+      bucketName: process.env.MINIO_SAMPLE_IMAGES_BUCKET!,
+      endpoint: `http://localhost:9000`,
+      credentials: {
+        accessKeyId: process.env.SRC_MINIO_ACCESS_KEY!,
+        secretAccessKey: process.env.SRC_MINIO_SECRET_KEY!,
+      },
+      region: process.env.MINIO_REGION,
+      forcePathStyle: true,
     },
-    region: process.env.MINIO_REGION,
-    forcePathStyle: true,
-  })
-  const destService = new AwsS3Service({
-    endpoint: `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}`,
-    region: process.env.MINIO_REGION,
-    credentials: {
-      accessKeyId: process.env.MINIO_ACCESS_KEY!,
-      secretAccessKey: process.env.MINIO_SECRET_KEY!,
+    'source',
+  )
+  const destService = new AwsS3Service(
+    {
+      bucketName: process.env.MINIO_SAMPLE_IMAGES_BUCKET!,
+      endpoint: `http://${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}`,
+      region: process.env.MINIO_REGION,
+      credentials: {
+        accessKeyId: process.env.MINIO_ACCESS_KEY!,
+        secretAccessKey: process.env.MINIO_SECRET_KEY!,
+      },
+      forcePathStyle: true,
     },
-    forcePathStyle: true,
-  })
+    'dest',
+  )
   const connection = await mongoose
     .createConnection(process.env.DEST_MONGO_URI!)
     .asPromise()

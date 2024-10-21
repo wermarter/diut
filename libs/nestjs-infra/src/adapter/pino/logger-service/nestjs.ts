@@ -1,12 +1,12 @@
 import { Inject, LoggerService } from '@nestjs/common'
 import { Level } from 'pino'
 
+import { MODULE_OPTIONS_TOKEN } from '../module-builder'
 import {
   PINO_DEFAULT_CONTEXT_KEY,
   PINO_DEFAULT_ERROR_KEY,
   PinoModuleOptions,
-} from '../common'
-import { MODULE_OPTIONS_TOKEN } from '../module-builder'
+} from '../utils'
 import { PinoLogger } from './pino'
 
 export class PinoNestjsLogger implements LoggerService {

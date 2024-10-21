@@ -5,13 +5,9 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
 import { AbstractService } from '../abstract.service'
 import { chromeArgs } from './common'
-import {
-  DEFAULT_INSTANCE_ID,
-  INSTANCE_ID_TOKEN,
-  MODULE_OPTIONS_TOKEN,
-} from './module-builder'
+import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from './module-builder'
 
-export type PuppeteerClientOptions = puppeteer.PuppeteerLaunchOptions & {
+export type PuppeteerModuleOptions = puppeteer.PuppeteerLaunchOptions & {
   stealth?: boolean
 }
 
@@ -21,12 +17,10 @@ export class PuppeteerService extends AbstractService {
 
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
-    private readonly clientOptions: PuppeteerClientOptions,
+    private readonly options: PuppeteerModuleOptions,
     @Inject(INSTANCE_ID_TOKEN)
-    instanceId: string,
+    private readonly instanceId: string,
   ) {
-    instanceId = instanceId ?? DEFAULT_INSTANCE_ID
-
     super({ instanceId })
   }
 
@@ -42,10 +36,10 @@ export class PuppeteerService extends AbstractService {
       handleSIGINT: false,
       handleSIGHUP: false,
       handleSIGTERM: false,
-      ...this.clientOptions,
+      ...this.options,
     }
 
-    if (this.clientOptions.stealth) {
+    if (this.options.stealth) {
       PuppeteerExtra.use(StealthPlugin())
       this.browser = await PuppeteerExtra.launch(launchOptions)
     } else {

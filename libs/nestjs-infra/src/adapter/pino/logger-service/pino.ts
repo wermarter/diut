@@ -1,12 +1,12 @@
 import { Inject } from '@nestjs/common'
 import pino, { Level, Logger } from 'pino'
 
+import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from '../module-builder'
 import {
   PINO_DEFAULT_CONTEXT_KEY,
   PINO_DEFAULT_ERROR_KEY,
   PinoModuleOptions,
-} from '../common'
-import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from '../module-builder'
+} from '../utils'
 
 type LoggerFn =
   | ((msg: string, ...args: any[]) => void)

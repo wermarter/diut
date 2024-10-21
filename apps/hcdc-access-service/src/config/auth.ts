@@ -4,13 +4,13 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 export class AuthConfig {
   @Expose()
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   AUTH_JWT_ACCESS_TOKEN_SECRET: string
 
   @Expose()
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   AUTH_JWT_REFRESH_TOKEN_SECRET: string
 
   @Expose()

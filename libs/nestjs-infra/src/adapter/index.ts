@@ -1,5 +1,4 @@
 export * from './abstract.service'
-export * from './amqp'
 export * from './aws-s3'
 export * from './mongo'
 export * from './pino'

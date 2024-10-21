@@ -13,15 +13,12 @@ import {
   bootstrapApp,
 } from '@diut/nestjs-infra'
 import { NestFactory } from '@nestjs/core'
-import * as dotenv from 'dotenv'
+import 'dotenv/config'
 
 import { AppModule } from './app.module'
 
-dotenv.config()
-
 bootstrapApp(
-  (AppModule, options) =>
-    NestFactory.create(AppModule, { ...options, forceCloseConnections: true }),
+  (AppModule, options) => NestFactory.create(AppModule, options),
   AppModule,
   {
     serviceName: process.env.SERVICE_NAME,

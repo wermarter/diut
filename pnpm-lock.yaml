@@ -44,7 +44,7 @@ importers:
         version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/microservices@10.3.10)(@nestjs/platform-express@10.3.10)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/microservices':
         specifier: ^10.3.3
-        version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+        version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -174,7 +174,7 @@ importers:
         version: 10.2.0(@nestjs/common@10.3.10)
       '@nestjs/microservices':
         specifier: ^10.3.3
-        version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+        version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/mongoose':
         specifier: ^10.0.4
         version: 10.0.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(mongoose@8.5.1)(rxjs@7.8.1)
@@ -459,9 +459,6 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.535.0
         version: 3.614.0
-      '@aws-sdk/util-format-url':
-        specifier: ^3.535.0
-        version: 3.609.0
       '@diut/common':
         specifier: workspace:*
         version: link:../common
@@ -473,7 +470,7 @@ importers:
         version: 3.2.3(@nestjs/common@10.3.10)(rxjs@7.8.1)
       '@nestjs/microservices':
         specifier: ^10.3.3
-        version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+        version: 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/mongoose':
         specifier: ^10.0.4
         version: 10.0.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(mongoose@8.5.1)(rxjs@7.8.1)
@@ -489,18 +486,6 @@ importers:
       '@opentelemetry/core':
         specifier: 1.25.1
         version: 1.25.1(@opentelemetry/api@1.9.0)
-      '@smithy/hash-node':
-        specifier: ^2.2.0
-        version: 2.2.0
-      '@smithy/protocol-http':
-        specifier: ^3.3.0
-        version: 3.3.0
-      '@smithy/url-parser':
-        specifier: ^2.2.0
-        version: 2.2.0
-      amqplib:
-        specifier: ^0.10.4
-        version: 0.10.4
       async:
         specifier: ^3.2.5
         version: 3.2.5
@@ -544,9 +529,6 @@ importers:
         specifier: ^7.8.1
         version: 7.8.1
     devDependencies:
-      '@types/amqplib':
-        specifier: ^0.10.5
-        version: 0.10.5
       '@types/async':
         specifier: ^3.2.24
         version: 3.2.24
@@ -2599,7 +2581,7 @@ packages:
         optional: true
     dependencies:
       '@nestjs/common': 10.3.10(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
-      '@nestjs/microservices': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+      '@nestjs/microservices': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/platform-express': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
@@ -2687,7 +2669,7 @@ packages:
       tslib: 2.6.3
     dev: false
 
-  /@nestjs/microservices@10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1):
+  /@nestjs/microservices@10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1):
     resolution: {integrity: sha512-zZrilhZmXU2Ik5Usrcy4qEX262Uhvz0/9XlIdX6SRn8I39ns1EE9tAhEBmmkMwh7lsEikRFa4aaa05loi8Gsow==}
     peerDependencies:
       '@grpc/grpc-js': '*'
@@ -2725,7 +2707,6 @@ packages:
     dependencies:
       '@nestjs/common': 10.3.10(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/core': 10.3.10(@nestjs/common@10.3.10)(@nestjs/microservices@10.3.10)(@nestjs/platform-express@10.3.10)(reflect-metadata@0.1.14)(rxjs@7.8.1)
-      amqplib: 0.10.4
       ioredis: 5.4.1
       iterare: 1.2.1
       reflect-metadata: 0.1.14
@@ -2858,7 +2839,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.3.10(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/core': 10.3.10(@nestjs/common@10.3.10)(@nestjs/microservices@10.3.10)(@nestjs/platform-express@10.3.10)(reflect-metadata@0.1.14)(rxjs@7.8.1)
-      '@nestjs/microservices': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+      '@nestjs/microservices': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/mongoose': 10.0.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(mongoose@8.5.1)(rxjs@7.8.1)
       boxen: 5.1.2
       check-disk-space: 3.4.0
@@ -4751,12 +4732,6 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
-    dev: true
-
-  /@types/amqplib@0.10.5:
-    resolution: {integrity: sha512-/cSykxROY7BWwDoi4Y4/jLAuZTshZxd8Ey1QYa/VaXriMotBDoou7V/twJiOSHzU6t1Kp1AHAUXGCgqq+6DNeg==}
-    dependencies:
-      '@types/node': 20.14.10
     dev: true
 
   /@types/async@3.2.24:
@@ -10618,7 +10593,7 @@ packages:
       '@diut/common': link:libs/common
       '@nestjs/common': 10.3.10(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/config': 3.2.3(@nestjs/common@10.3.10)(rxjs@7.8.1)
-      '@nestjs/microservices': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(amqplib@0.10.4)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+      '@nestjs/microservices': 10.3.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(ioredis@5.4.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/mongoose': 10.0.10(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(mongoose@8.5.1)(rxjs@7.8.1)
       '@nestjs/swagger': 7.4.0(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)
       '@nestjs/terminus': 10.2.3(@nestjs/common@10.3.10)(@nestjs/core@10.3.10)(@nestjs/microservices@10.3.10)(@nestjs/mongoose@10.0.10)(mongoose@8.5.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
@@ -10670,6 +10645,7 @@ packages:
       - '@prisma/client'
       - '@types/puppeteer'
       - amqp-connection-manager
+      - amqplib
       - aws-crt
       - bufferutil
       - cache-manager

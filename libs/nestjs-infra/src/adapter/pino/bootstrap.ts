@@ -1,7 +1,7 @@
 import { LoggerService } from '@nestjs/common'
 
 import { BootstrapConfig } from '../../core'
-import { getPinoNestjsLoggerToken } from './common'
+import { getPinoNestjsLoggerToken } from './utils'
 
 export const PinoBootstrapFactory = (instanceId?: string): BootstrapConfig => ({
   initOptions: { bufferLogs: true },
