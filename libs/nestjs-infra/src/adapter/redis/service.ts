@@ -50,7 +50,7 @@ function RequireMaster() {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod: Function = descriptor.value
     descriptor.value = async function (...args: any[]) {
-      const { role } = this.clientOptions
+      const { role } = this.options
       if (role === 'slave') {
         throw new Error(`calling ${propertyKey}() from slave connection`)
       }
