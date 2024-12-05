@@ -1,5 +1,6 @@
 import { Inject } from '@nestjs/common'
 import pino, { Level, Logger } from 'pino'
+import { inspect } from 'util'
 
 import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from '../module-builder'
 import {
@@ -89,7 +90,7 @@ export class PinoLogger implements IPinoLogger {
           args = [
             Object.assign(
               { [this.contextKey]: this.contextValue },
-              { [this.errorKey]: firstArg },
+              { [this.errorKey]: inspect(firstArg) },
             ),
             ...args.slice(1),
           ]

@@ -1,5 +1,6 @@
 import { Inject, LoggerService } from '@nestjs/common'
 import { Level } from 'pino'
+import { inspect } from 'util'
 
 import { MODULE_OPTIONS_TOKEN } from '../module-builder'
 import {
@@ -59,7 +60,7 @@ export class PinoNestjsLogger implements LoggerService {
 
     if (typeof message === 'object') {
       if (message instanceof Error) {
-        objArg[this.errorKey] = message
+        objArg[this.errorKey] = inspect(message)
       } else {
         Object.assign(objArg, message)
       }

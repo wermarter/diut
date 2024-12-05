@@ -16,7 +16,7 @@ tempo-distributed:
           name: tempo-credentials
     config:
       compaction:
-        block_retention: 168h
+        block_retention: 720h
     resources:
       requests:
         memory: 1Gi

@@ -11,6 +11,10 @@ minio:
       enabled: true
       jobLabel: minio
       namespace: observability
+      paths:
+        - /minio/v2/metrics/cluster
+        - /minio/v2/metrics/node
+        - /minio/v2/metrics/bucket
     prometheusRule:
       enabled: true
       namespace: observability
