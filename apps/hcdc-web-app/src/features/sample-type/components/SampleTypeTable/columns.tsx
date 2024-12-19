@@ -1,5 +1,4 @@
 import { GridColDef } from '@mui/x-data-grid'
-
 import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 
 export const sampleTypeColumns: GridColDef<SampleTypeResponseDto>[] = [

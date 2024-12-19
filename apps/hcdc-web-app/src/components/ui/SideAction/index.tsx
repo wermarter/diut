@@ -9,7 +9,6 @@ import {
   Typography,
 } from '@mui/material'
 import { PropsWithChildren, useCallback } from 'react'
-
 import { drawerWidth } from 'src/components/layout'
 
 interface SideActionProps extends PropsWithChildren {

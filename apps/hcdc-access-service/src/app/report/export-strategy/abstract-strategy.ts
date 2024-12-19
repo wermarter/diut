@@ -1,5 +1,4 @@
 import { utils } from 'xlsx'
-
 import { IReportExportStrategy, TableConfig } from './common'
 
 export const SKIP_LINE_EXCEPTION = 'SKIP_LINE_EXCEPTION'

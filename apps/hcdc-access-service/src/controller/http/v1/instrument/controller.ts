@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { InstrumentCreateUseCase } from 'src/app/instrument/use-case/create'
 import { InstrumentDeleteUseCase } from 'src/app/instrument/use-case/delete'
 import { InstrumentFindOneUseCase } from 'src/app/instrument/use-case/find-one'

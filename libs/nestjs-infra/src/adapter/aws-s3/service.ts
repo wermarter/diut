@@ -17,7 +17,6 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { StringOrKeysOf } from '@diut/common'
 import { Inject, Injectable } from '@nestjs/common'
 import { Readable, Stream } from 'stream'
-
 import { AbstractService } from '../abstract.service'
 import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from './module-builder'
 

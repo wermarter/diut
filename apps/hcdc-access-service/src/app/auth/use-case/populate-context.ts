@@ -1,6 +1,5 @@
 import { PermissionRule, Role } from '@diut/hcdc'
 import { Inject } from '@nestjs/common'
-
 import {
   AuthPayloadInternal,
   EEntityNotFound,

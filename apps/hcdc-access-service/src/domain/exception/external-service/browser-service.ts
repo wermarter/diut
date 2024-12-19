@@ -1,5 +1,4 @@
 import { DomainErrorCode } from '@diut/hcdc'
-
 import { EExternalService } from './base'
 
 export class EBrowserService extends EExternalService {

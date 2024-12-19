@@ -9,7 +9,6 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator'
-
 import { exampleRole } from '../../../shared'
 import { PermissionRuleDto } from '../../auth/dto/permission-rule.dto'
 

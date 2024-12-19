@@ -1,6 +1,5 @@
 import { exampleMongoObjectId } from '@diut/common'
 import { PrintForm, PrintTemplate } from '@diut/hcdc'
-
 import { EntityDataExample } from './base-entity'
 
 export const examplePrintForm = {

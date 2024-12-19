@@ -3,14 +3,13 @@ import { AwsS3Service } from '@diut/nestjs-infra'
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as dotenv from 'dotenv'
 import * as mongoose from 'mongoose'
-dotenv.config()
-
 import { StorageBucket, StorageKeyFactory } from 'src/domain'
 import { COLLECTION } from 'src/infra/mongo'
 import {
   TestElementRepository,
   TestElementSchema,
 } from 'src/infra/mongo/test-element'
+dotenv.config()
 
 async function main() {
   const srcService = new AwsS3Service(

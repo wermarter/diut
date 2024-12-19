@@ -12,7 +12,6 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator'
-
 import { OmittedSampleResponseDto } from '../../sample/dto/response-dto'
 import { ReportRequestDto } from './request-dto'
 

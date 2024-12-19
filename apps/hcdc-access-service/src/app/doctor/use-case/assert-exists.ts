@@ -1,6 +1,5 @@
 import { Doctor } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
   DOCTOR_REPO_TOKEN,
   EEntityNotFound,

@@ -4,7 +4,6 @@ import {
   exampleMongoObjectIds,
 } from '@diut/common'
 import { Sample, SampleResultTest, SampleResultTestElement } from '@diut/hcdc'
-
 import { EntityDataExample } from './base-entity'
 import { exampleBioProduct } from './bio-product'
 import { exampleInstrument } from './instrument'

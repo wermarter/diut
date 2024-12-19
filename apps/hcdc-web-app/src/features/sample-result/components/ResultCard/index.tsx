@@ -20,7 +20,6 @@ import {
 } from '@mui/material'
 import { format } from 'date-fns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
 import { ProgressBar } from 'src/components/ui'
 import { authSlice } from 'src/features/auth'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'

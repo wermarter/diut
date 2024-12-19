@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { TestCreateUseCase } from 'src/app/test/use-case/create'
 import { TestDeleteUseCase } from 'src/app/test/use-case/delete'
 import { TestFindOneUseCase } from 'src/app/test/use-case/find-one'

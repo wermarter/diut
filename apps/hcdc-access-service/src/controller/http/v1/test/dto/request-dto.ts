@@ -9,7 +9,6 @@ import {
   IsString,
   Min,
 } from 'class-validator'
-
 import { exampleTest } from '../../../shared'
 
 export class TestRequestDto {

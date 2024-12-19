@@ -1,6 +1,5 @@
 import { AuthSubject, BranchAction, EntityData, SampleType } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import { assertPermission } from 'src/app/auth/common'
 import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'

@@ -14,7 +14,6 @@ import {
   MuiEvent,
 } from '@mui/x-data-grid'
 import * as React from 'react'
-
 import { ConfirmDialog } from 'src/components/ui'
 import { DataTable } from '../DataTable'
 import { CrudToolbar } from './components/CrudToolbar'

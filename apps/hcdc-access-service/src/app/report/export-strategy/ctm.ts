@@ -2,7 +2,6 @@ import { DATEONLY_FORMAT, DATETIME_FORMAT } from '@diut/common'
 import { PatientGender, ReportType, Sample } from '@diut/hcdc'
 import { Injectable, Scope } from '@nestjs/common'
 import { format, parseISO } from 'date-fns'
-
 import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 import { PatientTypeSearchUseCase } from 'src/app/patient-type/use-case/search'
 import { EEntityNotFound } from 'src/domain'

@@ -2,7 +2,6 @@ import { BaseResourceResponseDto, IsNullable } from '@diut/nestjs-infra'
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
-
 import { exampleTest } from '../../../shared'
 import { BioProductUnpopulatedResponseDto } from '../../bio-product/dto/response-dto'
 import { BranchUnpopulatedResponseDto } from '../../branch/dto/response-dto'

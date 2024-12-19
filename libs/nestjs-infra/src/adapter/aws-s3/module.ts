@@ -1,5 +1,4 @@
 import { DynamicModule } from '@nestjs/common'
-
 import {
   ASYNC_OPTIONS_TYPE,
   ConfigurableModuleClass,

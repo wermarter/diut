@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { ClsService } from 'nestjs-cls'
-
 import {
   AuthContextData,
   AuthType,

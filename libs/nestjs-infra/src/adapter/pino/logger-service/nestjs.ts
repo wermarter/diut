@@ -1,7 +1,6 @@
 import { Inject, LoggerService } from '@nestjs/common'
 import { Level } from 'pino'
 import { inspect } from 'util'
-
 import { MODULE_OPTIONS_TOKEN } from '../module-builder'
 import {
   PINO_DEFAULT_CONTEXT_KEY,

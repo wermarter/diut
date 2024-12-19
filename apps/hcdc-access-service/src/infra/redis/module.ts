@@ -1,7 +1,6 @@
 import { NodeEnv } from '@diut/common'
 import { RedisModule, RedisModuleOptions } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
-
 import {
   AppConfig,
   loadAppConfig,

@@ -1,6 +1,5 @@
 import { createAbility } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
   AUTH_CACHE_SERVICE_TOKEN,
   AuthContextDataInternal,

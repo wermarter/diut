@@ -1,7 +1,6 @@
 import { MongoModule } from '@diut/nestjs-infra'
 import { ModuleMetadata } from '@nestjs/common'
 import { Schema } from 'mongoose'
-
 import { MongoConfig, loadMongoConfig } from 'src/config'
 import {
   BIOPRODUCT_REPO_TOKEN,

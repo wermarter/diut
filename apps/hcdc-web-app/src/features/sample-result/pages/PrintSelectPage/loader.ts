@@ -1,5 +1,4 @@
 import { allTestSortComparator } from '@diut/hcdc'
-
 import { authSlice } from 'src/features/auth'
 import {
   fetchPatientTypes,

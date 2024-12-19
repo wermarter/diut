@@ -2,7 +2,6 @@ import { MongoAbility } from '@casl/ability'
 import { AuthSubject, SampleAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-
 import { assertPermission } from 'src/app/auth/common'
 import { AppConfig, loadAppConfig } from 'src/config'
 import {

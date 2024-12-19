@@ -10,7 +10,6 @@ import {
 } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import { parseISO } from 'date-fns'
-
 import { assertPermission } from 'src/app/auth/common'
 import { TestSearchUseCase } from 'src/app/test/use-case/search'
 import {

@@ -1,6 +1,5 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
 import { JwtModule } from '@nestjs/jwt'
-
 import { browserServiceMetadata } from './browser-service'
 import { clsMetadata } from './cls'
 import { minioMetadata } from './minio'

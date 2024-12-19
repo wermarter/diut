@@ -8,7 +8,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator'
-
 import { exampleNormalRule } from '../../../shared'
 
 export class TestElementNormalRuleDto {

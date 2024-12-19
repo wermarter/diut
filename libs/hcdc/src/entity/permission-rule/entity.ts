@@ -1,6 +1,5 @@
 import { MongoQuery } from '@casl/ability'
 import { StringOrKeysOf } from '@diut/common'
-
 import {
   AUTH_ACTION_ALL,
   AUTH_SUBJECT_ALL,

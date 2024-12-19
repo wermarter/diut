@@ -1,9 +1,8 @@
 import { dedupSpaces } from '@diut/common'
 import { PatientGender } from '@diut/hcdc'
 import { SchemaFactory } from '@nestjs/mongoose'
-import { Connection } from 'mongoose'
-
 import { ObjectId } from 'mongodb'
+import { Connection } from 'mongoose'
 import { COLLECTION } from 'src/infra/mongo'
 import { PatientSchema } from 'src/infra/mongo/patient'
 import { branchId } from './branch'

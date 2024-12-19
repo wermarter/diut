@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { RoleCreateUseCase } from 'src/app/role/use-case/create'
 import { RoleDeleteUseCase } from 'src/app/role/use-case/delete'
 import { RoleFindOneUseCase } from 'src/app/role/use-case/find-one'

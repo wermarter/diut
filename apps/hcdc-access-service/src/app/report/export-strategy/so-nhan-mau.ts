@@ -6,7 +6,6 @@ import {
 } from '@diut/hcdc'
 import { Injectable, Scope } from '@nestjs/common'
 import { format, parseISO } from 'date-fns'
-
 import { PatientTypeSearchUseCase } from 'src/app/patient-type/use-case/search'
 import { TestSearchUseCase } from 'src/app/test/use-case/search'
 import {

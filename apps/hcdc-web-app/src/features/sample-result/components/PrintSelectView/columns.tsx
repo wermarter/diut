@@ -16,7 +16,6 @@ import { format, parseISO } from 'date-fns'
 import { identity } from 'lodash'
 import { MouseEventHandler, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { authSlice } from 'src/features/auth'
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'

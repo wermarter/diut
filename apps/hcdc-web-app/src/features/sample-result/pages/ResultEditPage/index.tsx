@@ -1,6 +1,5 @@
 export * from './loader'
 import { useLoaderData } from 'react-router-dom'
-
 import { ProgressBar } from 'src/components/ui'
 import { useSampleFindByIdQuery } from 'src/infra/api/access-service/sample'
 import { ResultEditView } from '../../components'

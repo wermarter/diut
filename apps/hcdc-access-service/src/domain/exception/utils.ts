@@ -1,7 +1,6 @@
 import { DomainErrorCode } from '@diut/hcdc'
 import { HttpStatus } from '@nestjs/common'
 import { inspect } from 'util'
-
 import { AuthContextData, AuthType } from '../interface'
 
 export function buildErrorLog(

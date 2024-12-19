@@ -1,7 +1,6 @@
 import { PatientCategory } from '@diut/hcdc'
 import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
-
 import { COLLECTION } from 'src/infra/mongo'
 import { TestElementSchema } from 'src/infra/mongo/test-element'
 import { branchId } from './branch'

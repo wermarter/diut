@@ -1,6 +1,5 @@
 import { DomainErrorCode } from '@diut/hcdc'
 import { HttpStatus } from '@nestjs/common'
-
 import { EDomain } from '../base'
 
 export class EAuthn extends EDomain {

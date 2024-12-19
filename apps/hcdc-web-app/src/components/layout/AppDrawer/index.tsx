@@ -10,7 +10,6 @@ import {
 } from '@mui/material'
 import { Fragment } from 'react'
 import { matchPath, useLocation, useNavigate } from 'react-router-dom'
-
 import { useDrawerItems } from './hooks'
 
 export function AppDrawer({ drawerWidth }: { drawerWidth: number }) {

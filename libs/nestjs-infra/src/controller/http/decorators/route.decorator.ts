@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { ClassConstructor } from 'class-transformer'
-
 import { CustomOpenApi, CustomOpenApiOptions } from './openapi.decorator'
 import { Serialize } from './serialize.decorator'
 

@@ -5,7 +5,6 @@ import {
   useRevalidator,
   useSearchParams,
 } from 'react-router-dom'
-
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'

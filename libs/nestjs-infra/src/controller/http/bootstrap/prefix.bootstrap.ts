@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common'
-
 import { BootstrapConfig } from '../../../core/bootstrap'
 import { API_PREFIX } from '../constants'
 

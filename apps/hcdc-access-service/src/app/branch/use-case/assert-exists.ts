@@ -1,6 +1,5 @@
 import { Branch } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
   BRANCH_REPO_TOKEN,
   EEntityNotFound,

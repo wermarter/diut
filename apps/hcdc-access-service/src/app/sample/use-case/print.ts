@@ -14,7 +14,6 @@ import { ModuleRef } from '@nestjs/core'
 import { render, renderFile } from 'ejs'
 import { join } from 'path'
 import { Observable, firstValueFrom } from 'rxjs'
-
 import { assertPermission } from 'src/app/auth/common'
 import { printTemplateConfigs } from 'src/app/print-form/print-template'
 import { PrintFormAssertExistsUseCase } from 'src/app/print-form/use-case/assert-exists'

@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { PrintFormCreateUseCase } from 'src/app/print-form/use-case/create'
 import { PrintFormDeleteUseCase } from 'src/app/print-form/use-case/delete'
 import { PrintFormFindOneUseCase } from 'src/app/print-form/use-case/find-one'

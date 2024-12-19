@@ -1,6 +1,5 @@
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
-
 import { RoleResponseDto, RoleUnpopulatedResponseDto } from './dto/response-dto'
 import { RoleSearchResponseDto } from './dto/search'
 

@@ -1,5 +1,4 @@
 import { AssertAllKeysInArray } from '@diut/common'
-
 import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { BioProduct } from '../bio-product'
 import { Branch } from '../branch'

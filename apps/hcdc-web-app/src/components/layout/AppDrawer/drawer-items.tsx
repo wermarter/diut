@@ -24,7 +24,6 @@ import RuleIcon from '@mui/icons-material/Rule'
 import VaccinesIcon from '@mui/icons-material/VaccinesOutlined'
 import WorkIcon from '@mui/icons-material/WorkOutline'
 import WorkspacesIcon from '@mui/icons-material/WorkspacesOutlined'
-
 import { urlManageDiagnosisPage } from 'src/features/diagnosis'
 import { urlManageDoctorPage } from 'src/features/doctor'
 import { urlPatientSearchPage } from 'src/features/patient'

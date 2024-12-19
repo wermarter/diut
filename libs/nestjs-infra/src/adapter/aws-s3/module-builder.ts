@@ -1,5 +1,4 @@
 import { ConfigurableModuleBuilder } from '@nestjs/common'
-
 import { AwsS3ModuleOptions } from './service'
 
 export const {

@@ -1,6 +1,5 @@
 import { stringEnumValues } from '@diut/common'
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common'
-
 import { MinioConfig, loadMinioConfig } from 'src/config'
 import {
   IStorageBucket,

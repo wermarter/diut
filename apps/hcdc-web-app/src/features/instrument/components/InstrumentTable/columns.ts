@@ -1,5 +1,4 @@
 import { GridColDef } from '@mui/x-data-grid'
-
 import { InstrumentResponseDto } from 'src/infra/api/access-service/instrument'
 
 export const instrumentColumns: GridColDef<InstrumentResponseDto>[] = [

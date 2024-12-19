@@ -1,5 +1,4 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-
 import { printFormApi } from 'src/infra/api/access-service/print-form'
 import { sampleApi } from 'src/infra/api/access-service/sample'
 import { appStore } from 'src/infra/redux'

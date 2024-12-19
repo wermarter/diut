@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { Type } from 'class-transformer'
 import {
   IsArray,
   IsBoolean,
@@ -10,8 +11,6 @@ import {
   ValidateNested,
 } from 'class-validator'
 import { FilterQuery, SortOrder } from 'mongoose'
-
-import { Type } from 'class-transformer'
 import { PopulatePath } from '../../../adapter/mongo'
 
 class PopulateOptionDto<TEntity = unknown> {

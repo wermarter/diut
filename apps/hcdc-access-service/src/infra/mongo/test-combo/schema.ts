@@ -1,7 +1,6 @@
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Types } from 'mongoose'
-
 import { BranchSchema } from '../branch'
 import { COLLECTION } from '../collections'
 import { TestSchema } from '../test/schema'

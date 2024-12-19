@@ -1,6 +1,5 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer'
 import { validate } from 'class-validator'
-
 import { EValidationRequestFailed } from 'src/domain'
 
 export const validateDto = async <T extends object>(

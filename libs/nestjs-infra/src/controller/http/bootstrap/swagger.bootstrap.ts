@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-
 import { BootstrapConfig } from '../../../core/bootstrap'
 import { SWAGGER_ENDPOINT } from '../constants'
 

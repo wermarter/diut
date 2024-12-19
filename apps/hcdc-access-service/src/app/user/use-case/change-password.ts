@@ -1,7 +1,6 @@
 import { AuthSubject, UserAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
-
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,

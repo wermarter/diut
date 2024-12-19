@@ -1,5 +1,4 @@
 import { PermissionRule } from '@diut/hcdc'
-
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 
 type AuthData = {

@@ -1,5 +1,4 @@
 import { ConfigurableModuleBuilder } from '@nestjs/common'
-
 import { RedisModuleOptions } from './service'
 
 export const {

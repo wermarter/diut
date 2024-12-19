@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { retry } from 'async'
 import { Callback, Redis, RedisOptions, Result } from 'ioredis'
-
 import { AbstractService } from '../abstract.service'
 import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from './module-builder'
 

@@ -1,6 +1,5 @@
 import { exampleMongoObjectIds } from '@diut/common'
 import { User } from '@diut/hcdc'
-
 import { EntityDataExample } from './base-entity'
 
 export const exampleUser = {

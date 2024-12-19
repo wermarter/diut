@@ -1,6 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-
 import { CrudTable } from 'src/components/table'
 import { AutocompleteDialog, SideAction } from 'src/components/ui'
 import { authSlice } from 'src/features/auth'

@@ -1,7 +1,6 @@
 import { PrintTemplate } from '@diut/hcdc'
 import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
-
 import { COLLECTION } from 'src/infra/mongo'
 import { PrintFormSchema } from 'src/infra/mongo/print-form'
 import { branchId } from './branch'

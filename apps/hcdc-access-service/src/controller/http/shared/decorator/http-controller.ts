@@ -3,7 +3,6 @@ import {
   CustomHttpControllerOptions,
 } from '@diut/nestjs-infra'
 import { UseGuards } from '@nestjs/common'
-
 import { HttpAuthGuard } from '../../v1/auth/guard'
 
 export const HttpController = (options: CustomHttpControllerOptions) => {

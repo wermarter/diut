@@ -1,5 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-
 import { UserAssertExistsUseCase } from './use-case/assert-exists'
 import { UserAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { UserBranchAuthorizeUseCase } from './use-case/branch-authorize'

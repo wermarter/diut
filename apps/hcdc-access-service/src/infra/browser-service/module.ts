@@ -6,7 +6,6 @@ import {
 } from '@diut/services'
 import { ModuleMetadata } from '@nestjs/common'
 import { ClientsModule, Transport } from '@nestjs/microservices'
-
 import { ClientConfig, loadClientConfig } from 'src/config'
 import { BROWSER_SERVICE_TOKEN } from 'src/domain'
 import { BrowserService } from './service'

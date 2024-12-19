@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { FormContainer } from 'src/components/form'
 import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import { SampleResponseDto } from 'src/infra/api/access-service/sample'

@@ -2,7 +2,6 @@ import { IsObjectId } from '@diut/nestjs-infra'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
-
 import { exampleTestCombo } from '../../../shared'
 
 export class TestComboRequestDto {

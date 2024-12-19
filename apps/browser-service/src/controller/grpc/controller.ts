@@ -5,7 +5,6 @@ import {
   PrintPageRequest,
 } from '@diut/services'
 import { Observable, concatMap } from 'rxjs'
-
 import { BrowserPrintMultipleUseCase } from 'src/app/browser/use-case/print-multiple'
 import { PrintPageRequestDto } from './dto/print-page.request-dto'
 import { validateDto } from './shared'

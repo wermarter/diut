@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common'
-
 import { AuthConfig, loadAuthConfig } from 'src/config'
 import {
   AUTH_CACHE_SERVICE_TOKEN,

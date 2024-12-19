@@ -1,5 +1,4 @@
 import { ServiceErrorCode, Status } from '@diut/services'
-
 import { EValidation } from './base'
 
 export class EValidationRequestFailed extends EValidation {

@@ -8,7 +8,6 @@ import {
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientGrpc } from '@nestjs/microservices'
 import { Observable, catchError, map, of, throwError } from 'rxjs'
-
 import { EBrowserServiceException, IBrowserService } from 'src/domain'
 
 @Injectable()

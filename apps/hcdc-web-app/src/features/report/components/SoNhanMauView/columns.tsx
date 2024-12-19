@@ -3,7 +3,6 @@ import { PatientGender } from '@diut/hcdc'
 import { Typography } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { format, parseISO } from 'date-fns'
-
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
 import {
   OmittedSampleResponseDto,

@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
-
 import { SamplePrintOptions } from 'src/app/print-form/print-strategy/context'
 import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
 import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'

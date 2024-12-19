@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { UserBranchAuthorizeUseCase } from 'src/app/user/use-case/branch-authorize'
 import { UserBranchDeauthorizeUseCase } from 'src/app/user/use-case/branch-deauthorize'
 import { UserChangePasswordUseCase } from 'src/app/user/use-case/change-password'

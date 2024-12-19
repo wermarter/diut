@@ -1,5 +1,4 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-
 import {
   fetchDiagnoses,
   fetchDoctors,

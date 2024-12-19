@@ -1,5 +1,5 @@
 import './otel'
-
+//
 import {
   GrpcListenBootstrap,
   LifecycleBootstrap,
@@ -15,7 +15,6 @@ import { INestMicroservice } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { MicroserviceOptions, Transport } from '@nestjs/microservices'
 import * as dotenv from 'dotenv'
-
 import { AppModule } from './app.module'
 
 dotenv.config()

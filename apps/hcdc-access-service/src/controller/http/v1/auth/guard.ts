@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Request, Response } from 'express'
-
 import { AuthGetContextInternalUseCase } from 'src/app/auth/use-case/get-context-internal'
 import {
   AUTH_CONTEXT_TOKEN,

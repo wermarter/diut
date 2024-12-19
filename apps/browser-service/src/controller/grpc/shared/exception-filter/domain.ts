@@ -1,7 +1,6 @@
 import { Metadata, StatusBuilder } from '@diut/services'
 import { Catch, ExceptionFilter, Logger } from '@nestjs/common'
 import { throwError } from 'rxjs'
-
 import { EDomain } from 'src/domain'
 
 @Catch(EDomain)

@@ -6,7 +6,6 @@ import {
   TestCategory,
   getPatientCategory,
 } from '@diut/hcdc'
-
 import { ISampleRepository, ITestCategoryRepository } from 'src/domain'
 
 export type SamplePrintData = {

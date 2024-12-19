@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 import { drawerItems } from './drawer-items'

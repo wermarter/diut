@@ -1,6 +1,5 @@
 import { PropsWithChildren, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 

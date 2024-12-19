@@ -1,5 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-
 import { DoctorAssertExistsUseCase } from './use-case/assert-exists'
 import { DoctorAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { DoctorCreateUseCase } from './use-case/create'

@@ -10,7 +10,6 @@ import {
   IsString,
   Min,
 } from 'class-validator'
-
 import { exampleBranch } from '../../../shared'
 
 export class BranchRequestDto {

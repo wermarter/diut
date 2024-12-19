@@ -1,6 +1,5 @@
 import { NodeEnv } from '@diut/common'
 import { INestMicroservice, Logger } from '@nestjs/common'
-
 import { BootstrapConfig } from '../../../core/bootstrap'
 
 const BOOTSTRAP_CONTEXT = 'GrpcBootstrap'

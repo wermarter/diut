@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PDFDocument } from 'pdf-lib'
 import { Observable, concatMap, lastValueFrom } from 'rxjs'
-
 import { IPdfService } from 'src/domain'
 
 @Injectable()

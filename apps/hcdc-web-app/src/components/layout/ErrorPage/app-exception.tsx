@@ -1,6 +1,5 @@
 import { Alert, AlertTitle, Button } from '@mui/material'
 import { useRouteError } from 'react-router-dom'
-
 import { appConfig } from 'src/config'
 import { AppException } from 'src/shared/utils'
 import { ErrorLayout } from './error-layout'

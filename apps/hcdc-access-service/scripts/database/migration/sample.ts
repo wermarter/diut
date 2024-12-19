@@ -1,6 +1,5 @@
 import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
-
 import { StorageBucket, StorageKeyFactory } from 'src/domain'
 import { COLLECTION } from 'src/infra/mongo'
 import { SampleSchema } from 'src/infra/mongo/sample'

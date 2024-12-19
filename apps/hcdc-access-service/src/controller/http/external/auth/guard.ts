@@ -2,7 +2,6 @@ import { createAbility } from '@diut/hcdc'
 import { CanActivate, ExecutionContext, Inject, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
-
 import { AppConfig, loadAppConfig } from 'src/config'
 import {
   AUTH_CACHE_SERVICE_TOKEN,

@@ -20,7 +20,6 @@ import { addMinutes, setHours, setMinutes } from 'date-fns'
 import { useCallback, useDeferredValue, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-
 import {
   FormCheckboxGroup,
   FormContainer,

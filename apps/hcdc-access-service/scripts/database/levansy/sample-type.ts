@@ -1,6 +1,5 @@
 import { SchemaFactory } from '@nestjs/mongoose'
 import { Connection } from 'mongoose'
-
 import { COLLECTION } from 'src/infra/mongo'
 import { SampleTypeSchema } from 'src/infra/mongo/sample-type'
 import { branchId } from './branch'

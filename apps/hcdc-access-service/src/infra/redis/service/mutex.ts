@@ -1,6 +1,5 @@
 import { getRedisServiceToken, RedisService } from '@diut/nestjs-infra'
 import { Inject, Injectable } from '@nestjs/common'
-
 import { IMutexService } from 'src/domain'
 import { REDIS_PRIMARY_CONNECTION } from '../common'
 

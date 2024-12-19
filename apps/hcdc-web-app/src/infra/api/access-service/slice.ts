@@ -4,7 +4,6 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react'
 import { toast } from 'react-toastify'
-
 import { appConfig } from 'src/config'
 import { userLogout } from 'src/features/auth/state/actions'
 

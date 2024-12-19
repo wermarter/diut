@@ -1,5 +1,4 @@
 import { DynamicModule } from '@nestjs/common'
-
 import { PinoNestjsLogger } from './logger-service/nestjs'
 import { PinoLogger } from './logger-service/pino'
 import {

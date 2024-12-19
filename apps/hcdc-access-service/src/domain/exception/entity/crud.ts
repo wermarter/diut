@@ -1,6 +1,5 @@
 import { DomainErrorCode } from '@diut/hcdc'
 import { HttpStatus } from '@nestjs/common'
-
 import { EEntity } from './base'
 
 export class EEntityNotFound extends EEntity {

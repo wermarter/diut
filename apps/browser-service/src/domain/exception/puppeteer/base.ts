@@ -1,5 +1,4 @@
 import { ServiceErrorCode, Status } from '@diut/services'
-
 import { EDomain } from '../base'
 
 export class EPuppeteer extends EDomain {

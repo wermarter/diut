@@ -6,7 +6,6 @@ import {
   Inject,
   Logger,
 } from '@nestjs/common'
-
 import {
   AUTH_CONTEXT_TOKEN,
   EDomain,

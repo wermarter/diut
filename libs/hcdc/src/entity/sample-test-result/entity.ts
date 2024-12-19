@@ -1,5 +1,4 @@
 import { AssertAllKeysInArray } from '@diut/common'
-
 import { SampleResultTest } from '../sample/entity'
 
 export type SampleTestResult = Required<SampleResultTest>

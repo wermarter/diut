@@ -1,5 +1,4 @@
 import { ServiceErrorCode, Status } from '@diut/services'
-
 import { EPuppeteer } from './base'
 
 export class EPuppeteerInitFailed extends EPuppeteer {

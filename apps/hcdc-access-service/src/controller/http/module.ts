@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { RouterModule } from '@nestjs/core'
-
 import { HttpExternalModule } from './external'
 import { HealthCheckModule } from './health-check'
 import { HttpV1Module } from './v1'

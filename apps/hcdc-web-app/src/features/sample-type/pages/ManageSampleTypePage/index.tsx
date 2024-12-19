@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
 import { SampleTypeTable } from '../../components'
 

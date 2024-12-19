@@ -1,5 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-
 import { RoleAssertExistsUseCase } from './use-case/assert-exists'
 import { RoleAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { RoleCreateUseCase } from './use-case/create'

@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common'
-
 import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 
 @Injectable()

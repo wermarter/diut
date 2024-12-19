@@ -9,7 +9,6 @@ import {
   TextField,
 } from '@mui/material'
 import { useState } from 'react'
-
 import { SampleResultTestElementResponseDto } from 'src/infra/api/access-service/sample'
 import { ImageCropUpload } from '../ImageCropUpload'
 import { CardContentCommonProps } from '../utils'

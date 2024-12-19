@@ -1,6 +1,5 @@
 import { Diagnosis } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
   DIAGNOSIS_REPO_TOKEN,
   EEntityNotFound,

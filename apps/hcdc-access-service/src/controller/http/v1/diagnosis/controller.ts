@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { DiagnosisCreateUseCase } from 'src/app/diagnosis/use-case/create'
 import { DiagnosisDeleteUseCase } from 'src/app/diagnosis/use-case/delete'
 import { DiagnosisFindOneUseCase } from 'src/app/diagnosis/use-case/find-one'

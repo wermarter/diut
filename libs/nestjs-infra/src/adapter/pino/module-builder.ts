@@ -1,5 +1,4 @@
 import { ConfigurableModuleBuilder } from '@nestjs/common'
-
 import { PinoModuleOptions } from './utils'
 
 export const {

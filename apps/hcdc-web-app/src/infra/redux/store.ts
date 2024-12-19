@@ -10,7 +10,6 @@ import {
   REHYDRATE,
   persistStore,
 } from 'redux-persist'
-
 import { authReducer, authSlice } from 'src/features/auth'
 import { accessServiceApiSlice } from 'src/infra/api'
 

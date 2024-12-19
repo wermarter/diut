@@ -4,7 +4,6 @@ import {
   NonIndexRouteObject,
   RouteObject,
 } from 'react-router-dom'
-
 import { ErrorPage } from 'src/components/layout'
 import { AuthenticationCheck } from 'src/features/auth'
 

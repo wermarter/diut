@@ -8,7 +8,6 @@ import {
 import { PopulateConfig } from '@diut/nestjs-infra'
 import { Injectable } from '@nestjs/common'
 import { parseISO } from 'date-fns'
-
 import { SampleSearchUseCase } from 'src/app/sample/use-case/search'
 import { TestComboSearchUseCase } from 'src/app/test-combo/use-case/search'
 import { TestElementSearchUseCase } from 'src/app/test-element/use-case/search'

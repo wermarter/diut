@@ -9,7 +9,6 @@ import {
   Logger,
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
-
 import { AUTH_CONTEXT_TOKEN, IAuthContext, buildErrorLog } from 'src/domain'
 import { HttpErrorResponse } from '../dto'
 

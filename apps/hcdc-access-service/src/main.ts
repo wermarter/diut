@@ -1,6 +1,6 @@
 // Error.stackTraceLimit = Infinity
 import './otel'
-
+//
 import {
   CookieBootstrap,
   CorsBootstrap,
@@ -14,7 +14,6 @@ import {
 } from '@diut/nestjs-infra'
 import { NestFactory } from '@nestjs/core'
 import 'dotenv/config'
-
 import { AppModule } from './app.module'
 
 bootstrapApp(

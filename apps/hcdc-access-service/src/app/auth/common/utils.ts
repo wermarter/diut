@@ -16,9 +16,8 @@ import {
   subjectFieldsMapping,
 } from '@diut/hcdc'
 import type { PopulatePath } from '@diut/nestjs-infra'
-const buildJSONTemplate = require('json-templates')
-
 import { EAuthzPermissionDenied, EntityFindOneOptions } from 'src/domain'
+const buildJSONTemplate = require('json-templates')
 
 export type PermissionRuleTemplateContext = { user: User }
 export function compilePermissionRules(

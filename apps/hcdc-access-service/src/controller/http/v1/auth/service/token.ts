@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Response } from 'express'
-
 import { AuthConfig, loadAuthConfig } from 'src/config'
 import {
   AUTH_CACHE_SERVICE_TOKEN,

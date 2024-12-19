@@ -14,7 +14,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator'
-
 import { examplePermissionRule } from '../../../shared'
 
 export class PermissionRuleDto {

@@ -7,7 +7,6 @@ import {
 } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import { FilterQuery } from 'mongoose'
-
 import { assertPermission } from 'src/app/auth/common'
 import { PatientGetCategoryUseCase } from 'src/app/patient/use-case/get-category'
 import {

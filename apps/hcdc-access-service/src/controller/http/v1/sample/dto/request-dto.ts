@@ -10,7 +10,6 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator'
-
 import { exampleSample } from '../../../shared'
 import { SampleResultTestRequestDto } from './result-test.dto'
 

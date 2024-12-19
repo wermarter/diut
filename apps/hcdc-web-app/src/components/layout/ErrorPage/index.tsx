@@ -1,5 +1,4 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
-
 import { AppException } from 'src/shared/utils'
 import { AppExceptionPage } from './app-exception'
 import { NotFoundPage } from './not-found'

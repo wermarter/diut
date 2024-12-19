@@ -2,7 +2,6 @@ import { USER_DEFAULT_PASSWORD } from '@diut/hcdc'
 import AddIcon from '@mui/icons-material/Add'
 import { Button } from '@mui/material'
 import { useEffect, useState } from 'react'
-
 import { CrudTable } from 'src/components/table'
 import { ConfirmDialog } from 'src/components/ui'
 import { authSlice, ChangePassword } from 'src/features/auth'

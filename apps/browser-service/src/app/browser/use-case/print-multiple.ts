@@ -1,6 +1,5 @@
 import { Inject } from '@nestjs/common'
 import { Observable, concatMap } from 'rxjs'
-
 import {
   PdfCreateOption,
   PuppeteerCreatePDFUseCase,

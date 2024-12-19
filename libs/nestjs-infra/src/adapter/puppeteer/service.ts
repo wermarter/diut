@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common'
 import * as puppeteer from 'puppeteer-core'
 import PuppeteerExtra from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-
 import { AbstractService } from '../abstract.service'
 import { chromeArgs } from './common'
 import { INSTANCE_ID_TOKEN, MODULE_OPTIONS_TOKEN } from './module-builder'

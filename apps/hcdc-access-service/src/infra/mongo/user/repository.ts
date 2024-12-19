@@ -1,7 +1,6 @@
 import { MongoRepository } from '@diut/nestjs-infra'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-
 import { IUserRepository } from 'src/domain'
 import { UserSchema } from './schema'
 

@@ -1,5 +1,4 @@
 import { LoggerService } from '@nestjs/common'
-
 import { BootstrapConfig } from '../../core'
 import { getPinoNestjsLoggerToken } from './utils'
 

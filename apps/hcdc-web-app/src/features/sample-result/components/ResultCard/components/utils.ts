@@ -1,5 +1,4 @@
 import { PatientCategory } from '@diut/hcdc'
-
 import {
   SampleResultTestElementResponseDto,
   SampleResultTestResponseDto,

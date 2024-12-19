@@ -1,10 +1,9 @@
 #!/usr/bin/env -S pnpm exec ts-node -r tsconfig-paths/register
 import * as dotenv from 'dotenv'
 import * as mongoose from 'mongoose'
-dotenv.config()
-
 import { migratePatient } from './patient'
 import { migrateSample } from './sample'
+dotenv.config()
 
 // mongoose.set('debug', true)
 

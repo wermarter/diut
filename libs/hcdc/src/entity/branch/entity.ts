@@ -1,5 +1,4 @@
 import { AssertAllKeysInArray, stringEnumValues } from '@diut/common'
-
 import { BaseEntity, baseEntityKeys } from '../base-entity'
 import { ReportType } from '../report'
 

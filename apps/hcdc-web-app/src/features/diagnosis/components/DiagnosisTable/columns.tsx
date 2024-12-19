@@ -1,5 +1,4 @@
 import { GridColDef } from '@mui/x-data-grid'
-
 import { DiagnosisResponseDto } from 'src/infra/api/access-service/diagnosis'
 
 export const diagnosisColumns: GridColDef<DiagnosisResponseDto>[] = [

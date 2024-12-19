@@ -7,7 +7,6 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator'
-
 import { exampleTestElementResult } from '../../../shared'
 import { TestElementUnpopulatedResponseDto } from '../../test-element/dto/response-dto'
 

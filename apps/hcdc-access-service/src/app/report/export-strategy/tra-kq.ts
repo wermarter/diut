@@ -2,7 +2,6 @@ import { DATEONLY_FORMAT } from '@diut/common'
 import { Sample, separateTestCombo } from '@diut/hcdc'
 import { Injectable, Scope } from '@nestjs/common'
 import { format, parseISO } from 'date-fns'
-
 import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
 import {
   AbstractReportExportStrategy,

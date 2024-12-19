@@ -1,5 +1,4 @@
 import { allTestSortComparator } from '@diut/hcdc'
-
 import { authSlice } from 'src/features/auth'
 import { fetchTests } from 'src/infra/api'
 import { appStore } from 'src/infra/redux'

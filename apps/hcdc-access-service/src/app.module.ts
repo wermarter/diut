@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-
 import { HttpModule } from './controller'
 
 @Module({

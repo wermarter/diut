@@ -1,6 +1,5 @@
 import { BioProduct } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
   BIOPRODUCT_REPO_TOKEN,
   EEntityNotFound,

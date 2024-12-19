@@ -1,6 +1,5 @@
 import { TestElement } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import {
   EEntityNotFound,
   EntityFindOneOptions,

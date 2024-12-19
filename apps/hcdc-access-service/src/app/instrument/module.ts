@@ -1,5 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-
 import { InstrumentAssertExistsUseCase } from './use-case/assert-exists'
 import { InstrumentAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { InstrumentCreateUseCase } from './use-case/create'

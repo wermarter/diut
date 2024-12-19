@@ -1,7 +1,6 @@
 import { Sample } from '@diut/hcdc'
 import { Injectable } from '@nestjs/common'
 import { FilterQuery } from 'mongoose'
-
 import { SampleDeleteUseCase } from './delete'
 import { SampleSearchUseCase } from './search'
 

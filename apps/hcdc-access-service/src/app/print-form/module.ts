@@ -1,5 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-
 import { SamplePrintContext } from './print-strategy/context'
 import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
 import { SamplePrintFormHIVStrategy } from './print-strategy/form-hiv'

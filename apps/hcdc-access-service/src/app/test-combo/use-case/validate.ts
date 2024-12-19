@@ -6,7 +6,6 @@ import {
   TestCombo,
 } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import { assertPermission } from 'src/app/auth/common'
 import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 import { TestAssertExistsUseCase } from 'src/app/test/use-case/assert-exists'

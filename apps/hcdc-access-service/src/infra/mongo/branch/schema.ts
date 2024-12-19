@@ -2,7 +2,6 @@ import { BranchReportConfig, BranchType, BranchTypeValues } from '@diut/hcdc'
 import { BaseSchema, baseSchemaOptions } from '@diut/nestjs-infra'
 import { Prop, Schema } from '@nestjs/mongoose'
 import { Schema as MongooseSchema, Types } from 'mongoose'
-
 import { COLLECTION } from '../collections'
 
 @Schema({

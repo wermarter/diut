@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-
 import { CrudTable } from 'src/components/table'
 import { authSlice } from 'src/features/auth'
 import {

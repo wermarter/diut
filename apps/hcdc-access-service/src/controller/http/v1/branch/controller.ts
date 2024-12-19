@@ -1,6 +1,5 @@
 import { ObjectIdPipe } from '@diut/nestjs-infra'
 import { Body, Param } from '@nestjs/common'
-
 import { BranchCreateUseCase } from 'src/app/branch/use-case/create'
 import { BranchDeleteUseCase } from 'src/app/branch/use-case/delete'
 import { BranchFindOneUseCase } from 'src/app/branch/use-case/find-one'

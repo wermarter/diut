@@ -1,6 +1,5 @@
 import { Body, Inject, Res } from '@nestjs/common'
 import { Response } from 'express'
-
 import { AuthLoginUseCase } from 'src/app/auth/use-case/login'
 import { AuthMeUseCase } from 'src/app/auth/use-case/me'
 import { AuthConfig, loadAuthConfig } from 'src/config'

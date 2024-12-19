@@ -1,6 +1,5 @@
 import { Injectable, Scope } from '@nestjs/common'
 import { write } from 'xlsx'
-
 import { IReportExportStrategy } from './common'
 
 @Injectable({ scope: Scope.TRANSIENT })

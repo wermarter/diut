@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common'
-
 import { PatientCategory, Sample, Test } from '@diut/hcdc'
+import { Injectable } from '@nestjs/common'
 import { TestElementSearchUseCase } from 'src/app/test-element/use-case/search'
 import { TestSearchUseCase } from 'src/app/test/use-case/search'
 import { EEntityNotFound } from 'src/domain'

@@ -1,6 +1,5 @@
 import { PatientCategory, PatientCategoryValues } from '@diut/hcdc'
 import { GridColDef } from '@mui/x-data-grid'
-
 import { TestElementNormalRuleDto } from 'src/infra/api/access-service/test-element'
 
 const patientCategoryDisplayText = {

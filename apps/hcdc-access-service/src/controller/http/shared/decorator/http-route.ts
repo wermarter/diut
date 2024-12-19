@@ -1,5 +1,4 @@
 import { CustomHttpRoute, CustomHttpRouteOptions } from '@diut/nestjs-infra'
-
 import { HttpErrorResponse } from '../dto'
 
 export const HttpRoute = (options: CustomHttpRouteOptions) => {

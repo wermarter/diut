@@ -1,6 +1,5 @@
 import { DomainErrorCode } from '@diut/hcdc'
 import { HttpStatus } from '@nestjs/common'
-
 import { EAuthn } from './base'
 
 export class EAuthnJwtInvalidToken extends EAuthn {

@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify'
-
 import { SideAction } from 'src/components/ui'
 import { authSlice } from 'src/features/auth'
 import { useUserChangePasswordMutation } from 'src/infra/api/access-service/user'

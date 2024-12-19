@@ -1,5 +1,4 @@
 import { Alert } from '@mui/material'
-
 import { ErrorLayout } from './error-layout'
 
 export function NotFoundPage() {

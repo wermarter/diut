@@ -9,7 +9,6 @@ import {
   TestCategoryAction,
 } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
-
 import { authorizePopulates } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,

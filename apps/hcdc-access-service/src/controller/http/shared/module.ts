@@ -1,6 +1,5 @@
 import { ModuleMetadata } from '@nestjs/common'
 import { APP_FILTER } from '@nestjs/core'
-
 import { appMetadata } from 'src/app'
 import { configMetadata } from 'src/config'
 import { infraMetadata } from 'src/infra'

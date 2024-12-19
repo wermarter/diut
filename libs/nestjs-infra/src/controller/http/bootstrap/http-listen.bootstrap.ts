@@ -1,7 +1,6 @@
 import { NodeEnv } from '@diut/common'
 import { INestApplication, Logger } from '@nestjs/common'
 import { setTimeout } from 'timers/promises'
-
 import { BootstrapConfig } from '../../../core/bootstrap'
 import { ConfigurationException } from '../../../core/config'
 

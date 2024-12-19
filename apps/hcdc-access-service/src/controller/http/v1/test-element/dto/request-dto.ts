@@ -10,7 +10,6 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator'
-
 import { exampleTestElement } from '../../../shared'
 import { TestElementNormalRuleDto } from './normal-rule.dto'
 

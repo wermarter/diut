@@ -1,6 +1,5 @@
 import { Box, Paper } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-
 import { BranchResponseDto } from 'src/infra/api/access-service/branch'
 import { PatientTypeResponseDto } from 'src/infra/api/access-service/patient-type'
 import { TestResponseDto } from 'src/infra/api/access-service/test'

@@ -1,5 +1,4 @@
 import { ModuleMetadata } from '@nestjs/common'
-
 import { BioProductAssertExistsUseCase } from './use-case/assert-exists'
 import { BioProductAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { BioProductCreateUseCase } from './use-case/create'

@@ -7,7 +7,6 @@ import {
   viVN,
 } from '@mui/x-data-grid'
 import { useCallback } from 'react'
-
 import { ProgressBar } from 'src/components/ui'
 import { ROWS_PER_PAGE_OPTIONS } from 'src/shared'
 import { EmptyRowsOverlay } from './components/EmptyRows'

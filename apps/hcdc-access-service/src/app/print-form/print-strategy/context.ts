@@ -1,7 +1,6 @@
 import { PrintForm, User } from '@diut/hcdc'
 import { Inject, Injectable, Scope } from '@nestjs/common'
 import { template } from 'lodash'
-
 import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 import { UserAssertExistsUseCase } from 'src/app/user/use-case/assert-exists'
 import {

@@ -8,7 +8,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-
 import { CardContentCommonProps } from '../utils'
 
 export const CardContentChung = (props: CardContentCommonProps) => {

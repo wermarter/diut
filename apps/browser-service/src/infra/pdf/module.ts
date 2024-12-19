@@ -1,6 +1,5 @@
 import { ModuleMetadata } from '@nestjs/common'
 import { ClassConstructor } from 'class-transformer'
-
 import { IPdfService, PDF_SERVICE_TOKEN } from 'src/domain'
 import { PdfService } from './service'
 

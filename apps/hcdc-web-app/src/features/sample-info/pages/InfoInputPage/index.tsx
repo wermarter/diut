@@ -1,7 +1,6 @@
 export * from './loader'
 import { useEffect } from 'react'
 import { useLoaderData, useRevalidator } from 'react-router-dom'
-
 import { authSlice } from 'src/features/auth'
 import { useTypedSelector } from 'src/infra/redux'
 import { InfoInputForm } from '../../components'

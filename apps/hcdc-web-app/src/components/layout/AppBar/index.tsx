@@ -16,7 +16,6 @@ import {
 } from '@mui/material'
 import * as React from 'react'
 import { useNavigation, useRevalidator } from 'react-router-dom'
-
 import { ProgressBar } from 'src/components/ui'
 import { ChangePassword, authSlice } from 'src/features/auth'
 import { userLogout } from 'src/features/auth/state/actions'

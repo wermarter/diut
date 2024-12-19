@@ -9,7 +9,6 @@ import {
   SortOrder,
   UpdateQuery,
 } from 'mongoose'
-
 import { BaseSchema, PopulateConfig } from './common'
 
 export abstract class MongoRepository<TEntity extends BaseSchema> {

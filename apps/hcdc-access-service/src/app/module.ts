@@ -1,5 +1,4 @@
 import { concatModuleMetadata } from '@diut/nestjs-infra'
-
 import { authMetadata } from './auth'
 import { bioProductMetadata } from './bio-product'
 import { branchMetadata } from './branch'

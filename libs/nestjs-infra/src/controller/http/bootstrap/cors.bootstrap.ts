@@ -1,6 +1,5 @@
 import { NodeEnv } from '@diut/common'
 import { INestApplication } from '@nestjs/common'
-
 import { BootstrapConfig } from '../../../core/bootstrap'
 
 export const CorsBootstrap = (config: {

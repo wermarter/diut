@@ -2,7 +2,6 @@
 import { SchemaFactory } from '@nestjs/mongoose'
 import * as dotenv from 'dotenv'
 import * as mongoose from 'mongoose'
-
 import { COLLECTION } from 'src/infra/mongo'
 import { UserSchema } from 'src/infra/mongo/user'
 dotenv.config()

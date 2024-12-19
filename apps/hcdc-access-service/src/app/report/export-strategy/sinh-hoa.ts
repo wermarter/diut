@@ -2,7 +2,6 @@ import { DATEONLY_FORMAT, DATETIME_FORMAT } from '@diut/common'
 import { PatientGender, ReportType, Sample } from '@diut/hcdc'
 import { Injectable, Scope } from '@nestjs/common'
 import { format, parseISO } from 'date-fns'
-
 import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 import { ReportQueryExportDataUseCase } from '../use-case/query-export-data'
 import { AbstractReportExportStrategy } from './abstract-strategy'

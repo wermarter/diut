@@ -1,6 +1,5 @@
 import { DomainErrorCode } from '@diut/hcdc'
 import { HttpStatus } from '@nestjs/common'
-
 import { ERequest } from './base'
 
 export class ERequestInvalidInput extends ERequest {
