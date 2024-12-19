@@ -13,6 +13,7 @@ import { BrowserServiceClient } from '@diut/services'
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ModuleRef } from '@nestjs/core'
 import { render } from 'ejs'
+import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { Observable, firstValueFrom } from 'rxjs'
 import { assertPermission } from 'src/app/auth/common'
@@ -221,19 +222,25 @@ export class SamplePrintUseCase {
   }
 
   private async getPrintTemplate(printForm: PrintForm) {
+    const printConfig = printTemplateConfigs[printForm.template]
+
     const isDevelopment = this.appConfig.NODE_ENV === NodeEnv.Development
     if (isDevelopment) {
-      return join(
-        __dirname,
-        '..',
-        '..',
-        `print-form/print-template/${printForm.template}`,
+      const buffer = await readFile(
+        join(
+          __dirname,
+          '..',
+          '..',
+          `print-form/print-template/${printConfig.templatePath}`,
+        ),
       )
+
+      return buffer.toString()
     }
 
     const { buffer } = await this.storageService.readToBuffer({
       key: StorageKeyFactory[StorageBucket.APP].printFormTemplate({
-        templatePath: printForm.template,
+        templatePath: printConfig.templatePath,
       }),
       bucket: this.storageBucket.get(StorageBucket.APP),
     })
