@@ -41,7 +41,7 @@ export class MongoModule {
         const userOptions = await useFactory(...args)
         const options = merge(defaultOptions, userOptions)
 
-        const logger = new Logger(MongoModule.name)
+        const logger = new Logger(this.constructor.name)
         mongoose.set('autoIndex', false)
 
         return {

@@ -1,4 +1,3 @@
-import { MongoAbility } from '@casl/ability'
 import { AuthSubject, SampleAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
@@ -12,7 +11,7 @@ import {
   IAuthCacheService,
   IAuthContext,
 } from 'src/domain'
-import { SamplePrintOptions } from '../../print-form/print-strategy/context'
+import { SamplePrintOptions } from '../common'
 import { SampleAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
@@ -28,10 +27,7 @@ export class SampleGeneratePrintUrlUseCase {
     private readonly cacheService: IAuthCacheService,
   ) {}
 
-  async execute(input: {
-    ability: MongoAbility
-    printOptions: SamplePrintOptions[]
-  }) {
+  async execute(input: { printOptions: SamplePrintOptions[] }) {
     const { ability, user, permissions } = this.authContext.getDataInternal()
     const route = '/api/external/print-sample-result'
 

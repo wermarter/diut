@@ -15,6 +15,8 @@ import { AbstractSamplePrintStrategy, SamplePrintData } from './common'
 
 @Injectable()
 export class SamplePrintFormPapStrategy extends AbstractSamplePrintStrategy {
+  static readonly type = PrintTemplate.FormPap
+
   constructor(
     @Inject(SAMPLE_REPO_TOKEN)
     sampleRepository: ISampleRepository,

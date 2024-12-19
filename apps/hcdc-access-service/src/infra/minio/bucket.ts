@@ -10,7 +10,7 @@ import {
 
 @Injectable()
 export class StorageBucketProvider implements IStorageBucket, OnModuleInit {
-  private logger = new Logger(StorageBucketProvider.name)
+  private logger = new Logger(this.constructor.name)
 
   constructor(
     @Inject(loadMinioConfig.KEY) private readonly minioConfig: MinioConfig,

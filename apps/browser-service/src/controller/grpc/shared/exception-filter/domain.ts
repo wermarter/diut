@@ -5,7 +5,7 @@ import { EDomain } from 'src/domain'
 
 @Catch(EDomain)
 export class DomainExceptionFilter implements ExceptionFilter {
-  private logger = new Logger(DomainExceptionFilter.name)
+  private logger = new Logger(this.constructor.name)
 
   catch(exception: EDomain) {
     this.logger.error(exception)

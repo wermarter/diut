@@ -16,7 +16,7 @@ import { HttpErrorResponse } from '../dto'
 
 @Catch(EDomain)
 export class DomainExceptionFilter implements ExceptionFilter {
-  private logger = new Logger(DomainExceptionFilter.name)
+  private logger = new Logger(this.constructor.name)
 
   constructor(
     @Inject(AUTH_CONTEXT_TOKEN)

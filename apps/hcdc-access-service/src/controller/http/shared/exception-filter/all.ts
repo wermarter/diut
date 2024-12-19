@@ -14,7 +14,7 @@ import { HttpErrorResponse } from '../dto'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  private logger = new Logger(AllExceptionsFilter.name)
+  private logger = new Logger(this.constructor.name)
 
   constructor(
     private readonly httpAdapterHost: HttpAdapterHost,

@@ -10,6 +10,8 @@ import { AbstractSamplePrintStrategy } from './common'
 
 @Injectable()
 export class SamplePrintFormChungStrategy extends AbstractSamplePrintStrategy {
+  static readonly type = PrintTemplate.FormChung
+
   constructor(
     @Inject(SAMPLE_REPO_TOKEN)
     sampleRepository: ISampleRepository,

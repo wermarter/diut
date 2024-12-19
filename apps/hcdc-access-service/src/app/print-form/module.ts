@@ -1,10 +1,5 @@
 import { ModuleMetadata } from '@nestjs/common'
-import { SamplePrintContext } from './print-strategy/context'
-import { SamplePrintFormChungStrategy } from './print-strategy/form-chung'
-import { SamplePrintFormHIVStrategy } from './print-strategy/form-hiv'
-import { SamplePrintFormPapStrategy } from './print-strategy/form-pap'
-import { SamplePrintFormSoiNhuomStrategy } from './print-strategy/form-soi-nhuom'
-import { SamplePrintFormTDStrategy } from './print-strategy/form-td'
+import { printFormStrategies } from './print-strategy'
 import { PrintFormAssertExistsUseCase } from './use-case/assert-exists'
 import { PrintFormAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { PrintFormCreateUseCase } from './use-case/create'
@@ -25,11 +20,9 @@ export const printFormMetadata: ModuleMetadata = {
     PrintFormValidateUseCase,
     PrintFormAuthorizePopulatesUseCase,
 
-    SamplePrintContext,
-    SamplePrintFormChungStrategy,
-    SamplePrintFormPapStrategy,
-    SamplePrintFormTDStrategy,
-    SamplePrintFormHIVStrategy,
-    SamplePrintFormSoiNhuomStrategy,
+    ...printFormStrategies.map((strategy) => ({
+      provide: strategy.type,
+      useClass: strategy,
+    })),
   ],
 }

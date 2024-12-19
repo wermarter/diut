@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '../dto'
 
 @Catch(BadRequestException)
 export class BadRequestExceptionFilter implements ExceptionFilter {
-  private logger = new Logger(BadRequestExceptionFilter.name)
+  private logger = new Logger(this.constructor.name)
 
   constructor(
     @Inject(AUTH_CONTEXT_TOKEN)

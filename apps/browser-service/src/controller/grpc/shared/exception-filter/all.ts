@@ -9,7 +9,7 @@ import { throwError } from 'rxjs'
 
 @Catch(Error)
 export class AllExceptionsFilter implements ExceptionFilter {
-  private logger = new Logger(AllExceptionsFilter.name)
+  private logger = new Logger(this.constructor.name)
 
   catch(exception: Error) {
     this.logger.error(exception)
