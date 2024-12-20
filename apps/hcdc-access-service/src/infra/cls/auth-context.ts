@@ -1,7 +1,9 @@
+import { ExternalRoutePath } from '@diut/hcdc'
 import { Injectable } from '@nestjs/common'
 import { ClsService } from 'nestjs-cls'
 import {
   AuthContextData,
+  AuthContextDataExternal,
   AuthType,
   EAuthzAuthenticationRequired,
   EAuthzContextInvalid,
@@ -38,7 +40,7 @@ export class AuthContext implements IAuthContext {
     return authContextData
   }
 
-  getDataExternal() {
+  getDataExternal<TPath extends ExternalRoutePath>() {
     const authContextData = this.cls.get('authContextData')
     if (authContextData === undefined) {
       throw new EAuthzAuthenticationRequired()
@@ -48,6 +50,6 @@ export class AuthContext implements IAuthContext {
       throw new EAuthzContextInvalid(`type=${authContextData.type}`)
     }
 
-    return authContextData
+    return authContextData as AuthContextDataExternal<TPath>
   }
 }

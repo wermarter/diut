@@ -1,6 +1,6 @@
 import { fileReponseHandler } from '../utils'
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-samples'] as const
+export const addTagTypes = ['samples'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -14,13 +14,13 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/samples/upload`,
           method: 'POST',
-          body: queryArg.sampleUploadImageDto,
+          body: queryArg.sampleUploadImageRequestDto,
           params: {
             sampleId: queryArg.sampleId,
             testElementId: queryArg.testElementId,
           },
         }),
-        invalidatesTags: ['v1-samples'],
+        invalidatesTags: ['samples'],
       }),
       sampleSearch: build.query<SampleSearchApiResponse, SampleSearchApiArg>({
         query: (queryArg) => ({
@@ -28,7 +28,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-samples'],
+        providesTags: ['samples'],
       }),
       sampleCreate: build.mutation<SampleCreateApiResponse, SampleCreateApiArg>(
         {
@@ -37,7 +37,7 @@ const injectedRtkApi = api
             method: 'POST',
             body: queryArg,
           }),
-          invalidatesTags: ['v1-samples'],
+          invalidatesTags: ['samples'],
         },
       ),
       sampleDownloadResultImage: build.query<
@@ -52,14 +52,14 @@ const injectedRtkApi = api
           },
           responseHandler: fileReponseHandler({ mode: 'url' }),
         }),
-        providesTags: ['v1-samples'],
+        providesTags: ['samples'],
       }),
       sampleFindInfoById: build.query<
         SampleFindInfoByIdApiResponse,
         SampleFindInfoByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/samples/${queryArg}/info` }),
-        providesTags: ['v1-samples'],
+        providesTags: ['samples'],
       }),
       sampleUpdateInfoById: build.mutation<
         SampleUpdateInfoByIdApiResponse,
@@ -70,14 +70,14 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.sampleUpdateInfoRequestDto,
         }),
-        invalidatesTags: ['v1-samples'],
+        invalidatesTags: ['samples'],
       }),
       sampleFindById: build.query<
         SampleFindByIdApiResponse,
         SampleFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/samples/${queryArg}` }),
-        providesTags: ['v1-samples'],
+        providesTags: ['samples'],
       }),
       sampleDeleteById: build.mutation<
         SampleDeleteByIdApiResponse,
@@ -87,7 +87,7 @@ const injectedRtkApi = api
           url: `/api/v1/samples/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-samples'],
+        invalidatesTags: ['samples'],
       }),
       sampleUpdateResultById: build.mutation<
         SampleUpdateResultByIdApiResponse,
@@ -98,16 +98,26 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.sampleUpdateResultRequestDto,
         }),
-        invalidatesTags: ['v1-samples'],
+        invalidatesTags: ['samples'],
       }),
       samplePrint: build.mutation<SamplePrintApiResponse, SamplePrintApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/samples/print`,
           method: 'POST',
           body: queryArg,
-          responseHandler: fileReponseHandler({ mode: 'preview' }),
         }),
-        invalidatesTags: ['v1-samples'],
+        invalidatesTags: ['samples'],
+      }),
+      sampleGetPrintPath: build.query<
+        SampleGetPrintPathApiResponse,
+        SampleGetPrintPathApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/get-print-path`,
+          body: queryArg,
+          method: 'POST',
+        }),
+        providesTags: ['samples'],
       }),
     }),
     overrideExisting: false,
@@ -118,7 +128,7 @@ export type SampleUploadResultImageApiResponse =
 export type SampleUploadResultImageApiArg = {
   sampleId: string
   testElementId: string
-  sampleUploadImageDto: SampleUploadImageDto
+  sampleUploadImageRequestDto: SampleUploadImageRequestDto
 }
 export type SampleSearchApiResponse = /** status 200  */ SampleSearchResponseDto
 export type SampleSearchApiArg = SampleSearchRequestDto
@@ -150,6 +160,9 @@ export type SampleUpdateResultByIdApiArg = {
 }
 export type SamplePrintApiResponse = unknown
 export type SamplePrintApiArg = SamplePrintRequestDto
+export type SampleGetPrintPathApiResponse =
+  /** status 200  */ SampleGetPrintPathResponseDto
+export type SampleGetPrintPathApiArg = SamplePrintRequestDto
 export type SampleUploadImageResponseDto = {
   storageKey: string
 }
@@ -160,12 +173,12 @@ export type HttpErrorResponse = {
     | 'AUTHN_JWT_INVALID_TOKEN'
     | 'AUTHN_LOGIN_INVALID_USERNAME'
     | 'AUTHN_LOGIN_INVALID_PASSWORD'
-    | 'AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_USER_NOT_FOUND'
+    | 'AUTHN_COOKIE_NOT_FOUND'
+    | 'AUTHN_PAYLOAD_INVALID'
     | 'AUTHZ'
     | 'AUTHZ_AUTHENTICATION_REQUIRED'
     | 'AUTHZ_PERMISSION_DENIED'
+    | 'AUTHZ_CONTEXT_INVALID'
     | 'ENTITY'
     | 'ENTITY_NOT_FOUND'
     | 'ENTITY_CANNOT_DELETE'
@@ -179,54 +192,62 @@ export type HttpErrorResponse = {
     | 'REQUEST_INVALID_INPUT'
   message: string
 }
-export type SampleUploadImageDto = {
+export type SampleUploadImageRequestDto = {
   file: Blob
 }
-export type PermissionRuleRequestDto = {
+export type PermissionRuleDto = {
   subject:
-    | 'BioProduct'
-    | 'TestCategory'
     | 'Branch'
     | 'Role'
     | 'User'
+    | 'PrintForm'
+    | 'BioProduct'
     | 'Instrument'
     | 'SampleType'
     | 'Doctor'
     | 'PatientType'
     | 'Diagnosis'
-    | 'PrintForm'
-    | 'Test'
-    | 'TestResult'
+    | 'TestCategory'
     | 'TestElement'
-    | 'Patient'
+    | 'Test'
     | 'TestCombo'
+    | 'Patient'
     | 'Sample'
+    | 'SampleTestResult'
+    | 'Report'
+    | 'ExternalRoute'
     | 'all'
   action:
     | 'Create'
     | 'Read'
     | 'Update'
     | 'Delete'
+    | 'AuthorizeUser'
+    | 'DeauthorizeUser'
     | 'AssignToUser'
     | 'AssignUserInline'
     | 'ChangePassword'
     | 'OverrideAuthor'
     | 'Modify'
+    | 'ReadInfo'
+    | 'ReadResult'
     | 'UpdateInfo'
     | 'UpdateResult'
     | 'PrintResult'
-    | 'ExportReport'
     | 'View'
+    | 'Export'
+    | 'Generate'
     | 'manage'
   inverted?: boolean
   conditions: object
+  fields?: any[]
 }
 export type UserUnpopulatedResponseDto = {
   _id: string
   username: string
   name: string
   phoneNumber: string
-  inlinePermissions: PermissionRuleRequestDto[]
+  inlinePermissions: PermissionRuleDto[]
   branchIds: string[]
   roleIds: string[]
 }
@@ -265,6 +286,7 @@ export type BranchUnpopulatedResponseDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
 }
 export type SampleTypeUnpopulatedResponseDto = {
@@ -343,8 +365,10 @@ export type PopulateOptionDto = {
 export type SampleSearchRequestDto = {
   offset?: number
   limit?: number
-  projection?: unknown
+  /** mongoose Query.sort() */
   sort?: object
+  projection?: object
+  /** mongoose FilterQuery */
   filter?: object
   populates?: PopulateOptionDto[]
 }
@@ -558,6 +582,9 @@ export type SamplePrintSingleRequestDto = {
 export type SamplePrintRequestDto = {
   requests: SamplePrintSingleRequestDto[]
 }
+export type SampleGetPrintPathResponseDto = {
+  path: string
+}
 export const {
   useSampleUploadResultImageMutation,
   useSampleSearchQuery,
@@ -573,4 +600,6 @@ export const {
   useSampleDeleteByIdMutation,
   useSampleUpdateResultByIdMutation,
   useSamplePrintMutation,
+  useSampleGetPrintPathQuery,
+  useLazySampleGetPrintPathQuery,
 } = injectedRtkApi

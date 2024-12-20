@@ -21,6 +21,7 @@ import { SampleCreateUseCase } from 'src/app/sample/use-case/create'
 import { SampleDeleteUseCase } from 'src/app/sample/use-case/delete'
 import { SampleDownloadResultImageUseCase } from 'src/app/sample/use-case/download-result-image'
 import { SampleFindOneUseCase } from 'src/app/sample/use-case/find-one'
+import { SampleGeneratePrintUrlUseCase } from 'src/app/sample/use-case/generate-print-url'
 import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
 import { SampleSearchUseCase } from 'src/app/sample/use-case/search'
 import { SampleUpdateInfoUseCase } from 'src/app/sample/use-case/update-info'
@@ -52,6 +53,7 @@ export class SampleController {
     private readonly samplePrintUseCase: SamplePrintUseCase,
     private readonly sampleUploadResultImageUseCase: SampleUploadResultImageUseCase,
     private readonly sampleDownloadResultImageUseCase: SampleDownloadResultImageUseCase,
+    private readonly sampleGeneratePrintUrlUseCase: SampleGeneratePrintUrlUseCase,
   ) {}
 
   @HttpRoute(sampleRoutes.uploadResultImage)
@@ -189,5 +191,17 @@ export class SampleController {
     })
 
     return new StreamableFile(buffer)
+  }
+
+  @HttpRoute(sampleRoutes.getPrintPath)
+  async getPrintPath(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: SamplePrintRequestDto,
+  ) {
+    const path = await this.sampleGeneratePrintUrlUseCase.execute({
+      printOptions: body.requests,
+    })
+
+    return { path }
   }
 }

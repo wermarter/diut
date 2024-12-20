@@ -1,5 +1,6 @@
 import { MongoAbility } from '@casl/ability'
-import { PermissionRule, User } from '@diut/hcdc'
+import { ExternalRoutePath, PermissionRule, User } from '@diut/hcdc'
+import { ExternalRouteOptions } from './external-route'
 
 export const AUTH_CONTEXT_TOKEN = Symbol('AUTH_CONTEXT_TOKEN')
 
@@ -10,21 +11,24 @@ export interface IAuthContext {
   getData(unsafe: true): AuthContextData | undefined
 
   getDataInternal(): AuthContextDataInternal
-  getDataExternal(): AuthContextDataExternal
+  getDataExternal<
+    TPath extends ExternalRoutePath,
+  >(): AuthContextDataExternal<TPath>
 }
 
 export type AuthPayloadInternal = {
   userId: string
 }
 
-export type AuthPayloadExternal = {
-  authorizedByUserId: string
-  authorizedRoute: string
-  permissions: PermissionRule[]
-  origin: AuthExternalOrigin
+export type AuthPayloadExternal<
+  TPath extends ExternalRoutePath = ExternalRoutePath,
+> = {
   description: string
 
-  routeOptions: unknown
+  path: TPath
+  routeOptions: ExternalRouteOptions[TPath]
+
+  authorizedByUserId: string
 }
 
 export enum AuthType {
@@ -47,21 +51,19 @@ export type AuthContextDataInternalSerialized = Pick<
   'user' | 'permissions'
 >
 
-export enum AuthExternalOrigin {
-  Delegated = 'Delegated',
-  Clinic = 'Clinic',
-}
-
-export type AuthContextDataExternal = {
+export type AuthContextDataExternal<
+  TPath extends ExternalRoutePath = ExternalRoutePath,
+> = {
   type: AuthType.External
-  origin: AuthExternalOrigin
+
+  path: TPath
+  routeOptions: ExternalRouteOptions[TPath]
+
   ability: MongoAbility
   authorizedByUserId: string
-  authorizedRoute: string
   description: string
 
   jwt: string
-  routeOptions: unknown
 }
 
 export type AuthContextData = AuthContextDataInternal | AuthContextDataExternal

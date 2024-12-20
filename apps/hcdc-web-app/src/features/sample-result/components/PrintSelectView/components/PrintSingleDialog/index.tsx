@@ -29,6 +29,8 @@ import { PrintFormResponseDto } from 'src/infra/api/access-service/print-form'
 import {
   OmittedSampleResponseDto,
   OmittedTestResponseDto,
+  SamplePrintSingleRequestDto,
+  useLazySampleGetPrintPathQuery,
   useSamplePrintMutation,
 } from 'src/infra/api/access-service/sample'
 import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
@@ -58,31 +60,37 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     handleSubmit,
     setValue,
     formState: { isSubmitting, dirtyFields },
+    getValues,
     watch,
   } = useForm<FormSchema>({
     resolver: formResolver,
     defaultValues: formDefaultValues,
   })
 
+  const [getPrintPath, { isFetching }] = useLazySampleGetPrintPathQuery()
+
   const [printSample] = useSamplePrintMutation()
-  const handlePrint = async (data: FormSchema) => {
+
+  function getPrintRequest(data: FormSchema): SamplePrintSingleRequestDto {
     const overrideAuthor = dirtyFields.authorName || dirtyFields.authorTitle
 
-    await printSample({
-      requests: [
-        {
-          sampleId: props.sample?._id!,
-          printFormId: data.printFormId,
-          sampleTypeIds: data.sampleTypeIds,
-          testIds: data.testIds,
-          ...(overrideAuthor && {
-            overrideAuthor: {
-              authorName: data.authorName,
-              authorTitle: data.authorTitle,
-            },
-          }),
+    return {
+      sampleId: props.sample?._id!,
+      printFormId: data.printFormId,
+      sampleTypeIds: data.sampleTypeIds,
+      testIds: data.testIds,
+      ...(overrideAuthor && {
+        overrideAuthor: {
+          authorName: data.authorName,
+          authorTitle: data.authorTitle,
         },
-      ],
+      }),
+    }
+  }
+
+  const handlePrint = async (data: FormSchema) => {
+    await printSample({
+      requests: [getPrintRequest(data)],
     }).unwrap()
   }
 
@@ -297,7 +305,6 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
               </Box>
               <Box>
                 <Button
-                  sx={{ mr: 1 }}
                   variant="outlined"
                   autoFocus
                   onClick={() => {
@@ -306,6 +313,22 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 >
                   Bỏ qua
                 </Button>
+                <LoadingButton
+                  sx={{ mx: 1 }}
+                  variant="outlined"
+                  loading={isFetching}
+                  onClick={async () => {
+                    console.log(
+                      (
+                        await getPrintPath({
+                          requests: [getPrintRequest(getValues())],
+                        }).unwrap()
+                      ).path,
+                    )
+                  }}
+                >
+                  Link
+                </LoadingButton>
                 <LoadingButton
                   type="submit"
                   variant="contained"

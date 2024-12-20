@@ -171,17 +171,6 @@ export class AuthCacheService implements IAuthCacheService {
     return this.primaryClient.synchronize()
   }
 
-  async setActiveExternalToken(userId: string, sampleId: string, jwt: string) {
-    const rv = await this.primaryClient.client.set(
-      KeyFactory.activeExternalToken(userId, sampleId, jwt),
-      '1',
-      'EX',
-      this.appConfig.EXTERNAL_JWT_EXPIRE_SECONDS,
-    )
-
-    return rv === 'OK'
-  }
-
   async blacklistExternalToken(jwt: string) {
     const rv = await this.primaryClient.client.set(
       KeyFactory.externalTokenBlacklist(jwt),

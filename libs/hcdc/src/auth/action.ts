@@ -4,6 +4,7 @@ import {
   BranchAction,
   DiagnosisAction,
   DoctorAction,
+  ExternalRouteAction,
   InstrumentAction,
   PatientAction,
   PatientTypeAction,
@@ -41,6 +42,7 @@ export const AuthAction = {
   TestCombo: stringEnumValues(TestComboAction),
   Sample: stringEnumValues(SampleAction),
   Report: stringEnumValues(ReportAction),
+  ExternalRoute: stringEnumValues(ExternalRouteAction),
 } satisfies Record<keyof typeof AuthSubject, string[]>
 
 export const AuthActionValues = [

@@ -2,12 +2,14 @@ import { createAbility } from '@diut/hcdc'
 import { CanActivate, ExecutionContext, Inject, Logger } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
+import { AuthPopulateContextUseCase } from 'src/app/auth/use-case/populate-context'
 import { AppConfig, loadAppConfig } from 'src/config'
 import {
   AUTH_CACHE_SERVICE_TOKEN,
   AUTH_CONTEXT_TOKEN,
   AuthPayloadExternal,
   AuthType,
+  EAuthn,
   IAuthCacheService,
   IAuthContext,
 } from 'src/domain'
@@ -23,6 +25,7 @@ export class HttpExternalAuthGuard implements CanActivate {
     private readonly jwtService: JwtService,
     @Inject(loadAppConfig.KEY)
     private readonly appConfig: AppConfig,
+    private readonly authPopulateContextUseCase: AuthPopulateContextUseCase,
   ) {}
 
   async canActivate(context: ExecutionContext) {
@@ -33,15 +36,26 @@ export class HttpExternalAuthGuard implements CanActivate {
     const payload = await this.verifyToken(jwt)
     if (!payload) return false
 
-    if (!request.path.startsWith(payload.authorizedRoute)) return false
+    const requestPath = request.path.split('/').at(-1)
+    if (requestPath !== payload.path) {
+      throw new EAuthn(
+        undefined,
+        `Invalid path ${payload.path} in token. Expected ${requestPath}`,
+      )
+    }
 
     if (await this.cacheService.isExternalTokenBlacklisted(jwt)) return false
+
+    const { compiledPermissions } =
+      await this.authPopulateContextUseCase.execute({
+        userId: payload.authorizedByUserId,
+      })
 
     this.authContext.setData({
       ...payload,
       type: AuthType.External,
       jwt,
-      ability: createAbility(payload.permissions),
+      ability: createAbility(compiledPermissions),
     })
 
     return true

@@ -1,6 +1,7 @@
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
 import { SampleCreateResponseDto } from './dto/create'
+import { SampleGetPrintPathResponseDto } from './dto/get-print-path'
 import {
   SampleResponseDto,
   SampleUnpopulatedResponseDto,
@@ -41,6 +42,19 @@ export const sampleRoutes = {
   print: {
     path: 'print',
     method: RequestMethod.POST,
+  },
+
+  getPrintPath: {
+    path: 'get-print-path',
+    method: RequestMethod.POST,
+    serialize: SampleGetPrintPathResponseDto,
+    openApi: {
+      responses: [
+        {
+          type: SampleGetPrintPathResponseDto,
+        },
+      ],
+    },
   },
 
   uploadResultImage: {

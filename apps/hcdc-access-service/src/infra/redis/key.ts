@@ -26,12 +26,6 @@ export const KeyFactory = {
   /**
    * datatype: string - "1"
    */
-  activeExternalToken(userId: string, sampleId: string, jwt: string) {
-    return `activeExternalToken:userId:${userId}:sampleId:${sampleId}:jwt:${jwt}`
-  },
-  /**
-   * datatype: string - "1"
-   */
   externalTokenBlacklist(jwt: string) {
     return `externalTokenBlacklist:jwt:${jwt}`
   },
