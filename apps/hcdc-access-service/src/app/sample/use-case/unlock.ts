@@ -20,7 +20,7 @@ export class SampleUnlockUseCase {
   ) {}
 
   async execute(input: Parameters<ISampleRepository['update']>[0]) {
-    const entity = await this.sampleAssertExistsUseCase.execute(input[0])
+    const entity = await this.sampleAssertExistsUseCase.execute(input)
     const { ability } = this.authContext.getData()
     assertPermission(ability, AuthSubject.Sample, SampleAction.Lock, entity)
 
