@@ -268,6 +268,11 @@ export class SamplePrintUseCase {
     }
     meta.authorName = await render(meta.authorName, { user }, { async: true })
 
+    if (authContext.type === AuthType.External) {
+      meta.authorTitle = ''
+      meta.authorName = ''
+    }
+
     return meta
   }
 }

@@ -18,7 +18,7 @@ const ENDPOINTS = [
   // 'test element',
   // 'patient',
   // 'test combo',
-  // 'sample',
+  'sample',
   // 'report',
 ]
 const outputFiles = {}

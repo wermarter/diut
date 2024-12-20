@@ -1,3 +1,4 @@
+import { ExternalRoutePath } from '@diut/hcdc'
 import {
   Controller,
   Get,
@@ -8,7 +9,6 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
-import { SamplePrintOptions } from 'src/app/sample/common'
 import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
 import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
 import { HttpExternalAuthGuard } from './auth'
@@ -23,13 +23,13 @@ export class ExternalController {
     private readonly authContext: IAuthContext,
   ) {}
 
-  @Get('print-sample-result')
+  @Get(ExternalRoutePath.PrintSampleResult)
   async printSampleResult(@Res({ passthrough: true }) res: Response) {
-    const { routeOptions } = this.authContext.getDataExternal()
+    const {
+      routeOptions: { printOptions },
+    } = this.authContext.getDataExternal<ExternalRoutePath.PrintSampleResult>()
 
-    const buffer = await this.samplePrintUseCase.execute(
-      routeOptions as SamplePrintOptions[],
-    )
+    const buffer = await this.samplePrintUseCase.execute(printOptions)
 
     res.set({
       'Content-Type': 'application/pdf',

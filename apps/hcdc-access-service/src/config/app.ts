@@ -16,11 +16,6 @@ export class AppConfig {
   @Expose()
   @IsString()
   @IsNotEmpty()
-  EXTERNAL_URL_PREFIX: string
-
-  @Expose()
-  @IsString()
-  @IsNotEmpty()
   EXTERNAL_JWT_SECRET: string
 
   @Expose()

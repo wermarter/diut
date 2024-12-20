@@ -7,6 +7,8 @@ import {
   DiagnosisFields,
   Doctor,
   DoctorFields,
+  ExternalRoute,
+  ExternalRouteFields,
   Instrument,
   InstrumentFields,
   Patient,
@@ -61,6 +63,8 @@ export const AuthSubject = {
   Sample: 'Sample',
   SampleTestResult: 'SampleTestResult',
   Report: 'Report',
+
+  ExternalRoute: 'ExternalRoute',
 } as const
 
 export type AuthSubjectUnionType = keyof typeof AuthSubject
@@ -89,6 +93,7 @@ export type SubjectEntityMapping = {
   TestCombo: TestCombo
   Sample: Sample
   Report: Report
+  ExternalRoute: ExternalRoute
 }
 
 export const subjectFieldsMapping = {
@@ -110,6 +115,7 @@ export const subjectFieldsMapping = {
   TestCombo: TestComboFields,
   TestElement: TestElementFields,
   User: UserFields,
+  ExternalRoute: ExternalRouteFields,
 } satisfies {
   [key in AuthSubjectUnionType]: string[]
 }

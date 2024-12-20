@@ -25,15 +25,6 @@ export interface IAuthCacheService {
     ttlSeconds: number,
   ): Promise<boolean>
 
-  /**
-   * keep track for invalidation
-   */
-  setActiveExternalToken(
-    userId: string,
-    sampleId: string,
-    jwt: string,
-  ): Promise<boolean>
-
   deleteKey(key: string): Promise<boolean>
 
   deleteAuthContext(userId: string): Promise<boolean>
