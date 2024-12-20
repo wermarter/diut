@@ -5,5 +5,5 @@ export const BROWSER_SERVICE_TOKEN = Symbol('BROWSER_SERVICE_TOKEN')
 export interface IBrowserService {
   printMultiplePage(
     request: Observable<PrintPageRequest>,
-  ): Observable<PrintPageReply>
+  ): Promise<PrintPageReply>
 }
