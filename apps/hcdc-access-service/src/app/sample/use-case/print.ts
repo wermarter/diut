@@ -1,4 +1,3 @@
-import { MongoAbility } from '@casl/ability'
 import { NodeEnv } from '@diut/common'
 import {
   AuthSubject,
@@ -9,13 +8,13 @@ import {
   TestAction,
   User,
 } from '@diut/hcdc'
-import { BrowserServiceClient } from '@diut/services'
-import { Inject, Injectable, Logger } from '@nestjs/common'
+import { PrintPageRequest } from '@diut/services'
+import { Inject, Injectable } from '@nestjs/common'
 import { ModuleRef } from '@nestjs/core'
 import { render } from 'ejs'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
-import { Observable, firstValueFrom } from 'rxjs'
+import { from } from 'rxjs'
 import { assertPermission } from 'src/app/auth/common'
 import { BranchAssertExistsUseCase } from 'src/app/branch/use-case/assert-exists'
 import { ISamplePrintStrategy } from 'src/app/print-form/print-strategy/common'
@@ -27,10 +26,10 @@ import { UserAssertExistsUseCase } from 'src/app/user/use-case/assert-exists'
 import { AppConfig, loadAppConfig } from 'src/config'
 import {
   AUTH_CONTEXT_TOKEN,
-  AuthContextData,
   AuthType,
   BROWSER_SERVICE_TOKEN,
   IAuthContext,
+  IBrowserService,
   ISampleRepository,
   ISampleTypeRepository,
   IStorageBucket,
@@ -44,17 +43,14 @@ import {
 } from 'src/domain'
 import { SamplePrintOptions } from '../common'
 import { SampleAssertExistsUseCase } from './assert-exists'
-import { SampleGeneratePrintUrlUseCase } from './generate-print-url'
 
 @Injectable()
 export class SamplePrintUseCase {
-  private logger = new Logger(this.constructor.name)
-
   constructor(
     @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     @Inject(BROWSER_SERVICE_TOKEN)
-    private readonly browserService: BrowserServiceClient,
+    private readonly browserService: IBrowserService,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
     @Inject(STORAGE_BUCKET_TOKEN)
@@ -70,47 +66,24 @@ export class SamplePrintUseCase {
     private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
     private readonly testAssertExistsUseCase: TestAssertExistsUseCase,
     private readonly printFormAssertExistsUseCase: PrintFormAssertExistsUseCase,
-    private readonly sampleGeneratePrintUrlUseCase: SampleGeneratePrintUrlUseCase,
     private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
     private readonly branchAssertExistsUseCase: BranchAssertExistsUseCase,
   ) {}
 
   async execute(input: SamplePrintOptions[]) {
+    const printFormMap = await this.assertPermissions(input)
+
+    const pageRequest$ = from(this.getPrintPageRequests(printFormMap, input))
+    const { mergedPdf } =
+      await this.browserService.printMultiplePage(pageRequest$)
+
+    await this.updatePrintedProperties(input)
+
+    return mergedPdf
+  }
+
+  private async updatePrintedProperties(input: SamplePrintOptions[]) {
     const authContextData = this.authContext.getData()
-    const ability = authContextData.ability
-    const printFormMap = await this.assertPermissions(ability, input)
-
-    const response$ = this.browserService.printMultiplePage(
-      new Observable((subscriber) => {
-        ;(async () => {
-          for (const printOptions of input) {
-            const printForm = printFormMap.get(printOptions.printFormId)!
-            const printConfig = printTemplateConfigs[printForm.template]
-            const htmlContent = await this.getHtml(
-              authContextData,
-              printForm,
-              printOptions,
-            )
-
-            subscriber.next({
-              htmlContent,
-              pageFormat: printConfig.pageFormat,
-              pageOrientation: printConfig.pageOrientation,
-            })
-          }
-        })()
-          .then(() => subscriber.complete())
-          .catch((e) => {
-            this.logger.warn(
-              `Error when preparing print data: ${e?.stack ?? e}`,
-            )
-            subscriber.error(e)
-          })
-      }),
-    )
-
-    const { mergedPdf } = await firstValueFrom(response$)
-    const printedAt = new Date()
     const printedById =
       authContextData.type === AuthType.Internal
         ? authContextData.user._id
@@ -120,25 +93,31 @@ export class SamplePrintUseCase {
       await this.sampleRepository.updateByIdIgnoreSoftDelete(sampleId, {
         $set: {
           printedById,
-          printedAt,
+          printedAt: new Date(),
         },
       })
     }
-
-    if (authContextData.type === AuthType.Internal) {
-      const url = await this.sampleGeneratePrintUrlUseCase.execute({
-        printOptions: input,
-      })
-      this.logger.log(url)
-    }
-
-    return mergedPdf
   }
 
-  private async assertPermissions(
-    ability: MongoAbility,
+  private async *getPrintPageRequests(
+    printFormMap: Map<string, PrintForm>,
     input: SamplePrintOptions[],
-  ) {
+  ): AsyncGenerator<PrintPageRequest> {
+    for (const printOptions of input) {
+      const printForm = printFormMap.get(printOptions.printFormId)!
+      const printConfig = printTemplateConfigs[printForm.template]
+      const htmlContent = await this.getHtml(printForm, printOptions)
+
+      yield {
+        htmlContent,
+        pageFormat: printConfig.pageFormat,
+        pageOrientation: printConfig.pageOrientation,
+      }
+    }
+  }
+
+  private async assertPermissions(input: SamplePrintOptions[]) {
+    const { ability } = this.authContext.getData()
     const printFormMap = new Map<string, PrintForm>()
 
     for (const printOptions of input) {
@@ -206,13 +185,9 @@ export class SamplePrintUseCase {
     return printFormMap
   }
 
-  private async getHtml(
-    authContext: AuthContextData,
-    printForm: PrintForm,
-    options: SamplePrintOptions,
-  ) {
+  private async getHtml(printForm: PrintForm, options: SamplePrintOptions) {
     const printTemplate = await this.getPrintTemplate(printForm)
-    const printData = await this.getPrintData(authContext, printForm, options)
+    const printData = await this.getPrintData(printForm, options)
 
     const htmlString = await render(printTemplate, printData, {
       async: true,
@@ -248,11 +223,10 @@ export class SamplePrintUseCase {
   }
 
   private async getPrintData(
-    authContext: AuthContextData,
     printForm: PrintForm,
     options: SamplePrintOptions,
   ) {
-    const meta = await this.getPrintMetadata(options, printForm, authContext)
+    const meta = await this.getPrintMetadata(options, printForm)
 
     const printStrategy = this.moduleRef.get<ISamplePrintStrategy>(
       printForm.template,
@@ -268,7 +242,6 @@ export class SamplePrintUseCase {
   private async getPrintMetadata(
     options: SamplePrintOptions,
     printForm: PrintForm,
-    authContext: AuthContextData,
   ) {
     const sampleTypeNames: string[] = []
     for (const sampleTypeId of options.sampleTypeIds) {
@@ -285,6 +258,7 @@ export class SamplePrintUseCase {
     }
 
     let user: User
+    const authContext = this.authContext.getData()
     if (authContext.type === AuthType.Internal) {
       user = authContext.user
     } else {
