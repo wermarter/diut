@@ -1,13 +1,17 @@
 import { DATETIME_FORMAT } from '@diut/common'
 import {
   AuthSubject,
+  ExternalRouteAction,
   PrintFormAction,
   allTestSortComparator,
   checkPermission,
   createAbility,
 } from '@diut/hcdc'
+import LockIcon from '@mui/icons-material/Lock'
+import LockOpenIcon from '@mui/icons-material/LockOpen'
+import ShareIcon from '@mui/icons-material/Share'
 import { LoadingButton } from '@mui/lab'
-import { Box, Typography } from '@mui/material'
+import { Box, ButtonGroup, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
@@ -31,7 +35,9 @@ import {
   OmittedTestResponseDto,
   SamplePrintSingleRequestDto,
   useLazySampleGetPrintPathQuery,
+  useSampleLockMutation,
   useSamplePrintMutation,
+  useSampleUnlockMutation,
 } from 'src/infra/api/access-service/sample'
 import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { TestResponseDto } from 'src/infra/api/access-service/test'
@@ -70,16 +76,19 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
   const [getPrintPath, { isFetching: isFetchingPrintPath }] =
     useLazySampleGetPrintPathQuery()
   const handleGetLink = async () => {
-    console.log(
-      (
-        await getPrintPath({
-          requests: [getPrintRequest(getValues())],
-        }).unwrap()
-      ).path,
-    )
+    const { path } = await getPrintPath({
+      requests: [getPrintRequest(getValues())],
+    }).unwrap()
+
+    const hiddenElement = document.createElement('a')
+    hiddenElement.href = path
+    hiddenElement.target = '_blank'
+    hiddenElement.click()
   }
 
   const [printSample] = useSamplePrintMutation()
+  const [lockSample] = useSampleLockMutation()
+  const [unlockSample] = useSampleUnlockMutation()
 
   function getPrintRequest(data: FormSchema): SamplePrintSingleRequestDto {
     const overrideAuthor = dirtyFields.authorName || dirtyFields.authorTitle
@@ -114,9 +123,20 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
   const [printFormOptions, setPrintFormOptions] = useState<
     PrintFormResponseDto[]
   >([])
+  const [isLocked, setIsLocked] = useState(false)
+  const [isAuthorized, setIsAuthorized] = useState(false)
 
   useEffect(() => {
     if (props.sample?._id) {
+      setIsLocked(props.sample.isLocked)
+      setIsAuthorized(
+        checkPermission(
+          userAbility,
+          AuthSubject.ExternalRoute,
+          ExternalRouteAction.Generate,
+        ),
+      )
+
       const allTestOptions =
         props.sample?.results
           .filter(({ isLocked }) => isLocked)
@@ -224,14 +244,45 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             ID xét nghiệm: {props.sample?.sampleId}
           </Box>
-          <LoadingButton
-            variant="outlined"
-            loading={isFetchingPrintPath}
-            onClick={handleGetLink}
-            color="secondary"
-          >
-            Link
-          </LoadingButton>
+          <ButtonGroup>
+            <LoadingButton
+              variant="outlined"
+              loading={isFetchingPrintPath}
+              disabled={isLocked}
+              onClick={handleGetLink}
+              color="secondary"
+            >
+              <ShareIcon />
+            </LoadingButton>
+            {isLocked ? (
+              <Button
+                size="large"
+                variant="outlined"
+                disabled={!isAuthorized}
+                onClick={() => {
+                  setIsLocked(false)
+                  unlockSample(props.sample?._id!)
+                }}
+                color="secondary"
+              >
+                <LockIcon />
+              </Button>
+            ) : (
+              <Button
+                size="large"
+                variant="contained"
+                disabled={!isAuthorized}
+                color="secondary"
+                sx={{ color: 'white' }}
+                onClick={() => {
+                  setIsLocked(true)
+                  lockSample(props.sample?._id!)
+                }}
+              >
+                <LockOpenIcon />
+              </Button>
+            )}
+          </ButtonGroup>
         </Box>
       </DialogTitle>
 

@@ -28,6 +28,7 @@ import {
   AUTH_CONTEXT_TOKEN,
   AuthType,
   BROWSER_SERVICE_TOKEN,
+  EAuthzPermissionDenied,
   IAuthContext,
   IBrowserService,
   ISampleRepository,
@@ -131,6 +132,10 @@ export class SamplePrintUseCase {
         SampleAction.PrintResult,
         sample,
       )
+
+      if (sample.isLocked === true) {
+        throw new EAuthzPermissionDenied('Sample is locked')
+      }
 
       const printForm = await this.printFormAssertExistsUseCase.execute({
         _id: printOptions.printFormId,

@@ -182,12 +182,12 @@ export class SampleController {
 
   @HttpRoute(sampleRoutes.lock)
   lock(@Param('id', ObjectIdPipe) id: string) {
-    return this.sampleLockUseCase.execute({ id })
+    return this.sampleLockUseCase.execute({ _id: id })
   }
 
   @HttpRoute(sampleRoutes.unlock)
   unlock(@Param('id', ObjectIdPipe) id: string) {
-    return this.sampleUnlockUseCase.execute({ id })
+    return this.sampleUnlockUseCase.execute({ _id: id })
   }
 
   @HttpRoute(sampleRoutes.print)
