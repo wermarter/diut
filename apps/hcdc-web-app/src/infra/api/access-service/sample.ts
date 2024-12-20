@@ -100,6 +100,22 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ['samples'],
       }),
+      sampleLock: build.mutation<SampleLockApiResponse, SampleLockApiArg>({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/${queryArg}/lock`,
+          method: 'POST',
+        }),
+        invalidatesTags: ['samples'],
+      }),
+      sampleUnlock: build.mutation<SampleUnlockApiResponse, SampleUnlockApiArg>(
+        {
+          query: (queryArg) => ({
+            url: `/api/v1/samples/${queryArg}/unlock`,
+            method: 'POST',
+          }),
+          invalidatesTags: ['samples'],
+        },
+      ),
       samplePrint: build.mutation<SamplePrintApiResponse, SamplePrintApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/samples/print`,
@@ -114,8 +130,8 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/samples/get-print-path`,
-          body: queryArg,
           method: 'POST',
+          body: queryArg,
         }),
         providesTags: ['samples'],
       }),
@@ -158,6 +174,10 @@ export type SampleUpdateResultByIdApiArg = {
   id: string
   sampleUpdateResultRequestDto: SampleUpdateResultRequestDto
 }
+export type SampleLockApiResponse = unknown
+export type SampleLockApiArg = string
+export type SampleUnlockApiResponse = unknown
+export type SampleUnlockApiArg = string
 export type SamplePrintApiResponse = unknown
 export type SamplePrintApiArg = SamplePrintRequestDto
 export type SampleGetPrintPathApiResponse =
@@ -234,6 +254,7 @@ export type PermissionRuleDto = {
     | 'UpdateInfo'
     | 'UpdateResult'
     | 'PrintResult'
+    | 'Lock'
     | 'View'
     | 'Export'
     | 'Generate'
@@ -335,6 +356,7 @@ export type OmittedSampleResponseDto = {
   sampleTypeIds: string[]
   branchId: string
   isConfirmed: boolean
+  isLocked: boolean
   sampleCompleted: boolean
   printedAt?: string
   infoById: string
@@ -472,6 +494,7 @@ export type SampleResponseDto = {
   branchId: string
   results: SampleResultTestResponseDto[]
   isConfirmed: boolean
+  isLocked: boolean
   sampleCompleted: boolean
   printedAt?: string
   infoById: string
@@ -504,6 +527,7 @@ export type SampleUpdateInfoResponseDto = {
   sampleTypeIds: string[]
   branchId: string
   isConfirmed: boolean
+  isLocked: boolean
   results: OmittedTestResponseDto[]
 }
 export type SampleUpdateInfoRequestDto = {
@@ -555,6 +579,7 @@ export type SampleUnpopulatedResponseDto = {
   branchId: string
   results: SampleResultTestRequestDto[]
   isConfirmed: boolean
+  isLocked: boolean
   sampleCompleted: boolean
   printedAt?: string
   infoById: string
@@ -599,6 +624,8 @@ export const {
   useLazySampleFindByIdQuery,
   useSampleDeleteByIdMutation,
   useSampleUpdateResultByIdMutation,
+  useSampleLockMutation,
+  useSampleUnlockMutation,
   useSamplePrintMutation,
   useSampleGetPrintPathQuery,
   useLazySampleGetPrintPathQuery,

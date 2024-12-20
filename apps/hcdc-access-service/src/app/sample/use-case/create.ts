@@ -61,6 +61,7 @@ export class SampleCreateUseCase {
     const entity = await this.sampleRepository.create({
       ...entityData,
       isConfirmed: false,
+      isLocked: false,
       sampleCompleted: false,
       infoById: user._id,
     })

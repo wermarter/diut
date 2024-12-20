@@ -8,25 +8,22 @@ import {
   SAMPLE_REPO_TOKEN,
 } from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
-import { SampleValidateUseCase } from './validate'
 
 @Injectable()
-export class SampleUpdateUseCase {
+export class SampleUnlockUseCase {
   constructor(
     @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
     @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
     private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
-    private readonly sampleValidateUseCase: SampleValidateUseCase,
   ) {}
 
-  async execute(...input: Parameters<ISampleRepository['update']>) {
+  async execute(input: Parameters<ISampleRepository['update']>[0]) {
     const entity = await this.sampleAssertExistsUseCase.execute(input[0])
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Sample, SampleAction.Update, entity)
-    await this.sampleValidateUseCase.execute(input[1])
+    assertPermission(ability, AuthSubject.Sample, SampleAction.Lock, entity)
 
-    return this.sampleRepository.update(...input)
+    await this.sampleRepository.update(input, { isLocked: false })
   }
 }

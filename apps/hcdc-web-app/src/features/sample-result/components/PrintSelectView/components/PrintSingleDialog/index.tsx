@@ -67,7 +67,17 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     defaultValues: formDefaultValues,
   })
 
-  const [getPrintPath, { isFetching }] = useLazySampleGetPrintPathQuery()
+  const [getPrintPath, { isFetching: isFetchingPrintPath }] =
+    useLazySampleGetPrintPathQuery()
+  const handleGetLink = async () => {
+    console.log(
+      (
+        await getPrintPath({
+          requests: [getPrintRequest(getValues())],
+        }).unwrap()
+      ).path,
+    )
+  }
 
   const [printSample] = useSamplePrintMutation()
 
@@ -209,7 +219,22 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
         props.onClose()
       }}
     >
-      <DialogTitle>ID xét nghiệm: {props.sample?.sampleId}</DialogTitle>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            ID xét nghiệm: {props.sample?.sampleId}
+          </Box>
+          <LoadingButton
+            variant="outlined"
+            loading={isFetchingPrintPath}
+            onClick={handleGetLink}
+            color="secondary"
+          >
+            Link
+          </LoadingButton>
+        </Box>
+      </DialogTitle>
+
       <DialogContent dividers>
         <FormContainer onSubmit={handleSubmit(handlePrint)}>
           <Grid container spacing={2}>
@@ -305,30 +330,16 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
               </Box>
               <Box>
                 <Button
+                  sx={{ mx: 1 }}
                   variant="outlined"
                   autoFocus
                   onClick={() => {
                     props.onClose()
                   }}
                 >
-                  Bỏ qua
+                  Đóng
                 </Button>
-                <LoadingButton
-                  sx={{ mx: 1 }}
-                  variant="outlined"
-                  loading={isFetching}
-                  onClick={async () => {
-                    console.log(
-                      (
-                        await getPrintPath({
-                          requests: [getPrintRequest(getValues())],
-                        }).unwrap()
-                      ).path,
-                    )
-                  }}
-                >
-                  Link
-                </LoadingButton>
+
                 <LoadingButton
                   type="submit"
                   variant="contained"

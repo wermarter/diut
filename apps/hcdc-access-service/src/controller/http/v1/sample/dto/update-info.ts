@@ -4,6 +4,7 @@ import { BaseResourceResponseDto, IsObjectId } from '@diut/nestjs-infra'
 import {
   ApiPropertyOptional,
   IntersectionType,
+  OmitType,
   PartialType,
   PickType,
 } from '@nestjs/swagger'
@@ -15,9 +16,13 @@ import { OmittedSampleResponseDto } from './response-dto'
 class SampleInfoDto extends PickType(SampleRequestDto, [
   ...sampleInfoFieldNames,
   'isConfirmed',
+  'isLocked',
 ]) {}
 
-export class SampleUpdateInfoRequestDto extends PartialType(SampleInfoDto) {
+export class SampleUpdateInfoRequestDto extends OmitType(
+  PartialType(SampleInfoDto),
+  ['isLocked'],
+) {
   @Expose()
   @ApiPropertyOptional(exampleMongoObjectIds)
   @IsObjectId({ each: true })

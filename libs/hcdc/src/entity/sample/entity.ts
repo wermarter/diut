@@ -37,6 +37,7 @@ export type Sample = BaseEntity & {
   note: string
   isNgoaiGio: boolean
   isTraBuuDien: boolean
+  isLocked: boolean
   isConfirmed: boolean
   infoAt: Date
   sampledAt: Date
@@ -106,6 +107,7 @@ export enum SampleAction {
   UpdateResult = 'UpdateResult',
   Delete = 'Delete',
   PrintResult = 'PrintResult',
+  Lock = 'Lock',
 }
 
 export const SampleFields = [
@@ -126,6 +128,7 @@ export const SampleFields = [
   'printedAt',
   'sampleCompleted',
   'isConfirmed',
+  'isLocked',
 ] satisfies (keyof Sample)[]
 
 true satisfies AssertAllKeysInArray<typeof SampleFields, Sample>

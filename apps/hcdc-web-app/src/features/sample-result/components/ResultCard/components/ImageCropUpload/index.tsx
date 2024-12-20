@@ -231,7 +231,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
               if (rightUploadFile != null) {
                 // NO CROP, JUST UPLOAD
                 rightRes = await uploadImage({
-                  sampleUploadImageDto: prepareFormData(rightUploadFile),
+                  sampleUploadImageRequestDto: prepareFormData(rightUploadFile),
                   sampleId: props.sampleId,
                   testElementId: props.rightElementId,
                 }).unwrap()
@@ -241,7 +241,7 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
             if (leftUploadFile != null) {
               // NEW IMAGE
               leftRes = await uploadImage({
-                sampleUploadImageDto: prepareFormData(leftUploadFile),
+                sampleUploadImageRequestDto: prepareFormData(leftUploadFile),
                 sampleId: props.sampleId,
                 testElementId: props.leftElementId,
               }).unwrap()

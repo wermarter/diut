@@ -106,6 +106,11 @@ export class SampleRequestDto {
   isConfirmed: boolean
 
   @Expose()
+  @ApiProperty(exampleSample.isLocked)
+  @IsBoolean()
+  isLocked: boolean
+
+  @Expose()
   @ApiProperty(exampleSample.sampleCompleted)
   @IsBoolean()
   sampleCompleted: boolean
