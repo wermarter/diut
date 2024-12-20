@@ -185,6 +185,9 @@ export class SampleSchema extends BaseSchema {
   isConfirmed: boolean
 
   @Prop({ required: true })
+  isLocked: boolean
+
+  @Prop({ required: true })
   infoAt: Date
 
   @Prop({ required: true })

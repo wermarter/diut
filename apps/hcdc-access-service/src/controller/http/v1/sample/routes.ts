@@ -44,6 +44,16 @@ export const sampleRoutes = {
     method: RequestMethod.POST,
   },
 
+  lock: {
+    path: ':id/lock',
+    method: RequestMethod.POST,
+  },
+
+  unlock: {
+    path: ':id/unlock',
+    method: RequestMethod.POST,
+  },
+
   getPrintPath: {
     path: 'get-print-path',
     method: RequestMethod.POST,

@@ -22,8 +22,10 @@ import { SampleDeleteUseCase } from 'src/app/sample/use-case/delete'
 import { SampleDownloadResultImageUseCase } from 'src/app/sample/use-case/download-result-image'
 import { SampleFindOneUseCase } from 'src/app/sample/use-case/find-one'
 import { SampleGeneratePrintUrlUseCase } from 'src/app/sample/use-case/generate-print-url'
+import { SampleLockUseCase } from 'src/app/sample/use-case/lock'
 import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
 import { SampleSearchUseCase } from 'src/app/sample/use-case/search'
+import { SampleUnlockUseCase } from 'src/app/sample/use-case/unlock'
 import { SampleUpdateInfoUseCase } from 'src/app/sample/use-case/update-info'
 import { SampleUpdateResultUseCase } from 'src/app/sample/use-case/update-result'
 import { SampleUploadResultImageUseCase } from 'src/app/sample/use-case/upload-result-image'
@@ -54,6 +56,8 @@ export class SampleController {
     private readonly sampleUploadResultImageUseCase: SampleUploadResultImageUseCase,
     private readonly sampleDownloadResultImageUseCase: SampleDownloadResultImageUseCase,
     private readonly sampleGeneratePrintUrlUseCase: SampleGeneratePrintUrlUseCase,
+    private readonly sampleLockUseCase: SampleLockUseCase,
+    private readonly sampleUnlockUseCase: SampleUnlockUseCase,
   ) {}
 
   @HttpRoute(sampleRoutes.uploadResultImage)
@@ -174,6 +178,16 @@ export class SampleController {
   @HttpRoute(sampleRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
     return this.sampleDeleteUseCase.execute({ id })
+  }
+
+  @HttpRoute(sampleRoutes.lock)
+  lock(@Param('id', ObjectIdPipe) id: string) {
+    return this.sampleLockUseCase.execute({ id })
+  }
+
+  @HttpRoute(sampleRoutes.unlock)
+  unlock(@Param('id', ObjectIdPipe) id: string) {
+    return this.sampleUnlockUseCase.execute({ id })
   }
 
   @HttpRoute(sampleRoutes.print)

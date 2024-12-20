@@ -8,9 +8,10 @@ import { SampleDownloadResultImageUseCase } from './use-case/download-result-ima
 import { SampleFindOneUseCase } from './use-case/find-one'
 import { SampleGeneratePrintUrlUseCase } from './use-case/generate-print-url'
 import { SampleInitResultUseCase } from './use-case/init-result'
+import { SampleLockUseCase } from './use-case/lock'
 import { SamplePrintUseCase } from './use-case/print'
 import { SampleSearchUseCase } from './use-case/search'
-import { SampleUpdateUseCase } from './use-case/update'
+import { SampleUnlockUseCase } from './use-case/unlock'
 import { SampleUpdateInfoUseCase } from './use-case/update-info'
 import { SampleUpdateResultUseCase } from './use-case/update-result'
 import { SampleUploadResultImageUseCase } from './use-case/upload-result-image'
@@ -20,7 +21,8 @@ export const sampleMetadata: ModuleMetadata = {
   providers: [
     SampleCreateUseCase,
     SampleFindOneUseCase,
-    SampleUpdateUseCase,
+    SampleLockUseCase,
+    SampleUnlockUseCase,
     SampleUpdateInfoUseCase,
     SampleUpdateResultUseCase,
     SampleDeleteUseCase,

@@ -56,6 +56,7 @@ export const exampleSample = {
   isNgoaiGio: {},
   isTraBuuDien: {},
   isConfirmed: {},
+  isLocked: {},
   infoAt: exampleDate,
   sampledAt: exampleDate,
   printedAt: { ...exampleDate, required: false },
