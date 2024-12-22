@@ -2,7 +2,6 @@ export const STORAGE_BUCKET_TOKEN = Symbol('STORAGE_BUCKET_TOKEN')
 
 export enum StorageBucket {
   APP = 'APP',
-  PUBLIC = 'PUBLIC',
   SAMPLE_IMAGES = 'SAMPLE_IMAGES',
 }
 
@@ -11,7 +10,6 @@ export interface IStorageBucket {
 }
 
 export const StorageKeyFactory = {
-  [StorageBucket.PUBLIC]: {},
   [StorageBucket.APP]: {
     printFormTemplate(input: { templatePath: string }) {
       return `print-template/${input.templatePath}`

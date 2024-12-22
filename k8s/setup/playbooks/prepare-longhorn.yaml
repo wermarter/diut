@@ -1,6 +1,12 @@
 - name: Longhorn requirement
   hosts: all
+  become: true
   tasks:
+    - name: Ensure nfs-common are installed
+      ansible.builtin.package:
+        name: nfs-common
+        state: present
+
     - name: Append blacklist block to /etc/multipath.conf
       blockinfile:
         path: /etc/multipath.conf

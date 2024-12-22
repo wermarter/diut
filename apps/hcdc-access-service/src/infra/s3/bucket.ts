@@ -1,6 +1,6 @@
 import { stringEnumValues } from '@diut/common'
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common'
-import { MinioConfig, loadMinioConfig } from 'src/config'
+import { S3Config, loadS3Config } from 'src/config'
 import {
   IStorageBucket,
   IStorageService,
@@ -13,7 +13,7 @@ export class StorageBucketProvider implements IStorageBucket, OnModuleInit {
   private logger = new Logger(this.constructor.name)
 
   constructor(
-    @Inject(loadMinioConfig.KEY) private readonly minioConfig: MinioConfig,
+    @Inject(loadS3Config.KEY) private readonly s3Config: S3Config,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
   ) {}
@@ -21,24 +21,28 @@ export class StorageBucketProvider implements IStorageBucket, OnModuleInit {
   get(key: StorageBucket): string {
     switch (key) {
       case StorageBucket.APP:
-        return this.minioConfig.MINIO_APP_BUCKET
-      case StorageBucket.PUBLIC:
-        return this.minioConfig.MINIO_PUBLIC_BUCKET
+        return this.s3Config.S3_APP_BUCKET
       case StorageBucket.SAMPLE_IMAGES:
-        return this.minioConfig.MINIO_SAMPLE_IMAGES_BUCKET
+        return this.s3Config.S3_SAMPLE_IMAGES_BUCKET
       default:
         throw new Error('Invalid storage bucket')
     }
   }
 
   async onModuleInit() {
-    for (const bucketId of stringEnumValues(StorageBucket)) {
-      const bucket = this.get(bucketId as StorageBucket)
+    try {
+      for (const bucketId of stringEnumValues(StorageBucket)) {
+        const bucket = this.get(bucketId as StorageBucket)
 
-      const isExisted = await this.storageService.assertBucket(bucket)
-      if (!isExisted) {
-        this.logger.verbose(`Bucket "${bucket}" created`)
+        const isExisted = await this.storageService.assertBucket(bucket)
+        if (!isExisted) {
+          this.logger.verbose(`Bucket "${bucket}" created`)
+        }
       }
+    } catch (error) {
+      process.nextTick(() => {
+        throw error
+      })
     }
   }
 }
