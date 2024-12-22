@@ -135,12 +135,9 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     if (props.sample?._id) {
       setIsLocked(props.sample.isLocked)
       setIsAuthorizedLock(
-        checkPermission(
-          userAbility,
-          AuthSubject.Sample,
-          SampleAction.Lock,
-          props.sample as unknown as Sample,
-        ),
+        checkPermission(userAbility, AuthSubject.Sample, SampleAction.Lock, {
+          ...props.sample,
+        } as unknown as Sample),
       )
       setIsAuthorizedGenerate(
         checkPermission(
