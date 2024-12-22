@@ -53,7 +53,9 @@ export abstract class AbstractService
       this.logger.error({ message: `Cannot connect`, error: e, stack: e.stack })
       isSuccessful = false
       if (!this.ignoreConnectFail) {
-        throw e
+        process.nextTick(() => {
+          throw e
+        })
       }
     }
     isSuccessful && this.logger.verbose('Connected!')

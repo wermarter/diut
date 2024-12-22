@@ -121,6 +121,7 @@ const injectedRtkApi = api
           url: `/api/v1/samples/print`,
           method: 'POST',
           body: queryArg,
+          responseHandler: fileReponseHandler({ mode: 'preview' }),
         }),
         invalidatesTags: ['samples'],
       }),

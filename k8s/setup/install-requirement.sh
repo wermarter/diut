@@ -5,11 +5,19 @@ sudo apt-add-repository ppa:ansible/ansible
 sudo apt update && sudo apt upgrade -y
 sudo apt install ansible ansible-lint
 
+ssh-keygen -f ~/.ssh/labo2
 ssh-keygen -f ~/.ssh/labo3
 ssh-keygen -f ~/.ssh/labo4
 ssh-keygen -f ~/.ssh/labo5
 
-echo "Host labo3
+echo "
+Host labo2
+  HostName 10.1.1.97
+  User werma
+  Port 32
+  IdentityFile ~/.ssh/labo2
+  AddKeysToAgent yes
+Host labo3
   User werma
   Port 957
   IdentityFile ~/.ssh/labo3
@@ -27,10 +35,12 @@ Host labo5
   IdentityFile ~/.ssh/labo5
   AddKeysToAgent yes" > ~/.ssh/config
 
+ssh-copy-id -i ~/.ssh/labo2.pub werma@labo2
 ssh-copy-id -i ~/.ssh/labo3.pub werma@labo3
 ssh-copy-id -i ~/.ssh/labo4.pub werma@labo4
 ssh-copy-id -i ~/.ssh/labo5.pub werma@labo5
 
+ssh labo2
 ssh labo3
 ssh labo4
 ssh labo5

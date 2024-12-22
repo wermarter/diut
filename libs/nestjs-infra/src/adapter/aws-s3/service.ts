@@ -11,6 +11,7 @@ import {
   PutObjectCommand,
   S3Client,
   S3ClientConfigType,
+  S3ServiceException,
   UploadPartCommand,
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
@@ -49,9 +50,15 @@ export class AwsS3Service<
   }
 
   async readyCheck() {
-    await this.client.send(
-      new HeadBucketCommand({ Bucket: this.options.bucketName }),
-    )
+    try {
+      await this.client.send(
+        new HeadBucketCommand({ Bucket: this.options.bucketName }),
+      )
+    } catch (e) {
+      if (!(e instanceof S3ServiceException)) {
+        throw e
+      }
+    }
   }
 
   async connect() {

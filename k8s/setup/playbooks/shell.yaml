@@ -1,4 +1,4 @@
-- name: "Setup shell environment"
+- name: 'Setup shell environment'
   hosts: all
 
   tasks:
@@ -13,7 +13,7 @@
     - name: Install packages
       become: true
       ansible.builtin.package:
-        name: "{{ item.name }}"
+        name: '{{ item.name }}'
         state: present
       with_items:
         - name: git
@@ -43,7 +43,7 @@
     - name: Change user shell to zsh
       become: true
       ansible.builtin.user:
-        name: "werma"
+        name: 'werma'
         shell: /bin/zsh
 
     - name: Install Powerline10k theme
@@ -57,10 +57,10 @@
       ansible.builtin.copy:
         src: .zshrc
         dest: ~/.zshrc
-        mode: "0644"
+        mode: '0644'
 
     - name: Copy p10k config
       ansible.builtin.copy:
         src: .p10k.zsh
         dest: ~/.p10k.zsh
-        mode: "0644"
+        mode: '0644'

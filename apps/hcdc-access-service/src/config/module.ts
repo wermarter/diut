@@ -3,9 +3,9 @@ import { ModuleMetadata } from '@nestjs/common'
 import { loadAppConfig } from './app'
 import { loadAuthConfig } from './auth'
 import { loadClientConfig } from './client'
-import { loadMinioConfig } from './minio'
 import { loadMongoConfig } from './mongo'
 import { loadRedisConfig } from './redis'
+import { loadS3Config } from './s3'
 import { loadTelemetryConfig } from './telemetry'
 
 export const configMetadata: ModuleMetadata = {
@@ -16,7 +16,7 @@ export const configMetadata: ModuleMetadata = {
         loadAppConfig,
         loadAuthConfig,
         loadClientConfig,
-        loadMinioConfig,
+        loadS3Config,
         loadMongoConfig,
         loadRedisConfig,
         loadTelemetryConfig,
