@@ -2,7 +2,10 @@ import { DATETIME_FORMAT } from '@diut/common'
 import {
   AuthSubject,
   ExternalRouteAction,
+  ExternalRoutePath,
   PrintFormAction,
+  Sample,
+  SampleAction,
   allTestSortComparator,
   checkPermission,
   createAbility,
@@ -57,6 +60,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     authSlice.selectors.selectUserPermissions,
   )
   const userName = useTypedSelector(authSlice.selectors.selectUserName)
+  const branchId = useTypedSelector(authSlice.selectors.selectActiveBranchId)!
   const userAbility = useMemo(() => {
     return createAbility(userPermissions)
   }, [userPermissions])
@@ -124,16 +128,26 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
     PrintFormResponseDto[]
   >([])
   const [isLocked, setIsLocked] = useState(false)
-  const [isAuthorized, setIsAuthorized] = useState(false)
+  const [isAuthorizedLock, setIsAuthorizedLock] = useState(false)
+  const [isAuthorizedGenerate, setIsAuthorizedGenerate] = useState(false)
 
   useEffect(() => {
     if (props.sample?._id) {
       setIsLocked(props.sample.isLocked)
-      setIsAuthorized(
+      setIsAuthorizedLock(
+        checkPermission(
+          userAbility,
+          AuthSubject.Sample,
+          SampleAction.Lock,
+          props.sample as unknown as Sample,
+        ),
+      )
+      setIsAuthorizedGenerate(
         checkPermission(
           userAbility,
           AuthSubject.ExternalRoute,
           ExternalRouteAction.Generate,
+          { branchId, path: ExternalRoutePath.PrintSampleResult },
         ),
       )
 
@@ -248,7 +262,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
             <LoadingButton
               variant="outlined"
               loading={isFetchingPrintPath}
-              disabled={isLocked}
+              disabled={isLocked || !isAuthorizedGenerate}
               onClick={handleGetLink}
               color="secondary"
             >
@@ -258,7 +272,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
               <Button
                 size="large"
                 variant="outlined"
-                disabled={!isAuthorized}
+                disabled={!isAuthorizedLock}
                 onClick={() => {
                   setIsLocked(false)
                   unlockSample(props.sample?._id!)
@@ -271,7 +285,7 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
               <Button
                 size="large"
                 variant="contained"
-                disabled={!isAuthorized}
+                disabled={!isAuthorizedLock}
                 color="secondary"
                 sx={{ color: 'white' }}
                 onClick={() => {
