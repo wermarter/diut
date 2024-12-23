@@ -5,4 +5,4 @@ kubectl=/snap/bin/kubectl
 
 # echo -n 'minioadmin' > root-user
 # echo -n 'minioadmin' > root-password
-$kubectl -n diut create secret generic minio-credentials --from-file=$SCRIPT_DIR/root-user --from-file=$SCRIPT_DIR/root-password
+$kubectl -n infra create secret generic minio-credentials --from-file=$SCRIPT_DIR/root-user --from-file=$SCRIPT_DIR/root-password

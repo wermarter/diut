@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm uninstall -n core argo
+helm uninstall -n argo argo-cd

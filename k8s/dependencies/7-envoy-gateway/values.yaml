@@ -1,0 +1,5 @@
+gateway-helm:
+  deployment:
+    replicas: 2
+
+loadBalancerIP: '10.1.1.201'

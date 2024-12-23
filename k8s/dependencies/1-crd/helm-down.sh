@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm uninstall -n core crd
+helm uninstall -n observability crd

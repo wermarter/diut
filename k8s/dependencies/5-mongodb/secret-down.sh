@@ -2,4 +2,4 @@
 
 kubectl=/snap/bin/kubectl
 
-$kubectl -n diut delete secret mongodb-credentials
+$kubectl -n infra delete secret mongodb-credentials

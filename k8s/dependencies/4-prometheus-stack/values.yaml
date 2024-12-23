@@ -2,7 +2,10 @@ kube-prometheus-stack:
   fullnameOverride: prometheus-stack
 
   crds:
-    enabled: false
+    enabled: true
+    # issue with argoCD sync with long annotations -> set 'true' first times
+    # manual sync UI selecting only out-of-sync resources
+    # set false
 
   alertmanager:
     fullnameOverride: alertmanager
@@ -17,13 +20,13 @@ kube-prometheus-stack:
       passwordKey: admin-password
     persistence:
       enabled: true
-      size: 2Gi
+      size: 1Gi
       accessModes:
         - ReadWriteMany
-    service:
-      type: 'LoadBalancer'
-      loadBalancerIP: '10.1.1.204'
     sidecar:
+      dashboards:
+        provider:
+          allowUiUpdates: true
       datasources:
         exemplarTraceIdDestinations:
           datasourceUid: tempo
@@ -53,7 +56,7 @@ kube-prometheus-stack:
       replicaExternalLabelName: 'replica'
       scrapeInterval: 60s
       evaluationInterval: 60s
-      retention: 7d
+      retention: 30d
       enableFeatures:
         - exemplar-storage
       exemplars:

@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: mongodb
-  namespace: core
+  namespace: argo
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: diut
+    namespace: infra
     server: https://kubernetes.default.svc
   project: default
   source:

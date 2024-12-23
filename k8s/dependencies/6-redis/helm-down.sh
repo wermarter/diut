@@ -1,1 +1,1 @@
-helm uninstall -n diut redis
+helm uninstall -n infra redis

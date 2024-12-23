@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm uninstall -n diut-hcdc hcdc-access-service-local
+helm uninstall -n hcdc hcdc-access-service-local
