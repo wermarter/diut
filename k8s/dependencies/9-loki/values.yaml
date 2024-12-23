@@ -1,3 +1,9 @@
+commonExtraArgs: &extraArgs
+  - -config.expand-env=true
+commonExtraEnvFrom: &extraEnvFrom
+  - secretRef:
+      name: loki-credentials
+
 loki:
   loki:
     auth_enabled: false
@@ -7,6 +13,9 @@ loki:
       retention_enabled: true
       delete_request_store: s3
     limits_config:
+      ingestion_rate_strategy: local
+      ingestion_rate_mb: 10
+      ingestion_burst_size_mb: 20
       retention_period: 30d
       max_query_lookback: 30d
       max_query_series: 100000
@@ -18,12 +27,14 @@ loki:
         - k8s_statefulset_name
         - k8s_cronjob_name
         - k8s_job_name
+        - k8s_container_name
       otlp_config:
         scope_attributes: []
         log_attributes: []
         resource_attributes:
           ignore_defaults: true
           attributes_config:
+            # other attributes are converted to structured_metadata
             - action: index_label
               attributes:
                 - k8s.namespace.name
@@ -42,18 +53,9 @@ loki:
             - action: index_label
               attributes:
                 - k8s.job.name
-            - action: structured_metadata
-              attributes:
-                - k8s.pod.uid
-            - action: structured_metadata
-              attributes:
-                - k8s.pod.name
-            - action: structured_metadata
+            - action: index_label
               attributes:
                 - k8s.container.name
-            - action: structured_metadata
-              attributes:
-                - k8s.container.restart_count
     schemaConfig:
       configs:
         - from: 2024-04-01
@@ -70,7 +72,7 @@ loki:
         admin: loki-admin
       type: s3
       s3:
-        endpoint: http://minio.diut.svc.cluster.local:9000
+        endpoint: http://minio.infra.svc.cluster.local:9000
         region: ap-southeast-1
         secretAccessKey: ${LOKI_MINIO_SECRET_KEY}
         accessKeyId: ${LOKI_MINIO_ACCESS_KEY}
@@ -95,36 +97,24 @@ loki:
     replicas: 1
     persistence:
       size: 1Gi
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: loki-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
   write:
     replicas: 2
     persistence:
-      size: 1Gi
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: loki-credentials
+      size: 2Gi
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
   read:
     replicas: 2
     persistence:
       size: 1Gi
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: loki-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
   gateway:
     replicas: 1
     service:
       labels:
         prometheus.io/service-monitor: 'false'
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: loki-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom

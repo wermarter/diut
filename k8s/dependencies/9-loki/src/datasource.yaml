@@ -10,3 +10,12 @@ datasources:
     isDefault: true
     version: 1
     editable: true
+    jsonData:
+      maxLines: 1000
+      derivedFields:
+        - datasourceUid: tempo
+          matcherType: label
+          matcherRegex: trace_id
+          name: Trace ID
+          url: '$${__value.raw}'
+          urlDisplayLabel: 'View'

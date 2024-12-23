@@ -63,25 +63,67 @@ spec:
             - k8s.cronjob.name
             - k8s.job.name
         pod_association:
+          # - sources:
+          #     - from: resource_attribute
+          #       name: k8s.pod.ip
           - sources:
               - from: resource_attribute
                 name: k8s.pod.uid
           - sources:
               - from: connection
+      filter/apps:
+        error_mode: ignore
+        logs:
+          log_record:
+            - 'resource.attributes["k8s.deployment.name"] != "hcdc-access-service" and resource.attributes["k8s.deployment.name"] != "browser-service"'
+      filter/infra:
+        error_mode: ignore
+        logs:
+          log_record:
+            - 'resource.attributes["k8s.deployment.name"] == "hcdc-access-service"'
+            - 'resource.attributes["k8s.deployment.name"] == "browser-service"'
+      transform/log_attribute:
+        error_mode: ignore
+        log_statements:
+          - context: log
+            statements:
+              - merge_maps(cache, ParseJSON(body), "upsert") where IsMatch(body, "^\\{")
+              - set(severity_text, cache["level"])
+              - set(trace_id.string, cache["trace_id"])
+              - set(span_id.string, cache["span_id"])
     exporters:
-      otlphttp:
+      debug:
+        verbosity: detailed
+        sampling_initial: 5
+        sampling_thereafter: 200
+      otlphttp/loki:
         endpoint: http://loki-gateway.observability.svc.cluster.local/otlp
     service:
+      # telemetry:
+      #   logs:
+      #     level: debug
       pipelines:
-        logs:
+        logs/apps:
           receivers:
             - filelog
           processors:
             - memory_limiter
             - k8sattributes
+            - filter/apps
+            - transform/log_attribute
             - batch/slow
           exporters:
-            - otlphttp
+            - otlphttp/loki
+        logs/infra:
+          receivers:
+            - filelog
+          processors:
+            - memory_limiter
+            - k8sattributes
+            - filter/infra
+            - batch/slow
+          exporters:
+            - otlphttp/loki
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

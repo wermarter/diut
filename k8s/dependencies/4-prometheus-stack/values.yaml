@@ -20,6 +20,7 @@ kube-prometheus-stack:
       passwordKey: admin-password
     persistence:
       enabled: true
+      storageClassName: longhorn-replicated
       size: 1Gi
       accessModes:
         - ReadWriteMany
