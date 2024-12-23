@@ -42,18 +42,18 @@ service:
   type: ClusterIP
   port: 80
 
-ingress:
-  enabled: true
-  className: 'contour'
-  hosts:
-    - host: lab.hcdc.vn
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+# ingress:
+#   enabled: false
+#   className: 'contour'
+#   hosts:
+#     - host: lab.hcdc.vn
+#       paths:
+#         - path: /
+#           pathType: Prefix
+#   tls: []
+#  - secretName: chart-example-tls
+#    hosts:
+#      - chart-example.local
 
 resources:
   {}

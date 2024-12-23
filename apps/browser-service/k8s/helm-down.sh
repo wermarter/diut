@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm uninstall -n diut browser-service-local
+helm uninstall -n infra browser-service-local

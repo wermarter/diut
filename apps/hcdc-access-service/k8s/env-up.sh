@@ -4,4 +4,4 @@ PARENT_DIR=$( dirname $SCRIPT_DIR )
 
 kubectl=/snap/bin/kubectl
 
-$kubectl -n diut-hcdc create configmap --from-env-file $PARENT_DIR/.env access-service-env
+$kubectl -n hcdc create configmap --from-env-file $PARENT_DIR/.env access-service-env

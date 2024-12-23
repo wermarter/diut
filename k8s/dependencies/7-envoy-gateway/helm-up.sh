@@ -3,5 +3,4 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 kubectl=/snap/bin/kubectl
 
-helm uninstall -n core contour
-$kubectl delete -f $SCRIPT_DIR/contour-gateway-provisioner.yaml
+helm upgrade --install -n envoy-gateway-system envoy-gateway $SCRIPT_DIR --render-subchart-notes --create-namespace

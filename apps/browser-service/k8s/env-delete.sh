@@ -1,3 +1,3 @@
 kubectl=/snap/bin/kubectl
 
-$kubectl -n diut delete configmap browser-service-env
+$kubectl -n infra delete configmap browser-service-env

@@ -1,1 +1,1 @@
-helm uninstall -n diut mongodb
+helm uninstall -n infra mongodb

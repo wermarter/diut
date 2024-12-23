@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: hcdc-web-app
-  namespace: core
+  namespace: argo
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: diut-hcdc
+    namespace: hcdc
     server: https://kubernetes.default.svc
   project: default
   source:

@@ -1,0 +1,49 @@
+kind: EnvoyProxy
+apiVersion: gateway.envoyproxy.io/v1alpha1
+metadata:
+  namespace: envoy-gateway-system
+  name: internal-proxy-config
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        name: gateway-internal
+        type: ClusterIP
+      envoyDaemonSet:
+        name: gateway-internal
+  telemetry:
+    tracing:
+      provider:
+        type: OpenTelemetry
+        backendRefs:
+          - name: tempo-distributor
+            namespace: observability
+            port: 4317
+---
+kind: GatewayClass
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: gateway-internal
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  parametersRef:
+    group: gateway.envoyproxy.io
+    kind: EnvoyProxy
+    name: internal-proxy-config
+    namespace: envoy-gateway-system
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: gateway-internal
+  namespace: envoy-gateway-system
+spec:
+  gatewayClassName: gateway-internal
+  listeners:
+    - name: grpc
+      protocol: HTTP
+      port: 9000
+      allowedRoutes:
+        namespaces:
+          from: All

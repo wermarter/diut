@@ -4,4 +4,4 @@ PARENT_DIR=$( dirname $SCRIPT_DIR )
 
 kubectl=/snap/bin/kubectl
 
-$kubectl -n diut create configmap --from-env-file $PARENT_DIR/.env browser-service-env
+$kubectl -n infra create configmap --from-env-file $PARENT_DIR/.env browser-service-env

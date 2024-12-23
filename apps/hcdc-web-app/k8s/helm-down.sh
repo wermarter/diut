@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm uninstall -n diut-hcdc hcdc-web-app-local
+helm uninstall -n hcdc hcdc-web-app-local

@@ -2,12 +2,12 @@ apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: GRPCRoute
 metadata:
   name: browser-service
-  namespace: diut
+  namespace: infra
 spec:
   parentRefs:
     - kind: Gateway
       name: gateway-internal
-      namespace: projectcontour
+      namespace: envoy-gateway-system
       sectionName: grpc
   rules:
     - backendRefs:
@@ -17,3 +17,19 @@ spec:
         - method:
             service: diut.BrowserService
             method: PrintMultiplePage
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: browser-service-policy
+  namespace: infra
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: GRPCRoute
+      name: browser-service
+  loadBalancer:
+    type: RoundRobin
+  timeout:
+    http:
+      requestTimeout: "60s"
