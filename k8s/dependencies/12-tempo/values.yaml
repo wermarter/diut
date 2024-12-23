@@ -1,3 +1,9 @@
+commonExtraArgs: &extraArgs
+  - -config.expand-env=true
+commonExtraEnvFrom: &extraEnvFrom
+  - secretRef:
+      name: tempo-credentials
+
 tempo-distributed:
   fullnameOverride: tempo
   reportingEnabled: false
@@ -9,11 +15,8 @@ tempo-distributed:
       requests:
         memory: 1Gi
   compactor:
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: tempo-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
     config:
       compaction:
         block_retention: 720h
@@ -24,31 +27,22 @@ tempo-distributed:
     resources:
       requests:
         memory: 1Gi
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: tempo-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
   querier:
     replicas: 2
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: tempo-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
     config:
       frontend_worker:
         grpc_client_config:
           max_send_msg_size: 100000000
     resources:
       requests:
-        memory: 1Gi
+        memory: 2Gi
   queryFrontend:
-    extraArgs:
-      - -config.expand-env=true
-    extraEnvFrom:
-      - secretRef:
-          name: tempo-credentials
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
   traces:
     otlp:
       grpc:
@@ -60,7 +54,7 @@ tempo-distributed:
       s3:
         bucket: tempo
         region: ap-southeast-1
-        endpoint: minio.diut.svc.cluster.local:9000
+        endpoint: minio.infra.svc.cluster.local:9000
         access_key: ${TEMPO_MINIO_ACCESS_KEY}
         secret_key: ${TEMPO_MINIO_SECRET_KEY}
         forcepathstyle: true
@@ -75,16 +69,6 @@ tempo-distributed:
         remote_write:
           - url: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090/api/v1/write
             send_exemplars: true
-      processor:
-        span_metrics:
-          dimensions:
-            - 'cc.schedule.id'
-          filter_policies:
-            - include:
-                match_type: strict
-                attributes:
-                  - key: kind
-                    value: SPAN_KIND_INTERNAL
   global_overrides:
     defaults:
       metrics_generator:

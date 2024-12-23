@@ -1,11 +1,7 @@
 minio:
+  mode: distributed
   auth:
     existingSecret: minio-credentials
-  service:
-    type: 'LoadBalancer'
-    loadBalancerIP: '10.1.1.208'
-    ports:
-      console: 80
   metrics:
     serviceMonitor:
       enabled: true
@@ -18,13 +14,18 @@ minio:
     prometheusRule:
       enabled: true
       namespace: observability
-  resourcesPreset: 'large'
+  resourcesPreset: 'none'
   persistence:
-    size: 20Gi
+    size: 60Gi
     storageClass: longhorn
   extraEnvVars:
     - name: MINIO_PROMETHEUS_URL
       value: http://prometheus-stack-prometheus.observability.svc.cluster.local:9090
     - name: MINIO_PROMETHEUS_JOB_ID
       value: minio
-  defaultBuckets: 'loki-chunks, loki-ruler, loki-admin'
+  provisioning:
+    enabled: true
+    buckets:
+      - name: loki-chunks
+      - name: loki-ruler
+      - name: loki-admin

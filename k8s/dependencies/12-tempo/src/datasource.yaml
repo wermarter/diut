@@ -18,3 +18,12 @@ datasources:
         datasourceUid: 'prometheus'
       nodeGraph:
         enabled: true
+      tracesToLogsV2:
+        datasourceUid: loki
+        customQuery: true
+        query: '{$${__tags}} | span_id = "$${__span.spanId}"'
+        filterBySpanID: true
+        filterByTraceID: true
+        spanEndTimeShift: 30m
+        spanStartTimeShift: -30m
+        tags: []
