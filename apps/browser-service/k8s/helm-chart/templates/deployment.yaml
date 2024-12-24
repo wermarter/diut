@@ -37,6 +37,9 @@ spec:
             - name: grpc
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+            - name: http
+              containerPort: 5001
+              protocol: TCP
           envFrom:
             {{- toYaml .Values.envFrom | nindent 12 }}
           # livenessProbe:

@@ -1,24 +1,22 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: hcdc-access-service
-  namespace: hcdc
+  name: browser-service
+  namespace: infra
 spec:
   parentRefs:
     - kind: Gateway
       name: gateway-external
       namespace: envoy-gateway-system
       sectionName: http
-  hostnames:
-    - lab.hcdc.vn
   rules:
     - timeouts:
         request: "60s"
         backendRequest: "60s"
       matches:
         - path:
-            type: PathMatchPrefix
+            type: PathPrefix
             value: /api
       backendRefs:
-        - name: hcdc-access-service
-          port: 5000
+        - name: browser-service
+          port: 5001

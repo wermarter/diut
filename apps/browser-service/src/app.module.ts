@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { GrpcModule } from './controller'
+import { GrpcModule, HttpModule } from './controller'
 
 @Module({
-  imports: [GrpcModule],
+  imports: [GrpcModule, HttpModule],
 })
 export class AppModule {}

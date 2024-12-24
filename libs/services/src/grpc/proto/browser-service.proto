@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package diut;
 
+import "google/protobuf/empty.proto";
+
 // Enum for paper formats supported by Puppeteer.
 enum PageFormat {
   LETTER = 0; // 8.5in x 11in
@@ -32,6 +34,11 @@ message PrintPageReply {
   bytes merged_pdf = 1;
 }
 
+message EmptyReply {
+}
+
 service BrowserService {
   rpc PrintMultiplePage(stream PrintPageRequest) returns (PrintPageReply) {}
+  rpc TestTimeout(google.protobuf.Empty) returns (EmptyReply) {}
+  rpc TestError(google.protobuf.Empty) returns (EmptyReply) {}
 }
