@@ -7,6 +7,7 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
+import { Empty } from "./google/protobuf/empty";
 
 /** Enum for paper formats supported by Puppeteer. */
 export enum PageFormat {
@@ -51,19 +52,30 @@ export interface PrintPageReply {
   mergedPdf: Uint8Array;
 }
 
+export interface EmptyReply {
+}
+
 export interface BrowserServiceClient {
   printMultiplePage(request: Observable<PrintPageRequest>): Observable<PrintPageReply>;
+
+  testTimeout(request: Empty): Observable<EmptyReply>;
+
+  testError(request: Empty): Observable<EmptyReply>;
 }
 
 export interface BrowserServiceController {
   printMultiplePage(
     request: Observable<PrintPageRequest>,
   ): Promise<PrintPageReply> | Observable<PrintPageReply> | PrintPageReply;
+
+  testTimeout(request: Empty): Promise<EmptyReply> | Observable<EmptyReply> | EmptyReply;
+
+  testError(request: Empty): Promise<EmptyReply> | Observable<EmptyReply> | EmptyReply;
 }
 
 export function BrowserServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = [];
+    const grpcMethods: string[] = ["testTimeout", "testError"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("BrowserService", method)(constructor.prototype[method], method, descriptor);
