@@ -27,7 +27,7 @@ export const HttpListenBootstrap: (
           await ctx.app.listen(port)
           break
         } catch (e) {
-          console.warn(e)
+          logger.warn(e)
           await setTimeout(1000)
         }
       }
