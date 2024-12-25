@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-users'] as const
+export const addTagTypes = ['users'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -12,7 +12,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-users'],
+        providesTags: ['users'],
       }),
       userCreate: build.mutation<UserCreateApiResponse, UserCreateApiArg>({
         query: (queryArg) => ({
@@ -20,11 +20,11 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-users'],
+        invalidatesTags: ['users'],
       }),
       userFindById: build.query<UserFindByIdApiResponse, UserFindByIdApiArg>({
         query: (queryArg) => ({ url: `/api/v1/users/${queryArg}` }),
-        providesTags: ['v1-users'],
+        providesTags: ['users'],
       }),
       userUpdateById: build.mutation<
         UserUpdateByIdApiResponse,
@@ -35,7 +35,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.userUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-users'],
+        invalidatesTags: ['users'],
       }),
       userDeleteById: build.mutation<
         UserDeleteByIdApiResponse,
@@ -45,7 +45,7 @@ const injectedRtkApi = api
           url: `/api/v1/users/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-users'],
+        invalidatesTags: ['users'],
       }),
       userChangePassword: build.mutation<
         UserChangePasswordApiResponse,
@@ -56,7 +56,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg.userChangePasswordRequestDto,
         }),
-        invalidatesTags: ['v1-users'],
+        invalidatesTags: ['users'],
       }),
       userBranchAuthorize: build.mutation<
         UserBranchAuthorizeApiResponse,
@@ -66,7 +66,7 @@ const injectedRtkApi = api
           url: `/api/v1/users/${queryArg.userId}/branch-authorize/${queryArg.branchId}`,
           method: 'POST',
         }),
-        invalidatesTags: ['v1-users'],
+        invalidatesTags: ['users'],
       }),
       userBranchDeauthorize: build.mutation<
         UserBranchDeauthorizeApiResponse,
@@ -76,7 +76,7 @@ const injectedRtkApi = api
           url: `/api/v1/users/${queryArg.userId}/branch-deauthorize/${queryArg.branchId}`,
           method: 'POST',
         }),
-        invalidatesTags: ['v1-users'],
+        invalidatesTags: ['users'],
       }),
     }),
     overrideExisting: false,

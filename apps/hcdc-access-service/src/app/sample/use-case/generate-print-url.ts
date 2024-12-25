@@ -2,8 +2,11 @@ import { AuthSubject, ExternalRoutePath, SampleAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
 import { assertPermission } from 'src/app/auth/common'
 import { AuthAuthorizeExternalRouteUseCase } from 'src/app/auth/use-case/authorize-external-route'
-import { AUTH_CONTEXT_TOKEN, IAuthContext } from 'src/domain'
-import { SamplePrintOptions } from '../common'
+import {
+  AUTH_CONTEXT_TOKEN,
+  ExternalRouteOptions,
+  IAuthContext,
+} from 'src/domain'
 import { SampleAssertExistsUseCase } from './assert-exists'
 
 @Injectable()
@@ -15,7 +18,9 @@ export class SampleGeneratePrintUrlUseCase {
     private readonly authContext: IAuthContext,
   ) {}
 
-  async execute(input: { printOptions: SamplePrintOptions[] }) {
+  async execute(
+    input: ExternalRouteOptions[ExternalRoutePath.PrintSampleResult],
+  ) {
     const { ability } = this.authContext.getDataInternal()
     const branchIds = new Set<string>()
 

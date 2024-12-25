@@ -1,6 +1,6 @@
 import { fileReponseHandler } from '../utils'
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-reports'] as const
+export const addTagTypes = ['reports'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -16,7 +16,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-reports'],
+        providesTags: ['reports'],
       }),
       reportExportSoNhanMau: build.mutation<
         ReportExportSoNhanMauApiResponse,
@@ -28,7 +28,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportSinhHoa: build.mutation<
         ReportExportSinhHoaApiResponse,
@@ -40,7 +40,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportSoiNhuom: build.mutation<
         ReportExportSoiNhuomApiResponse,
@@ -52,7 +52,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportTdd: build.mutation<
         ReportExportTddApiResponse,
@@ -64,7 +64,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportUrine: build.mutation<
         ReportExportUrineApiResponse,
@@ -76,7 +76,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportHcg: build.mutation<
         ReportExportHcgApiResponse,
@@ -88,7 +88,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportPap: build.mutation<
         ReportExportPapApiResponse,
@@ -100,7 +100,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportThinprep: build.mutation<
         ReportExportThinprepApiResponse,
@@ -112,7 +112,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportHiv: build.mutation<
         ReportExportHivApiResponse,
@@ -124,7 +124,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportCtm: build.mutation<
         ReportExportCtmApiResponse,
@@ -136,7 +136,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportTraKq: build.mutation<
         ReportExportTraKqApiResponse,
@@ -148,7 +148,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
       reportExportGiaoNhan: build.mutation<
         ReportExportGiaoNhanApiResponse,
@@ -160,7 +160,7 @@ const injectedRtkApi = api
           body: queryArg,
           responseHandler: fileReponseHandler({ mode: 'download' }),
         }),
-        invalidatesTags: ['v1-reports'],
+        invalidatesTags: ['reports'],
       }),
     }),
     overrideExisting: false,

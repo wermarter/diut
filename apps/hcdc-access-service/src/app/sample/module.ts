@@ -10,6 +10,7 @@ import { SampleGeneratePrintUrlUseCase } from './use-case/generate-print-url'
 import { SampleInitResultUseCase } from './use-case/init-result'
 import { SampleLockUseCase } from './use-case/lock'
 import { SamplePrintUseCase } from './use-case/print'
+import { SamplePrintReminderUseCase } from './use-case/print-reminder'
 import { SampleSearchUseCase } from './use-case/search'
 import { SampleUnlockUseCase } from './use-case/unlock'
 import { SampleUpdateInfoUseCase } from './use-case/update-info'
@@ -36,5 +37,6 @@ export const sampleMetadata: ModuleMetadata = {
     SampleUploadResultImageUseCase,
     SampleDownloadResultImageUseCase,
     SampleGeneratePrintUrlUseCase,
+    SamplePrintReminderUseCase,
   ],
 }

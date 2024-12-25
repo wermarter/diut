@@ -2,6 +2,7 @@ import { AssertAllKeysInArray } from '@diut/common'
 
 export enum ExternalRoutePath {
   PrintSampleResult = 'print-sample-result',
+  GetSampleResult = 'get-sample-result',
 }
 
 export type ExternalRoute = {

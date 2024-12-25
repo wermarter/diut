@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-diagnoses'] as const
+export const addTagTypes = ['diagnoses'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-diagnoses'],
+        providesTags: ['diagnoses'],
       }),
       diagnosisCreate: build.mutation<
         DiagnosisCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-diagnoses'],
+        invalidatesTags: ['diagnoses'],
       }),
       diagnosisFindById: build.query<
         DiagnosisFindByIdApiResponse,
         DiagnosisFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/diagnoses/${queryArg}` }),
-        providesTags: ['v1-diagnoses'],
+        providesTags: ['diagnoses'],
       }),
       diagnosisUpdateById: build.mutation<
         DiagnosisUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.diagnosisUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-diagnoses'],
+        invalidatesTags: ['diagnoses'],
       }),
       diagnosisDeleteById: build.mutation<
         DiagnosisDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/diagnoses/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-diagnoses'],
+        invalidatesTags: ['diagnoses'],
       }),
     }),
     overrideExisting: false,

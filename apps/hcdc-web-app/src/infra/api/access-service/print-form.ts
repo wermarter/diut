@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-print-forms'] as const
+export const addTagTypes = ['print-forms'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-print-forms'],
+        providesTags: ['print-forms'],
       }),
       printFormCreate: build.mutation<
         PrintFormCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-print-forms'],
+        invalidatesTags: ['print-forms'],
       }),
       printFormFindById: build.query<
         PrintFormFindByIdApiResponse,
         PrintFormFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/print-forms/${queryArg}` }),
-        providesTags: ['v1-print-forms'],
+        providesTags: ['print-forms'],
       }),
       printFormUpdateById: build.mutation<
         PrintFormUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.printFormUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-print-forms'],
+        invalidatesTags: ['print-forms'],
       }),
       printFormDeleteById: build.mutation<
         PrintFormDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/print-forms/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-print-forms'],
+        invalidatesTags: ['print-forms'],
       }),
     }),
     overrideExisting: false,

@@ -24,6 +24,7 @@ import { SampleFindOneUseCase } from 'src/app/sample/use-case/find-one'
 import { SampleGeneratePrintUrlUseCase } from 'src/app/sample/use-case/generate-print-url'
 import { SampleLockUseCase } from 'src/app/sample/use-case/lock'
 import { SamplePrintUseCase } from 'src/app/sample/use-case/print'
+import { SamplePrintReminderUseCase } from 'src/app/sample/use-case/print-reminder'
 import { SampleSearchUseCase } from 'src/app/sample/use-case/search'
 import { SampleUnlockUseCase } from 'src/app/sample/use-case/unlock'
 import { SampleUpdateInfoUseCase } from 'src/app/sample/use-case/update-info'
@@ -58,6 +59,7 @@ export class SampleController {
     private readonly sampleGeneratePrintUrlUseCase: SampleGeneratePrintUrlUseCase,
     private readonly sampleLockUseCase: SampleLockUseCase,
     private readonly sampleUnlockUseCase: SampleUnlockUseCase,
+    private readonly samplePrintReminderUseCase: SamplePrintReminderUseCase,
   ) {}
 
   @HttpRoute(sampleRoutes.uploadResultImage)
@@ -208,14 +210,32 @@ export class SampleController {
   }
 
   @HttpRoute(sampleRoutes.getPrintPath)
-  async getPrintPath(
-    @Res({ passthrough: true }) res: Response,
-    @Body() body: SamplePrintRequestDto,
-  ) {
+  async getPrintPath(@Body() body: SamplePrintRequestDto) {
     const path = await this.sampleGeneratePrintUrlUseCase.execute({
       printOptions: body.requests,
     })
 
     return { path }
+  }
+
+  @HttpRoute(sampleRoutes.printReminder)
+  async printReminder(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') sampleId: string,
+    @Query('timestamp') timestamp: Date,
+  ) {
+    const buffer = await this.samplePrintReminderUseCase.execute(
+      sampleId,
+      new Date(timestamp),
+    )
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      Pragma: 'no-cache',
+      Expires: 0,
+    })
+
+    return new StreamableFile(buffer)
   }
 }

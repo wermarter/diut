@@ -71,7 +71,13 @@ export const useColumns = (
           <GridActionsCellItem
             icon={<PrintIcon />}
             label="In KQ"
-            color={row.printedById !== undefined ? 'default' : 'primary'}
+            color={
+              row.isLocked === true
+                ? 'error'
+                : row.printedById !== undefined
+                  ? 'default'
+                  : 'primary'
+            }
             onClick={() => handlePrint(row)}
             disabled={
               !checkPermission(

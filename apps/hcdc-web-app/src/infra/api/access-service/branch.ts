@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-branches'] as const
+export const addTagTypes = ['branches'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -12,7 +12,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-branches'],
+        providesTags: ['branches'],
       }),
       branchCreate: build.mutation<BranchCreateApiResponse, BranchCreateApiArg>(
         {
@@ -21,7 +21,7 @@ const injectedRtkApi = api
             method: 'POST',
             body: queryArg,
           }),
-          invalidatesTags: ['v1-branches'],
+          invalidatesTags: ['branches'],
         },
       ),
       branchFindById: build.query<
@@ -29,7 +29,7 @@ const injectedRtkApi = api
         BranchFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/branches/${queryArg}` }),
-        providesTags: ['v1-branches'],
+        providesTags: ['branches'],
       }),
       branchUpdateById: build.mutation<
         BranchUpdateByIdApiResponse,
@@ -40,7 +40,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.branchUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-branches'],
+        invalidatesTags: ['branches'],
       }),
       branchDeleteById: build.mutation<
         BranchDeleteByIdApiResponse,
@@ -50,7 +50,7 @@ const injectedRtkApi = api
           url: `/api/v1/branches/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-branches'],
+        invalidatesTags: ['branches'],
       }),
     }),
     overrideExisting: false,

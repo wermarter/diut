@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-test-combos'] as const
+export const addTagTypes = ['test-combos'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-test-combos'],
+        providesTags: ['test-combos'],
       }),
       testComboCreate: build.mutation<
         TestComboCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-test-combos'],
+        invalidatesTags: ['test-combos'],
       }),
       testComboFindById: build.query<
         TestComboFindByIdApiResponse,
         TestComboFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/test-combos/${queryArg}` }),
-        providesTags: ['v1-test-combos'],
+        providesTags: ['test-combos'],
       }),
       testComboUpdateById: build.mutation<
         TestComboUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.testComboUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-test-combos'],
+        invalidatesTags: ['test-combos'],
       }),
       testComboDeleteById: build.mutation<
         TestComboDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/test-combos/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-test-combos'],
+        invalidatesTags: ['test-combos'],
       }),
     }),
     overrideExisting: false,

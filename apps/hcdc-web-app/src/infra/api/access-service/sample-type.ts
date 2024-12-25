@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-sample-types'] as const
+export const addTagTypes = ['sample-types'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-sample-types'],
+        providesTags: ['sample-types'],
       }),
       sampleTypeCreate: build.mutation<
         SampleTypeCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-sample-types'],
+        invalidatesTags: ['sample-types'],
       }),
       sampleTypeFindById: build.query<
         SampleTypeFindByIdApiResponse,
         SampleTypeFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/sample-types/${queryArg}` }),
-        providesTags: ['v1-sample-types'],
+        providesTags: ['sample-types'],
       }),
       sampleTypeUpdateById: build.mutation<
         SampleTypeUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.sampleTypeUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-sample-types'],
+        invalidatesTags: ['sample-types'],
       }),
       sampleTypeDeleteById: build.mutation<
         SampleTypeDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/sample-types/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-sample-types'],
+        invalidatesTags: ['sample-types'],
       }),
     }),
     overrideExisting: false,

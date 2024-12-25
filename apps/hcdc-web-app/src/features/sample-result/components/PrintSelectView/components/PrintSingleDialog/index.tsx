@@ -401,7 +401,6 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
                 >
                   Đóng
                 </Button>
-
                 <LoadingButton
                   type="submit"
                   variant="contained"

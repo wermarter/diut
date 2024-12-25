@@ -50,10 +50,10 @@ import { useTypedSelector } from 'src/infra/redux'
 import { useDebouncedValue } from 'src/shared/hooks'
 import { BarcodeModal } from '../BarcodeModal'
 import {
-  formDefaultValues,
-  formResolver,
   FormSchema,
   GENDER_PREGNANT_VALUE,
+  formDefaultValues,
+  formResolver,
 } from './validation'
 
 export type InputFormProps = {

@@ -15,6 +15,7 @@ import { SampleResponseDto } from 'src/infra/api/access-service/sample'
 import { ResultCard } from '../ResultCard'
 
 export type ResultEditViewProps = {
+  isExternal?: boolean
   sampleRes: SampleResponseDto
   printFormMap: Map<string, PrintFormResponseDto>
 }
@@ -58,16 +59,18 @@ export function ResultEditView(props: ResultEditViewProps) {
           width: '280px',
         }}
       >
-        <Button
-          sx={{ mr: 1 }}
-          fullWidth
-          variant="outlined"
-          onClick={() => {
-            navigate(-1)
-          }}
-        >
-          Quay về
-        </Button>
+        {!props.isExternal && (
+          <Button
+            sx={{ mr: 1 }}
+            fullWidth
+            variant="outlined"
+            onClick={() => {
+              navigate(-1)
+            }}
+          >
+            Quay về
+          </Button>
+        )}
         <Box
           sx={{
             my: 1,
@@ -123,7 +126,7 @@ export function ResultEditView(props: ResultEditViewProps) {
           overflow: 'auto',
         }}
       >
-        {props.sampleRes.note.length > 0 && (
+        {!props.isExternal && props.sampleRes.note.length > 0 && (
           <Alert
             variant="outlined"
             severity="info"
@@ -135,6 +138,7 @@ export function ResultEditView(props: ResultEditViewProps) {
         )}
         {sortedTests.map((testResult) => (
           <ResultCard
+            isExternal={props.isExternal}
             key={testResult.testId}
             sampleRes={props.sampleRes}
             testResult={testResult}

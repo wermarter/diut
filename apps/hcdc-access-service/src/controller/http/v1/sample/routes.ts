@@ -1,5 +1,6 @@
 import { CustomHttpRouteOptions } from '@diut/nestjs-infra'
 import { HttpStatus, RequestMethod } from '@nestjs/common'
+import { ApiQuery } from '@nestjs/swagger'
 import { SampleCreateResponseDto } from './dto/create'
 import { SampleGetPrintPathResponseDto } from './dto/get-print-path'
 import {
@@ -42,6 +43,14 @@ export const sampleRoutes = {
   print: {
     path: 'print',
     method: RequestMethod.POST,
+  },
+
+  printReminder: {
+    path: ':id/print-reminder',
+    method: RequestMethod.GET,
+    routeDecorators: [
+      ApiQuery({ name: 'timestamp', required: true, type: 'number' }),
+    ],
   },
 
   lock: {

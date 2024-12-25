@@ -5,4 +5,7 @@ export type ExternalRouteOptions = {
   [ExternalRoutePath.PrintSampleResult]: {
     printOptions: SamplePrintOptions[]
   }
+  [ExternalRoutePath.GetSampleResult]: {
+    sampleId: string
+  }
 }
