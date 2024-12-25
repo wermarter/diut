@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-roles'] as const
+export const addTagTypes = ['roles'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -12,7 +12,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-roles'],
+        providesTags: ['roles'],
       }),
       roleCreate: build.mutation<RoleCreateApiResponse, RoleCreateApiArg>({
         query: (queryArg) => ({
@@ -20,11 +20,11 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-roles'],
+        invalidatesTags: ['roles'],
       }),
       roleFindById: build.query<RoleFindByIdApiResponse, RoleFindByIdApiArg>({
         query: (queryArg) => ({ url: `/api/v1/roles/${queryArg}` }),
-        providesTags: ['v1-roles'],
+        providesTags: ['roles'],
       }),
       roleUpdateById: build.mutation<
         RoleUpdateByIdApiResponse,
@@ -35,7 +35,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.roleUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-roles'],
+        invalidatesTags: ['roles'],
       }),
       roleDeleteById: build.mutation<
         RoleDeleteByIdApiResponse,
@@ -45,7 +45,7 @@ const injectedRtkApi = api
           url: `/api/v1/roles/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-roles'],
+        invalidatesTags: ['roles'],
       }),
     }),
     overrideExisting: false,

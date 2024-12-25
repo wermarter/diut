@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-auth'] as const
+export const addTagTypes = ['auth'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -12,15 +12,15 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-auth'],
+        invalidatesTags: ['auth'],
       }),
       authMe: build.query<AuthMeApiResponse, AuthMeApiArg>({
         query: () => ({ url: `/api/v1/auth/me` }),
-        providesTags: ['v1-auth'],
+        providesTags: ['auth'],
       }),
       authLogout: build.mutation<AuthLogoutApiResponse, AuthLogoutApiArg>({
         query: () => ({ url: `/api/v1/auth/logout`, method: 'POST' }),
-        invalidatesTags: ['v1-auth'],
+        invalidatesTags: ['auth'],
       }),
     }),
     overrideExisting: false,

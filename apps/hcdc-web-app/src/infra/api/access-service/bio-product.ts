@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-bio-products'] as const
+export const addTagTypes = ['bio-products'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-bio-products'],
+        providesTags: ['bio-products'],
       }),
       bioProductCreate: build.mutation<
         BioProductCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-bio-products'],
+        invalidatesTags: ['bio-products'],
       }),
       bioProductFindById: build.query<
         BioProductFindByIdApiResponse,
         BioProductFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/bio-products/${queryArg}` }),
-        providesTags: ['v1-bio-products'],
+        providesTags: ['bio-products'],
       }),
       bioProductUpdateById: build.mutation<
         BioProductUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.bioProductUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-bio-products'],
+        invalidatesTags: ['bio-products'],
       }),
       bioProductDeleteById: build.mutation<
         BioProductDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/bio-products/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-bio-products'],
+        invalidatesTags: ['bio-products'],
       }),
     }),
     overrideExisting: false,

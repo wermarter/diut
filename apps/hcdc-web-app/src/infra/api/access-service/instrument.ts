@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-instruments'] as const
+export const addTagTypes = ['instruments'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-instruments'],
+        providesTags: ['instruments'],
       }),
       instrumentCreate: build.mutation<
         InstrumentCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-instruments'],
+        invalidatesTags: ['instruments'],
       }),
       instrumentFindById: build.query<
         InstrumentFindByIdApiResponse,
         InstrumentFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/instruments/${queryArg}` }),
-        providesTags: ['v1-instruments'],
+        providesTags: ['instruments'],
       }),
       instrumentUpdateById: build.mutation<
         InstrumentUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.instrumentUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-instruments'],
+        invalidatesTags: ['instruments'],
       }),
       instrumentDeleteById: build.mutation<
         InstrumentDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/instruments/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-instruments'],
+        invalidatesTags: ['instruments'],
       }),
     }),
     overrideExisting: false,

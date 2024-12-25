@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-doctors'] as const
+export const addTagTypes = ['doctors'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -12,7 +12,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-doctors'],
+        providesTags: ['doctors'],
       }),
       doctorCreate: build.mutation<DoctorCreateApiResponse, DoctorCreateApiArg>(
         {
@@ -21,7 +21,7 @@ const injectedRtkApi = api
             method: 'POST',
             body: queryArg,
           }),
-          invalidatesTags: ['v1-doctors'],
+          invalidatesTags: ['doctors'],
         },
       ),
       doctorFindById: build.query<
@@ -29,7 +29,7 @@ const injectedRtkApi = api
         DoctorFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/doctors/${queryArg}` }),
-        providesTags: ['v1-doctors'],
+        providesTags: ['doctors'],
       }),
       doctorUpdateById: build.mutation<
         DoctorUpdateByIdApiResponse,
@@ -40,7 +40,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.doctorUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-doctors'],
+        invalidatesTags: ['doctors'],
       }),
       doctorDeleteById: build.mutation<
         DoctorDeleteByIdApiResponse,
@@ -50,7 +50,7 @@ const injectedRtkApi = api
           url: `/api/v1/doctors/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-doctors'],
+        invalidatesTags: ['doctors'],
       }),
     }),
     overrideExisting: false,

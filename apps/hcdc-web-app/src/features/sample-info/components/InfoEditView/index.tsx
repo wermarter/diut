@@ -1,10 +1,10 @@
 import { dedupSpaces, trimObjectValues } from '@diut/common'
 import {
   AuthSubject,
-  checkPermission,
-  createAbility,
   PatientGender,
   SampleAction,
+  checkPermission,
+  createAbility,
 } from '@diut/hcdc'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -50,9 +50,9 @@ import { SampleTypeResponseDto } from 'src/infra/api/access-service/sample-type'
 import { useTypedSelector } from 'src/infra/redux'
 import { BarcodeModal } from '../BarcodeModal'
 import {
-  formResolver,
   FormSchema,
   GENDER_PREGNANT_VALUE,
+  formResolver,
 } from '../InfoInputForm/validation'
 
 const currentYear = new Date().getFullYear()

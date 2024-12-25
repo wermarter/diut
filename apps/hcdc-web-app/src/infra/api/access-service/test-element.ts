@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-test-elements'] as const
+export const addTagTypes = ['test-elements'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-test-elements'],
+        providesTags: ['test-elements'],
       }),
       testElementCreate: build.mutation<
         TestElementCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-test-elements'],
+        invalidatesTags: ['test-elements'],
       }),
       testElementFindById: build.query<
         TestElementFindByIdApiResponse,
         TestElementFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/test-elements/${queryArg}` }),
-        providesTags: ['v1-test-elements'],
+        providesTags: ['test-elements'],
       }),
       testElementUpdateById: build.mutation<
         TestElementUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.testElementUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-test-elements'],
+        invalidatesTags: ['test-elements'],
       }),
       testElementDeleteById: build.mutation<
         TestElementDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/test-elements/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-test-elements'],
+        invalidatesTags: ['test-elements'],
       }),
     }),
     overrideExisting: false,

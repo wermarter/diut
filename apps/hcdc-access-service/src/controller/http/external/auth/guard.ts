@@ -13,6 +13,7 @@ import {
   IAuthCacheService,
   IAuthContext,
 } from 'src/domain'
+import { ExternalAuthQuery } from './common'
 
 export class HttpExternalAuthGuard implements CanActivate {
   private readonly logger = new Logger(this.constructor.name)
@@ -30,7 +31,7 @@ export class HttpExternalAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<Request>()
-    const jwt = request.query.jwt as string
+    const jwt = (request.query as ExternalAuthQuery).jwt
     if (!jwt) return false
 
     const payload = await this.verifyToken(jwt)

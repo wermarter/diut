@@ -5,6 +5,11 @@ import {
   urlManageDiagnosisPage,
 } from 'src/features/diagnosis'
 import { ManageDoctorPage, urlManageDoctorPage } from 'src/features/doctor'
+import {
+  ResultExternalPage,
+  resultExternalPageLoader,
+  urlResultExternalPage,
+} from 'src/features/external'
 import { HomePage } from 'src/features/homepage'
 import { PatientSearchPage, urlPatientSearchPage } from 'src/features/patient'
 import {
@@ -78,6 +83,11 @@ export const appRoutes: CustomRouteObject[] = [
   {
     path: urlLoginPage(),
     element: <LoginPage />,
+  },
+  {
+    path: urlResultExternalPage(),
+    element: <ResultExternalPage />,
+    loader: resultExternalPageLoader,
   },
   {
     path: '/',

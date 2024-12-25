@@ -1,5 +1,5 @@
 import { accessServiceApiSlice as api } from './slice'
-export const addTagTypes = ['v1-test-categories'] as const
+export const addTagTypes = ['test-categories'] as const
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -15,7 +15,7 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        providesTags: ['v1-test-categories'],
+        providesTags: ['test-categories'],
       }),
       testCategoryCreate: build.mutation<
         TestCategoryCreateApiResponse,
@@ -26,14 +26,14 @@ const injectedRtkApi = api
           method: 'POST',
           body: queryArg,
         }),
-        invalidatesTags: ['v1-test-categories'],
+        invalidatesTags: ['test-categories'],
       }),
       testCategoryFindById: build.query<
         TestCategoryFindByIdApiResponse,
         TestCategoryFindByIdApiArg
       >({
         query: (queryArg) => ({ url: `/api/v1/test-categories/${queryArg}` }),
-        providesTags: ['v1-test-categories'],
+        providesTags: ['test-categories'],
       }),
       testCategoryUpdateById: build.mutation<
         TestCategoryUpdateByIdApiResponse,
@@ -44,7 +44,7 @@ const injectedRtkApi = api
           method: 'PATCH',
           body: queryArg.testCategoryUpdateRequestDto,
         }),
-        invalidatesTags: ['v1-test-categories'],
+        invalidatesTags: ['test-categories'],
       }),
       testCategoryDeleteById: build.mutation<
         TestCategoryDeleteByIdApiResponse,
@@ -54,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/test-categories/${queryArg}`,
           method: 'DELETE',
         }),
-        invalidatesTags: ['v1-test-categories'],
+        invalidatesTags: ['test-categories'],
       }),
     }),
     overrideExisting: false,

@@ -136,6 +136,17 @@ const injectedRtkApi = api
         }),
         providesTags: ['samples'],
       }),
+      samplePrintReminder: build.query<
+        SamplePrintReminderApiResponse,
+        SamplePrintReminderApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/samples/${queryArg.id}/print-reminder`,
+          params: { timestamp: queryArg.timestamp },
+          responseHandler: fileReponseHandler({ mode: 'preview' }),
+        }),
+        providesTags: ['samples'],
+      }),
     }),
     overrideExisting: false,
   })
@@ -184,6 +195,11 @@ export type SamplePrintApiArg = SamplePrintRequestDto
 export type SampleGetPrintPathApiResponse =
   /** status 200  */ SampleGetPrintPathResponseDto
 export type SampleGetPrintPathApiArg = SamplePrintRequestDto
+export type SamplePrintReminderApiResponse = unknown
+export type SamplePrintReminderApiArg = {
+  id: string
+  timestamp: number
+}
 export type SampleUploadImageResponseDto = {
   storageKey: string
 }
@@ -630,4 +646,6 @@ export const {
   useSamplePrintMutation,
   useSampleGetPrintPathQuery,
   useLazySampleGetPrintPathQuery,
+  useSamplePrintReminderQuery,
+  useLazySamplePrintReminderQuery,
 } = injectedRtkApi
