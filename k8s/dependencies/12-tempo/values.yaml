@@ -61,6 +61,8 @@ tempo-distributed:
         insecure: true
   metricsGenerator:
     enabled: true
+    extraArgs: *extraArgs
+    extraEnvFrom: *extraEnvFrom
     resources:
       requests:
         memory: 1Gi
