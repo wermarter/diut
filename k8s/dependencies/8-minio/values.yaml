@@ -29,3 +29,4 @@ minio:
       - name: loki-chunks
       - name: loki-ruler
       - name: loki-admin
+      - name: tempo

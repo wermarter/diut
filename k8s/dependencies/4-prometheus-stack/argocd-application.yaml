@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-stack
+  namespace: argo
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: observability
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s/dependencies/4-prometheus-stack
+    repoURL: https://github.com/wermarter/diut
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

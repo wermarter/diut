@@ -9,13 +9,13 @@ redis:
     disableCommands: []
     resourcesPreset: 'medium'
     persistence:
-      storageClass:
+      storageClass: longhorn
       size: 5Gi
   replica:
     disableCommands: []
     replicaCount: 3
     persistence:
-      storageClass:
+      storageClass: longhorn
       size: 5Gi
     resourcesPreset: 'medium'
     autoscaling:

@@ -5,8 +5,9 @@ mv ./k3s-ansible/kubeconfig ~/.kube/config
 
 kubectl=/snap/bin/kubectl
 
-$kubectl create ns core
+$kubectl create ns argo
 $kubectl create ns observability
-$kubectl create ns diut
-$kubectl create ns diut-hcdc
 $kubectl create ns longhorn-system
+$kubectl create ns envoy-gateway-system
+$kubectl create ns infra
+$kubectl create ns hcdc
