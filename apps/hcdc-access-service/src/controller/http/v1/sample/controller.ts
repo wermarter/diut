@@ -127,7 +127,7 @@ export class SampleController {
     }
 
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Sample, SampleAction.ReadInfo, rv)
+    assertPermission(ability, AuthSubject.Sample, SampleAction.Read, rv)
 
     return rv
   }
@@ -150,7 +150,7 @@ export class SampleController {
     }
 
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Sample, SampleAction.ReadResult, rv)
+    assertPermission(ability, AuthSubject.Sample, SampleAction.Read, rv)
 
     return rv
   }

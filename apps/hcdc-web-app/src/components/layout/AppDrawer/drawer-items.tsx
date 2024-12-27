@@ -1,6 +1,7 @@
 import {
   AUTH_ACTION_ALL,
   AuthSubject,
+  BranchAction,
   Report,
   ReportAction,
   ReportType,
@@ -8,6 +9,7 @@ import {
 } from '@diut/hcdc'
 import AccountBoxIcon from '@mui/icons-material/AccountBoxOutlined'
 import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal'
+import ApartmentIcon from '@mui/icons-material/Apartment'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import BiotechIcon from '@mui/icons-material/BiotechOutlined'
 import BloodtypeIcon from '@mui/icons-material/BloodtypeOutlined'
@@ -24,6 +26,7 @@ import RuleIcon from '@mui/icons-material/Rule'
 import VaccinesIcon from '@mui/icons-material/VaccinesOutlined'
 import WorkIcon from '@mui/icons-material/WorkOutline'
 import WorkspacesIcon from '@mui/icons-material/WorkspacesOutlined'
+import { urlManageBranchPage } from 'src/features/branch'
 import { urlManageDiagnosisPage } from 'src/features/diagnosis'
 import { urlManageDoctorPage } from 'src/features/doctor'
 import { urlPatientSearchPage } from 'src/features/patient'
@@ -181,6 +184,14 @@ export const drawerItems: DrawerItemGroup[] = [
   {
     title: 'Quản lý hệ thống',
     children: [
+      {
+        icon: <ApartmentIcon />,
+        label: 'Chi nhánh',
+        destination: urlManageBranchPage(),
+        isAuthorized: authOneOf([
+          { subject: AuthSubject.Branch, action: BranchAction.Update },
+        ]),
+      },
       {
         icon: <ManageAccountsIcon />,
         label: 'Người dùng',

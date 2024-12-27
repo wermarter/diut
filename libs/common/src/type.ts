@@ -11,3 +11,7 @@ export type AssertAllKeysInArray<
   TKeyArray extends Array<unknown>,
   TEntity extends object,
 > = MissingKeys<TKeyArray, TEntity> extends never ? true : false
+
+export type MergeUnion<T, Keys extends keyof T = keyof T> = {
+  [K in Keys]: T[K]
+}

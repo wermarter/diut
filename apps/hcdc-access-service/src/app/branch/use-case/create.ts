@@ -1,6 +1,8 @@
 import { AuthSubject, Branch, BranchAction, EntityData } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { getDefaultRoleData } from 'src/app/auth'
 import { assertPermission } from 'src/app/auth/common'
+import { RoleCreateUseCase } from 'src/app/role/use-case/create'
 import {
   AUTH_CONTEXT_TOKEN,
   BRANCH_REPO_TOKEN,
@@ -17,6 +19,7 @@ export class BranchCreateUseCase {
     @Inject(BRANCH_REPO_TOKEN)
     private readonly branchRepository: IBranchRepository,
     private readonly branchValidateUseCase: BranchValidateUseCase,
+    private readonly roleCreateUseCase: RoleCreateUseCase,
   ) {}
 
   async execute(input: EntityData<Branch>) {
@@ -24,8 +27,12 @@ export class BranchCreateUseCase {
     assertPermission(ability, AuthSubject.Branch, BranchAction.Create, input)
     await this.branchValidateUseCase.execute(input)
 
-    const entity = await this.branchRepository.create(input)
+    const branch = await this.branchRepository.create(input)
 
-    return entity
+    for (const roleData of getDefaultRoleData(branch._id)) {
+      await this.roleCreateUseCase.execute(roleData)
+    }
+
+    return branch
   }
 }

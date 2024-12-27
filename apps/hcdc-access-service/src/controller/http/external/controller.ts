@@ -85,12 +85,7 @@ export class ExternalController {
     }
 
     const { ability } = this.authContext.getDataExternal()
-    assertPermission(
-      ability,
-      AuthSubject.Sample,
-      SampleAction.ReadResult,
-      sample,
-    )
+    assertPermission(ability, AuthSubject.Sample, SampleAction.Read, sample)
 
     const { items: printForms } = await this.printFormSearchUseCase.execute({
       sort: { displayIndex: 1 },
