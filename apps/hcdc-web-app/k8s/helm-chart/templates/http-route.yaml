@@ -9,17 +9,16 @@ spec:
       name: gateway-external
       namespace: envoy-gateway-system
       sectionName: http
+  hostnames:
+    - lab.hcdc.vn
   rules:
     - timeouts:
         request: "60s"
         backendRequest: "60s"
-      hostnames:
-        - lab.hcdc.vn
-      rules:
-        - matches:
-            - path:
-                type: PathMatchPrefix
-                value: /api
-          backendRefs:
-            - name: hcdc-web-app
-              port: 80
+      matches:
+        - path:
+            type: PathMatchPrefix
+            value: /api
+      backendRefs:
+        - name: hcdc-web-app
+          port: 80
