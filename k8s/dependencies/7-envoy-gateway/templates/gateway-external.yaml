@@ -15,12 +15,17 @@ spec:
         name: gateway-external
   telemetry:
     tracing:
+      samplingRate: 100
       provider:
         type: OpenTelemetry
-        backendRefs:
-          - name: tempo-distributor
-            namespace: observability
-            port: 4317
+        host: tempo-distributor.observability.svc.cluster.local
+        port: 4317
+      customTags:
+        forwarded.request.ip:
+          type: RequestHeader
+          requestHeader:
+            name: X-Forwarded-For
+            defaultValue: "-"
 ---
 kind: GatewayClass
 apiVersion: gateway.networking.k8s.io/v1
