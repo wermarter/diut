@@ -17,7 +17,7 @@ spec:
         backendRequest: "60s"
       matches:
         - path:
-            type: PathMatchPrefix
+            type: PathPrefix
             value: /api
       backendRefs:
         - name: hcdc-web-app
