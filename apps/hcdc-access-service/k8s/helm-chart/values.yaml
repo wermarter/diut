@@ -42,8 +42,8 @@ service:
   type: ClusterIP
   port: 5000
 
-# ingress:
-#   enabled: true
+ingress:
+  enabled: false
 #   className: 'contour'
 #   hosts:
 #     - host: lab.hcdc.vn

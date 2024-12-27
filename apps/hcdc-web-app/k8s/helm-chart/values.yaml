@@ -42,8 +42,8 @@ service:
   type: ClusterIP
   port: 80
 
-# ingress:
-#   enabled: false
+ingress:
+  enabled: false
 #   className: 'contour'
 #   hosts:
 #     - host: lab.hcdc.vn
