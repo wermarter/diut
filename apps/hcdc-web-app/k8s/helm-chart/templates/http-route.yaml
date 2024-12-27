@@ -18,7 +18,7 @@ spec:
       matches:
         - path:
             type: PathPrefix
-            value: /api
+            value: /
       backendRefs:
         - name: hcdc-web-app
           port: 80
