@@ -1,9 +1,10 @@
-import { MongoQuery } from '@casl/ability'
 import {
   AuthActionUnionType,
   AuthActionValues,
   AuthSubjectUnionType,
   AuthSubjectValues,
+  MongoQuery,
+  SubjectEntityMapping,
 } from '@diut/hcdc'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
@@ -42,5 +43,5 @@ export class PermissionRuleDto {
   @ApiProperty(examplePermissionRule.fields)
   @IsString({ each: true })
   @IsOptional()
-  fields?: string[]
+  fields?: (keyof SubjectEntityMapping[keyof SubjectEntityMapping])[]
 }

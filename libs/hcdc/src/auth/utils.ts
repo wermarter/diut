@@ -1,24 +1,13 @@
-import {
-  MongoAbility,
-  subject as assignSubject,
-  buildMongoQueryMatcher,
-  createMongoAbility,
-} from '@casl/ability'
-import { $or, or } from '@ucast/mongo2js'
+import { MongoAbility, subject as assignSubject } from '@casl/ability'
 import { PermissionRule } from '../entity'
 import { AuthAction, AuthActionUnionType } from './action'
 import { AUTH_ACTION_ALL, AUTH_SUBJECT_ALL } from './constants'
+import { createAbility } from './extend'
 import {
   AuthSubject,
   AuthSubjectUnionType,
   SubjectEntityMapping,
 } from './subject'
-
-const conditionsMatcher = buildMongoQueryMatcher({ $or }, { or })
-
-export function createAbility(permissionRules: PermissionRule[]) {
-  return createMongoAbility(permissionRules, { conditionsMatcher })
-}
 
 export function checkPermission<TSubject extends keyof typeof AuthSubject>(
   ability: MongoAbility,

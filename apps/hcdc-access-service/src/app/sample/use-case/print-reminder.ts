@@ -111,12 +111,7 @@ export class SamplePrintReminderUseCase {
       throw new EEntityNotFound(`Sample id=${sampleId}`)
     }
 
-    assertPermission(
-      ability,
-      AuthSubject.Sample,
-      SampleAction.ReadResult,
-      sample,
-    )
+    assertPermission(ability, AuthSubject.Sample, SampleAction.Read, sample)
 
     const { jwt } = await this.authorizeExternalRouteUseCase.execute(
       this.constructor.name,

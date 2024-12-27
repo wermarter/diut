@@ -1,4 +1,5 @@
 export * from './action'
+export * from './constants'
+export * from './extend'
 export * from './subject'
 export * from './utils'
-export * from './constants'

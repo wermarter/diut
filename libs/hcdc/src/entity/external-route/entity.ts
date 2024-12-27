@@ -12,7 +12,6 @@ export type ExternalRoute = {
 
 export enum ExternalRouteAction {
   Generate = 'Generate',
-  View = 'View',
 }
 
 export const ExternalRouteFields = [

@@ -1,5 +1,6 @@
 import { MainLayout } from 'src/components/layout'
 import { LoginPage, urlLoginPage } from 'src/features/auth'
+import { ManageBranchPage, urlManageBranchPage } from 'src/features/branch'
 import {
   ManageDiagnosisPage,
   urlManageDiagnosisPage,
@@ -101,6 +102,10 @@ export const appRoutes: CustomRouteObject[] = [
       {
         path: urlManageDoctorPage(),
         element: <ManageDoctorPage />,
+      },
+      {
+        path: urlManageBranchPage(),
+        element: <ManageBranchPage />,
       },
       {
         path: urlManagePatientTypePage(),
