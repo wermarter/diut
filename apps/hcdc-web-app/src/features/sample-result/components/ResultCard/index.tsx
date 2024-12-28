@@ -120,15 +120,22 @@ export function ResultCard(props: ResultCardProps) {
       },
     })
 
+  let shouldHightlightTestName = true
+  if (props.isExternal && !isLocked) {
+    shouldHightlightTestName = false
+  } else if (!props.isExternal && !isAuthorized) {
+    shouldHightlightTestName = false
+  }
+
   return (
     <Card sx={{ mb: 4 }} raised={!isLoading} id={props.testResult.testId}>
       {isLoading && <ProgressBar />}
       <CardHeader
-        title={props.testResult.test?.name}
+        title={`${props.isExternal && isLocked ? '✔ ' : ''}${props.testResult.test?.name}`}
         titleTypographyProps={{
           mt: 1,
           ml: 1,
-          color: props.testResult.isLocked ? '#CCC' : 'primary',
+          color: shouldHightlightTestName ? 'primary' : '#CCC',
           fontWeight:
             props.testResult.test?.printFormIds.length === 0
               ? 'normal'
@@ -143,7 +150,7 @@ export function ResultCard(props: ResultCardProps) {
         subheader={props.testResult.bioProductName}
         subheaderTypographyProps={{
           ml: 1,
-          color: props.testResult.isLocked ? '#CCC' : 'primary',
+          color: shouldHightlightTestName ? 'primary' : '#CCC',
         }}
         action={
           !props.isExternal && (

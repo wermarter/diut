@@ -54,10 +54,14 @@ export function ResultEditView(props: ResultEditViewProps) {
   return (
     <FormContainer sx={{ p: 2 }}>
       <Box
-        sx={{
-          position: 'fixed',
-          width: '280px',
-        }}
+        sx={
+          props.isExternal
+            ? {}
+            : {
+                position: 'fixed',
+                width: '280px',
+              }
+        }
       >
         {!props.isExternal && (
           <Button
@@ -88,38 +92,41 @@ export function ResultEditView(props: ResultEditViewProps) {
             {props.sampleRes.infoBy?.name}
           </Typography>
         </Box>
-        <List
-          sx={{
-            bgcolor: 'background.paper',
-            '&& .Mui-selected, && .Mui-selected:hover': {
-              bgcolor: 'secondary.main',
-              '&, & .MuiListItemIcon-root': {
-                color: 'white',
+        {!props.isExternal && (
+          <List
+            sx={{
+              bgcolor: 'background.paper',
+              '&& .Mui-selected, && .Mui-selected:hover': {
+                bgcolor: 'secondary.main',
+                '&, & .MuiListItemIcon-root': {
+                  color: 'white',
+                },
               },
-            },
-            overflowY: 'auto',
-            maxHeight: '50vh',
-          }}
-        >
-          {sortedTests.map((test) => (
-            <ListItemButton
-              key={test.testId}
-              selected={!test.isLocked}
-              onClick={() => {
-                document.getElementById(test.testId)?.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center',
-                })
-              }}
-            >
-              {test.test?.name}
-            </ListItemButton>
-          ))}
-        </List>
+              overflowY: 'auto',
+              maxHeight: '50vh',
+            }}
+          >
+            {sortedTests.map((test) => (
+              <ListItemButton
+                key={test.testId}
+                selected={!test.isLocked}
+                onClick={() => {
+                  document.getElementById(test.testId)?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  })
+                }}
+              >
+                {test.test?.name}
+              </ListItemButton>
+            ))}
+          </List>
+        )}
       </Box>
       <Box
         sx={{
-          ml: '300px',
+          pt: 1,
+          ml: props.isExternal ? '' : '300px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
