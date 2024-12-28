@@ -105,6 +105,15 @@ export class SamplePrintReminderUseCase {
         {
           path: 'branch',
         },
+        {
+          path: 'doctor',
+        },
+        {
+          path: 'diagnosis',
+        },
+        {
+          path: 'results.test',
+        },
       ],
     })
     if (!sample) {

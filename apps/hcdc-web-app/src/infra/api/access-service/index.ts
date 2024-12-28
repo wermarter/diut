@@ -89,7 +89,7 @@ export function fetchSampleTypes(branchId: string) {
 export function fetchRoles(branchId: string) {
   return roleApi.endpoints.roleSearch.initiate({
     sort: { displayIndex: 1 },
-    filter: { branchId },
+    filter: { $or: [{ branchId }, { branchId: '' }] },
   })
 }
 

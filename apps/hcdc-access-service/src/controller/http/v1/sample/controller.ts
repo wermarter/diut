@@ -7,6 +7,7 @@ import {
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
+  ParseIntPipe,
   Query,
   Res,
   StreamableFile,
@@ -222,8 +223,9 @@ export class SampleController {
   async printReminder(
     @Res({ passthrough: true }) res: Response,
     @Param('id') sampleId: string,
-    @Query('timestamp') timestamp: Date,
+    @Query('timestamp', ParseIntPipe) timestamp: number,
   ) {
+    console.log(timestamp)
     const buffer = await this.samplePrintReminderUseCase.execute(
       sampleId,
       new Date(timestamp),

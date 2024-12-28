@@ -15,7 +15,7 @@
       @page {
         margin-top: 5mm;
         margin-bottom: 5mm;
-        margin-left: 18mm;
+        margin-left: 15mm;
         margin-right: 10mm;
       }
       p {
@@ -48,7 +48,7 @@
           src=<%= `https://raw.githubusercontent.com/wermarter/diut/refs/heads/main/apps/hcdc-access-service/assets/logo.png` %>
           style="width: 90px; object-fit: contain"
         />
-        <div class="text-center ml-1">
+        <div class="text-center ">
           <p>SỞ Y TẾ TP.HỒ CHÍ MINH</p>
           <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT TP.HCM</p>
           <p><%= meta.branch.address %></p>
@@ -56,18 +56,26 @@
         </div>
       </div>
       <div class="text-center">
-        <p class="text-xl font-bold my-1">PHIẾU HẸN KẾT QUẢ XÉT NGHIỆM</p>
+        <p class="text-l font-bold my-1">PHIẾU HẸN KẾT QUẢ XÉT NGHIỆM</p>
         <div class="ml-10 text-left">
           <p class="text-base">
-            Ngày lấy mẫu:
-            <span><%= data.sample.sampledAt.toLocaleDateString('vi') %></span>
+            TG nhận bệnh:
+            <span><%= data.sample.infoAt.toLocaleDateString('vi') %></span>
           </p>
-          <p>Nơi chỉ định: Phòng khám</p>
-          <p>Nơi lấy mẫu: Phòng xét nghiệm</p>
+          <p class="text-base">
+            Giờ:
+            <span
+            ><%= data.sample.infoAt.toLocaleTimeString('vi').slice(0, -3) %></span
+            >
+          </p>
+          <p class="text-base font-bold">
+            IDXN:
+            <span><%= data.sample.sampleId %></span>
+          </p>
         </div>
       </div>
     </div>
-    <div class="m-4">
+    <div class="mt-4 mx-4">
       <div class="flex flex-row justify-between">
         <div class="flex flex-col">
           <p class="text-lg">
@@ -76,33 +84,35 @@
               ><%= data.sample.patient.name.toLocaleUpperCase() %></span
             >
           </p>
-          <p class="text-lg">
-            ID XN: <span class="font-bold"><%= data.sample.sampleId %></span>
-          </p>
+          <p>BS chỉ định: <span><%= data.sample.doctor.name %></span></p>
         </div>
         <div class="flex flex-col">
-          <p class="text-lg">Năm sinh: <span><%= data.sample.patient.birthYear %></span></p>
-          <p class="text-lg">Loại bệnh phẩm: Máu</p>
+          <p>Địa chỉ: <span><%= data.sample.patient.address %></span></p>
+          <p>Chẩn đoán: <span><%= data.sample.diagnosis.name %></p>
         </div>
         <div class="flex flex-col">
-          <p class="text-lg">
+          <p>Năm sinh: <span><%= data.sample.patient.birthYear %></span></p>
+          <p>
             Giới tính:
             <span><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span>
           </p>
-          <p class="text-lg">
-            CCCD (nếu có):
-            <span><%= data.sample.patient.SSN %></span>
-          </p>
         </div>
       </div>
-      <p class="text-lg">Địa chỉ: <span><%= data.sample.patient.address %></span></p>
-      
+      <p class="line-clamp-4"><span class="text-lg">Xét nghiệm:</span> <%= data.sample.results.map(({test}) => test.name).join(', ') %></p>
     </div>
-    <div class="flex flex-row justify-between mt-6">
+    <div class="flex flex-row justify-between mt-4">
+      <img
+        src=<%= `https://quickchart.io/qr?size=300&text=${data.url}` %>
+        style="width: 250px; object-fit: contain"
+      />
       <div
         class="flex flex-col text-center mr-8"
         style="page-break-inside: avoid"
       >
+        <p>Kính mời khách hàng đến phòng xét nghiệm nhận kết quả ngày</p>
+        <p class="font-bold text-lg"><%= data.date.toLocaleDateString('vi') %></p>
+        <p>Mã QR có hiệu lực trong vòng 2 tháng</p>
+        <br>
         <p>
           Ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1
           %> năm <%= new Date().getFullYear() %>
@@ -111,8 +121,5 @@
         <p style="margin-top: 20mm" class="font-bold"><%= meta.authorName %></p>
       </div>
     </div>
-    <img
-      src=<%= `https://quickchart.io/qr?size=300&text=${data.url}` %>
-    />
   </body>
 </html>
