@@ -50,9 +50,9 @@ export class UserSchema extends BaseSchema {
 
   @Prop({ required: true, type: [Types.ObjectId] })
   branchIds: string[]
-  branches?: (BranchSchema | null)[]
+  branches?: BranchSchema[]
 
   @Prop({ required: true, type: [Types.ObjectId] })
   roleIds: string[]
-  roles?: (RoleSchema | null)[]
+  roles?: RoleSchema[]
 }

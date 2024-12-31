@@ -36,9 +36,9 @@ export class TestComboSchema extends BaseSchema {
 
   @Prop({ required: true, type: [Types.ObjectId] })
   testIds: string[]
-  tests?: (TestSchema | null)[]
+  tests?: TestSchema[]
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

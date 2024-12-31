@@ -1,5 +1,6 @@
-import { AuthSubject, SampleAction } from '@diut/hcdc'
+import { AuthSubject, Sample, SampleAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -13,7 +14,7 @@ import {
   StorageBucket,
   StorageKeyFactory,
 } from 'src/domain'
-import { SampleAssertExistsUseCase } from './assert-exists'
+import { SampleSearchUseCase } from './search'
 
 @Injectable()
 export class SampleDeleteUseCase {
@@ -22,28 +23,29 @@ export class SampleDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    private readonly sampleAssertExistsUseCase: SampleAssertExistsUseCase,
+    private readonly sampleSearchUseCase: SampleSearchUseCase,
     @Inject(STORAGE_SERVICE_TOKEN)
     private readonly storageService: IStorageService,
     @Inject(STORAGE_BUCKET_TOKEN)
     private readonly storageBucket: IStorageBucket,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.sampleAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<Sample>) {
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Sample, SampleAction.Delete, entity)
-
-    await this.storageService.deleteKeysMatch({
-      bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
-      prefix: StorageKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
-        sampleId: input.id,
-      }),
+    const { items: samples } = await this.sampleSearchUseCase.execute({
+      filter: input,
     })
-    await this.sampleRepository.deleteById(input.id)
 
-    return entity
+    for (const sample of samples) {
+      assertPermission(ability, AuthSubject.Sample, SampleAction.Delete, sample)
+
+      await this.storageService.deleteKeysMatch({
+        bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
+        prefix: StorageKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
+          sampleId: sample._id,
+        }),
+      })
+      await this.sampleRepository.deleteById(sample._id)
+    }
   }
 }

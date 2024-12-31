@@ -17,6 +17,5 @@ export const exampleTestCombo = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
-    nullable: true,
   },
 } satisfies EntityDataExample<TestCombo>

@@ -7,7 +7,7 @@ export type SampleType = BaseEntity & {
   name: string
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum SampleTypeAction {

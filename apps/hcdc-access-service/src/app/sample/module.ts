@@ -3,7 +3,6 @@ import { SampleAssertExistsUseCase } from './use-case/assert-exists'
 import { SampleAuthorizePopulatesUseCase } from './use-case/authorize-populates'
 import { SampleCreateUseCase } from './use-case/create'
 import { SampleDeleteUseCase } from './use-case/delete'
-import { SampleDeleteManyUseCase } from './use-case/delete-many'
 import { SampleDownloadResultImageUseCase } from './use-case/download-result-image'
 import { SampleFindOneUseCase } from './use-case/find-one'
 import { SampleGeneratePrintUrlUseCase } from './use-case/generate-print-url'
@@ -27,7 +26,6 @@ export const sampleMetadata: ModuleMetadata = {
     SampleUpdateInfoUseCase,
     SampleUpdateResultUseCase,
     SampleDeleteUseCase,
-    SampleDeleteManyUseCase,
     SampleSearchUseCase,
     SampleAssertExistsUseCase,
     SampleValidateUseCase,

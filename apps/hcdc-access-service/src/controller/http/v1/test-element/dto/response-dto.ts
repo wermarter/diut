@@ -31,7 +31,6 @@ export class TestElementResponseDto extends TestElementUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
-  @IsNullable()
   @IsOptional()
-  branch?: BranchUnpopulatedResponseDto | null
+  branch?: BranchUnpopulatedResponseDto
 }

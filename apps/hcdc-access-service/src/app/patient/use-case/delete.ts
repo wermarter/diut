@@ -1,5 +1,6 @@
-import { AuthSubject, PatientAction } from '@diut/hcdc'
+import { AuthSubject, Patient, PatientAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -7,8 +8,8 @@ import {
   IPatientRepository,
   PATIENT_REPO_TOKEN,
 } from 'src/domain'
-import { SampleDeleteManyUseCase } from '../../sample/use-case/delete-many'
-import { PatientAssertExistsUseCase } from './assert-exists'
+import { SampleDeleteUseCase } from '../../sample/use-case/delete'
+import { PatientSearchUseCase } from './search'
 
 @Injectable()
 export class PatientDeleteUseCase {
@@ -17,21 +18,27 @@ export class PatientDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(PATIENT_REPO_TOKEN)
     private readonly patientRepository: IPatientRepository,
-    private readonly patientAssertExistsUseCase: PatientAssertExistsUseCase,
-    private readonly sampleDeleteManyUseCase: SampleDeleteManyUseCase,
+    private readonly patientSearchUseCase: PatientSearchUseCase,
+    private readonly sampleDeleteUseCase: SampleDeleteUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.patientAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<Patient>) {
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Patient, PatientAction.Delete, entity)
+    const { items: patients } = await this.patientSearchUseCase.execute({
+      filter: input,
+    })
 
-    // TODO: DB transaction
-    await this.sampleDeleteManyUseCase.execute({ patientId: input.id })
-    await this.patientRepository.deleteById(input.id)
+    for (const patient of patients) {
+      assertPermission(
+        ability,
+        AuthSubject.Patient,
+        PatientAction.Delete,
+        patient,
+      )
 
-    return entity
+      // TODO: DB transaction
+      await this.sampleDeleteUseCase.execute({ patientId: patient._id })
+      await this.patientRepository.deleteById(patient._id)
+    }
   }
 }

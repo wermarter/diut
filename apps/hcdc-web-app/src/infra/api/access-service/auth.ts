@@ -78,6 +78,7 @@ export type BranchUnpopulatedResponseDto = {
   address: string
   type: 'Internal' | 'External'
   sampleOriginIds: string[]
+  reportConfig: object
 }
 export type RoleUnpopulatedResponseDto = {
   _id: string

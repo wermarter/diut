@@ -46,5 +46,5 @@ export class PrintFormSchema extends BaseSchema {
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

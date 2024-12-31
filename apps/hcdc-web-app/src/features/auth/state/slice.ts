@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { authApi } from 'src/infra/api/access-service/auth'
+import { branchApi } from 'src/infra/api/access-service/branch'
 import { userLogout } from './actions'
 import {
   AuthState,
@@ -51,6 +52,49 @@ export const authSlice = createSlice({
       // @ts-ignore
       unauthenticatedState.data = undefined
     })
+    builder.addMatcher(
+      branchApi.endpoints.branchUpdateById.matchFulfilled,
+      (
+        state,
+        {
+          meta: {
+            arg: {
+              originalArgs: { branchUpdateRequestDto, id },
+            },
+          },
+        },
+      ) => {
+        if (state.isAuthenticated === true) {
+          state.data.branches = state.data.branches.map((branch) => {
+            if (branch._id === id) {
+              return {
+                ...branch,
+                ...branchUpdateRequestDto,
+              }
+            }
+            return branch
+          })
+        }
+      },
+    )
+    builder.addMatcher(
+      branchApi.endpoints.branchDeleteById.matchFulfilled,
+      (state, { payload }) => {
+        if (state.isAuthenticated === true) {
+          state.data.branches = state.data.branches.filter((branch) => {
+            return branch._id !== payload._id
+          })
+        }
+      },
+    )
+    builder.addMatcher(
+      branchApi.endpoints.branchCreate.matchFulfilled,
+      (state, { payload }) => {
+        if (state.isAuthenticated === true) {
+          state.data.branches.push(payload)
+        }
+      },
+    )
     builder.addMatcher(
       authApi.endpoints.authLogin.matchFulfilled,
       (state, { payload }) => {

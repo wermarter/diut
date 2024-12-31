@@ -1,5 +1,6 @@
-import { AuthSubject, TestElementAction } from '@diut/hcdc'
+import { AuthSubject, TestElement, TestElementAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -7,7 +8,7 @@ import {
   ITestElementRepository,
   TESTELEMENT_REPO_TOKEN,
 } from 'src/domain'
-import { TestElementAssertExistsUseCase } from './assert-exists'
+import { TestElementSearchUseCase } from './search'
 
 @Injectable()
 export class TestElementDeleteUseCase {
@@ -16,23 +17,24 @@ export class TestElementDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(TESTELEMENT_REPO_TOKEN)
     private readonly testElementRepository: ITestElementRepository,
-    private readonly testElementAssertExistsUseCase: TestElementAssertExistsUseCase,
+    private readonly testElementSearchUseCase: TestElementSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.testElementAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<TestElement>) {
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.TestElement,
-      TestElementAction.Delete,
-      entity,
+    const { items: testElements } = await this.testElementSearchUseCase.execute(
+      { filter: input },
     )
 
-    await this.testElementRepository.deleteById(input.id)
+    for (const testElement of testElements) {
+      assertPermission(
+        ability,
+        AuthSubject.TestElement,
+        TestElementAction.Delete,
+        testElement,
+      )
 
-    return entity
+      await this.testElementRepository.deleteById(testElement._id)
+    }
   }
 }

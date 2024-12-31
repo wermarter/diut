@@ -7,6 +7,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsString,
   Min,
 } from 'class-validator'
@@ -38,7 +39,7 @@ export class BranchRequestDto {
 
   @Expose()
   @ApiProperty(exampleBranch.reportConfig)
-  @IsNotEmpty()
+  @IsObject()
   reportConfig: BranchReportConfig
 
   @Expose()

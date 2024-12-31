@@ -1,5 +1,6 @@
-import { AuthSubject, PrintFormAction } from '@diut/hcdc'
+import { AuthSubject, PrintForm, PrintFormAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -10,7 +11,7 @@ import {
   PRINTFORM_REPO_TOKEN,
   TEST_REPO_TOKEN,
 } from 'src/domain'
-import { PrintFormAssertExistsUseCase } from './assert-exists'
+import { PrintFormSearchUseCase } from './search'
 
 @Injectable()
 export class PrintFormDeleteUseCase {
@@ -21,30 +22,31 @@ export class PrintFormDeleteUseCase {
     private readonly printFormRepository: IPrintFormRepository,
     @Inject(TEST_REPO_TOKEN)
     private readonly testRepository: ITestRepository,
-    private readonly printFormAssertExistsUseCase: PrintFormAssertExistsUseCase,
+    private readonly printFormSearchUseCase: PrintFormSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.printFormAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<PrintForm>) {
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.PrintForm,
-      PrintFormAction.Delete,
-      entity,
-    )
-
-    const connectedTestCount = await this.testRepository.count({
-      printFormIds: input.id,
+    const { items: printForms } = await this.printFormSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedTestCount > 0) {
-      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+
+    for (const printForm of printForms) {
+      assertPermission(
+        ability,
+        AuthSubject.PrintForm,
+        PrintFormAction.Delete,
+        printForm,
+      )
+
+      const connectedTestCount = await this.testRepository.count({
+        printFormIds: { $elemMatch: { $eq: printForm._id } },
+      })
+      if (connectedTestCount > 0) {
+        throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+      }
+
+      await this.printFormRepository.deleteById(printForm._id)
     }
-
-    await this.printFormRepository.deleteById(input.id)
-
-    return entity
   }
 }

@@ -18,6 +18,5 @@ export const exampleRole = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
-    nullable: true,
   },
 } satisfies EntityDataExample<Role>

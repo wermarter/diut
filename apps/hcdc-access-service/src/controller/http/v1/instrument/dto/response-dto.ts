@@ -31,7 +31,6 @@ export class InstrumentResponseDto extends InstrumentUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
-  @IsNullable()
   @IsOptional()
-  branch?: BranchUnpopulatedResponseDto | null
+  branch?: BranchUnpopulatedResponseDto
 }

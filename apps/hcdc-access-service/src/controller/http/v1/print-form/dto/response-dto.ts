@@ -1,4 +1,4 @@
-import { BaseResourceResponseDto, IsNullable } from '@diut/nestjs-infra'
+import { BaseResourceResponseDto } from '@diut/nestjs-infra'
 import { ApiProperty, IntersectionType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsOptional, ValidateNested } from 'class-validator'
@@ -19,7 +19,6 @@ export class PrintFormResponseDto extends PrintFormUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
-  @IsNullable()
   @IsOptional()
-  branch?: BranchUnpopulatedResponseDto | null
+  branch?: BranchUnpopulatedResponseDto
 }

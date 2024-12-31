@@ -26,7 +26,7 @@ export type Branch = BaseEntity & {
   reportConfig: BranchReportConfig
 
   sampleOriginIds: string[]
-  sampleOrigins?: (Omit<Branch, 'sampleOrigins'> | null)[]
+  sampleOrigins?: Omit<Branch, 'sampleOrigins'>[]
 }
 
 export enum BranchAction {

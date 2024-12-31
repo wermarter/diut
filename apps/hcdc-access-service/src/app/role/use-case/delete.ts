@@ -1,5 +1,6 @@
-import { AuthSubject, RoleAction } from '@diut/hcdc'
+import { AuthSubject, Role, RoleAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -10,7 +11,7 @@ import {
   ROLE_REPO_TOKEN,
   USER_REPO_TOKEN,
 } from 'src/domain'
-import { RoleAssertExistsUseCase } from './assert-exists'
+import { RoleSearchUseCase } from './search'
 
 @Injectable()
 export class RoleDeleteUseCase {
@@ -21,25 +22,26 @@ export class RoleDeleteUseCase {
     private readonly roleRepository: IRoleRepository,
     @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
-    private readonly roleAssertExistsUseCase: RoleAssertExistsUseCase,
+    private readonly roleSearchUseCase: RoleSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.roleAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<Role>) {
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Role, RoleAction.Delete, entity)
-
-    const connectedUserCount = await this.userRepository.count({
-      roleIds: { $elemMatch: { $eq: input.id } },
+    const { items: roles } = await this.roleSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedUserCount > 0) {
-      throw new EEntityCannotDelete(`${connectedUserCount} connected User`)
+
+    for (const role of roles) {
+      assertPermission(ability, AuthSubject.Role, RoleAction.Delete, role)
+
+      const connectedUserCount = await this.userRepository.count({
+        roleIds: { $elemMatch: { $eq: role._id } },
+      })
+      if (connectedUserCount > 0) {
+        throw new EEntityCannotDelete(`${connectedUserCount} connected User`)
+      }
+
+      await this.roleRepository.deleteById(role._id)
     }
-
-    await this.roleRepository.deleteById(input.id)
-
-    return entity
   }
 }

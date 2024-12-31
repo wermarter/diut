@@ -1,11 +1,14 @@
+import { ReportTypeValues } from '@diut/hcdc'
+import { useState } from 'react'
 import { CrudTable } from 'src/components/table'
+import { authSlice } from 'src/features/auth'
 import {
+  BranchResponseDto,
   useBranchCreateMutation,
-  useBranchSearchQuery,
   useBranchUpdateByIdMutation,
-  useLazyBranchSearchQuery,
 } from 'src/infra/api/access-service/branch'
-import { usePagination } from 'src/shared/hooks'
+import { useTypedSelector } from 'src/infra/redux'
+import { BranchOriginSelector } from '../BranchOriginSelector'
 import { branchColumns } from './columns'
 
 type BranchTableProps = {
@@ -16,62 +19,72 @@ type BranchTableProps = {
 }
 
 export function BranchTable(props: BranchTableProps) {
-  const { filterObj } = usePagination({
-    offset: props.page,
-    limit: props.pageSize,
-    sort: { displayIndex: 1 },
-    filter: {},
-  })
+  const branches = useTypedSelector(authSlice.selectors.selectBranches)!
 
-  const { data, isFetching } = useBranchSearchQuery(filterObj)
-  const [searchBranchs] = useLazyBranchSearchQuery()
+  const [openBranchOriginAction, setOpenBranchOriginAction] =
+    useState<BranchResponseDto | null>(null)
 
   const [createBranch, { isLoading: isCreating }] = useBranchCreateMutation()
   const [updateBranch, { isLoading: isUpdating }] =
     useBranchUpdateByIdMutation()
 
   return (
-    <CrudTable
-      items={data?.items}
-      itemIdField="_id"
-      isLoading={isFetching || isCreating || isUpdating}
-      fieldColumns={branchColumns}
-      rowCount={data?.total ?? 0}
-      page={data?.offset!}
-      pageSize={data?.limit!}
-      onPageChange={props.setPage}
-      onPageSizeChange={props.setPageSize}
-      customRowActions={[
-        {
-          label: 'Liên kết đơn vị',
-          action: (item) => {
-            // ui similar to role select
+    <>
+      <CrudTable
+        items={branches}
+        itemIdField="_id"
+        isLoading={isCreating || isUpdating}
+        fieldColumns={branchColumns}
+        page={props.page}
+        pageSize={props.pageSize}
+        onPageChange={props.setPage}
+        onPageSizeChange={props.setPageSize}
+        customRowActions={[
+          {
+            label: 'Liên kết đơn vị',
+            action: (item) => {
+              setOpenBranchOriginAction(item)
+            },
           },
-        },
-      ]}
-      onItemCreate={async (item) => {
-        await createBranch({
-          type: 'Internal',
-          name: item.name,
-          displayIndex: item.displayIndex,
-          address: item.address,
-          sampleOriginIds: [],
-        }).unwrap()
-      }}
-      onItemUpdate={async (newItem) => {
-        await updateBranch({
-          id: newItem._id,
-          branchUpdateRequestDto: {
-            name: newItem.name,
-            displayIndex: newItem.displayIndex,
-            address: newItem.address,
-            sampleOriginIds: newItem.sampleOriginIds,
-          },
-        }).unwrap()
-      }}
-      onRefresh={async () => {
-        await searchBranchs(filterObj).unwrap()
-      }}
-    />
+        ]}
+        onItemCreate={async (item) => {
+          const { _id } = await createBranch({
+            type: 'Internal',
+            name: item.name,
+            displayIndex: item.displayIndex,
+            address: item.address,
+            sampleOriginIds: [],
+            reportConfig: Object.fromEntries(
+              ReportTypeValues.map((reportType) => [
+                reportType,
+                { testIds: [] },
+              ]),
+            ),
+          }).unwrap()
+          await updateBranch({
+            id: _id,
+            branchUpdateRequestDto: {
+              sampleOriginIds: [_id],
+            },
+          }).unwrap()
+        }}
+        onItemUpdate={async (newItem) => {
+          await updateBranch({
+            id: newItem._id,
+            branchUpdateRequestDto: {
+              name: newItem.name,
+              displayIndex: newItem.displayIndex,
+              address: newItem.address,
+            },
+          }).unwrap()
+        }}
+      />
+      <BranchOriginSelector
+        branch={openBranchOriginAction}
+        onClose={() => {
+          setOpenBranchOriginAction(null)
+        }}
+      />
+    </>
   )
 }

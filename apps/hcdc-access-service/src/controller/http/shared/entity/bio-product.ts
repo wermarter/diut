@@ -12,11 +12,9 @@ export const exampleBioProduct = {
   testId: exampleMongoObjectId,
   test: {
     required: false,
-    nullable: true,
   },
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
-    nullable: true,
   },
 } satisfies EntityDataExample<BioProduct>

@@ -24,7 +24,7 @@ export type PrintForm = BaseEntity & {
   template: PrintTemplate
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum PrintFormAction {

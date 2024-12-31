@@ -8,10 +8,10 @@ export type Instrument = BaseEntity & {
   name: string
 
   testId: string
-  test?: Test | null
+  test?: Test
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum InstrumentAction {

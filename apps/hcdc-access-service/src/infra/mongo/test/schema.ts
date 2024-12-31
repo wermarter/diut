@@ -75,25 +75,25 @@ export class TestSchema extends BaseSchema {
 
   @Prop({ required: false, type: Types.ObjectId })
   bioProductId: string | null
-  bioProduct?: BioProductSchema | null
+  bioProduct?: BioProductSchema
 
   @Prop({ required: false, type: Types.ObjectId })
   instrumentId: string | null
-  instrument?: InstrumentSchema | null
+  instrument?: InstrumentSchema
 
   @Prop({ required: false, type: Types.ObjectId })
   sampleTypeId: string | null
-  sampleType?: SampleTypeSchema | null
+  sampleType?: SampleTypeSchema
 
   @Prop({ required: true, type: Types.ObjectId })
   testCategoryId: string
-  testCategory?: TestCategorySchema | null
+  testCategory?: TestCategorySchema
 
   @Prop({ required: false, type: Types.ObjectId })
   printFormIds: string[]
-  printForms?: (PrintFormSchema | null)[]
+  printForms?: PrintFormSchema[]
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

@@ -1,5 +1,6 @@
-import { AuthSubject, DiagnosisAction } from '@diut/hcdc'
+import { AuthSubject, Diagnosis, DiagnosisAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -10,7 +11,7 @@ import {
   ISampleRepository,
   SAMPLE_REPO_TOKEN,
 } from 'src/domain'
-import { DiagnosisAssertExistsUseCase } from './assert-exists'
+import { DiagnosisSearchUseCase } from './search'
 
 @Injectable()
 export class DiagnosisDeleteUseCase {
@@ -21,30 +22,33 @@ export class DiagnosisDeleteUseCase {
     private readonly diagnosisRepository: IDiagnosisRepository,
     @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    private readonly diagnosisAssertExistsUseCase: DiagnosisAssertExistsUseCase,
+    private readonly diagnosisSearchUseCase: DiagnosisSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.diagnosisAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<Diagnosis>) {
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.Diagnosis,
-      DiagnosisAction.Delete,
-      entity,
-    )
-
-    const connectedSampleCount = await this.sampleRepository.count({
-      diagnosisId: input.id,
+    const { items: diagnoses } = await this.diagnosisSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedSampleCount > 0) {
-      throw new EEntityCannotDelete(`${connectedSampleCount} connected Sample`)
+
+    for (const diagnosis of diagnoses) {
+      assertPermission(
+        ability,
+        AuthSubject.Diagnosis,
+        DiagnosisAction.Delete,
+        diagnosis,
+      )
+
+      const connectedSampleCount = await this.sampleRepository.count({
+        diagnosisId: diagnosis._id,
+      })
+      if (connectedSampleCount > 0) {
+        throw new EEntityCannotDelete(
+          `${connectedSampleCount} connected Sample`,
+        )
+      }
+
+      await this.diagnosisRepository.deleteById(diagnosis._id)
     }
-
-    await this.diagnosisRepository.deleteById(input.id)
-
-    return entity
   }
 }

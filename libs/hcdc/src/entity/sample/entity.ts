@@ -54,25 +54,25 @@ export type Sample = BaseEntity & {
   printedBy?: User | null
 
   patientId: string
-  patient?: Patient | null
+  patient?: Patient
 
   doctorId: string
-  doctor?: Doctor | null
+  doctor?: Doctor
 
   patientTypeId: string
-  patientType?: PatientType | null
+  patientType?: PatientType
 
   diagnosisId: string
-  diagnosis?: Diagnosis | null
+  diagnosis?: Diagnosis
 
   originId: string
-  origin?: Branch | null
+  origin?: Branch
 
   sampleTypeIds: string[]
-  sampleTypes?: (SampleType | null)[]
+  sampleTypes?: SampleType[]
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export const sampleInfoFieldNames = [

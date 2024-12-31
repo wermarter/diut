@@ -30,7 +30,7 @@ export type TestElement = BaseEntity & {
   test?: Test | null
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum TestElementAction {
