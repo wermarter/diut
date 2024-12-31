@@ -8,10 +8,10 @@ export type TestCombo = BaseEntity & {
   name: string
 
   testIds: string[]
-  tests?: (Test | null)[]
+  tests?: Test[]
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum TestComboAction {

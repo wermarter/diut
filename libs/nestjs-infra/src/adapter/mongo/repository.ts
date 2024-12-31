@@ -3,7 +3,7 @@ import { UpdateOptions } from 'mongodb'
 import {
   FilterQuery,
   Model,
-  MongooseQueryOptions,
+  MongooseUpdateQueryOptions,
   PipelineStage,
   QueryOptions,
   SortOrder,
@@ -222,7 +222,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   public async updateMany(
     filter: FilterQuery<TEntity>,
     data: UpdateQuery<TEntity>,
-    options?: UpdateOptions & Omit<MongooseQueryOptions<TEntity>, 'lean'>,
+    options?: UpdateOptions & Omit<MongooseUpdateQueryOptions<TEntity>, 'lean'>,
     isDeleted: boolean | null = false,
   ) {
     let filterObj = filter

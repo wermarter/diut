@@ -10,7 +10,7 @@ export type Role = BaseEntity & {
   permissions: PermissionRule[]
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum RoleAction {

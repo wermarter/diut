@@ -249,7 +249,13 @@ export function CrudTable<R extends GridValidRowModel>({
         }}
         cellOutline
         loading={isLoading}
-        paginationMode={rowCount != undefined ? 'server' : undefined}
+        paginationMode={
+          rowCount != undefined
+            ? 'server'
+            : page !== undefined
+              ? 'client'
+              : undefined
+        }
         rowCount={rowCount}
         page={page}
         onPageChange={onPageChange}

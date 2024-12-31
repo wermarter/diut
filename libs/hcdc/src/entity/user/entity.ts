@@ -12,10 +12,10 @@ export type User = BaseEntity & {
   inlinePermissions: PermissionRule[]
 
   branchIds: string[]
-  branches?: (Branch | null)[]
+  branches?: Branch[]
 
   roleIds: string[]
-  roles?: (Role | null)[]
+  roles?: Role[]
 }
 
 export enum UserAction {

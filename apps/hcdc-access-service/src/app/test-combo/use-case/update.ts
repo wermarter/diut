@@ -7,7 +7,7 @@ import {
   ITestComboRepository,
   TESTCOMBO_REPO_TOKEN,
 } from 'src/domain'
-import { TestComboAssertExistsUseCase } from './assert-exists'
+import { TestComboSearchUseCase } from './search'
 import { TestComboValidateUseCase } from './validate'
 
 @Injectable()
@@ -17,21 +17,31 @@ export class TestComboUpdateUseCase {
     private readonly testComboRepository: ITestComboRepository,
     @Inject(AUTH_CONTEXT_TOKEN)
     private readonly authContext: IAuthContext,
-    private readonly testComboAssertExistsUseCase: TestComboAssertExistsUseCase,
+    private readonly testComboSearchUseCase: TestComboSearchUseCase,
     private readonly testComboValidateUseCase: TestComboValidateUseCase,
   ) {}
 
   async execute(...input: Parameters<ITestComboRepository['update']>) {
-    const entity = await this.testComboAssertExistsUseCase.execute(input[0])
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.TestCombo,
-      TestComboAction.Update,
-      entity,
+    const { items: testCombos } = await this.testComboSearchUseCase.execute(
+      input[0],
     )
     await this.testComboValidateUseCase.execute(input[1])
 
-    return this.testComboRepository.update(...input)
+    for (const testCombo of testCombos) {
+      assertPermission(
+        ability,
+        AuthSubject.TestCombo,
+        TestComboAction.Update,
+        testCombo,
+      )
+
+      await this.testComboRepository.update(
+        { _id: testCombo._id },
+        input[1],
+        input?.[2],
+        input?.[3],
+      )
+    }
   }
 }

@@ -12,6 +12,5 @@ export const exampleSampleType = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
-    nullable: true,
   },
 } satisfies EntityDataExample<SampleType>

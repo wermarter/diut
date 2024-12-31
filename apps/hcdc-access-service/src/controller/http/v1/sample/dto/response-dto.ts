@@ -127,9 +127,8 @@ export class SampleResponseDto extends SampleUnpopulatedResponseDto {
   })
   @ValidateNested()
   @Type(() => BranchUnpopulatedResponseDto)
-  @IsNullable()
   @IsOptional()
-  branch?: BranchUnpopulatedResponseDto | null
+  branch?: BranchUnpopulatedResponseDto
 }
 
 export class OmittedSampleResponseDto extends OmitType(SampleResponseDto, [

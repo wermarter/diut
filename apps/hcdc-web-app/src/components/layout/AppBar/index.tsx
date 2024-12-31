@@ -85,20 +85,22 @@ export function AppBar({ drawerWidth }: AppBarProps) {
               }
             }}
           >
-            {branches?.map((branch) => (
-              <MenuItem
-                key={branch._id}
-                value={branch._id}
-                dense={branch.type === BranchType.External}
-                sx={
-                  branch.type === BranchType.External
-                    ? { fontWeight: 'bold' }
-                    : {}
-                }
-              >
-                {branch.name}
-              </MenuItem>
-            ))}
+            {branches
+              ?.toSorted((a, b) => a.displayIndex - b.displayIndex)
+              .map((branch) => (
+                <MenuItem
+                  key={branch._id}
+                  value={branch._id}
+                  dense={branch.type === BranchType.External}
+                  sx={
+                    branch.type === BranchType.External
+                      ? { fontWeight: 'bold' }
+                      : {}
+                  }
+                >
+                  {branch.name}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
         <IconButton

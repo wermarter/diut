@@ -78,27 +78,22 @@ export const exampleSample = {
   patientId: exampleMongoObjectId,
   patient: {
     required: false,
-    nullable: true,
   },
   doctorId: exampleMongoObjectId,
   doctor: {
     required: false,
-    nullable: true,
   },
   patientTypeId: exampleMongoObjectId,
   patientType: {
     required: false,
-    nullable: true,
   },
   diagnosisId: exampleMongoObjectId,
   diagnosis: {
     required: false,
-    nullable: true,
   },
   originId: exampleMongoObjectId,
   origin: {
     required: false,
-    nullable: true,
   },
   sampleTypeIds: exampleMongoObjectIds,
   sampleTypes: {
@@ -108,6 +103,5 @@ export const exampleSample = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
-    nullable: true,
   },
 } satisfies EntityDataExample<Sample>

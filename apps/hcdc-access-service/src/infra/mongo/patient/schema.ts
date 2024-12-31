@@ -43,5 +43,5 @@ export class PatientSchema extends BaseSchema {
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

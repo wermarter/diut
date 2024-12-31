@@ -8,7 +8,7 @@ export type TestCategory = BaseEntity & {
   reportIndex: number
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum TestCategoryAction {

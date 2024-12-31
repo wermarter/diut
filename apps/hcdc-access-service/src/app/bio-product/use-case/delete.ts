@@ -1,16 +1,16 @@
-import { AuthSubject, BioProductAction } from '@diut/hcdc'
+import { AuthSubject, BioProduct, BioProductAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
   BIOPRODUCT_REPO_TOKEN,
-  EEntityCannotDelete,
   IAuthContext,
   IBioProductRepository,
   ITestRepository,
   TEST_REPO_TOKEN,
 } from 'src/domain'
-import { BioProductAssertExistsUseCase } from './assert-exists'
+import { BioProductSearchUseCase } from './search'
 
 @Injectable()
 export class BioProductDeleteUseCase {
@@ -21,30 +21,29 @@ export class BioProductDeleteUseCase {
     private readonly bioProductRepository: IBioProductRepository,
     @Inject(TEST_REPO_TOKEN)
     private readonly testRepository: ITestRepository,
-    private readonly bioProductAssertExistsUseCase: BioProductAssertExistsUseCase,
+    private readonly bioProductSearchUseCase: BioProductSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.bioProductAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<BioProduct>) {
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.BioProduct,
-      BioProductAction.Delete,
-      entity,
-    )
-
-    const connectedTestCount = await this.testRepository.count({
-      bioProductId: input.id,
+    const { items: bioProducts } = await this.bioProductSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedTestCount > 0) {
-      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+
+    for (const bioProduct of bioProducts) {
+      assertPermission(
+        ability,
+        AuthSubject.BioProduct,
+        BioProductAction.Delete,
+        bioProduct,
+      )
+
+      await this.testRepository.updateMany(
+        { bioProductId: bioProduct._id },
+        { bioProductId: null },
+      )
+
+      await this.bioProductRepository.deleteById(bioProduct._id)
     }
-
-    await this.bioProductRepository.deleteById(input.id)
-
-    return entity
   }
 }

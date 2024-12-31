@@ -1,5 +1,6 @@
-import { AuthSubject, DoctorAction } from '@diut/hcdc'
+import { AuthSubject, Doctor, DoctorAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -10,7 +11,7 @@ import {
   ISampleRepository,
   SAMPLE_REPO_TOKEN,
 } from 'src/domain'
-import { DoctorAssertExistsUseCase } from './assert-exists'
+import { DoctorSearchUseCase } from './search'
 
 @Injectable()
 export class DoctorDeleteUseCase {
@@ -21,25 +22,28 @@ export class DoctorDeleteUseCase {
     private readonly doctorRepository: IDoctorRepository,
     @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    private readonly doctorAssertExistsUseCase: DoctorAssertExistsUseCase,
+    private readonly doctorSearchUseCase: DoctorSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.doctorAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<Doctor>) {
     const { ability } = this.authContext.getData()
-    assertPermission(ability, AuthSubject.Doctor, DoctorAction.Delete, entity)
-
-    const connectedSampleCount = await this.sampleRepository.count({
-      doctorId: input.id,
+    const { items: doctors } = await this.doctorSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedSampleCount > 0) {
-      throw new EEntityCannotDelete(`${connectedSampleCount} connected Sample`)
+
+    for (const doctor of doctors) {
+      assertPermission(ability, AuthSubject.Doctor, DoctorAction.Delete, doctor)
+
+      const connectedSampleCount = await this.sampleRepository.count({
+        doctorId: doctor._id,
+      })
+      if (connectedSampleCount > 0) {
+        throw new EEntityCannotDelete(
+          `${connectedSampleCount} connected Sample`,
+        )
+      }
+
+      await this.doctorRepository.deleteById(doctor._id)
     }
-
-    await this.doctorRepository.deleteById(input.id)
-
-    return entity
   }
 }

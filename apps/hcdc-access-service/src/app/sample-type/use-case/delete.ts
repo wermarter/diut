@@ -1,5 +1,6 @@
-import { AuthSubject, SampleTypeAction } from '@diut/hcdc'
+import { AuthSubject, SampleType, SampleTypeAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -12,7 +13,7 @@ import {
   SAMPLE_REPO_TOKEN,
   TEST_REPO_TOKEN,
 } from 'src/domain'
-import { SampleTypeAssertExistsUseCase } from './assert-exists'
+import { SampleTypeSearchUseCase } from './search'
 
 @Injectable()
 export class SampleTypeDeleteUseCase {
@@ -25,37 +26,40 @@ export class SampleTypeDeleteUseCase {
     private readonly testRepository: ITestRepository,
     @Inject(SAMPLE_REPO_TOKEN)
     private readonly sampleRepository: ISampleRepository,
-    private readonly sampleTypeAssertExistsUseCase: SampleTypeAssertExistsUseCase,
+    private readonly sampleTypeSearchUseCase: SampleTypeSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.sampleTypeAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<SampleType>) {
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.SampleType,
-      SampleTypeAction.Delete,
-      entity,
-    )
-
-    const connectedSampleCount = await this.sampleRepository.count({
-      diagnosisId: input.id,
+    const { items: sampleTypes } = await this.sampleTypeSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedSampleCount > 0) {
-      throw new EEntityCannotDelete(`${connectedSampleCount} connected Sample`)
+
+    for (const sampleType of sampleTypes) {
+      assertPermission(
+        ability,
+        AuthSubject.SampleType,
+        SampleTypeAction.Delete,
+        sampleType,
+      )
+
+      const connectedSampleCount = await this.sampleRepository.count({
+        sampleTypeIds: sampleType._id,
+      })
+      if (connectedSampleCount > 0) {
+        throw new EEntityCannotDelete(
+          `${connectedSampleCount} connected Sample`,
+        )
+      }
+
+      const connectedTestCount = await this.testRepository.count({
+        sampleTypeId: sampleType._id,
+      })
+      if (connectedTestCount > 0) {
+        throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+      }
+
+      await this.sampleTypeRepository.deleteById(sampleType._id)
     }
-
-    const connectedTestCount = await this.testRepository.count({
-      bioProductId: input.id,
-    })
-    if (connectedTestCount > 0) {
-      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
-    }
-
-    await this.sampleTypeRepository.deleteById(input.id)
-
-    return entity
   }
 }

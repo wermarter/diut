@@ -29,7 +29,7 @@ export type Patient = BaseEntity & {
   SSN: string
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum PatientAction {

@@ -27,6 +27,5 @@ export const examplePatient = {
   branchId: exampleMongoObjectId,
   branch: {
     required: false,
-    nullable: true,
   },
 } satisfies EntityDataExample<Patient>

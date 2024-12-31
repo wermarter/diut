@@ -7,7 +7,7 @@ export type Doctor = BaseEntity & {
   name: string
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum DoctorAction {

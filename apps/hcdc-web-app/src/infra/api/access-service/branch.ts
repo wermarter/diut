@@ -78,6 +78,7 @@ export type BranchUnpopulatedResponseDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
 }
 export type BranchResponseDto = {
@@ -86,6 +87,7 @@ export type BranchResponseDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
   sampleOrigins?: BranchUnpopulatedResponseDto[]
 }
@@ -102,12 +104,12 @@ export type HttpErrorResponse = {
     | 'AUTHN_JWT_INVALID_TOKEN'
     | 'AUTHN_LOGIN_INVALID_USERNAME'
     | 'AUTHN_LOGIN_INVALID_PASSWORD'
-    | 'AUTHN_COOKIE_ACCESS_TOKEN_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_NOT_FOUND'
-    | 'AUTHN_PAYLOAD_USER_NOT_FOUND'
+    | 'AUTHN_COOKIE_NOT_FOUND'
+    | 'AUTHN_PAYLOAD_INVALID'
     | 'AUTHZ'
     | 'AUTHZ_AUTHENTICATION_REQUIRED'
     | 'AUTHZ_PERMISSION_DENIED'
+    | 'AUTHZ_CONTEXT_INVALID'
     | 'ENTITY'
     | 'ENTITY_NOT_FOUND'
     | 'ENTITY_CANNOT_DELETE'
@@ -130,8 +132,10 @@ export type PopulateOptionDto = {
 export type BranchSearchRequestDto = {
   offset?: number
   limit?: number
-  projection?: unknown
+  /** mongoose Query.sort() */
   sort?: object
+  projection?: object
+  /** mongoose FilterQuery */
   filter?: object
   populates?: PopulateOptionDto[]
 }
@@ -140,6 +144,7 @@ export type BranchCreateRequestDto = {
   name: string
   address: string
   type: 'Internal' | 'External'
+  reportConfig: object
   sampleOriginIds: string[]
 }
 export type BranchUpdateRequestDto = {
@@ -147,6 +152,7 @@ export type BranchUpdateRequestDto = {
   name?: string
   address?: string
   type?: 'Internal' | 'External'
+  reportConfig?: object
   sampleOriginIds?: string[]
 }
 export const {

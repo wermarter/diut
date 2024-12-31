@@ -1,5 +1,6 @@
-import { AuthSubject, InstrumentAction } from '@diut/hcdc'
+import { AuthSubject, Instrument, InstrumentAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -10,7 +11,7 @@ import {
   ITestRepository,
   TEST_REPO_TOKEN,
 } from 'src/domain'
-import { InstrumentAssertExistsUseCase } from './assert-exists'
+import { InstrumentSearchUseCase } from './search'
 
 @Injectable()
 export class InstrumentDeleteUseCase {
@@ -21,30 +22,31 @@ export class InstrumentDeleteUseCase {
     private readonly instrumentRepository: IInstrumentRepository,
     @Inject(TEST_REPO_TOKEN)
     private readonly testRepository: ITestRepository,
-    private readonly instrumentAssertExistsUseCase: InstrumentAssertExistsUseCase,
+    private readonly instrumentSearchUseCase: InstrumentSearchUseCase,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.instrumentAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<Instrument>) {
     const { ability } = this.authContext.getData()
-    assertPermission(
-      ability,
-      AuthSubject.Instrument,
-      InstrumentAction.Delete,
-      entity,
-    )
-
-    const connectedTestCount = await this.testRepository.count({
-      instrumentId: input.id,
+    const { items: instruments } = await this.instrumentSearchUseCase.execute({
+      filter: input,
     })
-    if (connectedTestCount > 0) {
-      throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+
+    for (const instrument of instruments) {
+      assertPermission(
+        ability,
+        AuthSubject.Instrument,
+        InstrumentAction.Delete,
+        instrument,
+      )
+
+      const connectedTestCount = await this.testRepository.count({
+        instrumentId: instrument._id,
+      })
+      if (connectedTestCount > 0) {
+        throw new EEntityCannotDelete(`${connectedTestCount} connected Test`)
+      }
+
+      await this.instrumentRepository.deleteById(instrument._id)
     }
-
-    await this.instrumentRepository.deleteById(input.id)
-
-    return entity
   }
 }

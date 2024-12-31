@@ -36,9 +36,9 @@ export class InstrumentSchema extends BaseSchema {
 
   @Prop({ required: true, type: Types.ObjectId })
   testId: string
-  test?: TestSchema | null
+  test?: TestSchema
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

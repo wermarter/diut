@@ -218,29 +218,29 @@ export class SampleSchema extends BaseSchema {
 
   @Prop({ required: true, type: Types.ObjectId })
   patientId: string
-  patient?: PatientSchema | null
+  patient?: PatientSchema
 
   @Prop({ required: true, type: Types.ObjectId })
   doctorId: string
-  doctor?: DoctorSchema | null
+  doctor?: DoctorSchema
 
   @Prop({ required: true, type: Types.ObjectId })
   patientTypeId: string
-  patientType?: PatientTypeSchema | null
+  patientType?: PatientTypeSchema
 
   @Prop({ required: true, type: Types.ObjectId })
   diagnosisId: string
-  diagnosis?: DiagnosisSchema | null
+  diagnosis?: DiagnosisSchema
 
   @Prop({ required: true, type: Types.ObjectId })
   originId: string
-  origin?: BranchSchema | null
+  origin?: BranchSchema
 
   @Prop({ required: true, type: [Types.ObjectId] })
   sampleTypeIds: string[]
-  sampleTypes?: (SampleTypeSchema | null)[]
+  sampleTypes?: SampleTypeSchema[]
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

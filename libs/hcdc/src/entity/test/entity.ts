@@ -13,22 +13,22 @@ export type Test = BaseEntity & {
   shouldDisplayWithChildren: boolean
 
   bioProductId: string | null
-  bioProduct?: BioProduct | null
+  bioProduct?: BioProduct
 
   instrumentId: string | null
-  instrument?: Instrument | null
+  instrument?: Instrument
 
   sampleTypeId: string | null
-  sampleType?: SampleType | null
+  sampleType?: SampleType
 
   testCategoryId: string
-  testCategory?: TestCategory | null
+  testCategory?: TestCategory
 
   printFormIds: string[]
-  printForms?: (PrintForm | null)[]
+  printForms?: PrintForm[]
 
   branchId: string
-  branch?: Branch | null
+  branch?: Branch
 }
 
 export enum TestAction {

@@ -1,5 +1,6 @@
-import { AuthSubject, UserAction } from '@diut/hcdc'
+import { AuthSubject, User, UserAction } from '@diut/hcdc'
 import { Inject, Injectable } from '@nestjs/common'
+import { FilterQuery } from 'mongoose'
 import { assertPermission } from 'src/app/auth/common'
 import {
   AUTH_CONTEXT_TOKEN,
@@ -11,7 +12,7 @@ import {
   IUserRepository,
   USER_REPO_TOKEN,
 } from 'src/domain'
-import { UserAssertExistsUseCase } from './assert-exists'
+import { UserSearchUseCase } from './search'
 
 @Injectable()
 export class UserDeleteUseCase {
@@ -20,29 +21,31 @@ export class UserDeleteUseCase {
     private readonly authContext: IAuthContext,
     @Inject(USER_REPO_TOKEN)
     private readonly userRepository: IUserRepository,
-    private readonly userAssertExistsUseCase: UserAssertExistsUseCase,
+    private readonly userSearchUseCase: UserSearchUseCase,
     @Inject(AUTH_SERVICE_TOKEN)
     private readonly authService: IAuthService,
   ) {}
 
-  async execute(input: { id: string }) {
-    const entity = await this.userAssertExistsUseCase.execute({
-      _id: input.id,
-    })
+  async execute(input: FilterQuery<User>) {
     const authContext = this.authContext.getData()
-    assertPermission(
-      authContext.ability,
-      AuthSubject.User,
-      UserAction.Delete,
-      entity,
-    )
+    const { items: users } = await this.userSearchUseCase.execute({
+      filter: input,
+    })
 
-    await this.userRepository.deleteById(input.id)
-    await this.authService.invalidate({
-      type: AuthType.Internal,
-      user: { _id: entity._id },
-    } as AuthContextData)
+    for (const user of users) {
+      assertPermission(
+        authContext.ability,
+        AuthSubject.User,
+        UserAction.Delete,
+        user,
+      )
 
-    return entity
+      await this.userRepository.deleteById(input.id)
+
+      await this.authService.invalidate({
+        type: AuthType.Internal,
+        user: { _id: user._id },
+      } as AuthContextData)
+    }
   }
 }

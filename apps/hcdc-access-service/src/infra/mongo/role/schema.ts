@@ -38,5 +38,5 @@ export class RoleSchema extends BaseSchema {
 
   @Prop({ required: true, type: Types.ObjectId })
   branchId: string
-  branch?: BranchSchema | null
+  branch?: BranchSchema
 }

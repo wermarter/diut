@@ -36,5 +36,5 @@ export class BranchSchema extends BaseSchema {
 
   @Prop({ required: true, type: [Types.ObjectId] })
   sampleOriginIds: string[]
-  sampleOrigins?: (BranchSchema | null)[]
+  sampleOrigins?: BranchSchema[]
 }
