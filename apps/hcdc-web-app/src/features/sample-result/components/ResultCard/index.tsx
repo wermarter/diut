@@ -70,6 +70,8 @@ export function ResultCard(props: ResultCardProps) {
     switch (printForm?.template!) {
       case PrintTemplate.FormPap:
         return CardContentPap
+      case PrintTemplate.FormThinprep:
+        return CardContentPap
       case PrintTemplate.FormTD:
         return CardContentTD
       default:

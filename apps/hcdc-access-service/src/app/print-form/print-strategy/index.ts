@@ -5,6 +5,7 @@ import { SamplePrintFormHIVStrategy } from './form-hiv'
 import { SamplePrintFormPapStrategy } from './form-pap'
 import { SamplePrintFormSoiNhuomStrategy } from './form-soi-nhuom'
 import { SamplePrintFormTDStrategy } from './form-td'
+import { SamplePrintFormThinprepStrategy } from './form-thinprep'
 
 export const printFormStrategies = [
   SamplePrintFormHIVStrategy,
@@ -12,4 +13,5 @@ export const printFormStrategies = [
   SamplePrintFormSoiNhuomStrategy,
   SamplePrintFormTDStrategy,
   SamplePrintFormPapStrategy,
+  SamplePrintFormThinprepStrategy,
 ] satisfies ClassConstructor<ISamplePrintStrategy>[]

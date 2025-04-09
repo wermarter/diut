@@ -6,6 +6,7 @@ export enum PrintTemplate {
   FormChung = 'FormChung',
   FormHIV = 'FormHIV',
   FormPap = 'FormPap',
+  FormThinprep = 'FormThinprep',
   FormSoiNhuom = 'FormSoiNhuom',
   FormTD = 'FormTD',
 }

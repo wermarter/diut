@@ -34,4 +34,9 @@ export const printTemplateConfigs: Record<PrintTemplate, PrintTemplateConfig> =
       pageFormat: PageFormat.A4,
       pageOrientation: PageOrientation.Portrait,
     },
+    [PrintTemplate.FormThinprep]: {
+      templatePath: 'thinprep.ejs',
+      pageFormat: PageFormat.A4,
+      pageOrientation: PageOrientation.Portrait,
+    },
   }
