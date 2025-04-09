@@ -191,9 +191,9 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
   ) {
-    const item: TEntity | null = await this.model
+    const item = (await this.model
       .findByIdAndUpdate(id, data, options)
-      .lean()
+      .lean()) as TEntity | null
 
     return item
   }
@@ -212,9 +212,9 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       }
     }
 
-    const item: TEntity | null = await this.model
+    const item = (await this.model
       .findOneAndUpdate(filterObj, data, options)
-      .lean()
+      .lean()) as TEntity | null
 
     return item
   }

@@ -95,7 +95,13 @@ export type PrintFormResponseDto = {
   authorTitle: string
   authorName: string
   titleMargin: number
-  template: 'FormChung' | 'FormHIV' | 'FormPap' | 'FormSoiNhuom' | 'FormTD'
+  template:
+    | 'FormChung'
+    | 'FormHIV'
+    | 'FormPap'
+    | 'FormSoiNhuom'
+    | 'FormTD'
+    | 'FormThinprep'
   branchId: string
   branch?: BranchUnpopulatedResponseDto | null
 }
@@ -154,7 +160,13 @@ export type PrintFormUnpopulatedResponseDto = {
   authorTitle: string
   authorName: string
   titleMargin: number
-  template: 'FormChung' | 'FormHIV' | 'FormPap' | 'FormSoiNhuom' | 'FormTD'
+  template:
+    | 'FormChung'
+    | 'FormHIV'
+    | 'FormPap'
+    | 'FormSoiNhuom'
+    | 'FormTD'
+    | 'FormThinprep'
   branchId: string
 }
 export type PrintFormCreateRequestDto = {
@@ -165,7 +177,13 @@ export type PrintFormCreateRequestDto = {
   authorTitle: string
   authorName: string
   titleMargin: number
-  template: 'FormChung' | 'FormHIV' | 'FormPap' | 'FormSoiNhuom' | 'FormTD'
+  template:
+    | 'FormChung'
+    | 'FormHIV'
+    | 'FormPap'
+    | 'FormSoiNhuom'
+    | 'FormTD'
+    | 'FormThinprep'
   branchId: string
 }
 export type PrintFormUpdateRequestDto = {
@@ -176,7 +194,13 @@ export type PrintFormUpdateRequestDto = {
   authorTitle?: string
   authorName?: string
   titleMargin?: number
-  template?: 'FormChung' | 'FormHIV' | 'FormPap' | 'FormSoiNhuom' | 'FormTD'
+  template?:
+    | 'FormChung'
+    | 'FormHIV'
+    | 'FormPap'
+    | 'FormSoiNhuom'
+    | 'FormTD'
+    | 'FormThinprep'
   branchId?: string
 }
 export const {
