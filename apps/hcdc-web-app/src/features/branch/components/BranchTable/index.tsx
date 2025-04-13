@@ -5,6 +5,7 @@ import { authSlice } from 'src/features/auth'
 import {
   BranchResponseDto,
   useBranchCreateMutation,
+  useBranchDeleteByIdMutation,
   useBranchUpdateByIdMutation,
 } from 'src/infra/api/access-service/branch'
 import { useTypedSelector } from 'src/infra/redux'
@@ -27,13 +28,15 @@ export function BranchTable(props: BranchTableProps) {
   const [createBranch, { isLoading: isCreating }] = useBranchCreateMutation()
   const [updateBranch, { isLoading: isUpdating }] =
     useBranchUpdateByIdMutation()
+  const [deleteBranch, { isLoading: isDeleting }] =
+    useBranchDeleteByIdMutation()
 
   return (
     <>
       <CrudTable
         items={branches}
         itemIdField="_id"
-        isLoading={isCreating || isUpdating}
+        isLoading={isCreating || isUpdating || isDeleting}
         fieldColumns={branchColumns}
         page={props.page}
         pageSize={props.pageSize}
@@ -77,6 +80,9 @@ export function BranchTable(props: BranchTableProps) {
               address: newItem.address,
             },
           }).unwrap()
+        }}
+        onItemDelete={async (item) => {
+          await deleteBranch(item._id).unwrap()
         }}
       />
       <BranchOriginSelector
