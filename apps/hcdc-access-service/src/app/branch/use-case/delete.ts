@@ -40,7 +40,9 @@ export class BranchDeleteUseCase {
 
   async execute(input: FilterQuery<Branch>) {
     const { ability } = this.authContext.getData()
-    const { items: branches } = await this.branchSearchUseCase.execute(input)
+    const { items: branches } = await this.branchSearchUseCase.execute({
+      filter: input,
+    })
 
     for (const branch of branches) {
       assertPermission(ability, AuthSubject.Branch, BranchAction.Delete, branch)

@@ -23,7 +23,7 @@ interface BranchOriginSelectorProps {
 
 export function BranchOriginSelector(props: BranchOriginSelectorProps) {
   const [selectedIds, setSelectedIds] = useState(new Set<string>())
-  const branches = useTypedSelector(authSlice.selectors.selectBranches)!
+  const branches = useTypedSelector(authSlice.selectors.selectBranches)
 
   useEffect(() => {
     if (props.branch) {
@@ -87,7 +87,7 @@ export function BranchOriginSelector(props: BranchOriginSelectorProps) {
             mx: 1,
           }}
         >
-          {branches.map((branch) => {
+          {branches?.map((branch) => {
             return (
               <ListItem key={branch._id} disablePadding>
                 <ListItemButton

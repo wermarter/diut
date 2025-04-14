@@ -1,5 +1,5 @@
 import { BaseResourceResponseDto } from '@diut/nestjs-infra'
-import { ApiProperty, IntersectionType } from '@nestjs/swagger'
+import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger'
 import { Expose, Type } from 'class-transformer'
 import { IsArray, IsOptional, ValidateNested } from 'class-validator'
 import { exampleBranch } from '../../../shared'
@@ -7,7 +7,7 @@ import { BranchRequestDto } from './request-dto'
 
 export class BranchUnpopulatedResponseDto extends IntersectionType(
   BaseResourceResponseDto,
-  BranchRequestDto,
+  OmitType(BranchRequestDto, ['reportConfig']),
 ) {}
 
 export class BranchResponseDto extends BranchUnpopulatedResponseDto {

@@ -11,8 +11,6 @@ import {
   SAMPLE_REPO_TOKEN,
   STORAGE_BUCKET_TOKEN,
   STORAGE_SERVICE_TOKEN,
-  StorageBucket,
-  StorageKeyFactory,
 } from 'src/domain'
 import { SampleSearchUseCase } from './search'
 
@@ -39,12 +37,12 @@ export class SampleDeleteUseCase {
     for (const sample of samples) {
       assertPermission(ability, AuthSubject.Sample, SampleAction.Delete, sample)
 
-      await this.storageService.deleteKeysMatch({
-        bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
-        prefix: StorageKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
-          sampleId: sample._id,
-        }),
-      })
+      // await this.storageService.deleteKeysMatch({
+      //   bucket: this.storageBucket.get(StorageBucket.SAMPLE_IMAGES),
+      //   prefix: StorageKeyFactory[StorageBucket.SAMPLE_IMAGES].resultImage({
+      //     sampleId: sample._id,
+      //   }),
+      // })
       await this.sampleRepository.deleteById(sample._id)
     }
   }

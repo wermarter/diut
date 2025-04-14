@@ -9,16 +9,19 @@ type UserSelectDialogProps = {
 }
 
 export function UserSelectDialog(props: UserSelectDialogProps) {
-  const { data, isFetching } = useUserSearchQuery({
-    filter: props.excludeBranchId
-      ? { branchIds: { $ne: props.excludeBranchId } }
-      : undefined,
-    projection: {
-      _id: 1,
-      name: 1,
-      phoneNumber: 1,
+  const { data, isFetching } = useUserSearchQuery(
+    {
+      filter: props.excludeBranchId
+        ? { branchIds: { $ne: props.excludeBranchId } }
+        : undefined,
+      projection: {
+        _id: 1,
+        name: 1,
+        phoneNumber: 1,
+      },
     },
-  })
+    { skip: !props.open },
+  )
 
   return (
     !isFetching && (
