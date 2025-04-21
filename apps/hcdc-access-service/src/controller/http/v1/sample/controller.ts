@@ -180,7 +180,7 @@ export class SampleController {
 
   @HttpRoute(sampleRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.sampleDeleteUseCase.execute({ id })
+    return this.sampleDeleteUseCase.execute({ _id: id })
   }
 
   @HttpRoute(sampleRoutes.lock)
