@@ -58,6 +58,6 @@ export class BranchController {
 
   @HttpRoute(branchRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.branchDeleteUseCase.execute({ id })
+    return this.branchDeleteUseCase.execute({ _id: id })
   }
 }

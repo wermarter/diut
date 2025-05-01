@@ -58,6 +58,6 @@ export class TestElementController {
 
   @HttpRoute(testElementRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.testElementDeleteUseCase.execute({ id })
+    return this.testElementDeleteUseCase.execute({ _id: id })
   }
 }

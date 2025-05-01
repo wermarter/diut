@@ -58,6 +58,6 @@ export class TestComboController {
 
   @HttpRoute(testComboRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.testComboDeleteUseCase.execute({ id })
+    return this.testComboDeleteUseCase.execute({ _id: id })
   }
 }

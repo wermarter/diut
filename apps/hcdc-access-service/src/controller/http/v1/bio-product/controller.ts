@@ -58,6 +58,6 @@ export class BioProductController {
 
   @HttpRoute(bioProductRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.bioProductDeleteUseCase.execute({ id })
+    return this.bioProductDeleteUseCase.execute({ _id: id })
   }
 }

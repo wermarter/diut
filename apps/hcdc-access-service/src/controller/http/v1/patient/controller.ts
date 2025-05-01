@@ -58,6 +58,6 @@ export class PatientController {
 
   @HttpRoute(patientRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.patientDeleteUseCase.execute({ id })
+    return this.patientDeleteUseCase.execute({ _id: id })
   }
 }

@@ -58,6 +58,6 @@ export class SampleTypeController {
 
   @HttpRoute(sampleTypeRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.sampleTypeDeleteUseCase.execute({ id })
+    return this.sampleTypeDeleteUseCase.execute({ _id: id })
   }
 }

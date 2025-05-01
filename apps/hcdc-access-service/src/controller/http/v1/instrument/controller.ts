@@ -58,6 +58,6 @@ export class InstrumentController {
 
   @HttpRoute(instrumentRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.instrumentDeleteUseCase.execute({ id })
+    return this.instrumentDeleteUseCase.execute({ _id: id })
   }
 }

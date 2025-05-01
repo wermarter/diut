@@ -56,6 +56,6 @@ export class RoleController {
 
   @HttpRoute(roleRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.roleDeleteUseCase.execute({ id })
+    return this.roleDeleteUseCase.execute({ _id: id })
   }
 }

@@ -65,6 +65,6 @@ export class TestController {
 
   @HttpRoute(testRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.testDeleteUseCase.execute({ id })
+    return this.testDeleteUseCase.execute({ _id: id })
   }
 }

@@ -58,6 +58,6 @@ export class PrintFormController {
 
   @HttpRoute(printFormRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.printFormDeleteUseCase.execute({ id })
+    return this.printFormDeleteUseCase.execute({ _id: id })
   }
 }

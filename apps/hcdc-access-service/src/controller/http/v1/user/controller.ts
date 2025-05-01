@@ -90,6 +90,6 @@ export class UserController {
 
   @HttpRoute(userRoutes.deleteById)
   deleteById(@Param('id', ObjectIdPipe) id: string) {
-    return this.userDeleteUseCase.execute({ id })
+    return this.userDeleteUseCase.execute({ _id: id })
   }
 }
