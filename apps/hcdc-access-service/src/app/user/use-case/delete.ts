@@ -40,7 +40,7 @@ export class UserDeleteUseCase {
         user,
       )
 
-      await this.userRepository.deleteById(input.id)
+      await this.userRepository.deleteById(user._id)
 
       await this.authService.invalidate({
         type: AuthType.Internal,
