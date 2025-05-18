@@ -5,11 +5,6 @@
     "**/dist": true,
     "pnpm-lock.yaml": true
   },
-  "files.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "pnpm-lock.yaml": true
-  },
   "prettier.withNodeModules": true,
   "npm.packageManager": "pnpm",
   // "explorer.fileNesting.enabled": true,
