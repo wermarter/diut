@@ -123,17 +123,20 @@ export function ResultCard(props: ResultCardProps) {
     })
 
   let shouldHightlightTestName = true
-  if (props.isExternal && !isLocked) {
-    shouldHightlightTestName = false
-  } else if (!props.isExternal && !isAuthorized) {
+  if (!props.isExternal && !isAuthorized) {
     shouldHightlightTestName = false
   }
 
   return (
-    <Card sx={{ mb: 4 }} raised={!isLoading} id={props.testResult.testId}>
+    <Card
+      sx={{ mb: 4 }}
+      raised={!isLoading}
+      id={props.testResult.testId}
+      variant={props.isExternal ? 'outlined' : 'elevation'}
+    >
       {isLoading && <ProgressBar />}
       <CardHeader
-        title={`${props.isExternal && isLocked ? '✔ ' : ''}${props.testResult.test?.name}`}
+        title={props.testResult.test?.name}
         titleTypographyProps={{
           mt: 1,
           ml: 1,
@@ -205,17 +208,25 @@ export function ResultCard(props: ResultCardProps) {
           )
         }
       />
-      <CardContent sx={{ px: 6, py: 0 }}>
-        <CardContentComponent
-          sampleId={props.sampleRes._id}
-          isDisabled={
-            isLocked || !isAuthorized || isLoading || props.isExternal === true
-          }
-          resultState={testElementResult}
-          resultRes={props.testResult}
-          setResultState={setElementResult}
-          patientCategory={props.patientCategory}
-        />
+      <CardContent
+        sx={{
+          px: props.isExternal ? 0 : 6,
+          py: 0,
+          overflowX: 'auto',
+          minWidth: 'fit-content',
+        }}
+      >
+        {!(props.isExternal && !isLocked) && (
+          <CardContentComponent
+            sampleId={props.sampleRes._id}
+            isDisabled={isLocked || !isAuthorized || isLoading}
+            isExternal={props.isExternal === true}
+            resultState={testElementResult}
+            resultRes={props.testResult}
+            setResultState={setElementResult}
+            patientCategory={props.patientCategory}
+          />
+        )}
       </CardContent>
     </Card>
   )

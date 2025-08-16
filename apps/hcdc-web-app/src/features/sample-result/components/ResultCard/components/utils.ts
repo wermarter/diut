@@ -7,6 +7,7 @@ import {
 export type CardContentCommonProps = {
   sampleId: string
   isDisabled: boolean
+  isExternal: boolean
   resultState: Record<string, TestElementResultData>
   resultRes: SampleResultTestResponseDto
   patientCategory: PatientCategory

@@ -45,3 +45,31 @@ export function isTestElementValueNormal(
 
   return true
 }
+
+export function formatNormalRuleDisplayText(
+  rule: NormalRule | undefined,
+): string {
+  if (rule === undefined) {
+    return ''
+  }
+
+  const { normalValue, normalLowerBound, normalUpperBound } = rule
+
+  if (normalLowerBound !== undefined && normalUpperBound !== undefined) {
+    return `[${normalLowerBound}] ≤ X ≤ [${normalUpperBound}]`
+  }
+
+  if (normalLowerBound !== undefined) {
+    return `X ≥ [${normalLowerBound}]`
+  }
+
+  if (normalUpperBound !== undefined) {
+    return `X ≤ [${normalUpperBound}]`
+  }
+
+  if (normalValue?.length! > 0) {
+    return normalValue
+  }
+
+  return ''
+}

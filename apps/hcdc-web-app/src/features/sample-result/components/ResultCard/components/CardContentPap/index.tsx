@@ -14,6 +14,7 @@ import { ImageCropUpload } from '../ImageCropUpload'
 import { CardContentCommonProps } from '../utils'
 
 export const CardContentPap = (props: CardContentCommonProps) => {
+  const shouldObscure = props.isDisabled && !props.isExternal
   const { elements } = props.resultRes
   const [imagePaths, setImagePaths] = useState<
     null | [string | undefined, string | undefined]
@@ -50,7 +51,10 @@ export const CardContentPap = (props: CardContentCommonProps) => {
       return (
         <FormControlLabel
           key={element.testElementId}
-          disabled={props.isDisabled || (index === 0 && disableFirst === true)}
+          disabled={
+            (props.isDisabled || (index === 0 && disableFirst === true)) &&
+            !props.isExternal
+          }
           control={
             <Checkbox
               disableRipple
@@ -59,6 +63,10 @@ export const CardContentPap = (props: CardContentCommonProps) => {
                 elementState.isAbnormal ?? normalRule?.defaultChecked ?? false
               }
               onChange={(e) => {
+                if (props.isExternal) {
+                  return
+                }
+
                 props.setResultState(element.testElementId, {
                   isAbnormal: e.target.checked,
                 })
@@ -88,11 +96,15 @@ export const CardContentPap = (props: CardContentCommonProps) => {
           key={element.testElementId}
           label={element.testElement?.name}
           name={element.testElementId}
-          disabled={props.isDisabled}
+          disabled={shouldObscure}
           fullWidth
           variant="outlined"
           value={elementState.value ?? ''}
           onChange={(e) => {
+            if (props.isExternal) {
+              return
+            }
+
             const value = e.target.value
             props.setResultState(element.testElementId, {
               value,
@@ -159,6 +171,10 @@ export const CardContentPap = (props: CardContentCommonProps) => {
           color="primary"
           checked={resultElementState?.isAbnormal ?? false}
           onChange={(e) => {
+            if (props.isExternal) {
+              return
+            }
+
             props.setResultState(resultElement.testElementId, {
               isAbnormal: e.target.checked,
             })
@@ -169,11 +185,15 @@ export const CardContentPap = (props: CardContentCommonProps) => {
           key={resultElement.testElementId}
           label={resultElement.testElement?.name}
           name={resultElement.testElementId}
-          disabled={props.isDisabled}
+          disabled={shouldObscure}
           fullWidth
           variant="outlined"
           value={resultElementState?.value ?? ''}
           onChange={(e) => {
+            if (props.isExternal) {
+              return
+            }
+
             props.setResultState(resultElement.testElementId, {
               value: e.target.value,
             })
@@ -183,7 +203,7 @@ export const CardContentPap = (props: CardContentCommonProps) => {
           variant="outlined"
           sx={{ ml: 1 }}
           color="secondary"
-          disabled={props.isDisabled}
+          disabled={shouldObscure}
           onClick={() => {
             setImagePaths([
               leftImagePathElement.value,
@@ -195,6 +215,7 @@ export const CardContentPap = (props: CardContentCommonProps) => {
         </Button>
       </Box>
       <ImageCropUpload
+        isExternal={props.isExternal}
         imagePaths={imagePaths}
         onClose={() => {
           setImagePaths(null)

@@ -22,6 +22,7 @@ export type ImageCropUploadProps = {
   rightElementId: string
   leftImageExisted: boolean
   rightImageExisted: boolean
+  isExternal: boolean
 }
 
 export function ImageCropUpload(props: ImageCropUploadProps) {
@@ -115,22 +116,24 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
         sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, m: 1 }}
       >
         <Paper variant="outlined" sx={{ flexGrow: 1, p: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
-            <Button
-              variant="contained"
-              component="label"
-              endIcon={<FileUploadIcon />}
-            >
-              Upload
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={handleLeftFileChange}
-              />
-            </Button>
-            <Typography fontStyle="italic">{leftUploadFile?.name}</Typography>
-          </Box>
+          {!props.isExternal && (
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
+              <Button
+                variant="contained"
+                component="label"
+                endIcon={<FileUploadIcon />}
+              >
+                Upload
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleLeftFileChange}
+                />
+              </Button>
+              <Typography fontStyle="italic">{leftUploadFile?.name}</Typography>
+            </Box>
+          )}
           {leftDisplayImageURL != null ? (
             <img
               src={leftDisplayImageURL}
@@ -143,28 +146,32 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
           )}
         </Paper>
         <Paper variant="outlined" sx={{ flexGrow: 1, p: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
-            <Button
-              variant="contained"
-              onClick={() => setShouldCrop((shouldCrop) => !shouldCrop)}
-            >
-              Crop
-            </Button>
-            <Button
-              variant="contained"
-              component="label"
-              endIcon={<FileUploadIcon />}
-            >
-              Upload
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={handleRightFileChange}
-              />
-            </Button>
-            <Typography fontStyle="italic">{rightUploadFile?.name}</Typography>
-          </Box>
+          {!props.isExternal && (
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
+              <Button
+                variant="contained"
+                onClick={() => setShouldCrop((shouldCrop) => !shouldCrop)}
+              >
+                Crop
+              </Button>
+              <Button
+                variant="contained"
+                component="label"
+                endIcon={<FileUploadIcon />}
+              >
+                Upload
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleRightFileChange}
+                />
+              </Button>
+              <Typography fontStyle="italic">
+                {rightUploadFile?.name}
+              </Typography>
+            </Box>
+          )}
           {shouldCrop && leftDisplayImageURL != null ? (
             <Box
               sx={{
@@ -195,65 +202,68 @@ export function ImageCropUpload(props: ImageCropUploadProps) {
           )}
         </Paper>
       </Box>
-      <Box sx={{ mx: 1 }}>
-        <LoadingButton
-          type="submit"
-          variant="contained"
-          color="secondary"
-          fullWidth
-          loading={isUploading}
-          sx={{ color: 'white' }}
-          onClick={async () => {
-            let leftRes: SampleUploadImageResponseDto | null = null
-            let rightRes: SampleUploadImageResponseDto | null = null
+      {!props.isExternal && (
+        <Box sx={{ mx: 1 }}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="secondary"
+            fullWidth
+            loading={isUploading}
+            sx={{ color: 'white' }}
+            onClick={async () => {
+              let leftRes: SampleUploadImageResponseDto | null = null
+              let rightRes: SampleUploadImageResponseDto | null = null
 
-            if (
-              shouldCrop &&
-              leftDisplayImageURL != null &&
-              croppedAreaPixels != null
-            ) {
-              // NEW CROP
-              const croppedFile = await getCroppedImg(
-                leftDisplayImageURL,
-                croppedAreaPixels,
-                0,
-              )!
-              const formData = prepareFormData(croppedFile!)
-              rightRes = await fetch(
-                `${import.meta.env.VITE_API_BASE_URL}api/v1/samples/upload?sampleId=${props.sampleId}&testElementId=${props.rightElementId}`,
-                {
-                  method: 'POST',
-                  body: formData,
-                  credentials: 'include',
-                },
-              ).then((res) => res.json())
-            } else {
-              if (rightUploadFile != null) {
-                // NO CROP, JUST UPLOAD
-                rightRes = await uploadImage({
-                  sampleUploadImageRequestDto: prepareFormData(rightUploadFile),
+              if (
+                shouldCrop &&
+                leftDisplayImageURL != null &&
+                croppedAreaPixels != null
+              ) {
+                // NEW CROP
+                const croppedFile = await getCroppedImg(
+                  leftDisplayImageURL,
+                  croppedAreaPixels,
+                  0,
+                )!
+                const formData = prepareFormData(croppedFile!)
+                rightRes = await fetch(
+                  `${import.meta.env.VITE_API_BASE_URL}api/v1/samples/upload?sampleId=${props.sampleId}&testElementId=${props.rightElementId}`,
+                  {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                  },
+                ).then((res) => res.json())
+              } else {
+                if (rightUploadFile != null) {
+                  // NO CROP, JUST UPLOAD
+                  rightRes = await uploadImage({
+                    sampleUploadImageRequestDto:
+                      prepareFormData(rightUploadFile),
+                    sampleId: props.sampleId,
+                    testElementId: props.rightElementId,
+                  }).unwrap()
+                }
+              }
+
+              if (leftUploadFile != null) {
+                // NEW IMAGE
+                leftRes = await uploadImage({
+                  sampleUploadImageRequestDto: prepareFormData(leftUploadFile),
                   sampleId: props.sampleId,
-                  testElementId: props.rightElementId,
+                  testElementId: props.leftElementId,
                 }).unwrap()
               }
-            }
 
-            if (leftUploadFile != null) {
-              // NEW IMAGE
-              leftRes = await uploadImage({
-                sampleUploadImageRequestDto: prepareFormData(leftUploadFile),
-                sampleId: props.sampleId,
-                testElementId: props.leftElementId,
-              }).unwrap()
-            }
-
-            props.onSubmit([leftRes?.storageKey, rightRes?.storageKey])
-            props.onClose()
-          }}
-        >
-          Lưu
-        </LoadingButton>
-      </Box>
+              props.onSubmit([leftRes?.storageKey, rightRes?.storageKey])
+              props.onClose()
+            }}
+          >
+            Lưu
+          </LoadingButton>
+        </Box>
+      )}
     </SideAction>
   )
 }
