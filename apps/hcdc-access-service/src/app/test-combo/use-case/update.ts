@@ -23,9 +23,9 @@ export class TestComboUpdateUseCase {
 
   async execute(...input: Parameters<ITestComboRepository['update']>) {
     const { ability } = this.authContext.getData()
-    const { items: testCombos } = await this.testComboSearchUseCase.execute(
-      input[0],
-    )
+    const { items: testCombos } = await this.testComboSearchUseCase.execute({
+      filter: input[0],
+    })
     await this.testComboValidateUseCase.execute(input[1])
 
     for (const testCombo of testCombos) {
