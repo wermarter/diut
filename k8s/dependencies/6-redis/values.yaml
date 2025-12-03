@@ -27,7 +27,7 @@ redis:
     prometheusRule:
       enabled: true
   sysctl:
-    enabled: true
+    enabled: false
     mountHostSys: true
     command:
       - /bin/sh
