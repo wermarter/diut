@@ -82,7 +82,7 @@ export class SampleResultTestSchema {
 
   @Prop({
     required: true,
-    type: [SchemaFactory.createForClass(SampleResultTestElementSchema)],
+    type: [SchemaFactory.createForClass(SampleResultTestElementSchema) as any],
   })
   elements: SampleResultTestElementSchema[]
 }
@@ -204,7 +204,7 @@ export class SampleSchema extends BaseSchema {
 
   @Prop({
     required: true,
-    type: [SchemaFactory.createForClass(SampleResultTestSchema)],
+    type: [SchemaFactory.createForClass(SampleResultTestSchema) as any],
   })
   results: SampleResultTestSchema[]
 

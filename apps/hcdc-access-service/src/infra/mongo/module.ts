@@ -41,7 +41,75 @@ function schemaHook(schema: Schema) {
   // schema.plugin(accessibleRecordsPlugin)
 }
 
-export const mongoMetadata: ModuleMetadata = {
+// @ts-ignore
+const repositories: any[] = [
+  {
+    provide: BIOPRODUCT_REPO_TOKEN,
+    useClass: BioProductRepository,
+  },
+  {
+    provide: PATIENTTYPE_REPO_TOKEN,
+    useClass: PatientTypeRepository,
+  },
+  {
+    provide: DIAGNOSIS_REPO_TOKEN,
+    useClass: DiagnosisRepository,
+  },
+  {
+    provide: DOCTOR_REPO_TOKEN,
+    useClass: DoctorRepository,
+  },
+  {
+    provide: INSTRUMENT_REPO_TOKEN,
+    useClass: InstrumentRepository,
+  },
+  {
+    provide: SAMPLETYPE_REPO_TOKEN,
+    useClass: SampleTypeRepository,
+  },
+  {
+    provide: TESTCATEGORY_REPO_TOKEN,
+    useClass: TestCategoryRepository,
+  },
+  {
+    provide: USER_REPO_TOKEN,
+    useClass: UserRepository,
+  },
+  {
+    provide: BRANCH_REPO_TOKEN,
+    useClass: BranchRepository,
+  },
+  {
+    provide: ROLE_REPO_TOKEN,
+    useClass: RoleRepository,
+  },
+  {
+    provide: PRINTFORM_REPO_TOKEN,
+    useClass: PrintFormRepository,
+  },
+  {
+    provide: TEST_REPO_TOKEN,
+    useClass: TestRepository,
+  },
+  {
+    provide: TESTELEMENT_REPO_TOKEN,
+    useClass: TestElementRepository,
+  },
+  {
+    provide: PATIENT_REPO_TOKEN,
+    useClass: PatientRepository,
+  },
+  {
+    provide: TESTCOMBO_REPO_TOKEN,
+    useClass: TestComboRepository,
+  },
+  {
+    provide: SAMPLE_REPO_TOKEN,
+    useClass: SampleRepository,
+  },
+]
+
+export const mongoMetadata: any = {
   imports: [
     MongoModule.forRootAsync({
       inject: [loadMongoConfig.KEY],
@@ -66,70 +134,5 @@ export const mongoMetadata: ModuleMetadata = {
     MongoModule.forFeature(TestComboSchema, schemaHook),
     MongoModule.forFeature(SampleSchema, schemaHook),
   ],
-  providers: [
-    {
-      provide: BIOPRODUCT_REPO_TOKEN,
-      useClass: BioProductRepository,
-    },
-    {
-      provide: PATIENTTYPE_REPO_TOKEN,
-      useClass: PatientTypeRepository,
-    },
-    {
-      provide: DIAGNOSIS_REPO_TOKEN,
-      useClass: DiagnosisRepository,
-    },
-    {
-      provide: DOCTOR_REPO_TOKEN,
-      useClass: DoctorRepository,
-    },
-    {
-      provide: INSTRUMENT_REPO_TOKEN,
-      useClass: InstrumentRepository,
-    },
-    {
-      provide: SAMPLETYPE_REPO_TOKEN,
-      useClass: SampleTypeRepository,
-    },
-    {
-      provide: TESTCATEGORY_REPO_TOKEN,
-      useClass: TestCategoryRepository,
-    },
-    {
-      provide: USER_REPO_TOKEN,
-      useClass: UserRepository,
-    },
-    {
-      provide: BRANCH_REPO_TOKEN,
-      useClass: BranchRepository,
-    },
-    {
-      provide: ROLE_REPO_TOKEN,
-      useClass: RoleRepository,
-    },
-    {
-      provide: PRINTFORM_REPO_TOKEN,
-      useClass: PrintFormRepository,
-    },
-    {
-      provide: TEST_REPO_TOKEN,
-      useClass: TestRepository,
-    },
-    {
-      provide: TESTELEMENT_REPO_TOKEN,
-      useClass: TestElementRepository,
-    },
-    {
-      provide: PATIENT_REPO_TOKEN,
-      useClass: PatientRepository,
-    },
-    {
-      provide: TESTCOMBO_REPO_TOKEN,
-      useClass: TestComboRepository,
-    },
-    {
-      provide: SAMPLE_REPO_TOKEN,
-      useClass: SampleRepository,
-    },
-  ],
+  providers: repositories,
 }

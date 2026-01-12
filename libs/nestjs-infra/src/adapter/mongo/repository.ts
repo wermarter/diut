@@ -14,9 +14,13 @@ import { BaseSchema, PopulateConfig } from './common'
 export abstract class MongoRepository<TEntity extends BaseSchema> {
   constructor(public readonly model: Model<TEntity>) {}
 
-  public async findById(id: string, isDeleted: boolean | null = false) {
+  public async findById(
+    id: string,
+    isDeleted: boolean | null = false,
+  ): Promise<TEntity | null> {
     if (isDeleted === null) {
-      return this.model.findById(id).lean()
+      const item = await this.model.findById(id).lean()
+      return item as TEntity | null
     }
 
     return this.findOne({ filter: { _id: id }, isDeleted })
@@ -30,16 +34,16 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | Partial<Record<keyof TEntity, number | boolean | object>>
     populates?: PopulateConfig<TEntity>[]
     isDeleted?: boolean | null
-  }) {
+  }): Promise<TEntity | null> {
     const { filter, projection, populates, isDeleted } = options ?? {}
-    let query: ReturnType<typeof this.model.findOne>
+    let query: any
 
     if (isDeleted === null) {
-      query = this.model.findOne(filter)
+      query = this.model.findOne(filter as any)
     } else {
       query = this.model.findOne({
         $and: [filter, { isDeleted: isDeleted ?? false }],
-      })
+      } as any)
     }
 
     if (projection != undefined) {
@@ -58,7 +62,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   public async exists(
     filter: FilterQuery<TEntity>,
     isDeleted: boolean | null = false,
-  ) {
+  ): Promise<boolean> {
     let filterObj = filter
 
     if (isDeleted !== null) {
@@ -79,7 +83,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
   public async count(
     filter: FilterQuery<TEntity>,
     isDeleted: boolean | null = false,
-  ) {
+  ): Promise<number> {
     let filterObj = filter
 
     if (isDeleted !== null) {
@@ -140,7 +144,12 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       | Partial<Record<keyof TEntity, number | boolean | object>>
     populates?: PopulateConfig<TEntity>[]
     isDeleted?: boolean | null
-  }) {
+  }): Promise<{
+    total: number
+    offset: number
+    limit: number
+    items: TEntity[]
+  }> {
     const { offset, limit, filter, sort, projection, populates } = options ?? {}
     const isDeleted =
       options.isDeleted !== null ? (options.isDeleted ?? false) : null
@@ -174,7 +183,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       this.populate(query, populates)
     }
 
-    const items = await query.exec()
+    const items = (await query.exec()) as any[]
 
     const total = await this.count(filter ?? {})
 
@@ -190,12 +199,12 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     id: string,
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
-  ) {
-    const item = (await this.model
-      .findByIdAndUpdate(id, data, options)
-      .lean()) as TEntity | null
+  ): Promise<TEntity | null> {
+    const item = (await (this.model as any)
+      .findByIdAndUpdate(id, data as any, options as any)
+      .lean()) as any
 
-    return item
+    return item as TEntity | null
   }
 
   public async update(
@@ -203,18 +212,21 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     data: UpdateQuery<TEntity>,
     options?: QueryOptions<TEntity>,
     isDeleted: boolean | null = false,
-  ) {
+  ): Promise<TEntity | null> {
     let filterObj = filter
 
     if (isDeleted !== null) {
       filterObj = {
         $and: [filter, { isDeleted }],
-      }
+      } as any
     }
 
-    const item = (await this.model
-      .findOneAndUpdate(filterObj, data, options)
-      .lean()) as TEntity | null
+    const query = (this.model as any).findOneAndUpdate(
+      filterObj as any,
+      data as any,
+      options as any,
+    )
+    const item = (await query.lean()) as TEntity | null
 
     return item
   }
@@ -224,7 +236,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     data: UpdateQuery<TEntity>,
     options?: UpdateOptions & Omit<MongooseUpdateQueryOptions<TEntity>, 'lean'>,
     isDeleted: boolean | null = false,
-  ) {
+  ): Promise<void> {
     let filterObj = filter
 
     if (isDeleted !== null) {
@@ -236,17 +248,28 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     await this.model.updateMany(filterObj, data, options as any).lean()
   }
 
-  public async deleteById(id: string, softDelete = true) {
+  public async deleteById(
+    id: string,
+    softDelete = true,
+  ): Promise<TEntity | null> {
     if (!softDelete) {
-      return this.model.findByIdAndDelete(id).lean<TEntity>()
+      const query = (this.model as any).findByIdAndDelete(id)
+      const item = await query.lean()
+      return item as TEntity | null
     }
 
-    return this.model
-      .findByIdAndUpdate(id, { isDeleted: true, deletedAt: new Date() })
-      .lean<TEntity>()
+    const query = (this.model as any).findByIdAndUpdate(id, {
+      isDeleted: true,
+      deletedAt: new Date(),
+    })
+    const item = await query.lean()
+    return item as TEntity | null
   }
 
-  public async deleteMany(filter: FilterQuery<TEntity>, softDelete = true) {
+  public async deleteMany(
+    filter: FilterQuery<TEntity>,
+    softDelete = true,
+  ): Promise<void> {
     if (!softDelete) {
       this.model.deleteMany(filter).exec()
       return
@@ -264,7 +287,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
       operator?: string
       selectedFields?: Array<string>
     },
-  ) {
+  ): Promise<void> {
     let { selectedFields, conditions, operator = 'set' } = upsert ?? {}
 
     const writes = docs?.map((doc) => {
@@ -284,7 +307,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
     await this.model.bulkWrite(writes as any)
   }
 
-  public async bulkWriteIgnoreSoftDelete(data: Array<object>) {
+  public async bulkWriteIgnoreSoftDelete(data: Array<object>): Promise<void> {
     await this.model.bulkWrite(data as any)
   }
 

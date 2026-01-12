@@ -73,7 +73,7 @@ export class TestElementSchema extends BaseSchema {
 
   @Prop({
     required: true,
-    type: [SchemaFactory.createForClass(NormalRuleSchema)],
+    type: [SchemaFactory.createForClass(NormalRuleSchema) as any],
   })
   normalRules: NormalRule[]
 

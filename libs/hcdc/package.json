@@ -5,9 +5,6 @@
   "license": "MIT",
   "private": true,
   "main": "dist/index",
-  "engines": {
-    "node": "20"
-  },
   "files": [
     "dist"
   ],

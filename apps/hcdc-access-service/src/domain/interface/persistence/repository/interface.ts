@@ -3,7 +3,7 @@ import { PopulateConfig } from '@diut/nestjs-infra'
 import { UpdateOptions } from 'mongodb'
 import {
   FilterQuery,
-  MongooseQueryOptions,
+  MongooseUpdateQueryOptions,
   PipelineStage,
   QueryOptions,
   SortOrder,
@@ -69,7 +69,8 @@ export interface IRepository<TEntity extends BaseEntity = BaseEntity> {
   updateMany(
     filter: FilterQuery<TEntity>,
     data: UpdateQuery<TEntity>,
-    options?: UpdateOptions & Omit<MongooseQueryOptions<TEntity>, 'lean'>,
+    options?: UpdateOptions &
+      Omit<MongooseUpdateQueryOptions<TEntity>, 'lean'>,
     isDeleted?: boolean | null,
   ): Promise<void>
 

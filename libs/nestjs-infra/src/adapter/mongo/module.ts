@@ -74,7 +74,9 @@ export class MongoModule {
         useFactory: () => {
           const schema = SchemaFactory.createForClass(SchemaClass)
 
-          schemaHook && schemaHook(schema)
+          if (schemaHook) {
+            schemaHook(schema as any)
+          }
 
           return schema
         },
