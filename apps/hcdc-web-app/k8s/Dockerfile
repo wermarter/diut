@@ -4,14 +4,19 @@ ARG APP_PATH=/usr/src/app
 # build
 ###################
 
-FROM oven/bun:1.3.5-alpine AS build
+FROM node:20-alpine AS build
 ARG APP_PATH
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack prepare pnpm@8.15.8 --activate && corepack enable
 
 COPY . ${APP_PATH}
 WORKDIR ${APP_PATH}
 
-RUN bun install --frozen-lockfile
-RUN bun run --filter "@diut/hcdc-web-app" build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline
+RUN pnpm --filter "@diut/hcdc-web-app..." run build
 
 ###################
 # runtime

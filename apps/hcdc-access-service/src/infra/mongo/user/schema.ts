@@ -44,7 +44,7 @@ export class UserSchema extends BaseSchema {
 
   @Prop({
     required: true,
-    type: [SchemaFactory.createForClass(PermissionRuleSchema) as any],
+    type: [SchemaFactory.createForClass(PermissionRuleSchema)],
   })
   inlinePermissions: PermissionRule[]
 

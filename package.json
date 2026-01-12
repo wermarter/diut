@@ -6,17 +6,21 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "libs/*"
-  ],
+  "engines": {
+    "node": "20"
+  },
   "devDependencies": {
     "prettier": "^3.2.5"
   },
   "scripts": {
-    "build-libs": "bun run --filter \"@diut/common\" build && bun run --filter \"@diut/hcdc\" build && bun run --filter \"@diut/services\" build && bun run --filter \"@diut/nestjs-infra\" build",
-    "dev": "bun run --filter \"./libs/**\" --parallel dev",
-    "lint": "bun run --filter \"*\" --parallel lint"
+    "build-libs": "pnpm --filter \"./libs/**\" run build",
+    "dev": "pnpm --filter \"./libs/**\" run --parallel dev",
+    "lint": "pnpm run -r --parallel lint",
+    "postinstall": "syncpack list-mismatches && pnpm-sync prepare --lockfile=./pnpm-lock.yaml --store=./node_modules/.pnpm"
   },
-  "packageManager": "bun@1.3.5"
+  "dependencies": {
+    "pnpm-sync": "^0.2.9",
+    "syncpack": "^11.2.1"
+  },
+  "packageManager": "pnpm@8.15.8+sha256.691fe176eea9a8a80df20e4976f3dfb44a04841ceb885638fe2a26174f81e65e"
 }

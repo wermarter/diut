@@ -6,10 +6,13 @@
   "private": true,
   "license": "MIT",
   "main": "dist/index",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc && pnpm-sync copy",
     "lint": "tsc --noEmit",
-    "dev": "nodemon --watch src -e ts --exec \"tsc\""
+    "dev": "nodemon --watch src -e ts --exec \"tsc && pnpm-sync copy\""
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.3",
