@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { CrudTable } from 'src/components/table'
 import { AutocompleteDialog, SideAction } from 'src/components/ui'
@@ -22,6 +28,7 @@ import { TestCategoryResponseDto } from 'src/infra/api/access-service/test-categ
 import { useTypedSelector } from 'src/infra/redux'
 import { usePagination } from 'src/shared/hooks'
 import { useTestColumns } from './columns'
+import { ImportTestDialog } from '../ImportTestDialog'
 
 type TestTableProps = {
   page: number
@@ -99,6 +106,7 @@ export function TestTable(props: TestTableProps) {
   const [printFormTest, setPrintFormTest] = useState<TestResponseDto | null>(
     null,
   )
+  const [isImportOpen, setIsImportOpen] = useState(false)
 
   return (
     <>
@@ -164,6 +172,15 @@ export function TestTable(props: TestTableProps) {
             },
           },
         ]}
+        TopRightComponent={
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setIsImportOpen(true)}
+          >
+            nhập XN
+          </Button>
+        }
         TopLeftComponent={
           <FormControl
             color="secondary"
@@ -248,6 +265,13 @@ export function TestTable(props: TestTableProps) {
             return option.name
           },
         }}
+      />
+      <ImportTestDialog
+        open={isImportOpen}
+        onClose={() => setIsImportOpen(false)}
+        currentBranchId={branchId}
+        currentTestCategoryId={props.testCategoryId}
+        revalidateCallback={props.revalidateCallback}
       />
     </>
   )
