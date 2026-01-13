@@ -82,3 +82,4 @@ affinity:
 envFrom:
   - configMapRef:
       name: access-service-env
+hostname: lab.hcdc.vn

@@ -78,3 +78,4 @@ affinity:
                 - hcdc-web-app
         topologyKey: 'kubernetes.io/hostname'
 envFrom: []
+hostname: lab.hcdc.vn

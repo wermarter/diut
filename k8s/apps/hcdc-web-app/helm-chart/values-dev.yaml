@@ -88,3 +88,4 @@ affinity:
         topologyKey: 'kubernetes.io/hostname'
 
 envFrom: []
+hostname: lab-dev.hcdc.vn

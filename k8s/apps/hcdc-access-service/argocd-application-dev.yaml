@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dev-hcdc-access-service
+  name: hcdc-access-service-dev
   namespace: argo
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: dev-hcdc
+    namespace: hcdc-dev
     server: https://kubernetes.default.svc
   project: default
   source:

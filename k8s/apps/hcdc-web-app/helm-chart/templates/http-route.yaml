@@ -10,7 +10,7 @@ spec:
       namespace: envoy-gateway-system
       sectionName: http
   hostnames:
-    - lab.hcdc.vn
+    - {{ .Values.hostname }}
   rules:
     - timeouts:
         request: "60s"
