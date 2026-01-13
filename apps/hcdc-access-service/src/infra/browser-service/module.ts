@@ -26,6 +26,10 @@ export const browserServiceMetadata: ModuleMetadata = {
                 url: clientConfig.BROWSER_SERVICE_URL,
                 gracefulShutdown: true,
                 maxReceiveMessageLength: 20_000_000,
+                channelOptions: {
+                  'grpc.default_authority':
+                    clientConfig.BROWSER_SERVICE_AUTHORITY,
+                },
               },
             }
           },

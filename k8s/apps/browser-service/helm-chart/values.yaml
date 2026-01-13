@@ -67,3 +67,4 @@ affinity:
 envFrom:
   - configMapRef:
       name: browser-service-env
+hostname: browser-service

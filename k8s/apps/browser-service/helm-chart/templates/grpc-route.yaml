@@ -9,6 +9,8 @@ spec:
       name: gateway-internal
       namespace: envoy-gateway-system
       sectionName: grpc
+  hostnames:
+    - {{ .Values.hostname }}
   rules:
     - backendRefs:
         - name: {{ include "this.fullname" . }}
