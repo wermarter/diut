@@ -7,7 +7,7 @@ image:
   repository: wermarter/diut-hcdc-web-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: '55'
+  tag: '57'
 imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
