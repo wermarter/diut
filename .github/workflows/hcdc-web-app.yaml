@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - 'libs/common/**'
       - 'libs/hcdc/**'
@@ -14,14 +15,14 @@ jobs:
   j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
-      dockerfile-path: ./apps/hcdc-web-app/k8s/Dockerfile
+      dockerfile-path: ./k8s/apps/hcdc-web-app/Dockerfile
       docker-image-name: diut-hcdc-web-app
     secrets: inherit
 
   j2:
     needs: j1
-    uses: ./.github/workflows/helm-appversion.yaml
+    uses: ./.github/workflows/helm-update.yaml
     with:
-      chart-path: ./apps/hcdc-web-app/k8s/helm-chart/Chart.yaml
+      values-path: ${{ github.ref_name == 'main' && './k8s/apps/hcdc-web-app/helm-chart/values.yaml' || './k8s/apps/hcdc-web-app/helm-chart/values-dev.yaml' }}
       identity: hcdc-web-app
     secrets: inherit

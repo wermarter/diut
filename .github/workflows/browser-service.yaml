@@ -5,24 +5,25 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
-      - 'libs/common/**'
-      - 'libs/nestjs-infra/**'
-      - 'libs/services/**'
-      - 'apps/browser-service/**'
+      - "libs/common/**"
+      - "libs/nestjs-infra/**"
+      - "libs/services/**"
+      - "apps/browser-service/**"
 
 jobs:
   j1:
     uses: ./.github/workflows/docker-publish.yaml
     with:
-      dockerfile-path: ./apps/browser-service/k8s/Dockerfile
+      dockerfile-path: ./k8s/apps/browser-service/Dockerfile
       docker-image-name: diut-browser-service
     secrets: inherit
 
   j2:
     needs: j1
-    uses: ./.github/workflows/helm-appversion.yaml
+    uses: ./.github/workflows/helm-update.yaml
     with:
-      chart-path: ./apps/browser-service/k8s/helm-chart/Chart.yaml
+      values-path: ${{ github.ref_name == 'main' && './k8s/apps/browser-service/helm-chart/values.yaml' || './k8s/apps/browser-service/helm-chart/values-dev.yaml' }}
       identity: browser-service
     secrets: inherit

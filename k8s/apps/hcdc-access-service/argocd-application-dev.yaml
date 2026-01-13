@@ -1,20 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: browser-service
+  name: dev-hcdc-access-service
   namespace: argo
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: infra
+    namespace: dev-hcdc
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/browser-service/k8s/helm-chart
+    path: k8s/apps/hcdc-access-service/helm-chart
     repoURL: https://github.com/wermarter/diut
-    targetRevision: main
+    targetRevision: develop
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+  helm:
+    valueFiles:
+      - values-dev.yaml

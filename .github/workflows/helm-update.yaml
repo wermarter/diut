@@ -1,9 +1,9 @@
-name: update Helm appVersion
+name: update Helm image tag
 
 on:
   workflow_call:
     inputs:
-      chart-path:
+      values-path:
         required: true
         type: string
       identity:
@@ -11,26 +11,26 @@ on:
         type: string
 
 jobs:
-  helm-appversion:
+  helm-update:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: rebase
-        run: git pull origin ${{github.ref}} --rebase
+        run: git pull origin ${{github.ref_name}} --rebase
 
-      - name: Edit Chart.yaml file
+      - name: Edit values file
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.appVersion = "${{ github.run_number }}"' ${{ inputs.chart-path }}
+          cmd: yq -i '.image.tag = "${{ github.run_number }}"' ${{ inputs.values-path }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore(helm): ${{ inputs.identity }}'
+          commit_message: 'chore(helm): update image tag for ${{ inputs.identity }}'
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          branch: ${{ github.ref_name }}

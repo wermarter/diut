@@ -2,11 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount: 1
 
 image:
-  repository: wermarter/diut-browser-service
-  pullPolicy: Always
+  repository: wermarter/diut-hcdc-web-app
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ''
 
@@ -25,12 +25,10 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -40,10 +38,22 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 50051
+  port: 80
 
-resources:
-  {}
+ingress:
+  enabled: false
+#   className: 'contour'
+#   hosts:
+#     - host: lab.hcdc.vn
+#       paths:
+#         - path: /
+#           pathType: Prefix
+#   tls: []
+#  - secretName: chart-example-tls
+#    hosts:
+#      - chart-example.local
+
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -74,9 +84,7 @@ affinity:
             - key: app.kubernetes.io/name
               operator: In
               values:
-                - browser-service
+                - hcdc-web-app
         topologyKey: 'kubernetes.io/hostname'
 
-envFrom:
-  - configMapRef:
-      name: browser-service-env
+envFrom: []

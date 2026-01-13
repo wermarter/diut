@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/hcdc-access-service/k8s/helm-chart
+    path: k8s/apps/hcdc-access-service/helm-chart
     repoURL: https://github.com/wermarter/diut
     targetRevision: main
   syncPolicy:
