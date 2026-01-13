@@ -25,11 +25,11 @@ export class AuthCookieService {
   ) {}
 
   private makeCookieOptions(options?: CookieOptions): CookieOptions {
-    const isDevelopment = this.appConfig.NODE_ENV === NodeEnv.Development
+    const isLocal = this.appConfig.NODE_ENV === NodeEnv.Local
 
     return {
       httpOnly: true,
-      secure: !isDevelopment,
+      secure: !isLocal,
       sameSite: 'lax',
       ...options,
     }

@@ -204,8 +204,8 @@ export class SamplePrintUseCase {
   private async getPrintTemplate(printForm: PrintForm) {
     const printConfig = printTemplateConfigs[printForm.template]
 
-    const isDevelopment = this.appConfig.NODE_ENV === NodeEnv.Development
-    if (isDevelopment) {
+    const isLocal = this.appConfig.NODE_ENV === NodeEnv.Local
+    if (isLocal) {
       const buffer = await readFile(
         join(
           __dirname,

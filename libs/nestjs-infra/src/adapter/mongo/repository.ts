@@ -16,7 +16,7 @@ export abstract class MongoRepository<TEntity extends BaseSchema> {
 
   public async findById(id: string, isDeleted: boolean | null = false) {
     if (isDeleted === null) {
-      return this.model.findById(id).lean()
+      return this.model.findById(id).lean() as Promise<TEntity | null>
     }
 
     return this.findOne({ filter: { _id: id }, isDeleted })

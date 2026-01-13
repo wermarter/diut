@@ -4,4 +4,4 @@ APP_DIR=$SCRIPT_DIR/../../../apps/hcdc-access-service
 
 kubectl=/snap/bin/kubectl
 
-$kubectl -n hcdc create configmap access-service-env --from-env-file $APP_DIR/.env -o yaml --dry-run=client | $kubectl apply -f -
+$kubectl -n hcdc-dev create configmap access-service-env --from-env-file $APP_DIR/.env -o yaml --dry-run=client | $kubectl apply -f -

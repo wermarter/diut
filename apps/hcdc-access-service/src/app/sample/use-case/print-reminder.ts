@@ -70,8 +70,8 @@ export class SamplePrintReminderUseCase {
   }
 
   private async getPrintTemplate() {
-    const isDevelopment = this.appConfig.NODE_ENV === NodeEnv.Development
-    if (isDevelopment) {
+    const isLocal = this.appConfig.NODE_ENV === NodeEnv.Local
+    if (isLocal) {
       const buffer = await readFile(
         join(
           __dirname,
