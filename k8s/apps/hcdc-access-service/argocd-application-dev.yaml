@@ -14,10 +14,10 @@ spec:
     path: k8s/apps/hcdc-access-service/helm-chart
     repoURL: https://github.com/wermarter/diut
     targetRevision: develop
+    helm:
+      valueFiles:
+        - values-dev.yaml
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-  helm:
-    valueFiles:
-      - values-dev.yaml

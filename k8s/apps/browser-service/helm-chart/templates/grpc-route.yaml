@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: GRPCRoute
 metadata:
-  name: browser-service
-  namespace: infra
+  name: {{ include "this.fullname" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
     - kind: Gateway
@@ -11,7 +11,7 @@ spec:
       sectionName: grpc
   rules:
     - backendRefs:
-        - name: browser-service
+        - name: {{ include "this.fullname" . }}
           port: 50051
       matches:
         - method:
@@ -27,13 +27,13 @@ spec:
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: BackendTrafficPolicy
 metadata:
-  name: browser-service-policy
-  namespace: infra
+  name: {{ include "this.fullname" . }}-policy
+  namespace: {{ .Release.Namespace }}
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: GRPCRoute
-      name: browser-service
+      name: {{ include "this.fullname" . }}
   loadBalancer:
     type: RoundRobin
   timeout:
