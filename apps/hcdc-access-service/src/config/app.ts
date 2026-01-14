@@ -1,10 +1,11 @@
 import { NodeEnv } from '@diut/common'
 import { makeConfigLoader } from '@diut/nestjs-infra'
-import { Expose } from 'class-transformer'
+import { Expose, Type } from 'class-transformer'
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 export class AppConfig {
   @Expose()
+  @Type(() => Number)
   @IsNumber()
   HTTP_PORT: number
 
@@ -24,6 +25,7 @@ export class AppConfig {
   EXTERNAL_JWT_SECRET: string
 
   @Expose()
+  @Type(() => Number)
   @IsNumber()
   EXTERNAL_JWT_EXPIRE_SECONDS: number
 

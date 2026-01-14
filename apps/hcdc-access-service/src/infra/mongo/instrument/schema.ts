@@ -28,10 +28,10 @@ import { TestSchema } from '../test'
   },
 })
 export class InstrumentSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
   @Prop({ required: true, type: Types.ObjectId })

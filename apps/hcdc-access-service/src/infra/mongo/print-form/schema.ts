@@ -20,28 +20,28 @@ import { COLLECTION } from '../collections'
   },
 })
 export class PrintFormSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isA4: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isAuthorLocked: boolean
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   authorTitle: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   authorName: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   titleMargin: number
 
-  @Prop({ required: true, enum: PrintTemplateValues })
+  @Prop({ required: true, enum: PrintTemplateValues, type: String })
   template: PrintTemplate
 
   @Prop({ required: true, type: Types.ObjectId })

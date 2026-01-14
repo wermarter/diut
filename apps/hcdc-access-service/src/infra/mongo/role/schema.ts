@@ -21,13 +21,13 @@ import { COLLECTION } from '../collections'
   },
 })
 export class RoleSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   description: string
 
   @Prop({

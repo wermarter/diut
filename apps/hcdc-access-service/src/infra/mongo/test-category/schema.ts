@@ -19,13 +19,13 @@ import { COLLECTION } from '../collections'
   },
 })
 export class TestCategorySchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   reportIndex: number
 
   @Prop({ required: true, type: Types.ObjectId })

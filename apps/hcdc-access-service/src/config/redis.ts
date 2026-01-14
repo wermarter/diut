@@ -1,5 +1,5 @@
 import { makeConfigLoader } from '@diut/nestjs-infra'
-import { Expose } from 'class-transformer'
+import { Expose, Type } from 'class-transformer'
 import { IsNumber, IsString, MinLength } from 'class-validator'
 
 export class RedisConfig {
@@ -14,10 +14,12 @@ export class RedisConfig {
   REDIS_SENTINEL_HOST: string
 
   @Expose()
+  @Type(() => Number)
   @IsNumber()
   REDIS_SENTINEL_PORT: number
 
   @Expose()
+  @Type(() => Number)
   @IsNumber()
   REDIS_REPLICAS_COUNT: number
 }

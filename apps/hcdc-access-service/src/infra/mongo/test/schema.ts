@@ -64,13 +64,13 @@ import { TestCategorySchema } from '../test-category'
   },
 })
 export class TestSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   shouldDisplayWithChildren: boolean
 
   @Prop({ required: false, type: Types.ObjectId })

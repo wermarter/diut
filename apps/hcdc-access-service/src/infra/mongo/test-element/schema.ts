@@ -11,22 +11,22 @@ export class NormalRuleSchema {
   @Prop({ required: true, type: String, enum: PatientCategoryValues })
   category: PatientCategory
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: Boolean })
   defaultChecked?: boolean
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   normalValue?: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: Number })
   normalLowerBound?: number
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: Number })
   normalUpperBound?: number
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   description: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   note: string
 }
 
@@ -53,22 +53,22 @@ export class NormalRuleSchema {
   },
 })
 export class TestElementSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   printIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   reportIndex: number
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   unit: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isParent: boolean
 
   @Prop({

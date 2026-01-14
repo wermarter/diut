@@ -28,10 +28,10 @@ import { TestSchema } from '../test/schema'
   },
 })
 export class TestComboSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
   @Prop({ required: true, type: [Types.ObjectId] })

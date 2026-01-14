@@ -20,7 +20,7 @@ export class PermissionRuleSchema {
   })
   action: AuthActionUnionType
 
-  @Prop({})
+  @Prop({ type: Boolean })
   inverted?: boolean
 
   @Prop({ type: MongooseSchema.Types.Mixed })

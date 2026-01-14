@@ -19,16 +19,16 @@ import { COLLECTION } from '../collections'
   },
 })
 export class BranchSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   displayIndex: number
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   address: string
 
-  @Prop({ required: true, enum: BranchTypeValues })
+  @Prop({ required: true, enum: BranchTypeValues, type: String })
   type: BranchType
 
   @Prop({ required: true, type: MongooseSchema.Types.Mixed })

@@ -31,10 +31,10 @@ export class SampleResultTestElementSchema {
   testElement?: TestElementSchema | null
 
   // The required validator will fail for empty strings.
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   value: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isAbnormal: boolean
 }
 
@@ -64,20 +64,20 @@ export class SampleResultTestSchema {
   testId: string
   test?: TestSchema | null
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isLocked: boolean
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   resultById?: string
   resultBy?: UserSchema | null
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: Date })
   resultAt?: Date
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   bioProductName?: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   instrumentName?: string
 
   @Prop({
@@ -166,40 +166,40 @@ export class SampleResultTestSchema {
   },
 })
 export class SampleSchema extends BaseSchema {
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   sampleId: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   billId: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   note: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isNgoaiGio: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isTraBuuDien: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isConfirmed: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isLocked: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Date })
   infoAt: Date
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Date })
   sampledAt: Date
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   sampleCompleted: boolean
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Boolean })
   isPregnant: boolean
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: Date })
   printedAt?: Date
 
   @Prop({

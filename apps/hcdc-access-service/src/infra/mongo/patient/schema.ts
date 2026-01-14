@@ -20,25 +20,25 @@ import { COLLECTION } from '../collections'
   },
 })
 export class PatientSchema extends BaseSchema {
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   externalId: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   name: string
 
-  @Prop({ required: true, enum: PatientGenderValues })
+  @Prop({ required: true, enum: PatientGenderValues, type: String })
   gender: PatientGender
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   birthYear: number
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   address: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   phoneNumber: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: String })
   SSN: string
 
   @Prop({ required: true, type: Types.ObjectId })

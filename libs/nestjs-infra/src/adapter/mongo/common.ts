@@ -60,10 +60,10 @@ export class BaseSchema {
   createdAt: Date
   updatedAt: Date
 
-  @Prop({ required: true, default: false })
+  @Prop({ required: true, default: false, type: Boolean })
   isDeleted: boolean
 
-  @Prop({ required: false })
+  @Prop({ required: false, type: Date })
   deletedAt: Date
 }
 
