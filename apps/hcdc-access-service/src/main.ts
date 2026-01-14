@@ -1,4 +1,5 @@
 // Error.stackTraceLimit = Infinity
+import 'reflect-metadata'
 import './otel'
 //
 import {

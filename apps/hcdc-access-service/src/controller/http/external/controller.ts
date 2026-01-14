@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
-import { Response } from 'express'
+import type { Response } from 'express'
 import { assertPermission } from 'src/app/auth/common'
 import { PrintFormSearchUseCase } from 'src/app/print-form/use-case/search'
 import { SampleFindOneUseCase } from 'src/app/sample/use-case/find-one'

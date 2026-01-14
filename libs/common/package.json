@@ -5,21 +5,18 @@
   "license": "MIT",
   "private": true,
   "main": "dist/index",
-  "engines": {
-    "node": "20"
-  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "lint": "tsc --noEmit",
-    "dev": "tsc --watch --preserveWatchOutput"
+    "build": "bunx --bun tsc",
+    "lint": "bunx --bun tsc --noEmit",
+    "dev": "bunx --bun tsc --watch --preserveWatchOutput"
   },
   "dependencies": {
     "es-toolkit": "^1.16.0"
   },
   "devDependencies": {
-    "typescript": "5.3.3"
+    "typescript": "5.9.3"
   }
 }

@@ -16,6 +16,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
+    "maxNodeModuleJsDepth": 100,
     "strictNullChecks": true
   }
 }

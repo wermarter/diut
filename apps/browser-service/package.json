@@ -5,19 +5,11 @@
   "author": "Ha Minh Chien <wermarter@gmail.com>",
   "private": true,
   "license": "MIT",
-  "engines": {
-    "node": "20"
-  },
   "scripts": {
     "build": "rimraf dist && nest build",
     "dev": "nest start --watch --preserveWatchOutput | pino-pretty -t \"SYS:HH:MM:ss\" -o \"{context} → {msg}\" -i \"hostname,context\"",
-    "lint": "tsc && rimraf dist",
-    "puppeteer:browser": "pnpx @puppeteer/browsers install chromium"
-  },
-  "dependenciesMeta": {
-    "@diut/nestjs-infra": {
-      "injected": true
-    }
+    "lint": "bunx --bun tsc --noEmit",
+    "puppeteer:browser": "bunx @puppeteer/browsers install chromium"
   },
   "dependencies": {
     "@diut/common": "workspace:*",
@@ -58,7 +50,7 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "5.3.3",
+    "typescript": "5.9.3",
     "webpack": "^5.90.1"
   }
 }

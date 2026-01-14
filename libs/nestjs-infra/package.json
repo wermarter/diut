@@ -6,13 +6,10 @@
   "private": true,
   "license": "MIT",
   "main": "dist/index",
-  "engines": {
-    "node": "20"
-  },
   "scripts": {
-    "build": "rimraf dist && tsc && pnpm-sync copy",
-    "lint": "tsc --noEmit",
-    "dev": "nodemon --watch src -e ts --exec \"tsc && pnpm-sync copy\""
+    "build": "rimraf dist && bunx --bun tsc",
+    "lint": "bunx --bun tsc --noEmit",
+    "dev": "nodemon --watch src -e ts --exec \"bunx --bun tsc\""
   },
   "peerDependencies": {
     "@nestjs/common": "^10.3.3",
@@ -50,6 +47,6 @@
     "@types/node": "^20.11.17",
     "nodemon": "^3.0.3",
     "rimraf": "^5.0.5",
-    "typescript": "5.3.3"
+    "typescript": "5.9.3"
   }
 }

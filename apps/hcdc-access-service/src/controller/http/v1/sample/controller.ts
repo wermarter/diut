@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
-import { Response } from 'express'
+import type { Response } from 'express'
 import { assertPermission } from 'src/app/auth/common'
 import { SampleCreateUseCase } from 'src/app/sample/use-case/create'
 import { SampleDeleteUseCase } from 'src/app/sample/use-case/delete'

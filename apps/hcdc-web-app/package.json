@@ -7,15 +7,12 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "engines": {
-    "node": "20"
-  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "tsc",
-    "api:access-service": "npx @rtk-query/codegen-openapi api-codegen/access-service.cts"
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
+    "preview": "bunx --bun vite preview",
+    "lint": "bunx --bun tsc --noEmit",
+    "api:access-service": "@rtk-query/codegen-openapi api-codegen/access-service.cts"
   },
   "dependencies": {
     "@diut/common": "workspace:*",
@@ -52,7 +49,7 @@
     "@types/react-dom": "^18.2.19",
     "@types/lodash": "^4.14.202",
     "dotenv": "^16.4.4",
-    "typescript": "5.3.3"
+    "typescript": "5.9.3"
   },
   "optionalDependencies": {
     "@esbuild/darwin-x64": "^0.23.0"
