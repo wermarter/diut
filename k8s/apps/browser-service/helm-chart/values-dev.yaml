@@ -7,7 +7,7 @@ image:
   repository: wermarter/diut-browser-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: '54'
+  tag: '55'
 imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
