@@ -26,7 +26,7 @@ bootstrapApp(
   [
     PinoBootstrapFactory(),
     CorsBootstrap({
-      devOriginAllowList: ['http://localhost:5173'],
+      localOriginAllowList: ['http://localhost:5173'],
       originAllowList: [],
     }),
     LifecycleBootstrap,

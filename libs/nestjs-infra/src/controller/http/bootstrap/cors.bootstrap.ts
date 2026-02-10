@@ -4,14 +4,14 @@ import { BootstrapConfig } from '../../../core/bootstrap'
 
 export const CorsBootstrap = (config: {
   originAllowList: string[]
-  devOriginAllowList: string[]
+  localOriginAllowList: string[]
 }): BootstrapConfig<INestApplication> => {
   return {
     afterInit(ctx) {
       const corsOriginAllowList = config.originAllowList
 
-      if (ctx.nodeEnv === NodeEnv.Development) {
-        corsOriginAllowList.push(...config.devOriginAllowList)
+      if (ctx.nodeEnv === NodeEnv.Local) {
+        corsOriginAllowList.push(...config.localOriginAllowList)
       }
 
       ctx.app.enableCors({

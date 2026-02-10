@@ -9,6 +9,7 @@ export enum PrintTemplate {
   FormThinprep = 'FormThinprep',
   FormSoiNhuom = 'FormSoiNhuom',
   FormTD = 'FormTD',
+  FormHIV2 = 'FormHIV2',
 }
 
 export const PrintTemplateValues = stringEnumValues(PrintTemplate)

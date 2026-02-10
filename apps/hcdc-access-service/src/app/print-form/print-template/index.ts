@@ -39,4 +39,9 @@ export const printTemplateConfigs: Record<PrintTemplate, PrintTemplateConfig> =
       pageFormat: PageFormat.A4,
       pageOrientation: PageOrientation.Portrait,
     },
+    [PrintTemplate.FormHIV2]: {
+      templatePath: 'hiv-2.ejs',
+      pageFormat: PageFormat.A4,
+      pageOrientation: PageOrientation.Portrait,
+    },
   }

@@ -4,17 +4,23 @@ type TestInput = {
 }
 
 export function allTestSortComparator(a: TestInput, b: TestInput) {
-  if (a.testCategory?.displayIndex === b.testCategory?.displayIndex) {
+  const aCategoryIndex = a.testCategory?.displayIndex ?? 0
+  const bCategoryIndex = b.testCategory?.displayIndex ?? 0
+
+  if (aCategoryIndex === bCategoryIndex) {
     return a.displayIndex - b.displayIndex
   }
 
-  return a.testCategory?.displayIndex! - b.testCategory?.displayIndex!
+  return aCategoryIndex - bCategoryIndex
 }
 
 export function allTestReportSortComparator(a: TestInput, b: TestInput) {
-  if (a.testCategory?.reportIndex === b.testCategory?.reportIndex) {
+  const aCategoryIndex = a.testCategory?.reportIndex ?? 0
+  const bCategoryIndex = b.testCategory?.reportIndex ?? 0
+
+  if (aCategoryIndex === bCategoryIndex) {
     return a.displayIndex - b.displayIndex
   }
 
-  return a.testCategory?.reportIndex! - b.testCategory?.reportIndex!
+  return aCategoryIndex - bCategoryIndex
 }

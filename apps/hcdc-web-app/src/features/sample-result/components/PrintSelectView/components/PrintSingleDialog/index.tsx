@@ -151,16 +151,29 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
       const allTestOptions =
         props.sample?.results
           .filter(({ isLocked }) => isLocked)
-          .toSorted((a, b) => {
-            const aTest = props.testMap.get(a.testId)!
-            const bTest = props.testMap.get(b.testId)!
-
-            return allTestSortComparator(aTest, bTest)
-          }) ?? []
+          .map((result) => {
+            const test = props.testMap.get(result.testId)
+            if (!test) {
+              console.warn(`Test not found for testId: ${result.testId}`)
+            }
+            return { result, test }
+          })
+          .filter(
+            (item): item is { result: OmittedTestResponseDto; test: TestResponseDto } =>
+              item.test !== undefined,
+          )
+          .toSorted((a, b) => allTestSortComparator(a.test, b.test))
+          .map((item) => item.result) ?? []
       setSampleTypeOptions(
-        props.sample.sampleTypeIds.map(
-          (sampleTypeId) => props.sampleTypeMap.get(sampleTypeId)!,
-        ),
+        props.sample.sampleTypeIds
+          .map((sampleTypeId) => {
+            const sampleType = props.sampleTypeMap.get(sampleTypeId)
+            if (!sampleType) {
+              console.warn(`SampleType not found for sampleTypeId: ${sampleTypeId}`)
+            }
+            return sampleType
+          })
+          .filter((st): st is SampleTypeResponseDto => st !== undefined),
       )
       setAllTestOptions(allTestOptions)
 
@@ -175,7 +188,12 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
 
       const printFormOptions: PrintFormResponseDto[] = []
       printFormIdSet.forEach((printFormId) => {
-        printFormOptions.push(props.printFormMap.get(printFormId)!)
+        const printForm = props.printFormMap.get(printFormId)
+        if (printForm) {
+          printFormOptions.push(printForm)
+        } else {
+          console.warn(`PrintForm not found for printFormId: ${printFormId}`)
+        }
       })
 
       setPrintFormOptions(printFormOptions)
@@ -206,12 +224,16 @@ export function PrintSingleDialog(props: PrintSingleDialogProps) {
 
   const printFormId = watch('printFormId')
   useEffect(() => {
-    if (printFormId.length > 1) {
-      const printForm = props.printFormMap.get(printFormId)!
+    if (printFormId && printFormId.length > 1) {
+      const printForm = props.printFormMap.get(printFormId)
+      if (!printForm) {
+        console.warn(`PrintForm not found for printFormId: ${printFormId}`)
+        return
+      }
 
       const testOptions = allTestOptions.filter(({ testId }) => {
-        const test = props.testMap.get(testId)!
-        return test.printFormIds.includes(printFormId)
+        const test = props.testMap.get(testId)
+        return test?.printFormIds.includes(printFormId) ?? false
       })
 
       setTestOptions(testOptions)

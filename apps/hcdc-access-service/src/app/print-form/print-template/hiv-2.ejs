@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      * {
+        font-family: 'Times New Roman', monospace;
+      }
+      html {
+        font-size: 15px;
+      }
+      @page {
+        margin-top: 30mm;
+        margin-bottom: 30mm;
+        margin-left: 27mm;
+        margin-right: 27mm;
+      }
+      p {
+        page-break-inside: avoid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex flex-row justify-between text-center items-start">
+      <div class="flex flex-col">
+        <p>TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
+        <p>THÀNH PHỐ HỒ CHÍ MINH</p>
+        <p>– CƠ SỞ 6</p>
+        <p class="font-bold">KHOA XÉT NGHIỆM</p>
+        <p>19 Phạm Ngọc Thạch, phường Bà Rịa,</p>
+        <p>Thành phố Hồ Chí Minh</p>
+        <div class="border-b border-black w-32 mx-auto mt-1"></div>
+      </div>
+      <div class="flex flex-col">
+        <p class="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+        <p class="font-bold underline underline-offset-4">Độc lập - Tự do – Hạnh phúc</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-8">
+      <p class="text-2xl font-bold">KẾT QUẢ XÉT NGHIỆM HIV <%= data.categories[0].tests[0].elements[0]?.value %></p>
+    </div>
+
+    <div class="mt-8 space-y-2">
+      <div class="flex flex-row">
+        <p class="w-1/2">Họ và tên: <span class="font-bold"><%= data.sample.patient.name.toLocaleUpperCase() %></span></p>
+        <p class="w-1/2">Giới tính: <span class="font-bold"><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span></p>
+      </div>
+      <p>Năm sinh: <span class="font-bold"><%= data.sample.patient.birthYear %></span></p>
+      <p>Số CMND/CCCD/Hộ chiếu: <span class="font-bold"><%= data.sample.patient.SSN %></span></p>
+      <p>Địa chỉ nơi thường trú: <span class="font-bold"><%= data.sample.patient.address %></span></p>
+      <p>Địa chỉ nơi tạm trú/ nơi ở hiện tại: <span class="font-bold"><%= data.sample.patient.address %></span></p>
+      <p>Ngày xét nghiệm: <span class="font-bold"><%= data.sample.infoAt.toLocaleDateString('vi') %></span></p>
+      
+      <p>Tên các sinh phẩm xét nghiệm:</p>
+      <ul class="list-disc ml-12">
+        <% data.categories.forEach(category => { %>
+          <% category.tests.forEach(test => { %>
+            <li><%= test.bioProductName %></li>
+          <% }) %>
+        <% }) %>
+      </ul>
+
+      <p>Kết luận: <span class="font-bold"><%= data.categories[0].tests[0].elements[0]?.value %></span></p>
+      <p>Ghi chú: Kết quả chỉ có giá trị trên mẫu thử.</p>
+    </div>
+
+    <div class="flex flex-row justify-between mt-12">
+      <div class="text-center">
+        <p class="font-bold">KT. GIÁM ĐỐC</p>
+        <p class="font-bold">PHÓ GIÁM ĐỐC</p>
+        <div style="margin-top: 30mm">
+          <p class="font-bold"> </p>
+        </div>
+      </div>
+      <div class="text-center italic">
+        <p>Bà Rịa, ngày <%= data.sample.infoAt.getDate() %> tháng <%= data.sample.infoAt.getMonth() + 1 %> năm <%= data.sample.infoAt.getFullYear() %></p>
+        <p class="font-bold not-italic"><%= meta.authorTitle %></p>
+        <div style="margin-top: 30mm">
+          <p class="font-bold not-italic"><%= meta.authorName %></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
