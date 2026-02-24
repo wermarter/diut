@@ -13,76 +13,114 @@
         font-size: 15px;
       }
       @page {
-        margin-top: 30mm;
-        margin-bottom: 30mm;
-        margin-left: 27mm;
-        margin-right: 27mm;
+        margin-top: 5mm;
+        margin-bottom: 7mm;
+        margin-left: 20mm;
+        margin-right: 10mm;
       }
       p {
         page-break-inside: avoid;
       }
+      .print-footer {
+        position: fixed;
+        bottom: 0;
+        font-size: 10px;
+        width: 100%;
+      }
     </style>
   </head>
+  <% 
+    const isPositive = data.categories[0]?.tests[0]?.elements[0]?.isAbnormal;
+    const resultValue = data.categories[0]?.tests[0]?.elements[0]?.value;
+  %>
   <body>
-    <div class="flex flex-row justify-between text-center items-start">
-      <div class="flex flex-col">
+    <div class="print-footer">
+      <%= isPositive ? 'BM4.MD1.MD1' : 'BM5.MD1.MD1' %>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Phiên bản: 2.0
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Ngày hiệu lực: 01/01/2026
+    </div>
+
+    <div class="flex flex-row justify-between items-start">
+      <div class="text-center">
         <p>TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
         <p>THÀNH PHỐ HỒ CHÍ MINH</p>
-        <p>– CƠ SỞ 6</p>
-        <p class="font-bold">KHOA XÉT NGHIỆM</p>
-        <p>19 Phạm Ngọc Thạch, phường Bà Rịa,</p>
-        <p>Thành phố Hồ Chí Minh</p>
-        <div class="border-b border-black w-32 mx-auto mt-1"></div>
+        <p class="font-bold"><%= meta.branch.name %></p>
+        <p class="italic">Địa chỉ: <%= meta.branch.address %></p>
+        <p class="italic">Điện thoại: <%= meta.branch.phoneNumber %></p>
       </div>
-      <div class="flex flex-col">
+      <div class="text-center">
         <p class="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-        <p class="font-bold underline underline-offset-4">Độc lập - Tự do – Hạnh phúc</p>
+        <p class="font-bold">Độc lập – Tự do – Hạnh phúc</p>
+        <div class="border-b border-black w-32 mx-auto mt-1"></div>
       </div>
     </div>
 
     <div class="text-center mt-8">
-      <p class="text-2xl font-bold">KẾT QUẢ XÉT NGHIỆM HIV <%= data.categories[0].tests[0].elements[0]?.value %></p>
+      <p class="text-2xl font-bold">KẾT QUẢ XÉT NGHIỆM HIV <%= isPositive ? 'DƯƠNG TÍNH' : '' %></p>
     </div>
 
-    <div class="mt-8 space-y-2">
-      <div class="flex flex-row">
-        <p class="w-1/2">Họ và tên: <span class="font-bold"><%= data.sample.patient.name.toLocaleUpperCase() %></span></p>
-        <p class="w-1/2">Giới tính: <span class="font-bold"><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span></p>
+    <div class="flex flex-row justify-center mt-4 space-x-20">
+      <div class="space-y-1">
+        <p>Ngày gửi mẫu: <span class="font-bold"><%= data.sample.sampledAt.toLocaleDateString('vi') %></span></p>
+        <p>Nơi gửi mẫu: <span class="font-bold"><%= meta.branch.name %></span></p>
       </div>
-      <p>Năm sinh: <span class="font-bold"><%= data.sample.patient.birthYear %></span></p>
-      <p>Số CMND/CCCD/Hộ chiếu: <span class="font-bold"><%= data.sample.patient.SSN %></span></p>
-      <p>Địa chỉ nơi thường trú: <span class="font-bold"><%= data.sample.patient.address %></span></p>
-      <p>Địa chỉ nơi tạm trú/ nơi ở hiện tại: <span class="font-bold"><%= data.sample.patient.address %></span></p>
-      <p>Ngày xét nghiệm: <span class="font-bold"><%= data.sample.infoAt.toLocaleDateString('vi') %></span></p>
-      
-      <p>Tên các sinh phẩm xét nghiệm:</p>
-      <ul class="list-disc ml-12">
-        <% data.categories.forEach(category => { %>
-          <% category.tests.forEach(test => { %>
-            <li><%= test.bioProductName %></li>
-          <% }) %>
+      <div class="space-y-1">
+        <p>Bản:</p>
+        <p>Mã số: <span class="font-bold"><%= data.sample.sampleId %></span></p>
+      </div>
+    </div>
+
+    <div class="mt-6 space-y-1">
+      <p>Họ và tên bệnh nhân: <span class="font-bold"><%= data.sample.patient.name.toLocaleUpperCase() %></span></p>
+      <p>Năm sinh/Tuổi: <span class="font-bold"><%= data.sample.patient.birthYear %></span></p>
+      <p>Giới tính: <span class="font-bold"><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span></p>
+      <p>Loại bệnh phẩm: <span class="font-bold"><%= meta.sampleTypeNames.join(', ') %></span></p>
+      <p>Mã số nơi gửi:</p>
+      <p>Mã BN(PID): <span class="font-bold"><%= data.sample.patient.externalId || '' %></span></p>
+      <p>Số BHYT: <span class="font-bold"><%= data.sample.patient.healthId || '' %></span></p>
+      <p>CMND/CCCD/Hộ chiếu: <span class="font-bold"><%= data.sample.patient.SSN %></span></p>
+      <p>Địa chỉ thường trú: <span class="font-bold"><%= data.sample.patient.address %></span></p>
+      <p>Địa chỉ tạm trú: <span class="font-bold"><%= data.sample.patient.address %></span></p>
+      <p>Yêu cầu xét nghiệm: <span class="font-bold"><%= data.categories[0].tests[0].name %></span></p>
+      <p>Kỹ thuật xét nghiệm:</p>
+      <ul class="list-disc ml-12 font-bold">
+        <% data.categories[0].tests[0].elements.slice(1).forEach(element => { %>
+          <li><%= element.testElement.name %></li>
         <% }) %>
       </ul>
-
-      <p>Kết luận: <span class="font-bold"><%= data.categories[0].tests[0].elements[0]?.value %></span></p>
-      <p>Ghi chú: Kết quả chỉ có giá trị trên mẫu thử.</p>
     </div>
 
-    <div class="flex flex-row justify-between mt-12">
-      <div class="text-center">
-        <p class="font-bold">KT. GIÁM ĐỐC</p>
-        <p class="font-bold">PHÓ GIÁM ĐỐC</p>
+    <div class="mt-10 space-y-1">
+      <p class="font-bold">Kết luận: <%= isPositive ? 'Kháng thể kháng HIV Dương tính' : 'Kháng thể kháng HIV Âm tính/Không xác định' %></p>
+      <p>Ngày xét nghiệm khẳng định: <span class="font-bold"><%= data.sample.sampledAt.toLocaleDateString('vi') %></span></p>
+      <p>Đề nghị: Tham vấn</p>
+    </div>
+
+    <div class="flex flex-row justify-between mt-10">
+      <div class="text-center w-1/2">
+        <% if (isPositive) { %>
+          <p class="font-bold">GIÁM ĐỐC</p>
+        <% } %>
+      </div>
+      <div class="text-center w-1/2">
+        <% if (!isPositive) { %>
+          <p class="italic mb-2">TP. HCM, ngày <%= data.sample.infoAt.getDate() %> tháng <%= data.sample.infoAt.getMonth() + 1 %> năm <%= data.sample.infoAt.getFullYear() %></p>
+        <% } %>
+        <p class="font-bold"><%= meta.authorTitle %></p>
         <div style="margin-top: 30mm">
-          <p class="font-bold"> </p>
+          <p class="font-bold"><%= meta.authorName %></p>
         </div>
       </div>
-      <div class="text-center italic">
-        <p>Bà Rịa, ngày <%= data.sample.infoAt.getDate() %> tháng <%= data.sample.infoAt.getMonth() + 1 %> năm <%= data.sample.infoAt.getFullYear() %></p>
-        <p class="font-bold not-italic"><%= meta.authorTitle %></p>
-        <div style="margin-top: 30mm">
-          <p class="font-bold not-italic"><%= meta.authorName %></p>
-        </div>
-      </div>
+    </div>
+
+    <div class="mt-20">
+      <p class="font-bold"><%= meta.authorName %></p>
     </div>
   </body>
 </html>
