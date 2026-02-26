@@ -30,8 +30,20 @@
     </style>
   </head>
   <% 
-    const isPositive = data.categories[0]?.tests[0]?.elements[0]?.isAbnormal;
-    const resultValue = data.categories[0]?.tests[0]?.elements[0]?.value;
+    const elements = data.categories[0]?.tests[0]?.elements || [];
+    const isPositive = elements[0]?.isAbnormal;
+    const resultValue = elements[0]?.value;
+
+    const getValue = (index) => elements[index]?.value || '';
+
+    const banValue = getValue(1);
+    const noiGuiMauValue = getValue(2);
+    const maSoNoiGuiValue = getValue(3);
+    const maBNValue = getValue(4) || data.sample.patient.externalId || '';
+    const soBHYTValue = getValue(5) || data.sample.patient.healthId || '';
+    const diaChiThuongTruValue = getValue(6) || data.sample.patient.address;
+    const diaChiTamTruValue = getValue(7) || data.sample.patient.address;
+    const deNghiThamVanValue = getValue(8);
   %>
   <body>
     <div class="print-footer">
@@ -47,12 +59,21 @@
     </div>
 
     <div class="flex flex-row justify-between items-start">
-      <div class="text-center">
-        <p>TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
-        <p>THÀNH PHỐ HỒ CHÍ MINH</p>
-        <p class="font-bold"><%= meta.branch.name %></p>
-        <p class="italic">Địa chỉ: <%= meta.branch.address %></p>
-        <p class="italic">Điện thoại: <%= meta.branch.phoneNumber %></p>
+      <div class="flex flex-row">
+        <img
+          src=<%= `https://raw.githubusercontent.com/wermarter/diut/refs/heads/main/apps/hcdc-access-service/assets/logo.png` %>
+          style="width: 90px; object-fit: contain"
+        />
+        <div class="text-center ml-1">
+          <p>TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
+          <p>THÀNH PHỐ HỒ CHÍ MINH</p>
+          <p class="font-bold"><%= meta.branch.name %></p>
+          <p class="italic text-sm">Địa chỉ: <%= meta.branch.address %></p>
+        <% if (meta.branch.phoneNumber) { %>
+          <p class="italic text-sm">Điện thoại: <%= meta.branch.phoneNumber %></p>
+        <% } %>
+          <p class="italic text-sm">Website: www.hcdc.gov.vn</p>
+        </div>
       </div>
       <div class="text-center">
         <p class="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
@@ -68,10 +89,10 @@
     <div class="flex flex-row justify-center mt-4 space-x-20">
       <div class="space-y-1">
         <p>Ngày gửi mẫu: <span class="font-bold"><%= data.sample.sampledAt.toLocaleDateString('vi') %></span></p>
-        <p>Nơi gửi mẫu: <span class="font-bold"><%= meta.branch.name %></span></p>
+        <p>Nơi gửi mẫu: <span class="font-bold"><%= noiGuiMauValue %></span></p>
       </div>
       <div class="space-y-1">
-        <p>Bản:</p>
+        <p>Bản: <span class="font-bold"><%= banValue %></span></p>
         <p>Mã số: <span class="font-bold"><%= data.sample.sampleId %></span></p>
       </div>
     </div>
@@ -81,25 +102,25 @@
       <p>Năm sinh/Tuổi: <span class="font-bold"><%= data.sample.patient.birthYear %></span></p>
       <p>Giới tính: <span class="font-bold"><%= data.sample.patient.gender === "Male" ? "Nam" : "Nữ" %></span></p>
       <p>Loại bệnh phẩm: <span class="font-bold"><%= meta.sampleTypeNames.join(', ') %></span></p>
-      <p>Mã số nơi gửi:</p>
-      <p>Mã BN(PID): <span class="font-bold"><%= data.sample.patient.externalId || '' %></span></p>
-      <p>Số BHYT: <span class="font-bold"><%= data.sample.patient.healthId || '' %></span></p>
+      <p>Mã số nơi gửi: <span class="font-bold"><%= maSoNoiGuiValue %></span></p>
+      <p>Mã BN(PID): <span class="font-bold"><%= maBNValue %></span></p>
+      <p>Số BHYT: <span class="font-bold"><%= soBHYTValue %></span></p>
       <p>CMND/CCCD/Hộ chiếu: <span class="font-bold"><%= data.sample.patient.SSN %></span></p>
-      <p>Địa chỉ thường trú: <span class="font-bold"><%= data.sample.patient.address %></span></p>
-      <p>Địa chỉ tạm trú: <span class="font-bold"><%= data.sample.patient.address %></span></p>
+      <p>Địa chỉ thường trú: <span class="font-bold"><%= diaChiThuongTruValue %></span></p>
+      <p>Địa chỉ tạm trú: <span class="font-bold"><%= diaChiTamTruValue %></span></p>
       <p>Yêu cầu xét nghiệm: <span class="font-bold"><%= data.categories[0].tests[0].name %></span></p>
       <p>Kỹ thuật xét nghiệm:</p>
       <ul class="list-disc ml-12 font-bold">
-        <% data.categories[0].tests[0].elements.slice(1).forEach(element => { %>
+        <% elements.slice(9).forEach(element => { %>
           <li><%= element.testElement.name %></li>
         <% }) %>
       </ul>
     </div>
 
     <div class="mt-10 space-y-1">
-      <p class="font-bold">Kết luận: <%= isPositive ? 'Kháng thể kháng HIV Dương tính' : 'Kháng thể kháng HIV Âm tính/Không xác định' %></p>
+      <p class="font-bold">Kết luận: <%= resultValue %></p>
       <p>Ngày xét nghiệm khẳng định: <span class="font-bold"><%= data.sample.sampledAt.toLocaleDateString('vi') %></span></p>
-      <p>Đề nghị: Tham vấn</p>
+      <p>Đề nghị: Tham vấn <span class="font-bold"><%= deNghiThamVanValue %></span></p>
     </div>
 
     <div class="flex flex-row justify-between mt-10">
@@ -117,10 +138,6 @@
           <p class="font-bold"><%= meta.authorName %></p>
         </div>
       </div>
-    </div>
-
-    <div class="mt-20">
-      <p class="font-bold"><%= meta.authorName %></p>
     </div>
   </body>
 </html>

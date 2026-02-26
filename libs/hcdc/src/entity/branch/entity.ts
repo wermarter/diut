@@ -22,6 +22,7 @@ export type Branch = BaseEntity & {
   displayIndex: number
   name: string
   address: string
+  phoneNumber?: string
   type: BranchType
   reportConfig: BranchReportConfig
 
@@ -43,6 +44,7 @@ export const BranchFields = [
   'displayIndex',
   'name',
   'address',
+  'phoneNumber',
   'type',
   'reportConfig',
   'sampleOriginIds',

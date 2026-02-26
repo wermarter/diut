@@ -77,6 +77,7 @@ export type BranchUnpopulatedResponseDto = {
   displayIndex: number
   name: string
   address: string
+  phoneNumber?: string
   type: 'Internal' | 'External'
   reportConfig: object
   sampleOriginIds: string[]
@@ -86,6 +87,7 @@ export type BranchResponseDto = {
   displayIndex: number
   name: string
   address: string
+  phoneNumber?: string
   type: 'Internal' | 'External'
   reportConfig: object
   sampleOriginIds: string[]
@@ -143,6 +145,7 @@ export type BranchCreateRequestDto = {
   displayIndex: number
   name: string
   address: string
+  phoneNumber?: string
   type: 'Internal' | 'External'
   reportConfig: object
   sampleOriginIds: string[]
@@ -151,6 +154,7 @@ export type BranchUpdateRequestDto = {
   displayIndex?: number
   name?: string
   address?: string
+  phoneNumber?: string
   type?: 'Internal' | 'External'
   reportConfig?: object
   sampleOriginIds?: string[]

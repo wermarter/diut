@@ -10,6 +10,7 @@ import {
   IsObject,
   IsString,
   Min,
+  IsOptional,
 } from 'class-validator'
 import { exampleBranch } from '../../../shared'
 
@@ -31,6 +32,12 @@ export class BranchRequestDto {
   @IsNotEmpty()
   @IsString()
   address: string
+
+  @Expose()
+  @ApiProperty(exampleBranch.phoneNumber)
+  @IsOptional()
+  @IsString()
+  phoneNumber?: string
 
   @Expose()
   @ApiProperty(exampleBranch.type)

@@ -56,6 +56,7 @@ export function BranchTable(props: BranchTableProps) {
             name: item.name,
             displayIndex: item.displayIndex,
             address: item.address,
+            phoneNumber: item.phoneNumber,
             sampleOriginIds: [],
             reportConfig: Object.fromEntries(
               ReportTypeValues.map((reportType) => [
@@ -78,6 +79,7 @@ export function BranchTable(props: BranchTableProps) {
               name: newItem.name,
               displayIndex: newItem.displayIndex,
               address: newItem.address,
+              phoneNumber: newItem.phoneNumber,
             },
           }).unwrap()
         }}

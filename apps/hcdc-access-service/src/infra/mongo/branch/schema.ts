@@ -28,6 +28,9 @@ export class BranchSchema extends BaseSchema {
   @Prop({ required: true })
   address: string
 
+  @Prop()
+  phoneNumber?: string
+
   @Prop({ required: true, enum: BranchTypeValues })
   type: BranchType
 

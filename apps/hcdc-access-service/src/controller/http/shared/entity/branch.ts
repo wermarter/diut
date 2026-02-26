@@ -12,6 +12,9 @@ export const exampleBranch = {
   address: {
     example: 'đường 3/2',
   },
+  phoneNumber: {
+    example: '0123456789',
+  },
   type: {
     enum: BranchType,
   },

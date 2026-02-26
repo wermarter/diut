@@ -26,6 +26,13 @@ export const branchColumns: GridColDef<BranchResponseDto>[] = [
     editable: true,
   },
   {
+    field: 'phoneNumber',
+    headerName: 'Số điện thoại',
+    minWidth: 200,
+    sortable: false,
+    editable: true,
+  },
+  {
     field: 'numberOrigins',
     headerName: 'Liên kết',
     minWidth: 100,

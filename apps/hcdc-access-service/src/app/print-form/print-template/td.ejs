@@ -51,6 +51,9 @@
             <p>SỞ Y TẾ THÀNH PHỐ HỒ CHÍ MINH</p>
             <p class="font-bold">TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
             <p><%= meta.branch.address %></p>
+            <% if (meta.branch.phoneNumber) { %>
+              <p>Điện thoại: <%= meta.branch.phoneNumber %></p>
+            <% } %>
             <p>Website: www.hcdc.gov.vn</p>
           </div>
         </div>
