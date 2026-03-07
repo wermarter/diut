@@ -65,10 +65,9 @@
           style="width: 90px; object-fit: contain"
         />
         <div class="text-center ml-1">
+          <p>SỞ Y TẾ THÀNH PHỐ HỒ CHÍ MINH</p>
           <p>TRUNG TÂM KIỂM SOÁT BỆNH TẬT</p>
-          <p>THÀNH PHỐ HỒ CHÍ MINH</p>
-          <p class="font-bold"><%= meta.branch.name %></p>
-          <p class="italic text-sm">Địa chỉ: <%= meta.branch.address %></p>
+          <p class="italic text-sm"><%= meta.branch.address %></p>
         <% if (meta.branch.phoneNumber) { %>
           <p class="italic text-sm">Điện thoại: <%= meta.branch.phoneNumber %></p>
         <% } %>
@@ -108,7 +107,7 @@
       <p>CMND/CCCD/Hộ chiếu: <span class="font-bold"><%= data.sample.patient.SSN %></span></p>
       <p>Địa chỉ thường trú: <span class="font-bold"><%= diaChiThuongTruValue %></span></p>
       <p>Địa chỉ tạm trú: <span class="font-bold"><%= diaChiTamTruValue %></span></p>
-      <p>Yêu cầu xét nghiệm: <span class="font-bold"><%= data.categories[0].tests[0].name %></span></p>
+      <p>Yêu cầu xét nghiệm: <span class="font-bold">Kháng thể kháng HIV</span></p>
       <p>Kỹ thuật xét nghiệm:</p>
       <ul class="list-disc ml-12 font-bold">
         <% elements.slice(9).forEach(element => { %>
@@ -118,8 +117,8 @@
     </div>
 
     <div class="mt-10 space-y-1">
-      <p class="font-bold">Kết luận: <%= resultValue %></p>
-      <p>Ngày xét nghiệm khẳng định: <span class="font-bold"><%= data.sample.sampledAt.toLocaleDateString('vi') %></span></p>
+      <p class="font-bold">Kết luận: Kháng thể kháng HIV <%= resultValue %></p>
+      <p>Ngày xét nghiệm khẳng định: <span class="font-bold"><%= data.categories[0]?.tests[0]?.resultAt?.toLocaleDateString('vi') %></span></p>
       <p>Đề nghị: Tham vấn <span class="font-bold"><%= deNghiThamVanValue %></span></p>
     </div>
 

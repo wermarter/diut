@@ -28,14 +28,14 @@ async function main() {
 
   // ---------------
   const tests = await testRepo.search({
-    filter: { testCategoryId: '661e922489866edff2c9f0d4' },
+    filter: { testCategoryId: '695381efa68031fac73b15bf' },
     projection: { _id: 1 },
   })
 
   console.log(`Found ${tests.items.length} Tests`)
 
   await branchRepo.update(
-    { _id: '661e1d78e3e5260ffd92ea75' },
+    { _id: '694bf43cc54d70daed10b04f' },
     {
       [`reportConfig.${ReportType.SinhHoa}.testIds`]: tests.items.map(
         ({ _id }) => _id,

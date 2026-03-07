@@ -12,6 +12,7 @@ export type SamplePrintData = {
   sample: Sample
   categories: (TestCategory & {
     tests: (Test & {
+      resultAt?: Date
       bioProductName?: string
       instrumentName?: string
       elements: (SampleResultTestElement & {
@@ -124,6 +125,7 @@ export abstract class AbstractSamplePrintStrategy
         if (elements.length > 0) {
           tests.push({
             ...test,
+            resultAt: testResult.resultAt,
             bioProductName: testResult.bioProductName,
             instrumentName: testResult.instrumentName,
             elements: elements.toSorted(
