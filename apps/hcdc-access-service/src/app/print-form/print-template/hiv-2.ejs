@@ -129,9 +129,7 @@
         <% } %>
       </div>
       <div class="text-center w-1/2">
-        <% if (!isPositive) { %>
-          <p class="italic mb-2">TP. HCM, ngày <%= data.sample.infoAt.getDate() %> tháng <%= data.sample.infoAt.getMonth() + 1 %> năm <%= data.sample.infoAt.getFullYear() %></p>
-        <% } %>
+        <p class="italic mb-2">TP. HCM, ngày <%= new Date().getDate() %> tháng <%= new Date().getMonth() + 1 %> năm <%= new Date().getFullYear() %></p>
         <p class="font-bold"><%= meta.authorTitle %></p>
         <div style="margin-top: 30mm">
           <p class="font-bold"><%= meta.authorName %></p>
